@@ -1,6 +1,6 @@
 ---
 title: GLOSSARY
-version: 0.1.0
+version: 0.2.0
 status: Draft
 owner: Engineering and Product
 last_updated: 2026-08-05
@@ -177,7 +177,176 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Source of Truth**: The authoritative location for definitive information.
 - **Baseline**: A reference version or state used for comparison.
 
-## 21. Forbidden Terminology
+## 21. Identity & Access Terms
+
+- **Identity**: A unique representation of a user or system entity.
+- **Principal**: An entity (user or system) authenticated within the system.
+- **Session**: A temporary context representing a user's interaction period.
+- **Access Token**: A credential granting access to protected resources.
+- **Refresh Token**: A token used to obtain new access tokens without reauthentication.
+- **MFA (Multi-Factor Authentication)**: A security process requiring multiple verification methods.
+- **SSO (Single Sign-On)**: An authentication process allowing access to multiple systems with one login.
+- **Claims**: Statements about a user’s identity and attributes.
+- **Scope**: The permissions or access boundaries granted by a token.
+- **Permission Set**: A defined collection of access rights assigned to a principal.
+
+## 22. Pricing & Tax Terms
+
+- **Base Price**: The original price of a product before discounts or taxes.
+- **Sale Price**: The discounted price offered to customers.
+- **Tax**: A mandatory financial charge imposed by authorities.
+- **VAT (Value Added Tax)**: A consumption tax applied at each stage of production.
+- **Tax Inclusive**: Pricing that includes tax within the displayed amount.
+- **Tax Exclusive**: Pricing that excludes tax from the displayed amount.
+- **Discount**: A reduction applied to the base or sale price.
+- **Discount Rule**: Criteria defining when and how discounts apply.
+- **Pricing Rule**: Guidelines determining product pricing strategies.
+- **Invoice**: A document detailing a transaction and amount due.
+- **Credit Note**: A document issued to acknowledge a reduction or refund.
+
+## 23. Returns & Refund Terms
+
+- **Return Request**: A customer-initiated request to return purchased items.
+- **Return Authorization**: Approval granted for a return to proceed.
+- **Return Window**: The allowable timeframe for returning products.
+- **Refund Request**: A request to return funds for a returned or canceled order.
+- **Refund Transaction**: The process of reimbursing funds to a customer.
+- **Exchange**: The replacement of returned products with alternative items.
+- **Restocking**: The process of returning products to inventory.
+- **Refund Reason**: The justification provided for issuing a refund.
+
+## 24. Notification Terms
+
+- **Notification**: A message sent to inform users of events or updates.
+- **Email Template**: A predefined format for email communications.
+- **SMS Notification**: A text message sent to users' mobile devices.
+- **Push Notification**: A message delivered to a device via an app or service.
+- **Delivery Status**: The current state of a notification's transmission.
+- **Retry Policy**: Rules governing attempts to resend failed notifications.
+- **Dead Letter Queue**: A queue for messages that cannot be delivered or processed.
+
+## 25. Reporting & Analytics Terms
+
+- **KPI (Key Performance Indicator)**: A measurable value indicating performance.
+- **Metric**: Quantitative data used for analysis.
+- **Dimension**: A categorical attribute used to segment data.
+- **Fact**: A quantitative measurement stored in a data warehouse.
+- **Event**: An occurrence or action tracked in the system.
+- **Funnel**: A sequence of steps representing a user journey.
+- **Conversion Rate**: The percentage of users completing a desired action.
+- **Average Order Value**: The mean value of orders placed.
+- **Gross Revenue**: Total revenue before deductions.
+- **Net Revenue**: Revenue after deductions such as returns and discounts.
+
+## 26. Angular Terms
+
+- **Standalone Component**: An Angular component that does not require a module.
+- **Signal**: A reactive primitive representing a value that changes over time.
+- **Computed Signal**: A signal derived from other signals.
+- **Effect**: A reactive side-effect triggered by signal changes.
+- **Injectable**: A class decorated for dependency injection.
+- **Guard**: A service controlling route access.
+- **Resolver**: A service retrieving data before route activation.
+- **Interceptor**: A service that intercepts HTTP requests or responses.
+- **Reactive Form**: A form model driven by reactive programming.
+- **Route Configuration**: The setup defining routes and their components.
+
+## 27. Spring Boot Terms
+
+- **Controller**: A component handling HTTP requests and responses.
+- **Service**: A class containing business logic.
+- **Repository**: A component managing data persistence.
+- **Bean**: An object managed by the Spring container.
+- **Configuration**: Classes defining Spring context setup.
+- **Transactional**: An annotation managing database transaction boundaries.
+- **Entity Manager**: The interface for interacting with persistence contexts.
+- **JPA (Java Persistence API)**: A specification for object-relational mapping.
+- **Spring Profile**: A configuration mechanism for environment-specific settings.
+
+## 28. Azure Terms
+
+- **Azure App Service**: A platform for hosting web applications.
+- **Azure PostgreSQL**: A managed PostgreSQL database service.
+- **Azure Storage**: Cloud storage services for blobs, files, queues, and tables.
+- **Azure Key Vault**: A service for managing secrets and keys.
+- **Azure Monitor**: A platform for collecting and analyzing telemetry.
+- **Azure Application Insights**: A service for application performance monitoring.
+- **Azure Front Door**: A global load balancing and application acceleration service.
+- **Azure CDN**: A content delivery network for fast content distribution.
+
+## 29. Testing Terms
+
+- **Unit Test**: A test focusing on a single component or function.
+- **Integration Test**: A test verifying interactions between components.
+- **Component Test**: A test of an individual UI or functional component.
+- **Contract Test**: A test ensuring API compatibility between services.
+- **End-to-End Test**: A test simulating user workflows across the system.
+- **Smoke Test**: A preliminary test to check basic functionality.
+- **Regression Test**: A test ensuring new changes do not break existing features.
+- **Test Fixture**: The setup required for running tests.
+- **Mock**: A simulated object mimicking real behavior.
+- **Stub**: A minimal implementation returning fixed responses.
+
+## 30. Lifecycle Vocabulary
+
+- **Draft**: An initial, unpublished state of an entity.
+- **Pending Review**: Awaiting approval or feedback.
+- **Published**: Made available to users or customers.
+- **Active**: Currently in use or valid.
+- **Inactive**: Not currently in use or valid.
+- **Pending Payment**: Awaiting receipt of payment.
+- **Paid**: Payment has been received.
+- **Fulfilled**: Order or request has been completed.
+- **Cancelled**: Order or request has been terminated.
+- **Refunded**: Payment has been returned to the customer.
+- **Archived**: Stored for historical reference, no longer active.
+
+## 31. Domain Event Vocabulary
+
+- **ProductCreated**: Event indicating a product was created.
+- **ProductPublished**: Event indicating a product was published.
+- **InventoryReserved**: Event indicating stock has been reserved.
+- **InventoryReleased**: Event indicating reserved stock has been released.
+- **CartCreated**: Event indicating a shopping cart was created.
+- **CheckoutStarted**: Event indicating the checkout process began.
+- **PaymentInitiated**: Event indicating payment processing started.
+- **PaymentConfirmed**: Event indicating payment was successful.
+- **OrderCreated**: Event indicating an order was placed.
+- **OrderCancelled**: Event indicating an order was cancelled.
+- **ShipmentCreated**: Event indicating shipment was arranged.
+- **ShipmentDelivered**: Event indicating shipment was delivered.
+- **RefundCompleted**: Event indicating refund process finished.
+
+## 32. Repository Naming Rules
+
+- Event names use PascalCase and past tense.
+- DTOs end with `Dto`.
+- Requests end with `Request`.
+- Responses end with `Response`.
+- Controllers end with `Controller`.
+- Services end with `Service`.
+- Repositories end with `Repository`.
+- Specification filenames use kebab-case.
+- ADRs use `ADR-XXXX-title.md`.
+- Database tables use snake_case.
+- API paths use lowercase and hyphens.
+
+## 33. Preferred Terminology
+
+| Preferred         | Avoid           |
+| ----------------- | --------------- |
+| Product           | Item            |
+| Customer          | User            |
+| Staff User        | Admin           |
+| Variant           | Product Type    |
+| Order Item        | Line            |
+| Published         | Live            |
+| Available-to-Sell | Available Stock |
+| Payment Attempt   | Transaction     |
+| Aggregate         | Object Group    |
+| Domain Event      | Notification    |
+
+## 34. Forbidden Terminology
 
 Ambiguous or imprecise terminology is prohibited in specifications to avoid misunderstandings. The following table outlines common terms to avoid and recommended alternatives:
 
@@ -190,17 +359,21 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 | Database Object | Entity or Record                              | Ambiguous; specify data model concept           |
 | Admin           | Store Administrator or Platform Administrator | Clarifies administrative scope                  |
 
-## 22. Glossary Governance
+## 35. Glossary Governance
 
 - All new terminology must be introduced in this glossary before use elsewhere.
 - Existing definitions are immutable without explicit versioned updates.
 - Domain-specific specifications may refine definitions but must not contradict this glossary.
 - AI agents and automated systems must adhere strictly to glossary terminology to ensure consistency and traceability.
+- Every new domain specification must use glossary terminology.
+- New terms require glossary approval before adoption.
+- AI prompts should reference glossary terminology where ambiguity exists.
+- Terminology changes require a version bump and revision history entry.
 
 ---
 
 ## Revision History
 
-| Version | Date       | Description                                 | Author                  |
-| ------- | ---------- | ------------------------------------------- | ----------------------- |
-| 0.1.0   | 2026-08-05 | Established canonical repository vocabulary | Engineering and Product |
+| Version | Date       | Description                                                                                                                                                                                                  | Author                  |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| 0.2.0   | 2026-08-05 | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections. | Engineering and Product |
