@@ -1,6 +1,6 @@
 ---
 title: PRODUCT
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Product and Engineering
 last_updated: 2026-08-05
@@ -12,7 +12,7 @@ applies_to:
   - Backend
   - Data
   - Infrastructure
-  - AI coding agents
+  - AI Agents
   - Human contributors
 review_cycle: Monthly
 source_of_truth: true
@@ -30,7 +30,7 @@ This document defines the product vision, customer and business outcomes, actors
 
 ## 1. Purpose and Authority
 
-The purpose of this document is to provide one authoritative product baseline for business stakeholders, engineers, designers, quality specialists, operational users, and AI coding agents.
+The purpose of this document is to provide one authoritative product baseline for business stakeholders, engineers, designers, quality specialists, operational users, and AI Agents.
 
 It defines:
 
@@ -112,7 +112,7 @@ The product foundation provides:
 - Domain-based ownership of business rules.
 - Traceable requirements and decisions.
 - Consistent API, data, testing, security, and documentation standards.
-- AI-assisted implementation governed by repository context.
+- AI-assisted implementation governed by the repository Context Hierarchy.
 - Observable workflows and reconciliation paths for critical operations.
 - A modular evolution path without premature microservice complexity.
 
@@ -228,7 +228,7 @@ A merchandiser or content editor focuses on:
 - Search and navigation merchandising.
 - Scheduled publication.
 
-This role must not receive financial, security, or user-administration permissions by default.
+This role must not receive financial, security, or Staff User-administration permissions by default.
 
 ### 7.5 Inventory or Fulfilment Operator
 
@@ -592,7 +592,7 @@ The customer can locate support information and provide an order reference. Auth
 
 ### 15.1 Catalogue Setup
 
-An authorised user creates product information, variants, categories, media, pricing, SEO information, and publication settings.
+An authorised Staff User creates product information, variants, categories, media, pricing, SEO information, and publication settings.
 
 Publication must be blocked until mandatory information and sellability requirements are satisfied.
 
@@ -602,7 +602,7 @@ An authorised operator records stock through approved adjustment or receipt work
 
 ### 15.3 Order Operations
 
-An authorised user reviews paid orders, processes fulfilment, creates shipments, records supported status transitions, and investigates exceptions.
+An authorised Staff User reviews paid orders, processes fulfilment, creates shipments, records supported status transitions, and investigates exceptions.
 
 ### 15.4 Customer Support
 
@@ -638,14 +638,14 @@ A content user prepares and schedules campaigns, homepage content, banners, and 
 ### 16.3 Payment Policy
 
 - Raw card data must not be stored by the platform.
-- Provider callbacks (Webhook notifications) must be validated, authenticated where supported, and processed idempotently.
+- Provider callbacks (Webhooks) must be validated, authenticated where supported, and processed idempotently.
 - Browser redirects must never be treated as authoritative payment confirmation.
-- Payment Attempts and refunds must remain independently traceable.
+- Payment Attempts, Payment Transactions, and Refunds must remain independently traceable.
 - Uncertain payment state must be reconciled before final financial representation.
 
 ### 16.4 Order Policy
 
-- An Order is the durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
+- An Order is the durable commercial record created from Checkout that captures the Customer, Order Items, price, tax, discount, Payment state, Fulfilment state, and delivery details.
 - Confirmed order items, addresses, prices, discounts, and totals must be snapshots.
 - Order status transitions must be controlled and historical.
 - Ordinary deletion of confirmed orders is prohibited.
@@ -716,7 +716,7 @@ Critical journeys must be operable through keyboard and compatible assistive tec
 
 ### 17.1 Explicit Lifecycle State
 
-Products, variants, carts, checkout sessions, payments, orders, refunds, shipments, promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status. The canonical lifecycle states are: Pending Payment, Confirmed, Processing, Fulfilled, Cancelled, Completed, and Archived (where applicable).
+Products, variants, carts, checkout sessions, payments, orders, refunds, shipments, promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status. Each lifecycle must use only the canonical states defined for that domain in `.ai/core/GLOSSARY.md`; lifecycle states must not be generalised across unrelated domains.
 
 ### 17.2 No Ambiguous Success
 
@@ -872,7 +872,7 @@ Business Outcome
       ↓
 Product Requirement
       ↓
-Domain / UX / Operational Specification
+Domain, UX, or Operational Specification
       ↓
 Architecture, API Contract, and Domain Specification
       ↓
@@ -972,7 +972,7 @@ A documented product decision is required when a choice:
 - Changes a Version 1 goal or non-goal.
 - Is expensive to reverse or likely to affect multiple specifications.
 
-Product decisions must record context, decision, alternatives, consequences, owner, date, and affected requirements.
+Product decisions must record Context, Decision, alternatives, consequences, owner, date, and affected Requirements.
 
 ### 25.3 Product Review Rhythm
 
@@ -1005,7 +1005,7 @@ Requirements must be structured so that they are understandable, testable, and t
 | Type                       | Purpose                                                                                                   |
 | -------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Business Requirement       | Defines the business outcome or policy the product must support.                                          |
-| User Requirement           | Defines what an actor must be able to achieve.                                                            |
+| Actor Requirement          | Defines what an actor must be able to achieve.                                                            |
 | Functional Requirement     | Defines observable system behaviour.                                                                      |
 | Business Rule              | Defines mandatory domain logic, eligibility, calculation, or state constraint.                            |
 | Non-Functional Requirement | Defines quality expectations such as security, accessibility, performance, reliability, and auditability. |
@@ -1352,7 +1352,7 @@ Administration must be organised around operational tasks rather than database e
 - Customers and support.
 - CMS.
 - Reports and exports.
-- Users, roles, and permissions.
+- Staff Users, Roles, and Permissions.
 - Audit and system health.
 
 ### 31.2 Administration Design Principles
@@ -1608,7 +1608,7 @@ Expansion into another country, currency, language, legal merchant, seller model
 
 ### 37.3 Provider Evolution
 
-A provider change must preserve product semantics. Customers and staff should not experience provider-specific terminology or behaviour unless it is meaningful and intentionally designed.
+A provider change must preserve product semantics. Customers and staff should not experience External System-specific terminology or behaviour unless it is meaningful and intentionally designed.
 
 ### 37.4 Capability Retirement
 
@@ -1678,7 +1678,7 @@ A more detailed specification may add constraints but must not weaken this produ
 
 ## Repository Terminology Alignment
 
-This document has been reviewed against `.ai/core/GLOSSARY.md` and must use glossary-defined terminology. Canonical business terms must not be redefined in this document. Any new terminology must first be introduced through the glossary before use in product documentation.
+This document has been reviewed against the canonical terminology in `.ai/core/GLOSSARY.md` and must use glossary-defined terms without redefining them.
 
 ## 40. Authoritative Product Baseline
 
@@ -1731,5 +1731,3 @@ Before approving a product requirement or feature scope, verify:
 | 0.2.0   | 2026-08-05 | Draft    | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
 | 1.0.0   | 2026-08-05 | Approved | Released the authoritative product baseline after finalising cross-cutting policies, guardrail measures, evolution rules, approval workflow, compliance mapping, governance, and Version 1 launch scope.                                                                |
 | 1.0.1   | 2026-08-05 | Approved | Repository terminology audit completed to align PRODUCT.md with the canonical GLOSSARY.md without changing approved product intent.                                                                                                                                     |
-
-s
