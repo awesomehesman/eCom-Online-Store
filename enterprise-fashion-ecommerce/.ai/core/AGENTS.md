@@ -1,6 +1,6 @@
 ---
 title: AGENTS
-version: 0.2.0
+version: 0.3.0
 status: Draft
 owner: Engineering
 last_updated: 2026-08-05
@@ -723,43 +723,511 @@ The final merge commit or squash message must follow the commit standards in thi
 
 ## Documentation Standards
 
-Specify requirements for code, API, and user documentation.
+### Purpose
+
+Establish documentation as the authoritative source of product, architecture, engineering, and operational truth. Ensure documentation is accurate, useful, and synchronized with implementation.
+
+### Principles
+
+- Documentation is a first-class deliverable and must be maintained as carefully as code.
+- Every significant change must update relevant documentation in the same change.
+- Documentation must be owned, reviewed, and versioned.
+
+### Mandatory Standards
+
+- All specifications, standards, and contracts must be maintained in the repository, not in private or external systems.
+- Documentation must be updated in the same pull request as the code, schema, or contract it governs.
+- Documentation must follow the repository’s markdown conventions (see below).
+- Each specification must include: Purpose, Scope, Actors, Requirements, Rules, Acceptance Criteria, API/Data Impacts, Security/Accessibility/Performance/Observability, and Open Decisions.
+- Architecture Decision Records (ADRs) must use the approved template and reside in `specifications/adr/`.
+- Diagrams must be SVG or PlantUML, committed as source and rendered output.
+- Examples must be executable or copy-paste verifiable where practical.
+- Versioning of documentation must match the implementation version.
+- Documentation must be reviewed before merge using the criteria below.
+
+### Recommended Practices
+
+- Use diagrams and tables to clarify complex flows.
+- Reference, rather than duplicate, content from other source-of-truth documents.
+- Use code blocks, callouts, and cross-links for clarity.
+- Provide before/after examples for major changes.
+- Use inclusive, clear, and concise language.
+
+### Anti-patterns
+
+- Outdated, orphaned, or unowned documentation.
+- Placeholder or “TBD” sections in master or release branches.
+- Private notes or tribal knowledge that contradicts repository documentation.
+- Duplicating standards in multiple locations.
+- Screenshots of code or configuration (use text/code blocks).
+- Unexplained acronyms or jargon.
+
+### Review Checklist
+
+- [ ] Is the documentation accurate, complete, and current?
+- [ ] Does it follow the required structure and markdown conventions?
+- [ ] Are diagrams and examples present and correct?
+- [ ] Are changes versioned and linked to implementation?
+- [ ] Are prohibited documentation practices avoided?
+- [ ] Are all placeholder sections removed?
+
+---
 
 ## API Standards
 
-Detail conventions and requirements for designing and documenting APIs.
+### Purpose
+
+Ensure APIs are consistent, discoverable, secure, and maintainable. Enable client and backend teams to work independently and safely.
+
+### Principles
+
+- APIs are contracts: changes must be intentional and versioned.
+- RESTful conventions and OpenAPI must be followed unless otherwise specified.
+- APIs must be explicit, predictable, and safe by default.
+
+### Mandatory Standards
+
+- Use RESTful resource-oriented design. Each resource has a plural, kebab-case name (e.g., `/products`, `/order-items`).
+- HTTP methods: `GET` (read), `POST` (create), `PUT` (replace), `PATCH` (partial update), `DELETE` (remove).
+- Use standard HTTP status codes (2xx, 4xx, 5xx) appropriately.
+- Pagination: Use `limit`/`offset` or `cursor` for large collections, with metadata in response.
+- Filtering/sorting: Use query parameters (`?status=active&sort=-created_at`).
+- Idempotency: All `PUT` and `DELETE` must be idempotent; `POST` must support idempotency keys where needed.
+- Versioning: Use URI versioning (`/v1/`) for breaking changes.
+- Validation: Validate all input, reject invalid requests with clear errors.
+- Error responses: Use RFC7807 Problem Details (`application/problem+json`), with `type`, `title`, `status`, `detail`, and `instance`.
+- Authentication: All APIs must require authentication unless explicitly public.
+- Authorization: Enforce RBAC at the API boundary.
+- Correlation ID: Accept and propagate a `X-Correlation-ID` header.
+- OpenAPI: All APIs must have complete, up-to-date OpenAPI definitions.
+- Backward compatibility: Breaking changes require new version and deprecation plan.
+- Deprecation: Mark deprecated endpoints in OpenAPI and provide migration guidance.
+
+### Recommended Practices
+
+- Use resource nesting only when it reflects true ownership.
+- Prefer explicit status transitions for workflows.
+- Provide consistent error codes and messages.
+- Document common query parameters and error scenarios.
+- Use OpenAPI examples for all endpoints.
+
+### Anti-patterns
+
+- Ambiguous or inconsistent resource names.
+- Business logic in controllers rather than services.
+- Leaking internal errors or stack traces.
+- Accepting or returning sensitive data unnecessarily.
+- Breaking backward compatibility without versioning.
+
+### Review Checklist
+
+- [ ] Are resource names, methods, and status codes correct?
+- [ ] Are pagination, filtering, and sorting implemented and documented?
+- [ ] Are validation and error responses RFC7807-compliant?
+- [ ] Is authentication and authorization enforced?
+- [ ] Is the OpenAPI spec complete and accurate?
+- [ ] Are breaking changes versioned and deprecated properly?
+
+---
 
 ## Database Standards
 
-Outline best practices and requirements for database schema, migrations, and access.
+### Purpose
+
+Ensure data integrity, consistency, scalability, and maintainability across database schemas and migrations.
+
+### Principles
+
+- Schema is a contract: changes must be controlled and backward compatible.
+- Data integrity and normalization are default.
+- Schema must be observable and auditable.
+
+### Mandatory Standards
+
+- All primary keys must use UUIDv4 unless a documented exception exists.
+- Table names must be plural, snake_case (e.g., `order_items`).
+- Column names must be snake_case, descriptive, and avoid reserved words.
+- Normalize data to at least 3NF unless denormalization is justified.
+- Indexes must be defined for all foreign keys, unique constraints, and common queries.
+- All schema changes must use versioned migrations (e.g., Flyway, Liquibase).
+- Foreign keys must enforce referential integrity.
+- Soft deletes: Use a `deleted_at` timestamp for logical deletion; never physically delete unless required.
+- Auditing: Use `created_at`, `updated_at`, `created_by`, `updated_by` fields.
+- Optimistic locking: Use a version column for concurrent updates.
+- Transactions: Define clear transaction boundaries; avoid long-running transactions.
+- Seed data: Only use for system-critical or test purposes, not for business data.
+- Rollback: All migrations must be reversible where feasible.
+- Performance: Analyze query plans for new or changed queries.
+
+### Recommended Practices
+
+- Use enum tables for controlled vocabularies.
+- Use database constraints for business rules where appropriate.
+- Document schema changes in migration files.
+- Regularly review and prune unused indexes.
+
+### Anti-patterns
+
+- Using integer autoincrement for public IDs.
+- Hard-coding production data in migrations.
+- Relying on application logic for referential integrity.
+- Massive tables without partitioning or archiving.
+
+### Review Checklist
+
+- [ ] Are naming, keys, and normalization correct?
+- [ ] Are indexes and constraints appropriate?
+- [ ] Are migrations versioned, reversible, and documented?
+- [ ] Is auditing, soft delete, and optimistic locking implemented?
+- [ ] Are performance and rollback considered?
+
+---
 
 ## Angular Standards
 
-Summarize guidelines specific to Angular development in this repository.
+### Purpose
+
+Ensure Angular frontend is modular, maintainable, performant, and accessible.
+
+### Principles
+
+- Favor standalone components and signals-first state management.
+- Separate smart (container) and presentational (dumb) components.
+- Prioritize accessibility, performance, and testability.
+
+### Mandatory Standards
+
+- Use standalone components by default; avoid legacy NgModules for new code.
+- Prefer Signals for state, minimize RxJS to async boundaries and effects.
+- Use RxJS only for side effects, HTTP, or event streams; avoid overusing `Subject`.
+- Folder structure: Group by feature/domain, not by technical type.
+- Smart components handle data loading, routing, and state; presentational components are stateless and reusable.
+- Use Angular Router with lazy loading for all major features.
+- Global state must be managed with explicit, simple stores or signals; avoid over-complex libraries unless justified.
+- Forms: Use Angular Reactive Forms for all forms.
+- Accessibility: Use semantic HTML, ARIA roles, and test with screen readers.
+- Styling: Use component-scoped styles, avoid global CSS.
+- Performance: Use `OnPush` change detection, trackBy in `*ngFor`, and lazy load images/assets.
+- Testing: Unit and component tests are required for all significant logic and UI.
+
+### Recommended Practices
+
+- Use feature modules for large features if needed for routing or separation.
+- Use Storybook for reusable components.
+- Use Angular CLI for scaffolding and building.
+- Prefer composition over inheritance in components.
+
+### Anti-patterns
+
+- Fat components mixing data, state, and view logic.
+- Deeply nested folder structures by technical type.
+- Uncontrolled use of RxJS operators for local state.
+- Global CSS or side effects in component constructors.
+- Untested or unreviewed direct DOM manipulation.
+
+### Review Checklist
+
+- [ ] Are standalone components and signals used appropriately?
+- [ ] Are smart/presentational boundaries respected?
+- [ ] Is folder organization by feature?
+- [ ] Are routing, lazy loading, and state management correct?
+- [ ] Are accessibility and performance standards met?
+- [ ] Are tests present and meaningful?
+
+---
 
 ## Java Standards
 
-Summarize guidelines specific to Java development in this repository.
+### Purpose
+
+Ensure backend code is modular, testable, maintainable, and secure using Spring Boot.
+
+### Principles
+
+- Follow layered, modular architecture with clear package boundaries.
+- Use dependency injection and favor constructor injection.
+- Separate domain, application, adapter, and configuration code.
+
+### Mandatory Standards
+
+- Use package-by-feature/domain, not by technical type.
+- Constructor injection is required; avoid field or setter injection.
+- Validation: Use Bean Validation (JSR-380) for all incoming data.
+- Use DTOs for API boundaries; never expose entities directly.
+- Mapping: Use MapStruct or explicit mappers for DTO/entity conversion.
+- Transaction management: Use `@Transactional` at the service layer, not the controller.
+- Exception handling: Use `@ControllerAdvice` for API error responses.
+- Logging: Use SLF4J; never log sensitive data.
+- Configuration: Use `application.yaml` or `application.properties` with profiles.
+- Testing: Unit, integration, and contract tests are required for all services and APIs.
+- Dependency management: Use BOM and avoid unnecessary dependencies.
+
+### Recommended Practices
+
+- Use records for immutable DTOs (Java 17+).
+- Use sealed interfaces for domain hierarchies.
+- Use Lombok only where it adds clarity and is approved.
+- Document public APIs with Swagger/OpenAPI annotations.
+
+### Anti-patterns
+
+- Business logic in controllers or repositories.
+- Static state or singletons outside Spring context.
+- Exposing internal exceptions or stack traces to clients.
+- Overusing reflection, dynamic proxies, or unchecked casts.
+- Tightly coupled or circular dependencies.
+
+### Review Checklist
+
+- [ ] Are package and layer boundaries respected?
+- [ ] Is constructor injection used everywhere?
+- [ ] Are DTOs, validation, and mapping correct?
+- [ ] Is transaction management and error handling proper?
+- [ ] Is logging safe and configuration externalized?
+- [ ] Are tests present and meaningful?
+
+---
 
 ## Testing Standards
 
-Describe required testing approaches, coverage, and tools.
+### Purpose
+
+Ensure all important behaviour is verified, regressions are prevented, and releases are safe.
+
+### Principles
+
+- Follow the testing pyramid: more unit tests, fewer end-to-end.
+- Tests must be deterministic, meaningful, and maintainable.
+- Coverage is a means, not an end.
+
+### Mandatory Standards
+
+- Unit tests required for all business logic, with clear naming (e.g., `OrderServiceTest`).
+- Integration tests required for data access, APIs, and critical workflows.
+- Contract tests required for API and provider boundaries.
+- Component tests for Angular components and services.
+- End-to-end tests for major user journeys.
+- Test names must describe behaviour, not implementation.
+- Tests must be deterministic and independent.
+- Use mocking only for external dependencies.
+- CI must run all tests and block on failure.
+- Coverage must be monitored; gaps in critical logic must be justified.
+
+### Recommended Practices
+
+- Use parameterized tests for variations.
+- Use test data builders or fixtures for complex objects.
+- Use testcontainers for integration with databases.
+- Use accessibility and performance tests in CI.
+
+### Anti-patterns
+
+- Flaky, non-deterministic, or timing-dependent tests.
+- Over-mocking or mocking internal logic.
+- Asserting implementation details rather than behaviour.
+- Ignoring test failures or disabling tests.
+
+### Review Checklist
+
+- [ ] Are all required test levels present?
+- [ ] Are tests deterministic and meaningful?
+- [ ] Are naming and coverage appropriate?
+- [ ] Are mocks used only for external dependencies?
+- [ ] Are tests run and passing in CI?
+
+---
 
 ## Security Standards
 
-Summarize mandatory security practices and requirements.
+### Purpose
+
+Ensure the platform is secure by default, protects customer and business data, and meets regulatory and contractual obligations.
+
+### Principles
+
+- Secure-by-design: security is built in, not bolted on.
+- Least privilege and defense in depth.
+- Privacy and compliance are non-negotiable.
+
+### Mandatory Standards
+
+- All APIs and admin interfaces require authentication.
+- RBAC: Enforce roles and permissions at all boundaries.
+- Secrets: Use environment variables or secure vaults; never commit secrets.
+- Encryption: Encrypt sensitive data at rest and in transit.
+- Input validation: Validate and sanitize all external input.
+- Output encoding: Prevent XSS and injection attacks.
+- Dependencies: Monitor and patch vulnerabilities (OWASP Dependency-Check).
+- Logging: Never log passwords, tokens, payment data, or PII unnecessarily.
+- Privacy: Follow GDPR, CCPA, and other applicable regulations.
+- Security review required for all new features and external integrations.
+
+### Recommended Practices
+
+- Use security headers (CSP, HSTS, etc.) in all responses.
+- Use short-lived JWTs or session tokens.
+- Regularly run SAST/DAST tools in CI.
+- Use automated secrets scanning.
+- Document threat models for major features.
+
+### Anti-patterns
+
+- Hard-coded secrets or credentials in code or config.
+- Relying on client-side authorization.
+- Disabling security checks for expediency.
+- Ignoring known vulnerabilities in dependencies.
+- Overbroad permissions or default admin access.
+
+### Review Checklist
+
+- [ ] Is authentication and RBAC enforced?
+- [ ] Are secrets managed securely?
+- [ ] Is input validated and output encoded?
+- [ ] Are dependencies free of known vulnerabilities?
+- [ ] Is logging restricted and privacy maintained?
+- [ ] Has a security review been completed?
+
+---
 
 ## Accessibility Standards
 
-Outline accessibility requirements and evaluation practices.
+### Purpose
+
+Ensure the platform is usable by people of all abilities, meeting WCAG 2.2 AA at minimum.
+
+### Principles
+
+- Accessibility is a requirement, not a feature.
+- All users must be able to complete critical tasks.
+
+### Mandatory Standards
+
+- Use semantic HTML elements for all content and controls.
+- All interactive elements must be accessible by keyboard.
+- Manage focus for modals, dialogs, and navigation changes.
+- Color contrast must meet WCAG 2.2 AA (minimum 4.5:1 for text).
+- All images must have meaningful `alt` text.
+- Forms must have labels, error messages, and ARIA attributes as needed.
+- Support reduced motion preferences.
+- Responsive layouts must not break accessibility.
+- Accessibility acceptance criteria must be included in all UI work.
+
+### Recommended Practices
+
+- Test with screen readers (NVDA, VoiceOver).
+- Use automated accessibility tools (axe, Lighthouse) in CI.
+- Provide skip-to-content and landmark navigation.
+- Document accessibility considerations in specifications.
+
+### Anti-patterns
+
+- Using divs/spans for buttons or links.
+- Relying solely on color to convey information.
+- Unlabeled form controls or icons.
+- Keyboard traps or missing focus outlines.
+- Animations that cannot be disabled.
+
+### Review Checklist
+
+- [ ] Are semantic HTML and ARIA used correctly?
+- [ ] Is keyboard navigation and focus management correct?
+- [ ] Is color contrast sufficient?
+- [ ] Are forms and errors accessible?
+- [ ] Are automated and manual accessibility checks passing?
+
+---
 
 ## Performance Standards
 
-Describe performance expectations and optimization guidelines.
+### Purpose
+
+Deliver a fast, responsive experience for all users and efficient operation for the business.
+
+### Principles
+
+- Performance is a feature; regressions are bugs.
+- Optimize for Core Web Vitals and backend response times.
+
+### Mandatory Standards
+
+- Core Web Vitals: LCP < 2.5s, FID < 100ms, CLS < 0.1.
+- Backend APIs must respond within 300ms p95 under normal load.
+- Use HTTP caching for static assets and APIs where appropriate.
+- Database: Use indexes, avoid N+1 queries, and batch operations where needed.
+- Bundle optimization: Remove unused code, use tree-shaking, and lazy load modules.
+- Images: Use modern formats (WebP/AVIF), responsive sizes, and lazy loading.
+- Monitor performance in production and CI.
+- Scalability: All new features must consider horizontal scaling.
+
+### Recommended Practices
+
+- Use CDN for static assets.
+- Debounce or throttle expensive frontend operations.
+- Use service workers for caching and offline support.
+- Profile and optimize slow queries and endpoints.
+
+### Anti-patterns
+
+- Large, blocking JavaScript bundles.
+- Synchronous/blocking backend operations.
+- Unoptimized images or assets.
+- Ignoring performance regressions in reviews.
+
+### Review Checklist
+
+- [ ] Are Core Web Vitals and backend response targets met?
+- [ ] Is caching implemented where appropriate?
+- [ ] Are bundle and image sizes optimized?
+- [ ] Are database queries performant?
+- [ ] Is monitoring in place and reviewed?
+
+---
 
 ## Observability Standards
 
-Define required logging, monitoring, and tracing practices.
+### Purpose
+
+Enable effective monitoring, troubleshooting, and auditing of the platform in production.
+
+### Principles
+
+- Observability is required for all critical flows.
+- Logs, metrics, and traces must be structured and actionable.
+
+### Mandatory Standards
+
+- Structured logging: Use JSON or key-value logs for all services.
+- Metrics: Expose Prometheus-compatible metrics for APIs, jobs, and infrastructure.
+- Tracing: Instrument distributed traces for all major workflows (OpenTelemetry).
+- Correlation ID: Propagate through all requests, logs, and traces.
+- Audit logging: Record all security-sensitive and business-critical actions.
+- Dashboards: Maintain dashboards for health, errors, performance, and business KPIs.
+- Alerts: Set up actionable alerts for errors, downtime, and SLO breaches.
+- Health endpoints: All services must expose health and readiness endpoints.
+- SLOs: Define and monitor Service Level Objectives for critical APIs.
+- Incident support: Retain logs and traces for postmortem analysis.
+
+### Recommended Practices
+
+- Use log sampling for high-volume flows.
+- Document observability for new features.
+- Use synthetic monitoring for major user journeys.
+- Regularly review alert noise and dashboard relevance.
+
+### Anti-patterns
+
+- Unstructured, free-text logs.
+- Logging sensitive data or PII.
+- Alert fatigue from unactionable or noisy alerts.
+- Missing correlation between user, request, and system events.
+
+### Review Checklist
+
+- [ ] Are structured logs, metrics, and traces implemented?
+- [ ] Is correlation ID propagated everywhere?
+- [ ] Are dashboards and alerts in place for new/changed flows?
+- [ ] Is audit logging present for sensitive actions?
+- [ ] Are health endpoints and SLOs defined and monitored?
 
 ## AI Behaviour Rules
 
@@ -803,3 +1271,4 @@ Provide definitions for key terms and acronyms used in this repository.
 | ------- | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0.1.0   | 2026-08-05 | Draft  | Established document authority, vision, engineering philosophy, decision hierarchy, contributor responsibilities, Definition of Done, and AI self-review requirements. |
 | 0.2.0   | 2026-08-05 | Draft  | Defined repository ownership and file-placement rules, the standard development workflow, branch strategy, commit conventions, and pull-request requirements.          |
+| 0.3.0   | 2026-08-05 | Draft  | Established engineering standards for documentation, APIs, databases, frontend, backend, testing, security, accessibility, performance, and observability.             |
