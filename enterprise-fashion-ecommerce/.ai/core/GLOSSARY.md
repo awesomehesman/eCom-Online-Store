@@ -162,14 +162,14 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **DTO (Data Transfer Object)**: A data container used to transfer information between layers.
 - **Modular Monolith**: A software architecture that structures a monolith into distinct modules.
 - **ADR (Architecture Decision Record)**: A document capturing architectural decisions.
-  - **Domain Model**: The representation of business concepts, rules, behaviours, and relationships within a Bounded Context.
-  - **Ubiquitous Language**: The shared business vocabulary used consistently by domain experts, Product, Engineering, documentation, code, and AI Agents.
-  - **Context Map**: A documented view of the relationships, dependencies, translation boundaries, and integration patterns between Bounded Contexts.
-  - **Shared Kernel**: A deliberately shared subset of a Domain Model jointly owned and governed by multiple Bounded Contexts.
-  - **Anti-Corruption Layer**: A translation boundary that protects one Domain Model from the concepts, terminology, and implementation details of another system.
-  - **Factory**: A domain component responsible for creating valid Aggregates, Entities, or Value Objects while preserving construction rules and invariants.
-  - **Specification Pattern**: A reusable, composable representation of a business rule used for validation, eligibility, selection, or filtering.
-  - **Domain Policy**: A business rule or decision that spans multiple Aggregates and does not naturally belong to a single Entity or Value Object.
+- **Domain Model**: The representation of business concepts, rules, behaviours, and relationships within a Bounded Context.
+- **Ubiquitous Language**: The shared business vocabulary used consistently by domain experts, Product, Engineering, documentation, code, and AI Agents.
+- **Context Map**: A documented view of the relationships, dependencies, translation boundaries, and integration patterns between Bounded Contexts.
+- **Shared Kernel**: A deliberately shared subset of a Domain Model jointly owned and governed by multiple Bounded Contexts.
+- **Anti-Corruption Layer**: A translation boundary that protects one Domain Model from the concepts, terminology, and implementation details of another system.
+- **Factory**: A domain component responsible for creating valid Aggregates, Entities, or Value Objects while preserving construction rules and invariants.
+- **Specification Pattern**: A reusable, composable representation of a business rule used for validation, eligibility, selection, or filtering.
+- **Domain Policy**: A business rule or decision that spans multiple Aggregates and does not naturally belong to a single Entity or Value Object.
 
 ## 15. Hexagonal Architecture Terms
 
@@ -235,13 +235,13 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Context Hierarchy**: The ordered set of repository instructions that an AI Agent must resolve before acting, from global governance through domain and feature-specific specifications.
 - **Guardrail**: A mandatory constraint that limits AI Agent behavior, generated changes, or tool usage.
 - **Human Approval Gate**: A workflow point at which an authorized person must review or approve an AI-produced decision or change before continuation.
-  - **Requirement**: A verifiable capability, behaviour, quality attribute, or outcome that the system or process must satisfy.
-  - **Constraint**: A mandatory limitation on design, implementation, operation, technology, compliance, or delivery choices.
-  - **Assumption**: A condition treated as true for planning or design purposes until it is validated, rejected, or replaced.
-  - **Decision**: A recorded choice between alternatives together with its rationale, consequences, and ownership.
-  - **Acceptance Criterion**: A specific, testable condition that must be satisfied for a Requirement, feature, or task to be accepted.
-  - **Risk**: An uncertain event or condition that may negatively affect scope, quality, security, cost, schedule, reliability, or business outcomes.
-  - **RFC (Request for Comments)**: A structured proposal circulated for review before a significant technical, product, process, or governance decision is finalized.
+- **Requirement**: A verifiable capability, behaviour, quality attribute, or outcome that the system or process must satisfy.
+- **Constraint**: A mandatory limitation on design, implementation, operation, technology, compliance, or delivery choices.
+- **Assumption**: A condition treated as true for planning or design purposes until it is validated, rejected, or replaced.
+- **Decision**: A recorded choice between alternatives together with its rationale, consequences, and ownership.
+- **Acceptance Criterion**: A specific, testable condition that must be satisfied for a Requirement, feature, or task to be accepted.
+- **Risk**: An uncertain event or condition that may negatively affect scope, quality, security, cost, schedule, reliability, or business outcomes.
+- **RFC (Request for Comments)**: A structured proposal circulated for review before a significant technical, product, process, or governance decision is finalized.
 
 ## 21. Repository Terms
 
@@ -253,14 +253,14 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Canonical Document**: The approved Source of Truth for a defined area of repository governance or system behavior.
 - **Normative Rule**: A mandatory requirement expressed using terms such as must, must not, required, or prohibited.
 - **Guideline**: A recommended practice that may be departed from when the reason is documented and approved.
-  - **Proposed**: A document or change state indicating that content has been submitted for review but is not yet authoritative.
-  - **Approved**: A document or change state indicating that authorized reviewers have accepted the content as normative and enforceable.
-  - **Deprecated**: A supported but discouraged term, feature, interface, or document that is scheduled for replacement or removal.
-  - **Experimental**: A non-guaranteed state used for evaluation where behaviour, interfaces, or terminology may change without backward compatibility.
-  - **Breaking Change**: A change that requires consumers, integrations, data, code, configuration, or operating procedures to be updated to continue functioning correctly.
-  - **Non-Breaking Change**: A backward-compatible change that does not require existing consumers to modify their current usage.
-  - **Semantic Version**: A version identifier in `MAJOR.MINOR.PATCH` form where MAJOR indicates breaking changes, MINOR indicates backward-compatible additions, and PATCH indicates backward-compatible fixes or clarifications.
-  - **Repository Steward**: The person or group responsible for maintaining repository governance, consistency, review discipline, and the health of canonical documents.
+- **Proposed**: A document or change state indicating that content has been submitted for review but is not yet authoritative.
+- **Approved**: A document or change state indicating that authorized reviewers have accepted the content as normative and enforceable.
+- **Deprecated**: A supported but discouraged term, feature, interface, or document that is scheduled for replacement or removal.
+- **Experimental**: A non-guaranteed state used for evaluation where behaviour, interfaces, or terminology may change without backward compatibility.
+- **Breaking Change**: A change that requires consumers, integrations, data, code, configuration, or operating procedures to be updated to continue functioning correctly.
+- **Non-Breaking Change**: A backward-compatible change that does not require existing consumers to modify their current usage.
+- **Semantic Version**: A version identifier in `MAJOR.MINOR.PATCH` form where MAJOR indicates breaking changes, MINOR indicates backward-compatible additions, and PATCH indicates backward-compatible fixes or clarifications.
+- **Repository Steward**: The person or group responsible for maintaining repository governance, consistency, review discipline, and the health of canonical documents.
 
 ## 22. Identity & Access Terms
 
