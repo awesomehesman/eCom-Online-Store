@@ -1,7 +1,7 @@
 ---
 title: ARCHITECTURE
-version: 0.3.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-05
 applies_to:
@@ -15,6 +15,8 @@ applies_to:
 review_cycle: Monthly
 source_of_truth: true
 ---
+
+> **Release Status:** Version 1.0.0 establishes the approved architectural baseline for the Enterprise Fashion Commerce Platform. All implementation, domain specifications, technology standards, infrastructure definitions, and Architecture Decision Records must conform to this blueprint unless an accepted ADR explicitly changes the baseline.
 
 # ARCHITECTURE.md
 
@@ -227,23 +229,23 @@ The browser must never communicate directly with the database. Direct browser-to
 
 The approved initial baseline is:
 
-| Area                        | Technology Direction                                                                                                   |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Customer and Admin Frontend | Angular 20+ with standalone components, TypeScript strict mode, Signals, RxJS, Angular Router, and Reactive Forms      |
-| Backend                     | Java 21+ and Spring Boot 3.x                                                                                           |
-| API                         | REST-first JSON APIs documented with OpenAPI 3.1                                                                       |
-| Security                    | Spring Security with approved token/session strategy and role/permission authorization                                 |
-| Persistence                 | PostgreSQL with versioned Flyway migrations                                                                            |
-| Cache                       | Redis only for justified cache, session, idempotency, or coordination use cases                                        |
-| Object Storage              | Azure Blob Storage                                                                                                     |
-| Edge Delivery               | Azure Front Door and/or approved CDN capability                                                                        |
-| Application Hosting         | Azure App Service or Azure Container Apps, selected through ADR                                                        |
-| Secrets                     | Azure Key Vault and managed identities where supported                                                                 |
-| Observability               | OpenTelemetry-compatible instrumentation, Application Insights, Azure Monitor, and Log Analytics                       |
-| CI/CD                       | GitHub Actions with protected environments and least-privilege permissions                                             |
-| Infrastructure as Code      | Bicep or Terraform, selected and standardised through ADR                                                              |
-| Testing                     | JUnit, Spring Boot Test, Testcontainers, frontend unit/component tools, Playwright, accessibility and contract testing |
-| Documentation               | Markdown, OpenAPI, Mermaid/PlantUML/Draw.io source, and ADRs in Git                                                    |
+| Area                        | Technology Direction                                                                                                                                        |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Customer and Admin Frontend | Angular 20 with standalone components, TypeScript strict mode, Signals-first state, RxJS for asynchronous streams, Angular Router, and typed Reactive Forms |
+| Backend                     | Java 21 LTS and the approved Spring Boot 3.x release defined in `.ai/backend/SPRING.md`                                                                     |
+| API                         | REST-first JSON APIs documented with OpenAPI 3.1                                                                                                            |
+| Security                    | Spring Security with approved token/session strategy and role/permission authorization                                                                      |
+| Persistence                 | PostgreSQL with versioned Flyway migrations                                                                                                                 |
+| Cache                       | Redis only for justified cache, session, idempotency, or coordination use cases                                                                             |
+| Object Storage              | Azure Blob Storage                                                                                                                                          |
+| Edge Delivery               | Azure Front Door and/or approved CDN capability                                                                                                             |
+| Application Hosting         | Azure App Service or Azure Container Apps, selected through ADR                                                                                             |
+| Secrets                     | Azure Key Vault and managed identities where supported                                                                                                      |
+| Observability               | OpenTelemetry-compatible instrumentation, Application Insights, Azure Monitor, and Log Analytics                                                            |
+| CI/CD                       | GitHub Actions with protected environments and least-privilege permissions                                                                                  |
+| Infrastructure as Code      | Bicep or Terraform, selected and standardised through ADR                                                                                                   |
+| Testing                     | JUnit, Spring Boot Test, Testcontainers, frontend unit/component tools, Playwright, accessibility and contract testing                                      |
+| Documentation               | Markdown, OpenAPI, Mermaid/PlantUML/Draw.io source, and ADRs in Git                                                                                         |
 
 Technology-specific details belong in the corresponding `.ai/backend/` and `.ai/frontend/` standards. Those files may refine but must not contradict this blueprint.
 
@@ -313,7 +315,7 @@ Detailed ownership rules remain governed by `.ai/core/AGENTS.md` and domain spec
 The backend root package should be organised by business capability:
 
 ```text
-com.enterprisecommerce
+com.enterprisefashioncommerce
 ├── identity
 ├── customer
 ├── product
@@ -470,7 +472,7 @@ Further rules are defined in `.ai/frontend/ANGULAR.md`, `.ai/frontend/UI.md`, `.
 
 ## 13. API Architecture Direction
 
-The platform will use REST-first APIs under a versioned base path such as `/api/v1`.
+The platform will use REST-first APIs under the approved versioned base path `/api/v1`. Any alternative versioning mechanism requires an ADR and corresponding update to `.ai/backend/API.md`.
 
 APIs must:
 
@@ -604,7 +606,7 @@ Critical workflows must be traceable by business identifier, such as order numbe
 
 ## 19. Azure Deployment Direction
 
-The target Azure architecture should include:
+The target Azure architecture must provide the following logical capabilities; exact Azure service selections remain governed by accepted ADRs:
 
 - Azure Front Door and approved web edge controls.
 - Static hosting suitable for the Angular application.
@@ -1146,7 +1148,7 @@ The exact token or session model requires an ADR. The selected design must addre
 
 ## 31. Deployment Topology
 
-The following diagram represents the target logical Azure topology. Exact services require supporting ADRs and infrastructure specifications.
+The following diagram represents the approved logical Azure topology. Service selections shown as alternatives or optional capabilities require supporting ADRs and infrastructure specifications before implementation.
 
 ```mermaid
 flowchart TB
@@ -1266,6 +1268,8 @@ The following decisions must be resolved through ADRs before their respective im
 10. Initial search implementation details and extraction thresholds.
 11. Product-media upload and transformation strategy.
 12. Backup retention and production recovery objectives.
+13. PostgreSQL schema strategy for enforcing domain ownership within the modular monolith.
+14. Repository-wide feature-flag implementation and lifecycle-management approach.
 
 An open decision is not permission for each feature to choose independently. Until resolved, implementation must remain reversible and avoid provider-specific leakage.
 
@@ -1775,20 +1779,20 @@ Any manual production operation must be documented, authorized, reversible where
 
 ## 46. Architecture Compliance Matrix
 
-| Concern                 | Governing Source                                         | Primary Enforcement                        |
-| ----------------------- | -------------------------------------------------------- | ------------------------------------------ |
-| Contributor Behaviour   | `.ai/core/AGENTS.md`                                     | Review, branch protection, AI instructions |
-| Platform Architecture   | `.ai/core/ARCHITECTURE.md`                               | ADR review, architecture tests             |
-| Product Behaviour       | `.ai/core/PRODUCT.md` and domain specifications          | Acceptance criteria, domain tests          |
-| API Design              | `.ai/backend/API.md` and OpenAPI                         | Contract validation, review                |
-| Java and Spring         | `.ai/backend/JAVA.md`, `.ai/backend/SPRING.md`           | Static analysis, tests, review             |
-| Database and PostgreSQL | `.ai/backend/DATABASE.md`, `.ai/backend/POSTGRES.md`     | Migration validation, integration tests    |
-| Angular                 | `.ai/frontend/ANGULAR.md`                                | Linting, type checking, component tests    |
-| Accessibility           | `.ai/frontend/ACCESSIBILITY.md`                          | Automated and manual accessibility tests   |
-| Security                | `.ai/core/SECURITY-STANDARDS.md`                         | Threat review, scanning, tests             |
-| Testing                 | `.ai/core/TESTING-STANDARDS.md`                          | CI quality gates                           |
-| Infrastructure          | `.ai/backend/AZURE.md` and infrastructure specifications | IaC validation, policy checks              |
-| Documentation           | `.ai/core/DOCUMENTATION-STANDARDS.md`                    | Review, link and format validation         |
+| Concern                 | Governing Source                                            | Primary Enforcement                        |
+| ----------------------- | ----------------------------------------------------------- | ------------------------------------------ |
+| Contributor Behaviour   | `.ai/core/AGENTS.md`                                        | Review, branch protection, AI instructions |
+| Platform Architecture   | `.ai/core/ARCHITECTURE.md`                                  | ADR review, architecture tests             |
+| Product Behaviour       | `.ai/core/PRODUCT.md` and domain specifications             | Acceptance criteria, domain tests          |
+| API Design              | `.ai/backend/API.md` and OpenAPI                            | Contract validation, review                |
+| Java and Spring         | `.ai/backend/JAVA.md`, `.ai/backend/SPRING.md`              | Static analysis, tests, review             |
+| Database and PostgreSQL | `.ai/backend/DATABASE.md`, `.ai/backend/POSTGRES.md`        | Migration validation, integration tests    |
+| Angular                 | `.ai/frontend/ANGULAR.md`                                   | Linting, type checking, component tests    |
+| Accessibility           | `.ai/frontend/ACCESSIBILITY.md`                             | Automated and manual accessibility tests   |
+| Security                | `.ai/core/SECURITY-STANDARDS.md`                            | Threat review, scanning, tests             |
+| Testing                 | `.ai/core/TESTING-STANDARDS.md`                             | CI quality gates                           |
+| Infrastructure          | `.ai/backend/AZURE.md` and `specifications/infrastructure/` | IaC validation, policy checks              |
+| Documentation           | `.ai/core/DOCUMENTATION-STANDARDS.md`                       | Review, link and format validation         |
 
 A more specific standard may add constraints but must not weaken a higher-authority source.
 
@@ -1797,7 +1801,7 @@ A more specific standard may add constraints but must not weaken a higher-author
 Before proposing a material technical change, verify:
 
 - [ ] The affected business domain and owner are identified.
-- [ ] The change follows the decision hierarchy in `AGENTS.md`.
+- [ ] The change follows the decision hierarchy in `.ai/core/AGENTS.md`.
 - [ ] Domain rules remain isolated from presentation and infrastructure.
 - [ ] Module boundaries and dependency direction are preserved.
 - [ ] External providers remain behind project-owned ports and adapters.
@@ -1809,10 +1813,50 @@ Before proposing a material technical change, verify:
 - [ ] A material decision is captured in an ADR.
 - [ ] Documentation and diagrams are updated with the implementation.
 
+## 48. Architecture Governance
+
+### 48.1 Ownership
+
+The Engineering function owns this document. Domain owners, security reviewers, infrastructure owners, and product stakeholders must review changes that materially affect their responsibilities.
+
+### 48.2 Change Control
+
+A change to this architectural baseline requires:
+
+1. A documented problem or requirement.
+2. Impact analysis across domains, contracts, data, security, operations, cost, and delivery.
+3. An ADR when the decision is material, long-lived, expensive to reverse, or changes an approved baseline.
+4. Updates to affected technology standards, domain specifications, diagrams, tests, and operational documentation.
+5. Approval through the repository’s normal review and quality-gate process.
+
+### 48.3 Review Cycle
+
+This architecture must be reviewed at least monthly and additionally after:
+
+- A major product-scope change.
+- Introduction of a new external provider.
+- Adoption of a new deployment, data, API, identity, or messaging strategy.
+- A significant security or production incident.
+- Evidence that a quality target, cost constraint, or scaling assumption is no longer valid.
+- Extraction of a module into an independently deployable service.
+
+### 48.4 Architecture Drift
+
+Architecture drift must be treated as engineering debt with an explicit owner and remediation plan. Repeated local exceptions must trigger review of either the implementation or the governing standard; they must not silently become the new architecture.
+
+### 48.5 Supersession
+
+Accepted ADRs may supersede a specific rule temporarily, but this document must be updated promptly when the new decision becomes the platform baseline. An ADR must not remain the only discoverable source for a permanent architectural change.
+
+### 48.6 Release Baseline
+
+Version 1.0.0 is the approved baseline for initial implementation. Future backward-compatible clarifications should use minor versions. Breaking architectural changes must use a major version and include a migration strategy.
+
 ## Revision History
 
-| Version | Date       | Status | Summary                                                                                                                                                                                                                                        |
-| ------- | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1.0   | 2026-08-05 | Draft  | Established the architectural vision, quality attributes, technology baseline, modular-monolith and hexagonal direction, domain boundaries, integration principles, and Azure deployment direction.                                            |
-| 0.2.0   | 2026-08-05 | Draft  | Added logical component decomposition, reference commerce flows, consistency and transaction rules, caching, search, media, identity, Azure topology, recovery strategy, architecture risks, and open decision governance.                     |
-| 0.3.0   | 2026-08-05 | Draft  | Added backend and frontend implementation blueprints, error and configuration architecture, contract and data-ownership rules, testing and CI/CD architecture, rollout strategy, cost controls, operational readiness, and compliance mapping. |
+| Version | Date       | Status   | Summary                                                                                                                                                                                                                                        |
+| ------- | ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1.0   | 2026-08-05 | Draft    | Established the architectural vision, quality attributes, technology baseline, modular-monolith and hexagonal direction, domain boundaries, integration principles, and Azure deployment direction.                                            |
+| 0.2.0   | 2026-08-05 | Draft    | Added logical component decomposition, reference commerce flows, consistency and transaction rules, caching, search, media, identity, Azure topology, recovery strategy, architecture risks, and open decision governance.                     |
+| 0.3.0   | 2026-08-05 | Draft    | Added backend and frontend implementation blueprints, error and configuration architecture, contract and data-ownership rules, testing and CI/CD architecture, rollout strategy, cost controls, operational readiness, and compliance mapping. |
+| 1.0.0   | 2026-08-05 | Approved | Released the authoritative platform architecture baseline after consistency review, technology clarification, governance definition, and finalisation of implementation, operational, and evolution rules.                                     |
