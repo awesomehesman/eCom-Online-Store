@@ -1,7 +1,7 @@
 ---
 title: PRODUCT
-version: 0.2.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-08-05
 applies_to:
@@ -20,11 +20,13 @@ source_of_truth: true
 
 # PRODUCT.md
 
+> **Release Status:** Version 1.0.0 establishes the approved product baseline for the Enterprise Fashion Commerce Platform. All business requirements, domain specifications, user-experience definitions, implementation plans, analytics, and operational procedures must conform to this document unless an approved product decision explicitly changes the baseline.
+
 > Enterprise Fashion Commerce Platform — Authoritative Product Definition
 
 This document defines the product vision, customer and business outcomes, actors, scope, capabilities, policies, success measures, and product decision principles for the Enterprise Fashion Commerce Platform. It must be read together with `.ai/core/AGENTS.md` and `.ai/core/ARCHITECTURE.md`.
 
-`AGENTS.md` governs contributor behaviour. `ARCHITECTURE.md` governs the technical shape of the platform. This document governs what the product is intended to achieve and the business meaning of its capabilities.
+`.ai/core/AGENTS.md` governs contributor behaviour. `.ai/core/ARCHITECTURE.md` governs the technical shape of the platform. This document governs what the product is intended to achieve and the business meaning of its capabilities.
 
 ## 1. Purpose and Authority
 
@@ -163,7 +165,7 @@ The initial product is intended for a South African fashion-commerce business se
 The Version 1 operating context assumes:
 
 - Primary market: South Africa.
-- Primary language: English, with future localisation readiness.
+- Primary language: English, with future localisation readiness and no Version 1 multilingual requirement.
 - Primary currency: South African Rand (`ZAR`).
 - Customer access through modern mobile and desktop web browsers.
 - One primary legal merchant and commerce operation.
@@ -352,6 +354,7 @@ The Version 1 product goals are:
 6. Meet agreed accessibility, performance, security, and observability standards.
 7. Produce trustworthy operational and commercial reporting.
 8. Establish an extensible foundation for future channels and capabilities.
+9. Ensure every critical customer and operational journey has a defined recovery, support, and reconciliation path.
 
 ## 11. Non-Goals for Version 1
 
@@ -370,6 +373,11 @@ Version 1 does not aim to provide:
 - Full omnichannel store inventory and collection.
 - Automated returns logistics without an approved provider and process.
 - Multiple legal merchants within one deployment.
+
+- Automated dynamic pricing driven by machine learning.
+- Customer-to-customer resale or peer marketplace capability.
+- Physical point-of-sale integration.
+- Same-day delivery as a guaranteed platform capability.
 
 These exclusions prevent the initial product from carrying complexity that has not yet been justified. Future support requires formal product and architecture decisions.
 
@@ -683,6 +691,27 @@ Promotions must define:
 
 Critical journeys must be operable through keyboard and compatible assistive technology. Product imagery, forms, validation, navigation, modals, checkout, account, and administration experiences must meet the approved accessibility standard.
 
+### 16.10 Tax and Invoice Policy
+
+- Version 1 customer-visible prices must follow the approved South African tax-display policy.
+- Order and invoice records must preserve the tax values applicable at the time of confirmation.
+- Tax, invoice numbering, and document requirements must be defined before production launch.
+- Client-side calculations must not be authoritative for tax or invoice totals.
+
+### 16.11 Returns and Refund Policy
+
+- Returns, exchanges, cancellations, and refunds must use explicit eligibility and lifecycle rules.
+- Customer-facing policy content must match operational capability.
+- Refund approval, provider processing, order financial state, inventory disposition, and customer communication must remain distinguishable.
+- Manual exceptions require permission, reason, audit evidence, and reconciliation.
+
+### 16.12 Fraud and Abuse Policy
+
+- The platform must protect registration, authentication, vouchers, promotions, checkout, payment, refund, and administrative workflows from foreseeable abuse.
+- Fraud controls must not silently alter authoritative order or payment state.
+- High-risk actions may require additional verification, review, rate limiting, or operational approval.
+- Fraud signals and decisions must follow privacy, security, audit, and explainability requirements.
+
 ## 17. Product State Principles
 
 ### 17.1 Explicit Lifecycle State
@@ -767,6 +796,21 @@ Formal targets will be defined in business specifications and analytics plans. T
 ### 18.5 Measurement Integrity
 
 Analytics must be consent-aware and must not become the authoritative source for commercial truth. Orders, payments, refunds, and inventory remain authoritative in their owning domains.
+
+### 18.6 Guardrail Measures
+
+Product optimisation must monitor guardrails including:
+
+- Accessibility failures.
+- Payment duplication or uncertain-payment rate.
+- Inventory oversell or reservation discrepancies.
+- Refund and cancellation complaints.
+- Support-contact volume caused by product changes.
+- Page and API performance regressions.
+- Security, privacy, and consent incidents.
+- Promotion misuse or unexpected margin impact.
+
+An improvement in conversion or engagement must not be considered successful when a material guardrail worsens beyond the approved tolerance.
 
 ## 19. Assumptions
 
@@ -883,6 +927,12 @@ The following decisions require detailed business specification or approved prod
 22. Content approval and scheduled-publication workflow.
 23. Administrative role and permission matrix.
 24. Production customer-service and operational escalation process.
+25. South African tax-display, invoice, and credit-note policy.
+26. Fraud-screening approach and manual-review workflow.
+27. Product data import, export, and migration requirements.
+28. Customer data export, correction, deletion, and account-closure workflow.
+29. Gift cards, store credit, and promotional credit policy.
+30. Product launch date, release scope, and post-launch support window.
 
 An open decision must not be resolved differently by separate features. Until approved, implementation must remain reversible and avoid embedding assumptions as permanent business rules.
 
@@ -1535,7 +1585,112 @@ Undocumented production behaviour must not silently become the product definitio
 
 Backward-compatible clarifications should use minor versions. A major version is required when the product baseline changes materially, such as expansion to additional markets, merchants, currencies, sellers, channels, or fundamentally different commercial models.
 
-## 37. Product Self-Review Checklist
+## 37. Product Evolution Rules
+
+### 37.1 Additive Evolution
+
+New capabilities should extend the approved product model without weakening existing customer commitments, commercial truth, accessibility, privacy, security, or operational support.
+
+### 37.2 New Market or Commercial Model
+
+Expansion into another country, currency, language, legal merchant, seller model, business-to-business channel, subscription model, physical-store channel, or marketplace model requires:
+
+1. Product impact assessment.
+2. Legal, tax, privacy, payment, shipping, and support review.
+3. Architecture impact assessment.
+4. Updated domain ownership and data requirements.
+5. Migration and rollout strategy.
+6. A major product-baseline version when the operating model changes materially.
+
+### 37.3 Provider Evolution
+
+A provider change must preserve product semantics. Customers and staff should not experience provider-specific terminology or behaviour unless it is meaningful and intentionally designed.
+
+### 37.4 Capability Retirement
+
+Retiring a capability requires:
+
+- Usage and dependency analysis.
+- Customer and operational impact assessment.
+- Data-retention and historical-access plan.
+- Communication and migration guidance.
+- Removal of obsolete documentation, analytics, permissions, configuration, and support procedures.
+
+### 37.5 Experimental Capabilities
+
+Experimental features must be clearly bounded, measurable, reversible, and protected by approved feature-flag and consent practices. An experiment must not become a permanent feature without product review.
+
+## 38. Product Approval Workflow
+
+### 38.1 Approval Levels
+
+The required approval level depends on impact:
+
+| Change Type                                                   | Minimum Approval                                                                           |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Copy, layout, or low-risk UX clarification                    | Product or delegated UX owner                                                              |
+| Feature behaviour within an approved domain specification     | Product owner and domain owner                                                             |
+| Cross-domain business rule or lifecycle change                | Product, affected domain owners, and Engineering                                           |
+| Price, promotion, tax, cancellation, return, or refund policy | Product and accountable business owner, with Finance or Legal review where required        |
+| Authentication, privacy, consent, or permission change        | Product, Engineering, Security, and Privacy/Legal where required                           |
+| New provider or major operating-model change                  | Product, Engineering, Operations, Security, Finance, and relevant accountable stakeholders |
+| Version 1 scope or non-goal change                            | Product and Engineering governance approval                                                |
+
+### 38.2 Approval Evidence
+
+Approval must be discoverable in the repository through one or more of:
+
+- Approved specification.
+- Product Decision Record.
+- ADR.
+- Pull-request approval.
+- Linked issue or governance record.
+
+Private chat, verbal agreement, or undocumented implementation does not constitute durable approval.
+
+### 38.3 Emergency Product Changes
+
+Urgent changes required to protect customers, data, payments, orders, security, or legal obligations may use an expedited approval path. The decision, scope, risk, owner, and follow-up documentation must be recorded promptly.
+
+## 39. Product Compliance Matrix
+
+| Product Concern               | Governing Source                               | Primary Evidence                                           |
+| ----------------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| Contributor Behaviour         | `.ai/core/AGENTS.md`                           | Review and repository quality gates                        |
+| Technical Architecture        | `.ai/core/ARCHITECTURE.md`                     | ADRs, architecture tests, implementation review            |
+| Product Baseline              | `.ai/core/PRODUCT.md`                          | Approved requirements and product decisions                |
+| Business Requirements         | `specifications/business/`                     | Requirement identifiers and acceptance criteria            |
+| Domain Behaviour              | `specifications/domains/`                      | Domain rules, state models, tests, and traceability        |
+| Frontend Experience           | `specifications/frontend/` and `.ai/frontend/` | UX specifications, component tests, accessibility evidence |
+| Backend Behaviour             | `specifications/backend/` and `.ai/backend/`   | API contracts, integration tests, and operational evidence |
+| Infrastructure and Operations | `specifications/infrastructure/`               | IaC, runbooks, monitoring, backup, and recovery evidence   |
+| Security and Privacy          | `.ai/core/SECURITY-STANDARDS.md`               | Threat review, controls, scans, and audit evidence         |
+| Testing                       | `.ai/core/TESTING-STANDARDS.md`                | Automated and manual verification                          |
+| Documentation                 | `.ai/core/DOCUMENTATION-STANDARDS.md`          | Versioned source-of-truth documentation                    |
+| Design System                 | `.ai/core/DESIGN-SYSTEM.md`                    | Tokens, components, Storybook, and design review           |
+
+A more detailed specification may add constraints but must not weaken this product baseline.
+
+## 40. Authoritative Product Baseline
+
+Version 1.0.0 is the approved product baseline for initial implementation and launch planning.
+
+The baseline consists of:
+
+- Product vision and mission.
+- Target market and actors.
+- Product principles.
+- Version 1 goals and non-goals.
+- Capability map.
+- Customer and administrative journeys.
+- Cross-cutting product policies.
+- Product operating, prioritisation, support, analytics, content, readiness, and governance models.
+
+Detailed specifications must make this baseline implementation-ready. They must not redefine it independently.
+
+When implementation, documentation, analytics, or operational practice conflicts with this baseline, the conflict must be resolved through product change control rather than accepted as undocumented behaviour.
+
+## 41. Product Self-Review Checklist
 
 Before approving a product requirement or feature scope, verify:
 
@@ -1546,6 +1701,10 @@ Before approving a product requirement or feature scope, verify:
 - [ ] Business rules and lifecycle states are explicit.
 - [ ] Success, empty, loading, validation, failure, retry, cancellation, and recovery states are considered.
 - [ ] Price, inventory, payment, order, shipping, privacy, and support impacts are addressed where relevant.
+- [ ] Tax, invoice, returns, refunds, fraud, and abuse implications are addressed where relevant.
+- [ ] Product analytics include guardrails as well as success measures.
+- [ ] Approval evidence and accountable owners are identified.
+- [ ] Evolution, migration, retirement, and support impacts are considered.
 - [ ] Accessibility and mobile behaviour are acceptance criteria.
 - [ ] Security, fraud, abuse, and operational risks are considered.
 - [ ] Analytics and reporting requirements do not replace transactional truth.
@@ -1557,7 +1716,8 @@ Before approving a product requirement or feature scope, verify:
 
 ## Revision History
 
-| Version | Date       | Status | Summary                                                                                                                                                                                                                                                                 |
-| ------- | ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1.0   | 2026-08-05 | Draft  | Established the product vision, mission, value proposition, actors, customer and business problems, product principles, Version 1 goals and exclusions, capability map, journey baselines, cross-cutting policies, success measures, risks, and open product decisions. |
-| 0.2.0   | 2026-08-05 | Draft  | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
+| Version | Date       | Status   | Summary                                                                                                                                                                                                                                                                 |
+| ------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1.0   | 2026-08-05 | Draft    | Established the product vision, mission, value proposition, actors, customer and business problems, product principles, Version 1 goals and exclusions, capability map, journey baselines, cross-cutting policies, success measures, risks, and open product decisions. |
+| 0.2.0   | 2026-08-05 | Draft    | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
+| 1.0.0   | 2026-08-05 | Approved | Released the authoritative product baseline after finalising cross-cutting policies, guardrail measures, evolution rules, approval workflow, compliance mapping, governance, and Version 1 launch scope.                                                                |
