@@ -1,6 +1,6 @@
 ---
 title: GLOSSARY
-version: 0.4.0
+version: 0.5.0
 status: Draft
 owner: Engineering and Product
 last_updated: 2026-08-05
@@ -162,8 +162,25 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **DTO (Data Transfer Object)**: A data container used to transfer information between layers.
 - **Modular Monolith**: A software architecture that structures a monolith into distinct modules.
 - **ADR (Architecture Decision Record)**: A document capturing architectural decisions.
+  - **Domain Model**: The representation of business concepts, rules, behaviours, and relationships within a Bounded Context.
+  - **Ubiquitous Language**: The shared business vocabulary used consistently by domain experts, Product, Engineering, documentation, code, and AI Agents.
+  - **Context Map**: A documented view of the relationships, dependencies, translation boundaries, and integration patterns between Bounded Contexts.
+  - **Shared Kernel**: A deliberately shared subset of a Domain Model jointly owned and governed by multiple Bounded Contexts.
+  - **Anti-Corruption Layer**: A translation boundary that protects one Domain Model from the concepts, terminology, and implementation details of another system.
+  - **Factory**: A domain component responsible for creating valid Aggregates, Entities, or Value Objects while preserving construction rules and invariants.
+  - **Specification Pattern**: A reusable, composable representation of a business rule used for validation, eligibility, selection, or filtering.
+  - **Domain Policy**: A business rule or decision that spans multiple Aggregates and does not naturally belong to a single Entity or Value Object.
 
-## 15. API Terms
+## 15. Hexagonal Architecture Terms
+
+- **Inbound Port**: An application-owned interface that defines how an external actor may invoke a Use Case.
+- **Outbound Port**: An application-owned interface that defines a capability the application requires from persistence, messaging, infrastructure, or an External System.
+- **Primary Adapter**: An Adapter that translates an external interaction, such as HTTP, messaging, CLI, or scheduled execution, into a call to an Inbound Port.
+- **Secondary Adapter**: An Adapter that implements an Outbound Port using a database, Message broker, file system, third-party API, or infrastructure service.
+- **Driving Adapter**: A synonym for Primary Adapter; it initiates interaction with the application through an Inbound Port.
+- **Driven Adapter**: A synonym for Secondary Adapter; it is invoked by the application through an Outbound Port.
+
+## 16. API Terms
 
 - **Resource**: An entity exposed via the API.
 - **Endpoint**: A specific URL path representing an API operation.
@@ -175,7 +192,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Idempotency Key**: A client-supplied unique key used to make a retried state-changing API request safe from duplicate processing.
 - **Cursor Pagination**: Pagination that uses an opaque continuation cursor rather than a page number for stable traversal of changing datasets.
 
-## 16. Database Terms
+## 17. Database Terms
 
 - **Primary Key**: A unique identifier for a database record.
 - **Foreign Key**: A reference linking one record to another.
@@ -187,7 +204,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Outbox Pattern**: Persisting a Domain Event record in the same database Transaction as the Aggregate change so it can be published reliably after commit.
 - **Unique Constraint**: A database rule preventing duplicate values for a defined column or column combination.
 
-## 17. Security Terms
+## 18. Security Terms
 
 - **Authentication**: The process of verifying user identity.
 - **Authorization**: The process of granting access rights.
@@ -200,7 +217,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Encryption in Transit**: Protection of data exchanged over networks using approved transport encryption such as TLS.
 - **Audit Trail**: A tamper-evident sequence of Audit Records sufficient to reconstruct material security, administrative, and commercial actions.
 
-## 18. DevOps Terms
+## 19. DevOps Terms
 
 - **CI (Continuous Integration)**: Automated process of integrating code changes.
 - **CD (Continuous Delivery/Deployment)**: Automated process of delivering software to environments.
@@ -208,7 +225,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Environment**: A distinct deployment context such as development, staging, or production.
 - **Rollback**: Reverting to a previous stable version after a failed deployment.
 
-## 19. AI Development Terms
+## 20. AI Development Terms
 
 - **AI Agent**: An autonomous system component that interacts using AI capabilities.
 - **Context**: The information and state available to an AI agent during operation.
@@ -218,8 +235,15 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Context Hierarchy**: The ordered set of repository instructions that an AI Agent must resolve before acting, from global governance through domain and feature-specific specifications.
 - **Guardrail**: A mandatory constraint that limits AI Agent behavior, generated changes, or tool usage.
 - **Human Approval Gate**: A workflow point at which an authorized person must review or approve an AI-produced decision or change before continuation.
+  - **Requirement**: A verifiable capability, behaviour, quality attribute, or outcome that the system or process must satisfy.
+  - **Constraint**: A mandatory limitation on design, implementation, operation, technology, compliance, or delivery choices.
+  - **Assumption**: A condition treated as true for planning or design purposes until it is validated, rejected, or replaced.
+  - **Decision**: A recorded choice between alternatives together with its rationale, consequences, and ownership.
+  - **Acceptance Criterion**: A specific, testable condition that must be satisfied for a Requirement, feature, or task to be accepted.
+  - **Risk**: An uncertain event or condition that may negatively affect scope, quality, security, cost, schedule, reliability, or business outcomes.
+  - **RFC (Request for Comments)**: A structured proposal circulated for review before a significant technical, product, process, or governance decision is finalized.
 
-## 20. Repository Terms
+## 21. Repository Terms
 
 - **Standard**: A documented set of rules or guidelines.
 - **Specification**: A formal description of system requirements or behavior.
@@ -229,8 +253,16 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Canonical Document**: The approved Source of Truth for a defined area of repository governance or system behavior.
 - **Normative Rule**: A mandatory requirement expressed using terms such as must, must not, required, or prohibited.
 - **Guideline**: A recommended practice that may be departed from when the reason is documented and approved.
+  - **Proposed**: A document or change state indicating that content has been submitted for review but is not yet authoritative.
+  - **Approved**: A document or change state indicating that authorized reviewers have accepted the content as normative and enforceable.
+  - **Deprecated**: A supported but discouraged term, feature, interface, or document that is scheduled for replacement or removal.
+  - **Experimental**: A non-guaranteed state used for evaluation where behaviour, interfaces, or terminology may change without backward compatibility.
+  - **Breaking Change**: A change that requires consumers, integrations, data, code, configuration, or operating procedures to be updated to continue functioning correctly.
+  - **Non-Breaking Change**: A backward-compatible change that does not require existing consumers to modify their current usage.
+  - **Semantic Version**: A version identifier in `MAJOR.MINOR.PATCH` form where MAJOR indicates breaking changes, MINOR indicates backward-compatible additions, and PATCH indicates backward-compatible fixes or clarifications.
+  - **Repository Steward**: The person or group responsible for maintaining repository governance, consistency, review discipline, and the health of canonical documents.
 
-## 21. Identity & Access Terms
+## 22. Identity & Access Terms
 
 - **Identity**: A persistent representation of a human or system actor recognized by the platform.
 - **Principal**: The authenticated human or system actor associated with the current security context.
@@ -246,7 +278,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Service Principal**: A non-human Identity used by an application, workload, automation, or integration.
 - **Token Revocation**: The invalidation of an Access Token, Refresh Token, or Session before normal expiry.
 
-## 22. Pricing & Tax Terms
+## 23. Pricing & Tax Terms
 
 - **Base Price**: The standard selling Price before Promotion benefits, manual markdowns, or campaign-specific adjustments; tax treatment is defined separately.
 - **Sale Price**: A currently effective selling Price lower than the Base Price under a markdown, Campaign, or Pricing Rule.
@@ -263,7 +295,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Tax Category**: The classification used to determine the applicable tax treatment for a Product, Delivery Method, discount, or fee.
 - **Price List**: A named set of Prices applicable to a Currency, region, channel, Customer segment, or validity period.
 
-## 23. Returns & Refund Terms
+## 24. Returns & Refund Terms
 
 - **Return Request**: A customer-initiated request to return purchased items.
 - **Return Authorization**: Approval granted for a return to proceed.
@@ -277,7 +309,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Return Disposition**: The operational outcome assigned after inspection, such as restock, quarantine, repair, supplier return, or disposal.
 - **Partial Refund**: A Refund for less than the total captured amount of the related Order or Payment Transaction.
 
-## 24. Notification Terms
+## 25. Notification Terms
 
 - **Notification**: A message sent to inform users of events or updates.
 - **Email Template**: A predefined format for email communications.
@@ -290,7 +322,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Notification Preference**: A Customer or Staff User choice controlling eligible non-mandatory Notification Channels or topics.
 - **Transactional Notification**: A service message required to communicate an account, payment, order, shipment, return, refund, or security event; it is distinct from marketing communication.
 
-## 25. Reporting & Analytics Terms
+## 26. Reporting & Analytics Terms
 
 - **KPI (Key Performance Indicator)**: A measurable value indicating performance.
 - **Metric**: A named quantitative measurement with an explicit formula, unit, aggregation method, time grain, filters, and Source of Truth.
@@ -306,7 +338,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Measure**: A numeric field that can be aggregated in reporting, such as quantity, amount, duration, or count.
 - **Attribution**: The rule used to assign a conversion or commercial outcome to a marketing source, Campaign, channel, or interaction.
 
-## 26. Angular Terms
+## 27. Angular Terms
 
 - **Standalone Component**: An Angular component that does not require a module.
 - **Signal**: A reactive primitive representing a value that changes over time.
@@ -319,7 +351,19 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Reactive Form**: A form model driven by reactive programming.
 - **Route Configuration**: The setup defining routes and their components.
 
-## 27. Spring Boot Terms
+## 28. Frontend Architecture Terms
+
+- **Page**: A routable customer-facing or Staff User-facing screen that composes Layouts, Views, Components, and application state for a complete user task or destination.
+- **Layout**: A reusable structural shell that defines persistent page regions such as navigation, header, footer, sidebars, or content containers.
+- **View**: A presentation-focused composition that renders data and interactions for part of a Page without owning cross-cutting application responsibilities.
+- **Design System**: The governed collection of design principles, tokens, accessibility rules, interaction patterns, and reusable UI standards for the platform.
+- **Component Library**: The implemented set of reusable UI Components that conforms to the Design System.
+- **Theme**: A named visual configuration of design tokens such as colour, typography, spacing, elevation, and component appearance.
+- **Responsive Breakpoint**: A defined viewport threshold at which Layout or Component behaviour changes to preserve usability across device sizes.
+- **Client State**: State created or owned by the frontend, such as UI selections, local workflow progress, or temporary interaction state.
+- **Server State**: Data owned by backend systems and cached, synchronized, invalidated, or refreshed by the frontend.
+
+## 29. Spring Boot Terms
 
 - **Controller**: A component handling HTTP requests and responses.
 - **Service**: A Spring-managed component implementing an Application Service, Domain Service, or technical integration capability; use the more specific term whenever the distinction matters.
@@ -331,7 +375,21 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **JPA (Java Persistence API)**: A specification for object-relational mapping.
 - **Spring Profile**: A configuration mechanism for environment-specific settings.
 
-## 28. Azure Terms
+## 30. Backend Architecture Terms
+
+- **Command**: A request to perform a state-changing Use Case.
+- **Query**: A request to retrieve data without intentionally changing business state.
+- **Command Handler**: An application component that validates and coordinates execution of a Command.
+- **Query Handler**: An application component that executes a Query and returns a read model or Response DTO.
+- **Validator**: A component that checks input, state, or rules and returns or raises explicit validation outcomes.
+- **Mapper**: A component that converts data between representations such as API DTOs, domain objects, persistence models, and integration contracts.
+- **Exception Handler**: A boundary component that translates Exceptions into consistent API, Message, operational, or user-facing error outcomes.
+- **Domain Exception**: An Exception representing violation of a business rule or invalid domain state.
+- **Business Rule**: A policy, condition, calculation, or invariant that expresses required business behaviour.
+- **Background Job**: A non-interactive unit of work executed asynchronously outside a direct request-response interaction.
+- **Scheduler**: A component that triggers a Background Job or process according to a defined time, interval, or calendar rule.
+
+## 31. Azure Terms
 
 - **Azure App Service**: A platform for hosting web applications.
 - **Azure PostgreSQL**: A managed PostgreSQL database service.
@@ -342,7 +400,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Azure Front Door**: A global load balancing and application acceleration service.
 - **Azure CDN**: A content delivery network for fast content distribution.
 
-## 29. Search & Discovery Terms
+## 32. Search & Discovery Terms
 
 - **Search Index**: A data structure optimized for fast full-text or attribute-based search and retrieval of products or content.
 - **Search Query**: A structured request specifying search criteria, filters, and sorting for retrieving relevant results from the search index.
@@ -352,7 +410,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Synonym**: Alternative terms or words mapped together to improve search recall and relevance.
 - **Autocomplete**: A feature that suggests search queries or product names as the user types.
 
-## 30. Merchandising Terms
+## 33. Merchandising Terms
 
 - **Featured Product**: A product highlighted for promotional or strategic reasons, often displayed prominently on the platform.
 - **Collection Rule**: A configurable condition that determines which products are included in a dynamic collection.
@@ -360,7 +418,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Badge**: A visual label or marker (e.g., "New", "Bestseller") displayed on products to signal special status or attributes.
 - **Product Ranking**: The ordered position of products within a list, collection, or search results, influenced by business rules or algorithms.
 
-## 31. Content Management Terms
+## 34. Content Management Terms
 
 - **CMS Page**: A page managed by the Content Management System, typically used for non-product content such as About or FAQ.
 - **Banner**: A graphical or text-based promotional element displayed on a page or section.
@@ -368,7 +426,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Landing Page**: A dedicated page designed for a specific marketing or campaign purpose.
 - **Content Block**: A modular section of content that can be reused or placed within CMS pages.
 
-## 32. Localization Terms
+## 35. Localization Terms
 
 - **Locale**: A combination of language and regional settings (e.g., en-ZA) that determines formatting, translation, and content.
 - **Currency**: The unit of monetary exchange configured for pricing and transactions (e.g., ZAR, USD).
@@ -378,7 +436,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **ISO 4217 Currency Code**: The three-letter standard code used to identify a Currency, such as `ZAR`.
 - **Minor Unit**: The smallest standard subdivision used to store or calculate a Currency amount, such as cents for ZAR.
 
-## 33. Messaging Terms
+## 36. Messaging Terms
 
 - **Message**: A discrete unit of data or instruction sent between services or systems.
 - **Queue**: A messaging destination from which each message is normally consumed by one processing path, subject to retry and dead-letter behavior; ordering is not assumed unless explicitly guaranteed.
@@ -390,7 +448,20 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **At-Least-Once Delivery**: A delivery guarantee under which a Message may be delivered more than once, requiring idempotent handling.
 - **Message Envelope**: Standard metadata surrounding a Message payload, including identifiers, type, version, timestamp, correlation, causation, and producer.
 
-## 34. Observability Terms
+## 37. Integration Terms
+
+- **External System**: A system, service, platform, or provider outside the platform's ownership boundary that exchanges data or invokes capabilities through an Integration.
+- **Integration**: A governed technical connection that exchanges data, commands, events, files, or requests between the platform and another system or Bounded Context.
+- **API Gateway**: An entry-point component that routes, secures, limits, observes, and optionally transforms API traffic before it reaches application endpoints.
+- **Circuit Breaker**: A resilience mechanism that temporarily blocks calls to an unhealthy dependency after configured failure thresholds are reached.
+- **Integration Retry Policy**: Rules governing repeated attempts for failed integration operations, including delay, backoff, jitter, limits, and terminal handling; distinct from a Notification Retry Policy.
+- **Timeout**: The maximum duration allowed for an operation before it is treated as failed or abandoned.
+- **Saga**: A coordinated sequence of local Transactions that implements a multi-step business process across modules or systems.
+- **Compensating Transaction**: A business operation that semantically reverses or mitigates the effect of a previously completed Saga step.
+- **Idempotent Consumer**: A Message consumer that safely handles repeated delivery without duplicating the intended business effect.
+- **Integration Event**: A versioned event published across a module or system boundary to communicate a completed business fact using a stable external Contract.
+
+## 38. Observability Terms
 
 - **Log**: A record of events, errors, or informational messages generated by the system.
 - **Metric**: See Reporting & Analytics Terms. In observability, a Metric is used specifically to monitor system behavior, reliability, capacity, or performance.
@@ -403,7 +474,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Service Level Indicator (SLI)**: A measured indicator of service behavior such as availability, latency, correctness, or throughput.
 - **Service Level Objective (SLO)**: A target value or range for an SLI over a defined period.
 
-## 35. Performance Terms
+## 39. Performance Terms
 
 - **Cache**: A temporary storage layer used to speed up data retrieval by storing frequently accessed data.
 - **Cache Invalidation**: The process of removing or updating cached data when the underlying source changes.
@@ -414,7 +485,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Time to Live (TTL)**: The duration after which a cached value, token, Message, or temporary record expires.
 - **Rate Limit**: A rule restricting requests or operations for a Principal, client, endpoint, or time window.
 
-## 36. Testing Terms
+## 40. Testing Terms
 
 - **Unit Test**: A test focusing on a single component or function.
 - **Integration Test**: A test verifying interactions between components.
@@ -430,7 +501,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Acceptance Test**: A test that verifies an acceptance criterion from a Specification from an externally observable perspective.
 - **Performance Test**: A test that measures latency, throughput, scalability, stability, or resource usage under defined workloads.
 
-## 37. Lifecycle Vocabulary
+## 41. Lifecycle Vocabulary
 
 ### Product Lifecycle
 
@@ -484,7 +555,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Failed**: The Refund Transaction did not complete successfully and requires retry or intervention.
 - **Rejected**: The Refund Request was declined with a recorded reason.
 
-## 38. Domain Event Vocabulary
+## 42. Domain Event Vocabulary
 
 - **ProductCreated**: Emitted when a new product entity is created in the system.
 - **ProductPublished**: Emitted when a product transitions to the published state and becomes available for purchase.
@@ -506,7 +577,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **ReturnRequested**: Emitted when a Customer or Staff User submits a valid Return Request.
 - **ReturnAuthorized**: Emitted when a Return Request is approved and a Return Authorization is issued.
 
-## 39. Repository Naming Rules
+## 43. Repository Naming Rules
 
 - Domain Event type names use `PascalCase` and past tense (e.g., `OrderCreated`).
 - DTO type names end with `Dto`; request and response boundary types follow the more specific Request and Response rules.
@@ -526,7 +597,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - Feature flags use dot notation (e.g., `feature.checkout.express`).
 - Database indexes use `idx_<table>_<columns>` (e.g., `idx_order_created_at`).
 
-## 40. Cross-Reference Rules
+## 44. Cross-Reference Rules
 
 The following documents and artifacts must use glossary-defined terminology consistently: `PRODUCT.md`, `ARCHITECTURE.md`, `AGENTS.md`, ADRs, domain specifications, API contracts, database models, Domain Events, tests, code comments, operational runbooks, and user-facing administration labels.
 
@@ -536,7 +607,7 @@ The following documents and artifacts must use glossary-defined terminology cons
 - Forbidden or avoided terminology found during review must be replaced or explicitly justified before approval.
 - Repository-wide terminology review is a mandatory approval gate for `GLOSSARY.md` v1.0.0.
 
-## 41. Preferred Terminology
+## 45. Preferred Terminology
 
 | Preferred                                     | Avoid                                                  |
 | --------------------------------------------- | ------------------------------------------------------ |
@@ -555,7 +626,7 @@ The following documents and artifacts must use glossary-defined terminology cons
 | Store Administrator or Platform Administrator | Admin                                                  |
 | Domain Event                                  | Technical Event when the event is business-significant |
 
-## 42. Forbidden Terminology
+## 46. Forbidden Terminology
 
 Ambiguous or imprecise terminology is prohibited in specifications to avoid misunderstandings. The following table outlines common terms to avoid and recommended alternatives:
 
@@ -573,7 +644,7 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 | Event           | Domain Event, Analytics Event, or technical event | Specify the event category                      |
 | Fulfilled       | Fulfilled or Delivered, as applicable             | Fulfilment and delivery are not equivalent      |
 
-## 43. Glossary Governance
+## 47. Glossary Governance
 
 - All new terminology must be introduced in this glossary before use elsewhere.
 - Existing definitions are immutable without explicit versioned updates.
@@ -588,7 +659,7 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 - Duplicate terms must use one canonical definition with qualified meanings or explicit cross-references.
 - Lifecycle states must be defined per Aggregate and must not be reused with a conflicting meaning.
 
-## 44. v1.0.0 Approval Gate
+## 48. v1.0.0 Approval Gate
 
 `GLOSSARY.md` remains **Draft** until all of the following are complete:
 
@@ -614,6 +685,7 @@ status: Approved
 
 | Version | Date       | Description                                                                                                                                                                                                                                                                                                                                             | Author                  |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 0.5.0   | 2026-08-05 | Completed the final enterprise terminology expansion for Domain-Driven Design, Hexagonal Architecture, frontend architecture, backend architecture, integrations, documentation governance, and repository governance in preparation for the repository-wide terminology audit.                                                                         | Engineering and Product |
 | 0.4.0   | 2026-08-05 | Performed the glossary completeness and internal consistency audit; clarified ambiguous terms, added missing commerce, architecture, security, API, data, payment, inventory, shipping, promotion, testing, messaging, observability, and lifecycle vocabulary; strengthened repository naming, cross-reference, governance, and v1.0.0 approval rules. | Engineering and Product |
 | 0.3.0   | 2026-08-05 | Substantially expanded and refined definitions; added Search & Discovery, Merchandising, Content Management, Localization, Messaging, Observability, and Performance sections; grouped lifecycle states; clarified domain events; strengthened naming and cross-reference rules for consistency.                                                        | Engineering and Product |
 | 0.2.0   | 2026-08-05 | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections.                                                                                                                                            | Engineering and Product |
