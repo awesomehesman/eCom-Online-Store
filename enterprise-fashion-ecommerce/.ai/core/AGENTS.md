@@ -1,7 +1,7 @@
 ---
 title: AGENTS
-version: 0.4.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-05
 applies_to:
@@ -13,6 +13,8 @@ applies_to:
 review_cycle: Monthly
 source_of_truth: true
 ---
+
+> **Release Status:** Version 1.0.0 establishes the foundational engineering constitution for this repository. It is the authoritative governance document for all AI agents and human contributors. Future revisions must remain backward compatible unless an Architecture Decision Record (ADR) explicitly approves a breaking governance change.
 
 # AGENTS.md
 
@@ -721,7 +723,7 @@ The repository should use a consistent merge strategy configured at repository l
 
 The final merge commit or squash message must follow the commit standards in this document.
 
-## Documentation Standards
+## 14. Documentation Standards
 
 ### Purpose
 
@@ -740,7 +742,7 @@ Establish documentation as the authoritative source of product, architecture, en
 - Documentation must follow the repository’s markdown conventions (see below).
 - Each specification must include: Purpose, Scope, Actors, Requirements, Rules, Acceptance Criteria, API/Data Impacts, Security/Accessibility/Performance/Observability, and Open Decisions.
 - Architecture Decision Records (ADRs) must use the approved template and reside in `specifications/adr/`.
-- Diagrams must be SVG or PlantUML, committed as source and rendered output.
+- Diagrams must use approved source-controlled formats such as Mermaid, PlantUML, or Draw.io, with rendered output committed only when it materially improves review or distribution.
 - Examples must be executable or copy-paste verifiable where practical.
 - Versioning of documentation must match the implementation version.
 - Documentation must be reviewed before merge using the criteria below.
@@ -773,7 +775,7 @@ Establish documentation as the authoritative source of product, architecture, en
 
 ---
 
-## API Standards
+## 15. API Standards
 
 ### Purpose
 
@@ -830,7 +832,7 @@ Ensure APIs are consistent, discoverable, secure, and maintainable. Enable clien
 
 ---
 
-## Database Standards
+## 16. Database Standards
 
 ### Purpose
 
@@ -844,14 +846,14 @@ Ensure data integrity, consistency, scalability, and maintainability across data
 
 ### Mandatory Standards
 
-- All primary keys must use UUIDv4 unless a documented exception exists.
+- Business entity primary keys must use UUIDs unless a documented exception exists; UUID generation strategy must be defined in the database standards and used consistently.
 - Table names must be plural, snake_case (e.g., `order_items`).
 - Column names must be snake_case, descriptive, and avoid reserved words.
 - Normalize data to at least 3NF unless denormalization is justified.
 - Indexes must be defined for all foreign keys, unique constraints, and common queries.
 - All schema changes must use versioned migrations (e.g., Flyway, Liquibase).
 - Foreign keys must enforce referential integrity.
-- Soft deletes: Use a `deleted_at` timestamp for logical deletion; never physically delete unless required.
+- Soft deletion must be used selectively for recoverable mutable records; durable business facts such as orders, payments, inventory movements, and audit records must use lifecycle status or append-only history instead of ordinary deletion.
 - Auditing: Use `created_at`, `updated_at`, `created_by`, `updated_by` fields.
 - Optimistic locking: Use a version column for concurrent updates.
 - Transactions: Define clear transaction boundaries; avoid long-running transactions.
@@ -883,7 +885,7 @@ Ensure data integrity, consistency, scalability, and maintainability across data
 
 ---
 
-## Angular Standards
+## 17. Angular Standards
 
 ### Purpose
 
@@ -936,7 +938,7 @@ Ensure Angular frontend is modular, maintainable, performant, and accessible.
 
 ---
 
-## Java Standards
+## 18. Java Standards
 
 ### Purpose
 
@@ -988,7 +990,7 @@ Ensure backend code is modular, testable, maintainable, and secure using Spring 
 
 ---
 
-## Testing Standards
+## 19. Testing Standards
 
 ### Purpose
 
@@ -1017,7 +1019,7 @@ Ensure all important behaviour is verified, regressions are prevented, and relea
 
 - Use parameterized tests for variations.
 - Use test data builders or fixtures for complex objects.
-- Use testcontainers for integration with databases.
+- Use Testcontainers for integration with databases and external infrastructure dependencies where practical.
 - Use accessibility and performance tests in CI.
 
 ### Anti-patterns
@@ -1037,7 +1039,7 @@ Ensure all important behaviour is verified, regressions are prevented, and relea
 
 ---
 
-## Security Standards
+## 20. Security Standards
 
 ### Purpose
 
@@ -1089,7 +1091,7 @@ Ensure the platform is secure by default, protects customer and business data, a
 
 ---
 
-## Accessibility Standards
+## 21. Accessibility Standards
 
 ### Purpose
 
@@ -1137,7 +1139,7 @@ Ensure the platform is usable by people of all abilities, meeting WCAG 2.2 AA at
 
 ---
 
-## Performance Standards
+## 22. Performance Standards
 
 ### Purpose
 
@@ -1150,7 +1152,7 @@ Deliver a fast, responsive experience for all users and efficient operation for 
 
 ### Mandatory Standards
 
-- Core Web Vitals: LCP < 2.5s, FID < 100ms, CLS < 0.1.
+- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1.
 - Backend APIs must respond within 300ms p95 under normal load.
 - Use HTTP caching for static assets and APIs where appropriate.
 - Database: Use indexes, avoid N+1 queries, and batch operations where needed.
@@ -1183,7 +1185,7 @@ Deliver a fast, responsive experience for all users and efficient operation for 
 
 ---
 
-## Observability Standards
+## 23. Observability Standards
 
 ### Purpose
 
@@ -1229,13 +1231,13 @@ Enable effective monitoring, troubleshooting, and auditing of the platform in pr
 - [ ] Is audit logging present for sensitive actions?
 - [ ] Are health endpoints and SLOs defined and monitored?
 
-## 14. AI Behaviour Rules
+## 24. AI Behaviour Rules
 
-### 14.1 Purpose
+### 24.1 Purpose
 
 AI agents must behave as accountable engineering contributors rather than unreviewed text generators. They must use the repository context, reason within approved constraints, disclose uncertainty, verify their work, and preserve the integrity of the codebase.
 
-### 14.2 Context acquisition
+### 24.2 Context acquisition
 
 Before proposing or making changes, an AI agent must:
 
@@ -1249,7 +1251,7 @@ Before proposing or making changes, an AI agent must:
 
 The agent must not rely only on the immediate user request when the repository contains authoritative context that materially affects the work.
 
-### 14.3 Requirement discipline
+### 24.3 Requirement discipline
 
 AI agents must distinguish between:
 
@@ -1265,7 +1267,7 @@ When a requirement is incomplete, the agent must proceed only when a safe and re
 
 When ambiguity materially affects those areas, the agent must stop and request a decision.
 
-### 14.4 Planning before modification
+### 24.4 Planning before modification
 
 For non-trivial work, the agent must form a concise implementation plan before editing. The plan must identify:
 
@@ -1277,7 +1279,7 @@ For non-trivial work, the agent must form a concise implementation plan before e
 
 The plan must remain proportional to the task. It must not become a substitute for implementation.
 
-### 14.5 Repository inspection
+### 24.5 Repository inspection
 
 Before creating a new pattern, abstraction, component, service, endpoint, schema object, test fixture, or utility, the agent must search for an existing equivalent.
 
@@ -1289,7 +1291,7 @@ The agent must prefer:
 
 The agent must not infer that a pattern is approved merely because it exists. Existing code must still be checked against current standards.
 
-### 14.6 Scope control
+### 24.6 Scope control
 
 AI agents must keep changes focused on the requested outcome.
 
@@ -1304,7 +1306,7 @@ They must not:
 
 Necessary supporting changes may be included when they are directly required for correctness and are explicitly described.
 
-### 14.7 Safe editing
+### 24.7 Safe editing
 
 When modifying existing files, the agent must:
 
@@ -1315,7 +1317,7 @@ When modifying existing files, the agent must:
 - Verify imports, references, paths, and generated artifacts.
 - Avoid deleting data, migrations, tests, or documentation unless the removal is intentional and justified.
 
-### 14.8 Truthfulness and verification
+### 24.8 Truthfulness and verification
 
 An AI agent must never claim that:
 
@@ -1334,7 +1336,7 @@ The agent must distinguish clearly between:
 - Proposed work.
 - Known limitations.
 
-### 14.9 Failure handling
+### 24.9 Failure handling
 
 When a command, test, build, migration, tool, or edit fails, the agent must:
 
@@ -1347,7 +1349,7 @@ When a command, test, build, migration, tool, or edit fails, the agent must:
 
 The agent must not hide a failure by disabling checks, weakening assertions, swallowing exceptions, or removing the affected test.
 
-### 14.10 Generated content
+### 24.10 Generated content
 
 Generated code, documentation, tests, SQL, OpenAPI, configuration, diagrams, and infrastructure definitions are subject to the same standards as human-authored work.
 
@@ -1362,7 +1364,7 @@ Before presenting generated output, the agent must check:
 - Placeholder or fabricated content.
 - Unsupported dependencies or commands.
 
-### 14.11 Communication
+### 24.11 Communication
 
 AI responses must be direct, accurate, and proportionate to the task.
 
@@ -1375,17 +1377,17 @@ They must:
 - Use repository terminology from `GLOSSARY.md`.
 - Include exact commands when user action is required.
 
-### 14.12 Tool-specific guidance
+### 24.12 Tool-specific guidance
 
 Files under `.ai/agents/` may define how a specific tool discovers context or applies changes. Tool-specific guidance must not weaken or override this constitution.
 
 If a tool limitation prevents compliance, the agent must disclose the limitation and choose the safest available workflow.
 
-## 15. Forbidden Practices
+## 25. Forbidden Practices
 
 The following practices are prohibited unless an approved ADR or explicit security/operational procedure states otherwise.
 
-### 15.1 Requirements and design
+### 25.1 Requirements and design
 
 - Inventing business rules or acceptance criteria.
 - Treating assumptions as approved requirements.
@@ -1394,7 +1396,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Introducing a major architecture pattern without an ADR.
 - Designing for hypothetical scale at the expense of current clarity and delivery.
 
-### 15.2 Code and architecture
+### 25.2 Code and architecture
 
 - Business logic in controllers, UI components, repositories, mappers, or infrastructure adapters.
 - Circular dependencies between modules.
@@ -1408,7 +1410,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Premature microservice extraction.
 - Direct cross-domain database access that bypasses domain ownership.
 
-### 15.3 API and integration
+### 25.3 API and integration
 
 - Returning persistence entities directly from APIs.
 - Exposing stack traces or internal exception messages.
@@ -1420,7 +1422,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Retrying non-idempotent operations blindly.
 - Hard-coding provider-specific behaviour in core domain logic.
 
-### 15.4 Database and data
+### 25.4 Database and data
 
 - Manual production schema changes outside approved migrations.
 - Editing an already-applied migration except through an approved repair procedure.
@@ -1432,7 +1434,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Creating indexes without considering write and storage cost.
 - Large destructive data migrations without backup, rehearsal, and rollback planning.
 
-### 15.5 Frontend
+### 25.5 Frontend
 
 - Treating route guards or hidden controls as authorization enforcement.
 - Storing secrets in browser code or frontend environment files.
@@ -1444,7 +1446,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Duplicating server-owned validation or pricing logic as authoritative frontend logic.
 - Blocking rendering with avoidable synchronous work.
 
-### 15.6 Testing and quality
+### 25.6 Testing and quality
 
 - Disabling tests to make CI pass.
 - Reducing assertions without resolving the defect.
@@ -1454,7 +1456,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Inflating coverage with meaningless tests.
 - Claiming release readiness with failing or unexecuted checks.
 
-### 15.7 Security and operations
+### 25.7 Security and operations
 
 - Committing secrets, credentials, private keys, tokens, or production data.
 - Logging passwords, session tokens, raw payment data, or sensitive identity documents.
@@ -1465,7 +1467,7 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Alerts without owners or actionable response guidance.
 - Production changes without rollback or recovery consideration.
 
-### 15.8 Documentation and AI output
+### 25.8 Documentation and AI output
 
 - Presenting placeholders as complete documentation.
 - Duplicating source-of-truth standards.
@@ -1474,11 +1476,11 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Leaving unresolved `TODO`, `FIXME`, or sample values in production-ready work without tracking.
 - Committing generated binaries or exports when reproducible source is sufficient.
 
-## 16. Preferred Practices
+## 26. Preferred Practices
 
 Contributors should apply these practices unless a more specific approved standard requires otherwise.
 
-### 16.1 Design and architecture
+### 26.1 Design and architecture
 
 - Prefer explicit domain boundaries and named application use cases.
 - Prefer modular monolith patterns for the initial platform.
@@ -1489,7 +1491,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer synchronous behaviour for simple workflows and asynchronous behaviour only where it provides a clear operational or scalability benefit.
 - Prefer reversible decisions while requirements are still evolving.
 
-### 16.2 Code
+### 26.2 Code
 
 - Prefer descriptive names over comments that restate code.
 - Prefer early validation and clear failure messages.
@@ -1500,7 +1502,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer framework-supported lifecycle management.
 - Prefer deletion of obsolete code over indefinite compatibility layers after deprecation is complete.
 
-### 16.3 APIs and events
+### 26.3 APIs and events
 
 - Prefer coarse-grained use-case endpoints over chatty APIs.
 - Prefer idempotent command handling.
@@ -1510,7 +1512,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer event names in past tense that describe completed business facts.
 - Prefer an outbox pattern when reliable event publication is required.
 
-### 16.4 Data
+### 26.4 Data
 
 - Prefer database constraints for invariant protection.
 - Prefer append-only movement or history tables for inventory, payment, order, and audit changes.
@@ -1519,7 +1521,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer dedicated read models or projections for reporting rather than distorting transactional models.
 - Prefer lifecycle status over soft deletion when the record represents a durable business fact.
 
-### 16.5 Frontend and UX
+### 26.5 Frontend and UX
 
 - Prefer mobile-first responsive design.
 - Prefer semantic HTML before ARIA.
@@ -1530,7 +1532,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer preserving user input after recoverable errors.
 - Prefer clear confirmation for destructive or irreversible actions.
 
-### 16.6 Testing
+### 26.6 Testing
 
 - Prefer tests that read like business behaviour.
 - Prefer test data builders over large inline object construction.
@@ -1539,7 +1541,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer a small number of high-value end-to-end journeys.
 - Prefer architecture tests that protect module boundaries.
 
-### 16.7 Delivery and operations
+### 26.7 Delivery and operations
 
 - Prefer automated, repeatable deployments.
 - Prefer feature flags for risky incremental rollout.
@@ -1548,11 +1550,11 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer alerts on customer or business impact rather than low-level noise.
 - Prefer documented rollback and reconciliation procedures for payment, inventory, and order workflows.
 
-## 17. Quality Gates
+## 27. Quality Gates
 
 Quality gates are mandatory controls that determine whether a change may progress to review, merge, release, or production.
 
-### 17.1 Specification gate
+### 27.1 Specification gate
 
 Before implementation begins:
 
@@ -1562,7 +1564,7 @@ Before implementation begins:
 - Security, privacy, accessibility, performance, and operational impacts are considered.
 - Open decisions that block correctness are resolved.
 
-### 17.2 Local development gate
+### 27.2 Local development gate
 
 Before a branch is pushed:
 
@@ -1575,7 +1577,7 @@ Before a branch is pushed:
 - The final diff has been reviewed.
 - No secrets or unintended generated files are present.
 
-### 17.3 Pull-request gate
+### 27.3 Pull-request gate
 
 Before review approval:
 
@@ -1587,7 +1589,7 @@ Before review approval:
 - No unresolved blocking discussion remains.
 - Security, data, accessibility, and operational concerns are addressed.
 
-### 17.4 Merge gate
+### 27.4 Merge gate
 
 Before merge:
 
@@ -1598,7 +1600,7 @@ Before merge:
 - Migrations are safe for the intended deployment sequence.
 - Rollout and rollback guidance exists where required.
 
-### 17.5 Release gate
+### 27.5 Release gate
 
 Before a release is promoted:
 
@@ -1610,7 +1612,7 @@ Before a release is promoted:
 - Backup, restore, and rollback requirements are satisfied.
 - Release notes and operational communication are prepared.
 
-### 17.6 Production gate
+### 27.6 Production gate
 
 Before production enablement:
 
@@ -1622,7 +1624,7 @@ Before production enablement:
 - Monitoring is active.
 - A responsible owner is available during the agreed observation period.
 
-### 17.7 Gate exceptions
+### 27.7 Gate exceptions
 
 A quality gate may be bypassed only through an explicit, time-bound, documented risk acceptance by the accountable owner. The exception must state:
 
@@ -1635,17 +1637,17 @@ A quality gate may be bypassed only through an explicit, time-bound, documented 
 
 AI agents may not grant or imply approval for a gate exception.
 
-## 18. Feature Development Lifecycle
+## 28. Feature Development Lifecycle
 
-### 18.1 Discovery
+### 28.1 Discovery
 
 Define the customer or operational problem, intended outcome, actors, value, constraints, assumptions, dependencies, and success measures.
 
-### 18.2 Specification
+### 28.2 Specification
 
 Create or update the applicable business, domain, frontend, backend, data, integration, and infrastructure specifications. Requirements must be traceable and testable.
 
-### 18.3 Design
+### 28.3 Design
 
 Define:
 
@@ -1660,37 +1662,37 @@ Define:
 
 Material decisions require an ADR.
 
-### 18.4 Planning
+### 28.4 Planning
 
 Split work into independently reviewable increments. Identify migration order, feature flags, compatibility requirements, test strategy, and rollout dependencies.
 
-### 18.5 Implementation
+### 28.5 Implementation
 
 Implement the smallest complete vertical slice that satisfies the approved scope. Keep business logic at the correct boundary and maintain documentation alongside code.
 
-### 18.6 Verification
+### 28.6 Verification
 
 Run applicable unit, integration, contract, component, end-to-end, accessibility, security, and performance checks. Verify negative paths and recovery behaviour.
 
-### 18.7 Review
+### 28.7 Review
 
 Review requirements, architecture, security, data integrity, user experience, performance, tests, operations, and documentation. Resolve findings before merge.
 
-### 18.8 Release
+### 28.8 Release
 
 Deploy through the approved pipeline. Use feature flags, staged rollout, or controlled activation where risk requires it. Validate health, telemetry, and core journeys.
 
-### 18.9 Observation
+### 28.9 Observation
 
 Monitor technical and business signals after release. Confirm that the feature meets the expected outcome and that no material regression exists.
 
-### 18.10 Completion
+### 28.10 Completion
 
 Close the feature only when follow-up tasks, documentation, metrics, and operational ownership are clear. Deferred enhancements must be tracked separately and must not be implied as delivered.
 
-## 19. Bug Fix Workflow
+## 29. Bug Fix Workflow
 
-### 19.1 Triage
+### 29.1 Triage
 
 Capture:
 
@@ -1702,7 +1704,7 @@ Capture:
 - First known occurrence.
 - Workaround, if any.
 
-### 19.2 Severity
+### 29.2 Severity
 
 Use the following default severity model:
 
@@ -1711,11 +1713,11 @@ Use the following default severity model:
 - **Medium:** material defect with limited scope or a practical workaround.
 - **Low:** minor behaviour, content, visual, or maintainability issue with low business impact.
 
-### 19.3 Reproduction
+### 29.3 Reproduction
 
 Before changing code, reproduce the issue where practical and identify the smallest failing scenario. Preserve relevant logs, correlation IDs, payloads, screenshots, and environment details without exposing secrets or personal information.
 
-### 19.4 Root cause
+### 29.4 Root cause
 
 Fixes must address the root cause, not only the visible symptom. The investigation should determine:
 
@@ -1724,15 +1726,15 @@ Fixes must address the root cause, not only the visible symptom. The investigati
 - Whether similar paths are affected.
 - Whether data reconciliation or remediation is required.
 
-### 19.5 Regression test
+### 29.5 Regression test
 
 Add a failing automated test before or alongside the fix where practical. The test must prove the reported behaviour and prevent recurrence.
 
-### 19.6 Implementation and verification
+### 29.6 Implementation and verification
 
 Keep the fix focused. Run affected and neighbouring tests. Verify successful behaviour, negative paths, and any data or operational remediation.
 
-### 19.7 Production defects
+### 29.7 Production defects
 
 For production defects, also consider:
 
@@ -1743,17 +1745,17 @@ For production defects, also consider:
 - Alert improvements.
 - Incident review or postmortem.
 
-### 19.8 Closure
+### 29.8 Closure
 
 A bug is complete when the root cause is corrected, regression protection exists, affected documentation is updated, and any remediation or monitoring action is owned.
 
-## 20. Refactoring Guidelines
+## 30. Refactoring Guidelines
 
-### 20.1 Purpose
+### 30.1 Purpose
 
 Refactoring improves internal structure without intentionally changing externally observable behaviour.
 
-### 20.2 Preconditions
+### 30.2 Preconditions
 
 Before refactoring:
 
@@ -1763,11 +1765,11 @@ Before refactoring:
 - Affected public contracts and domain boundaries are identified.
 - The expected benefit justifies the change.
 
-### 20.3 Refactoring scope
+### 30.3 Refactoring scope
 
 Refactors should be incremental and reviewable. Separate behaviour changes from structural changes where practical.
 
-### 20.4 Appropriate reasons
+### 30.4 Appropriate reasons
 
 Valid reasons include:
 
@@ -1781,11 +1783,11 @@ Valid reasons include:
 
 “Personal preference” is not sufficient justification for broad refactoring.
 
-### 20.5 Behaviour preservation
+### 30.5 Behaviour preservation
 
 Existing public behaviour must remain unchanged unless the change is explicitly reclassified and reviewed as a feature or bug fix.
 
-### 20.6 Data and API refactoring
+### 30.6 Data and API refactoring
 
 Schema and contract refactors require compatibility planning. Use expand-migrate-contract sequencing where appropriate:
 
@@ -1795,11 +1797,11 @@ Schema and contract refactors require compatibility planning. Use expand-migrate
 4. Observe stability.
 5. Remove deprecated structures in a later change.
 
-### 20.7 Verification
+### 30.7 Verification
 
 Refactoring must pass the same or stronger tests as the original implementation. Architecture, performance, and maintainability improvements should be demonstrated where measurable.
 
-### 20.8 Prohibited refactoring behaviour
+### 30.8 Prohibited refactoring behaviour
 
 - Large unreviewable rewrites without a migration strategy.
 - Removing tests because the design changed.
@@ -1807,11 +1809,11 @@ Refactoring must pass the same or stronger tests as the original implementation.
 - Introducing a new framework or dependency without approval.
 - Rewriting working modules only to match agent preference.
 
-## 21. Domain Ownership
+## 31. Domain Ownership
 
 Domain ownership determines where business rules, data, APIs, events, and operational responsibilities belong.
 
-### 21.1 Product and Catalogue
+### 31.1 Product and Catalogue
 
 Owns:
 
@@ -1824,7 +1826,7 @@ Owns:
 
 Does not own authoritative inventory balance, customer-specific carts, completed order snapshots, or payment state.
 
-### 21.2 Pricing and Promotions
+### 31.2 Pricing and Promotions
 
 Owns:
 
@@ -1836,7 +1838,7 @@ Owns:
 
 Orders retain immutable pricing snapshots after confirmation.
 
-### 21.3 Inventory
+### 31.3 Inventory
 
 Owns:
 
@@ -1848,7 +1850,7 @@ Owns:
 
 Catalogue may display availability but must not calculate authoritative stock independently.
 
-### 21.4 Customer and Identity
+### 31.4 Customer and Identity
 
 Identity owns credentials, authentication sessions, roles, and permissions.
 
@@ -1856,13 +1858,13 @@ Customer owns profiles, addresses, preferences, and consent records.
 
 Order delivery addresses are immutable snapshots and are not changed when a customer edits a saved address.
 
-### 21.5 Cart and Checkout
+### 31.5 Cart and Checkout
 
 Cart owns active purchase intent and cart items.
 
 Checkout coordinates validation of customer details, prices, promotions, inventory, shipping, and payment initiation. It does not become the source of truth for payment or completed orders.
 
-### 21.6 Payments
+### 31.6 Payments
 
 Owns:
 
@@ -1875,7 +1877,7 @@ Owns:
 
 Payments must not directly own product, inventory, or fulfilment rules.
 
-### 21.7 Orders
+### 31.7 Orders
 
 Owns:
 
@@ -1888,7 +1890,7 @@ Owns:
 
 Orders must not rely on mutable catalogue records to represent historical purchases.
 
-### 21.8 Shipping and Fulfilment
+### 31.8 Shipping and Fulfilment
 
 Owns:
 
@@ -1901,27 +1903,27 @@ Owns:
 
 Shipping providers are external adapters behind project-owned contracts.
 
-### 21.9 Notifications
+### 31.9 Notifications
 
 Owns notification requests, templates, delivery attempts, retry state, and delivery outcome.
 
 Notifications consume approved business events and must not mutate authoritative order, payment, or inventory state.
 
-### 21.10 Content Management
+### 31.10 Content Management
 
 Owns editorial pages, homepage content, banners, campaign content, and policy presentation content.
 
 It must not own product pricing, stock, or order data.
 
-### 21.11 Administration
+### 31.11 Administration
 
 Administration provides protected workflows over domain-owned application services. It must not bypass domain rules or write directly to another domain’s persistence layer.
 
-### 21.12 Reporting
+### 31.12 Reporting
 
 Reporting owns read models, exports, dashboards, and analytical projections. It does not own transactional state and must not mutate operational aggregates.
 
-### 21.13 Cross-domain interaction
+### 31.13 Cross-domain interaction
 
 Domains should interact through:
 
@@ -1932,7 +1934,7 @@ Domains should interact through:
 
 Direct access to another domain’s internal repository, entity, or table is prohibited unless an accepted ADR defines a controlled exception.
 
-### 21.14 Ownership conflicts
+### 31.14 Ownership conflicts
 
 When ownership is unclear:
 
@@ -1942,7 +1944,7 @@ When ownership is unclear:
 4. Record the decision if it is material.
 5. Avoid shared ownership of mutable authoritative state.
 
-## 22. Glossary Reference
+## 32. Glossary Reference
 
 The canonical project glossary is `.ai/core/GLOSSARY.md`.
 
@@ -1967,11 +1969,36 @@ Terms with materially different meanings must not be used interchangeably. In pa
 
 When a provider uses terminology that conflicts with the internal model, the provider term must be translated within the adapter and must not redefine the project’s domain language.
 
+## 33. Governance
+
+### 33.1 Ownership
+
+The Engineering function owns this document. Significant changes require architectural review and must be reflected in the corresponding standards or Architecture Decision Records where applicable.
+
+### 33.2 Review Cycle
+
+This constitution must be reviewed at least monthly and additionally after:
+
+- Major architectural changes.
+- Introduction of a new AI coding agent.
+- Adoption of new engineering standards.
+- Significant security or production incidents.
+- Major product or platform evolution.
+
+### 33.3 Backward Compatibility
+
+Contributors should evolve this document incrementally. Existing repository standards must not be invalidated without a documented migration strategy.
+
+### 33.4 Source of Truth
+
+Where guidance conflicts, this document governs contributor behaviour. Technology-specific documents may extend but must not weaken or contradict this constitution.
+
 ## Revision History
 
-| Version | Date       | Status | Summary                                                                                                                                                                |
-| ------- | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1.0   | 2026-08-05 | Draft  | Established document authority, vision, engineering philosophy, decision hierarchy, contributor responsibilities, Definition of Done, and AI self-review requirements. |
-| 0.2.0   | 2026-08-05 | Draft  | Defined repository ownership and file-placement rules, the standard development workflow, branch strategy, commit conventions, and pull-request requirements.          |
-| 0.3.0   | 2026-08-05 | Draft  | Established engineering standards for documentation, APIs, databases, frontend, backend, testing, security, accessibility, performance, and observability.             |
-| 0.4.0   | 2026-08-05 | Draft  | Defined AI behaviour, prohibited and preferred practices, quality gates, feature and defect lifecycles, refactoring rules, domain ownership, and glossary governance.  |
+| Version | Date       | Status   | Summary                                                                                                                                                                                          |
+| ------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0.1.0   | 2026-08-05 | Draft    | Established document authority, vision, engineering philosophy, decision hierarchy, contributor responsibilities, Definition of Done, and AI self-review requirements.                           |
+| 0.2.0   | 2026-08-05 | Draft    | Defined repository ownership and file-placement rules, the standard development workflow, branch strategy, commit conventions, and pull-request requirements.                                    |
+| 0.3.0   | 2026-08-05 | Draft    | Established engineering standards for documentation, APIs, databases, frontend, backend, testing, security, accessibility, performance, and observability.                                       |
+| 0.4.0   | 2026-08-05 | Draft    | Defined AI behaviour, prohibited and preferred practices, quality gates, feature and defect lifecycles, refactoring rules, domain ownership, and glossary governance.                            |
+| 1.0.0   | 2026-08-05 | Approved | Completed the foundational AI Engineering Constitution, including governance, engineering philosophy, repository standards, delivery lifecycle, quality gates, and contributor responsibilities. |
