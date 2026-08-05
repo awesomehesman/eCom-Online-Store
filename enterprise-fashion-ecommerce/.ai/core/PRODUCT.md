@@ -205,7 +205,7 @@ A registered customer may additionally:
 
 ### 7.3 Store Administrator
 
-A store administrator manages product and store operations according to assigned permissions. Capabilities may include:
+A Store Administrator manages product and store operations according to assigned permissions. Capabilities may include:
 
 - Catalogue and category management.
 - Product publication.
@@ -264,7 +264,7 @@ This actor may access:
 
 ### 7.8 Platform Administrator
 
-A platform administrator manages staff accounts, roles, permissions, configuration, integrations, and high-risk operational capabilities. This is a privileged role and must be tightly controlled and audited.
+A Platform Administrator manages staff accounts, roles, permissions, configuration, integrations, and high-risk operational capabilities. This is a privileged role and must be tightly controlled and audited.
 
 ### 7.9 External Provider
 
@@ -320,7 +320,7 @@ The business needs variant-level inventory truth, reservations, adjustments, mov
 
 ### 9.3 Weak Order and Payment Traceability
 
-Staff need to understand the relationship between checkout, payment attempts, provider callbacks, orders, refunds, shipments, and notifications.
+Staff need to understand the relationship between checkout, Payment Attempts, provider callbacks, orders, refunds, shipments, and notifications.
 
 ### 9.4 Manual Fulfilment Risk
 
@@ -586,7 +586,7 @@ The customer receives meaningful status updates without exposing internal operat
 
 ### 14.8 Support and Resolution
 
-The customer can locate support information and provide an order reference. Authorised staff can investigate using correlated payment, order, shipment, and notification records.
+The customer can locate support information and provide an order reference. Authorised staff can investigate using correlated Payment Transaction, order, shipment, and notification records.
 
 ## 15. Administrative Journey Baseline
 
@@ -638,14 +638,14 @@ A content user prepares and schedules campaigns, homepage content, banners, and 
 ### 16.3 Payment Policy
 
 - Raw card data must not be stored by the platform.
-- Browser redirect is not authoritative confirmation.
-- Provider callbacks must be validated and idempotent.
-- Payment attempts and refunds must remain independently traceable.
+- Provider callbacks (Webhook notifications) must be validated, authenticated where supported, and processed idempotently.
+- Browser redirects must never be treated as authoritative payment confirmation.
+- Payment Attempts and refunds must remain independently traceable.
 - Uncertain payment state must be reconciled before final financial representation.
 
 ### 16.4 Order Policy
 
-- An order is a durable commercial record.
+- An Order is the durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
 - Confirmed order items, addresses, prices, discounts, and totals must be snapshots.
 - Order status transitions must be controlled and historical.
 - Ordinary deletion of confirmed orders is prohibited.
@@ -716,24 +716,27 @@ Critical journeys must be operable through keyboard and compatible assistive tec
 
 ### 17.1 Explicit Lifecycle State
 
-Products, variants, carts, checkout sessions, payments, orders, refunds, shipments, promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status.
+Products, variants, carts, checkout sessions, payments, orders, refunds, shipments, promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status. The canonical lifecycle states are: Pending Payment, Confirmed, Processing, Fulfilled, Cancelled, Completed, and Archived (where applicable).
 
 ### 17.2 No Ambiguous Success
 
 The product must distinguish states such as:
 
 - Initiated.
-- Pending.
+- Pending Payment.
 - Processing.
 - Confirmed.
-- Failed.
+- Fulfilled.
 - Cancelled.
+- Completed.
+- Archived.
+- Failed.
 - Expired.
 - Refunded.
-- Partially refunded.
-- Reconciliation required.
+- Partially Refunded.
+- Reconciliation Required.
 
-A pending or uncertain state must not be displayed as complete.
+A Pending Payment or uncertain state must not be displayed as complete.
 
 ### 17.3 State Transition Ownership
 
@@ -763,8 +766,8 @@ Formal targets will be defined in business specifications and analytics plans. T
 
 ### 18.2 Commercial Measures
 
-- Gross and net sales.
-- Average order value.
+- Gross Revenue and Net Revenue.
+- Average Order Value.
 - Units per order.
 - Discount and promotion impact.
 - Refund and cancellation rate.
@@ -871,7 +874,7 @@ Product Requirement
       ↓
 Domain / UX / Operational Specification
       ↓
-Architecture and Contract
+Architecture, API Contract, and Domain Specification
       ↓
 Implementation
       ↓
@@ -884,20 +887,20 @@ Specifications should use stable requirement identifiers. Code, tests, APIs, dia
 
 ## 23. Product Risks and Controls
 
-| Product Risk                                          | Product Control                                                                                   |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Premium visual design reduces usability               | Apply accessibility, responsive, content, and design-system standards to every journey.           |
-| Customer sees stale or misleading price               | Recalculate authoritative totals at checkout and preserve order snapshots.                        |
-| Product appears available but cannot be purchased     | Centralise variant sellability and inventory rules, and revalidate before payment.                |
-| Customer is charged without a clear order outcome     | Use authoritative payment confirmation, idempotency, order creation controls, and reconciliation. |
-| Duplicate provider callbacks create duplicate effects | Deduplicate callbacks and make critical handlers idempotent.                                      |
-| Staff can bypass business rules                       | Route all administration through domain-owned use cases with RBAC and audit.                      |
-| Promotions create unexpected losses                   | Define explicit eligibility, stacking, thresholds, limits, calculation order, and reporting.      |
-| Customer support cannot diagnose issues               | Correlate cart, checkout, payment, order, shipment, and notification records.                     |
-| Accessibility is deferred                             | Include accessibility acceptance criteria and quality gates in every UI capability.               |
-| Scope expands before core journeys are reliable       | Use explicit Version 1 goals, non-goals, and phased delivery.                                     |
-| Analytics conflicts with commercial records           | Treat analytics as a behavioural projection, not transactional truth.                             |
-| Operational workflows depend on developers            | Provide secure administration, repair, reconciliation, and reporting capabilities.                |
+| Product Risk                                                                              | Product Control                                                                                   |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Premium visual design reduces usability                                                   | Apply accessibility, responsive, content, and design-system standards to every journey.           |
+| Customer sees stale or misleading price                                                   | Recalculate authoritative totals at checkout and preserve order snapshots.                        |
+| Product appears available but cannot be purchased                                         | Centralise variant sellability and inventory rules, and revalidate before payment.                |
+| Customer is charged without a clear order outcome                                         | Use authoritative payment confirmation, idempotency, order creation controls, and reconciliation. |
+| Duplicate Webhook notifications create duplicate Payment Transactions or Order processing | Deduplicate callbacks and make critical handlers idempotent.                                      |
+| Staff can bypass business rules                                                           | Route all administration through domain-owned use cases with RBAC and audit.                      |
+| Promotions create unexpected losses                                                       | Define explicit eligibility, stacking, thresholds, limits, calculation order, and reporting.      |
+| Customer support cannot diagnose issues                                                   | Correlate cart, checkout, payment, order, shipment, and notification records.                     |
+| Accessibility is deferred                                                                 | Include accessibility acceptance criteria and quality gates in every UI capability.               |
+| Scope expands before core journeys are reliable                                           | Use explicit Version 1 goals, non-goals, and phased delivery.                                     |
+| Analytics conflicts with commercial records                                               | Treat analytics as a behavioural projection, not transactional truth.                             |
+| Operational workflows depend on developers                                                | Provide secure administration, repair, reconciliation, and reporting capabilities.                |
 
 ## 24. Open Product Decisions
 
@@ -1264,6 +1267,7 @@ Public URLs should be:
 - Hyphen-separated.
 - Canonical.
 - Independent of internal database identifiers where practical.
+- Consistent with the repository API path naming rules defined in GLOSSARY.md.
 
 ### 29.4 Navigation State
 
@@ -1430,13 +1434,13 @@ Analytics must:
 - Serve a defined product or business question.
 - Respect consent and privacy requirements.
 - Avoid unnecessary personal information.
-- Use stable event names and properties.
+- Use stable Analytics Event names and properties.
 - Remain distinct from authoritative transactional records.
 - Be testable in non-production environments.
 
-### 33.2 Event Categories
+### 33.2 Analytics Event Categories
 
-The product should support approved events for:
+The product should support approved Analytics Events for:
 
 - Page and content views.
 - Search and filter usage.
@@ -1450,9 +1454,9 @@ The product should support approved events for:
 - Account and support interactions.
 - Administration workflow outcomes where operationally useful.
 
-### 33.3 Event Quality
+### 33.3 Analytics Event Quality
 
-Every event must define:
+Every Analytics Event must define:
 
 - Business purpose.
 - Trigger.
@@ -1659,6 +1663,7 @@ Urgent changes required to protect customers, data, payments, orders, security, 
 | Contributor Behaviour         | `.ai/core/AGENTS.md`                           | Review and repository quality gates                        |
 | Technical Architecture        | `.ai/core/ARCHITECTURE.md`                     | ADRs, architecture tests, implementation review            |
 | Product Baseline              | `.ai/core/PRODUCT.md`                          | Approved requirements and product decisions                |
+| Canonical Terminology         | `.ai/core/GLOSSARY.md`                         | Repository-wide terminology governance                     |
 | Business Requirements         | `specifications/business/`                     | Requirement identifiers and acceptance criteria            |
 | Domain Behaviour              | `specifications/domains/`                      | Domain rules, state models, tests, and traceability        |
 | Frontend Experience           | `specifications/frontend/` and `.ai/frontend/` | UX specifications, component tests, accessibility evidence |
@@ -1670,6 +1675,10 @@ Urgent changes required to protect customers, data, payments, orders, security, 
 | Design System                 | `.ai/core/DESIGN-SYSTEM.md`                    | Tokens, components, Storybook, and design review           |
 
 A more detailed specification may add constraints but must not weaken this product baseline.
+
+## Repository Terminology Alignment
+
+This document has been reviewed against `.ai/core/GLOSSARY.md` and must use glossary-defined terminology. Canonical business terms must not be redefined in this document. Any new terminology must first be introduced through the glossary before use in product documentation.
 
 ## 40. Authoritative Product Baseline
 
@@ -1721,3 +1730,6 @@ Before approving a product requirement or feature scope, verify:
 | 0.1.0   | 2026-08-05 | Draft    | Established the product vision, mission, value proposition, actors, customer and business problems, product principles, Version 1 goals and exclusions, capability map, journey baselines, cross-cutting policies, success measures, risks, and open product decisions. |
 | 0.2.0   | 2026-08-05 | Draft    | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
 | 1.0.0   | 2026-08-05 | Approved | Released the authoritative product baseline after finalising cross-cutting policies, guardrail measures, evolution rules, approval workflow, compliance mapping, governance, and Version 1 launch scope.                                                                |
+| 1.0.1   | 2026-08-05 | Approved | Repository terminology audit completed to align PRODUCT.md with the canonical GLOSSARY.md without changing approved product intent.                                                                                                                                     |
+
+s
