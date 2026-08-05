@@ -1,6 +1,6 @@
 ---
 title: PRODUCT
-version: 0.1.0
+version: 0.2.0
 status: Draft
 owner: Product and Engineering
 last_updated: 2026-08-05
@@ -886,7 +886,656 @@ The following decisions require detailed business specification or approved prod
 
 An open decision must not be resolved differently by separate features. Until approved, implementation must remain reversible and avoid embedding assumptions as permanent business rules.
 
-## 25. Product Self-Review Checklist
+## 25. Product Operating Model
+
+The product operating model defines how product decisions move from business need to implemented and measurable capability.
+
+### 25.1 Product Ownership
+
+Product and Engineering jointly own the product baseline. Detailed ownership is distributed as follows:
+
+| Area                              | Primary Owner              | Required Contributors                        |
+| --------------------------------- | -------------------------- | -------------------------------------------- |
+| Product vision and outcomes       | Product                    | Engineering, Design, Operations, Finance     |
+| Customer journeys                 | Product and UX             | Engineering, Accessibility, Support          |
+| Domain rules                      | Product and Domain Owner   | Engineering, QA, Operations                  |
+| Commercial policy                 | Product and Business Owner | Finance, Operations, Legal where required    |
+| Security and privacy requirements | Security and Product       | Engineering, Legal/Compliance where required |
+| Operational workflows             | Operations                 | Product, Engineering, Support                |
+| Technical implementation          | Engineering                | Product, QA, Security, Operations            |
+| Measurement and reporting         | Product and Data           | Engineering, Finance, Operations             |
+
+No single contributor may redefine a cross-domain business rule without the required owners.
+
+### 25.2 Product Decision Records
+
+A documented product decision is required when a choice:
+
+- Changes customer eligibility or access.
+- Changes price, promotion, delivery, cancellation, return, or refund policy.
+- Changes the meaning of an order, payment, inventory, or customer state.
+- Introduces a new actor or permission boundary.
+- Creates a material analytics or consent implication.
+- Changes a Version 1 goal or non-goal.
+- Is expensive to reverse or likely to affect multiple specifications.
+
+Product decisions must record context, decision, alternatives, consequences, owner, date, and affected requirements.
+
+### 25.3 Product Review Rhythm
+
+The product baseline should be reviewed:
+
+- Monthly during active development.
+- Before each major release.
+- After significant production incidents.
+- After major changes to providers, policy, market, or operating model.
+- When product evidence invalidates an assumption.
+
+### 25.4 Product Change Control
+
+A material product change requires:
+
+1. A clear problem statement.
+2. Evidence or business rationale.
+3. Scope and impact analysis.
+4. Identification of affected domains and actors.
+5. Updated acceptance criteria and success measures.
+6. Security, privacy, accessibility, operational, and support review.
+7. Updated specifications and traceability.
+
+## 26. Product Requirement Model
+
+Requirements must be structured so that they are understandable, testable, and traceable.
+
+### 26.1 Requirement Types
+
+| Type                       | Purpose                                                                                                   |
+| -------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Business Requirement       | Defines the business outcome or policy the product must support.                                          |
+| User Requirement           | Defines what an actor must be able to achieve.                                                            |
+| Functional Requirement     | Defines observable system behaviour.                                                                      |
+| Business Rule              | Defines mandatory domain logic, eligibility, calculation, or state constraint.                            |
+| Non-Functional Requirement | Defines quality expectations such as security, accessibility, performance, reliability, and auditability. |
+| Data Requirement           | Defines authoritative data, ownership, retention, history, and reporting needs.                           |
+| Integration Requirement    | Defines provider or external-system interaction.                                                          |
+| Operational Requirement    | Defines administration, support, reconciliation, monitoring, and recovery capability.                     |
+| Compliance Requirement     | Defines an applicable legal, regulatory, contractual, or policy obligation.                               |
+| Analytics Requirement      | Defines approved events, measures, attribution, and consent boundaries.                                   |
+
+### 26.2 Requirement Structure
+
+Every material requirement should include:
+
+- Stable identifier.
+- Title.
+- Type.
+- Owner.
+- Rationale.
+- Actors.
+- Preconditions.
+- Trigger.
+- Required behaviour.
+- Business rules.
+- Success outcome.
+- Failure and recovery behaviour.
+- Security, privacy, accessibility, performance, and observability implications.
+- Acceptance criteria.
+- Dependencies.
+- Open decisions.
+
+### 26.3 Requirement Language
+
+Requirements must:
+
+- Describe outcomes rather than implementation detail unless the implementation is itself a constraint.
+- Use one clear obligation per requirement where practical.
+- Avoid vague terms such as “fast”, “easy”, “user-friendly”, or “secure” without measurable criteria.
+- Distinguish mandatory behaviour from optional enhancement.
+- Avoid embedding unresolved assumptions as facts.
+
+### 26.4 Acceptance Criteria
+
+Acceptance criteria must cover, where applicable:
+
+- Happy path.
+- Empty state.
+- Loading state.
+- Validation failure.
+- Business-rule rejection.
+- Permission failure.
+- Provider failure.
+- Retry and resume.
+- Cancellation.
+- Concurrency conflict.
+- Accessibility behaviour.
+- Mobile and responsive behaviour.
+- Audit and telemetry evidence.
+
+## 27. Product Prioritisation Framework
+
+Prioritisation must balance customer value, business value, risk, dependency, effort, and operational readiness.
+
+### 27.1 Priority Classes
+
+| Priority         | Meaning                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| P0 — Mandatory   | Required for legal, security, data-integrity, payment, order, or launch viability.                           |
+| P1 — Core        | Required for a complete Version 1 customer or operational journey.                                           |
+| P2 — Important   | Materially improves conversion, efficiency, supportability, or insight but is not required for first launch. |
+| P3 — Enhancement | Valuable optimisation or differentiation after core journeys are stable.                                     |
+| P4 — Exploration | Hypothesis, experiment, or future opportunity requiring validation.                                          |
+
+### 27.2 Prioritisation Criteria
+
+Each item should be assessed against:
+
+- Customer impact.
+- Revenue or commercial impact.
+- Operational impact.
+- Risk reduction.
+- Legal, security, privacy, or accessibility obligation.
+- Dependency on or enablement of other capabilities.
+- Implementation and support cost.
+- Confidence in the problem and expected outcome.
+- Reversibility.
+
+### 27.3 Priority Guardrails
+
+The following must not be deprioritised below capabilities they protect:
+
+- Payment and order correctness.
+- Inventory integrity.
+- Authentication and authorization.
+- Accessibility of critical journeys.
+- Privacy and consent controls.
+- Reconciliation and supportability.
+- Backup, restore, and production observability.
+
+### 27.4 Scope Trade-Offs
+
+When time or budget is constrained, the preferred trade-off order is:
+
+1. Remove optional variants or enhancements.
+2. Reduce channel or provider breadth.
+3. Reduce automation while preserving safe controlled operations.
+4. Delay reporting depth while preserving transactional truth.
+5. Delay visual embellishment while preserving usability and brand coherence.
+
+Correctness, security, accessibility, and recoverability must not be traded away for feature volume.
+
+## 28. Version 1 Delivery Phases
+
+Version 1 should be delivered as complete vertical phases. Phase boundaries may be refined by roadmap decisions, but the dependency order must remain coherent.
+
+### 28.1 Phase A — Foundation
+
+Includes:
+
+- Repository and AI context.
+- Architecture and standards.
+- Design system foundation.
+- Authentication baseline.
+- Environment, CI/CD, observability, and security foundations.
+- Core database and migration capability.
+- Approved provider integration patterns.
+
+Exit criteria:
+
+- Development and deployment environments are reproducible.
+- Quality gates are active.
+- Core architectural boundaries are enforceable.
+
+### 28.2 Phase B — Catalogue and Discovery
+
+Includes:
+
+- Product and variant management.
+- Category and collection management.
+- Product media.
+- Pricing display.
+- Inventory availability display.
+- Homepage, listing, product detail, search, filtering, and navigation.
+- Catalogue administration.
+
+Exit criteria:
+
+- Customers can discover complete, published, sellable products.
+- Staff can create and publish products without developer intervention.
+
+### 28.3 Phase C — Cart, Customer, and Checkout
+
+Includes:
+
+- Guest and registered carts.
+- Registration and sign-in.
+- Customer profile and addresses.
+- Checkout validation.
+- Shipping-option selection.
+- Promotion and voucher handling.
+- Payment initiation.
+
+Exit criteria:
+
+- A customer can progress from product discovery to an approved payment flow.
+- Price and stock are authoritatively revalidated.
+
+### 28.4 Phase D — Payment, Order, and Confirmation
+
+Includes:
+
+- Provider callback handling.
+- Idempotent payment state.
+- Order creation.
+- Immutable order snapshots.
+- Confirmation experience.
+- Transactional notifications.
+- Payment and order administration.
+
+Exit criteria:
+
+- Successful payment produces exactly one correct order.
+- Uncertain outcomes are reconcilable.
+
+### 28.5 Phase E — Fulfilment, Shipping, and Support
+
+Includes:
+
+- Picking and packing workflows.
+- Shipment creation.
+- Tracking.
+- Order-status updates.
+- Cancellation, refund, and support workflows.
+- Customer order history and tracking.
+
+Exit criteria:
+
+- Staff can fulfil and support confirmed orders through controlled workflows.
+
+### 28.6 Phase F — Reporting and Launch Readiness
+
+Includes:
+
+- Commercial and operational reporting.
+- Reconciliation dashboards.
+- Accessibility validation.
+- Performance validation.
+- Security review.
+- Backup and restore validation.
+- Runbooks and support readiness.
+- Production launch controls.
+
+Exit criteria:
+
+- The platform meets approved launch criteria across product, engineering, security, operations, and support.
+
+## 29. Storefront Information Architecture
+
+The storefront information architecture must remain understandable, scalable, and aligned with customer discovery behaviour.
+
+### 29.1 Primary Navigation
+
+Primary navigation should support:
+
+- Home.
+- New arrivals.
+- Categories.
+- Collections or campaigns.
+- Sale where applicable.
+- Search.
+- Account.
+- Wishlist.
+- Cart.
+
+Navigation labels must be customer-friendly and must not expose internal catalogue terminology.
+
+### 29.2 Core Storefront Pages
+
+| Page               | Primary Purpose                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| Homepage           | Communicate brand, campaigns, featured collections, and high-priority discovery paths.     |
+| Product Listing    | Present products for a category, collection, search, or campaign with filters and sorting. |
+| Product Detail     | Support confident evaluation and variant selection.                                        |
+| Search             | Help customers find relevant products and recover from poor or zero-result queries.        |
+| Wishlist           | Preserve customer interest for later consideration.                                        |
+| Cart               | Summarise purchase intent and prepare the customer for checkout.                           |
+| Checkout           | Capture delivery and payment information with minimal friction and strong validation.      |
+| Order Confirmation | Confirm the commercial outcome and next steps.                                             |
+| Customer Account   | Provide profile, address, preference, wishlist, and order access.                          |
+| Order Detail       | Present authoritative order, payment, fulfilment, shipment, and support information.       |
+| Content Page       | Present policies, editorial content, support, and brand information.                       |
+
+### 29.3 URL Principles
+
+Public URLs should be:
+
+- Human-readable.
+- Stable.
+- Lowercase.
+- Hyphen-separated.
+- Canonical.
+- Independent of internal database identifiers where practical.
+
+### 29.4 Navigation State
+
+The product should preserve useful navigation context such as filters, sorting, pagination, and scroll position when customers return from product detail to a listing.
+
+## 30. Storefront Experience Standards
+
+### 30.1 Product Listing
+
+A listing must provide:
+
+- Clear page context.
+- Product count where useful.
+- Relevant filters.
+- Sort options.
+- Accessible product cards.
+- Stable image aspect ratios.
+- Price and sale presentation.
+- Availability messaging where approved.
+- Loading, empty, error, and retry states.
+
+### 30.2 Product Detail
+
+A product detail experience must provide:
+
+- Product name.
+- Price and sale state.
+- Image gallery.
+- Variant selection.
+- Size or fit guidance where applicable.
+- Availability.
+- Product description and material/care information where applicable.
+- Delivery and return summary.
+- Add-to-cart action.
+- Clear validation when required selections are missing.
+- Related or recommended products where approved.
+
+### 30.3 Cart
+
+The cart must provide:
+
+- Product and variant summary.
+- Quantity controls.
+- Price summary.
+- Promotion or voucher entry where applicable.
+- Stock and price-change feedback.
+- Remove and recovery behaviour.
+- Checkout action.
+- Delivery or threshold messaging where approved.
+
+### 30.4 Checkout
+
+Checkout must:
+
+- Minimise unnecessary fields.
+- Preserve valid input after recoverable failure.
+- Distinguish contact, address, shipping, promotion, payment, and review concerns.
+- Explain price or availability changes.
+- Prevent duplicate submission.
+- Provide accessible validation and focus management.
+- Clearly communicate pending, failed, cancelled, and successful payment states.
+
+### 30.5 Account
+
+Account experiences must provide clear ownership and privacy controls without becoming a barrier to purchase.
+
+## 31. Administration Information Architecture
+
+Administration must be organised around operational tasks rather than database entities alone.
+
+### 31.1 Primary Administration Areas
+
+- Dashboard.
+- Catalogue.
+- Categories and collections.
+- Media.
+- Pricing and promotions.
+- Inventory.
+- Orders.
+- Payments and refunds.
+- Shipping and fulfilment.
+- Customers and support.
+- CMS.
+- Reports and exports.
+- Users, roles, and permissions.
+- Audit and system health.
+
+### 31.2 Administration Design Principles
+
+Administration must:
+
+- Be permission-aware.
+- Make environment and high-risk context visible.
+- Prefer task-oriented workflows.
+- Protect destructive and financial actions.
+- Provide filters, search, pagination, and export where operationally necessary.
+- Preserve audit evidence.
+- Avoid exposing raw provider or database complexity unless required for support.
+
+### 31.3 Bulk Operations
+
+Bulk operations require:
+
+- Explicit scope preview.
+- Permission checks.
+- Validation before execution.
+- Progress and result reporting.
+- Partial-failure handling.
+- Audit history.
+- Safe retry behaviour.
+
+### 31.4 Administrative Repair
+
+Repair workflows must be purpose-built, permission-controlled, auditable, and constrained by domain rules. Generic direct record editing is prohibited for critical commercial state.
+
+## 32. Product Content Strategy
+
+### 32.1 Content Types
+
+The product may manage:
+
+- Product content.
+- Category and collection content.
+- Homepage sections.
+- Campaign landing pages.
+- Banners.
+- Editorial pages.
+- Support content.
+- Delivery, return, refund, privacy, and terms content.
+- Transactional notification templates.
+
+### 32.2 Content Lifecycle
+
+Content must support explicit lifecycle states such as draft, review, scheduled, published, expired, and archived where applicable.
+
+### 32.3 Content Quality
+
+Content must be:
+
+- Accurate.
+- Brand-consistent.
+- Accessible.
+- Free of unsupported claims.
+- Appropriate for mobile layouts.
+- Search-friendly where public.
+- Reviewed by the correct owner.
+
+### 32.4 Product Content Minimums
+
+A product must not be publishable without the minimum approved information required for customer understanding and purchase confidence.
+
+The exact field requirements belong in the Product domain specification.
+
+### 32.5 Policy Content
+
+Policy content that affects customer rights, obligations, delivery, cancellation, returns, refunds, privacy, or payment must be versioned and approved before publication.
+
+## 33. Analytics and Measurement Model
+
+### 33.1 Measurement Principles
+
+Analytics must:
+
+- Serve a defined product or business question.
+- Respect consent and privacy requirements.
+- Avoid unnecessary personal information.
+- Use stable event names and properties.
+- Remain distinct from authoritative transactional records.
+- Be testable in non-production environments.
+
+### 33.2 Event Categories
+
+The product should support approved events for:
+
+- Page and content views.
+- Search and filter usage.
+- Product impressions and selections.
+- Wishlist actions.
+- Cart actions.
+- Checkout progression.
+- Promotion application.
+- Payment initiation and outcome.
+- Order confirmation.
+- Account and support interactions.
+- Administration workflow outcomes where operationally useful.
+
+### 33.3 Event Quality
+
+Every event must define:
+
+- Business purpose.
+- Trigger.
+- Actor context.
+- Required properties.
+- Prohibited properties.
+- Consent basis.
+- Deduplication behaviour.
+- Owner.
+- Retention or downstream use where relevant.
+
+### 33.4 Experimentation
+
+Experiments require:
+
+- A hypothesis.
+- Success and guardrail measures.
+- Defined audience.
+- Duration or stopping rule.
+- Accessibility and ethics review where relevant.
+- Feature-flag removal plan.
+
+Experiments must not weaken security, privacy, pricing accuracy, payment integrity, or accessibility.
+
+## 34. Customer Support and Service Model
+
+### 34.1 Support Principles
+
+Support must be able to understand the customer journey without exposing unnecessary sensitive data or relying on direct database inspection.
+
+### 34.2 Support Context
+
+Authorised support users should be able to correlate:
+
+- Customer.
+- Cart or checkout session where permitted.
+- Payment attempt.
+- Order.
+- Refund.
+- Shipment.
+- Notification.
+- Relevant audit events.
+
+### 34.3 Support Actions
+
+Supported actions may include:
+
+- Resend confirmation.
+- Review payment state.
+- Review shipment state.
+- Add internal notes.
+- Initiate approved cancellation or refund workflows.
+- Escalate reconciliation.
+- Correct approved customer-facing information through domain workflows.
+
+### 34.4 Service Expectations
+
+Detailed support channels, hours, response targets, escalation levels, and customer communication templates must be defined before launch.
+
+### 34.5 Support Safety
+
+Support tools must:
+
+- Enforce least privilege.
+- Mask sensitive data.
+- Record high-risk actions.
+- Require confirmation for financial or destructive operations.
+- Avoid arbitrary state manipulation.
+
+## 35. Product Readiness Gates
+
+A capability must pass the applicable product readiness gates before release.
+
+### 35.1 Problem and Scope Gate
+
+- The problem is validated.
+- The intended actor and outcome are clear.
+- Scope and exclusions are explicit.
+- Dependencies and assumptions are identified.
+
+### 35.2 Experience Gate
+
+- Customer and administration journeys are defined.
+- Mobile, desktop, loading, empty, failure, retry, and recovery states are specified.
+- Accessibility criteria are included.
+- Content requirements are complete.
+
+### 35.3 Business Rule Gate
+
+- Eligibility, calculations, lifecycle states, permissions, and policy rules are explicit.
+- Authoritative domain ownership is identified.
+- Historical and audit requirements are defined.
+
+### 35.4 Operational Gate
+
+- Staff workflows are defined.
+- Support and reconciliation are possible.
+- Reporting and monitoring requirements are known.
+- Manual fallback is documented where required.
+
+### 35.5 Launch Gate
+
+- Acceptance criteria pass.
+- Critical metrics are instrumented.
+- Customer and support content is ready.
+- Legal, policy, security, privacy, accessibility, and operational reviews are complete where applicable.
+- Rollout and rollback plans exist.
+
+## 36. Product Governance
+
+### 36.1 Ownership
+
+Product and Engineering jointly own this document. Material policy, scope, actor, market, or operating-model changes require review by the affected business and technical owners.
+
+### 36.2 Source of Truth
+
+This document is the product baseline. Detailed specifications may add precision but must not contradict its approved scope, principles, policies, actors, or domain ownership.
+
+### 36.3 Product Drift
+
+Product drift occurs when implemented behaviour no longer matches approved product intent. Drift must be recorded and resolved through either:
+
+- Correction of implementation.
+- Correction of specification.
+- Approval of a changed product decision.
+
+Undocumented production behaviour must not silently become the product definition.
+
+### 36.4 Versioning
+
+Backward-compatible clarifications should use minor versions. A major version is required when the product baseline changes materially, such as expansion to additional markets, merchants, currencies, sellers, channels, or fundamentally different commercial models.
+
+## 37. Product Self-Review Checklist
 
 Before approving a product requirement or feature scope, verify:
 
@@ -911,3 +1560,4 @@ Before approving a product requirement or feature scope, verify:
 | Version | Date       | Status | Summary                                                                                                                                                                                                                                                                 |
 | ------- | ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0.1.0   | 2026-08-05 | Draft  | Established the product vision, mission, value proposition, actors, customer and business problems, product principles, Version 1 goals and exclusions, capability map, journey baselines, cross-cutting policies, success measures, risks, and open product decisions. |
+| 0.2.0   | 2026-08-05 | Draft  | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
