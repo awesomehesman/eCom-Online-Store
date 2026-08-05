@@ -1,6 +1,6 @@
 ---
 title: GLOSSARY
-version: 0.3.0
+version: 0.4.0
 status: Draft
 owner: Engineering and Product
 last_updated: 2026-08-05
@@ -26,10 +26,13 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 3. Naming Conventions
 
-- Use PascalCase for entities and domain concepts (e.g., ProductOwner).
-- Use camelCase for attributes and properties.
-- Acronyms should be fully capitalized (e.g., SKU, API).
-- Avoid abbreviations unless widely recognized and defined.
+- Use PascalCase for types, classes, enums, domain events, and named domain concepts (e.g., `ProductCreated`).
+- Use camelCase for variables, methods, attributes, properties, and JSON fields.
+- Use UPPER_SNAKE_CASE for environment variables and compile-time constants where the language convention requires it.
+- Use snake_case for database tables, columns, constraints, and indexes.
+- Use kebab-case for API path segments, specification filenames, and human-readable repository filenames unless another repository rule explicitly applies.
+- Preserve the official casing of established acronyms and technology names (e.g., API, SKU, DTO, JPA, Azure PostgreSQL).
+- Avoid abbreviations unless they are widely recognized and defined in this glossary.
 
 ## 4. Business Terms
 
@@ -38,8 +41,10 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Visitor**: An unauthenticated user browsing the platform.
 - **Registered Customer**: A customer with an authenticated account.
 - **Staff User**: An internal user with access to administrative or operational functions.
-- **Product Owner**: A stakeholder responsible for the lifecycle and strategy of a product.
+- **Product Owner**: A delivery and product-management role accountable for product vision, priorities, outcomes, and backlog decisions; this term does not mean the owner of a catalogue Product.
 - **Domain Owner**: The designated authority responsible for a specific business domain or bounded context.
+- **Store Administrator**: A Staff User responsible for day-to-day catalogue, order, promotion, customer-service, and operational administration within an assigned store scope.
+- **Platform Administrator**: A privileged Staff User responsible for platform-wide configuration, access governance, tenant or store provisioning, and operational oversight.
 
 ## 5. Commerce Terms
 
@@ -49,14 +54,17 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Product**: A sellable item defined by a set of attributes and variants.
 - **Variant**: A specific version of a product differing by attributes such as size or color.
 - **SKU (Stock Keeping Unit)**: A unique identifier assigned to a variant for inventory tracking.
-- **Price**: The monetary value assigned to a product or variant.
+- **Price**: A monetary amount expressed as Money and assigned to a Product or Variant under a defined Pricing Rule.
 - **Promotion**: A marketing mechanism that offers discounts or incentives.
 - **Voucher**: A redeemable code or token providing promotional benefits.
 - **Cart**: A temporary container holding products a customer intends to purchase.
 - **Checkout**: The process of finalizing a purchase from the cart.
-- **Order**: A confirmed purchase request generated after checkout.
+- **Order**: A durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
 - **Shipment**: The physical dispatch of ordered products.
-- **Refund**: The return of funds to a customer for a returned or canceled order.
+- **Refund**: The approved return of previously captured funds to a Customer through a Refund Transaction.
+- **Storefront**: The customer-facing web experience used to discover Products, manage a Cart, complete Checkout, and manage an Account.
+- **Back Office**: The Staff User-facing application used to administer catalogue, inventory, pricing, promotions, orders, returns, content, reporting, and platform operations.
+- **Money**: A value object composed of an amount and ISO 4217 Currency code; monetary calculations must not use floating-point arithmetic.
 
 ## 6. Product Catalogue Terms
 
@@ -80,9 +88,11 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **Order Item**: A specific product or variant included in an order.
 - **Order Snapshot**: A record capturing the state of products and prices at the time of order.
-- **Fulfilment**: The process of preparing and delivering an order.
-- **Cancellation**: The termination of an order before fulfilment.
-- **Return**: The process of a customer sending products back post-fulfilment.
+- **Fulfilment**: The operational process of allocating stock, picking, packing, dispatching, and completing delivery or collection for one or more Order Items.
+- **Cancellation**: The controlled termination of an Order or eligible Order Items before the applicable fulfilment or payment point of no return.
+- **Return**: The post-delivery process through which a Customer sends eligible Order Items back under an approved Return Authorization.
+- **Order Number**: A customer-facing, non-sensitive reference used to identify an Order; it is distinct from the internal primary key.
+- **Fulfilment Group**: A grouping of Order Items that share a delivery method, fulfilment location, shipment, or collection arrangement.
 
 ## 9. Payment Terms
 
@@ -92,25 +102,41 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Webhook**: An asynchronous event notification delivered over HTTP, enabling external or internal systems to notify the platform of events or status changes.
 - **Idempotency**: The property ensuring repeated payment requests do not result in duplicate charges.
 - **Settlement**: The final transfer of funds from the payment provider to the merchant.
+- **Payment Transaction**: A provider-recorded financial operation such as authorization, capture, void, refund, or chargeback; distinct from a database Transaction.
+- **Authorization**: A Payment Provider approval that reserves funds or confirms payment capability without necessarily transferring funds to the Merchant.
+- **Capture**: The operation that finalizes an authorized payment for settlement.
+- **Void**: The cancellation of an uncaptured payment authorization.
+- **Chargeback**: A payment reversal initiated through the Customer's issuing bank or card network and disputed against the Merchant.
+- **Payment Redirect**: A browser navigation that sends the Customer to or from a Payment Provider; it is not authoritative proof of payment outcome.
 
 ## 10. Inventory Terms
 
-- **Stock**: The quantity of a product or variant physically available.
+- **Stock**: The recorded on-hand quantity of a Variant at a Stock Location.
 - **Reservation**: A temporary hold on stock allocated to a customer or order.
-- **Available-to-Sell**: The quantity of stock available for new orders after reservations.
+- **Available-to-Sell**: The quantity eligible for new Reservations after subtracting active Reservations, safety stock, and other configured allocations from sellable on-hand Stock.
 - **Stock Adjustment**: A manual or automated change to stock quantities.
 - **Stock Movement**: Any transaction affecting stock, including receipts, sales, or returns.
+- **Stock Location**: A physical or logical location at which Stock is recorded, reserved, received, adjusted, or fulfilled.
+- **Safety Stock**: A configured quantity withheld from Available-to-Sell to reduce overselling risk.
+- **Overselling**: Accepting demand for a Variant beyond its valid Available-to-Sell quantity.
 
 ## 11. Shipping Terms
 
 - **Carrier**: A logistics provider responsible for delivering shipments.
 - **Tracking Number**: A unique identifier assigned by the carrier to monitor shipment status.
 - **Delivery Method**: The chosen mode or service for shipping products.
+- **Shipping Address**: The destination Address selected for delivery of a Shipment.
+- **Shipping Rate**: The charge calculated for a Delivery Method under defined destination, parcel, value, and service rules.
+- **Dispatch**: The handover of a packed Shipment to a Carrier or collection process.
+- **Delivery Estimate**: A non-guaranteed date or date range calculated for dispatch or delivery.
 
 ## 12. Promotion Terms
 
-- **Promotion**: Defined above; see Commerce Terms.
-- **Voucher**: Defined above; see Commerce Terms.
+- **Promotion**: A time-bound or condition-bound commercial incentive governed by eligibility, benefit, priority, combinability, usage, and validity rules.
+- **Voucher**: A redeemable code or token that activates an eligible Promotion during Cart or Checkout evaluation.
+- **Promotion Eligibility**: The conditions that a Customer, Cart, Product, Variant, Order Item, channel, or date range must satisfy for a Promotion to apply.
+- **Promotion Benefit**: The value granted by a Promotion, such as a fixed discount, percentage discount, free shipping, or qualifying Product benefit.
+- **Promotion Combination**: The rule determining whether multiple Promotions or Vouchers may apply together.
 
 ## 13. Administration Terms
 
@@ -120,13 +146,19 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 14. Technical Architecture Terms
 
-- **Domain**: A bounded context representing a specific business area.
-- **Aggregate**: A cluster of domain objects treated as a single unit for data changes.
+- **Domain**: A defined business problem space. A Bounded Context is the explicit model boundary within which domain terminology and rules are consistent.
+- **Aggregate**: A consistency boundary containing an Aggregate Root and related domain objects that must be changed through the Aggregate Root.
+- **Aggregate Root**: The Entity that controls access to an Aggregate and enforces its invariants.
+- **Bounded Context**: An explicit boundary within which a domain model, vocabulary, rules, and ownership are internally consistent.
+- **Module**: A cohesive, independently testable unit within the Modular Monolith that encapsulates a Bounded Context or a well-defined technical capability.
+- **Invariant**: A business rule that must remain true before and after a valid state transition.
+- **Domain Service**: Stateless domain logic that does not naturally belong to a single Entity or Value Object.
+- **Application Service**: A use-case coordinator that invokes domain behavior, persistence ports, and external adapters without owning core business rules.
 - **Entity**: An object with a distinct identity that persists over time.
 - **Value Object**: An immutable object defined by its attributes.
 - **Use Case**: A business process or scenario implemented in the system.
-- **Port**: An interface defining interactions between parts of the system.
-- **Adapter**: A component that implements a port to connect to external systems.
+- **Port**: An inbound or outbound interface owned by the application or domain boundary that defines an allowed interaction.
+- **Adapter**: An implementation that connects a Port to a delivery mechanism, persistence technology, or external system.
 - **DTO (Data Transfer Object)**: A data container used to transfer information between layers.
 - **Modular Monolith**: A software architecture that structures a monolith into distinct modules.
 - **ADR (Architecture Decision Record)**: A document capturing architectural decisions.
@@ -137,6 +169,11 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Endpoint**: A specific URL path representing an API operation.
 - **Contract**: The agreed interface specification between API consumers and providers.
 - **Versioning**: The practice of managing API changes through version identifiers.
+- **Request DTO**: A DTO representing validated input accepted by an API operation; its type name ends with `Request` or `RequestDto` according to the applicable API standard.
+- **Response DTO**: A DTO representing output returned by an API operation; its type name ends with `Response` or `ResponseDto` according to the applicable API standard.
+- **Problem Details**: The standardized error response model based on RFC 9457 fields and repository-defined extensions.
+- **Idempotency Key**: A client-supplied unique key used to make a retried state-changing API request safe from duplicate processing.
+- **Cursor Pagination**: Pagination that uses an opaque continuation cursor rather than a page number for stable traversal of changing datasets.
 
 ## 16. Database Terms
 
@@ -145,6 +182,10 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Migration**: A change script modifying database schema or data.
 - **Transaction**: A unit of work ensuring atomicity and consistency in a database operation; distinct from a payment transaction, which refers to the movement of funds between parties.
 - **Projection**: A read-optimized view or representation of data.
+- **Optimistic Locking**: A concurrency-control strategy that rejects an update when the persisted version has changed since it was read.
+- **Soft Delete**: Marking a record as logically deleted while retaining it for audit, recovery, or referential purposes; use only where explicitly required.
+- **Outbox Pattern**: Persisting a Domain Event record in the same database Transaction as the Aggregate change so it can be published reliably after commit.
+- **Unique Constraint**: A database rule preventing duplicate values for a defined column or column combination.
 
 ## 17. Security Terms
 
@@ -153,6 +194,11 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **RBAC (Role-Based Access Control)**: An access control model based on user roles.
 - **Principle of Least Privilege**: Granting only the minimum permissions necessary.
 - **Secret**: Confidential information such as passwords or API keys.
+- **PII (Personally Identifiable Information)**: Information that identifies or can reasonably be linked to a natural person.
+- **Sensitive Data**: Data requiring enhanced protection due to legal, contractual, security, financial, or privacy impact.
+- **Encryption at Rest**: Protection of persisted data using encryption managed by the storage platform or application.
+- **Encryption in Transit**: Protection of data exchanged over networks using approved transport encryption such as TLS.
+- **Audit Trail**: A tamper-evident sequence of Audit Records sufficient to reconstruct material security, administrative, and commercial actions.
 
 ## 18. DevOps Terms
 
@@ -166,9 +212,12 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **AI Agent**: An autonomous system component that interacts using AI capabilities.
 - **Context**: The information and state available to an AI agent during operation.
-- **Specification**: A detailed description of requirements or behavior.
+- **Specification**: An AI-consumable requirements, design, or task artifact that defines intended behavior, constraints, acceptance criteria, and traceability for implementation.
 - **Prompt**: Input text guiding an AI agent’s response.
 - **Steering Document**: A directive guiding AI agent behavior and constraints.
+- **Context Hierarchy**: The ordered set of repository instructions that an AI Agent must resolve before acting, from global governance through domain and feature-specific specifications.
+- **Guardrail**: A mandatory constraint that limits AI Agent behavior, generated changes, or tool usage.
+- **Human Approval Gate**: A workflow point at which an authorized person must review or approve an AI-produced decision or change before continuation.
 
 ## 20. Repository Terms
 
@@ -176,34 +225,43 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Specification**: A formal description of system requirements or behavior.
 - **Source of Truth**: The authoritative location for definitive information.
 - **Baseline**: A reference version or state used for comparison.
-- **Repository**: The abstraction for data persistence and retrieval, specifically referring to the Spring Boot Repository interface and its implementations unless otherwise qualified; responsible for managing the persistence of domain entities.
+- **Code Repository**: The version-controlled collection of source code, documentation, configuration, tests, and delivery assets for this platform.
+- **Canonical Document**: The approved Source of Truth for a defined area of repository governance or system behavior.
+- **Normative Rule**: A mandatory requirement expressed using terms such as must, must not, required, or prohibited.
+- **Guideline**: A recommended practice that may be departed from when the reason is documented and approved.
 
 ## 21. Identity & Access Terms
 
-- **Identity**: A unique representation of a user or system entity.
-- **Principal**: An entity (user or system) authenticated within the system.
-- **Session**: A temporary context representing a user's interaction period.
+- **Identity**: A persistent representation of a human or system actor recognized by the platform.
+- **Principal**: The authenticated human or system actor associated with the current security context.
+- **Session**: A bounded authenticated interaction context with defined creation, expiry, revocation, and renewal behavior.
 - **Access Token**: A credential granting access to protected resources.
 - **Refresh Token**: A token used to obtain new access tokens without reauthentication.
 - **MFA (Multi-Factor Authentication)**: A security process requiring multiple verification methods.
 - **SSO (Single Sign-On)**: An authentication process allowing access to multiple systems with one login.
-- **Claims**: Statements about a user’s identity and attributes.
-- **Scope**: The permissions or access boundaries granted by a token.
+- **Claims**: Verified statements about a Principal issued by an identity provider and carried in or resolved from a security token.
+- **Scope**: A delegated authorization boundary granted to a token or client; it is distinct from a Role or Permission.
 - **Permission Set**: A defined collection of access rights assigned to a principal.
+- **Identity Provider**: The trusted service that authenticates a Principal and issues identity or access tokens.
+- **Service Principal**: A non-human Identity used by an application, workload, automation, or integration.
+- **Token Revocation**: The invalidation of an Access Token, Refresh Token, or Session before normal expiry.
 
 ## 22. Pricing & Tax Terms
 
-- **Base Price**: The original price of a product before discounts or taxes.
-- **Sale Price**: The discounted price offered to customers.
+- **Base Price**: The standard selling Price before Promotion benefits, manual markdowns, or campaign-specific adjustments; tax treatment is defined separately.
+- **Sale Price**: A currently effective selling Price lower than the Base Price under a markdown, Campaign, or Pricing Rule.
 - **Tax**: A mandatory financial charge imposed by authorities.
-- **VAT (Value Added Tax)**: A consumption tax applied at each stage of production.
+- **VAT**: Value Added Tax applied according to the configured tax jurisdiction, product tax classification, invoice rules, and effective rate; for the initial South African market, VAT handling must follow approved local requirements.
 - **Tax Inclusive**: Pricing that includes tax within the displayed amount.
 - **Tax Exclusive**: Pricing that excludes tax from the displayed amount.
-- **Discount**: A reduction applied to the base or sale price.
+- **Discount**: A monetary reduction calculated from an eligible amount and recorded separately from Base Price, Sale Price, Tax, and shipping charges.
 - **Discount Rule**: Criteria defining when and how discounts apply.
 - **Pricing Rule**: Guidelines determining product pricing strategies.
-- **Invoice**: A document detailing a transaction and amount due.
-- **Credit Note**: A document issued to acknowledge a reduction or refund.
+- **Invoice**: A legally and commercially relevant document recording the seller, Customer, supplied goods or services, amounts, Tax, payment references, and required jurisdictional details.
+- **Credit Note**: A document that reduces all or part of a previously issued Invoice and records the reason, affected lines, Tax adjustment, and amount credited.
+- **Tax Jurisdiction**: The country, region, or authority whose tax rules apply to a transaction.
+- **Tax Category**: The classification used to determine the applicable tax treatment for a Product, Delivery Method, discount, or fee.
+- **Price List**: A named set of Prices applicable to a Currency, region, channel, Customer segment, or validity period.
 
 ## 23. Returns & Refund Terms
 
@@ -211,10 +269,13 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Return Authorization**: Approval granted for a return to proceed.
 - **Return Window**: The allowable timeframe for returning products.
 - **Refund Request**: A request to return funds for a returned or canceled order.
-- **Refund Transaction**: The process of reimbursing funds to a customer.
+- **Refund Transaction**: A Payment Transaction that returns an approved amount against a prior captured payment.
 - **Exchange**: The replacement of returned products with alternative items.
-- **Restocking**: The process of returning products to inventory.
+- **Restocking**: The inspected and approved movement of returned Stock back into a sellable or non-sellable Stock Location and condition.
 - **Refund Reason**: The justification provided for issuing a refund.
+- **Return Item**: An Order Item quantity included in a Return Request together with condition, reason, evidence, and requested resolution.
+- **Return Disposition**: The operational outcome assigned after inspection, such as restock, quarantine, repair, supplier return, or disposal.
+- **Partial Refund**: A Refund for less than the total captured amount of the related Order or Payment Transaction.
 
 ## 24. Notification Terms
 
@@ -225,19 +286,25 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Delivery Status**: The current state of a notification's transmission.
 - **Retry Policy**: Rules governing attempts to resend failed notifications.
 - **Dead Letter Queue**: A queue for messages that cannot be delivered or processed.
+- **Notification Channel**: The delivery medium used for a Notification, such as email, SMS, push, or an in-application message.
+- **Notification Preference**: A Customer or Staff User choice controlling eligible non-mandatory Notification Channels or topics.
+- **Transactional Notification**: A service message required to communicate an account, payment, order, shipment, return, refund, or security event; it is distinct from marketing communication.
 
 ## 25. Reporting & Analytics Terms
 
 - **KPI (Key Performance Indicator)**: A measurable value indicating performance.
-- **Metric**: Quantitative data used for analysis.
+- **Metric**: A named quantitative measurement with an explicit formula, unit, aggregation method, time grain, filters, and Source of Truth.
 - **Dimension**: A categorical attribute used to segment data.
 - **Fact**: A quantitative measurement stored in a data warehouse.
 - **Event**: An occurrence or action tracked in the system; business or domain events represent meaningful business changes (e.g., OrderCreated), while technical events relate to system-level actions (e.g., log entry, error).
 - **Funnel**: A sequence of steps representing a user journey.
 - **Conversion Rate**: The percentage of users completing a desired action.
 - **Average Order Value**: The mean value of orders placed.
-- **Gross Revenue**: Total revenue before deductions.
-- **Net Revenue**: Revenue after deductions such as returns and discounts.
+- **Gross Revenue**: The sum of recognized merchandise and applicable service revenue before discounts, returns, refunds, chargebacks, and specified deductions, according to the approved reporting formula.
+- **Net Revenue**: Gross Revenue less the deductions defined by the approved reporting formula; the formula must state treatment of Tax, shipping, discounts, refunds, returns, and chargebacks.
+- **Analytics Event**: A structured observation emitted for measurement of behavior or system outcomes; it must not be confused with a Domain Event used for business state propagation.
+- **Measure**: A numeric field that can be aggregated in reporting, such as quantity, amount, duration, or count.
+- **Attribution**: The rule used to assign a conversion or commercial outcome to a marketing source, Campaign, channel, or interaction.
 
 ## 26. Angular Terms
 
@@ -255,11 +322,11 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 ## 27. Spring Boot Terms
 
 - **Controller**: A component handling HTTP requests and responses.
-- **Service**: A class containing business logic.
-- **Repository**: A component managing data persistence.
+- **Service**: A Spring-managed component implementing an Application Service, Domain Service, or technical integration capability; use the more specific term whenever the distinction matters.
+- **Repository**: A Spring persistence abstraction that loads and stores Aggregate Roots or persistence models while hiding database access details; the term Code Repository must be used for the Git repository.
 - **Bean**: An object managed by the Spring container.
 - **Configuration**: Classes defining Spring context setup.
-- **Transactional**: An annotation managing database transaction boundaries.
+- **Transactional**: The Spring transaction-boundary declaration used to execute database work atomically; it must not be used as a synonym for Payment Transaction.
 - **Entity Manager**: The interface for interacting with persistence contexts.
 - **JPA (Java Persistence API)**: A specification for object-relational mapping.
 - **Spring Profile**: A configuration mechanism for environment-specific settings.
@@ -303,29 +370,38 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 32. Localization Terms
 
-- **Locale**: A combination of language and regional settings (e.g., en-US) that determines formatting, translation, and content.
-- **Currency**: The unit of monetary exchange configured for pricing and transactions (e.g., USD, EUR).
+- **Locale**: A combination of language and regional settings (e.g., en-ZA) that determines formatting, translation, and content.
+- **Currency**: The unit of monetary exchange configured for pricing and transactions (e.g., ZAR, USD).
 - **Time Zone**: The regional time offset applied to timestamps and scheduling.
 - **Translation**: The process or result of rendering content in another language.
 - **Regional Catalogue**: A product catalogue tailored to a specific country, region, or locale, reflecting local assortment, pricing, and regulations.
+- **ISO 4217 Currency Code**: The three-letter standard code used to identify a Currency, such as `ZAR`.
+- **Minor Unit**: The smallest standard subdivision used to store or calculate a Currency amount, such as cents for ZAR.
 
 ## 33. Messaging Terms
 
 - **Message**: A discrete unit of data or instruction sent between services or systems.
-- **Queue**: A FIFO structure used to store and deliver messages asynchronously.
-- **Topic**: A named channel to which messages are published and from which subscribers receive messages.
+- **Queue**: A messaging destination from which each message is normally consumed by one processing path, subject to retry and dead-letter behavior; ordering is not assumed unless explicitly guaranteed.
+- **Topic**: A publish-subscribe messaging destination that distributes a published Message to one or more independent subscriptions.
 - **Publisher**: A component or service that sends messages to a queue or topic.
 - **Subscriber**: A component or service that receives and processes messages from a queue or topic.
 - **Event Bus**: An architectural mechanism for distributing events across decoupled components or services.
+- **Message Handler**: The component responsible for validating, processing, acknowledging, retrying, or rejecting a Message.
+- **At-Least-Once Delivery**: A delivery guarantee under which a Message may be delivered more than once, requiring idempotent handling.
+- **Message Envelope**: Standard metadata surrounding a Message payload, including identifiers, type, version, timestamp, correlation, causation, and producer.
 
 ## 34. Observability Terms
 
 - **Log**: A record of events, errors, or informational messages generated by the system.
-- **Metric**: A numerical measurement collected over time to monitor system health or performance.
+- **Metric**: See Reporting & Analytics Terms. In observability, a Metric is used specifically to monitor system behavior, reliability, capacity, or performance.
 - **Trace**: A record of the execution path of a request or transaction across system components.
 - **Span**: A single operation or segment within a trace, representing a unit of work.
 - **Correlation ID**: A unique identifier used to link related logs, traces, or events across distributed systems.
 - **Health Check**: An automated probe or test to determine the operational status of a component or service.
+- **Structured Log**: A Log emitted as machine-queryable fields rather than only unstructured text.
+- **Distributed Trace**: A Trace that follows a request or Message across process, module, and external-service boundaries.
+- **Service Level Indicator (SLI)**: A measured indicator of service behavior such as availability, latency, correctness, or throughput.
+- **Service Level Objective (SLO)**: A target value or range for an SLI over a defined period.
 
 ## 35. Performance Terms
 
@@ -334,19 +410,25 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **CDN Cache**: A cache maintained by a Content Delivery Network to distribute static assets closer to users.
 - **Lazy Loading**: A strategy of loading resources or data only when they are needed, reducing initial load time.
 - **Pagination**: The division of large result sets into discrete pages to improve performance and usability.
+- **Cache Key**: The stable identifier used to store and retrieve a cached representation.
+- **Time to Live (TTL)**: The duration after which a cached value, token, Message, or temporary record expires.
+- **Rate Limit**: A rule restricting requests or operations for a Principal, client, endpoint, or time window.
 
 ## 36. Testing Terms
 
 - **Unit Test**: A test focusing on a single component or function.
 - **Integration Test**: A test verifying interactions between components.
-- **Component Test**: A test of an individual UI or functional component.
-- **Contract Test**: A test ensuring API compatibility between services.
+- **Component Test**: A test that verifies a UI component or bounded application component with its public behavior and selected real dependencies while excluding the full system.
+- **Contract Test**: A test that verifies a consumer and provider conform to an agreed API, Message, or integration Contract without requiring a full End-to-End environment.
 - **End-to-End Test**: A test simulating user workflows across the system.
 - **Smoke Test**: A preliminary test to check basic functionality.
 - **Regression Test**: A test ensuring new changes do not break existing features.
 - **Test Fixture**: The setup required for running tests.
-- **Mock**: A simulated object mimicking real behavior.
-- **Stub**: A minimal implementation returning fixed responses.
+- **Mock**: A configurable test double that verifies expected interactions or behavior.
+- **Stub**: A test double that returns predetermined data or behavior without verifying interactions.
+- **Test Double**: A controlled replacement for a real dependency used in testing; Mocks and Stubs are specific kinds of Test Double.
+- **Acceptance Test**: A test that verifies an acceptance criterion from a Specification from an externally observable perspective.
+- **Performance Test**: A test that measures latency, throughput, scalability, stability, or resource usage under defined workloads.
 
 ## 37. Lifecycle Vocabulary
 
@@ -361,33 +443,46 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ### Order Lifecycle
 
-- **Pending Payment**: Order has been created and is awaiting payment.
-- **Paid**: Payment for the order has been received.
-- **Fulfilled**: Order has been picked, packed, and shipped to the customer.
-- **Cancelled**: Order has been terminated prior to fulfilment.
-- **Refunded**: Payment for the order has been returned to the customer.
-- **Archived**: Order is closed and stored for historical reference.
+- **Pending Payment**: The Order exists but the required payment outcome has not been confirmed.
+- **Confirmed**: The Order has passed required validation and has an accepted payment arrangement.
+- **Processing**: Fulfilment work has started for one or more Order Items.
+- **Partially Fulfilled**: Some, but not all, fulfillable Order Items have completed fulfilment.
+- **Fulfilled**: All fulfillable Order Items have completed the platform's fulfilment obligation; this does not necessarily mean every Shipment is Delivered.
+- **Cancelled**: All remaining eligible Order Items have been cancelled and no further fulfilment is expected.
+- **Completed**: The Order has reached its terminal operational state after fulfilment, delivery or collection, and applicable post-order processing.
+- **Archived**: The Order is retained for historical or regulatory reference and excluded from normal operational work queues.
 
 ### Payment Lifecycle
 
-- **Initiated**: Payment process has started.
-- **Pending Confirmation**: Awaiting confirmation from payment provider.
-- **Confirmed**: Payment was successful.
-- **Failed**: Payment was unsuccessful.
-- **Refunded**: Payment has been returned to the customer.
+- **Initiated**: A Payment Attempt has been created and processing has started.
+- **Pending Confirmation**: The platform is awaiting an authoritative Payment Provider outcome.
+- **Authorized**: Funds or payment capability have been approved but may not yet be captured.
+- **Captured**: Funds have been captured and are eligible for settlement.
+- **Failed**: The Payment Attempt did not complete successfully.
+- **Cancelled**: The Payment Attempt was stopped before successful capture.
+- **Partially Refunded**: Part of the captured amount has been returned.
+- **Refunded**: The full refundable captured amount has been returned.
 
 ### Shipment Lifecycle
 
-- **Created**: Shipment has been arranged and is pending dispatch.
-- **In Transit**: Shipment is with the carrier and en route to the customer.
-- **Delivered**: Shipment has been delivered to the customer.
-- **Returned**: Shipment has been returned to the merchant.
+- **Created**: The Shipment record exists and is awaiting preparation or carrier booking.
+- **Ready for Dispatch**: The Shipment is packed, labelled, and ready for Carrier handover.
+- **Dispatched**: The Shipment has been handed to the Carrier or collection process.
+- **In Transit**: The Carrier is transporting the Shipment.
+- **Out for Delivery**: The Shipment is on the final delivery route.
+- **Delivered**: Delivery has been confirmed at the Shipping Address or approved collection point.
+- **Delivery Failed**: A delivery attempt was unsuccessful and further action is required.
+- **Returned to Sender**: The Shipment is being or has been returned to the Merchant or fulfilment location.
 
 ### Refund Lifecycle
 
-- **Requested**: Refund has been initiated by the customer or system.
-- **Authorized**: Refund request has been approved.
-- **Completed**: Refund transaction has been processed and funds returned.
+- **Requested**: A Refund Request has been created.
+- **Pending Review**: The Refund Request requires validation or approval.
+- **Authorized**: The refundable amount and reason have been approved.
+- **Processing**: The Refund Transaction has been submitted to the Payment Provider.
+- **Completed**: The Payment Provider has confirmed successful refund processing.
+- **Failed**: The Refund Transaction did not complete successfully and requires retry or intervention.
+- **Rejected**: The Refund Request was declined with a recorded reason.
 
 ## 38. Domain Event Vocabulary
 
@@ -404,58 +499,79 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **ShipmentCreated**: Emitted when a shipment is arranged for an order or part of an order.
 - **ShipmentDelivered**: Emitted when the carrier confirms delivery of a shipment to the customer.
 - **RefundCompleted**: Emitted when a refund transaction is finalized and funds are returned to the customer.
+- **PaymentFailed**: Emitted when a Payment Attempt reaches the Failed state after an authoritative provider outcome or terminal processing error.
+- **OrderConfirmed**: Emitted when an Order reaches the Confirmed state and may proceed to fulfilment.
+- **OrderFulfilled**: Emitted when all fulfillable Order Items have completed the platform's fulfilment obligation.
+- **ShipmentDispatched**: Emitted when a Shipment is handed to the Carrier or collection process.
+- **ReturnRequested**: Emitted when a Customer or Staff User submits a valid Return Request.
+- **ReturnAuthorized**: Emitted when a Return Request is approved and a Return Authorization is issued.
 
 ## 39. Repository Naming Rules
 
-- Event names use PascalCase and past tense.
-- DTOs end with `Dto`.
+- Domain Event type names use `PascalCase` and past tense (e.g., `OrderCreated`).
+- DTO type names end with `Dto`; request and response boundary types follow the more specific Request and Response rules.
 - Requests end with `Request`.
 - Responses end with `Response`.
 - Controllers end with `Controller`.
 - Services end with `Service`.
 - Repositories end with `Repository`.
-- Specification filenames use kebab-case.
+- Specification filenames use `kebab-case`.
 - ADRs use `ADR-XXXX-title.md`.
-- Database tables use snake_case.
-- API paths use lowercase and hyphens.
+- Database tables use `snake_case`.
+- API paths use `kebab-case`.
 - Domain events are immutable.
-- Enums use singular PascalCase.
+- Enums use singular `PascalCase`.
 - Interfaces begin with I only when required by framework conventions; otherwise, avoid prefixes.
-- Environment variables use UPPER_SNAKE_CASE.
-- Feature flags use dot notation (e.g., feature.checkout.express).
-- Database indexes use idx*<table>*<columns> (e.g., idx_order_created_at).
+- Environment variables use `UPPER_SNAKE_CASE`.
+- Feature flags use dot notation (e.g., `feature.checkout.express`).
+- Database indexes use `idx_<table>_<columns>` (e.g., `idx_order_created_at`).
 
 ## 40. Cross-Reference Rules
 
-All core documents—including PRODUCT.md, ARCHITECTURE.md, AGENTS.md, ADRs, domain specifications, API documentation, and code comments—must use glossary-defined terminology consistently. Where a glossary term exists, it should be referenced verbatim to avoid ambiguity. Glossary alignment is mandatory for all new documentation, specifications, and code artifacts. Discrepancies must be resolved via glossary updates.
+The following documents and artifacts must use glossary-defined terminology consistently: `PRODUCT.md`, `ARCHITECTURE.md`, `AGENTS.md`, ADRs, domain specifications, API contracts, database models, Domain Events, tests, code comments, operational runbooks, and user-facing administration labels.
+
+- Where a glossary term exists, use it verbatim and preserve its defined meaning.
+- A local document may narrow a term for a Bounded Context but must not contradict the canonical definition.
+- A term with multiple legitimate meanings must be qualified, for example `Code Repository`, Spring `Repository`, database `Transaction`, or `Payment Transaction`.
+- Forbidden or avoided terminology found during review must be replaced or explicitly justified before approval.
+- Repository-wide terminology review is a mandatory approval gate for `GLOSSARY.md` v1.0.0.
 
 ## 41. Preferred Terminology
 
-| Preferred         | Avoid           |
-| ----------------- | --------------- |
-| Product           | Item            |
-| Customer          | User            |
-| Staff User        | Admin           |
-| Variant           | Product Type    |
-| Order Item        | Line            |
-| Published         | Live            |
-| Available-to-Sell | Available Stock |
-| Payment Attempt   | Transaction     |
-| Aggregate         | Object Group    |
-| Domain Event      | Notification    |
+| Preferred                                     | Avoid                                                  |
+| --------------------------------------------- | ------------------------------------------------------ |
+| Product                                       | Item                                                   |
+| Customer                                      | User                                                   |
+| Staff User                                    | Admin                                                  |
+| Variant                                       | Product Type                                           |
+| Order Item                                    | Line                                                   |
+| Published                                     | Live                                                   |
+| Available-to-Sell                             | Available Stock                                        |
+| Payment Attempt or Payment Transaction        | Transaction                                            |
+| Aggregate                                     | Object Group                                           |
+| Domain Event                                  | Notification                                           |
+| Code Repository                               | Repository when referring to Git                       |
+| Back Office                                   | Admin Portal                                           |
+| Store Administrator or Platform Administrator | Admin                                                  |
+| Domain Event                                  | Technical Event when the event is business-significant |
 
 ## 42. Forbidden Terminology
 
 Ambiguous or imprecise terminology is prohibited in specifications to avoid misunderstandings. The following table outlines common terms to avoid and recommended alternatives:
 
-| Avoid           | Use Instead                                   | Reason                                          |
-| --------------- | --------------------------------------------- | ----------------------------------------------- |
-| Product Type    | Category or Variant                           | "Product Type" is ambiguous; use specific terms |
-| User            | Customer or Staff User                        | "User" is generic; specify role for clarity     |
-| Item            | Product or Order Item                         | "Item" is vague; clarify domain context         |
-| Status OK       | Explicit lifecycle state                      | "OK" is unclear; use defined states             |
-| Database Object | Entity or Record                              | Ambiguous; specify data model concept           |
-| Admin           | Store Administrator or Platform Administrator | Clarifies administrative scope                  |
+| Avoid           | Use Instead                                       | Reason                                          |
+| --------------- | ------------------------------------------------- | ----------------------------------------------- |
+| Product Type    | Category or Variant                               | "Product Type" is ambiguous; use specific terms |
+| User            | Customer or Staff User                            | "User" is generic; specify role for clarity     |
+| Item            | Product or Order Item                             | "Item" is vague; clarify domain context         |
+| Status OK       | Explicit lifecycle state                          | "OK" is unclear; use defined states             |
+| Database Object | Entity or Record                                  | Ambiguous; specify data model concept           |
+| Admin           | Store Administrator or Platform Administrator     | Clarifies administrative scope                  |
+| Live            | Published or Active                               | Use the exact lifecycle meaning                 |
+| Transaction     | Database Transaction or Payment Transaction       | The unqualified term is ambiguous               |
+| Repository      | Code Repository or Spring Repository              | The unqualified term is ambiguous               |
+| Event           | Domain Event, Analytics Event, or technical event | Specify the event category                      |
+| Fulfilled       | Fulfilled or Delivered, as applicable             | Fulfilment and delivery are not equivalent      |
 
 ## 43. Glossary Governance
 
@@ -467,12 +583,37 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 - New terms require glossary approval before adoption.
 - AI prompts should reference glossary terminology where ambiguity exists.
 - Terminology changes require a version bump and revision history entry.
+- Approval requires a repository-wide terminology audit covering canonical documents, specifications, API contracts, database models, Domain Events, tests, and operational documentation.
+- Audit findings must be resolved or recorded as approved exceptions before the glossary can move from Draft to Approved.
+- Duplicate terms must use one canonical definition with qualified meanings or explicit cross-references.
+- Lifecycle states must be defined per Aggregate and must not be reused with a conflicting meaning.
+
+## 44. v1.0.0 Approval Gate
+
+`GLOSSARY.md` remains **Draft** until all of the following are complete:
+
+- `PRODUCT.md`, `ARCHITECTURE.md`, and `AGENTS.md` have been reviewed against this glossary.
+- Domain specifications and ADRs use canonical terms or document approved exceptions.
+- API resource names, request and response types, lifecycle values, and error terminology are aligned.
+- Database table, column, constraint, index, and migration naming is aligned.
+- Domain Event names and payload terminology are aligned.
+- Angular and Spring Boot code naming is aligned with repository rules.
+- Forbidden terminology has been removed or explicitly approved.
+- Engineering and Product have completed final review and recorded approval.
+
+Successful completion of this gate permits promotion to:
+
+```yaml
+version: 1.0.0
+status: Approved
+```
 
 ---
 
 ## Revision History
 
-| Version | Date       | Description                                                                                                                                                                                                                                                                                      | Author                  |
-| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
-| 0.3.0   | 2026-08-05 | Substantially expanded and refined definitions; added Search & Discovery, Merchandising, Content Management, Localization, Messaging, Observability, and Performance sections; grouped lifecycle states; clarified domain events; strengthened naming and cross-reference rules for consistency. | Engineering and Product |
-| 0.2.0   | 2026-08-05 | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections.                                                                                     | Engineering and Product |
+| Version | Date       | Description                                                                                                                                                                                                                                                                                                                                             | Author                  |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 0.4.0   | 2026-08-05 | Performed the glossary completeness and internal consistency audit; clarified ambiguous terms, added missing commerce, architecture, security, API, data, payment, inventory, shipping, promotion, testing, messaging, observability, and lifecycle vocabulary; strengthened repository naming, cross-reference, governance, and v1.0.0 approval rules. | Engineering and Product |
+| 0.3.0   | 2026-08-05 | Substantially expanded and refined definitions; added Search & Discovery, Merchandising, Content Management, Localization, Messaging, Observability, and Performance sections; grouped lifecycle states; clarified domain events; strengthened naming and cross-reference rules for consistency.                                                        | Engineering and Product |
+| 0.2.0   | 2026-08-05 | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections.                                                                                                                                            | Engineering and Product |
