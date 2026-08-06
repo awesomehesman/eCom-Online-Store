@@ -1831,11 +1831,14 @@ A change to this architectural baseline requires:
 
 ### 48.3 Review Cycle
 
-This authoritative architecture is reviewed at least monthly, and additionally after any material change to architecture, technology, security, infrastructure, or business domain. Reviews ensure ongoing alignment with platform needs, standards, and stakeholder requirements. Updates are made through accepted Architecture Decision Records (ADRs) where required, with corresponding updates to this document to maintain its status as the authoritative architectural baseline.
+This authoritative architecture is reviewed at least monthly, and additionally after any material change to architecture, technology, security, infrastructure, or business domain. Reviews ensure ongoing alignment with business objectives, engineering standards, and approved architectural principles.
+
+Where a review results in a material architectural decision, an Architecture Decision Record (ADR) must be created or updated before implementation proceeds. Accepted ADRs that change the approved baseline must be reflected in this document so that it remains the single authoritative architectural reference for the repository.
 
 ## 49. Document Status
 
 - **Version:** 1.0.0
 - **Status:** Approved
-- This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
-- All material changes to architecture, technology, security, infrastructure, or domain boundaries require an accepted Architecture Decision Record (ADR) and corresponding updates to this document.
+- **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
+- **Review Cycle:** Monthly, or immediately following any material architectural change.
+- **Change Policy:** Material architectural changes require an accepted Architecture Decision Record (ADR) together with corresponding updates to this document and any affected standards.
