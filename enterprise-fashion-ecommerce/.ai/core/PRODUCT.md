@@ -1680,6 +1680,19 @@ A more detailed specification may add constraints but must not weaken this produ
 
 This document has been reviewed against the canonical terminology in `.ai/core/GLOSSARY.md` and must use glossary-defined terms without redefining them.
 
+## Repository Cross-Reference Integrity
+
+`PRODUCT.md` is authoritative only for product behaviour, scope, actors, and business rules.
+
+- `.ai/core/AGENTS.md` &rarr; authoritative for contributor governance.
+- `.ai/core/ARCHITECTURE.md` &rarr; authoritative for architecture and technical boundaries.
+- `.ai/core/GLOSSARY.md` &rarr; authoritative for terminology.
+- `.ai/core/SECURITY-STANDARDS.md` &rarr; authoritative for security and privacy controls.
+- `.ai/core/TESTING-STANDARDS.md` &rarr; authoritative for quality gates.
+- `.ai/core/DOCUMENTATION-STANDARDS.md` &rarr; authoritative for documentation governance.
+
+`PRODUCT.md` must not redefine responsibilities owned by these documents. Where overlap exists, the authoritative source listed above governs the relevant concern.
+
 ## 40. Authoritative Product Baseline
 
 Version 1.0.0 is the approved product baseline for initial implementation and launch planning.
@@ -1731,3 +1744,11 @@ Before approving a product requirement or feature scope, verify:
 | 0.2.0   | 2026-08-05 | Draft    | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
 | 1.0.0   | 2026-08-05 | Approved | Released the authoritative product baseline after finalising cross-cutting policies, guardrail measures, evolution rules, approval workflow, compliance mapping, governance, and Version 1 launch scope.                                                                |
 | 1.0.1   | 2026-08-05 | Approved | Repository terminology audit completed to align PRODUCT.md with the canonical GLOSSARY.md without changing approved product intent.                                                                                                                                     |
+
+## Document Status
+
+- **Version:** 1.0.1
+- **Status:** Approved
+- **Authority:** This document is the authoritative product baseline for the Enterprise Fashion Commerce Platform.
+- **Review Cycle:** Monthly, before major releases, and after any material product or operating-model change.
+- **Change Policy:** Material changes to product scope, actors, policies, lifecycle rules, or Version 1 commitments require an approved Product Decision Record (PDR) or equivalent governance decision together with corresponding updates to this document.
