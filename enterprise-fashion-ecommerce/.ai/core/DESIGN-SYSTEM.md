@@ -1,7 +1,7 @@
 ---
 title: DESIGN-SYSTEM
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product Design
 last_updated: 2026-08-12
 authoritative: true
@@ -67,7 +67,7 @@ Fast perception MUST NOT be created by concealing pending or uncertain state. Vi
 
 Brand expression SHOULD use photography-led merchandising, strong typographic hierarchy, restrained interface chrome, purposeful whitespace, and editorial composition where it supports discovery. Visual confidence SHOULD come from composition, imagery, proportion, and consistency rather than unnecessary ornament.
 
-No exact logo, font family, color palette, or asset identity is established by current Approved sources. Product Design MUST approve those assets through normal governance before they are represented as canonical, and adopted values MUST meet accessibility, performance, licensing, and implementation requirements.
+Exact brand assets and visual token values become canonical only when established through an Approved design source or governing Decision. Until then, this document MUST NOT be used to infer a logo, font family, color palette, or asset identity. Adopted values MUST meet accessibility, performance, licensing, and implementation requirements.
 
 ## 7. Design Tokens
 
@@ -197,7 +197,7 @@ When outcome remains pending or unknown, the interface MUST state that honestly 
 
 ## 28. Payment UX — Strict Rules
 
-Payment UI MUST preserve the distinctions among Payment, Payment Attempt, Payment Provider, Payment Redirect, Payment Authorization, Capture, Payment Transaction, Refund, and Refund Transaction.
+Payment UI MUST preserve the applicable distinctions among Payment, Payment Attempt, Payment Provider, Payment Redirect, Payment Authorization, Capture, Void, Payment Transaction, Refund, Refund Transaction, Chargeback, Settlement, and Idempotency Key.
 
 A Payment Redirect and client-reported Payment success are not authoritative proof. Success UI MUST wait for trusted server-side confirmation based on validated Payment Provider evidence. Pending and unknown outcomes MUST remain explicit; retry guidance MUST avoid duplicate Payment effects; provider handoff and return MUST be understandable; and sensitive payment details MUST NOT be displayed or retained unnecessarily. Provider-specific branding requires separate approval.
 
@@ -239,7 +239,7 @@ The client MUST NOT calculate authoritative Price or Discount. Formatting MUST p
 
 ## 35. Inventory and Availability UI
 
-Inventory UI MUST use Inventory, Stock, Stock Reservation, and Available-to-Sell consistently. Customer-facing availability SHOULD communicate useful verified truth without promising Stock that is not authoritative.
+Inventory UI MUST use Inventory, Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, and Stock Movement consistently when those concepts are presented. Customer-facing availability SHOULD communicate useful verified truth without promising Stock that is not authoritative.
 
 Stock Reservation mechanics SHOULD remain hidden from Customers unless Product behavior requires their explanation. Staff User interfaces MAY expose operational detail when authorized, relevant, and understandable.
 
@@ -257,7 +257,7 @@ The interface MUST distinguish an estimate from a confirmed event and MUST NOT g
 
 ## 38. Return and Refund UI
 
-Return and Refund UI MUST distinguish the physical Return process from the financial Refund and Refund Transaction. Requested, pending, rejected, failed, and confirmed outcomes MUST remain distinguishable according to governing lifecycle definitions.
+Return and Refund UI MUST distinguish the physical Return process from the financial Refund and Refund Transaction. It MUST use only lifecycle states established by governing Product sources or the owning Specification, and pending outcomes MUST remain distinguishable from confirmed outcomes.
 
 Refund completion MUST NOT be shown before authoritative confirmation. Available actions and policy explanations remain governed by Product and the applicable Specification.
 
@@ -520,7 +520,7 @@ Staff User interfaces MUST preserve canonical Role and Permission meaning and SH
 
 ## 81. Privacy UX
 
-Interfaces collecting or showing personal information MUST minimize data, support the Approved purpose, avoid unnecessary exposure, and provide safe viewing and editing behavior.
+Interfaces collecting or showing personal information MUST minimize data, support the approved purpose, avoid unnecessary exposure, and provide safe viewing and editing behavior.
 
 Sensitive Data SHOULD be concealed by default where full display is unnecessary. Privacy explanations SHOULD be available at the point where they affect an informed choice.
 
@@ -616,9 +616,9 @@ Deprecation MUST NOT invent unsupported document lifecycle metadata. Historical 
 
 ## 97. Design Exceptions
 
-A Design Exception SHOULD record the exact rule or pattern, reason, affected scope, accessibility impact, Product impact, implementation impact, accountable owner, authorized reviewer or approver, and expiry or remediation when temporary.
+A design exception is a descriptive record within this standard, not a `GLOSSARY.md`-defined canonical exception type. It SHOULD record the exact rule or pattern, reason, affected scope, accessibility impact, Product impact, implementation impact, accountable owner, authorized reviewer or approver, and expiry or remediation when temporary.
 
-A Design Exception MUST NOT waive Product, Architecture, security, accessibility, testing, coding, or other governing Requirements. Any required exception owned by another standard remains separately required.
+A design exception MUST NOT waive Product, Architecture, security, accessibility, testing, coding, or other governing Requirements. Any required exception owned by another standard remains separately required.
 
 ## 98. Forbidden Design Practices
 
@@ -653,7 +653,7 @@ The following are prohibited:
 | Inventory | `PRODUCT.md`; `ARCHITECTURE.md` | Represent verified availability without redefining ownership | Inventory and concurrency evidence |
 | Order | `PRODUCT.md`; owning Specification | Preserve governed lifecycle and commercial context | Product and domain tests |
 | Identity | `SECURITY-STANDARDS.md`; `ARCHITECTURE.md` | Preserve Identity, Session, Role, and Permission boundaries | Authorization and accessibility tests |
-| Accessibility | `PRODUCT.md`; applicable standards | Make interaction perceivable, operable, understandable, and robust | Automated and manual review |
+| Accessibility | `PRODUCT.md`; `TESTING-STANDARDS.md`; `CODING-STANDARDS.md` | Make interaction perceivable, operable, understandable, and robust | Automated and manual review |
 | Content | `PRODUCT.md`; `GLOSSARY.md` | Use accurate, calm, actionable language | Content review |
 | Staff User | `PRODUCT.md`; `SECURITY-STANDARDS.md` | Support safe, explicit operational work | Permission, audit, and usability evidence |
 | AI | `AGENTS.md`; `SECURITY-STANDARDS.md` | Prevent model output from becoming UI authority | Human review and trusted enforcement |
@@ -681,4 +681,5 @@ The following are prohibited:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the repository-wide Design System after final governance, terminology, Product-scope, brand, token, responsive, component, commerce, Payment, Inventory, accessibility, content, Staff User, security, testing, exception, and design-governance validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial repository-wide Design System covering design principles, tokens, responsive layout, reusable components, commerce UX, Payment, Inventory, accessibility, content, Staff User patterns, design governance, testing, and exceptions. |
