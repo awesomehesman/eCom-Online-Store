@@ -1,7 +1,7 @@
 ---
 title: TESTING-STANDARDS
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-11
 authoritative: true
@@ -18,7 +18,7 @@ This document defines the repository-wide minimum testing baseline for software,
 
 These standards apply to all production code, test code, configuration, database changes, infrastructure definitions, Pipelines, scripts, APIs, user interfaces, scheduled work, provider integrations, and AI-generated contributions in this repository.
 
-They apply to developers, reviewers, QA engineers, architects, DevOps engineers, automated agents, and any other contributor. Lower-level Specifications, Contracts, ADRs, and local standards MAY strengthen this baseline but MUST NOT weaken it.
+They apply to developers, reviewers, QA engineers, architects, DevOps engineers, automated agents, and any other contributor. Lower-level Specifications, Contracts, and local standards MAY strengthen this baseline but MUST NOT weaken it. Accepted ADRs retain the authority assigned to them by the repository Decision Hierarchy and MUST NOT silently conflict with this baseline.
 
 ## 3. Normative Language
 
@@ -38,7 +38,7 @@ Testing decisions MUST follow the repository decision hierarchy in `AGENTS.md`.
 - `SECURITY-STANDARDS.md` governs mandatory security controls and Security Exceptions.
 - This document governs the repository-wide minimum testing baseline.
 
-Where a conflict exists, the higher-authority Canonical Document prevails. A lower-level document or local pattern MUST NOT silently override a mandatory requirement in this document. Temporary waiver of a testing requirement MUST follow section 41; waiver of a security requirement additionally MUST use an approved Security Exception under `SECURITY-STANDARDS.md`.
+Where a conflict exists, the repository Decision Hierarchy determines authority. An accepted ADR or other higher-authority source that changes this baseline MUST make the conflict explicit and trigger an approved update to the affected source-of-truth documents. A lower-level document or local pattern MUST NOT silently override a mandatory requirement in this document. Temporary waiver of a testing requirement MUST follow section 41; waiver of a security requirement additionally MUST use an approved Security Exception under `SECURITY-STANDARDS.md`.
 
 ## 5. Testing Principles
 
@@ -185,7 +185,7 @@ They MUST verify default denial, missing and malformed credentials, expired and 
 - DAST against an appropriate deployed test or pre-production Environment on the required risk-based cadence; and
 - periodic and risk-based penetration testing rather than penetration testing for every pull request.
 
-Major changes to Authentication, Authorization, Payments, public APIs, sensitive data processing, trust boundaries, or other high-risk areas SHOULD trigger consideration of a targeted penetration test or security assessment.
+Major changes to Authentication, Authorization, Payment flows, public APIs, sensitive data processing, trust boundaries, or other high-risk areas SHOULD trigger consideration of a targeted penetration test or security assessment.
 
 This document does not replace the security baseline. Security findings, evidence, blocking rules, and Security Exceptions MUST follow `SECURITY-STANDARDS.md`. Tests SHOULD reference security Requirements without duplicating or redefining them.
 
@@ -221,7 +221,7 @@ Production customer data, PII, payment credentials, raw CVV, production secrets,
 
 ## 26. Test Doubles
 
-A Test Double MAY stand in for a dependency when isolation is the purpose of the test. A Stub provides controlled responses; a Mock verifies required interactions. A lightweight in-memory substitute MAY be used only when its behavior is sufficiently faithful for the assertion.
+A Test Double MAY stand in for a dependency when isolation is the purpose of the test. A Stub provides controlled responses; a Mock verifies required interactions. Mocks MUST be limited to external dependencies, consistent with `AGENTS.md`. A lightweight in-memory substitute MAY be used only when its behavior is sufficiently faithful for the assertion.
 
 Tests MUST use real implementations for boundaries whose behavior is material to confidence, including database constraints and transaction semantics. Excessive mocking that merely restates implementation logic MUST be avoided.
 
@@ -384,4 +384,5 @@ Compliance requires both implementation and evidence. A missing, stale, unaudita
 
 | Version | Date | Status | Summary |
 |---|---|---|---|
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide testing standards after final governance, terminology, architecture, security, domain, CI, release, and testing-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide testing standards baseline covering test strategy, domain verification, integration, security, CI gates, traceability, and release confidence. |
