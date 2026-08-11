@@ -1831,32 +1831,14 @@ A change to this architectural baseline requires:
 
 ### 48.3 Review Cycle
 
-This architecture must be reviewed at least monthly and additionally after:
+This authoritative architecture is reviewed at least monthly, and additionally after any material change to architecture, technology, security, infrastructure, or business domain. Reviews ensure ongoing alignment with business objectives, engineering standards, and approved architectural principles.
 
-- A major product-scope change.
-- Introduction of a new external provider.
-- Adoption of a new deployment, data, API, identity, or messaging strategy.
-- A significant security or production incident.
-- Evidence that a quality target, cost constraint, or scaling assumption is no longer valid.
-- Extraction of a module into an independently deployable service.
+Where a review results in a material architectural decision, an Architecture Decision Record (ADR) must be created or updated before implementation proceeds. Accepted ADRs that change the approved baseline must be reflected in this document so that it remains the single authoritative architectural reference for the repository.
 
-### 48.4 Architecture Drift
+## 49. Document Status
 
-Architecture drift must be treated as engineering debt with an explicit owner and remediation plan. Repeated local exceptions must trigger review of either the implementation or the governing standard; they must not silently become the new architecture.
-
-### 48.5 Supersession
-
-Accepted ADRs may supersede a specific rule temporarily, but this document must be updated promptly when the new decision becomes the platform baseline. An ADR must not remain the only discoverable source for a permanent architectural change.
-
-### 48.6 Release Baseline
-
-Version 1.0.0 is the approved baseline for initial implementation. Future backward-compatible clarifications should use minor versions. Breaking architectural changes must use a major version and include a migration strategy.
-
-## Revision History
-
-| Version | Date       | Status   | Summary                                                                                                                                                                                                                                        |
-| ------- | ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1.0   | 2026-08-05 | Draft    | Established the architectural vision, quality attributes, technology baseline, modular-monolith and hexagonal direction, domain boundaries, integration principles, and Azure deployment direction.                                            |
-| 0.2.0   | 2026-08-05 | Draft    | Added logical component decomposition, reference commerce flows, consistency and transaction rules, caching, search, media, identity, Azure topology, recovery strategy, architecture risks, and open decision governance.                     |
-| 0.3.0   | 2026-08-05 | Draft    | Added backend and frontend implementation blueprints, error and configuration architecture, contract and data-ownership rules, testing and CI/CD architecture, rollout strategy, cost controls, operational readiness, and compliance mapping. |
-| 1.0.0   | 2026-08-05 | Approved | Released the authoritative platform architecture baseline after consistency review, technology clarification, governance definition, and finalisation of implementation, operational, and evolution rules.                                     |
+- **Version:** 1.0.0
+- **Status:** Approved
+- **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
+- **Review Cycle:** Monthly, or immediately following any material architectural change.
+- **Change Policy:** Material architectural changes require an accepted Architecture Decision Record (ADR) together with corresponding updates to this document and any affected standards.
