@@ -1,9 +1,9 @@
 ---
 title: GLOSSARY
-version: 0.5.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering and Product
-last_updated: 2026-08-05
+last_updated: 2026-08-11
 source_of_truth: true
 review_cycle: Monthly
 ---
@@ -55,8 +55,6 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Variant**: A specific version of a product differing by attributes such as size or color.
 - **SKU (Stock Keeping Unit)**: A unique identifier assigned to a variant for inventory tracking.
 - **Price**: A monetary amount expressed as Money and assigned to a Product or Variant under a defined Pricing Rule.
-- **Promotion**: A marketing mechanism that offers discounts or incentives.
-- **Voucher**: A redeemable code or token providing promotional benefits.
 - **Cart**: A temporary container holding products a customer intends to purchase.
 - **Checkout**: The process of finalizing a purchase from the cart.
 - **Order**: A durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
@@ -103,14 +101,15 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Idempotency**: The property ensuring repeated payment requests do not result in duplicate charges.
 - **Settlement**: The final transfer of funds from the payment provider to the merchant.
 - **Payment Transaction**: A provider-recorded financial operation such as authorization, capture, void, refund, or chargeback; distinct from a database Transaction.
-- **Authorization**: A Payment Provider approval that reserves funds or confirms payment capability without necessarily transferring funds to the Merchant.
-- **Capture**: The operation that finalizes an authorized payment for settlement.
-- **Void**: The cancellation of an uncaptured payment authorization.
+- **Payment Authorization**: A Payment Provider approval that reserves funds or confirms payment capability without necessarily transferring funds to the Merchant; distinct from access-control Authorization.
+- **Capture**: The operation that finalizes a Payment Authorization for Settlement.
+- **Void**: The cancellation of an uncaptured Payment Authorization.
 - **Chargeback**: A payment reversal initiated through the Customer's issuing bank or card network and disputed against the Merchant.
 - **Payment Redirect**: A browser navigation that sends the Customer to or from a Payment Provider; it is not authoritative proof of payment outcome.
 
 ## 10. Inventory Terms
 
+- **Inventory**: The domain capability and authoritative record of Stock, Reservations, Available-to-Sell quantities, Stock Adjustments, and Stock Movements for Variants at Stock Locations.
 - **Stock**: The recorded on-hand quantity of a Variant at a Stock Location.
 - **Reservation**: A temporary hold on stock allocated to a customer or order.
 - **Available-to-Sell**: The quantity eligible for new Reservations after subtracting active Reservations, safety stock, and other configured allocations from sellable on-hand Stock.
@@ -140,8 +139,8 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 13. Administration Terms
 
-- **Role**: A collection of permissions assigned to a user.
-- **Permission**: A specific access right or capability granted to roles or users.
+- **Role**: A named collection of Permissions assigned to a Principal through the platform's Authorization model.
+- **Permission**: A specific access right or capability granted to a Principal through a Role or an approved Authorization policy.
 - **Audit Record**: A logged entry capturing significant system or user actions.
 
 ## 14. Technical Architecture Terms
@@ -163,6 +162,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Modular Monolith**: A software architecture that structures a monolith into distinct modules.
 - **ADR (Architecture Decision Record)**: A document capturing architectural decisions.
 - **Domain Model**: The representation of business concepts, rules, behaviours, and relationships within a Bounded Context.
+- **Domain Event**: An immutable record of a completed business fact within a Bounded Context, named in past tense and distinct from an Analytics Event, technical event, or cross-boundary Integration Event.
 - **Ubiquitous Language**: The shared business vocabulary used consistently by domain experts, Product, Engineering, documentation, code, and AI Agents.
 - **Context Map**: A documented view of the relationships, dependencies, translation boundaries, and integration patterns between Bounded Contexts.
 - **Shared Kernel**: A deliberately shared subset of a Domain Model jointly owned and governed by multiple Bounded Contexts.
@@ -207,15 +207,18 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 ## 18. Security Terms
 
 - **Authentication**: The process of verifying user identity.
-- **Authorization**: The process of granting access rights.
+- **Authorization**: The access-control decision that determines whether a Principal may perform an action on a Resource; distinct from Payment Authorization.
 - **RBAC (Role-Based Access Control)**: An access control model based on user roles.
 - **Principle of Least Privilege**: Granting only the minimum permissions necessary.
 - **Secret**: Confidential information such as passwords or API keys.
+- **Cryptographic Key**: Secret or public cryptographic material used by an approved algorithm for encryption, decryption, signing, signature verification, or message authentication.
+- **Certificate**: A digitally signed credential that binds an Identity, service, domain name, or cryptographic public key to an issuer and defined validity period.
 - **PII (Personally Identifiable Information)**: Information that identifies or can reasonably be linked to a natural person.
 - **Sensitive Data**: Data requiring enhanced protection due to legal, contractual, security, financial, or privacy impact.
 - **Encryption at Rest**: Protection of persisted data using encryption managed by the storage platform or application.
 - **Encryption in Transit**: Protection of data exchanged over networks using approved transport encryption such as TLS.
 - **Audit Trail**: A tamper-evident sequence of Audit Records sufficient to reconstruct material security, administrative, and commercial actions.
+- **Security Exception**: An approved, time-bound, auditable waiver of a mandatory security requirement that records the affected requirement and systems, risk, compensating controls, accountable owner, approver, expiry, and remediation plan.
 
 ## 19. DevOps Terms
 
@@ -229,7 +232,6 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **AI Agent**: An autonomous system component that interacts using AI capabilities.
 - **Context**: The information and state available to an AI agent during operation.
-- **Specification**: An AI-consumable requirements, design, or task artifact that defines intended behavior, constraints, acceptance criteria, and traceability for implementation.
 - **Prompt**: Input text guiding an AI agent’s response.
 - **Steering Document**: A directive guiding AI agent behavior and constraints.
 - **Context Hierarchy**: The ordered set of repository instructions that an AI Agent must resolve before acting, from global governance through domain and feature-specific specifications.
@@ -266,15 +268,14 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **Identity**: A persistent representation of a human or system actor recognized by the platform.
 - **Principal**: The authenticated human or system actor associated with the current security context.
-- **Session**: A bounded authenticated interaction context with defined creation, expiry, revocation, and renewal behavior.
-- **Access Token**: A credential granting access to protected resources.
-- **Refresh Token**: A token used to obtain new access tokens without reauthentication.
-- **MFA (Multi-Factor Authentication)**: A security process requiring multiple verification methods.
-- **SSO (Single Sign-On)**: An authentication process allowing access to multiple systems with one login.
-- **Claims**: Verified statements about a Principal issued by an identity provider and carried in or resolved from a security token.
-- **Scope**: A delegated authorization boundary granted to a token or client; it is distinct from a Role or Permission.
-- **Permission Set**: A defined collection of access rights assigned to a principal.
-- **Identity Provider**: The trusted service that authenticates a Principal and issues identity or access tokens.
+- **Session**: A bounded authenticated interaction context for a Principal with defined creation, expiry, revocation, and renewal behavior.
+- **Access Token**: A credential granting a Principal delegated access to protected Resources within its Claims and Scope.
+- **Refresh Token**: A token used to obtain new Access Tokens without repeating interactive Authentication.
+- **MFA (Multi-Factor Authentication)**: An Authentication process requiring multiple independent verification factors.
+- **SSO (Single Sign-On)**: An Authentication process that allows a Principal to access multiple systems through one Identity Provider sign-in.
+- **Claims**: Verified statements about a Principal issued by an Identity Provider and carried in or resolved from a security token.
+- **Scope**: A delegated Authorization boundary granted to a token or client; it is distinct from a Role or Permission.
+- **Identity Provider**: The trusted service that authenticates a Principal and issues identity tokens or Access Tokens.
 - **Service Principal**: A non-human Identity used by an application, workload, automation, or integration.
 - **Token Revocation**: The invalidation of an Access Token, Refresh Token, or Session before normal expiry.
 
@@ -503,6 +504,8 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 41. Lifecycle Vocabulary
 
+Only lifecycles that require repository-wide canonical state names are defined in this section. Other lifecycle and state machines belong in the owning domain Specification and MUST use glossary terminology without contradicting these definitions.
+
 ### Product Lifecycle
 
 - **Draft**: An initial, unpublished state of a product.
@@ -527,7 +530,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **Initiated**: A Payment Attempt has been created and processing has started.
 - **Pending Confirmation**: The platform is awaiting an authoritative Payment Provider outcome.
-- **Authorized**: Funds or payment capability have been approved but may not yet be captured.
+- **Authorized**: A Payment Authorization has approved funds or payment capability, but Capture may not yet have occurred.
 - **Captured**: Funds have been captured and are eligible for settlement.
 - **Failed**: The Payment Attempt did not complete successfully.
 - **Cancelled**: The Payment Attempt was stopped before successful capture.
@@ -563,14 +566,14 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **InventoryReleased**: Emitted when previously reserved stock is released back to inventory.
 - **CartCreated**: Emitted when a new shopping cart is created for a customer or visitor.
 - **CheckoutStarted**: Emitted when a customer initiates the checkout process from the cart.
-- **PaymentInitiated**: Emitted when the payment process for an order is started.
-- **PaymentConfirmed**: Emitted when payment is successfully processed and confirmed by the payment provider.
+- **PaymentInitiated**: Emitted when a Payment Attempt is created and provider processing or payment-session initiation begins; it does not indicate a Payment Authorization or Capture.
+- **PaymentConfirmed**: Emitted only after the platform validates authoritative Payment Provider evidence confirming the required Payment Authorization or Capture. A Payment Redirect, client-reported success, or unvalidated provider response MUST NOT qualify.
 - **OrderCreated**: Emitted when an order is placed after successful checkout and payment initiation.
 - **OrderCancelled**: Emitted when an order is cancelled before fulfilment.
 - **ShipmentCreated**: Emitted when a shipment is arranged for an order or part of an order.
 - **ShipmentDelivered**: Emitted when the carrier confirms delivery of a shipment to the customer.
 - **RefundCompleted**: Emitted when a refund transaction is finalized and funds are returned to the customer.
-- **PaymentFailed**: Emitted when a Payment Attempt reaches the Failed state after an authoritative provider outcome or terminal processing error.
+- **PaymentFailed**: Emitted when a Payment Attempt reaches the Failed state after validated authoritative Payment Provider evidence or a trusted terminal processing error; a Payment Redirect or client report alone MUST NOT qualify.
 - **OrderConfirmed**: Emitted when an Order reaches the Confirmed state and may proceed to fulfilment.
 - **OrderFulfilled**: Emitted when all fulfillable Order Items have completed the platform's fulfilment obligation.
 - **ShipmentDispatched**: Emitted when a Shipment is handed to the Carrier or collection process.
@@ -605,7 +608,7 @@ The following documents and artifacts must use glossary-defined terminology cons
 - A local document may narrow a term for a Bounded Context but must not contradict the canonical definition.
 - A term with multiple legitimate meanings must be qualified, for example `Code Repository`, Spring `Repository`, database `Transaction`, or `Payment Transaction`.
 - Forbidden or avoided terminology found during review must be replaced or explicitly justified before approval.
-- Repository-wide terminology review is a mandatory approval gate for `GLOSSARY.md` v1.0.0.
+- Canonical core-document terminology review is a mandatory approval gate for `GLOSSARY.md` v1.0.0; downstream conformance remains an ongoing requirement under sections 47 and 48.
 
 ## 45. Preferred Terminology
 
@@ -619,6 +622,7 @@ The following documents and artifacts must use glossary-defined terminology cons
 | Published                                     | Live                                                   |
 | Available-to-Sell                             | Available Stock                                        |
 | Payment Attempt or Payment Transaction        | Transaction                                            |
+| Payment Authorization                         | Authorization when referring to provider approval      |
 | Aggregate                                     | Object Group                                           |
 | Domain Event                                  | Notification                                           |
 | Code Repository                               | Repository when referring to Git                       |
@@ -640,6 +644,7 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 | Admin           | Store Administrator or Platform Administrator     | Clarifies administrative scope                  |
 | Live            | Published or Active                               | Use the exact lifecycle meaning                 |
 | Transaction     | Database Transaction or Payment Transaction       | The unqualified term is ambiguous               |
+| Authorization for provider approval | Payment Authorization               | Distinguishes payment approval from access control |
 | Repository      | Code Repository or Spring Repository              | The unqualified term is ambiguous               |
 | Event           | Domain Event, Analytics Event, or technical event | Specify the event category                      |
 | Fulfilled       | Fulfilled or Delivered, as applicable             | Fulfilment and delivery are not equivalent      |
@@ -647,32 +652,25 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 ## 47. Glossary Governance
 
 - All new terminology must be introduced in this glossary before use elsewhere.
-- Existing definitions are immutable without explicit versioned updates.
+- Existing canonical definitions MUST NOT change except through an explicit, reviewed, versioned glossary update.
 - Domain-specific specifications may refine definitions but must not contradict this glossary.
 - AI agents and automated systems must adhere strictly to glossary terminology to ensure consistency and traceability.
 - Every new domain specification must use glossary terminology.
 - New terms require glossary approval before adoption.
 - AI prompts should reference glossary terminology where ambiguity exists.
 - Terminology changes require a version bump and revision history entry.
-- Approval requires a repository-wide terminology audit covering canonical documents, specifications, API contracts, database models, Domain Events, tests, and operational documentation.
-- Audit findings must be resolved or recorded as approved exceptions before the glossary can move from Draft to Approved.
+- Approval requires a terminology audit of the canonical core documents named in section 48. Specifications, ADRs, API Contracts, database models, Domain Events, code, tests, and operational documentation MUST demonstrate continuing conformance through their applicable review and delivery gates.
+- Core-document audit findings MUST be resolved or recorded through the applicable approved governance mechanism before the glossary can move from Draft to Approved.
 - Duplicate terms must use one canonical definition with qualified meanings or explicit cross-references.
 - Lifecycle states must be defined per Aggregate and must not be reused with a conflicting meaning.
 
 ## 48. v1.0.0 Approval Gate
 
-`GLOSSARY.md` remains **Draft** until all of the following are complete:
+Approval of `GLOSSARY.md` v1.0.0 is supported by terminology and consistency validation of the canonical core documents `.ai/core/AGENTS.md`, `.ai/core/ARCHITECTURE.md`, `.ai/core/PRODUCT.md`, `.ai/core/SECURITY-STANDARDS.md`, and this glossary. That validation covered repository governance, architecture and ownership boundaries, product and Payment semantics, security terminology, lifecycle vocabulary, duplicate and conflicting definitions, and forbidden ambiguity.
 
-- `PRODUCT.md`, `ARCHITECTURE.md`, and `AGENTS.md` have been reviewed against this glossary.
-- Domain specifications and ADRs use canonical terms or document approved exceptions.
-- API resource names, request and response types, lifecycle values, and error terminology are aligned.
-- Database table, column, constraint, index, and migration naming is aligned.
-- Domain Event names and payload terminology are aligned.
-- Angular and Spring Boot code naming is aligned with repository rules.
-- Forbidden terminology has been removed or explicitly approved.
-- Engineering and Product have completed final review and recorded approval.
+This approval does not assert that every downstream artifact was audited during the v1.0.0 approval pass. Specifications, ADRs, API Contracts, database models, Domain Events, Angular and Spring Boot code, tests, and operational documentation MUST use this approved glossary and MUST be checked for conformance whenever they are created, reviewed, or changed. A downstream inconsistency MUST be corrected or handled through the applicable repository governance; it MUST NOT silently redefine canonical terminology.
 
-Successful completion of this gate permits promotion to:
+The completed core-document validation established the following approved baseline:
 
 ```yaml
 version: 1.0.0
@@ -683,9 +681,10 @@ status: Approved
 
 ## Revision History
 
-| Version | Date       | Description                                                                                                                                                                                                                                                                                                                                             | Author                  |
-| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 0.5.0   | 2026-08-05 | Completed the final enterprise terminology expansion for Domain-Driven Design, Hexagonal Architecture, frontend architecture, backend architecture, integrations, documentation governance, and repository governance in preparation for the repository-wide terminology audit.                                                                         | Engineering and Product |
-| 0.4.0   | 2026-08-05 | Performed the glossary completeness and internal consistency audit; clarified ambiguous terms, added missing commerce, architecture, security, API, data, payment, inventory, shipping, promotion, testing, messaging, observability, and lifecycle vocabulary; strengthened repository naming, cross-reference, governance, and v1.0.0 approval rules. | Engineering and Product |
-| 0.3.0   | 2026-08-05 | Substantially expanded and refined definitions; added Search & Discovery, Merchandising, Content Management, Localization, Messaging, Observability, and Performance sections; grouped lifecycle states; clarified domain events; strengthened naming and cross-reference rules for consistency.                                                        | Engineering and Product |
-| 0.2.0   | 2026-08-05 | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections.                                                                                                                                            | Engineering and Product |
+| Version | Date | Status | Description |
+| --- | --- | --- | --- |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the canonical repository glossary after final completeness, lifecycle, architecture, product, security, ownership, and terminology consistency validation. |
+| 0.5.0 | 2026-08-05 | Draft | Completed the final enterprise terminology expansion for Domain-Driven Design, Hexagonal Architecture, frontend architecture, backend architecture, integrations, documentation governance, and repository governance in preparation for the repository-wide terminology audit. |
+| 0.4.0 | 2026-08-05 | Draft | Performed the glossary completeness and internal consistency audit; clarified ambiguous terms, added missing commerce, architecture, security, API, data, payment, inventory, shipping, promotion, testing, messaging, observability, and lifecycle vocabulary; strengthened repository naming, cross-reference, governance, and v1.0.0 approval rules. |
+| 0.3.0 | 2026-08-05 | Draft | Substantially expanded and refined definitions; added Search & Discovery, Merchandising, Content Management, Localization, Messaging, Observability, and Performance sections; grouped lifecycle states; clarified domain events; strengthened naming and cross-reference rules for consistency. |
+| 0.2.0 | 2026-08-05 | Draft | Expanded the glossary with identity, pricing, tax, returns, notifications, analytics, Angular, Spring Boot, Azure, testing, lifecycle, domain event, naming convention, and terminology governance sections. |
