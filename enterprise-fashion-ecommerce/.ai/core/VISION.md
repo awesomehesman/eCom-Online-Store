@@ -1,7 +1,7 @@
 ---
 title: VISION
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product
 last_updated: 2026-08-11
 authoritative: true
@@ -24,7 +24,7 @@ This document does not create a competing Decision Hierarchy and MUST NOT overri
 
 ## 3. Vision Statement
 
-The Enterprise Fashion Ecommerce platform will become a trustworthy, fast, reliable, and usable commerce platform through which Customers can discover Products, understand Variants and availability, build a Cart, complete Checkout and Payment confidently, follow an Order through fulfilment, manage an Account, and recover clearly when something goes wrong. It will give Staff Users coherent operational control over catalogue, Inventory, merchandising, customer service, Payment, Order, Shipment, and supporting business workflows without sacrificing commercial truth or customer trust as the business scales.
+The Enterprise Fashion Ecommerce platform will become a trustworthy, fast, reliable, and usable commerce platform through which Customers can discover Products, understand Product Variants and availability, build a Cart, complete Checkout and Payment confidently, follow an Order through fulfilment, manage an Account, and recover clearly when something goes wrong. It will give Staff Users coherent operational control over catalogue, Inventory, merchandising, customer service, Payment, Order, Shipment, and supporting business workflows without sacrificing commercial truth or customer trust as the business scales.
 
 ## 4. Strategic Intent
 
@@ -34,13 +34,13 @@ Reliable financial and Inventory state, useful customer self-service, efficient 
 
 ## 5. Customer Vision
 
-Customers should be able to discover Products easily, understand Variant availability, see accurate Price and Discount information, build and recover a Cart, and complete Checkout without avoidable uncertainty. Payment and Order state should be understandable, fulfilment should be trackable, and Account information should be manageable through secure self-service.
+Customers should be able to discover Products easily, understand Product Variant availability, see accurate Price and Discount information, build and recover a Cart, and complete Checkout without avoidable uncertainty. Payment and Order state should be understandable, fulfilment should be trackable, and Account information should be manageable through secure self-service.
 
 Where supported by current Product policy, Customers should be able to initiate Return or Refund journeys and understand their progress. When validation, availability, providers, or networks fail, communication should explain what is known, what remains uncertain, and what the Customer can do next.
 
 ## 6. Commerce Experience Vision
 
-Product, Variant, SKU, Price, Discount, Inventory, Stock, Stock Reservation, Available-to-Sell, Cart, Checkout, Order, Payment, Shipment, Return, and Refund should form one coherent customer journey. Each owning Module remains responsible for its authoritative state, while collaboration across approved boundaries should prevent Customers and Staff Users from having to understand internal system boundaries.
+Product, Product Variant, SKU, Price, Discount, Inventory, Stock, Stock Reservation, Available-to-Sell, Cart, Checkout, Order, Payment, Shipment, Return, and Refund should form one coherent customer journey. Each owning Module remains responsible for its authoritative state, while collaboration across approved boundaries should prevent Customers and Staff Users from having to understand internal system boundaries.
 
 Coherence does not mean hiding meaningful distinctions. Availability, commercial totals, Payment outcomes, Order progress, and fulfilment status should remain explicit and explainable throughout the journey.
 
@@ -52,7 +52,7 @@ A Payment Redirect is not payment proof, and client-reported Payment success is 
 
 ## 8. Premium Fashion Experience
 
-The experience should combine strong visual merchandising with functional clarity. Rich Product presentation, high-quality media, clear Variant selection, responsive browsing, mobile-first usability, fast catalogue exploration, and coherent brand expression should support confident decisions rather than distract from them.
+The experience should combine strong visual merchandising with functional clarity. Rich Product presentation, high-quality media, clear Product Variant selection, responsive browsing, mobile-first usability, fast catalogue exploration, and coherent brand expression should support confident decisions rather than distract from them.
 
 Accessibility, readable content, predictable interaction, and resilient behavior are part of a premium experience. Visual ambition should never obscure Price, availability, actions, errors, or policy information.
 
@@ -64,9 +64,9 @@ Recommendations and personalized discovery may become useful strategic capabilit
 
 ## 10. Catalogue Vision
 
-The catalogue should remain the durable source for Product identity, Variant structure, SKU, media, attributes, publication lifecycle, and merchandising metadata. Availability presentation may draw on Inventory, but it must not redefine Inventory ownership.
+The catalogue should remain the durable source for Product identity, Product Variant structure, SKU, media, attributes, publication lifecycle, and merchandising metadata. Availability presentation may draw on Inventory, but it must not redefine Inventory ownership.
 
-Catalogue evolution should support richer presentation and merchandising while preserving stable identity, traceable changes, and clear distinctions among Product, Variant, Category, Collection, and Inventory concerns.
+Catalogue evolution should support richer presentation and merchandising while preserving stable identity, traceable changes, and clear distinctions among Product, Product Variant, Category, Collection, and Inventory concerns.
 
 ## 11. Pricing and Promotion Vision
 
@@ -82,7 +82,7 @@ The platform may eventually support additional Stock Locations, markets, or chan
 
 ## 13. Cart Vision
 
-The Cart should represent durable shopping intent across supported anonymous and authenticated journeys. Customers should be able to recover eligible Cart state, understand refreshed Price and availability, and respond clearly when a Product or Variant is no longer purchasable.
+The Cart should represent durable shopping intent across supported anonymous and authenticated journeys. Customers should be able to recover eligible Cart state, understand refreshed Price and availability, and respond clearly when a Product or Product Variant is no longer purchasable.
 
 Stale client state must not become authoritative business truth. Cart continuity should reduce repeated effort while allowing trusted owners to revalidate commercial and Inventory facts.
 
@@ -136,7 +136,7 @@ Operational excellence means reducing uncertainty and repair time, not creating 
 
 ## 22. Scalability Vision
 
-The platform should evolve to handle growth in Products, Variants, Customers, Orders, Payment volume, Inventory operations, Staff User activity, and integrations without losing correctness or operability.
+The platform should evolve to handle growth in Products, Product Variants, Customers, Orders, Payment volume, Inventory operations, Staff User activity, and integrations without losing correctness or operability.
 
 Scalability should be evolutionary. Clear Modules and Contracts should allow measured optimization or selective extraction when evidence justifies it, while avoiding premature distributed-system complexity.
 
@@ -166,7 +166,7 @@ Applicable law and `SECURITY-STANDARDS.md` govern exact controls. Future analyti
 
 ## 27. Security Vision
 
-The platform should apply least privilege, default denial, zero-trust boundaries, secure defaults, defense in depth, safe failure, and auditable privileged actions. Security should shape Product and architecture decisions from the beginning rather than be added after implementation.
+The platform should apply least privilege, default denial, explicit trust boundaries, secure defaults, defense in depth, safe failure, and auditable privileged actions. Security should shape Product and architecture decisions from the beginning rather than be added after implementation.
 
 `SECURITY-STANDARDS.md` remains the mandatory security baseline. This Vision expresses the desired long-term posture and does not duplicate or weaken its controls.
 
@@ -350,7 +350,7 @@ A review does not require change when the direction remains sound. Material chan
 | --- | --- | --- | --- |
 | Governance | `AGENTS.md` | Remain within repository authority | Decision Hierarchy review |
 | Terminology | `GLOSSARY.md` | Use canonical language | Terminology review |
-| Vision | `VISION.md` when Approved | Define durable strategic direction | Strategic alignment review |
+| Vision | `VISION.md` | Define durable strategic direction | Strategic alignment review |
 | Product | `PRODUCT.md` | Inform direction without creating current scope | Product approval evidence |
 | Architecture | `ARCHITECTURE.md` | Express durable qualities without selecting implementation | architecture review and ADR |
 | Security | `SECURITY-STANDARDS.md` | Reinforce the desired security posture | Security review |
@@ -385,4 +385,5 @@ A review does not require change when the direction remains sound. Material chan
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide Vision after final governance, terminology, Product-scope, architecture, commerce, financial, Inventory, security, operational, AI, evolution, and strategic-direction validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide Vision covering long-term customer, commerce, operational, architecture, reliability, security, data, AI, engineering, and platform-evolution direction. |
