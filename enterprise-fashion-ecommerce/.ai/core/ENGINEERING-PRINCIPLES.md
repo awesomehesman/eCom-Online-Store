@@ -1,7 +1,7 @@
 ---
 title: ENGINEERING-PRINCIPLES
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-11
 authoritative: true
@@ -89,7 +89,7 @@ A Payment Redirect and client-reported success are not payment proof. Payment st
 
 ## 17. Inventory Correctness
 
-Inventory owns authoritative Stock, Reservations, Available-to-Sell, Stock Adjustments, and Stock Movements. Concurrency MUST preserve invariants, and overselling prevention outranks convenience. Client state is not authoritative. Reservation creation, expiry, release, and finalization SHOULD be explicit where applicable.
+Inventory owns authoritative Stock, Stock Reservations, Available-to-Sell, Stock Adjustments, and Stock Movements. Concurrency MUST preserve invariants, and overselling prevention outranks convenience. Client Inventory state is not authoritative. Stock Reservation creation, expiry, release, and finalization SHOULD be explicit where applicable.
 
 ## 18. Data Integrity Before Availability Illusions
 
@@ -165,7 +165,7 @@ Shared code should exist only when responsibility is genuinely shared, semantics
 
 ## 36. External Providers Stay at the Boundary
 
-Payment Provider, shipping, cloud, email, analytics, and Identity Provider SDKs and models MUST remain behind Adapters. Domain code MUST NOT depend directly on provider implementation details.
+Domain and application code MUST NOT depend directly on external-provider SDKs, models, protocols, or implementation details. Payment Provider, Identity Provider, and other provider-specific integration behavior SHOULD remain at the appropriate infrastructure or Adapter boundary. Approved infrastructure and platform implementation code MAY use provider SDKs directly when consistent with `ARCHITECTURE.md` and governing security requirements.
 
 ## 37. Configuration Is Code-Like
 
@@ -241,6 +241,8 @@ Before finalizing a material decision, ask:
 - Are compatibility, rollout, rollback, and recovery addressed?
 - Is any new abstraction supported by real evidence?
 
+This checklist supports decision quality but MUST NOT replace formal review, approval, or exception requirements.
+
 ## 53. Principle Compliance Matrix
 
 | Concern | Governing Source | Engineering Principle | Evidence / Decision Signal |
@@ -281,4 +283,5 @@ Engineering Principles guide choices only inside constraints established by gove
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide engineering principles after final governance, terminology, product, architecture, security, testing, implementation, distributed-systems, operational, and decision-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide engineering principles covering correctness, security, domain ownership, simplicity, distributed systems, financial and Inventory integrity, operability, evolution, AI-assisted engineering, and decision quality. |
