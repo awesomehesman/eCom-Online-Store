@@ -77,6 +77,8 @@ Security conflicts MUST use the Decision Hierarchy in `.ai/core/AGENTS.md`, unch
 
 At the same level, the source explicitly owning the concern governs. An unresolved same-level conflict MUST be identified, stopped at the affected scope, and resolved as required by `AGENTS.md`; it MUST NOT be silently implemented.
 
+The repository Decision Hierarchy determines authority and ownership, but it does not permit a lower-level source to weaken this mandatory security baseline. No lower-level document, domain Specification, implementation standard, ADR, Contract, feature Specification, or local pattern MAY weaken or silently override a mandatory requirement in this document unless the change is made through an approved repository-governance update to this document or is covered by an approved, time-bound Security Exception under section 41. In all other cases, the mandatory requirement in this document remains enforceable.
+
 ## 7. Guiding Security Principles
 
 ### 7.1 Secure by Design
@@ -152,7 +154,7 @@ Ownership establishes accountability and does not remove each contributor's duty
 | Supply chain | Engineering and Platform/DevOps | Govern registries, provenance, SBOMs, artifact integrity, and build trust. |
 | Dependency management | Component owner | Justify, pin, scan, update, and remove dependencies. |
 | Security monitoring | Security and Operations | Define detections, alert ownership, escalation, retention, and continuous improvement. |
-| Incident response | Security Incident Commander and Operations | Coordinate containment, evidence, recovery, communication, and review. |
+| Incident response | Designated security incident commander and Operations | Coordinate containment, evidence, recovery, communication, and review. |
 | Privacy | Product with Privacy/Legal and Domain Owners | Define lawful purpose, minimisation, access, retention, deletion, and data-subject handling. |
 | Payments | Payment Domain Owner with Security/Compliance | Protect Payment Provider boundaries, Payment Attempts, Payment Transactions, Refunds, and PCI scope. |
 | AI security | Capability owner with Security and Architecture | Govern model/provider access, data, tools, Guardrails, evaluation, monitoring, and Human Approval Gates. |
@@ -572,7 +574,6 @@ The following are prohibited:
 - `.ai/core/GLOSSARY.md`
 - `.ai/core/PRODUCT.md`
 - `.ai/core/ARCHITECTURE.md`
-- `.ai/core/SECURITY-STANDARDS.md`
 
 Applicable approved ADRs, domain Specifications, API and database Contracts, and technology-specific standards provide lower-level detail. Future standards MAY be added through repository governance; their existence or approval MUST NOT be assumed before they are created and accepted.
 
