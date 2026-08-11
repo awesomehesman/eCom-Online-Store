@@ -1,7 +1,7 @@
 ---
 title: DOCUMENTATION-STANDARDS
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-11
 authoritative: true
@@ -12,7 +12,7 @@ review_cycle: Quarterly
 
 ## 1. Purpose
 
-Documentation is a first-class engineering artifact and the repository's durable memory. It reduces ambiguity, preserves decisions and traceability, supports consistent delivery and onboarding, strengthens operational resilience, and gives humans and AI agents reliable context.
+Documentation is a first-class engineering artifact and the repository's durable memory. It reduces ambiguity, preserves decisions and traceability, supports consistent delivery and onboarding, strengthens operational resilience, and gives humans and AI Agents reliable context.
 
 ## 2. Scope
 
@@ -37,11 +37,11 @@ This document MUST NOT redefine the content authority of another governing sourc
 
 Each concern SHOULD have one authoritative source located close to its owner. Documentation SHOULD record decisions, constraints, assumptions, and non-obvious behavior rather than obvious syntax. Accuracy outranks volume.
 
-Behavior changes MUST update affected documentation. Authors SHOULD link rather than copy, state scope and authority explicitly, keep content reviewable and versioned, and write so both humans and AI agents can distinguish current rules from examples and future ideas.
+Behavior changes MUST update affected documentation. Authors SHOULD link rather than copy, state scope and authority explicitly, keep content reviewable and versioned, and write so both humans and AI Agents can distinguish current rules from examples and future ideas.
 
 ## 5. Canonical Source of Truth
 
-Each concern MUST have one governing source. Lower-level documents MAY elaborate but MUST NOT contradict it. References SHOULD point to the authoritative source instead of duplicating rules. Obsolete copies MUST be removed or clearly marked Deprecated or Superseded.
+Each concern SHOULD have one authoritative governing source. Lower-level documents and derived views MAY elaborate but MUST NOT contradict it. References SHOULD point to the authoritative source instead of duplicating rules. Obsolete copies MUST be removed or clearly identified as deprecated or superseded.
 
 ## 6. Documentation Hierarchy
 
@@ -56,7 +56,7 @@ The repository documentation model reflects, but does not replace, the Decision 
 | `ARCHITECTURE.md` | Technical structure, ownership, and boundaries |
 | Security, testing, and coding standards | Cross-cutting requirements in their owned concerns |
 | Engineering principles | Approved durable decision heuristics within governing constraints |
-| Specifications | Approved concern-specific Requirements and behavior |
+| Specifications | Concern-specific Requirements and behavior under applicable repository governance |
 | ADRs | Material architecture decisions and consequences |
 | Contracts | Agreed interfaces, schemas, and compatibility commitments |
 | Runbooks | Safe operational procedures |
@@ -66,14 +66,14 @@ An unfinished document MUST NOT be represented as Approved or authoritative.
 
 ## 7. Document Metadata
 
-Authoritative core documents MUST use YAML front matter with `title`, `version`, `status`, `owner`, `last_updated`, `authoritative`, and `review_cycle`. Other normative documents SHOULD use the same fields where lifecycle and ownership matter. Informational local documentation MAY use lighter metadata when ownership remains discoverable.
+Authoritative core documents MUST use YAML front matter with `title`, `version`, `status`, `owner`, `last_updated`, `review_cycle`, and an authority marker established by current core-document practice: `authoritative` or `source_of_truth`. Other normative documents SHOULD use the same fields where lifecycle and ownership matter. Informational local documentation MAY use lighter metadata when ownership remains discoverable.
 
 ## 8. Document Status Lifecycle
 
 - **Draft** content is under development and is not yet an Approved normative baseline.
 - **Approved** content has accepted review evidence and is normative within its assigned authority.
-- **Deprecated** content is retained temporarily but discouraged and scheduled for replacement or removal.
-- **Superseded** content is historical and MUST point to its replacement.
+
+Deprecation and supersession MUST be documented explicitly without inventing unsupported `status` values. Deprecated content is retained temporarily but discouraged and scheduled for replacement or removal; superseded content is historical and MUST point to its replacement.
 
 Approval MUST be performed by authorized owners or reviewers under repository governance. Status changes MUST be explicit and reflected in revision history where required.
 
@@ -83,7 +83,7 @@ Authoritative documents SHOULD use semantic-style versions: major for authority 
 
 ## 10. Ownership
 
-Every authoritative document MUST identify an accountable owner. The owner coordinates changes, performs or delegates scheduled review, keeps links and terminology current, responds to drift, and ensures Deprecated or Superseded material is handled safely.
+Every authoritative document MUST identify an accountable owner. The owner coordinates changes, performs or delegates scheduled review, keeps links and terminology current, responds to drift, and ensures deprecated or superseded material is handled safely.
 
 ## 11. Review Cycles
 
@@ -141,7 +141,7 @@ An ADR SHOULD contain title, status, context, decision, alternatives considered,
 
 ## 24. API Documentation
 
-API documentation MUST cover purpose, Authentication, Authorization, request and response schemas, errors and Problem Details, idempotency, pagination, versioning, and representative safe examples. Webhook documentation MUST explain applicable verification, replay, and failure semantics. Live Secrets and sensitive example data are prohibited.
+API documentation MUST cover purpose, Authentication, Authorization, request and response schemas, errors and Problem Details, representative safe examples, and, where applicable, Idempotency Key semantics, pagination, and versioning. Webhook documentation MUST explain applicable verification, replay, and failure semantics. Live Secrets and sensitive example data are prohibited.
 
 ## 25. Event and Messaging Documentation
 
@@ -157,7 +157,7 @@ Security documentation MUST follow `SECURITY-STANDARDS.md`. Trust boundaries, se
 
 ## 28. Testing Documentation
 
-Testing documentation MUST follow `TESTING-STANDARDS.md`. It SHOULD record non-obvious strategy, critical scenarios, test-data assumptions, provider sandboxes, Environment dependencies, known limitations, and required manual verification.
+Testing documentation MUST follow `TESTING-STANDARDS.md`. It SHOULD record, where applicable, non-obvious strategy, critical scenarios, test-data assumptions, provider sandboxes, Environment dependencies, known limitations, and required manual verification.
 
 ## 29. Operational Runbooks
 
@@ -173,13 +173,13 @@ A material migration MUST document starting and target states, compatibility, ro
 
 ## 32. External Provider Documentation
 
-External System documentation SHOULD describe purpose, owner, Contract, Authentication, rate limits, retries, failure semantics, sandbox or test requirements, Webhooks, exchanged data, and operational dependencies for Payment Provider, Identity Provider, shipping, email, analytics, and cloud integrations.
+External System documentation SHOULD describe, where applicable, purpose, owner, Contract, Authentication, rate limits, retries, failure semantics, sandbox or test requirements, Webhook behavior, exchanged data, and operational dependencies for Payment Provider, Identity Provider, shipping, email, analytics, and cloud integrations.
 
 ## 33. Payment Documentation
 
 Payment documentation MUST use Payment, Payment Attempt, Payment Provider, Payment Redirect, Payment Authorization, Capture, Void, Payment Transaction, Refund, Refund Transaction, Chargeback, Settlement, and Idempotency Key consistently.
 
-It MUST state that a Payment Redirect is not payment proof, authoritative Payment state requires validated Payment Provider evidence, and retry or replay MUST NOT create duplicate financial effects. Reconciliation, Audit Records, and PCI-sensitive boundaries MUST be documented where applicable.
+It MUST state that a Payment Redirect and client-reported success are not payment proof, authoritative Payment state requires validated Payment Provider evidence, and retry or replay MUST NOT create duplicate financial effects. Reconciliation, PCI-sensitive boundaries, and appropriate Audit Records for material financial transitions MUST be documented where applicable.
 
 ## 34. Inventory Documentation
 
@@ -187,11 +187,11 @@ Inventory documentation MUST use Inventory, Stock, Stock Reservation, Available-
 
 ## 35. Identity and Authorization Documentation
 
-Identity documentation MUST use Identity, Principal, Authentication, Authorization, Role, Permission, Claims, Scope, Session, Access Token, Refresh Token, and MFA consistently. It SHOULD explain identity source, trust boundaries, Authorization rules, applicable Scope and Permission behavior, token or Session lifecycle, and privileged flows without exposing sensitive configuration.
+Identity documentation MUST use Identity, Principal, Authentication, Authorization, Role, Permission, Claims, Scope, Session, Access Token, Refresh Token, and MFA consistently. It SHOULD explain, where applicable, identity source, trust boundaries, Authorization rules, Scope and Permission behavior, token or Session lifecycle, and privileged flows without exposing sensitive configuration.
 
 ## 36. README Standards
 
-A README SHOULD explain purpose, prerequisites, local setup, run, test, build, configuration, ownership or contact, and links to authoritative documentation. README files MUST NOT become competing Architecture or security standards.
+A README SHOULD explain purpose, prerequisites, local setup, run, test, build, configuration, ownership or contact, and links to authoritative documentation. README files MUST NOT become competing Product, Architecture, security, testing, or coding authorities.
 
 ## 37. Code Comments
 
@@ -199,7 +199,7 @@ Code comments MUST follow `CODING-STANDARDS.md`. Comments are appropriate for no
 
 ## 38. Diagrams
 
-Diagrams SHOULD be used when they materially clarify system context, component or Module boundaries, sequence flows, state transitions, deployment, data flow, or trust boundaries. They MUST be version-controlled and understandable without hidden external context where practical.
+Diagrams SHOULD be used when they materially clarify system context, component or Module boundaries, sequence flows, state transitions, deployment, data flow, or trust boundaries. They MUST be version-controlled where practical, and important semantics MUST remain understandable without hidden external context.
 
 ## 39. Diagram Source
 
@@ -231,15 +231,15 @@ When code or configuration changes documented behavior, documentation MUST chang
 
 ## 46. Documentation Drift
 
-Drift includes code contradicting documentation, removed APIs still referenced, broken examples, changed ownership or terminology, changed lifecycles, and Deprecated technology described as current. Material drift MUST be corrected or the document MUST lose authoritative status until corrected.
+Drift includes code contradicting documentation, removed APIs still referenced, broken examples, changed ownership or terminology, changed lifecycles, and deprecated technology described as current. Material drift MUST be corrected or escalated for formal authority and status handling through repository governance; materially stale content MUST NOT continue to be relied upon as current authority.
 
 ## 47. Deprecation and Supersession
 
-Deprecated documents MAY remain for useful historical context. Superseded documents MUST point to their replacement. Obsolete normative guidance MUST NOT remain discoverable as current authority; deletion MAY be preferable when history adds no value.
+Documents retained after deprecation MAY remain for useful historical context. A superseded document MUST point to its replacement. Obsolete normative guidance MUST NOT remain discoverable as current authority; deletion MAY be preferable when history adds no value.
 
 ## 48. Historical Documentation
 
-Historical documentation MAY be retained but MUST be clearly labeled so humans and AI agents do not treat it as current authority.
+Historical documentation MAY be retained but MUST be clearly labeled so humans and AI Agents do not treat it as current authority.
 
 ## 49. Documentation Review Checklist
 
@@ -247,7 +247,7 @@ Reviewers SHOULD verify:
 
 - correct owner, status, version, and governing source;
 - canonical terminology and no conflicting duplication;
-- testable Requirements and documented security implications;
+- testable Requirements and Acceptance Criteria where relevant, and documented security implications;
 - current diagrams, valid links, and safe examples;
 - absence of Secrets and stale references; and
 - updated revision history where required.
@@ -268,7 +268,7 @@ The following are prohibited:
 
 ## 51. Documentation Exceptions
 
-A Documentation Exception MUST identify the exact requirement, rationale, Risk, scope, owner, approver, expiry, compensating controls, and remediation. It MUST be explicit, time-bound, and auditable. It MUST NOT waive security or governance requirements owned by another standard.
+A Documentation Exception MUST identify the exact Requirement, rationale, Risk, scope, owner, approver, expiry, compensating controls, and remediation. It MUST be explicit, time-bound, and auditable. It MUST NOT waive Product, Architecture, security, testing, coding, or governance requirements owned elsewhere.
 
 ## 52. Documentation Compliance Matrix
 
@@ -283,7 +283,7 @@ A Documentation Exception MUST identify the exact requirement, rationale, Risk, 
 | Coding | `CODING-STANDARDS.md` | Document implementation guidance | Code and documentation review |
 | Engineering Principles | `ENGINEERING-PRINCIPLES.md` | Explain decision rationale | Decision review |
 | Requirements | Owning Product or Specification source | Make outcomes verifiable | Acceptance Criteria |
-| Specifications | Owning approved Specification | Keep scope and dependencies explicit | Specification review |
+| Specifications | `AGENTS.md`; applicable Product and Architecture sources | Keep scope and dependencies explicit | Specification review |
 | ADRs | `AGENTS.md`; `ARCHITECTURE.md` | Record material decisions | Accepted ADR |
 | APIs | Approved API Contract | Document behavior and compatibility | Contract review |
 | Events | `ARCHITECTURE.md`; approved event Contract | Document ownership and delivery semantics | Schema and consumer review |
@@ -292,7 +292,7 @@ A Documentation Exception MUST identify the exact requirement, rationale, Risk, 
 | Inventory | `PRODUCT.md`; `ARCHITECTURE.md` | Preserve Stock ownership and invariants | Domain and concurrency review |
 | Identity | `SECURITY-STANDARDS.md` | Record trust and access rules | Authorization review |
 | Operations | `ARCHITECTURE.md` | Provide safe executable guidance | Runbook validation |
-| Incidents | Incident process | Preserve evidence and learning | Incident review |
+| Incidents | `SECURITY-STANDARDS.md`; applicable operational process | Preserve evidence and learning | Incident review |
 | AI documentation | `AGENTS.md`; `SECURITY-STANDARDS.md` | Expose safe authoritative context | Human review |
 | Exceptions | Owning governing standard | Record scope and expiry | Approved exception record |
 
@@ -315,4 +315,5 @@ Documentation standards govern how information is recorded and maintained. They 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide documentation standards after final governance, terminology, lifecycle, requirements, architecture, security, testing, operational, AI-context, traceability, and documentation-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide documentation standards covering authority, structure, lifecycle, versioning, Requirements, Specifications, ADRs, technical documentation, operations, AI-facing context, traceability, drift, and exception governance. |
