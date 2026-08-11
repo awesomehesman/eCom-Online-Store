@@ -1,7 +1,7 @@
 ---
 title: CODING-STANDARDS
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-11
 authoritative: true
@@ -110,7 +110,7 @@ Angular code MUST align with the approved Angular 20 architecture:
 - Signals and `computed` SHOULD own synchronous local and derived state.
 - `effect` MUST be reserved for necessary side effects and MUST NOT replace derived state.
 - RxJS MUST be used for HTTP, event streams, cancellation, and asynchronous composition.
-- NgRx SignalStore MAY be used only where an approved cross-component state need justifies an explicit store.
+- An explicit store MAY be used only where an approved cross-component state need justifies it.
 - Dependency injection MUST use clear, narrow dependencies.
 - Inputs and outputs MUST form intentional component APIs.
 - Typed Reactive Forms MUST be used for nontrivial forms.
@@ -138,7 +138,7 @@ Server state MUST NOT be duplicated as competing authoritative client state. Der
 
 ## 17. RxJS Standards
 
-Observable names SHOULD use a consistent `$` suffix when that convention improves distinction. Operator selection MUST match semantics: `switchMap` for replacement and cancellation, `concatMap` for ordered serialization, `exhaustMap` for ignoring re-entry, and `mergeMap` for intentional concurrency.
+Observable names MUST be clear and consistent within their owning area; a `$` suffix MAY be used where an established local convention distinguishes streams. Operator selection MUST match semantics: `switchMap` for replacement and cancellation, `concatMap` for ordered serialization, `exhaustMap` for ignoring re-entry, and `mergeMap` for intentional concurrency.
 
 Streams MUST define teardown and error behavior. Retry MUST be bounded, safe, and appropriate to the operation. `shareReplay` MUST be used cautiously with explicit lifecycle and caching semantics. Side effects SHOULD be isolated in `tap` or a boundary, not hidden in transformations. Nested subscriptions are prohibited where composition is possible. `Subject` MUST NOT be the default state store; `BehaviorSubject` requires a justified streaming need. Signals SHOULD hold synchronous UI state.
 
@@ -226,9 +226,9 @@ Payment code MUST preserve the distinctions among Payment, Payment Attempt, Paym
 
 ## 30. Inventory Code Standards
 
-Inventory code MUST use the canonical concepts Inventory, Stock, Reservation, Available-to-Sell, Stock Adjustment, and Stock Movement.
+Inventory code MUST use the canonical concepts Inventory, Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, and Stock Movement.
 
-The Inventory Module MUST own authoritative state. Stock and Reservation changes MUST be atomic where consistency requires it, concurrency-safe, auditable, and protected against overselling. Reservation creation, expiry, release, and finalization MUST be explicit. Duplicate and retried operations MUST be idempotent, and rollback MUST preserve valid Available-to-Sell. Client-provided Inventory state MUST NOT be authoritative.
+The Inventory Module MUST own authoritative state. Stock and Stock Reservation changes MUST be atomic where consistency requires it, concurrency-safe, auditable, and protected against overselling. Stock Reservation creation, expiry, release, and finalization MUST be explicit. Duplicate and retried operations MUST be idempotent, and rollback MUST preserve valid Available-to-Sell. Client-provided Inventory state MUST NOT be authoritative.
 
 ## 31. Order and Fulfilment Code Standards
 
@@ -240,7 +240,7 @@ Client-provided lifecycle state MUST NOT be authoritative. Operations MUST be re
 
 Identity, Principal, Authentication, Authorization, Role, Permission, Claims, Scope, Session, Access Token, Refresh Token, and MFA code MUST follow `SECURITY-STANDARDS.md`.
 
-Authorization MUST be enforced at trusted server boundaries with default denial and object-level checks. Privilege changes MUST be authorized and audited. Tokens and Sessions MUST validate issuer, audience, signature, expiry, revocation, and other applicable Claims. Frontend visibility MUST NOT be an Authorization control. Tokens MUST NOT leak through URLs, logs, errors, or insecure storage.
+Authorization MUST be enforced at trusted server boundaries with default denial and object-level checks. Privilege changes MUST be authorized and audited. Access Tokens and Refresh Tokens MUST validate issuer, audience, signature, expiry, revocation, and other Claims as applicable to their protocol. Sessions MUST enforce applicable expiry and revocation behavior. Frontend visibility MUST NOT be an Authorization control. Tokens MUST NOT leak through URLs, logs, errors, or insecure storage.
 
 ## 33. Security-Sensitive Coding Rules
 
@@ -262,7 +262,7 @@ Side effects MUST be isolated at approved boundaries. Hidden mutation and global
 
 ## 36. Dependency Standards
 
-Every dependency MUST have a justified capability, compatible license, maintained source, approved version path, and acceptable security posture. The dependency footprint MUST remain minimal; duplicate libraries for the same purpose SHOULD NOT be introduced.
+Every dependency MUST have a justified capability and an assessed license, maintenance, versioning, and security posture. The dependency footprint MUST remain minimal; duplicate libraries for the same purpose SHOULD NOT be introduced.
 
 Versions MUST use repository-owned management. Transitive Risk MUST be reviewed. Vulnerable, abandoned, malicious, or unmaintained dependencies MUST follow `SECURITY-STANDARDS.md`. Generated dependency updates require the same tests and review as manual changes.
 
@@ -274,7 +274,7 @@ Comments MUST NOT restate obvious code, preserve obsolete behavior, or substitut
 
 ## 38. TODO/FIXME Standards
 
-TODO and FIXME markers MUST reference a tracked issue when work, Risk, or a temporary workaround remains. They MUST identify enough context for resolution and MUST be removed when resolved.
+Committed TODO and FIXME markers that defer work, accept Risk, or preserve a temporary workaround beyond the current change MUST reference a tracked issue. They MUST identify enough context for resolution and MUST be removed when resolved.
 
 Security work MUST NOT be deferred through a marker when it blocks a mandatory control. Stale, ownerless, or unbounded markers MUST NOT accumulate.
 
@@ -395,4 +395,5 @@ Exceptions MUST be explicit, time-bound, auditable, and reviewed before expiry. 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide coding standards after final governance, terminology, architecture, frontend, backend, security, domain, data, integration, testing, and implementation-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide coding standards baseline covering implementation quality, architecture alignment, frontend, backend, security, domain code, integrations, data access, AI-generated code, review, and exception governance. |
