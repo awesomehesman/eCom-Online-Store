@@ -1,7 +1,7 @@
 ---
 title: SECURITY-STANDARDS
-version: 0.2.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Architecture
 last_updated: 2026-08-11
 authoritative: true
@@ -136,10 +136,10 @@ Ownership establishes accountability and does not remove each contributor's duty
 | Security Concern | Canonical Owner | Required Responsibilities |
 | --- | --- | --- |
 | Repository security baseline | Architecture | Maintain this standard; resolve cross-cutting design conflicts; coordinate reviews. |
-| Identity | Identity Domain Owner | Own Identity lifecycle, Principal representation, federation, and Identity separation. |
-| Authentication | Identity Domain Owner | Own Identity Provider integration, credential policy, MFA, recovery, and authentication events. |
+| Identity | Domain Owner for Identity | Own Identity lifecycle, Principal representation, federation, and Identity separation. |
+| Authentication | Domain Owner for Identity | Own Identity Provider integration, credential policy, MFA, recovery, and authentication events. |
 | Authorization | Owning Domain Owner with Identity | Define domain Permissions and object/state policy; Identity supplies the common model without creating domain rules. |
-| Sessions and tokens | Identity Domain Owner | Govern Session, Access Token, Refresh Token, Claims, Scope, revocation, and validation. |
+| Sessions and tokens | Domain Owner for Identity | Govern Session, Access Token, Refresh Token, Claims, Scope, revocation, and validation. |
 | Secrets | Platform/Operations | Operate approved secret management, access policy, rotation, scanning, and response. |
 | Cryptographic keys | Security and Platform/Operations | Approve use, lifecycle, custody, rotation, and compromise response. |
 | Certificates | Platform/Operations | Issue, renew, inventory, monitor, revoke, and validate trust. |
@@ -156,7 +156,7 @@ Ownership establishes accountability and does not remove each contributor's duty
 | Security monitoring | Security and Operations | Define detections, alert ownership, escalation, retention, and continuous improvement. |
 | Incident response | Designated security incident commander and Operations | Coordinate containment, evidence, recovery, communication, and review. |
 | Privacy | Product with Privacy/Legal and Domain Owners | Define lawful purpose, minimisation, access, retention, deletion, and data-subject handling. |
-| Payments | Payment Domain Owner with Security/Compliance | Protect Payment Provider boundaries, Payment Attempts, Payment Transactions, Refunds, and PCI scope. |
+| Payments | Domain Owner for Payment with security and compliance reviewers | Protect Payment Provider boundaries, Payment Attempts, Payment Transactions, Refunds, and PCI scope. |
 | AI security | Capability owner with Security and Architecture | Govern model/provider access, data, tools, Guardrails, evaluation, monitoring, and Human Approval Gates. |
 
 ## 9. Security Classification and Risk
@@ -445,7 +445,7 @@ Controls MUST include per-Resource and per-property policy, schema allowlists, q
 - Direct and indirect prompt injection MUST be treated as untrusted input. Retrieved documents, web content, tool output, and model output MUST NOT be interpreted as trusted instructions without policy enforcement.
 - Model and retrieval access MUST enforce Principal, Customer/store/tenant, object, and property Authorization before context construction. Prompts, embeddings, caches, logs, and outputs MUST not leak data across boundaries.
 - Tool permissions MUST be least-privilege, narrowly scoped, time-bound where possible, and enforced outside the model. The model MUST NOT hold unrestricted Secrets or production access.
-- Model output MUST be validated, encoded, and policy-checked before display, persistence, code execution, API calls, or domain actions. Output MUST NOT directly set Price, Permission, Payment, Refund, Order, inventory, or identity state.
+- Model output MUST be validated, encoded, and policy-checked before display, persistence, code execution, API calls, or domain actions. Model output MUST NOT directly mutate Payment, Order, Inventory, Identity, Permission, Price, Discount, or Refund state; trusted enforcement outside the model MUST authenticate and authorize the Principal, validate the action, and enforce domain invariants before any mutation.
 - Destructive, financial, privileged, external-communication, privacy-affecting, or otherwise high-impact actions MUST use a Human Approval Gate with a clear action preview unless a separately approved deterministic policy defines safe automation.
 - Provider logging and training use MUST be configured to protect Sensitive Data. Sensitive prompts and responses MUST be minimised and retained only as approved.
 - Evaluations MUST cover prompt injection, data leakage, unsafe action, hallucination, authorization bypass, denial of service, bias or harmful output relevant to use, and fallback behaviour. Abuse and anomalous tool use MUST be monitored.
@@ -583,3 +583,4 @@ Applicable approved ADRs, domain Specifications, API and database Contracts, and
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-08-06 | Draft | Initial governance baseline. |
 | 0.2.0 | 2026-08-11 | Draft | Completed the repository-wide security standards baseline covering governance, identity and access, application security, infrastructure, secure delivery, privacy, payment security, AI security, vulnerability management, testing, compliance, and exception governance. |
+| 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide security standards baseline after final governance, terminology, architecture, product, payment, AI-security, and compliance consistency validation. |
