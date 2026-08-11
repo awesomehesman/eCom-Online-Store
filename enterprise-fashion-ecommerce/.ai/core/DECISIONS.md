@@ -1,7 +1,7 @@
 ---
 title: DECISIONS
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Architecture
 last_updated: 2026-08-12
 authoritative: true
@@ -336,7 +336,7 @@ A future possibility in Vision is not automatically an Approved Product commitme
 
 Product Decisions may address scope boundaries, channel commitments, supported markets, business policy, capability adoption, customer or Staff User outcomes, and provider strategy where Product-owned.
 
-They MUST state affected Requirements, actors, policies, success and guardrail considerations, and current-versus-future scope. Product Decisions MUST be governed through `PRODUCT.md` and MUST NOT turn this document or an ADR into a Product backlog, roadmap, or issue tracker.
+They MUST state affected Requirements, actors, policies, success and guardrail considerations, and current-versus-future scope. Product Decisions MUST be governed through `PRODUCT.md` and MUST NOT turn this document or a Decision Record into a Product backlog, roadmap, or issue tracker.
 
 ## 30. Architecture Decisions
 
@@ -382,7 +382,7 @@ The record MUST address:
 - operational support, monitoring, and Audit Records; and
 - rollback, recovery, or compensating action.
 
-A Payment Redirect or client-reported success MUST NOT be treated as payment proof. Authoritative Payment state requires validated Payment Provider evidence.
+A Payment Redirect or client-reported Payment success MUST NOT be treated as payment proof. Authoritative Payment state requires validated Payment Provider evidence.
 
 ## 36. Inventory Decisions
 
@@ -428,7 +428,7 @@ Trend, novelty, or contributor preference alone is insufficient evidence.
 
 AI decisions may concern AI-assisted development, Product AI capability, provider or model choice, tool permissions, data exposure, retrieval, Guardrails, Human Approval Gates, model-output authority, fallback, evaluation, monitoring, and auditability.
 
-They MUST comply with `AGENTS.md` and `SECURITY-STANDARDS.md`. AI MUST NOT gain authority, production access, permission to expose Sensitive Data, or permission to mutate high-impact state merely because a decision record exists. Authorization and domain enforcement MUST remain outside the model.
+They MUST comply with `AGENTS.md` and `SECURITY-STANDARDS.md`. AI tool and production permissions MUST be least-privilege and bounded to approved data, tools, actions, and Environments. High-impact actions MUST use a Human Approval Gate unless an approved deterministic policy explicitly governs safe automation. AI MUST NOT gain authority, production access, permission to expose Sensitive Data, or permission to mutate high-impact state merely because a Decision Record exists. Authorization and domain enforcement MUST remain outside the model.
 
 ## 42. Migration Decisions
 
@@ -481,7 +481,7 @@ Material decisions SHOULD link, where relevant, to:
 
 - Requirement and Acceptance Criterion;
 - Specification;
-- ADR;
+- related Decision Record, including an ADR where applicable;
 - Contract;
 - implementation and migration;
 - tests and Pipeline evidence;
@@ -508,6 +508,7 @@ The owner of a new or changed decision record MUST update this index in the same
 
 - every Proposed and Accepted durable decision is indexed;
 - Rejected records retained for durable context remain clearly identified;
+- Superseded records remain indexed and traceable;
 - status changes are synchronized;
 - supersession references are bidirectional and current;
 - owners, dates, titles, and links match the record;
@@ -559,15 +560,15 @@ The following are prohibited:
 - retroactively rewriting Accepted history instead of recording supersession;
 - fabricating alternatives, evidence, approval, or decision records;
 - claiming Accepted status without the required authority;
-- using an ADR to bypass a Security Exception or another formal exception process;
+- using a Decision Record to bypass a Security Exception or another formal exception process;
 - using Vision as approval for future Product scope;
-- treating a Payment Redirect or client-reported success as authoritative Payment evidence;
+- treating a Payment Redirect or client-reported Payment success as authoritative Payment evidence;
 - inventing repository-wide technology standards in a local decision;
 - leaving Superseded decisions appearing current;
 - using a decision record as a backlog or issue tracker; and
 - treating an implemented local pattern as authority merely because it exists.
 
-## 55. Decision Exceptions
+## 55. Decision-Recording Exceptions
 
 An exception to the requirement to create or update a decision record MUST document:
 
@@ -626,4 +627,5 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the repository-wide decision governance and index after final authority, terminology, ADR, decision-record, Product, Architecture, security, data, Payment, Inventory, AI, operational, traceability, and exception-governance validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial repository-wide decision governance and index covering material-decision criteria, ADR structure, approval, supersession, traceability, Product, Architecture, security, data, integration, Payment, Inventory, AI, and operational decisions. |
