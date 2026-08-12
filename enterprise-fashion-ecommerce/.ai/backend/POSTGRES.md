@@ -1,7 +1,7 @@
 ---
 title: POSTGRES
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -14,7 +14,7 @@ review_cycle: Quarterly
 
 This document refines PostgreSQL-specific implementation mechanics beneath `.ai/backend/DATABASE.md`. It applies the PostgreSQL baseline established by `.ai/core/ARCHITECTURE.md` without redefining Product behavior, Domain ownership, Database Transaction semantics, Payment truth, Inventory authority, Authorization, or repository governance.
 
-This Draft is a lower-level implementation standard. It MUST NOT weaken or silently override an Approved governing source or Accepted Decision Record.
+This standard is a lower-level implementation standard. It MUST NOT weaken or silently override an Approved governing source or Accepted Decision Record.
 
 ## 2. Scope
 
@@ -39,7 +39,7 @@ PostgreSQL work MUST follow the Decision Hierarchy in `.ai/core/AGENTS.md`.
 - `.ai/backend/SPRING.md` governs Spring-specific persistence integration.
 - `.ai/backend/JAVA.md` governs Java-specific implementation.
 
-This Draft governs only PostgreSQL-specific implementation mechanics within those boundaries.
+This standard governs only PostgreSQL-specific implementation mechanics within those boundaries.
 
 ## 4. Normative Language
 
@@ -55,7 +55,7 @@ PostgreSQL is the Architecture-approved authoritative transactional database fam
 
 An exact release MUST be selected and recorded in an approved source before implementation, testing, or deployment locks the runtime. Selection MUST include compatibility, security support, migration behavior, driver and framework compatibility, Testcontainers evidence, extension compatibility where applicable, backup and restore evidence, operational support, and deployment-platform compatibility.
 
-This Draft does not select any exact PostgreSQL release.
+This standard does not select any exact PostgreSQL release.
 
 ## 6. DATABASE.md and POSTGRES.md Boundary
 
@@ -246,7 +246,7 @@ Runtime schema mutation, automatic production schema creation, manual untracked 
 
 PostgreSQL operations whose transactional restrictions vary by command or supported release MUST be explicitly identified. Flyway transaction configuration MUST be set deliberately per migration when an operation cannot run safely in the normal migration Database Transaction.
 
-Such migrations MUST be reviewed, safely sequenced, observable, recoverable or forward-fixable, and tested against the exact supported release. This Draft does not hard-code release-sensitive command behavior as a universal rule.
+Such migrations MUST be reviewed, safely sequenced, observable, recoverable or forward-fixable, and tested against the exact supported release. This standard does not hard-code release-sensitive command behavior as a universal rule.
 
 ## 36. Expand-and-Contract Evolution
 
@@ -426,7 +426,7 @@ Unknown commit or failover outcomes MUST remain uncertain until authoritative st
 
 ## 65. PostgreSQL Testing with Testcontainers
 
-Integration Tests SHOULD use real PostgreSQL through Testcontainers where PostgreSQL behavior matters. The exact image tag or release MUST match the supported release once selected; this Draft selects neither.
+Integration Tests SHOULD use real PostgreSQL through Testcontainers where PostgreSQL behavior matters. The exact image tag or release MUST match the supported release once selected; this standard selects neither.
 
 An in-memory substitute does not prove PostgreSQL types, SQL, constraints, indexes, locks, MVCC, isolation, Flyway, SQLSTATE, planner, or migration behavior. Tests MUST be isolated, reliable, reproducible, CI-compatible, and free of production Secrets and Sensitive Data.
 
@@ -529,11 +529,12 @@ This document does not treat empty lower-level companion files as authority.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the PostgreSQL implementation standard after final governance, database-boundary, release-selection, type-system, integrity, query, concurrency, migration, connection, maintenance, security, Payment, Inventory, testing, observability, operational, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial PostgreSQL implementation standard covering release governance, schemas, types, constraints, indexes, SQL, MVCC, isolation, locking, Flyway migrations, connections, maintenance, security, Payment, Inventory, testing, observability, and operational boundaries. |
 
 ## 76. Quality Requirements
 
-This Draft MUST remain subordinate to Approved core and backend standards, preserve PostgreSQL as the approved database family, and avoid selecting an exact release or implementation option without repository evidence and applicable governance.
+This standard MUST remain subordinate to Approved core and backend standards, preserve PostgreSQL as the approved database family, and avoid selecting an exact release or implementation option without repository evidence and applicable governance.
 
 PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Payment Transaction distinctions, validated Payment Provider evidence, Inventory authority, server-side Authorization, Sensitive Data protection, safe migration, bounded concurrency recovery, and evidence-driven operations.
 
@@ -541,7 +542,7 @@ PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Pa
 
 Before approval or implementation reliance, reviewers MUST verify:
 
-1. metadata accurately remains version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. PostgreSQL remains the approved database family and no exact release or image tag was invented;
 3. no cloud SKU, service tier, topology, schema strategy, universal identifier, extension, persistence library, or connection pool was selected;
 4. Money uses exact decimal representation with explicit Currency and no universal precision or scale was invented;
