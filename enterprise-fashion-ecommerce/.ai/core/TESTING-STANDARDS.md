@@ -1,9 +1,9 @@
 ---
 title: TESTING-STANDARDS
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -100,7 +100,7 @@ Backend component tests SHOULD cover a Module or cohesive slice with controlled 
 
 Backend tests MUST cover applicable Application Services, Domain Services, Commands, Queries, Validators, Mappers, Controllers, Exception Handlers, Jobs, and Schedulers.
 
-They MUST verify successful and rejected operations, validation, transaction boundaries, authorization decisions, idempotency, mapping, error responses, retry behavior, and scheduling semantics. Framework-heavy behavior SHOULD be verified with focused Component Tests or Integration Tests rather than simulated in Unit Tests.
+They MUST verify successful and rejected operations, validation, Database Transaction boundaries, Authorization decisions, idempotency, mapping, error responses, retry behavior, and scheduling semantics. Framework-heavy behavior SHOULD be verified with focused Component Tests or Integration Tests rather than simulated in Unit Tests.
 
 ## 11. Integration Testing
 
@@ -108,7 +108,7 @@ Integration Tests MUST cover consequential collaboration with:
 
 - PostgreSQL, Repositories, mappings, constraints, and migrations;
 - provider Adapters, object storage, messaging, queues, and topics;
-- Spring Boot configuration, serialization, transactions, and security boundaries; and
+- Spring Boot configuration, serialization, Database Transactions, and security boundaries; and
 - infrastructure behavior that a Test Double cannot faithfully represent.
 
 Tests SHOULD use real PostgreSQL and required infrastructure through isolated containerized dependencies, including Testcontainers where practical. A Test Double MAY be used for an external provider when the real service is unavailable, costly, unsafe, or nondeterministic, but the provider Contract MUST still be verified independently.
@@ -127,7 +127,7 @@ They MUST cover schema validation, required and optional fields, semantic meanin
 
 ## 14. Database Testing
 
-Database tests MUST verify applicable migrations, constraints, unique rules, foreign keys, optimistic concurrency, transaction boundaries, rollback, indexes, persistence mapping, concurrent writes, and integrity rules.
+Database tests MUST verify applicable migrations, constraints, unique rules, foreign keys, optimistic concurrency, Database Transaction boundaries, rollback, indexes, persistence mapping, concurrent writes, and integrity rules.
 
 Every migration MUST be tested from the supported prior state and on an empty database when applicable. Tests MUST establish that partial failure cannot leave invalid state. Query and index behavior SHOULD be measured for material access paths without inventing arbitrary performance thresholds.
 
@@ -139,7 +139,7 @@ Consumers MUST be tested against replay, partial processing, poison messages, ou
 
 ## 16. Payment-Critical Testing
 
-Payment tests MUST use the canonical distinctions among Payment Attempt, Payment Authorization, Capture, Void, Payment Transaction, Refund Transaction, Chargeback, Settlement, and Payment Redirect.
+Payment tests MUST use the canonical distinctions among Payment, Payment Attempt, Payment Provider, Payment Redirect, Payment Authorization, Capture, Void, Payment Transaction, Refund, Refund Transaction, Chargeback, Settlement, and Idempotency Key.
 
 They MUST verify:
 
@@ -148,7 +148,7 @@ They MUST verify:
 - that a Payment Redirect, browser return, client-provided success, or client-provided Payment state is never payment proof;
 - that Payment state changes occur only after validated authoritative Payment Provider evidence;
 - Idempotency Keys, replay protection, duplicate notifications, retries, concurrent requests, and out-of-order evidence;
-- partial and full Capture, Void, refund, Chargeback, and Settlement cases where supported;
+- partial and full Capture, Void, Refund, Chargeback, and Settlement cases where supported;
 - traceability among Payment Attempts, Payment Transactions, Refund Transactions, Orders, Payment Provider references, and Audit Records;
 - failure recovery without duplicate financial effects; and
 - rejection of client-provided Price, Discount, tax, shipping amount, Payment Provider outcome, or authoritative totals.
@@ -157,9 +157,9 @@ Tests MUST confirm that raw CVV is never stored or logged and that hosted or tok
 
 ## 17. Inventory Testing
 
-Inventory tests MUST cover Stock, Reservations, Available-to-Sell calculations, Stock Adjustments, Stock Movements, concurrency, oversell prevention, Reservation expiry and release, competing checkout races, and transactional rollback.
+Inventory tests MUST cover Stock, Stock Reservations, Available-to-Sell calculations, Stock Adjustments, Stock Movements, concurrency, overselling prevention, Stock Reservation expiry and release, competing checkout races, and Database Transaction rollback.
 
-Tests MUST verify ownership of Inventory state and MUST demonstrate that duplicate or retried operations do not create or release Stock incorrectly.
+Tests MUST verify that Inventory owns authoritative Stock and Available-to-Sell state; that stale Product Catalogue, client, search, reporting, and other projection state is not authoritative; and that duplicate or retried operations do not create or release Stock incorrectly.
 
 ## 18. Order and Fulfilment Testing
 
@@ -223,7 +223,7 @@ Production customer data, PII, payment credentials, raw CVV, production secrets,
 
 A Test Double MAY stand in for a dependency when isolation is the purpose of the test. A Stub provides controlled responses; a Mock verifies required interactions. Mocks MUST be limited to external dependencies, consistent with `AGENTS.md`. A lightweight in-memory substitute MAY be used only when its behavior is sufficiently faithful for the assertion.
 
-Tests MUST use real implementations for boundaries whose behavior is material to confidence, including database constraints and transaction semantics. Excessive mocking that merely restates implementation logic MUST be avoided.
+Tests MUST use real implementations for boundaries whose behavior is material to confidence, including database constraints and Database Transaction semantics. Excessive mocking that merely restates implementation logic MUST be avoided.
 
 ## 27. Test Naming and Structure
 
@@ -384,5 +384,6 @@ Compliance requires both implementation and evidence. A missing, stale, unaudita
 
 | Version | Date | Status | Summary |
 |---|---|---|---|
+| 1.0.1 | 2026-08-12 | Approved | Normalized Stock Reservation, Payment, and Database Transaction terminology and clarified authoritative Inventory test coverage. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide testing standards after final governance, terminology, architecture, security, domain, CI, release, and testing-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide testing standards baseline covering test strategy, domain verification, integration, security, CI gates, traceability, and release confidence. |
