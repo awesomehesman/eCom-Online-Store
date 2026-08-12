@@ -1,6 +1,6 @@
 ---
 title: AGENTS
-version: 1.1.0
+version: 1.1.1
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -799,7 +799,7 @@ Ensure APIs are consistent, discoverable, secure, and maintainable. Enable clien
 - Idempotency: All `PUT` and `DELETE` must be idempotent; `POST` must support idempotency keys where needed.
 - Versioning: Use URI versioning (`/v1/`) for breaking changes.
 - Validation: Validate all input, reject invalid requests with clear errors.
-- Error responses: Use RFC7807 Problem Details (`application/problem+json`), with `type`, `title`, `status`, `detail`, and `instance`.
+- Error responses: Use RFC 9457 Problem Details (`application/problem+json`), with `type`, `title`, `status`, `detail`, and `instance`.
 - Authentication: All APIs must require authentication unless explicitly public.
 - Authorization: Enforce RBAC at the API boundary.
 - Correlation ID: Accept and propagate a `X-Correlation-ID` header.
@@ -827,7 +827,7 @@ Ensure APIs are consistent, discoverable, secure, and maintainable. Enable clien
 
 - [ ] Are resource names, methods, and status codes correct?
 - [ ] Are pagination, filtering, and sorting implemented and documented?
-- [ ] Are validation and error responses RFC7807-compliant?
+- [ ] Are validation and error responses RFC 9457-compliant?
 - [ ] Is authentication and authorization enforced?
 - [ ] Is the OpenAPI spec complete and accurate?
 - [ ] Are breaking changes versioned and deprecated properly?
@@ -2014,3 +2014,4 @@ Where guidance conflicts, this document governs contributor behaviour. Technolog
 | 0.4.0   | 2026-08-05 | Draft    | Defined AI behaviour, prohibited and preferred practices, quality gates, feature and defect lifecycles, refactoring rules, domain ownership, and glossary governance.                            |
 | 1.0.0   | 2026-08-05 | Approved | Completed the foundational AI Engineering Constitution, including governance, engineering philosophy, repository standards, delivery lifecycle, quality gates, and contributor responsibilities. |
 | 1.1.0   | 2026-08-12 | Approved | Clarified formal Exception precedence and DAST execution, aligned technology examples with Architecture, normalized Product Variant, Stock Reservation, Database Transaction, Smoke Test, and Outbox Pattern terminology, and corrected Decision Record scope after the core consistency audit. |
+| 1.1.1   | 2026-08-12 | Approved | Aligned the canonical API Problem Details reference to RFC 9457 after final core freeze validation. |
