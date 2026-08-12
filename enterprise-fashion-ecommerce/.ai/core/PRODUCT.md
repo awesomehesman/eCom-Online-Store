@@ -1,9 +1,9 @@
 ---
 title: PRODUCT
-version: 1.0.1
+version: 1.1.0
 status: Approved
 owner: Product and Engineering
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 applies_to:
   - Product management
   - Business analysis
@@ -20,7 +20,7 @@ source_of_truth: true
 
 # PRODUCT.md
 
-> **Release Status:** Version 1.0.0 establishes the approved product baseline for the Enterprise Fashion Commerce Platform. All business requirements, domain specifications, user-experience definitions, implementation plans, analytics, and operational procedures must conform to this document unless an approved product decision explicitly changes the baseline.
+> **Release Status:** Version 1.0.0 established the foundational approved Product baseline for the Enterprise Fashion Commerce Platform; the current Approved document version is recorded in metadata and Revision History. All Requirements, Specifications, user-experience definitions, implementation plans, analytics, and operational procedures must conform to the current `PRODUCT.md`. An approved Product Decision becomes current canonical Product truth only when its change is applied to this document through repository governance.
 
 > Enterprise Fashion Commerce Platform — Authoritative Product Definition
 
@@ -44,7 +44,7 @@ It defines:
 - Explicit exclusions for Version 1.
 - The relationship between product intent and detailed domain specifications.
 
-The statements **must**, **must not**, **required**, and **prohibited** are mandatory product rules. The statements **should** and **should not** are strong defaults that may be overridden only through an approved product decision.
+The statements **must**, **must not**, **required**, and **prohibited** are mandatory Product rules. The statements **should** and **should not** are strong defaults that may be changed only through an approved Product Decision and the corresponding governed update to this document.
 
 This document does not replace detailed requirements under `specifications/`. It establishes the product baseline that those specifications must implement consistently.
 
@@ -52,7 +52,7 @@ This document does not replace detailed requirements under `specifications/`. It
 
 The Enterprise Fashion Commerce Platform will provide a premium, trustworthy, mobile-first online shopping experience for a fashion and streetwear business while giving authorised staff reliable control over products, categories, collections, media, pricing, promotions, inventory, customers, content, payments, orders, shipping, communications, administration, and reporting.
 
-The platform must make shopping feel visually refined and simple without hiding important information or sacrificing correctness. Customers should be able to discover products, understand variants and availability, complete payment confidently, and track their purchases without unnecessary friction.
+The platform must make shopping feel visually refined and simple without hiding important information or sacrificing correctness. Customers should be able to discover Products, understand Product Variants and availability, complete Payment confidently, and track their purchases without unnecessary friction.
 
 For the business, the platform must provide accurate operational control and a dependable record of commercial activity. Staff should be able to manage the store without direct database access, developer intervention, or reliance on undocumented manual processes for ordinary operations.
 
@@ -82,7 +82,7 @@ Every significant capability should contribute to at least one of the following:
 Customers receive:
 
 - A premium, responsive storefront designed for mobile and desktop.
-- Clear product imagery, descriptions, prices, variants, and availability.
+- Clear Product imagery, descriptions, Prices, Product Variants, and availability.
 - Useful browsing, filtering, search, collection, and recommendation experiences.
 - A persistent cart and straightforward checkout.
 - Secure payment through approved providers.
@@ -96,7 +96,7 @@ Customers receive:
 The business receives:
 
 - Centralised catalogue and merchandising control.
-- Accurate variant-level stock visibility and movement history.
+- Accurate Product Variant-level Stock visibility and movement history.
 - Controlled pricing, sale, voucher, and promotion management.
 - Reliable order, payment, refund, shipment, and communication records.
 - Role-based administration and auditable staff actions.
@@ -169,7 +169,7 @@ The Version 1 operating context assumes:
 - Primary currency: South African Rand (`ZAR`).
 - Customer access through modern mobile and desktop web browsers.
 - One primary legal merchant and commerce operation.
-- One primary catalogue with variant-level stock.
+- One primary catalogue with Product Variant-level Stock.
 - Physical product fulfilment through approved courier or shipping providers.
 - Payment through approved hosted or tokenised payment providers.
 - Administrative operation by authorised internal staff.
@@ -238,7 +238,7 @@ This actor may:
 - Record approved stock adjustments.
 - Process picking, packing, shipment, and delivery-related actions.
 - Print or retrieve supported fulfilment documents.
-- Investigate reservation and fulfilment exceptions.
+- Investigate Stock Reservation and fulfilment exceptions.
 
 ### 7.6 Customer Support Agent
 
@@ -288,7 +288,7 @@ The platform must present complete and consistent decision-support information b
 
 ### 8.3 Mobile Friction
 
-Fashion customers commonly browse and purchase on mobile devices. Small controls, unstable layouts, slow media, lengthy forms, or difficult variant selection create avoidable abandonment.
+Fashion customers commonly browse and purchase on mobile devices. Small controls, unstable layouts, slow media, lengthy forms, or difficult Product Variant selection create avoidable abandonment.
 
 The product must prioritise mobile usability and performance throughout the journey.
 
@@ -316,7 +316,7 @@ Product data, imagery, categories, pricing, and publication must be managed thro
 
 ### 9.2 Inaccurate Stock
 
-The business needs variant-level inventory truth, reservations, adjustments, movements, low-stock visibility, and reconciliation.
+The business needs Product Variant-level Inventory truth, Stock Reservations, Stock Adjustments, Stock Movements, low-stock visibility, and reconciliation.
 
 ### 9.3 Weak Order and Payment Traceability
 
@@ -348,7 +348,7 @@ The Version 1 product goals are:
 
 1. Launch a complete customer storefront for browsing and purchasing fashion products.
 2. Provide secure guest and registered-customer checkout capability.
-3. Maintain authoritative variant-level product, price, inventory, payment, and order state.
+3. Maintain authoritative Product Variant-level Product, Price, Inventory, Payment, and Order state.
 4. Provide protected administration for ordinary store operations.
 5. Support reliable fulfilment, shipment, notification, refund, and reconciliation workflows.
 6. Meet agreed accessibility, performance, security, and observability standards.
@@ -398,7 +398,7 @@ These exclusions prevent the initial product from carrying complexity that has n
 ### 12.2 Commerce
 
 - Guest and customer cart.
-- Variant and quantity selection.
+- Product Variant and quantity selection.
 - Promotion and voucher application.
 - Checkout.
 - Address capture and selection.
@@ -429,7 +429,7 @@ These exclusions prevent the initial product from carrying complexity that has n
 
 ### 12.5 Catalogue Administration
 
-- Product and variant management.
+- Product and Product Variant management.
 - Categories and collections.
 - Product media.
 - Publication and scheduling.
@@ -448,7 +448,7 @@ These exclusions prevent the initial product from carrying complexity that has n
 
 - Stock visibility.
 - Adjustments and movement history.
-- Reservation visibility.
+- Stock Reservation visibility.
 - Low-stock controls.
 - Order fulfilment.
 - Shipment creation.
@@ -539,7 +539,7 @@ The customer reviews:
 - Product imagery.
 - Name and description.
 - Price and sale state.
-- Available variants.
+- Available Product Variants.
 - Size or fit guidance.
 - Stock or availability information.
 - Delivery and return information.
@@ -547,7 +547,7 @@ The customer reviews:
 
 ### 14.3 Add to Cart
 
-The customer selects a valid variant and quantity. The platform validates sellability and returns a clear cart state.
+The customer selects a valid Product Variant and quantity. The platform validates sellability and returns a clear Cart state.
 
 Cart price and availability remain provisional until checkout revalidation.
 
@@ -567,11 +567,11 @@ The platform must clearly communicate any price, stock, promotion, or delivery c
 
 The customer completes payment through a hosted or tokenised provider experience.
 
-The platform must not represent payment as successful until authoritative provider confirmation is validated by the backend.
+The platform must not represent Payment as successful until the backend has validated authoritative Payment Provider evidence. A Payment Redirect, browser result, or client-reported success is not authoritative Payment proof.
 
 ### 14.6 Confirmation
 
-After confirmed payment and successful order creation, the customer receives:
+After confirmed Payment based on validated evidence and successful Order creation, the customer receives:
 
 - A unique order reference.
 - Order summary.
@@ -592,7 +592,7 @@ The customer can locate support information and provide an order reference. Auth
 
 ### 15.1 Catalogue Setup
 
-An authorised Staff User creates product information, variants, categories, media, pricing, SEO information, and publication settings.
+An authorised Staff User creates Product information, Product Variants, Categories, media, pricing, SEO information, and publication settings.
 
 Publication must be blocked until mandatory information and sellability requirements are satisfied.
 
@@ -628,20 +628,24 @@ A content user prepares and schedules campaigns, homepage content, banners, and 
 
 ### 16.2 Inventory Policy
 
-- Inventory is authoritative at product-variant level.
-- Available-to-sell quantity must account for approved reservations.
-- Cart presence does not guarantee stock.
-- Checkout confirmation must revalidate or reserve stock.
-- Reservation expiry and release must be explicit.
-- Staff adjustments require reason and audit history.
+- Inventory owns authoritative Stock state at Product Variant level.
+- Available-to-Sell quantity must account for applicable Stock Reservations and other committed quantities under Inventory rules.
+- Cart presence does not guarantee Stock.
+- Checkout confirmation must revalidate Stock or create an applicable Stock Reservation.
+- Stock Reservation expiry and release must be explicit.
+- Stock Adjustments require reason and appropriate Audit Records.
+- Concurrent Inventory changes must preserve Available-to-Sell correctness and prevent overselling.
+- Client, Catalogue, search, reporting, and projection state must not become authoritative Inventory truth.
 
 ### 16.3 Payment Policy
 
 - Raw card data must not be stored by the platform.
-- Provider callbacks (Webhooks) must be validated, authenticated where supported, and processed idempotently.
-- Browser redirects must never be treated as authoritative payment confirmation.
-- Payment Attempts, Payment Transactions, and Refunds must remain independently traceable.
-- Uncertain payment state must be reconciled before final financial representation.
+- Payment Provider callbacks and Webhooks must be validated, authenticated or signature-validated where applicable, and processed idempotently.
+- A Payment Redirect, browser result, or client-reported Payment success must never be treated as authoritative Payment proof.
+- Provider-dependent authoritative Payment state requires validated Payment Provider evidence.
+- Payment, Payment Attempt, Payment Authorization, Capture, Void, Payment Transaction, Refund, Refund Transaction, Chargeback, and Settlement must remain distinguishable and traceable where applicable.
+- Duplicate callbacks, Webhooks, requests, or retries must not create duplicate financial effects; applicable duplicate-sensitive requests must preserve Idempotency Key semantics.
+- Unknown, pending, or otherwise uncertain Payment outcomes must remain distinguishable from confirmed success and must be reconciled before final financial representation.
 
 ### 16.4 Order Policy
 
@@ -702,8 +706,9 @@ Critical journeys must be operable through keyboard and compatible assistive tec
 
 - Returns, exchanges, cancellations, and refunds must use explicit eligibility and lifecycle rules.
 - Customer-facing policy content must match operational capability.
+- A Return and a Refund are distinct processes; a Refund and its Refund Transaction must remain distinguishable.
 - Refund approval, provider processing, order financial state, inventory disposition, and customer communication must remain distinguishable.
-- Manual exceptions require permission, reason, audit evidence, and reconciliation.
+- Manual operational deviations require Permission, reason, Audit Records, and reconciliation and must not waive Requirements governed by another Canonical Document.
 
 ### 16.12 Fraud and Abuse Policy
 
@@ -716,11 +721,11 @@ Critical journeys must be operable through keyboard and compatible assistive tec
 
 ### 17.1 Explicit Lifecycle State
 
-Products, variants, carts, checkout sessions, payments, orders, refunds, shipments, promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status. Each lifecycle must use only the canonical states defined for that domain in `.ai/core/GLOSSARY.md`; lifecycle states must not be generalised across unrelated domains.
+Products, Product Variants, Carts, Checkout sessions, Payments, Orders, Refunds, Shipments, Promotions, content, and notifications must use explicit lifecycle states where behaviour depends on current status. Each lifecycle must use the canonical states defined for that domain in `.ai/core/GLOSSARY.md`. Additional domain-specific states belong in the owning approved Specification and must not contradict canonical terminology or be presented as repository-wide states.
 
 ### 17.2 No Ambiguous Success
 
-The product must distinguish states such as:
+The Product must distinguish applicable canonical states such as the following, only within the lifecycles for which `GLOSSARY.md` defines them:
 
 - Initiated.
 - Pending Payment.
@@ -731,10 +736,8 @@ The product must distinguish states such as:
 - Completed.
 - Archived.
 - Failed.
-- Expired.
 - Refunded.
 - Partially Refunded.
-- Reconciliation Required.
 
 A Pending Payment or uncertain state must not be displayed as complete.
 
@@ -806,7 +809,7 @@ Product optimisation must monitor guardrails including:
 
 - Accessibility failures.
 - Payment duplication or uncertain-payment rate.
-- Inventory oversell or reservation discrepancies.
+- Inventory oversell or Stock Reservation discrepancies.
 - Refund and cancellation complaints.
 - Support-contact volume caused by product changes.
 - Page and API performance regressions.
@@ -820,7 +823,7 @@ An improvement in conversion or engagement must not be considered successful whe
 The Version 1 baseline assumes:
 
 - The merchant owns or directly controls the products sold.
-- Product availability is managed at variant level.
+- Product availability is managed at Product Variant level.
 - The initial operation uses one primary currency and market.
 - Tax treatment can be represented within the selected pricing and order model.
 - Payment is delegated to an approved provider.
@@ -846,20 +849,13 @@ The product is constrained by:
 
 This document does not provide legal or tax interpretation. Applicable obligations must be validated by qualified stakeholders before production launch.
 
-## 21. Product Decision Hierarchy
+## 21. Product Authority and Decision Governance
 
-When product guidance conflicts, apply this order:
+`AGENTS.md` is the repository-wide Decision Hierarchy authority. Product Decisions operate within that hierarchy; this document does not define a competing order of authority.
 
-1. Applicable legal, regulatory, contractual, privacy, and security obligations.
-2. Approved business policy and customer commitments.
-3. This product baseline.
-4. Accepted product or architecture decisions.
-5. Detailed business and domain specifications.
-6. Approved UX and design-system standards.
-7. Existing product behaviour that remains consistent with higher authority.
-8. Stakeholder or contributor preference.
+`PRODUCT.md` is the Canonical Document for current Approved Product scope, Requirements, policies, actors, and business semantics. Detailed business, domain, UX, and operational Specifications may add precision within their authority but must not silently contradict or replace the current Product baseline.
 
-A lower-authority source must not silently override a higher-authority source.
+An approved Product Decision records the reviewed choice and rationale but does not silently override this document. When a Product Decision changes the Product baseline, the same governed change must update `PRODUCT.md`, or the update must be synchronized before changed behavior is treated as current canonical Product truth. Until that update is applied, the current Approved `PRODUCT.md` remains authoritative.
 
 ## 22. Requirements Traceability
 
@@ -891,9 +887,9 @@ Specifications should use stable requirement identifiers. Code, tests, APIs, dia
 | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Premium visual design reduces usability                                                   | Apply accessibility, responsive, content, and design-system standards to every journey.           |
 | Customer sees stale or misleading price                                                   | Recalculate authoritative totals at checkout and preserve order snapshots.                        |
-| Product appears available but cannot be purchased                                         | Centralise variant sellability and inventory rules, and revalidate before payment.                |
-| Customer is charged without a clear order outcome                                         | Use authoritative payment confirmation, idempotency, order creation controls, and reconciliation. |
-| Duplicate Webhook notifications create duplicate Payment Transactions or Order processing | Deduplicate callbacks and make critical handlers idempotent.                                      |
+| Product appears available but cannot be purchased                                         | Centralise Product Variant sellability and Inventory rules, and revalidate before Payment.         |
+| Customer is charged without a clear Order outcome                                         | Require validated Payment Provider evidence, idempotency, Order creation controls, and reconciliation. |
+| Duplicate Webhook notifications create duplicate Payment Transactions or Order processing | Deduplicate callbacks and prevent duplicate financial or Order effects.                            |
 | Staff can bypass business rules                                                           | Route all administration through domain-owned use cases with RBAC and audit.                      |
 | Promotions create unexpected losses                                                       | Define explicit eligibility, stacking, thresholds, limits, calculation order, and reporting.      |
 | Customer support cannot diagnose issues                                                   | Correlate cart, checkout, payment, order, shipment, and notification records.                     |
@@ -904,11 +900,11 @@ Specifications should use stable requirement identifiers. Code, tests, APIs, dia
 
 ## 24. Open Product Decisions
 
-The following decisions require detailed business specification or approved product decision before implementation becomes binding:
+The following Decisions require a detailed business Specification or approved Product Decision before implementation becomes binding:
 
 1. Final brand name and visual identity.
 2. Initial product categories and catalogue taxonomy.
-3. Size, fit, colour, material, and other variant or attribute standards.
+3. Size, fit, colour, material, and other Product Variant or Attribute standards.
 4. Guest checkout versus mandatory account rules.
 5. Customer email-verification requirements.
 6. Initial payment methods and provider.
@@ -917,7 +913,7 @@ The following decisions require detailed business specification or approved prod
 9. Tax-inclusive display and invoice requirements.
 10. Cancellation eligibility and cutoff policy.
 11. Returns, exchanges, and refund policy.
-12. Inventory reservation duration.
+12. Stock Reservation duration.
 13. Back-order and pre-order support.
 14. Voucher and promotion stacking policy.
 15. Product-review support.
@@ -960,9 +956,9 @@ Product and Engineering jointly own the product baseline. Detailed ownership is 
 
 No single contributor may redefine a cross-domain business rule without the required owners.
 
-### 25.2 Product Decision Records
+### 25.2 Product Decisions and Decision Records
 
-A documented product decision is required when a choice:
+A durable Product Decision is required when a choice:
 
 - Changes customer eligibility or access.
 - Changes price, promotion, delivery, cancellation, return, or refund policy.
@@ -972,7 +968,9 @@ A documented product decision is required when a choice:
 - Changes a Version 1 goal or non-goal.
 - Is expensive to reverse or likely to affect multiple specifications.
 
-Product decisions must record Context, Decision, alternatives, consequences, owner, date, and affected Requirements.
+Durable Product Decisions use the general `DEC-####` Decision Record mechanism governed by `.ai/core/DECISIONS.md`. ADR identifiers remain reserved for Architecture Decisions; this document does not establish a Product-specific identifier sequence or record location.
+
+Each such Decision Record must record Context, Decision, alternatives, consequences, owner, date, and affected Requirements.
 
 ### 25.3 Product Review Rhythm
 
@@ -1142,7 +1140,7 @@ Exit criteria:
 
 Includes:
 
-- Product and variant management.
+- Product and Product Variant management.
 - Category and collection management.
 - Product media.
 - Pricing display.
@@ -1247,7 +1245,7 @@ Navigation labels must be customer-friendly and must not expose internal catalog
 | ------------------ | ------------------------------------------------------------------------------------------ |
 | Homepage           | Communicate brand, campaigns, featured collections, and high-priority discovery paths.     |
 | Product Listing    | Present products for a category, collection, search, or campaign with filters and sorting. |
-| Product Detail     | Support confident evaluation and variant selection.                                        |
+| Product Detail     | Support confident evaluation and Product Variant selection.                                |
 | Search             | Help customers find relevant products and recover from poor or zero-result queries.        |
 | Wishlist           | Preserve customer interest for later consideration.                                        |
 | Cart               | Summarise purchase intent and prepare the customer for checkout.                           |
@@ -1296,7 +1294,7 @@ A product detail experience must provide:
 - Product name.
 - Price and sale state.
 - Image gallery.
-- Variant selection.
+- Product Variant selection.
 - Size or fit guidance where applicable.
 - Availability.
 - Product description and material/care information where applicable.
@@ -1309,7 +1307,7 @@ A product detail experience must provide:
 
 The cart must provide:
 
-- Product and variant summary.
+- Product and Product Variant summary.
 - Quantity controls.
 - Price summary.
 - Promotion or voucher entry where applicable.
@@ -1401,7 +1399,7 @@ The product may manage:
 
 ### 32.2 Content Lifecycle
 
-Content must support explicit lifecycle states such as draft, review, scheduled, published, expired, and archived where applicable.
+The owning approved Specification must define explicit Content lifecycle states covering drafting, review, scheduling, publication, expiration, and archival where applicable.
 
 ### 32.3 Content Quality
 
@@ -1581,7 +1579,7 @@ Product drift occurs when implemented behaviour no longer matches approved produ
 
 - Correction of implementation.
 - Correction of specification.
-- Approval of a changed product decision.
+- Application of an approved Product Decision through a governed update to this document.
 
 Undocumented production behaviour must not silently become the product definition.
 
@@ -1645,8 +1643,8 @@ The required approval level depends on impact:
 Approval must be discoverable in the repository through one or more of:
 
 - Approved specification.
-- Product Decision Record.
-- ADR.
+- `DEC-####` Decision Record for a Product Decision.
+- ADR for an Architecture Decision.
 - Pull-request approval.
 - Linked issue or governance record.
 
@@ -1654,7 +1652,7 @@ Private chat, verbal agreement, or undocumented implementation does not constitu
 
 ### 38.3 Emergency Product Changes
 
-Urgent changes required to protect customers, data, payments, orders, security, or legal obligations may use an expedited approval path. The decision, scope, risk, owner, and follow-up documentation must be recorded promptly.
+Urgent changes required to protect Customers, data, Payments, Orders, security, or legal obligations may use an expedited approval path. The Decision, scope, Risk, owner, and follow-up documentation must be recorded promptly. Expedited Product approval does not waive any applicable Security Exception, Testing Exception, Coding Exception, Documentation Exception, Human Approval Gate, or other requirement governed outside Product authority.
 
 ## 39. Product Compliance Matrix
 
@@ -1695,7 +1693,7 @@ This document has been reviewed against the canonical terminology in `.ai/core/G
 
 ## 40. Authoritative Product Baseline
 
-Version 1.0.0 is the approved product baseline for initial implementation and launch planning.
+Version 1.0.0 established the foundational approved Product baseline for initial implementation and launch planning. The current Approved Product baseline is the complete version of `PRODUCT.md` identified by its metadata and Revision History.
 
 The baseline consists of:
 
@@ -1710,7 +1708,7 @@ The baseline consists of:
 
 Detailed specifications must make this baseline implementation-ready. They must not redefine it independently.
 
-When implementation, documentation, analytics, or operational practice conflicts with this baseline, the conflict must be resolved through product change control rather than accepted as undocumented behaviour.
+When implementation, documentation, analytics, or operational practice conflicts with this baseline, `AGENTS.md` governs authority resolution. A changed Product Decision must be recorded through `DECISIONS.md` and applied through a governed update to `PRODUCT.md` before the changed behavior becomes current canonical Product truth.
 
 ## 41. Product Self-Review Checklist
 
@@ -1744,11 +1742,12 @@ Before approving a product requirement or feature scope, verify:
 | 0.2.0   | 2026-08-05 | Draft    | Added the product operating model, requirement and prioritisation frameworks, phased Version 1 delivery, storefront and administration information architecture, experience standards, content, analytics, support, readiness gates, and product governance.            |
 | 1.0.0   | 2026-08-05 | Approved | Released the authoritative product baseline after finalising cross-cutting policies, guardrail measures, evolution rules, approval workflow, compliance mapping, governance, and Version 1 launch scope.                                                                |
 | 1.0.1   | 2026-08-05 | Approved | Repository terminology audit completed to align PRODUCT.md with the canonical GLOSSARY.md without changing approved product intent.                                                                                                                                     |
+| 1.1.0   | 2026-08-12 | Approved | Aligned Product authority to the AGENTS Decision Hierarchy and DEC Decision Record governance, normalized Product Variant and Stock Reservation terminology, corrected lifecycle vocabulary, clarified Payment evidence, and applied focused core-audit consistency updates without changing approved Product scope. |
 
 ## Document Status
 
-- **Version:** 1.0.1
+- **Version:** 1.1.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative product baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, before major releases, and after any material product or operating-model change.
-- **Change Policy:** Material changes to product scope, actors, policies, lifecycle rules, or Version 1 commitments require an approved Product Decision Record (PDR) or equivalent governance decision together with corresponding updates to this document.
+- **Change Policy:** Material changes to Product scope, actors, policies, lifecycle rules, or Version 1 commitments require an approved Product Decision recorded through the general `DEC-####` Decision Record mechanism in `DECISIONS.md` and a corresponding governed update to this document. Architecture Decisions use ADRs.
