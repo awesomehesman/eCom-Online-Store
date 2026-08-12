@@ -1,7 +1,7 @@
 ---
 title: DATABASE
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -38,7 +38,7 @@ Database decisions MUST follow the Decision Hierarchy in `.ai/core/AGENTS.md`.
 - `.ai/backend/SPRING.md` governs Spring persistence integration and Database Transaction implementation boundaries.
 - `.ai/backend/JAVA.md` governs Java language and type-level implementation.
 
-This Draft MAY refine database-specific implementation consequences but MUST NOT weaken or silently override a higher-authority Requirement or Accepted Decision Record.
+This standard MAY refine database-specific implementation consequences but MUST NOT weaken or silently override a higher-authority Requirement or Accepted Decision Record.
 
 ## 4. Normative Language
 
@@ -306,7 +306,7 @@ Material administrative, security, Payment, Order, Refund, and Inventory actions
 
 Database engine logs and change history are not automatically sufficient Audit Records. Audit design MUST preserve tamper resistance, access control, retention, and traceability appropriate to Risk.
 
-Audit records MUST NOT be updated or deleted through ordinary business workflows where that would undermine the required Audit Trail.
+Audit Records MUST NOT be updated or deleted through ordinary business workflows where that would undermine the required Audit Trail.
 
 ## 43. Database Change Auditability
 
@@ -556,11 +556,12 @@ The following lower-level companions are also currently empty and unapproved and
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the database implementation standard after final governance, architecture, persistence-boundary, Database Transaction, integrity, migration, query, security, Payment, Inventory, idempotency, reconciliation, testing, observability, recovery, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial database implementation standard covering ownership, PostgreSQL direction, persistence boundaries, Database Transactions, integrity, Flyway migrations, queries, security, Payment, Inventory, testing, observability, and recovery governance. |
 
 ## 69. Quality Requirements
 
-This Draft MUST preserve PostgreSQL as the Architecture-approved transactional database while remaining a platform-neutral database implementation standard. It MUST NOT invent an exact release, cloud SKU, physical schema layout, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
+This standard MUST preserve PostgreSQL as the Architecture-approved transactional database while remaining a platform-neutral database implementation standard. It MUST NOT invent an exact release, cloud SKU, physical schema layout, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
 
 Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to a future Approved POSTGRES.md.
 
