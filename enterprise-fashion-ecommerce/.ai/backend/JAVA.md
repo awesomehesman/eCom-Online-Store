@@ -1,7 +1,7 @@
 ---
 title: JAVA
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -37,7 +37,7 @@ Java implementation decisions MUST follow the Decision Hierarchy in AGENTS.md.
 - DECISIONS.md governs durable Decision Records and ADRs.
 - SPRING.md governs Spring-specific implementation detail.
 
-This Draft MAY refine Java-specific implementation consequences but MUST NOT silently override a higher-authority Requirement, Accepted Decision Record, or Approved lower-level rule within its owned scope.
+This document MAY refine Java-specific implementation consequences but MUST NOT silently override a higher-authority Requirement, Accepted Decision Record, or Approved lower-level rule within its owned scope.
 
 ## 4. Normative Language
 
@@ -51,7 +51,7 @@ These meanings apply in prose, lists, tables, and review criteria.
 
 Java 21 LTS is mandatory because ARCHITECTURE.md owns the backend runtime baseline. This document MUST NOT independently change the Java major version.
 
-A Java major-version or runtime-baseline change requires Architecture governance, compatibility evidence, an applicable Decision Record or ADR, and synchronized governing updates. This document does not select a JDK distribution or exact JDK patch release.
+A Java major-version or runtime-baseline change requires Architecture governance, compatibility evidence, an ADR, and synchronized governing updates. This document does not select a JDK distribution or exact JDK patch release.
 
 ## 6. Source, Target, and Runtime Compatibility
 
@@ -95,7 +95,7 @@ Complex nested patterns, guards, or switches MUST NOT conceal Domain policy, Aut
 
 ## 12. Text Blocks
 
-Text blocks MAY improve readability for multiline test data, templates, or project-owned static content. Their indentation, line endings, interpolation, escaping, and trailing whitespace MUST be understood and tested when externally observable.
+Text blocks MAY improve readability for multiline test data, templates, or project-owned static content. Their indentation, line endings, escaping, formatting or template processing, and trailing whitespace MUST be understood and tested when externally observable.
 
 Text blocks MUST NOT embed Secrets, production credentials, uncontrolled SQL, or an undocumented external Contract. Large schemas, templates, and Contracts SHOULD remain in governed resource files where ownership and tooling require it.
 
@@ -103,7 +103,7 @@ Text blocks MUST NOT embed Secrets, production credentials, uncontrolled SQL, or
 
 Local variable type inference with var MAY be used only when the inferred type is immediately obvious from nearby code and improves readability.
 
-var SHOULD NOT be used where it hides Domain meaning, numeric precision, a generic type, an API or Adapter boundary, ownership, mutability, or a security-sensitive type. It MUST NOT be used for fields, parameters, or return types.
+var SHOULD NOT be used where it hides Domain meaning, numeric precision, a generic type, an API or Adapter boundary, ownership, mutability, or a security-sensitive type. It MUST NOT be used for fields, method parameters, constructor parameters, or return types.
 
 ## 14. Null Handling
 
@@ -389,7 +389,7 @@ Cryptographic keys, algorithms, modes, and protocol parameters MUST NOT be hard-
 
 ## 52. Logging
 
-Java code MUST use the repository-approved logging abstraction when established by dependency management. This document does not select a logging backend.
+Java application logging MUST use the repository-established SLF4J abstraction. This document does not select a logging backend.
 
 System.out and System.err MUST NOT be used for application logging. Parameterized logging SHOULD be used where supported, and expensive diagnostic values SHOULD NOT be computed when the relevant level is disabled.
 
@@ -551,11 +551,12 @@ The following lower-level companion files are currently empty and unapproved. Th
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the Java 21 implementation standard after final governance, architecture, language-correctness, domain-safety, security, concurrency, Money, time, logging, testing, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial Java 21 implementation standard covering language features, type safety, nullability, immutability, collections, Money, time, exceptions, domain modeling, concurrency, security, testing, dependency boundaries, and implementation governance. |
 
 ## 69. Quality Requirements
 
-This Draft MUST preserve Java 21 LTS without inventing an exact JDK patch or distribution. It MUST remain build-tool neutral and MUST NOT invent an ORM, mapper library, Lombok adoption, logging backend, virtual-thread baseline, or preview-feature baseline.
+This document MUST preserve Java 21 LTS without inventing an exact JDK patch or distribution. It MUST remain build-tool neutral and MUST NOT invent an ORM, mapper library, Lombok adoption, logging backend, virtual-thread baseline, or preview-feature baseline.
 
 Java rules MUST remain subordinate to core governance and SPRING.md, preserve canonical terminology, distinguish Database Transaction from Payment Transaction, protect Payment Provider evidence, preserve Inventory authority, enforce server-side Authorization, and avoid invented Product semantics.
 
