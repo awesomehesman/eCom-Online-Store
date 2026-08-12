@@ -1,6 +1,6 @@
 ---
 title: JAVA
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -539,18 +539,20 @@ Approved governing and directly relevant documents:
 - .ai/core/DOCUMENTATION-STANDARDS.md
 - .ai/core/DECISIONS.md
 - .ai/backend/SPRING.md
+- .ai/backend/DATABASE.md
 
-The following lower-level companion files are currently empty and unapproved. They are reserved for future separation of concerns and MUST NOT be treated as authorities:
+`.ai/backend/POSTGRES.md` is the PostgreSQL-specific companion whose lifecycle and authority are determined by its own metadata. Unapproved companion content MUST NOT be treated as normative.
+
+The lifecycle and authority of the following companion files MUST be determined from their own metadata and substantive content. Empty or unapproved companion content MUST NOT be treated as normative:
 
 - .ai/backend/API.md
-- .ai/backend/DATABASE.md
-- .ai/backend/POSTGRES.md
 - .ai/backend/EVENTS.md
 
 ## 68. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Corrected stale database companion lifecycle references and aligned lower-level authority discovery with document metadata. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the Java 21 implementation standard after final governance, architecture, language-correctness, domain-safety, security, concurrency, Money, time, logging, testing, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial Java 21 implementation standard covering language features, type safety, nullability, immutability, collections, Money, time, exceptions, domain modeling, concurrency, security, testing, dependency boundaries, and implementation governance. |
 

@@ -1,6 +1,6 @@
 ---
 title: SPRING
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -20,7 +20,7 @@ This document refines Spring Boot implementation conventions for the repository.
 
 This standard covers Spring Boot application bootstrap, dependency management, dependency injection, configuration, Spring Profiles and Environments, Controllers, validation, exception handling, Spring Security integration boundaries, Application Services, Adapters, persistence integration, Database Transactions, scheduling and Background Jobs, HTTP clients, observability, health endpoints, testing, and framework-leakage controls.
 
-Java language-level conventions belong in `.ai/backend/JAVA.md`. API, database, PostgreSQL, and event details belong in their respective lower-level companion standards once those documents are Approved.
+Java language-level conventions belong in `.ai/backend/JAVA.md`, and database-level conventions belong in `.ai/backend/DATABASE.md`. API, PostgreSQL, and event details belong in their respective lower-level companion standards when their metadata makes them normative within their assigned scope.
 
 ## 3. Repository Authority
 
@@ -36,7 +36,7 @@ Spring implementation decisions MUST follow the Decision Hierarchy in `AGENTS.md
 - `DOCUMENTATION-STANDARDS.md` governs documentation quality and lifecycle.
 - `DECISIONS.md` governs durable Decision Records.
 
-This Draft MAY refine Spring-specific implementation detail but MUST NOT silently override a higher-authority Requirement or Accepted Decision Record.
+This standard MAY refine Spring-specific implementation detail but MUST NOT silently override a higher-authority Requirement or Accepted Decision Record.
 
 ## 4. Exact Spring Boot Release
 
@@ -134,7 +134,7 @@ API DTOs are transport models. Persistence Entities, Aggregates, provider models
 
 Request DTOs MUST treat all input as untrusted and MUST allow only governed fields. Response DTOs MUST expose only approved Contract data. Mapping to application or domain inputs MUST be explicit enough to prevent mass assignment and provider or persistence leakage.
 
-Compatibility and versioning MUST follow `ARCHITECTURE.md` and approved API Contracts. Detailed naming, JSON, pagination, and schema conventions remain the responsibility of `.ai/backend/API.md` when Approved.
+Compatibility and versioning MUST follow `ARCHITECTURE.md` and approved API Contracts. Detailed naming, JSON, pagination, and schema conventions remain the responsibility of `.ai/backend/API.md` when its metadata makes it normative within that scope.
 
 ## 16. Validation
 
@@ -196,7 +196,7 @@ Spring persistence integration MUST preserve Repository Ports, domain ownership,
 
 Neither `ARCHITECTURE.md` nor the current repository build selects JPA, Hibernate, or another ORM as mandatory. This standard therefore does not select one. Any selection that materially changes Architecture requires the applicable Decision Record and synchronized governing updates.
 
-Persistence mappings, Spring Repositories, query behavior, locking, and Database Transaction behavior MUST be tested with realistic infrastructure where their semantics matter. Detailed data rules remain governed by `ARCHITECTURE.md` and future Approved `DATABASE.md` and `POSTGRES.md` standards.
+Persistence mappings, Spring Repositories, query behavior, locking, and Database Transaction behavior MUST be tested with realistic infrastructure where their semantics matter. Detailed data rules remain governed by `ARCHITECTURE.md`, `.ai/backend/DATABASE.md`, and `.ai/backend/POSTGRES.md` within each document's metadata-governed scope.
 
 ## 23. Flyway Integration
 
@@ -204,7 +204,7 @@ Flyway is the Architecture-approved migration mechanism. Schema and governed dat
 
 Application code MUST NOT mutate the schema at runtime or enable automatic production schema creation. A migration failure MUST fail the affected deployment or startup according to the approved delivery strategy rather than silently continuing against an incompatible schema.
 
-Migration ownership MUST align with Module and data ownership. Detailed migration naming, repair, compatibility, rollback, and PostgreSQL conventions remain the responsibility of future Approved data standards.
+Migration ownership MUST align with Module and data ownership. Detailed migration naming, repair, compatibility, and database conventions remain governed by `.ai/backend/DATABASE.md` and `.ai/backend/POSTGRES.md` within each document's metadata-governed scope.
 
 ## 24. HTTP Clients
 
@@ -288,7 +288,7 @@ Spring application events MAY support in-process Domain Event handling consisten
 
 In-process publication does not provide durable delivery, cross-process delivery, or exactly-once execution. Handlers MUST tolerate duplicate invocation where repetition is possible and MUST make ordering assumptions explicit.
 
-External messaging requires approved Architecture and stable Contracts. The Outbox Pattern or another Accepted durable mechanism MUST be used where the approved reliability design requires reliable post-commit publication. Detailed event conventions remain the responsibility of `.ai/backend/EVENTS.md` when Approved.
+External messaging requires approved Architecture and stable Contracts. The Outbox Pattern or another Accepted durable mechanism MUST be used where the approved reliability design requires reliable post-commit publication. Detailed event conventions remain the responsibility of `.ai/backend/EVENTS.md` when its metadata makes it normative within that scope.
 
 ## 34. Observability
 
@@ -320,7 +320,7 @@ Serialization MUST use explicit API DTOs and stable Contract fields. Persistence
 
 Request deserialization MUST reject or ignore fields according to the approved Contract without enabling mass assignment. Polymorphic or dynamic deserialization MUST be bounded to explicit safe types.
 
-Date, time, numeric, naming, and compatibility conventions remain governed by approved API Contracts and `.ai/backend/API.md` when Approved.
+Date, time, numeric, naming, and compatibility conventions remain governed by approved API Contracts and `.ai/backend/API.md` when its metadata makes it normative within that scope.
 
 ## 38. Time Handling
 
@@ -472,11 +472,14 @@ Approved governing documents:
 - `.ai/core/DOCUMENTATION-STANDARDS.md`
 - `.ai/core/DECISIONS.md`
 
-The following lower-level companion files are currently empty and unapproved; they are reserved for future separation of concerns and MUST NOT be treated as authorities:
+Approved lower-level governing companions:
 
 - `.ai/backend/JAVA.md`
-- `.ai/backend/API.md`
 - `.ai/backend/DATABASE.md`
+
+The lifecycle and authority of the following companion files MUST be determined from their own metadata and substantive content. Empty or unapproved companion content MUST NOT be treated as normative:
+
+- `.ai/backend/API.md`
 - `.ai/backend/POSTGRES.md`
 - `.ai/backend/EVENTS.md`
 
@@ -484,12 +487,13 @@ The following lower-level companion files are currently empty and unapproved; th
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Corrected stale backend companion lifecycle references and aligned lower-level authority discovery with document metadata. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the Spring Boot implementation standard after final governance, architecture, framework-boundary, dependency-management, Database Transaction, persistence, API, security, Payment, Inventory, Authorization, observability, testing, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial Spring Boot implementation standard covering framework boundaries, dependency management, configuration, controllers, validation, RFC 9457 errors, Database Transactions, security integration, persistence boundaries, events, observability, testing, upgrades, and exception governance. |
 
 ## 55. Quality Requirements
 
-This Draft MUST contain no unresolved completion markers, fabricated technology selections, or Product scope expansion. It MUST use exact canonical terminology from `GLOSSARY.md`, remain subordinate to `.ai/core/`, and distinguish current Architecture decisions from future lower-level standards.
+This standard MUST contain no unresolved completion markers, fabricated technology selections, or Product scope expansion. It MUST use exact canonical terminology from `GLOSSARY.md`, remain subordinate to `.ai/core/`, and distinguish current Architecture decisions from metadata-governed lower-level standards.
 
 An exact Spring Boot release, build tool, ORM, HTTP client, resilience library, Identity Provider, cache technology, and additional monitoring provider MUST NOT be stated as selected without repository evidence and applicable governance.
 

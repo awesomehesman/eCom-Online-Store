@@ -1,6 +1,6 @@
 ---
 title: DATABASE
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -14,13 +14,13 @@ review_cycle: Quarterly
 
 This document refines database implementation conventions for the repository under the PostgreSQL, modular, security, and data-ownership baseline established by `.ai/core/ARCHITECTURE.md`. It is a lower-level implementation standard subordinate to `.ai/core/`, `.ai/backend/SPRING.md`, and `.ai/backend/JAVA.md` within their owned concerns.
 
-This standard governs database ownership, persistence boundaries, Database Transactions, integrity, migrations, queries, database security, testing, and operational evidence. It MUST NOT redefine Product behavior, Domain ownership, Architecture, API or event Contracts, Java or Spring rules, or PostgreSQL-specific implementation details reserved for a future Approved `.ai/backend/POSTGRES.md`.
+This standard governs database ownership, persistence boundaries, Database Transactions, integrity, migrations, queries, database security, testing, and operational evidence. It MUST NOT redefine Product behavior, Domain ownership, Architecture, API or event Contracts, Java or Spring rules, or PostgreSQL-specific implementation details governed by the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 2. Scope
 
 This standard applies to repository-owned relational schemas, tables, columns, constraints, indexes, queries, migrations, database access code, persistence Adapters, database configuration, test databases, seed and reference data, operational database procedures, and evidence supporting database changes.
 
-It applies to production and non-production Environments. Provider control-plane configuration, cloud service tiers, PostgreSQL engine tuning, extensions, and version-specific SQL remain governed by Architecture, infrastructure governance, and a future Approved PostgreSQL standard where applicable.
+It applies to production and non-production Environments. Provider control-plane configuration, cloud service tiers, PostgreSQL engine tuning, extensions, and version-specific SQL remain governed by Architecture, infrastructure governance, and the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 3. Repository Authority
 
@@ -52,7 +52,7 @@ These meanings apply in prose, lists, tables, and review criteria.
 
 PostgreSQL is the Architecture-approved authoritative transactional database technology for the platform. The primary transactional persistence implementation MUST remain compatible with PostgreSQL and the approved Azure deployment direction.
 
-This document does not select an exact PostgreSQL release, Azure database SKU, service tier, extension, topology, parameter profile, or PostgreSQL-specific operational implementation. PostgreSQL-specific configuration and version-dependent mechanics belong in a future Approved `.ai/backend/POSTGRES.md`; material Architecture changes and other implementation choices remain subject to their applicable repository governance.
+This document does not select an exact PostgreSQL release, Azure database SKU, service tier, extension, topology, parameter profile, or PostgreSQL-specific operational implementation. PostgreSQL-specific configuration and version-dependent mechanics belong in `.ai/backend/POSTGRES.md` when its metadata makes it normative within that scope; material Architecture changes and other implementation choices remain subject to their applicable repository governance.
 
 ## 6. Database Authority and Product Truth
 
@@ -118,7 +118,7 @@ Database Transaction isolation MUST be selected according to the invariant, read
 
 Code MUST NOT assume that the configured default prevents lost updates, write skew, phantoms, duplicate creation, or stale decisions. A stricter isolation level MAY be used for an evidenced Use Case, but its contention, retry, and operational effects MUST be understood and tested.
 
-PostgreSQL-version-specific isolation semantics, configuration mechanics, and operational parameters belong in a future Approved `.ai/backend/POSTGRES.md`.
+PostgreSQL-version-specific isolation semantics, configuration mechanics, and operational parameters belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 16. Concurrency Control
 
@@ -170,13 +170,13 @@ This document does not select one universal Primary Key type or generation strat
 
 Database tables, columns, constraints, and indexes MUST use the canonical `snake_case` convention established by `GLOSSARY.md`. Names MUST be descriptive, stable, and qualified enough to reveal ownership without unnecessary abbreviation.
 
-This document does not select a physical schema-per-Module strategy, global schema name, table prefix, sequence convention, or other ungoverned namespace layout. The ownership strategy is an open Architecture Decision requiring the applicable ADR; PostgreSQL-specific namespace mechanics belong in a future Approved `.ai/backend/POSTGRES.md`.
+This document does not select a physical schema-per-Module strategy, global schema name, table prefix, sequence convention, or other ungoverned namespace layout. The ownership strategy is an open Architecture Decision requiring the applicable ADR; PostgreSQL-specific namespace mechanics belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 24. Column and Data-Type Design
 
 Column types MUST preserve the range, precision, optionality, and semantics of the governed value. Monetary amounts MUST use exact decimal representation and explicit Currency; authoritative Money MUST NOT use floating-point storage or calculations.
 
-Boolean, numeric, text, temporal, JSON, binary, enum-like, and identifier representations MUST be chosen deliberately. A database-specific type or extension MUST NOT be adopted repository-wide without compatibility, migration, tooling, and operational evidence. PostgreSQL-specific type and extension choices belong in a future Approved `.ai/backend/POSTGRES.md`.
+Boolean, numeric, text, temporal, JSON, binary, enum-like, and identifier representations MUST be chosen deliberately. A database-specific type or extension MUST NOT be adopted repository-wide without compatibility, migration, tooling, and operational evidence. PostgreSQL-specific type and extension choices belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 25. Nullability and Defaults
 
@@ -238,7 +238,7 @@ Duplicate, unused, or ineffective indexes SHOULD be removed through a governed m
 
 No arbitrary index count or universal indexing formula is established by this document.
 
-PostgreSQL-specific index implementations, operator behavior, construction options, and tuning belong in a future Approved `.ai/backend/POSTGRES.md`.
+PostgreSQL-specific index implementations, operator behavior, construction options, and tuning belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 34. Query Design
 
@@ -266,7 +266,7 @@ This document does not redefine API pagination Contracts.
 
 Database connections, statements, cursors, result streams, and related resources MUST have explicit ownership and bounded lifetimes. Application code MUST release owned resources reliably and MUST NOT close framework-managed resources it does not own.
 
-Connection acquisition, query, lock, and Database Transaction timeouts MUST be configured through approved Environment-specific mechanisms according to operational evidence. This document does not select a connection-pool implementation or numerical limits. PostgreSQL-specific connection parameters and engine configuration belong in a future Approved `.ai/backend/POSTGRES.md`.
+Connection acquisition, query, lock, and Database Transaction timeouts MUST be configured through approved Environment-specific mechanisms according to operational evidence. This document does not select a connection-pool implementation or numerical limits. PostgreSQL-specific connection parameters and engine configuration belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 Connections MUST NOT be held while waiting for unrelated external work.
 
@@ -412,7 +412,7 @@ Integration Tests SHOULD use real PostgreSQL through Testcontainers where practi
 
 An in-memory substitute MUST NOT be used as evidence for PostgreSQL SQL, types, constraints, locking, isolation, Flyway, query plans, or Database Transaction behavior when those semantics matter.
 
-Containerized tests MUST be deterministic, isolated, version-controlled, and compatible with CI. This document does not establish a PostgreSQL image tag, exact release, or engine configuration; compatibility with the supported deployment baseline belongs in a future Approved `.ai/backend/POSTGRES.md` once that baseline is established.
+Containerized tests MUST be deterministic, isolated, version-controlled, and compatible with CI. This document does not establish a PostgreSQL image tag, exact release, or engine configuration; compatibility with the supported deployment baseline belongs in the applicable scope of `.ai/backend/POSTGRES.md` once that baseline is established.
 
 ## 57. Migration Testing
 
@@ -436,7 +436,7 @@ Telemetry MUST use bounded attributes and applicable Correlation IDs without SQL
 
 This document does not select an additional observability vendor or database monitoring product.
 
-PostgreSQL-specific telemetry sources, engine metrics, collection configuration, and tuning signals belong in a future Approved `.ai/backend/POSTGRES.md` and applicable operational governance.
+PostgreSQL-specific telemetry sources, engine metrics, collection configuration, and tuning signals belong in the applicable scope of `.ai/backend/POSTGRES.md` and applicable operational governance.
 
 ## 60. Performance
 
@@ -446,7 +446,7 @@ Optimization MUST preserve correctness, Authorization, data freshness, and Domai
 
 This document does not establish arbitrary latency, throughput, data-volume, or connection thresholds.
 
-PostgreSQL-specific query-plan interpretation, index implementation, engine parameters, and tuning procedures belong in a future Approved `.ai/backend/POSTGRES.md`.
+PostgreSQL-specific query-plan interpretation, index implementation, engine parameters, and tuning procedures belong in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 61. Capacity and Growth
 
@@ -462,7 +462,7 @@ Backups MUST be protected as Sensitive Data, access-controlled, encrypted accord
 
 This document does not invent a backup schedule, retention period, RPO, RTO, storage tier, replication topology, or recovery service.
 
-PostgreSQL-specific backup, restore, replication, and engine-recovery mechanics belong in a future Approved `.ai/backend/POSTGRES.md` and applicable infrastructure governance.
+PostgreSQL-specific backup, restore, replication, and engine-recovery mechanics belong in the applicable scope of `.ai/backend/POSTGRES.md` and applicable infrastructure governance.
 
 ## 63. Manual and Administrative Operations
 
@@ -491,7 +491,7 @@ The following are prohibited:
 - client, search, report, or projection state treated as authoritative Inventory;
 - destructive changes without approved recovery and validation;
 - invented retention, backup, isolation, performance, or recovery targets; and
-- treating the empty `.ai/backend/POSTGRES.md` as authority.
+- treating `.ai/backend/POSTGRES.md` as authority without verifying its metadata and applicable scope.
 
 ## 65. Deviations and Exception Governance
 
@@ -543,11 +543,9 @@ Approved governing and directly relevant documents:
 - `.ai/backend/SPRING.md`
 - `.ai/backend/JAVA.md`
 
-The following lower-level companion is currently empty and unapproved. It is reserved for the exact PostgreSQL release, version-specific SQL and isolation behavior, engine types and extensions, index implementations, connection and operational parameters, observability, tuning, and engine-level backup or recovery mechanics. It MUST NOT be treated as authority:
+`.ai/backend/POSTGRES.md` is the lower-level PostgreSQL-specific companion standard for exact release governance, version-specific SQL and isolation behavior, engine types and extensions, index implementations, connection and operational parameters, observability, tuning, and engine-level backup or recovery mechanics. Its lifecycle and authority are governed by its own metadata; this document MUST NOT assume unapproved companion content is normative.
 
-- `.ai/backend/POSTGRES.md`
-
-The following lower-level companions are also currently empty and unapproved and remain outside this standard's owned detail:
+The lifecycle and authority of the following lower-level companions MUST be determined from their own metadata and substantive content. Empty or unapproved companion content remains outside this standard's owned detail and MUST NOT be treated as normative:
 
 - `.ai/backend/API.md`
 - `.ai/backend/EVENTS.md`
@@ -556,6 +554,7 @@ The following lower-level companions are also currently empty and unapproved and
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Corrected lifecycle-sensitive PostgreSQL companion references to use durable metadata-governed authority wording. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the database implementation standard after final governance, architecture, persistence-boundary, Database Transaction, integrity, migration, query, security, Payment, Inventory, idempotency, reconciliation, testing, observability, recovery, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial database implementation standard covering ownership, PostgreSQL direction, persistence boundaries, Database Transactions, integrity, Flyway migrations, queries, security, Payment, Inventory, testing, observability, and recovery governance. |
 
@@ -563,7 +562,7 @@ The following lower-level companions are also currently empty and unapproved and
 
 This standard MUST preserve PostgreSQL as the Architecture-approved transactional database while remaining a platform-neutral database implementation standard. It MUST NOT invent an exact release, cloud SKU, physical schema layout, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
 
-Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to a future Approved POSTGRES.md.
+Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to POSTGRES.md within its metadata-governed scope.
 
 ## 70. Final Validation
 
