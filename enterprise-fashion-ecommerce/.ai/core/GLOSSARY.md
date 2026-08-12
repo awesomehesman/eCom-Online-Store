@@ -1,6 +1,6 @@
 ---
 title: GLOSSARY
-version: 1.1.0
+version: 1.1.1
 status: Approved
 owner: Engineering and Product
 last_updated: 2026-08-12
@@ -669,7 +669,7 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 - AI prompts should reference glossary terminology where ambiguity exists.
 - Terminology changes require a version bump and revision history entry.
 - Approval requires a terminology audit of the canonical core documents named in section 48. Specifications, ADRs, API Contracts, database models, Domain Events, code, tests, and operational documentation MUST demonstrate continuing conformance through their applicable review and delivery gates.
-- Core-document audit findings MUST be resolved or recorded through the applicable approved governance mechanism before the glossary can move from Draft to Approved.
+- Core-document audit findings MUST be resolved or recorded through the applicable approved governance mechanism to preserve the glossary's Approved status.
 - Duplicate terms must use one canonical definition with qualified meanings or explicit cross-references.
 - Lifecycle states must be defined per Aggregate and must not be reused with a conflicting meaning.
 
@@ -692,6 +692,7 @@ status: Approved
 
 | Version | Date | Status | Description |
 | --- | --- | --- | --- |
+| 1.1.1 | 2026-08-12 | Approved | Corrected a stale Draft-to-Approved status statement after approval of the canonical glossary. |
 | 1.1.0 | 2026-08-12 | Approved | Normalized canonical Product Variant, Stock Reservation, Database Transaction, Payment, Decision Record, and related terminology after the repository-wide core consistency audit; downstream core documents remain to be normalized separately. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the canonical repository glossary after final completeness, lifecycle, architecture, product, security, ownership, and terminology consistency validation. |
 | 0.5.0 | 2026-08-05 | Draft | Completed the final enterprise terminology expansion for Domain-Driven Design, Hexagonal Architecture, frontend architecture, backend architecture, integrations, documentation governance, and repository governance in preparation for the repository-wide terminology audit. |

@@ -1,9 +1,9 @@
 ---
 title: DOCUMENTATION-STANDARDS
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -29,6 +29,7 @@ Documentation decisions MUST follow the Decision Hierarchy and change process in
 - `TESTING-STANDARDS.md` governs verification.
 - `CODING-STANDARDS.md` governs implementation practices.
 - `ENGINEERING-PRINCIPLES.md` provides durable decision heuristics within the constraints of governing Product, Architecture, security, testing, coding, and repository governance.
+- `DECISIONS.md` governs durable Decision Record structure, lifecycle, and indexing.
 - This document governs documentation quality and lifecycle.
 
 This document MUST NOT redefine the content authority of another governing source.
@@ -51,11 +52,13 @@ The repository documentation model reflects, but does not replace, the Decision 
 | --- | --- |
 | `AGENTS.md` | Repository constitution, process, and Decision Hierarchy |
 | `GLOSSARY.md` | Canonical terminology |
-| `VISION.md` | Intended long-term vision when completed and approved |
+| `VISION.md` | Approved durable long-term strategic direction without creating current Product scope |
 | `PRODUCT.md` | Product intent, semantics, and approved business behavior |
 | `ARCHITECTURE.md` | Technical structure, ownership, and boundaries |
 | Security, testing, and coding standards | Cross-cutting requirements in their owned concerns |
 | Engineering principles | Approved durable decision heuristics within governing constraints |
+| `DECISIONS.md` | Durable Decision Record governance and repository decision index |
+| `DESIGN-SYSTEM.md` | Approved reusable visual, interaction, accessibility, component, token, and content guidance |
 | Specifications | Concern-specific Requirements and behavior under applicable repository governance |
 | ADRs | Material architecture decisions and consequences |
 | Contracts | Agreed interfaces, schemas, and compatibility commitments |
@@ -284,7 +287,7 @@ A Documentation Exception MUST identify the exact Requirement, rationale, Risk, 
 | Engineering Principles | `ENGINEERING-PRINCIPLES.md` | Explain decision rationale | Decision review |
 | Requirements | Owning Product or Specification source | Make outcomes verifiable | Acceptance Criteria |
 | Specifications | `AGENTS.md`; applicable Product and Architecture sources | Keep scope and dependencies explicit | Specification review |
-| ADRs | `AGENTS.md`; `ARCHITECTURE.md` | Record material decisions | Accepted ADR |
+| ADRs | `DECISIONS.md`; `ARCHITECTURE.md` | Record material Architecture Decisions | Accepted ADR |
 | APIs | Approved API Contract | Document behavior and compatibility | Contract review |
 | Events | `ARCHITECTURE.md`; approved event Contract | Document ownership and delivery semantics | Schema and consumer review |
 | Database | `ARCHITECTURE.md` | Document ownership and lifecycle | Migration and data review |
@@ -304,16 +307,20 @@ Documentation standards govern how information is recorded and maintained. They 
 
 - `.ai/core/AGENTS.md`
 - `.ai/core/GLOSSARY.md`
+- `.ai/core/VISION.md`
 - `.ai/core/PRODUCT.md`
 - `.ai/core/ARCHITECTURE.md`
 - `.ai/core/SECURITY-STANDARDS.md`
 - `.ai/core/TESTING-STANDARDS.md`
 - `.ai/core/CODING-STANDARDS.md`
 - `.ai/core/ENGINEERING-PRINCIPLES.md`
+- `.ai/core/DECISIONS.md`
+- `.ai/core/DESIGN-SYSTEM.md`
 
 ## 54. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Corrected the stale Vision status and refreshed directly relevant Vision, Decision Record, and Design System documentation references. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide documentation standards after final governance, terminology, lifecycle, requirements, architecture, security, testing, operational, AI-context, traceability, and documentation-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide documentation standards covering authority, structure, lifecycle, versioning, Requirements, Specifications, ADRs, technical documentation, operations, AI-facing context, traceability, drift, and exception governance. |

@@ -1,9 +1,9 @@
 ---
 title: CODING-STANDARDS
-version: 1.0.0
+version: 1.0.2
 status: Approved
 owner: Engineering
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -144,7 +144,7 @@ Streams MUST define teardown and error behavior. Retry MUST be bounded, safe, an
 
 ## 18. Java Standards
 
-Java code MUST use the approved Java 21 baseline and modern language features where they improve clarity. Domain and transport values SHOULD be immutable; records MAY represent immutable data carriers that do not require Entity identity or mutable lifecycle.
+Java code MUST use the approved Java 21 LTS baseline and modern language features where they improve clarity. Domain and transport values SHOULD be immutable; records MAY represent immutable data carriers that do not require Entity identity or mutable lifecycle.
 
 `Optional` MAY represent an absent return value but MUST NOT be used indiscriminately for fields, parameters, or serialization. Null handling MUST be explicit. Collections SHOULD expose the least mutable form required. Streams SHOULD be used when clearer than loops, not as a goal. Equality and hash codes MUST reflect stable semantics. Value Objects MUST enforce validity. Constructors MUST establish required state. Static mutable state is prohibited. Concurrent code MUST document and enforce thread-safety assumptions.
 
@@ -152,7 +152,7 @@ Java code MUST use the approved Java 21 baseline and modern language features wh
 
 Spring Boot code MUST use constructor injection. Controllers MUST validate and translate transport input, enforce the applicable security boundary, invoke an Application Service, and return approved DTOs; they MUST NOT contain business or persistence logic.
 
-Application Services MUST own Use Case orchestration and transaction boundaries. Domain Services MUST contain stateless domain behavior that does not naturally belong to an Entity or Value Object. Repositories MUST remain behind approved interfaces. Validation and Exception Handlers MUST be consistent. Security filters MUST fail safely.
+Application Services MUST own Use Case orchestration and Database Transaction boundaries. Domain Services MUST contain stateless domain behavior that does not naturally belong to an Entity or Value Object. Repositories MUST remain behind approved interfaces. Validation and Exception Handlers MUST be consistent. Security filters MUST fail safely.
 
 Configuration MUST use validated configuration properties. Profiles MUST remain limited and explicit. Jobs, Schedulers, and asynchronous work MUST be idempotent where retry is possible, observable, and concurrency-safe. External clients MUST use outbound Adapters. Health endpoints MUST reveal only approved information.
 
@@ -160,11 +160,11 @@ Configuration MUST use validated configuration properties. Profiles MUST remain 
 
 Aggregates and Aggregate Roots MUST protect invariants and valid state transitions. Entities MUST own identity-based behavior. Value Objects MUST be immutable where practical and validate their values. Domain Services MUST express domain behavior that spans concepts without becoming orchestration containers.
 
-Domain Events MUST describe completed domain facts. Domain code MUST enforce ownership and MUST NOT expose mutation that bypasses invariants. Models SHOULD avoid anemic design when behavior belongs in the domain, but behavior MUST NOT be forced into Entities when an Application Service owns coordination, Authorization, transactions, or external effects.
+Domain Events MUST describe completed domain facts. Domain code MUST enforce ownership and MUST NOT expose mutation that bypasses invariants. Models SHOULD avoid anemic design when behavior belongs in the domain, but behavior MUST NOT be forced into Entities when an Application Service owns coordination, Authorization, Database Transactions, or external effects.
 
 ## 21. Application Layer Standards
 
-Application Services MUST implement Use Cases through explicit Commands and Queries, orchestrate domain behavior, define transaction boundaries, apply trusted Authorization, coordinate idempotency, and map between boundary and domain models.
+Application Services MUST implement Use Cases through explicit Commands and Queries, orchestrate domain behavior, define Database Transaction boundaries, apply trusted Authorization, coordinate idempotency, and map between boundary and domain models.
 
 The application layer MUST NOT contain UI concerns or depend on concrete infrastructure. Queries MUST NOT mutate domain state. Commands MUST make intended state change explicit. Duplicate-sensitive operations MUST define Idempotency Key behavior and result reuse.
 
@@ -184,7 +184,7 @@ Mapping MUST enumerate writable and readable fields, prevent mass assignment, an
 
 ## 24. Persistence Standards
 
-Repository abstractions MUST express domain or application needs without leaking persistence mechanisms. Persistence mappings MUST preserve domain semantics. Transactions, optimistic locking, safe queries, pagination, and indexes MUST be applied where required by behavior and measured access patterns.
+Repository abstractions MUST express domain or application needs without leaking persistence mechanisms. Persistence mappings MUST preserve domain semantics. Database Transactions, optimistic locking, safe queries, pagination, and indexes MUST be applied where required by behavior and measured access patterns.
 
 Queries MUST be parameterized. Implementations MUST avoid unbounded reads and detect material N+1 behavior. Flyway owns versioned migrations. Runtime schema mutation and automatic production schema creation are prohibited. Database triggers MUST NOT contain business logic unless explicitly approved through architecture governance.
 
@@ -192,11 +192,11 @@ Queries MUST be parameterized. Implementations MUST avoid unbounded reads and de
 
 SQL MUST be parameterized, readable, bounded, and explicit about selected and changed columns. Production code MUST NOT use `SELECT *`. Aliases and joins MUST reveal relationships without obscuring ownership.
 
-Transactions and locking MUST be deliberate. Indexes MUST support evidenced access patterns. Migrations MUST be safe, reviewable, auditable, and compatible with supported deployments. Destructive changes and data backfills MUST define backup, validation, rollout, and rollback or recovery behavior.
+Database Transactions and locking MUST be deliberate. Indexes MUST support evidenced access patterns. Migrations MUST be safe, reviewable, auditable, and compatible with supported deployments. Destructive changes and data backfills MUST define backup, validation, rollout, and rollback or recovery behavior.
 
-## 26. Transaction Standards
+## 26. Database Transaction Standards
 
-Transaction boundaries MUST be owned by the Application Service or another approved orchestration boundary. Transactions SHOULD be short. External network calls MUST NOT remain inside long database transactions where a reliable alternative exists.
+Database Transaction boundaries MUST be owned by the Application Service or another approved orchestration boundary. Database Transactions SHOULD be short. External network calls MUST NOT remain inside long Database Transactions where a reliable alternative exists.
 
 Rollback behavior, retry safety, idempotency, optimistic concurrency, and distributed side effects MUST be explicit. The Outbox Pattern SHOULD be used where reliable post-commit event publication is required.
 
@@ -378,9 +378,9 @@ Evidence MUST demonstrate both implementation and enforcement. Supporting standa
 
 ## 50. Coding Exceptions
 
-A Coding Exception MUST record the exact requirement, reason, Risk, affected scope, compensating controls, accountable owner, authorized approver, approval date, expiry date, and remediation plan.
+A Coding Exception MUST record the exact Requirement, reason, Risk, affected scope, compensating controls, accountable owner, authorized approver, approval date, expiry date, and remediation plan.
 
-Exceptions MUST be explicit, time-bound, auditable, and reviewed before expiry. Expiry MUST restore enforcement or block the affected change. A Coding Exception MUST NOT waive a mandatory security requirement without an approved Security Exception under `SECURITY-STANDARDS.md`.
+Coding Exceptions MUST be explicit, time-bound, auditable, and reviewed before expiry. Expiry MUST restore enforcement or block the affected change. A Coding Exception MUST NOT waive a mandatory security Requirement without an approved Security Exception under `SECURITY-STANDARDS.md`. It waives only the coding Requirements explicitly recorded within its approved scope and MUST NOT silently waive a mandatory Requirement owned by another standard. When multiple standards govern an affected change or gate, every applicable formal exception MUST be obtained.
 
 ## 51. Related Documents
 
@@ -390,10 +390,15 @@ Exceptions MUST be explicit, time-bound, auditable, and reviewed before expiry. 
 - `.ai/core/ARCHITECTURE.md`
 - `.ai/core/SECURITY-STANDARDS.md`
 - `.ai/core/TESTING-STANDARDS.md`
+- `.ai/core/ENGINEERING-PRINCIPLES.md`
+- `.ai/core/DOCUMENTATION-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 ## 52. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.2 | 2026-08-12 | Approved | Added directly relevant engineering-principle, documentation, and Decision Record governance references for implementation work. |
+| 1.0.1 | 2026-08-12 | Approved | Normalized Database Transaction terminology, aligned the Java 21 LTS baseline, and clarified Coding Exception boundaries. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide coding standards after final governance, terminology, architecture, frontend, backend, security, domain, data, integration, testing, and implementation-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide coding standards baseline covering implementation quality, architecture alignment, frontend, backend, security, domain code, integrations, data access, AI-generated code, review, and exception governance. |

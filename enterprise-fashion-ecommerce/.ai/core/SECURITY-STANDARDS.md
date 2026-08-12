@@ -1,9 +1,9 @@
 ---
 title: SECURITY-STANDARDS
-version: 1.0.0
+version: 1.0.2
 status: Approved
 owner: Architecture
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -421,9 +421,9 @@ Controls MUST include per-Resource and per-property policy, schema allowlists, q
 ## 36. Payment and PCI Considerations
 
 - Payment processing MUST use approved hosted or tokenised Payment Provider solutions to minimise PCI DSS scope. The platform MUST NOT store raw PAN unless a separately approved architecture and compliance programme explicitly requires it. Raw CVV MUST NOT be stored under any circumstance.
-- Browser redirects are not proof of payment. The Payment domain MUST accept an outcome only from a validated authoritative Callback, Webhook, or provider verification path.
+- A Payment Redirect, browser return, or client-reported Payment success is not authoritative Payment proof. The Payment domain MUST accept a provider-dependent outcome only from validated Payment Provider evidence received through an authenticated or signature-validated Callback or Webhook where applicable, or a trusted server-side provider verification path. An unknown, pending, or otherwise uncertain Payment outcome MUST remain distinguishable from confirmed success and MUST be reconciled.
 - Payment Provider tokens and references MUST be treated according to sensitivity and MUST NOT be exposed beyond necessary workflows. Provider credentials and signing Secrets MUST use approved Secret and key management.
-- Payment Attempts, Payment Transactions, Authorizations, Captures, Voids, Refund Transactions, Chargebacks, and Settlements MUST remain distinguishable and traceable. Logs MUST contain safe provider references, never sensitive authentication or card data.
+- Payment Attempts, Payment Transactions, Payment Authorizations, Captures, Voids, Refund Transactions, Chargebacks, and Settlements MUST remain distinguishable and traceable. Logs MUST contain safe provider references, never sensitive authentication or card data.
 - Initiation, Callback, retry, reconciliation, and Refund operations MUST be authenticated, authorized, idempotent, replay-resistant, state-aware, amount/currency validated, and bounded to the intended Order and Customer.
 - Client-provided Price, Discount, tax, shipping amount, Payment state, or provider success MUST never be trusted. The backend MUST derive and validate Money and commercial state from authoritative domains.
 - PCI scope and responsibilities MUST be reviewed when providers, payment methods, hosted fields, scripts, data flows, support processes, or logging change.
@@ -484,7 +484,7 @@ Critical or otherwise policy-defined blocking findings MUST prevent deployment u
 
 ## 41. Security Exceptions Governance
 
-An exception MUST be a recorded, approved Risk decision containing:
+A Security Exception MUST be a recorded, approved Risk decision containing:
 
 - The exact Requirement being waived.
 - Business and technical justification.
@@ -495,7 +495,9 @@ An exception MUST be a recorded, approved Risk decision containing:
 - Approval date and mandatory expiry date.
 - Remediation plan, milestones, and review trigger.
 
-Exceptions MUST be time-bound, auditable, discoverable by affected reviewers and Pipelines, reviewed before expiry, and revoked when no longer justified. Scope expansion requires new approval. Expiry MUST restore enforcement or block the affected release. Permanent, undocumented, self-approved, or retroactive exceptions MUST NOT exist.
+Security Exceptions MUST be time-bound, auditable, discoverable by affected reviewers and Pipelines, reviewed before expiry, and revoked when no longer justified. Scope expansion requires new approval. Expiry MUST restore enforcement or block the affected release. Permanent, undocumented, self-approved, or retroactive Security Exceptions MUST NOT exist.
+
+A generic risk acceptance, Testing Exception, Coding Exception, or Documentation Exception MUST NOT waive a mandatory security Requirement or replace a required Security Exception. A Security Exception waives only the security Requirements explicitly recorded within its approved scope; it MUST NOT silently waive a Requirement owned by another standard. When multiple standards govern an affected change or gate, every applicable formal exception MUST be obtained.
 
 ## 42. Security Compliance Matrix
 
@@ -574,6 +576,9 @@ The following are prohibited:
 - `.ai/core/GLOSSARY.md`
 - `.ai/core/PRODUCT.md`
 - `.ai/core/ARCHITECTURE.md`
+- `.ai/core/TESTING-STANDARDS.md`
+- `.ai/core/CODING-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 Applicable approved ADRs, domain Specifications, API and database Contracts, and technology-specific standards provide lower-level detail. Future standards MAY be added through repository governance; their existence or approval MUST NOT be assumed before they are created and accepted.
 
@@ -584,3 +589,5 @@ Applicable approved ADRs, domain Specifications, API and database Contracts, and
 | 0.1.0 | 2026-08-06 | Draft | Initial governance baseline. |
 | 0.2.0 | 2026-08-11 | Draft | Completed the repository-wide security standards baseline covering governance, identity and access, application security, infrastructure, secure delivery, privacy, payment security, AI security, vulnerability management, testing, compliance, and exception governance. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide security standards baseline after final governance, terminology, architecture, product, payment, AI-security, and compliance consistency validation. |
+| 1.0.1 | 2026-08-12 | Approved | Corrected Payment Authorization terminology, clarified authoritative Payment evidence and uncertain outcomes, and aligned Security Exception boundaries with repository governance. |
+| 1.0.2 | 2026-08-12 | Approved | Added directly relevant testing, coding, and Decision Record governance references for security verification, implementation, and durable security decisions. |

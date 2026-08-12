@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Architecture
 last_updated: 2026-08-12
@@ -622,10 +622,12 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 - `.ai/core/CODING-STANDARDS.md`
 - `.ai/core/ENGINEERING-PRINCIPLES.md`
 - `.ai/core/DOCUMENTATION-STANDARDS.md`
+- `.ai/core/DESIGN-SYSTEM.md`
 
 ## 58. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Added the directly relevant Design System reference for material design decisions governed through durable Decision Records. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the repository-wide decision governance and index after final authority, terminology, ADR, decision-record, Product, Architecture, security, data, Payment, Inventory, AI, operational, traceability, and exception-governance validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial repository-wide decision governance and index covering material-decision criteria, ADR structure, approval, supersession, traceability, Product, Architecture, security, data, integration, Payment, Inventory, AI, and operational decisions. |

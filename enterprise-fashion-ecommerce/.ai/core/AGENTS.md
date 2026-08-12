@@ -1,9 +1,9 @@
 ---
 title: AGENTS
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 applies_to:
   - Codex
   - Kiro
@@ -14,7 +14,7 @@ review_cycle: Monthly
 source_of_truth: true
 ---
 
-> **Release Status:** Version 1.0.0 establishes the foundational engineering constitution for this repository. It is the authoritative governance document for all AI agents and human contributors. Future revisions must remain backward compatible unless an Architecture Decision Record (ADR) explicitly approves a breaking governance change.
+> **Release Status:** Version 1.0.0 established the foundational engineering constitution for this repository. This document remains the authoritative governance source for all AI agents and human contributors. Future revisions must remain backward compatible unless a breaking governance change is approved through repository governance, recorded in the applicable Decision Record, and applied to this document.
 
 # AGENTS.md
 
@@ -136,7 +136,7 @@ When two sources at the same authority level conflict, the contributor must:
 
 1. Stop the affected implementation work.
 2. Identify the exact conflict.
-3. Determine whether an existing ADR resolves it.
+3. Determine whether an existing applicable Decision Record, including an ADR for an Architecture Decision, resolves it.
 4. Propose a resolution and its consequences.
 5. Update the relevant source-of-truth documents after approval.
 6. Continue only when the decision is explicit.
@@ -213,7 +213,7 @@ A change is complete only when all applicable conditions below are satisfied.
 
 - Source-of-truth documentation is updated in the same change.
 - API, event, schema, configuration, and environment changes are documented.
-- New decisions are recorded in an ADR when required.
+- Material Decisions are captured in the applicable Decision Record; Architecture Decisions use ADRs.
 - Examples and commands are accurate and usable.
 - No placeholder section remains for functionality represented as complete.
 
@@ -277,10 +277,12 @@ enterprise-fashion-ecommerce/
 The `.ai/` directory contains the governing context consumed by AI agents and human contributors.
 
 - `.ai/core/` contains tool-agnostic product, architecture, engineering, documentation, testing, security, design-system, and glossary standards.
-- `.ai/backend/` contains backend-specific standards for Java, Spring, APIs, events, databases, PostgreSQL, and Azure integrations.
-- `.ai/frontend/` contains frontend-specific standards for Angular, UI, accessibility, performance, and Storybook.
-- `.ai/prompts/` contains reusable task templates. Prompts must reference source-of-truth documents instead of duplicating their content.
-- `.ai/agents/` contains tool-specific integration guidance. Tool-specific files must not override core engineering standards.
+- `.ai/backend/` is the approved location for backend-specific standards for Java, Spring, APIs, events, databases, PostgreSQL, and Azure integrations.
+- `.ai/frontend/` is the approved location for frontend-specific standards for Angular, UI, accessibility, performance, and Storybook.
+- `.ai/prompts/` is the approved location for reusable task templates. Prompts must reference source-of-truth documents instead of duplicating their content.
+- `.ai/agents/` is the approved location for tool-specific integration guidance. Tool-specific files must not override core engineering standards.
+
+The existence of a path or placeholder file in these directories does not establish substantive, completed, or Approved guidance. Contributors must verify that a lower-level file contains current governed content before relying on it.
 
 Contributors must not add implementation code, generated binaries, secrets, temporary notes, or feature-specific requirements to `.ai/`.
 
@@ -585,7 +587,7 @@ feat(catalogue): add product publication workflow
 fix(payments): prevent duplicate webhook confirmation
 docs(ai): define repository and branch standards
 refactor(orders): extract fulfilment transition policy
-test(inventory): cover concurrent stock reservations
+test(inventory): cover concurrent Stock Reservations
 ```
 
 ### 12.2 Commit summary rules
@@ -702,7 +704,7 @@ Contributors must address review comments through one of the following:
 - Apply the requested correction.
 - Explain why the existing approach is correct with evidence.
 - Propose an alternative resolution.
-- Record a larger decision in an ADR.
+- Record a material Decision in the applicable Decision Record, using an ADR only for an Architecture Decision.
 
 Comments must not be marked resolved while the underlying concern remains unaddressed.
 
@@ -846,17 +848,17 @@ Ensure data integrity, consistency, scalability, and maintainability across data
 
 ### Mandatory Standards
 
-- Business entity primary keys must use UUIDs unless a documented exception exists; UUID generation strategy must be defined in the database standards and used consistently.
+- Business entity primary keys must use UUIDs unless an Accepted Architecture Decision explicitly establishes another strategy; UUID generation strategy must be defined in the database standards and used consistently.
 - Table names must be plural, snake_case (e.g., `order_items`).
 - Column names must be snake_case, descriptive, and avoid reserved words.
 - Normalize data to at least 3NF unless denormalization is justified.
 - Indexes must be defined for all foreign keys, unique constraints, and common queries.
-- All schema changes must use versioned migrations (e.g., Flyway, Liquibase).
+- All schema changes must use versioned Flyway migrations, as established by `ARCHITECTURE.md`.
 - Foreign keys must enforce referential integrity.
 - Soft deletion must be used selectively for recoverable mutable records; durable business facts such as orders, payments, inventory movements, and audit records must use lifecycle status or append-only history instead of ordinary deletion.
 - Auditing: Use `created_at`, `updated_at`, `created_by`, `updated_by` fields.
 - Optimistic locking: Use a version column for concurrent updates.
-- Transactions: Define clear transaction boundaries; avoid long-running transactions.
+- Database Transactions: Define clear Database Transaction boundaries; avoid long-running Database Transactions.
 - Seed data: Only use for system-critical or test purposes, not for business data.
 - Rollback: All migrations must be reversible where feasible.
 - Performance: Analyze query plans for new or changed queries.
@@ -957,7 +959,7 @@ Ensure backend code is modular, testable, maintainable, and secure using Spring 
 - Validation: Use Bean Validation (JSR-380) for all incoming data.
 - Use DTOs for API boundaries; never expose entities directly.
 - Mapping: Use MapStruct or explicit mappers for DTO/entity conversion.
-- Transaction management: Use `@Transactional` at the service layer, not the controller.
+- Database Transaction management: Use `@Transactional` at the service layer, not the controller.
 - Exception handling: Use `@ControllerAdvice` for API error responses.
 - Logging: Use SLF4J; never log sensitive data.
 - Configuration: Use `application.yaml` or `application.properties` with profiles.
@@ -966,7 +968,7 @@ Ensure backend code is modular, testable, maintainable, and secure using Spring 
 
 ### Recommended Practices
 
-- Use records for immutable DTOs (Java 17+).
+- Use records for immutable DTOs under the repository's Java 21 LTS baseline.
 - Use sealed interfaces for domain hierarchies.
 - Use Lombok only where it adds clarity and is approved.
 - Document public APIs with Swagger/OpenAPI annotations.
@@ -984,7 +986,7 @@ Ensure backend code is modular, testable, maintainable, and secure using Spring 
 - [ ] Are package and layer boundaries respected?
 - [ ] Is constructor injection used everywhere?
 - [ ] Are DTOs, validation, and mapping correct?
-- [ ] Is transaction management and error handling proper?
+- [ ] Is Database Transaction management and error handling proper?
 - [ ] Is logging safe and configuration externalized?
 - [ ] Are tests present and meaningful?
 
@@ -1059,7 +1061,7 @@ Ensure the platform is secure by default, protects customer and business data, a
 - Encryption: Encrypt sensitive data at rest and in transit.
 - Input validation: Validate and sanitize all external input.
 - Output encoding: Prevent XSS and injection attacks.
-- Dependencies: Monitor and patch vulnerabilities (OWASP Dependency-Check).
+- Dependencies: Monitor and patch vulnerabilities using approved SCA/dependency scanning.
 - Logging: Never log passwords, tokens, payment data, or PII unnecessarily.
 - Privacy: Follow GDPR, CCPA, and other applicable regulations.
 - Security review required for all new features and external integrations.
@@ -1067,8 +1069,9 @@ Ensure the platform is secure by default, protects customer and business data, a
 ### Recommended Practices
 
 - Use security headers (CSP, HSTS, etc.) in all responses.
-- Use short-lived JWTs or session tokens.
-- Regularly run SAST/DAST tools in CI.
+- Use bounded token or Session lifetimes under the approved Identity and security architecture.
+- Run SAST and applicable source, dependency, and static security checks as CI quality gates under `SECURITY-STANDARDS.md` and `TESTING-STANDARDS.md`.
+- Perform DAST against a suitable deployed Environment on the cadence and at the depth governed by those standards. CI/CD may orchestrate DAST against that Environment; this does not imply that every pull request runs full DAST, and DAST must not be treated as penetration testing.
 - Use automated secrets scanning.
 - Document threat models for major features.
 
@@ -1385,7 +1388,7 @@ If a tool limitation prevents compliance, the agent must disclose the limitation
 
 ## 25. Forbidden Practices
 
-The following practices are prohibited unless an approved ADR or explicit security/operational procedure states otherwise.
+The following practices are prohibited. A departure is permitted only when the governing Canonical Document explicitly allows it through the applicable Decision or formal Exception process. An ADR applies only to Architecture Decisions and cannot waive a mandatory requirement owned by another canonical standard.
 
 ### 25.1 Requirements and design
 
@@ -1415,8 +1418,9 @@ The following practices are prohibited unless an approved ADR or explicit securi
 - Returning persistence entities directly from APIs.
 - Exposing stack traces or internal exception messages.
 - Breaking public contracts without versioning and migration guidance.
-- Trusting client-provided prices, permissions, payment status, or inventory state.
-- Treating browser redirects as authoritative payment confirmation.
+- Trusting client-provided Price, Permission, Payment state, or Inventory state.
+- Treating a Payment Redirect or client-reported Payment success as authoritative Payment proof.
+- Changing provider-dependent authoritative Payment state without validated Payment Provider evidence.
 - Processing duplicate-sensitive operations without idempotency controls.
 - Calling external services without timeouts.
 - Retrying non-idempotent operations blindly.
@@ -1510,7 +1514,7 @@ Contributors should apply these practices unless a more specific approved standa
 - Prefer stable machine-readable error codes.
 - Prefer additive contract evolution.
 - Prefer event names in past tense that describe completed business facts.
-- Prefer an outbox pattern when reliable event publication is required.
+- Prefer the Outbox Pattern when reliable event publication is required by the approved Architecture.
 
 ### 26.4 Data
 
@@ -1607,7 +1611,7 @@ Before a release is promoted:
 - Release scope is known.
 - Build artifacts are reproducible and traceable to source.
 - Integration and end-to-end checks pass in the release environment.
-- Critical security scans pass or accepted risks are documented.
+- Critical security scans pass, or an approved, unexpired Security Exception explicitly covers each blocking finding and release context.
 - Observability, dashboards, alerts, and runbooks are ready.
 - Backup, restore, and rollback requirements are satisfied.
 - Release notes and operational communication are prepared.
@@ -1620,22 +1624,27 @@ Before production enablement:
 - Secrets and identities are correctly scoped.
 - Database migrations have been rehearsed for high-risk changes.
 - Health and readiness checks pass.
-- Smoke tests pass.
+- Smoke Tests pass.
 - Monitoring is active.
 - A responsible owner is available during the agreed observation period.
 
 ### 27.7 Gate exceptions
 
-A quality gate may be bypassed only through an explicit, time-bound, documented risk acceptance by the accountable owner. The exception must state:
+A quality gate may be bypassed only through every applicable formal Exception process established by an Approved Canonical Document. A generic risk acceptance may govern a gate only when no more specific Approved Exception mechanism owns the affected Requirement, and it must be explicit, time-bound, documented, auditable, risk-aware, owned, and approved by an authorized person. It must state:
 
-- Which gate is bypassed.
+- Which Requirement and gate are bypassed.
 - Why the bypass is necessary.
 - Business and technical risk.
 - Compensating controls.
-- Expiry date.
-- Follow-up owner.
+- Accountable owner and authorized approver.
+- Approval date and expiry date.
+- Remediation plan and tracking reference.
 
-AI agents may not grant or imply approval for a gate exception.
+A mandatory security Requirement may be waived only through the applicable Security Exception governed by `SECURITY-STANDARDS.md`. A mandatory testing Requirement may be waived only through the applicable Testing Exception governed by `TESTING-STANDARDS.md`. A mandatory coding Requirement must use the applicable Coding Exception where governed by `CODING-STANDARDS.md`, and a mandatory documentation Requirement must use the applicable Documentation Exception where governed by `DOCUMENTATION-STANDARDS.md`.
+
+One Exception type must not silently waive a Requirement owned by another Canonical Document. When multiple standards govern a gate, every applicable formal Exception must be satisfied. An Exception or generic risk acceptance does not automatically satisfy a Human Approval Gate unless the governing workflow explicitly says it does and the required authorized human approval is recorded.
+
+AI agents may not grant or imply approval for an Exception, risk acceptance, or Human Approval Gate.
 
 ## 28. Feature Development Lifecycle
 
@@ -1660,7 +1669,7 @@ Define:
 - Security and privacy controls.
 - Observability and operational support.
 
-Material decisions require an ADR.
+Material Architecture Decisions require an ADR. Other material Decisions follow the Decision Record governance in `DECISIONS.md`.
 
 ### 28.4 Planning
 
@@ -1818,7 +1827,7 @@ Domain ownership determines where business rules, data, APIs, events, and operat
 Owns:
 
 - Product definitions.
-- Product variants.
+- Product Variants.
 - Categories and collections.
 - Product attributes.
 - Catalogue publication state.
@@ -1842,13 +1851,13 @@ Orders retain immutable pricing snapshots after confirmation.
 
 Owns:
 
-- On-hand quantity.
-- Available-to-sell quantity.
-- Reservations.
-- Adjustments and movements.
+- Stock.
+- Available-to-Sell quantity.
+- Stock Reservations.
+- Stock Adjustments and Stock Movements.
 - Low-stock policy.
 
-Catalogue may display availability but must not calculate authoritative stock independently.
+Inventory owns authoritative Stock and Available-to-Sell state. Stock Reservation and Stock changes must follow approved concurrency and overselling protections. Catalogue, client, search, reporting, and projection state may display or derive availability but must not become authoritative Inventory truth.
 
 ### 31.4 Customer and Identity
 
@@ -1876,6 +1885,8 @@ Owns:
 - Reconciliation.
 
 Payments must not directly own product, inventory, or fulfilment rules.
+
+Provider-dependent authoritative Payment state requires validated Payment Provider evidence. A Payment Redirect or client-reported Payment success is not authoritative proof, and retries must not create duplicate financial effects.
 
 ### 31.7 Orders
 
@@ -1959,12 +1970,12 @@ When introducing a new business or engineering term:
 
 Terms with materially different meanings must not be used interchangeably. In particular:
 
-- **Product** and **product variant** are distinct.
+- **Product** and **Product Variant** are distinct.
 - **Cart**, **checkout**, and **order** represent different lifecycle stages.
-- **Payment**, **payment attempt**, and **refund** are distinct records.
-- **On-hand**, **reserved**, and **available-to-sell** inventory are distinct quantities.
+- **Payment**, **Payment Attempt**, and **Refund** are distinct records.
+- **Stock**, **Stock Reservation**, and **Available-to-Sell** are distinct Inventory concepts.
 - **Category** and **collection** are distinct merchandising concepts.
-- **Authentication** and **authorization** are distinct controls.
+- **Authentication** and **Authorization** are distinct controls.
 - **Audit log**, **application log**, **metric**, and **trace** are distinct observability artifacts.
 
 When a provider uses terminology that conflicts with the internal model, the provider term must be translated within the adapter and must not redefine the project’s domain language.
@@ -2002,3 +2013,4 @@ Where guidance conflicts, this document governs contributor behaviour. Technolog
 | 0.3.0   | 2026-08-05 | Draft    | Established engineering standards for documentation, APIs, databases, frontend, backend, testing, security, accessibility, performance, and observability.                                       |
 | 0.4.0   | 2026-08-05 | Draft    | Defined AI behaviour, prohibited and preferred practices, quality gates, feature and defect lifecycles, refactoring rules, domain ownership, and glossary governance.                            |
 | 1.0.0   | 2026-08-05 | Approved | Completed the foundational AI Engineering Constitution, including governance, engineering philosophy, repository standards, delivery lifecycle, quality gates, and contributor responsibilities. |
+| 1.1.0   | 2026-08-12 | Approved | Clarified formal Exception precedence and DAST execution, aligned technology examples with Architecture, normalized Product Variant, Stock Reservation, Database Transaction, Smoke Test, and Outbox Pattern terminology, and corrected Decision Record scope after the core consistency audit. |
