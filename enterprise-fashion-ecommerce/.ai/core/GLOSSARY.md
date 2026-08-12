@@ -1,6 +1,6 @@
 ---
 title: GLOSSARY
-version: 1.1.1
+version: 1.1.2
 status: Approved
 owner: Engineering and Product
 last_updated: 2026-08-12
@@ -261,7 +261,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Canonical Document**: The approved Source of Truth for a defined area of repository governance or system behavior.
 - **Normative Rule**: A mandatory requirement expressed using terms such as must, must not, required, or prohibited.
 - **Guideline**: A recommended practice that may be departed from when the reason is documented and approved.
-- **Proposed**: A document or change state indicating that content has been submitted for review but is not yet authoritative.
+- **Proposed**: A Decision Record or governed change state indicating that a change has been submitted for consideration but has not yet been Accepted or approved. Proposed is not an authoritative core-document lifecycle status.
 - **Approved**: A document or change state indicating that authorized reviewers have accepted the content as normative and enforceable.
 - **Deprecated**: A supported but discouraged term, feature, interface, or document that is scheduled for replacement or removal.
 - **Experimental**: A non-guaranteed state used for evaluation where behaviour, interfaces, or terminology may change without backward compatibility.
@@ -692,6 +692,7 @@ status: Approved
 
 | Version | Date | Status | Description |
 | --- | --- | --- | --- |
+| 1.1.2 | 2026-08-12 | Approved | Clarified Proposed as a Decision Record or governed-change state rather than an authoritative document lifecycle status after final core freeze validation. |
 | 1.1.1 | 2026-08-12 | Approved | Corrected a stale Draft-to-Approved status statement after approval of the canonical glossary. |
 | 1.1.0 | 2026-08-12 | Approved | Normalized canonical Product Variant, Stock Reservation, Database Transaction, Payment, Decision Record, and related terminology after the repository-wide core consistency audit; downstream core documents remain to be normalized separately. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the canonical repository glossary after final completeness, lifecycle, architecture, product, security, ownership, and terminology consistency validation. |
