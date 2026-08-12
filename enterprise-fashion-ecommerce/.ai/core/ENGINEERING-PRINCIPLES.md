@@ -1,9 +1,9 @@
 ---
 title: ENGINEERING-PRINCIPLES
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Engineering
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -29,9 +29,11 @@ Engineering decisions MUST follow the Decision Hierarchy in `AGENTS.md`.
 - `SECURITY-STANDARDS.md` governs the mandatory security baseline and Security Exceptions.
 - `TESTING-STANDARDS.md` governs verification.
 - `CODING-STANDARDS.md` governs implementation-level practices.
+- `DOCUMENTATION-STANDARDS.md` governs documentation.
+- `DECISIONS.md` governs durable Decision Records.
 - This document provides durable decision heuristics within those constraints.
 
-These principles MUST NOT override a higher-authority Requirement.
+These principles MUST NOT override a higher-authority Requirement or an Accepted Decision Record within its assigned authority.
 
 ## 4. Principle Priority and Trade-offs
 
@@ -69,7 +71,7 @@ Choose the simplest design that is correct, secure, and evolvable. Speculative g
 
 ## 12. Explicit Over Implicit
 
-Ownership, lifecycle, state transitions, dependencies, transaction boundaries, errors, retries, idempotency, configuration, and Permissions SHOULD be explicit. Hidden magic SHOULD be avoided when it obscures business, operational, or security behavior.
+Ownership, lifecycle, state transitions, dependencies, Database Transaction boundaries, errors, retries, idempotency, configuration, and Permissions SHOULD be explicit. Hidden magic SHOULD be avoided when it obscures business, operational, or security behavior.
 
 ## 13. Make Invalid States Difficult
 
@@ -85,19 +87,19 @@ Payment, Order, Inventory, Webhook, and messaging operations MUST consider retri
 
 ## 16. Financial Correctness
 
-A Payment Redirect and client-reported success are not payment proof. Payment state MUST require validated authoritative Payment Provider evidence. Retries MUST NOT duplicate financial effects. Payment Authorization, Capture, Void, Refund Transaction, Chargeback, and Settlement transitions must remain explicit, reconcilable, and supported by appropriate Audit Records.
+A Payment Redirect and client-reported Payment success are not authoritative Payment proof. Provider-dependent authoritative Payment state requires validated Payment Provider evidence. Retries MUST NOT duplicate financial effects. Payment Authorization, Capture, Void, Refund Transaction, Chargeback, and Settlement transitions must remain explicit, reconcilable, and supported by appropriate Audit Records.
 
 ## 17. Inventory Correctness
 
-Inventory owns authoritative Stock, Stock Reservations, Available-to-Sell, Stock Adjustments, and Stock Movements. Concurrency MUST preserve invariants, and overselling prevention outranks convenience. Client Inventory state is not authoritative. Stock Reservation creation, expiry, release, and finalization SHOULD be explicit where applicable.
+Inventory owns authoritative Stock, Stock Reservations, Available-to-Sell, Stock Adjustments, and Stock Movements. Concurrency MUST preserve invariants, and overselling prevention outranks convenience. Client, search, reporting, and other projection state is not authoritative Inventory truth. Stock Reservation creation, expiry, release, and finalization SHOULD be explicit where applicable.
 
 ## 18. Data Integrity Before Availability Illusions
 
 Systems MUST NOT report false success to appear available. Uncertain writes must remain uncertain until resolved. Retry and reconciliation MUST preserve truth. Caches and projections MAY be stale, but MUST NOT become authoritative where they do not own the state.
 
-## 19. Transactions Are Boundaries of Consistency
+## 19. Database Transactions Are Boundaries of Consistency
 
-Transactions SHOULD protect required atomic invariants and remain focused. External side effects require deliberate coordination. Distributed work MUST NOT pretend to be one ACID transaction. The Outbox Pattern SHOULD be used where the approved architecture requires reliable post-commit publication.
+Database Transactions SHOULD protect required atomic invariants and remain focused. External side effects require deliberate coordination. Distributed work MUST NOT pretend to be one Database Transaction. The Outbox Pattern SHOULD be used where the approved architecture requires reliable post-commit publication.
 
 ## 20. Distributed Systems Assume Failure
 
@@ -197,7 +199,7 @@ Important decisions, Contracts, invariants, operational assumptions, and non-obv
 
 ## 44. Decisions Must Be Traceable
 
-Material decisions SHOULD be traceable from a Requirement through an ADR where appropriate, implementation, tests, review, and release evidence. Trivial implementation choices do not require an ADR.
+Material Decisions SHOULD be traceable from a Requirement through the applicable Decision Record where appropriate, including an ADR for an Architecture Decision, and onward through implementation, tests, review, and release evidence. Trivial implementation choices do not require a Decision Record.
 
 ## 45. Technical Debt Must Be Explicit
 
@@ -225,7 +227,7 @@ When several styles are valid, follow repository precedent, configured tools, an
 
 ## 51. Exceptions and Principle Deviations
 
-Principles do not bypass governance. A deviation from a SHOULD MAY be accepted with documented rationale. A MUST from another standard requires that standard's formal exception process. Security deviations require an approved Security Exception.
+Principles do not bypass governance. A deviation from a SHOULD in this document MAY be accepted with documented rationale. A mandatory Requirement owned by another governing standard requires that standard's formal exception process. A generic rationale or risk acceptance MUST NOT replace an applicable Security Exception, Testing Exception, Coding Exception, or Documentation Exception, and every applicable formal exception remains required. An exception MUST NOT bypass a Human Approval Gate.
 
 ## 52. Engineering Decision Checklist
 
@@ -257,7 +259,7 @@ This checklist supports decision quality but MUST NOT replace formal review, app
 | Payments | `PRODUCT.md`; `SECURITY-STANDARDS.md` | Financial correctness | Provider evidence, reconciliation, Audit Records |
 | Inventory | `PRODUCT.md`; `ARCHITECTURE.md` | Inventory correctness | Invariant and concurrency evidence |
 | Authorization | `SECURITY-STANDARDS.md` | Deny by default | Server-side Authorization evidence |
-| Data | `ARCHITECTURE.md` | Integrity before availability illusions | Constraints, transactions, recovery evidence |
+| Data | `ARCHITECTURE.md` | Integrity before availability illusions | Constraints, Database Transactions, recovery evidence |
 | Messaging | `ARCHITECTURE.md` | Duplicates and failure are expected | Idempotency and replay evidence |
 | External providers | `ARCHITECTURE.md` | Providers stay at the boundary | Adapter and Contract review |
 | Observability | `ARCHITECTURE.md` | Diagnosability is designed | Logs, metrics, traces, and alerts |
@@ -283,5 +285,6 @@ Engineering Principles guide choices only inside constraints established by gove
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Normalized Database Transaction terminology and clarified Payment, Inventory, Decision Record, authority, and exception-governance principles. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide engineering principles after final governance, terminology, product, architecture, security, testing, implementation, distributed-systems, operational, and decision-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide engineering principles covering correctness, security, domain ownership, simplicity, distributed systems, financial and Inventory integrity, operability, evolution, AI-assisted engineering, and decision quality. |
