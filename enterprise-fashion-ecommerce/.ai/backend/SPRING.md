@@ -1,7 +1,7 @@
 ---
 title: SPRING
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -484,6 +484,7 @@ The following lower-level companion files are currently empty and unapproved; th
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the Spring Boot implementation standard after final governance, architecture, framework-boundary, dependency-management, Database Transaction, persistence, API, security, Payment, Inventory, Authorization, observability, testing, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial Spring Boot implementation standard covering framework boundaries, dependency management, configuration, controllers, validation, RFC 9457 errors, Database Transactions, security integration, persistence boundaries, events, observability, testing, upgrades, and exception governance. |
 
 ## 55. Quality Requirements
