@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-05
+last_updated: 2026-08-12
 applies_to:
   - Frontend
   - Backend
@@ -16,7 +16,7 @@ review_cycle: Monthly
 source_of_truth: true
 ---
 
-> **Release Status:** Version 1.0.0 establishes the approved architectural baseline for the Enterprise Fashion Commerce Platform. All implementation, domain specifications, technology standards, infrastructure definitions, and Architecture Decision Records must conform to this blueprint unless an accepted ADR explicitly changes the baseline.
+> **Release Status:** Version 1.0.0 established the foundational approved Architecture baseline for the Enterprise Fashion Commerce Platform; the current Approved document version is recorded in metadata and Revision History. All implementation, domain Specifications, technology standards, infrastructure definitions, and Architecture Decision Records must conform to the current `ARCHITECTURE.md`. An Accepted ADR becomes current canonical Architecture only when its change is applied to this document through repository governance.
 
 # ARCHITECTURE.md
 
@@ -38,7 +38,7 @@ It defines:
 - Integration, data, security, observability, performance, and resilience principles.
 - The path for future evolution without premature distribution.
 
-The statements **must**, **must not**, **required**, and **prohibited** are mandatory. The statements **should** and **should not** are strong defaults that may be overridden only through a documented reason. Material deviations require an accepted Architecture Decision Record.
+The statements **must**, **must not**, **required**, and **prohibited** are mandatory. The statements **should** and **should not** are strong defaults that may be changed only through documented rationale consistent with repository governance. Material Architecture changes require an Accepted ADR and the corresponding governed update to this document.
 
 Where guidance conflicts, the decision hierarchy in `.ai/core/AGENTS.md` applies.
 
@@ -49,14 +49,14 @@ The platform will provide a production-grade digital commerce capability for a p
 The architecture must enable the business to:
 
 - Present products and collections through a fast, mobile-first storefront.
-- Maintain accurate product, price, variant, media, and inventory information.
+- Maintain accurate Product, Price, Product Variant, media, and Inventory information.
 - Accept secure online payments without storing raw card data.
 - Create and fulfil orders reliably despite asynchronous provider behaviour.
 - Operate through role-protected administration workflows.
 - Diagnose failures and reconcile critical business processes.
 - Introduce additional providers, channels, and capabilities without redesigning the core domain.
 
-The initial system will be implemented as a **domain-driven modular monolith**. The frontend and backend will be separately deployable applications, while the backend will remain one primary deployable unit with strongly enforced internal module boundaries.
+The initial system will be implemented as a **domain-driven Modular Monolith**. The frontend and backend will be separately deployable applications, while the backend will remain one primary deployable unit with strongly enforced internal Module boundaries.
 
 The platform must avoid premature microservices. Distribution will be considered only where independently measurable operational, scalability, security, deployment, ownership, or availability requirements justify the additional complexity.
 
@@ -65,7 +65,7 @@ The platform must avoid premature microservices. Distribution will be considered
 The architecture must optimise for the following outcomes:
 
 1. **Correctness:** prices, stock, payment outcomes, orders, refunds, and fulfilment state must remain trustworthy.
-2. **Maintainability:** modules must be understandable and changeable without broad unintended impact.
+2. **Maintainability:** Modules must be understandable and changeable without broad unintended impact.
 3. **Security and privacy:** customer, administrative, payment, and operational data must be protected by default.
 4. **Mobile-first usability:** customer-facing capabilities must perform and remain accessible on mobile devices.
 5. **Operational simplicity:** the initial platform must be supportable by a small engineering team.
@@ -88,7 +88,7 @@ The system must:
 - Store secrets in approved secret-management services.
 - Encrypt data in transit and rely on approved encryption at rest.
 - Validate all external input and safely encode output.
-- Isolate external providers behind controlled adapters.
+- Isolate external providers behind controlled Adapters.
 - Avoid storage of raw payment-card data.
 - Produce auditable records for sensitive administrative and financial actions.
 
@@ -96,7 +96,7 @@ The system must:
 
 The platform must preserve business truth under retries, duplicate requests, delayed callbacks, transient provider failure, and partial workflow failure.
 
-Critical operations such as payment confirmation, refund initiation, inventory reservation, and order creation must be idempotent where duplication could create financial or operational harm.
+Critical operations such as Payment confirmation, Refund initiation, Stock Reservation, and Order creation must be idempotent where duplication could create financial or operational harm.
 
 ### 4.3 Availability
 
@@ -123,13 +123,13 @@ Stateful concerns must be owned by managed data services such as PostgreSQL, Red
 
 ### 4.6 Maintainability
 
-Architecture must favour explicit domain ownership, dependency direction, typed contracts, cohesive modules, and small application use cases.
+Architecture must favour explicit Domain ownership, dependency direction, typed Contracts, cohesive Modules, and small Use Cases.
 
 A contributor must be able to identify where a business rule belongs without searching the entire repository.
 
 ### 4.7 Testability
 
-Domain logic must be executable without HTTP, database, cloud, or provider dependencies. External integrations must be substitutable in tests through ports and adapters.
+Domain logic must be executable without HTTP, database, cloud, or provider dependencies. External integrations must be substitutable in tests through Ports and Adapters.
 
 ### 4.8 Accessibility
 
@@ -154,25 +154,25 @@ The system must be organised around business capabilities rather than framework 
 
 ### 5.2 Modular Monolith First
 
-The backend will begin as one deployable Spring Boot application composed of explicit domain modules. Internal module boundaries must be treated as if modules could later become independently deployable.
+The backend will begin as one deployable Spring Boot application composed of explicit domain Modules. Internal Module boundaries must be treated as if Modules could later become independently deployable.
 
 This means:
 
-- No uncontrolled cross-module repository access.
+- No uncontrolled cross-Module Repository access.
 - No shared mutable domain entities.
-- No circular module dependencies.
-- Cross-domain interaction through approved application interfaces, queries, APIs, or events.
+- No circular Module dependencies.
+- Cross-domain interaction through approved Application Service interfaces, queries, APIs, Domain Events, or Integration Events.
 - Independent ownership of business rules and authoritative data.
 
 ### 5.3 Hexagonal Architecture
 
-Each backend domain module should follow ports-and-adapters principles:
+Each backend domain Module should follow Ports and Adapters principles:
 
 - The domain defines business behaviour and invariants.
 - The application layer coordinates use cases.
-- Inbound adapters expose capabilities through REST, scheduled jobs, messaging, or administrative commands.
-- Outbound ports describe persistence, provider, notification, storage, search, and event needs.
-- Infrastructure adapters implement those ports.
+- Inbound Adapters expose capabilities through REST, scheduled jobs, messaging, or administrative commands.
+- Outbound Ports describe persistence, provider, notification, storage, search, and event needs.
+- Infrastructure Adapters implement those Ports.
 
 Framework and provider details must point inward toward project-owned abstractions; domain logic must not depend outward on frameworks or vendors.
 
@@ -194,7 +194,7 @@ Use managed cloud services where they materially reduce operational burden and p
 
 ### 5.8 Explicit Consistency
 
-Every workflow that crosses domains or providers must define its consistency model. Contributors must not assume a distributed transaction exists across the database and external systems.
+Every workflow that crosses domains or providers must define its consistency model. Contributors must not assume a distributed Database Transaction exists across the database and External Systems.
 
 ### 5.9 Backward-Compatible Evolution
 
@@ -217,7 +217,7 @@ The primary actors and external systems are:
 | Spring Boot Application | Owns business use cases, domain rules, security enforcement, persistence coordination, and external integration. |
 | PostgreSQL              | Stores authoritative transactional and configuration data.                                                       |
 | Object Storage and CDN  | Stores and distributes product media and approved static assets.                                                 |
-| Payment Provider        | Hosts or processes approved payment methods and emits authoritative payment notifications.                       |
+| Payment Provider        | Hosts or processes approved Payment methods and provides Payment outcomes or evidence that the platform must validate before treating provider-dependent Payment state as authoritative. |
 | Shipping Provider       | Provides delivery quotations, shipment creation, labels, tracking, and delivery events.                          |
 | Notification Provider   | Delivers transactional email or other approved communications.                                                   |
 | Analytics Platform      | Receives consent-aware customer and business events.                                                             |
@@ -231,8 +231,8 @@ The approved initial baseline is:
 
 | Area                        | Technology Direction                                                                                                                                        |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Customer and Admin Frontend | Angular 20 with standalone components, TypeScript strict mode, Signals-first state, RxJS for asynchronous streams, Angular Router, and typed Reactive Forms |
-| Backend                     | Java 21 LTS and the approved Spring Boot 3.x release defined in `.ai/backend/SPRING.md`                                                                     |
+| Customer and Admin Frontend | Angular 20 with Standalone Components, TypeScript strict mode, Signals-first state, RxJS for asynchronous streams, Angular Router, and Typed Reactive Forms |
+| Backend                     | Java 21 LTS and Spring Boot 3.x; the exact supported minor and patch release must be selected and governed through an approved lower-level backend standard or dependency-management process before implementation locks it |
 | API                         | REST-first JSON APIs documented with OpenAPI 3.1                                                                                                            |
 | Security                    | Spring Security with approved token/session strategy and role/permission authorization                                                                      |
 | Persistence                 | PostgreSQL with versioned Flyway migrations                                                                                                                 |
@@ -273,11 +273,11 @@ A modular monolith is selected because it provides:
 - Clear domain boundaries without premature network distribution.
 - A credible future extraction path when module characteristics justify it.
 
-The modular monolith must not become an unstructured monolith. Module boundaries must be enforced through package structure, tests, ownership, and dependency rules.
+The Modular Monolith must not become an unstructured monolith. Module boundaries must be enforced through package structure, tests, ownership, and dependency rules.
 
 ### 8.3 Future Module Extraction
 
-A module may be considered for independent deployment only when one or more of the following are demonstrated:
+A Module may be considered for independent deployment only when one or more of the following are demonstrated:
 
 - It requires materially different scaling characteristics.
 - It requires independent release cadence or ownership.
@@ -292,20 +292,20 @@ Extraction requires an ADR, contract definition, data-ownership plan, observabil
 
 | Domain         | Primary Responsibility                                                                                        |
 | -------------- | ------------------------------------------------------------------------------------------------------------- |
-| Product        | Owns product definitions, variants, attributes, publication lifecycle, and product media metadata.            |
+| Product        | Owns Product definitions, Product Variants, Attributes, publication lifecycle, and Product Media metadata.     |
 | Category       | Owns hierarchical classification and customer navigation groupings.                                           |
-| Inventory      | Owns on-hand, reserved, available-to-sell quantities, reservations, adjustments, and movements.               |
+| Inventory      | Owns authoritative Stock, Stock Reservations, Available-to-Sell quantities, Stock Adjustments, and Stock Movements. |
 | Pricing        | Owns prices, promotional rules, voucher eligibility, discounts, and pricing policy.                           |
 | Customer       | Owns customer profiles, addresses, preferences, and consent records.                                          |
-| Identity       | Owns credentials, authentication sessions, roles, permissions, and access-security events.                    |
+| Identity       | Owns credentials, Sessions, Roles, Permissions, and access-security events.                                   |
 | Cart           | Owns active purchase intent, cart items, quantity changes, and cart persistence.                              |
 | Checkout       | Coordinates final validation of customer, pricing, promotion, inventory, shipping, and payment initiation.    |
-| Payment        | Owns payment attempts, provider references, callbacks, payment state, refunds, and reconciliation.            |
+| Payment        | Owns Payment Attempts, Payment Provider references and evidence, callbacks, Payment state, Refunds, and reconciliation. |
 | Order          | Owns confirmed commercial records, order snapshots, lifecycle, status history, and cancellation coordination. |
 | Shipping       | Owns methods, quotations, shipments, tracking, and delivery events.                                           |
 | Notifications  | Owns templates, notification requests, attempts, retry state, and delivery outcome.                           |
 | CMS            | Owns editorial pages, banners, homepage content, campaigns, and policy presentation.                          |
-| Administration | Provides protected operational workflows over domain-owned application services.                              |
+| Administration | Provides protected operational workflows over Domain-owned Application Services.                              |
 | Reporting      | Owns read models, exports, dashboards, and analytical projections without mutating transactional state.       |
 
 Detailed ownership rules remain governed by `.ai/core/AGENTS.md` and domain specifications under `specifications/domains/`.
@@ -336,7 +336,7 @@ com.enterprisefashioncommerce
 
 The `shared` area must remain small and may contain only genuine cross-cutting technical primitives or stable value types. It must not become a location for business logic that lacks clear ownership.
 
-Each domain module should expose only its approved application-facing contract. Internal domain objects, repositories, persistence mappings, and provider adapters must remain encapsulated.
+Each domain Module should expose only its approved application-facing Contract. Internal Domain objects, Repositories, persistence mappings, and provider Adapters must remain encapsulated.
 
 ### 10.1 Dependency Direction
 
@@ -350,60 +350,60 @@ Presentation / Inbound Adapters
         Domain Layer
 ```
 
-Infrastructure adapters implement ports defined inward by the application or domain layer:
+Infrastructure Adapters implement Ports defined inward by the application or Domain layer:
 
 ```text
 Infrastructure Adapter → Application or Domain Port
 ```
 
-The domain layer must not depend on Spring MVC, JPA, Azure SDKs, HTTP clients, payment SDKs, or other infrastructure frameworks.
+The Domain layer must not depend on Spring MVC, JPA, Azure SDKs, HTTP clients, Payment Provider SDKs, or other infrastructure frameworks.
 
 ### 10.2 Cross-Domain Interaction
 
 Cross-domain interaction should use one of the following:
 
-- A public application-service interface.
-- An explicit query contract.
+- A public Application Service interface.
+- An explicit query Contract.
 - A documented internal API.
-- A domain event inside the same process.
-- An integration event when asynchronous or externally visible communication is required.
+- A Domain Event inside the same process.
+- An Integration Event when asynchronous or externally visible communication is required.
 
-Direct access to another domain’s internal repository, entity, or table is prohibited unless an accepted ADR defines a controlled exception.
+Direct access to another Domain's internal Repository, Entity, or table is prohibited unless an Accepted ADR and synchronized Architecture update define the controlled access.
 
-### 10.3 Transaction Boundaries
+### 10.3 Database Transaction Boundaries
 
-Transactions must be defined around application use cases, not controllers.
+Database Transactions must be defined around application Use Cases, not controllers.
 
-A single database transaction may coordinate changes across closely related modules only when the consistency requirement is explicit and module encapsulation remains intact. External provider calls must not be held inside long-running database transactions.
+A single Database Transaction may coordinate changes across closely related Modules only when the consistency requirement is explicit and Module encapsulation remains intact. External provider calls must not be held inside long-running Database Transactions.
 
 ## 11. Layered and Hexagonal Architecture
 
-Each significant backend module should use the following conceptual layers.
+Each significant backend Module should use the following conceptual layers.
 
 ### 11.1 Domain Layer
 
 Owns:
 
-- Aggregates and entities.
-- Value objects.
-- Domain services.
+- Aggregates and Entities.
+- Value Objects.
+- Domain Services.
 - Business invariants.
-- Domain events.
+- Domain Events.
 - Domain-specific errors and policies.
 
-The domain layer must be framework-independent wherever practical.
+The Domain layer must be framework-independent wherever practical.
 
 ### 11.2 Application Layer
 
 Owns:
 
-- Named use cases.
+- Named Use Cases.
 - Command and query orchestration.
-- Transaction boundaries.
+- Database Transaction boundaries.
 - Authorization checks requiring business context.
-- Coordination of repositories, domain services, and external ports.
+- Coordination of Repositories, Domain Services, and external Ports.
 - Mapping between inbound requests and domain/application models.
-- Publication of approved events.
+- Publication of approved Domain Events or Integration Events.
 
 The application layer must not contain presentation-specific behaviour.
 
@@ -417,7 +417,7 @@ Examples include:
 - Message consumers.
 - Provider callback endpoints.
 
-Inbound adapters translate transport concerns into application use cases. They must not own business rules.
+Inbound Adapters translate transport concerns into application Use Cases. They must not own business rules.
 
 ### 11.4 Outbound Ports
 
@@ -446,7 +446,7 @@ Adapters implement ports through:
 - Redis.
 - Messaging services.
 
-Provider-specific translation, validation, signatures, timeouts, retries, and errors belong in adapters.
+Provider-specific translation, validation, signatures, timeouts, retries, and errors belong in Adapters.
 
 ### 11.6 Persistence Mapping
 
@@ -456,7 +456,7 @@ Persistence entities must not be exposed through REST APIs or used as domain mod
 
 The Angular application will use:
 
-- Standalone components.
+- Standalone Components.
 - Feature-oriented folders.
 - Route-level lazy loading.
 - Signals for local synchronous state.
@@ -466,9 +466,9 @@ The Angular application will use:
 - Separate storefront and administration layouts.
 - Server-side authorization as the authoritative access boundary.
 
-The frontend may validate user input for usability but must not become the authoritative owner of price, stock, payment, permission, or order rules.
+The frontend may validate user input for usability but must not become the authoritative owner of Price, Discount, Stock, Inventory, Payment, Permission, or Order rules.
 
-Further rules are defined in `.ai/frontend/ANGULAR.md`, `.ai/frontend/UI.md`, `.ai/frontend/ACCESSIBILITY.md`, `.ai/frontend/PERFORMANCE.md`, and `.ai/frontend/STORYBOOK.md`.
+The paths `.ai/frontend/ANGULAR.md`, `.ai/frontend/UI.md`, `.ai/frontend/ACCESSIBILITY.md`, `.ai/frontend/PERFORMANCE.md`, and `.ai/frontend/STORYBOOK.md` are reserved for approved lower-level refinements. Until a referenced file contains approved rules, this document remains the governing frontend Architecture baseline.
 
 ## 13. API Architecture Direction
 
@@ -494,29 +494,31 @@ Events may be used for decoupled reactions, audit-friendly state propagation, pr
 
 ### 14.1 Domain Events
 
-Domain events represent completed facts inside the application boundary, such as:
+Domain Events represent completed facts inside the application boundary, such as:
 
 - `ProductPublished`
-- `StockReserved`
-- `PaymentSucceeded`
+- `InventoryReserved`
+- `PaymentConfirmed`
 - `OrderConfirmed`
 - `ShipmentCreated`
 
 They are expressed in past tense and must not be used as hidden commands.
 
+`PaymentConfirmed` may be emitted only after the platform validates authoritative Payment Provider evidence confirming the required Payment Authorization or Capture. A Payment Redirect, client-reported success, or unvalidated provider response is insufficient.
+
 ### 14.2 Integration Events
 
-Integration events are stable, versioned messages intended for asynchronous consumers outside the originating module or deployable system.
+Integration Events are stable, versioned messages intended for asynchronous consumers outside the originating Module or deployable system. They remain distinct from Domain Events and Analytics Events.
 
 ### 14.3 Reliability
 
-When reliable publication must be coordinated with database state, the architecture should use an outbox pattern or another accepted durable mechanism.
+When reliable publication must be coordinated with database state, the architecture should use the Outbox Pattern or another Accepted durable mechanism.
 
-Consumers must be idempotent because event delivery may be at least once.
+Consumers must be Idempotent Consumers because duplicate delivery may occur. Exactly-once delivery must not be assumed unless an explicit infrastructure Contract guarantees it. Message Contracts must define correlation and causation semantics where applicable.
 
 ### 14.4 Initial Position
 
-The initial modular monolith may use in-process events for appropriate internal reactions. External messaging infrastructure should be introduced only when required by reliability, decoupling, scale, or integration needs.
+The initial Modular Monolith may use in-process Domain Events for appropriate internal reactions. External messaging infrastructure should be introduced only when required by reliability, decoupling, scale, or integration needs.
 
 ## 15. Data Architecture Direction
 
@@ -536,11 +538,11 @@ The data architecture must provide:
 
 Direct database integration between external systems and domain tables is prohibited.
 
-Search may initially use PostgreSQL capabilities. A dedicated search service may be introduced behind a search port when product scale, relevance, merchandising, or latency requirements justify it.
+Search may initially use PostgreSQL capabilities. A dedicated search service may be introduced behind a Search Port when Product scale, relevance, merchandising, or latency Requirements justify it.
 
 ## 16. Integration Architecture Direction
 
-External systems must be integrated behind project-owned ports and adapters.
+External Systems must be integrated behind project-owned Ports and Adapters.
 
 Every integration must define:
 
@@ -585,7 +587,7 @@ Security architecture includes:
 - Audit logging for sensitive operations.
 - Data minimisation and privacy-aware retention.
 
-Detailed controls belong in `.ai/core/SECURITY-STANDARDS.md` and technology-specific standards.
+Detailed security controls are governed by `.ai/core/SECURITY-STANDARDS.md`; approved technology-specific standards may add implementation detail without weakening that baseline.
 
 ## 18. Observability Architecture Direction
 
@@ -602,11 +604,11 @@ Required capabilities include:
 - Health and readiness endpoints.
 - Actionable dashboards and alerts.
 
-Critical workflows must be traceable by business identifier, such as order number, payment reference, shipment reference, or inventory reservation ID, without logging prohibited sensitive data.
+Critical workflows must be traceable by business identifier, such as Order Number, Payment reference, Shipment reference, or Stock Reservation ID, without logging prohibited Sensitive Data.
 
 ## 19. Azure Deployment Direction
 
-The target Azure architecture must provide the following logical capabilities; exact Azure service selections remain governed by accepted ADRs:
+The target Azure architecture must provide the following logical capabilities; exact Azure service selections remain governed by Accepted ADRs:
 
 - Azure Front Door and approved web edge controls.
 - Static hosting suitable for the Angular application.
@@ -630,13 +632,13 @@ All external calls must use explicit timeouts. Retries must be bounded and restr
 
 ### 20.2 Payment and Order Consistency
 
-The platform must not treat a customer redirect as proof of payment. Authoritative payment confirmation must come from validated provider state, normally through a signed callback or server-side verification.
+The platform must not treat a Payment Redirect, browser result, or client-reported Payment success as authoritative Payment proof. Provider-dependent authoritative Payment state must come from validated Payment Provider evidence, normally through a signature-validated callback, authenticated Webhook where applicable, or trusted server-side verification.
 
-Duplicate callbacks must not create duplicate orders or side effects.
+Payment, Payment Attempt, Payment Authorization, Capture, Void, Payment Transaction, Refund, Refund Transaction, Chargeback, and Settlement state must remain distinct and traceable where applicable. Unknown, pending, or otherwise uncertain Payment outcomes must remain distinguishable from confirmed success and must be reconciled. Duplicate callbacks, Webhooks, requests, or retries must not create duplicate financial or Order effects and must preserve applicable Idempotency Key semantics.
 
 ### 20.3 Inventory Consistency
 
-Inventory must define explicit reservation, expiry, release, and finalisation behaviour. Available-to-sell quantity must not be calculated independently by multiple domains.
+Inventory owns authoritative Stock and Available-to-Sell state and must define explicit Stock Reservation creation, expiry, release, and finalisation behaviour. Concurrent Stock changes must preserve Available-to-Sell correctness and prevent Overselling. Product Catalogue, client, search, reporting, and other projections must not become authoritative Inventory truth, and Available-to-Sell must not be calculated independently by multiple Domains.
 
 ### 20.4 Notification Failure
 
@@ -648,19 +650,19 @@ Payment, order, inventory, shipment, and notification integrations must provide 
 
 ## 21. Architecture Decision Process
 
-An ADR is required when a decision:
+An ADR is required when an Architecture Decision:
 
 - Introduces or replaces a major technology.
 - Changes module boundaries or ownership.
 - Creates a new integration style.
 - Introduces infrastructure with material cost or operational impact.
 - Changes API, event, identity, persistence, or deployment strategy.
-- Creates a long-lived exception to this document.
+- Changes the approved Architecture baseline or introduces a long-lived architectural constraint.
 - Is difficult or expensive to reverse.
 
-ADRs must document context, decision, alternatives, consequences, status, and migration impact.
+ADRs must document context, Decision, alternatives, consequences, status, and migration impact and must reside in the verified repository location `specifications/adr/` governed by `AGENTS.md`.
 
-This document records the architectural baseline. ADRs record individual decisions and must not silently contradict the baseline. Accepted contradictions require this document to be updated.
+This document records the canonical Architecture baseline. ADRs record individual Architecture Decisions and must not silently contradict or override the baseline. An Accepted ADR that changes the baseline must be synchronized with an approved update to `ARCHITECTURE.md` before the changed Architecture is treated as current canonical truth. Non-Architecture Decisions use the general Decision Record governance in `DECISIONS.md`, not ADR identifiers.
 
 ## 22. Architecture Governance and Fitness
 
@@ -725,14 +727,14 @@ The Spring Boot application contains:
 
 | Component                    | Responsibility                                                                                                           |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| REST API Adapters            | Translate HTTP requests into application use cases and application results into HTTP responses.                          |
-| Security Boundary            | Authenticates principals, resolves roles and permissions, applies request-level controls, and supplies security context. |
-| Domain Modules               | Own business invariants, application use cases, persistence ports, domain events, and provider ports.                    |
-| Integration Adapters         | Implement payment, shipping, notification, storage, analytics, and other provider contracts.                             |
+| REST API Adapters            | Translate HTTP requests into Application Use Cases and application results into HTTP responses.                          |
+| Security Boundary            | Authenticates Principals, resolves Roles and Permissions, applies request-level controls, and supplies security context. |
+| Domain Modules               | Own business invariants, Application Use Cases, persistence Ports, Domain Events, and provider Ports.                    |
+| Integration Adapters         | Implement Payment, shipping, notification, storage, analytics, and other provider Contracts.                             |
 | Persistence Adapters         | Map project-owned domain and application models to PostgreSQL persistence structures.                                    |
-| Event Infrastructure         | Dispatches in-process events and, when approved, persists and publishes integration events.                              |
+| Event Infrastructure         | Dispatches in-process Domain Events and, when approved, persists and publishes Integration Events.                       |
 | Scheduled Operations         | Run reconciliation, expiry, cleanup, notification retry, projection, and maintenance jobs.                               |
-| Observability Infrastructure | Produces structured logs, metrics, traces, health information, and audit records.                                        |
+| Observability Infrastructure | Produces structured Logs, Metrics, Traces, health information, and Audit Records.                                        |
 
 ### 24.3 Data Components
 
@@ -741,7 +743,7 @@ The data architecture distinguishes:
 - Transactional domain tables.
 - Immutable business snapshots.
 - Append-only movement and status history.
-- Outbox and idempotency records where required.
+- Outbox Pattern and idempotency records where required.
 - Reporting projections and export models.
 - Operational audit records.
 - Object-storage metadata.
@@ -780,7 +782,7 @@ sequenceDiagram
     participant Media as CDN / Blob Storage
 
     Customer->>Web: Open product or listing page
-    Web->>API: GET /api/v1/products...
+    Web->>API: GET /api/v1/products
     API->>Product: Execute catalogue query
     Product->>ProductRepo: Load published product projection
     ProductRepo->>DB: Execute indexed read query
@@ -807,10 +809,10 @@ sequenceDiagram
     participant Inventory as Inventory Query Contract
     participant DB as PostgreSQL
 
-    Customer->>Web: Add selected variant
+    Customer->>Web: Add selected Product Variant
     Web->>API: POST /api/v1/carts/{cartId}/items
     API->>Cart: Add item command
-    Cart->>Product: Validate active sellable variant
+    Cart->>Product: Validate active sellable Product Variant
     Cart->>Pricing: Resolve current display price
     Cart->>Inventory: Check availability policy
     Cart->>DB: Persist cart item and snapshots
@@ -841,26 +843,26 @@ sequenceDiagram
     Customer->>Web: Confirm checkout
     Web->>API: POST /api/v1/checkouts/{id}/confirm
     API->>Checkout: Confirm checkout command
-    Checkout->>Pricing: Recalculate authoritative totals
-    Checkout->>Inventory: Reserve stock
+    Checkout->>Pricing: Recalculate authoritative Price and totals
+    Checkout->>Inventory: Create Stock Reservation
     Checkout->>Shipping: Confirm delivery option
-    Checkout->>Payment: Create payment attempt
-    Payment->>Provider: Create hosted/tokenised payment session
-    Provider-->>Payment: Provider payment reference
-    Payment->>DB: Persist payment attempt
+    Checkout->>Payment: Create Payment Attempt
+    Payment->>Provider: Create hosted/tokenised Payment session
+    Provider-->>Payment: Payment Provider reference
+    Payment->>DB: Persist Payment Attempt
     Payment-->>Checkout: Payment initiation result
-    Checkout-->>API: Redirect/session response
+    Checkout-->>API: Payment Redirect / Session response
     API-->>Web: Payment initiation details
-    Web->>Provider: Complete hosted payment
-    Provider-->>Payment: Signed callback/webhook
-    Payment->>Payment: Validate and deduplicate callback
-    Payment->>DB: Record authoritative payment outcome
-    Payment->>Order: Request order confirmation
-    Order->>DB: Persist order and immutable snapshots
-    Order->>Inventory: Finalise reservation
+    Web->>Provider: Complete hosted Payment
+    Provider-->>Payment: Callback / Webhook evidence
+    Payment->>Payment: Authenticate or validate signature, evidence, and duplicate status
+    Payment->>DB: Record validated authoritative Payment outcome
+    Payment->>Order: Request Order confirmation
+    Order->>DB: Persist Order and immutable snapshots
+    Order->>Inventory: Finalise Stock Reservation
 ```
 
-The order must not be confirmed from the browser redirect alone. Callback handling must be idempotent and reconciliation-capable.
+The Order must not be confirmed from a Payment Redirect, browser result, or client-reported Payment success. Provider-dependent authoritative Payment state requires validated Payment Provider evidence. Callback and Webhook handling must be replay-safe, idempotent, and reconciliation-capable so duplicate processing cannot create duplicate financial or Order effects.
 
 ### 25.4 Order Fulfilment Flow
 
@@ -880,7 +882,7 @@ sequenceDiagram
     Shipping->>Provider: Book shipment / request label
     Provider-->>Shipping: Shipment reference and label
     Shipping->>DB: Persist shipment state
-    Shipping-->>Order: Shipment created event
+    Shipping-->>Order: ShipmentCreated Domain Event
     Order->>DB: Record fulfilment transition
     Order-->>Notify: Publish customer notification request
     Notify->>DB: Persist delivery attempt
@@ -899,63 +901,64 @@ sequenceDiagram
     participant Provider as Payment Provider
     participant DB as PostgreSQL
 
-    Admin->>API: Request refund
-    API->>Order: Validate refund eligibility
-    Order->>Payment: Initiate approved refund
-    Payment->>DB: Persist refund attempt
-    Payment->>Provider: Submit idempotent refund request
-    Provider-->>Payment: Refund reference/status
-    Payment->>DB: Record refund state
-    Payment-->>Order: Refund outcome event
+    Admin->>API: Request Refund
+    API->>Order: Validate Refund eligibility
+    Order->>Payment: Initiate approved Refund
+    Payment->>DB: Persist Refund request state
+    Payment->>Provider: Submit idempotent Refund request
+    Provider-->>Payment: Refund Transaction reference / evidence
+    Payment->>Payment: Validate Refund Transaction evidence
+    Payment->>DB: Record Refund and Refund Transaction state
+    Payment-->>Order: Validated Refund outcome
     Order->>DB: Update financial status history
 ```
 
-Refund state must remain independently reconcilable from order state.
+Refund and Refund Transaction state must remain distinguishable and independently reconcilable from Order state.
 
-## 26. Consistency and Transaction Model
+## 26. Consistency and Database Transaction Model
 
 ### 26.1 Strong Consistency
 
-Strong consistency is required inside a single transactional boundary when failure would otherwise violate a core invariant.
+Strong consistency is required inside a single Database Transaction boundary when failure would otherwise violate a core invariant.
 
 Examples include:
 
-- Persisting an inventory reservation with the corresponding quantity change.
-- Persisting an order and its order-item snapshots.
-- Recording a payment callback and its deduplication marker.
-- Applying a promotion-usage record with its approved use count where required.
+- Persisting a Stock Reservation with the corresponding Stock quantity change.
+- Persisting an Order and its Order Item snapshots.
+- Recording a Payment callback and its deduplication marker.
+- Applying a Promotion-usage record with its approved use count where required.
 
 ### 26.2 Eventual Consistency
 
 Eventual consistency is acceptable for non-authoritative reactions and projections, including:
 
 - Notification delivery.
-- Analytics events.
+- Analytics Events.
 - Reporting projections.
 - Search indexing.
 - Non-critical cache invalidation.
 - Secondary operational dashboards.
 
-The originating transaction must remain correct even when an eventual consumer is delayed or unavailable.
+The originating Database Transaction must remain correct even when an eventual consumer is delayed or unavailable.
 
 ### 26.3 External Side Effects
 
-Database transactions must not remain open while waiting for payment, shipping, email, analytics, or storage providers.
+Database Transactions must not remain open while waiting for Payment, shipping, email, analytics, or storage providers.
 
-A workflow that combines database state and an external side effect must use an explicit state machine and, where required, durable command/outbox records.
+A workflow that combines database state and an external side effect must use an explicit state machine and, where required, durable command records or Outbox Pattern records.
 
 ### 26.4 Idempotency
 
 Idempotency must be designed for:
 
 - Checkout confirmation.
-- Payment-session creation when provider semantics require it.
+- Payment-session creation when Payment Provider semantics require it.
 - Payment callbacks.
 - Refund requests.
 - Shipment creation.
-- Inventory reservation finalisation and release.
+- Stock Reservation finalisation and release.
 - Notification consumers.
-- Integration-event consumers.
+- Integration Event consumers.
 
 Idempotency records must define key scope, request identity, result reuse, expiry, conflict behaviour, and storage ownership.
 
@@ -967,10 +970,10 @@ Optimistic concurrency is the default for mutable aggregates that may be edited 
 
 Scheduled recovery jobs may resolve:
 
-- Expired inventory reservations.
+- Expired Stock Reservations.
 - Stale checkout sessions.
 - Unconfirmed payment attempts.
-- Unpublished outbox records.
+- Unpublished Outbox Pattern records.
 - Failed notification attempts.
 - Shipment-status drift.
 
@@ -978,7 +981,7 @@ Recovery jobs must be idempotent, observable, bounded, and safe to rerun.
 
 ## 27. Caching Architecture
 
-Caching is an optimisation and must never become an ungoverned source of truth.
+Caching is an optimisation and must never become an ungoverned Source of Truth.
 
 ### 27.1 Cache Candidates
 
@@ -999,7 +1002,7 @@ The following must not rely on stale cache state for authoritative decisions:
 - Final checkout totals.
 - Payment status.
 - Order financial status.
-- Inventory reservation outcome.
+- Stock Reservation outcome.
 - Permissions.
 - Refund eligibility.
 
@@ -1033,7 +1036,7 @@ The initial search contract must support:
 - Customer-visible published products only.
 - Keyword search.
 - Category filtering.
-- Attribute and variant filtering where supported.
+- Attribute and Product Variant filtering where supported.
 - Price filtering.
 - Sort options.
 - Pagination.
@@ -1041,7 +1044,7 @@ The initial search contract must support:
 
 ### 28.2 Search Port
 
-Search access must be expressed through a project-owned search port so a dedicated search engine can be introduced without rewriting customer-facing use cases.
+Search access must be expressed through a project-owned search Port so a dedicated search engine can be introduced without rewriting customer-facing Use Cases.
 
 ### 28.3 Dedicated Search Criteria
 
@@ -1057,7 +1060,7 @@ A dedicated search service may be justified by:
 
 ### 28.4 Index Consistency
 
-A dedicated search index is a projection, not the source of truth. Index updates must be replayable and reconcilable from authoritative catalogue data.
+A dedicated search index is a Projection, not a Source of Truth. Index updates must be replayable and reconcilable from authoritative Product, Price, and Inventory data; a search Projection must not become authoritative for those concerns.
 
 ## 29. Media Architecture
 
@@ -1103,7 +1106,7 @@ Media deletion must consider product references, order-history needs, CMS usage,
 
 ### 30.1 Identity Separation
 
-Identity owns authentication credentials and sessions. Customer owns customer profile and preference data. Administration consumes identity roles and permissions but must not create a second authorization model.
+Identity owns Authentication credentials and Sessions. Customer owns customer profile and Preference data. Administration consumes Roles and Permissions supplied by Identity but must not create a second Authorization model.
 
 ### 30.2 Customer Authentication
 
@@ -1112,7 +1115,7 @@ Customer authentication must support:
 - Secure registration.
 - Login and logout.
 - Password reset.
-- Session or refresh revocation.
+- Session or Refresh Token revocation, as applicable.
 - Brute-force controls.
 - Future email verification and MFA readiness.
 
@@ -1120,25 +1123,25 @@ Customer authentication must support:
 
 Administrative access requires stronger controls than ordinary storefront browsing. The architecture must support:
 
-- Explicit staff roles and permissions.
+- Explicit Staff User Roles and Permissions.
 - Controlled account provisioning.
 - Session revocation.
-- Audit events.
+- Audit Records.
 - Future MFA enforcement.
-- Environment and operational access separation.
+- Environment and operational-access separation.
 
 ### 30.4 Authorization
 
-Authorization must be enforced in the backend at both coarse route/use-case level and, where required, business-object level.
+Authentication must establish the applicable Identity and Principal context. Authorization must be enforced at trusted backend boundaries at both coarse route/Use Case level and, where required, object level, using applicable Role, Permission, Claims, and Scope semantics.
 
-The frontend may hide unavailable actions for usability but must not be trusted to enforce permission.
+The frontend may hide unavailable actions for usability but must not be trusted to enforce Authorization or Permission.
 
 ### 30.5 Session Strategy
 
 The exact token or session model requires an ADR. The selected design must address:
 
-- Access credential lifetime.
-- Refresh/session revocation.
+- Access Token or other access-credential lifetime, as applicable.
+- Refresh Token or Session revocation, as applicable.
 - Rotation and replay detection.
 - Browser storage and cookie protections.
 - CSRF implications.
@@ -1175,7 +1178,7 @@ flowchart TB
     API --> Blob
     API --> KV
     API --> Monitor
-    API -. approved use case .-> Cache
+    API -. approved Use Case .-> Cache
     API -. approved asynchronous use case .-> Bus
     API --> Pay
     API --> Ship
@@ -1184,7 +1187,7 @@ flowchart TB
 
 ### 31.1 Network Boundaries
 
-Production infrastructure should minimise public exposure. Databases, secret stores, caches, and messaging services must not be publicly reachable unless an accepted design explicitly requires it.
+Production infrastructure should minimise public exposure. Databases, Secret stores, caches, and messaging services must not be publicly reachable unless an Accepted ADR and synchronized Architecture update explicitly require it.
 
 ### 31.2 Environment Isolation
 
@@ -1203,7 +1206,7 @@ Deployments should support:
 - Health verification.
 - Database migration sequencing.
 - Rollback or forward-fix strategy.
-- Smoke testing.
+- Smoke Test verification.
 - Controlled feature activation.
 
 ## 32. Availability, Backup, and Recovery
@@ -1241,20 +1244,20 @@ Version 1 may use a single Azure region with documented recovery procedures unle
 
 | Risk                                                    | Architectural Control                                                                                         |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Modular monolith degrades into tightly coupled code     | Enforce package boundaries, public module contracts, architecture tests, and ADR review.                      |
-| Duplicate payment callbacks create duplicate orders     | Use callback signature validation, idempotency keys, unique constraints, and reconciliation.                  |
-| Inventory is oversold                                   | Centralise available-to-sell logic, use reservations, concurrency controls, and expiry/release workflows.     |
-| Provider outage blocks all commerce                     | Isolate providers behind adapters, apply timeouts, degrade optional capabilities, and use recovery workflows. |
-| Frontend becomes source of business truth               | Revalidate price, stock, payment, permissions, and order rules in backend domains.                            |
-| Reporting queries harm transactions                     | Use indexed projections, exports, or dedicated read models.                                                   |
-| Shared module accumulates business logic                | Restrict shared contents and require domain ownership review.                                                 |
+| Modular Monolith degrades into tightly coupled code     | Enforce package boundaries, public Module Contracts, architecture tests, and ADR review.                      |
+| Duplicate Payment callbacks create duplicate Orders     | Use callback signature validation, Idempotency Keys, Unique Constraints, and reconciliation.                  |
+| Inventory is oversold                                   | Centralise Available-to-Sell logic under Inventory, use Stock Reservations, concurrency controls, and expiry/release workflows. |
+| Provider outage blocks all commerce                     | Isolate providers behind Adapters, apply timeouts, degrade optional capabilities, and use recovery workflows. |
+| Frontend becomes source of business truth               | Revalidate Price, Discount, Stock, Inventory, Payment, Permission, and Order rules in backend Domains.        |
+| Reporting queries harm transactional workloads          | Use indexed Projections, exports, or dedicated read models.                                                   |
+| Shared Module accumulates business logic                | Restrict shared contents and require Domain ownership review.                                                 |
 | Search index becomes inconsistent                       | Treat search as a projection with replay and reconciliation.                                                  |
 | Secrets leak through code or pipelines                  | Use Key Vault, managed identities, secret scanning, and least-privilege workflows.                            |
 | Architecture documentation diverges from implementation | Update documents in the same PR and enforce architecture fitness checks.                                      |
 
 ## 34. Open Architectural Decisions
 
-The following decisions must be resolved through ADRs before their respective implementation becomes binding:
+The following Architecture Decisions must be resolved through ADRs before their respective implementation becomes binding:
 
 1. Azure App Service versus Azure Container Apps for backend hosting.
 2. Bicep versus Terraform for infrastructure as code.
@@ -1275,9 +1278,9 @@ An open decision is not permission for each feature to choose independently. Unt
 
 ## 35. Backend Module Blueprint
 
-Each backend domain module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
+Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
-A representative module should follow this structure:
+A representative Module should follow this structure:
 
 ```text
 product/
@@ -1314,7 +1317,7 @@ The domain package owns business state and invariants. It must not import:
 
 - Spring MVC.
 - Spring Data.
-- JPA annotations unless an approved exception exists.
+- JPA annotations unless an Accepted ADR and synchronized Architecture update permit them.
 - Azure SDKs.
 - HTTP client libraries.
 - Provider SDKs.
@@ -1322,11 +1325,11 @@ The domain package owns business state and invariants. It must not import:
 
 ### 35.2 Application Package
 
-The application package owns use-case orchestration and transaction boundaries. It may depend on the domain package and project-owned ports, but not on concrete adapters.
+The application package owns Use Case orchestration and Database Transaction boundaries. It may depend on the domain package and project-owned Ports, but not on concrete Adapters.
 
 ### 35.3 Adapter Packages
 
-Inbound adapters translate transport-specific input into application commands or queries. Outbound adapters implement application or domain ports.
+Inbound Adapters translate transport-specific input into application commands or queries. Outbound Adapters implement application or Domain Ports.
 
 Adapters may depend inward. Inner layers must not depend outward.
 
@@ -1336,9 +1339,9 @@ Configuration wires approved implementations together. It must not contain busin
 
 ### 35.5 Public Module Contract
 
-Each domain module must expose a small, intentional public contract. Public types should be located in clearly named application interfaces or exported API packages.
+Each domain Module must expose a small, intentional public Contract. Public types should be located in clearly named application interfaces or exported API packages.
 
-Internal entities, repositories, persistence mappings, and provider implementations must not be imported by other domains.
+Internal Entities, Repositories, persistence mappings, and provider implementations must not be imported by other Domains.
 
 ## 36. Frontend Application Blueprint
 
@@ -1502,7 +1505,7 @@ Secrets must never be placed in frontend bundles, Git history, logs, test fixtur
 
 ### 39.1 External Contracts
 
-External contracts include public REST APIs, provider callbacks, webhook payloads, integration events, exported files, and approved partner interfaces.
+External Contracts include public REST APIs, provider callbacks, Webhook payloads, Integration Events, exported files, and approved partner interfaces.
 
 They require:
 
@@ -1515,17 +1518,17 @@ They require:
 
 ### 39.2 Internal Contracts
 
-Internal contracts include application-service interfaces, cross-domain queries, domain events, and module APIs.
+Internal Contracts include Application Service interfaces, cross-Domain queries, Domain Events, and Module APIs.
 
-Internal does not mean ungoverned. Internal contracts must remain explicit and must not expose private persistence or domain implementation details.
+Internal does not mean ungoverned. Internal Contracts must remain explicit and must not expose private persistence or Domain implementation details.
 
 ### 39.3 Contract Ownership
 
-The producing domain owns the contract and its semantics. Consumers must not reinterpret fields or derive contradictory business meaning.
+The producing Domain owns the Contract and its semantics. Consumers must not reinterpret fields or derive contradictory business meaning.
 
 ### 39.4 Consumer-Driven Validation
 
-Contract tests should verify high-risk provider and module boundaries. Consumer expectations must not prevent legitimate evolution indefinitely; contracts require managed versioning and deprecation.
+Contract tests should verify high-risk provider and Module boundaries. Consumer expectations must not prevent legitimate evolution indefinitely; Contracts require managed versioning and deprecation.
 
 ### 39.5 Schema Registry Direction
 
@@ -1537,9 +1540,9 @@ Logical ownership must be enforceable through code, schema conventions, review, 
 
 ### 40.1 Write Ownership
 
-Only the owning domain may create, update, or transition its authoritative records.
+Only the owning Domain may create, update, or transition its authoritative records.
 
-Other domains must request behaviour through an approved use case or consume an event.
+Other Domains must request behaviour through an approved Use Case or consume a Domain Event or Integration Event.
 
 ### 40.2 Read Access
 
@@ -1550,7 +1553,7 @@ Cross-domain reads should use:
 - Application APIs.
 - Approved reporting models.
 
-Direct table reads may be used only inside the same deployable database when an ADR documents the coupling, ownership, and future extraction impact.
+Direct table reads may be used only inside the same deployable database when an Accepted ADR and synchronized Architecture update document and permit the coupling, ownership, and future extraction impact.
 
 ### 40.3 Schema Organisation
 
@@ -1562,9 +1565,9 @@ Reference data with one clear business owner must remain owned by that domain. T
 
 ### 40.5 Historical Truth
 
-Confirmed orders, payments, refunds, shipments, and inventory movements must preserve the values that were true at the time of the business event.
+Confirmed Orders, Payments, Refunds, Shipments, and Stock Movements must preserve the values that were true at the time of the business event.
 
-They must not depend on later changes to mutable product, customer, address, or price records.
+They must not depend on later changes to mutable Product, Customer, Address, or Price records.
 
 ## 41. Testing Architecture
 
@@ -1576,7 +1579,7 @@ Domain tests must verify invariants, state transitions, policies, calculations, 
 
 ### 41.2 Application Tests
 
-Application tests must verify use-case orchestration, authorization decisions, transaction outcomes, event publication, and port interactions.
+Application tests must verify Use Case orchestration, Authorization decisions, Database Transaction outcomes, Domain Event or Integration Event publication, and Port interactions.
 
 ### 41.3 Adapter Tests
 
@@ -1595,7 +1598,7 @@ Integration tests should use real PostgreSQL and other required infrastructure t
 
 ### 41.5 Contract Tests
 
-Contract tests must protect OpenAPI behaviour, provider adapters, webhook handling, and externally visible event schemas.
+Contract tests must protect OpenAPI behaviour, provider Adapters, Webhook handling, and externally visible Integration Event schemas.
 
 ### 41.6 Architecture Tests
 
@@ -1621,7 +1624,7 @@ The frontend must include:
 Before production, the platform must verify:
 
 - Health checks.
-- Deployment smoke tests.
+- Deployment Smoke Tests.
 - Migration execution.
 - Backup and restore procedures.
 - Critical alert paths where practical.
@@ -1647,7 +1650,7 @@ The pipeline should include, as applicable:
 11. Infrastructure validation.
 12. Artifact signing or provenance controls where adopted.
 13. Deployment to protected environments.
-14. Smoke and post-deployment verification.
+14. Smoke Test and post-deployment verification.
 
 ### 42.2 Artifact Promotion
 
@@ -1700,7 +1703,7 @@ Rollback must not be assumed safe merely because an application artifact can be 
 
 ### 43.5 Release Verification
 
-A release is not complete until smoke tests, health signals, error rates, latency, and critical business metrics have been reviewed.
+A release is not complete until Smoke Tests, health signals, error rates, latency, and critical business metrics have been reviewed.
 
 ## 44. Cost and Capacity Architecture
 
@@ -1784,14 +1787,14 @@ Any manual production operation must be documented, authorized, reversible where
 | Contributor Behaviour   | `.ai/core/AGENTS.md`                                        | Review, branch protection, AI instructions |
 | Platform Architecture   | `.ai/core/ARCHITECTURE.md`                                  | ADR review, architecture tests             |
 | Product Behaviour       | `.ai/core/PRODUCT.md` and domain specifications             | Acceptance criteria, domain tests          |
-| API Design              | `.ai/backend/API.md` and OpenAPI                            | Contract validation, review                |
-| Java and Spring         | `.ai/backend/JAVA.md`, `.ai/backend/SPRING.md`              | Static analysis, tests, review             |
-| Database and PostgreSQL | `.ai/backend/DATABASE.md`, `.ai/backend/POSTGRES.md`        | Migration validation, integration tests    |
-| Angular                 | `.ai/frontend/ANGULAR.md`                                   | Linting, type checking, component tests    |
-| Accessibility           | `.ai/frontend/ACCESSIBILITY.md`                             | Automated and manual accessibility tests   |
+| API Design              | `ARCHITECTURE.md`, OpenAPI, and approved `.ai/backend/API.md` rules when established | Contract validation, review                |
+| Java and Spring         | `ARCHITECTURE.md` and approved backend standards when established | Static analysis, tests, review             |
+| Database and PostgreSQL | `ARCHITECTURE.md` and approved backend data standards when established | Migration validation, integration tests    |
+| Angular                 | `ARCHITECTURE.md` and approved `.ai/frontend/ANGULAR.md` rules when established | Linting, type checking, component tests    |
+| Accessibility           | `PRODUCT.md`, `ARCHITECTURE.md`, and approved accessibility standards | Automated and manual accessibility tests   |
 | Security                | `.ai/core/SECURITY-STANDARDS.md`                            | Threat review, scanning, tests             |
 | Testing                 | `.ai/core/TESTING-STANDARDS.md`                             | CI quality gates                           |
-| Infrastructure          | `.ai/backend/AZURE.md` and `specifications/infrastructure/` | IaC validation, policy checks              |
+| Infrastructure          | `ARCHITECTURE.md` and approved infrastructure Specifications or backend standards | IaC validation, policy checks              |
 | Documentation           | `.ai/core/DOCUMENTATION-STANDARDS.md`                       | Review, link and format validation         |
 
 A more specific standard may add constraints but must not weaken a higher-authority source.
@@ -1804,13 +1807,13 @@ Before proposing a material technical change, verify:
 - [ ] The change follows the decision hierarchy in `.ai/core/AGENTS.md`.
 - [ ] Domain rules remain isolated from presentation and infrastructure.
 - [ ] Module boundaries and dependency direction are preserved.
-- [ ] External providers remain behind project-owned ports and adapters.
-- [ ] Data ownership and transaction boundaries are explicit.
+- [ ] External providers remain behind project-owned Ports and Adapters.
+- [ ] Data ownership and Database Transaction boundaries are explicit.
 - [ ] API, event, and schema compatibility are considered.
 - [ ] Security, privacy, accessibility, performance, and observability impacts are addressed.
 - [ ] Failure, retry, idempotency, reconciliation, and rollback behaviour are defined where applicable.
 - [ ] The architecture remains no more complex than required.
-- [ ] A material decision is captured in an ADR.
+- [ ] A material Architecture Decision is captured in an ADR.
 - [ ] Documentation and diagrams are updated with the implementation.
 
 ## 48. Architecture Governance
@@ -1825,7 +1828,7 @@ A change to this architectural baseline requires:
 
 1. A documented problem or requirement.
 2. Impact analysis across domains, contracts, data, security, operations, cost, and delivery.
-3. An ADR when the decision is material, long-lived, expensive to reverse, or changes an approved baseline.
+3. An ADR when the Architecture Decision is material, long-lived, expensive to reverse, or changes an approved baseline.
 4. Updates to affected technology standards, domain specifications, diagrams, tests, and operational documentation.
 5. Approval through the repository’s normal review and quality-gate process.
 
@@ -1833,12 +1836,21 @@ A change to this architectural baseline requires:
 
 This authoritative architecture is reviewed at least monthly, and additionally after any material change to architecture, technology, security, infrastructure, or business domain. Reviews ensure ongoing alignment with business objectives, engineering standards, and approved architectural principles.
 
-Where a review results in a material architectural decision, an Architecture Decision Record (ADR) must be created or updated before implementation proceeds. Accepted ADRs that change the approved baseline must be reflected in this document so that it remains the single authoritative architectural reference for the repository.
+Where a review results in a material Architecture Decision, an Architecture Decision Record (ADR) must be created or updated before implementation proceeds. Accepted ADRs that change the approved baseline must be synchronized with an approved update to this document so that it remains the single authoritative Architecture reference for the repository.
+
+## Revision History
+
+| Version | Date | Status | Summary |
+| --- | --- | --- | --- |
+| 1.1.0 | 2026-08-12 | Approved | Normalized Product Variant, Stock Reservation, Database Transaction, Smoke Test, and Outbox Pattern terminology; corrected canonical Domain Event examples and Payment evidence semantics; removed unsupported lower-level authority claims; and applied focused core-audit consistency updates without redesigning the approved Architecture. |
+| 1.0.0 | 2026-08-05 | Approved | Released the Architecture blueprint as the Approved version 1.0.0 baseline. |
+| 0.3.0 | 2026-08-05 | Draft | Defined the implementation and operational Architecture. |
+| 0.1.0 | 2026-08-05 | Draft | Expanded the platform Architecture and system flows. |
 
 ## 49. Document Status
 
-- **Version:** 1.0.0
+- **Version:** 1.1.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
-- **Change Policy:** Material architectural changes require an accepted Architecture Decision Record (ADR) together with corresponding updates to this document and any affected standards.
+- **Change Policy:** Material Architecture changes require an Accepted Architecture Decision Record (ADR) together with corresponding updates to this document and any affected standards.
