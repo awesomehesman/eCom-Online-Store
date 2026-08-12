@@ -1,9 +1,9 @@
 ---
 title: GLOSSARY
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Engineering and Product
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 source_of_truth: true
 review_cycle: Monthly
 ---
@@ -51,10 +51,10 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Catalogue**: The organized collection of products and related information available for sale.
 - **Collection**: A curated grouping of products within the catalogue.
 - **Category**: A classification within the catalogue used to group similar products.
-- **Product**: A sellable item defined by a set of attributes and variants.
-- **Variant**: A specific version of a product differing by attributes such as size or color.
-- **SKU (Stock Keeping Unit)**: A unique identifier assigned to a variant for inventory tracking.
-- **Price**: A monetary amount expressed as Money and assigned to a Product or Variant under a defined Pricing Rule.
+- **Product**: A sellable item defined by a set of attributes and Product Variants.
+- **Product Variant**: A purchasable or selectable variation of a Product that may differ by size, color, or other Product-defined variation dimensions; it is distinct from the Product, its SKU, Inventory, and Stock.
+- **SKU (Stock Keeping Unit)**: A unique identifier assigned to a Product Variant for Inventory tracking.
+- **Price**: A monetary amount expressed as Money and assigned to a Product or Product Variant under a defined Pricing Rule.
 - **Cart**: A temporary container holding products a customer intends to purchase.
 - **Checkout**: The process of finalizing a purchase from the cart.
 - **Order**: A durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
@@ -66,7 +66,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 6. Product Catalogue Terms
 
-- **Attribute**: A characteristic or property of a product or variant (e.g., color, size).
+- **Attribute**: A characteristic or property of a Product or Product Variant (e.g., color, size).
 - **Option**: A selectable attribute category presented to customers.
 - **Option Value**: A specific value within an option (e.g., Red for color).
 - **Product Media**: Visual or multimedia assets associated with a product.
@@ -84,7 +84,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 8. Order Terms
 
-- **Order Item**: A specific product or variant included in an order.
+- **Order Item**: A specific Product or Product Variant included in an Order.
 - **Order Snapshot**: A record capturing the state of products and prices at the time of order.
 - **Fulfilment**: The operational process of allocating stock, picking, packing, dispatching, and completing delivery or collection for one or more Order Items.
 - **Cancellation**: The controlled termination of an Order or eligible Order Items before the applicable fulfilment or payment point of no return.
@@ -94,13 +94,14 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 9. Payment Terms
 
+- **Payment**: The Payment domain's record and lifecycle for collecting, confirming, reconciling, settling, or reversing money for a commerce obligation; authoritative Payment state that depends on a provider outcome requires validated Payment Provider evidence and is distinct from any individual Payment Attempt or Payment Transaction.
 - **Payment Attempt**: An initiated process to collect payment from a customer.
-- **Payment Provider**: A third-party service facilitating payment transactions.
+- **Payment Provider**: A third-party service facilitating Payment Transactions.
 - **Callback**: A provider-initiated server-to-server notification used to communicate payment processing outcomes (such as success, failure, or cancellation) to the platform; distinct from browser redirects as it does not rely on user interaction.
 - **Webhook**: An asynchronous event notification delivered over HTTP, enabling external or internal systems to notify the platform of events or status changes.
 - **Idempotency**: The property ensuring repeated payment requests do not result in duplicate charges.
 - **Settlement**: The final transfer of funds from the payment provider to the merchant.
-- **Payment Transaction**: A provider-recorded financial operation such as authorization, capture, void, refund, or chargeback; distinct from a database Transaction.
+- **Payment Transaction**: A provider-recorded financial operation such as Payment Authorization, Capture, Void, Refund, or Chargeback; distinct from a Database Transaction.
 - **Payment Authorization**: A Payment Provider approval that reserves funds or confirms payment capability without necessarily transferring funds to the Merchant; distinct from access-control Authorization.
 - **Capture**: The operation that finalizes a Payment Authorization for Settlement.
 - **Void**: The cancellation of an uncaptured Payment Authorization.
@@ -109,15 +110,15 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 ## 10. Inventory Terms
 
-- **Inventory**: The domain capability and authoritative record of Stock, Reservations, Available-to-Sell quantities, Stock Adjustments, and Stock Movements for Variants at Stock Locations.
-- **Stock**: The recorded on-hand quantity of a Variant at a Stock Location.
-- **Reservation**: A temporary hold on stock allocated to a customer or order.
-- **Available-to-Sell**: The quantity eligible for new Reservations after subtracting active Reservations, safety stock, and other configured allocations from sellable on-hand Stock.
-- **Stock Adjustment**: A manual or automated change to stock quantities.
-- **Stock Movement**: Any transaction affecting stock, including receipts, sales, or returns.
+- **Inventory**: The domain capability and authoritative record of Stock, Stock Reservations, Available-to-Sell quantities, Stock Adjustments, and Stock Movements for Product Variants at Stock Locations.
+- **Stock**: The recorded on-hand quantity of a Product Variant at a Stock Location.
+- **Stock Reservation**: An Inventory-owned temporary reservation of Stock associated with a commerce operation such as Checkout or Order processing, subject to the lifecycle and ownership rules of the owning domain.
+- **Available-to-Sell**: The quantity of Stock available for new commerce commitments after applicable active Stock Reservations, safety stock, and other committed quantities are considered.
+- **Stock Adjustment**: A manual or automated change to Stock quantities.
+- **Stock Movement**: A recorded change to Stock, including receipts, sales, or returns.
 - **Stock Location**: A physical or logical location at which Stock is recorded, reserved, received, adjusted, or fulfilled.
 - **Safety Stock**: A configured quantity withheld from Available-to-Sell to reduce overselling risk.
-- **Overselling**: Accepting demand for a Variant beyond its valid Available-to-Sell quantity.
+- **Overselling**: Accepting demand for a Product Variant beyond its valid Available-to-Sell quantity.
 
 ## 11. Shipping Terms
 
@@ -133,7 +134,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 
 - **Promotion**: A time-bound or condition-bound commercial incentive governed by eligibility, benefit, priority, combinability, usage, and validity rules.
 - **Voucher**: A redeemable code or token that activates an eligible Promotion during Cart or Checkout evaluation.
-- **Promotion Eligibility**: The conditions that a Customer, Cart, Product, Variant, Order Item, channel, or date range must satisfy for a Promotion to apply.
+- **Promotion Eligibility**: The conditions that a Customer, Cart, Product, Product Variant, Order Item, channel, or date range must satisfy for a Promotion to apply.
 - **Promotion Benefit**: The value granted by a Promotion, such as a fixed discount, percentage discount, free shipping, or qualifying Product benefit.
 - **Promotion Combination**: The rule determining whether multiple Promotions or Vouchers may apply together.
 
@@ -160,7 +161,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Adapter**: An implementation that connects a Port to a delivery mechanism, persistence technology, or external system.
 - **DTO (Data Transfer Object)**: A data container used to transfer information between layers.
 - **Modular Monolith**: A software architecture that structures a monolith into distinct modules.
-- **ADR (Architecture Decision Record)**: A document capturing architectural decisions.
+- **ADR (Architecture Decision Record)**: A Decision Record for a material Architecture Decision; it is not the generic record type for non-Architecture Decisions.
 - **Domain Model**: The representation of business concepts, rules, behaviours, and relationships within a Bounded Context.
 - **Domain Event**: An immutable record of a completed business fact within a Bounded Context, named in past tense and distinct from an Analytics Event, technical event, or cross-boundary Integration Event.
 - **Ubiquitous Language**: The shared business vocabulary used consistently by domain experts, Product, Engineering, documentation, code, and AI Agents.
@@ -197,11 +198,11 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Primary Key**: A unique identifier for a database record.
 - **Foreign Key**: A reference linking one record to another.
 - **Migration**: A change script modifying database schema or data.
-- **Transaction**: A unit of work ensuring atomicity and consistency in a database operation; distinct from a payment transaction, which refers to the movement of funds between parties.
+- **Database Transaction**: A database unit of work with defined atomicity and consistency boundaries; distinct from a Payment Transaction.
 - **Projection**: A read-optimized view or representation of data.
 - **Optimistic Locking**: A concurrency-control strategy that rejects an update when the persisted version has changed since it was read.
 - **Soft Delete**: Marking a record as logically deleted while retaining it for audit, recovery, or referential purposes; use only where explicitly required.
-- **Outbox Pattern**: Persisting a Domain Event record in the same database Transaction as the Aggregate change so it can be published reliably after commit.
+- **Outbox Pattern**: Persisting a Domain Event record in the same Database Transaction as the Aggregate change so it can be published reliably after commit.
 - **Unique Constraint**: A database rule preventing duplicate values for a defined column or column combination.
 
 ## 18. Security Terms
@@ -241,6 +242,8 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Constraint**: A mandatory limitation on design, implementation, operation, technology, compliance, or delivery choices.
 - **Assumption**: A condition treated as true for planning or design purposes until it is validated, rejected, or replaced.
 - **Decision**: A recorded choice between alternatives together with its rationale, consequences, and ownership.
+- **Decision Record**: A durable repository record of a material Decision and its context, rationale, consequences, ownership, status, and affected concerns.
+- **Architecture Decision**: A material Decision about Architecture whose durable Decision Record is an ADR.
 - **Acceptance Criterion**: A specific, testable condition that must be satisfied for a Requirement, feature, or task to be accepted.
 - **Risk**: An uncertain event or condition that may negatively affect scope, quality, security, cost, schedule, reliability, or business outcomes.
 - **RFC (Request for Comments)**: A structured proposal circulated for review before a significant technical, product, process, or governance decision is finalized.
@@ -248,6 +251,9 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 ## 21. Repository Terms
 
 - **Standard**: A documented set of rules or guidelines.
+- **Testing Exception**: An approved, time-bound, auditable waiver of a mandatory testing requirement governed by `TESTING-STANDARDS.md`; it does not waive a mandatory security requirement.
+- **Coding Exception**: An approved, time-bound, auditable waiver of a mandatory coding requirement governed by `CODING-STANDARDS.md`; it does not waive a mandatory security requirement.
+- **Documentation Exception**: An approved, time-bound, auditable waiver of a mandatory documentation requirement governed by `DOCUMENTATION-STANDARDS.md`; it does not waive a requirement owned by another governing source.
 - **Specification**: A formal description of system requirements or behavior.
 - **Source of Truth**: The authoritative location for definitive information.
 - **Baseline**: A reference version or state used for comparison.
@@ -457,7 +463,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **Circuit Breaker**: A resilience mechanism that temporarily blocks calls to an unhealthy dependency after configured failure thresholds are reached.
 - **Integration Retry Policy**: Rules governing repeated attempts for failed integration operations, including delay, backoff, jitter, limits, and terminal handling; distinct from a Notification Retry Policy.
 - **Timeout**: The maximum duration allowed for an operation before it is treated as failed or abandoned.
-- **Saga**: A coordinated sequence of local Transactions that implements a multi-step business process across modules or systems.
+- **Saga**: A coordinated sequence of local Database Transactions that implements a multi-step business process across modules or systems.
 - **Compensating Transaction**: A business operation that semantically reverses or mitigates the effect of a previously completed Saga step.
 - **Idempotent Consumer**: A Message consumer that safely handles repeated delivery without duplicating the intended business effect.
 - **Integration Event**: A versioned event published across a module or system boundary to communicate a completed business fact using a stable external Contract.
@@ -562,8 +568,8 @@ Only lifecycles that require repository-wide canonical state names are defined i
 
 - **ProductCreated**: Emitted when a new product entity is created in the system.
 - **ProductPublished**: Emitted when a product transitions to the published state and becomes available for purchase.
-- **InventoryReserved**: Emitted when stock is reserved for a customer or order, reducing available-to-sell quantity.
-- **InventoryReleased**: Emitted when previously reserved stock is released back to inventory.
+- **InventoryReserved**: Emitted when a Stock Reservation is created for a commerce operation, reducing Available-to-Sell quantity.
+- **InventoryReleased**: Emitted when a Stock Reservation is released and its committed quantity is returned to Available-to-Sell where applicable.
 - **CartCreated**: Emitted when a new shopping cart is created for a customer or visitor.
 - **CheckoutStarted**: Emitted when a customer initiates the checkout process from the cart.
 - **PaymentInitiated**: Emitted when a Payment Attempt is created and provider processing or payment-session initiation begins; it does not indicate a Payment Authorization or Capture.
@@ -572,7 +578,7 @@ Only lifecycles that require repository-wide canonical state names are defined i
 - **OrderCancelled**: Emitted when an order is cancelled before fulfilment.
 - **ShipmentCreated**: Emitted when a shipment is arranged for an order or part of an order.
 - **ShipmentDelivered**: Emitted when the carrier confirms delivery of a shipment to the customer.
-- **RefundCompleted**: Emitted when a refund transaction is finalized and funds are returned to the customer.
+- **RefundCompleted**: Emitted when a Refund Transaction is finalized and funds are returned to the Customer.
 - **PaymentFailed**: Emitted when a Payment Attempt reaches the Failed state after validated authoritative Payment Provider evidence or a trusted terminal processing error; a Payment Redirect or client report alone MUST NOT qualify.
 - **OrderConfirmed**: Emitted when an Order reaches the Confirmed state and may proceed to fulfilment.
 - **OrderFulfilled**: Emitted when all fulfillable Order Items have completed the platform's fulfilment obligation.
@@ -606,7 +612,7 @@ The following documents and artifacts must use glossary-defined terminology cons
 
 - Where a glossary term exists, use it verbatim and preserve its defined meaning.
 - A local document may narrow a term for a Bounded Context but must not contradict the canonical definition.
-- A term with multiple legitimate meanings must be qualified, for example `Code Repository`, Spring `Repository`, database `Transaction`, or `Payment Transaction`.
+- A term with multiple legitimate meanings must be qualified, for example `Code Repository`, Spring `Repository`, `Database Transaction`, or `Payment Transaction`.
 - Forbidden or avoided terminology found during review must be replaced or explicitly justified before approval.
 - Canonical core-document terminology review is a mandatory approval gate for `GLOSSARY.md` v1.0.0; downstream conformance remains an ongoing requirement under sections 47 and 48.
 
@@ -617,11 +623,12 @@ The following documents and artifacts must use glossary-defined terminology cons
 | Product                                       | Item                                                   |
 | Customer                                      | User                                                   |
 | Staff User                                    | Admin                                                  |
-| Variant                                       | Product Type                                           |
+| Product Variant                               | Variant or Product Type when the commerce concept is intended |
+| Stock Reservation                             | Reservation or Inventory Reservation when the Inventory concept is intended |
 | Order Item                                    | Line                                                   |
 | Published                                     | Live                                                   |
 | Available-to-Sell                             | Available Stock                                        |
-| Payment Attempt or Payment Transaction        | Transaction                                            |
+| Database Transaction or Payment Transaction   | Transaction                                            |
 | Payment Authorization                         | Authorization when referring to provider approval      |
 | Aggregate                                     | Object Group                                           |
 | Domain Event                                  | Notification                                           |
@@ -636,7 +643,9 @@ Ambiguous or imprecise terminology is prohibited in specifications to avoid misu
 
 | Avoid           | Use Instead                                       | Reason                                          |
 | --------------- | ------------------------------------------------- | ----------------------------------------------- |
-| Product Type    | Category or Variant                               | "Product Type" is ambiguous; use specific terms |
+| Product Type    | Category or Product Variant                       | "Product Type" is ambiguous; use specific terms |
+| Variant         | Product Variant                                   | Use the full canonical commerce term              |
+| Reservation or Inventory Reservation | Stock Reservation                         | Use the canonical Inventory concept               |
 | User            | Customer or Staff User                            | "User" is generic; specify role for clarity     |
 | Item            | Product or Order Item                             | "Item" is vague; clarify domain context         |
 | Status OK       | Explicit lifecycle state                          | "OK" is unclear; use defined states             |
@@ -683,6 +692,7 @@ status: Approved
 
 | Version | Date | Status | Description |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-08-12 | Approved | Normalized canonical Product Variant, Stock Reservation, Database Transaction, Payment, Decision Record, and related terminology after the repository-wide core consistency audit; downstream core documents remain to be normalized separately. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the canonical repository glossary after final completeness, lifecycle, architecture, product, security, ownership, and terminology consistency validation. |
 | 0.5.0 | 2026-08-05 | Draft | Completed the final enterprise terminology expansion for Domain-Driven Design, Hexagonal Architecture, frontend architecture, backend architecture, integrations, documentation governance, and repository governance in preparation for the repository-wide terminology audit. |
 | 0.4.0 | 2026-08-05 | Draft | Performed the glossary completeness and internal consistency audit; clarified ambiguous terms, added missing commerce, architecture, security, API, data, payment, inventory, shipping, promotion, testing, messaging, observability, and lifecycle vocabulary; strengthened repository naming, cross-reference, governance, and v1.0.0 approval rules. |
