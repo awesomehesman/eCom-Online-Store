@@ -1,6 +1,6 @@
 ---
 title: CODING-STANDARDS
-version: 1.0.1
+version: 1.0.2
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -390,11 +390,15 @@ Coding Exceptions MUST be explicit, time-bound, auditable, and reviewed before e
 - `.ai/core/ARCHITECTURE.md`
 - `.ai/core/SECURITY-STANDARDS.md`
 - `.ai/core/TESTING-STANDARDS.md`
+- `.ai/core/ENGINEERING-PRINCIPLES.md`
+- `.ai/core/DOCUMENTATION-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 ## 52. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.2 | 2026-08-12 | Approved | Added directly relevant engineering-principle, documentation, and Decision Record governance references for implementation work. |
 | 1.0.1 | 2026-08-12 | Approved | Normalized Database Transaction terminology, aligned the Java 21 LTS baseline, and clarified Coding Exception boundaries. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide coding standards after final governance, terminology, architecture, frontend, backend, security, domain, data, integration, testing, and implementation-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide coding standards baseline covering implementation quality, architecture alignment, frontend, backend, security, domain code, integrations, data access, AI-generated code, review, and exception governance. |

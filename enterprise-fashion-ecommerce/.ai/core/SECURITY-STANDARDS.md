@@ -1,6 +1,6 @@
 ---
 title: SECURITY-STANDARDS
-version: 1.0.1
+version: 1.0.2
 status: Approved
 owner: Architecture
 last_updated: 2026-08-12
@@ -576,6 +576,9 @@ The following are prohibited:
 - `.ai/core/GLOSSARY.md`
 - `.ai/core/PRODUCT.md`
 - `.ai/core/ARCHITECTURE.md`
+- `.ai/core/TESTING-STANDARDS.md`
+- `.ai/core/CODING-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 Applicable approved ADRs, domain Specifications, API and database Contracts, and technology-specific standards provide lower-level detail. Future standards MAY be added through repository governance; their existence or approval MUST NOT be assumed before they are created and accepted.
 
@@ -587,3 +590,4 @@ Applicable approved ADRs, domain Specifications, API and database Contracts, and
 | 0.2.0 | 2026-08-11 | Draft | Completed the repository-wide security standards baseline covering governance, identity and access, application security, infrastructure, secure delivery, privacy, payment security, AI security, vulnerability management, testing, compliance, and exception governance. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide security standards baseline after final governance, terminology, architecture, product, payment, AI-security, and compliance consistency validation. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected Payment Authorization terminology, clarified authoritative Payment evidence and uncertain outcomes, and aligned Security Exception boundaries with repository governance. |
+| 1.0.2 | 2026-08-12 | Approved | Added directly relevant testing, coding, and Decision Record governance references for security verification, implementation, and durable security decisions. |

@@ -1,9 +1,9 @@
 ---
 title: VISION
-version: 1.0.0
+version: 1.0.1
 status: Approved
 owner: Product
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 authoritative: true
 review_cycle: Semiannual
 ---
@@ -380,10 +380,12 @@ A review does not require change when the direction remains sound. Material chan
 - `.ai/core/CODING-STANDARDS.md`
 - `.ai/core/ENGINEERING-PRINCIPLES.md`
 - `.ai/core/DOCUMENTATION-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 ## 57. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.1 | 2026-08-12 | Approved | Added the directly relevant Decisions governance reference for durable strategic and Product-scope decisions. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide Vision after final governance, terminology, Product-scope, architecture, commerce, financial, Inventory, security, operational, AI, evolution, and strategic-direction validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide Vision covering long-term customer, commerce, operational, architecture, reliability, security, data, AI, engineering, and platform-evolution direction. |

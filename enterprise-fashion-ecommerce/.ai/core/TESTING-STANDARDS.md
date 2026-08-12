@@ -1,6 +1,6 @@
 ---
 title: TESTING-STANDARDS
-version: 1.0.1
+version: 1.0.2
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -379,11 +379,14 @@ Compliance requires both implementation and evidence. A missing, stale, unaudita
 - `.ai/core/PRODUCT.md`
 - `.ai/core/ARCHITECTURE.md`
 - `.ai/core/SECURITY-STANDARDS.md`
+- `.ai/core/CODING-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 ## 45. Revision History
 
 | Version | Date | Status | Summary |
 |---|---|---|---|
+| 1.0.2 | 2026-08-12 | Approved | Added directly relevant coding and Decision Record governance references for implementation verification and durable testing decisions. |
 | 1.0.1 | 2026-08-12 | Approved | Normalized Stock Reservation, Payment, and Database Transaction terminology and clarified authoritative Inventory test coverage. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide testing standards after final governance, terminology, architecture, security, domain, CI, release, and testing-consistency validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide testing standards baseline covering test strategy, domain verification, integration, security, CI gates, traceability, and release confidence. |

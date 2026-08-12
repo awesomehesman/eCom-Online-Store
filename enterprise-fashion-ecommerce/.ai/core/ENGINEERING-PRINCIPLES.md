@@ -1,6 +1,6 @@
 ---
 title: ENGINEERING-PRINCIPLES
-version: 1.0.1
+version: 1.0.2
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -280,11 +280,14 @@ Engineering Principles guide choices only inside constraints established by gove
 - `.ai/core/SECURITY-STANDARDS.md`
 - `.ai/core/TESTING-STANDARDS.md`
 - `.ai/core/CODING-STANDARDS.md`
+- `.ai/core/DOCUMENTATION-STANDARDS.md`
+- `.ai/core/DECISIONS.md`
 
 ## 55. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.2 | 2026-08-12 | Approved | Added the documentation and Decision Record governance references explicitly relied upon by the authority model. |
 | 1.0.1 | 2026-08-12 | Approved | Normalized Database Transaction terminology and clarified Payment, Inventory, Decision Record, authority, and exception-governance principles. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide engineering principles after final governance, terminology, product, architecture, security, testing, implementation, distributed-systems, operational, and decision-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide engineering principles covering correctness, security, domain ownership, simplicity, distributed systems, financial and Inventory integrity, operability, evolution, AI-assisted engineering, and decision quality. |
