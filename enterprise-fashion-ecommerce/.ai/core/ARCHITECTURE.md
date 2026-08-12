@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.1.0
+version: 1.1.1
 status: Approved
 owner: Engineering
 last_updated: 2026-08-12
@@ -479,7 +479,7 @@ APIs must:
 - Use resource-oriented naming.
 - Return project-owned DTOs.
 - Apply consistent pagination, filtering, and sorting.
-- Use RFC 7807-style problem responses with stable error codes.
+- Use RFC 9457 Problem Details responses with stable error codes.
 - Support idempotency for duplicate-sensitive commands.
 - Propagate correlation identifiers.
 - Enforce authentication and authorization at the backend.
@@ -1842,6 +1842,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.1 | 2026-08-12 | Approved | Aligned the API error-response baseline to RFC 9457 Problem Details after final core freeze validation. |
 | 1.1.0 | 2026-08-12 | Approved | Normalized Product Variant, Stock Reservation, Database Transaction, Smoke Test, and Outbox Pattern terminology; corrected canonical Domain Event examples and Payment evidence semantics; removed unsupported lower-level authority claims; and applied focused core-audit consistency updates without redesigning the approved Architecture. |
 | 1.0.0 | 2026-08-05 | Approved | Released the Architecture blueprint as the Approved version 1.0.0 baseline. |
 | 0.3.0 | 2026-08-05 | Draft | Defined the implementation and operational Architecture. |
@@ -1849,7 +1850,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.1.0
+- **Version:** 1.1.1
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
