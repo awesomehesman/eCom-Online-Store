@@ -1,7 +1,7 @@
 ---
 title: API
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -22,7 +22,7 @@ It does not own Product Requirements, Architecture, Spring or Java implementatio
 
 ## 3. Repository Authority
 
-This Draft does not establish a precedence model; `.ai/core/AGENTS.md` governs the Decision Hierarchy. Approved Canonical Documents remain the current repository truth within their scopes, while `.ai/core/DECISIONS.md` governs ADRs for material Architecture Decisions. An Accepted ADR that changes Architecture requires the applicable canonical Architecture source to be synchronized before the changed baseline is treated as current. Approved backend standards apply only within their subordinate assigned scopes.
+This standard does not establish a precedence model; `.ai/core/AGENTS.md` governs the Decision Hierarchy. Approved Canonical Documents remain the current repository truth within their scopes, while `.ai/core/DECISIONS.md` governs ADRs for material Architecture Decisions. An Accepted ADR that changes Architecture requires the applicable canonical Architecture source to be synchronized before the changed baseline is treated as current. Approved backend standards apply only within their subordinate assigned scopes.
 
 This document MUST NOT weaken a mandatory Security Requirement, invent Product behavior, reassign authoritative data, or override Architecture. A reserved or placeholder file, including `.ai/backend/EVENTS.md`, contributes rules only when its metadata and substantive content make it applicable within that scope.
 
@@ -54,7 +54,7 @@ An API MUST NOT expose every persistence operation as CRUD by default. An action
 - `POST` creates a Resource or invokes a Contracted command and requires idempotency where duplicate effects are harmful.
 - `PUT` replaces the Contracted representation and MUST preserve its idempotent HTTP semantics.
 - `PATCH` applies a Contracted partial change and MUST define omitted, null, and mutable-field behavior.
-- `DELETE` requests Contracted removal and MUST NOT bypass lifecycle, retention, Authorization, or audit rules.
+- `DELETE` requests Contracted removal and MUST preserve idempotent HTTP effect semantics: repeating the same `DELETE` for the intended Resource or operation MUST preserve the same intended external effect and MUST NOT create additional harmful side effects, although the exact response status or representation MAY differ according to the Contract and current Resource state. `DELETE` does not guarantee physical deletion; Soft Delete, lifecycle closure, anonymization, archival, or another governed removal MAY apply according to Product and Domain Requirements. It MUST NOT bypass lifecycle, retention, Authorization, audit, Product, or Domain rules.
 
 Method choice MUST reflect observable semantics rather than Controller convenience.
 
@@ -529,6 +529,7 @@ The following are prohibited:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the API implementation standard after final governance, REST, HTTP semantics, RFC 9457, OpenAPI, Contract, Authentication, Authorization, idempotency, Payment, Inventory, compatibility, security, testing, observability, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial API implementation standard covering REST resource design, HTTP semantics, RFC 9457 Problem Details, validation, Authentication, Authorization, idempotency, pagination, Payment, Inventory, OpenAPI, compatibility, security, testing, observability, and governance. |
 
 ## 85. Quality Requirements
@@ -541,7 +542,7 @@ Review evidence MUST be practical, testable, traceable, and proportionate to Ris
 
 Before this document or a governed revision is presented for approval, reviewers MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. REST, `/api/v1`, OpenAPI 3.1, and RFC 9457 match Approved Architecture;
 3. RFC 7807 is not treated as the current baseline;
 4. no unsupported protocol, gateway vendor, JSON naming convention, or technology is selected;
