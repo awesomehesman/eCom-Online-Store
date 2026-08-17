@@ -1,7 +1,7 @@
 ---
 title: EVENTS
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-12
 authoritative: false
@@ -22,7 +22,7 @@ It does not define Product behavior, Domain lifecycles, API Contracts, provider 
 
 ## 3. Repository Authority
 
-This Draft is subordinate to the Decision Hierarchy in `.ai/core/AGENTS.md`. Approved Canonical Documents remain the current repository truth within their scopes. `.ai/core/DECISIONS.md` governs material Decisions and ADRs; an Accepted ADR that changes Architecture requires synchronized canonical Architecture updates before the changed baseline is current.
+This standard is subordinate to the Decision Hierarchy in `.ai/core/AGENTS.md`. Approved Canonical Documents remain the current repository truth within their scopes. `.ai/core/DECISIONS.md` governs material Decisions and ADRs; an Accepted ADR that changes Architecture requires synchronized canonical Architecture updates before the changed baseline is current.
 
 Approved backend standards apply only within their assigned scopes. This document MUST NOT weaken a Security Requirement, invent Product semantics, or reassign authoritative state.
 
@@ -428,6 +428,7 @@ The following are prohibited:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-12 | Approved | Promoted the eventing implementation standard after final governance, Domain Event, Integration Event, Message Envelope, delivery, idempotency, replay, Outbox Pattern, Payment, Inventory, compatibility, security, testing, observability, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial eventing implementation standard covering Domain Events, Integration Events, Message Envelopes, delivery semantics, idempotency, replay, Outbox Pattern, Contract evolution, Payment, Inventory, security, testing, observability, and governance. |
 
 ## 63. Quality Requirements
@@ -440,7 +441,7 @@ It MUST NOT manufacture Product facts, provider evidence, authoritative state, t
 
 Before this document or a governed revision is presented for approval, reviewers MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. Domain Events and Integration Events remain distinct;
 3. in-process Domain Events do not imply durable messaging;
 4. external messaging adoption requires Architecture governance;
