@@ -1,7 +1,7 @@
 ---
 title: Business Requirements
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product
 last_updated: 2026-08-17
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification translates the Approved Product baseline into stable, testable business Requirements for the initial enterprise fashion e-commerce platform. It establishes the business outcomes, actors, Version 1 boundaries, cross-cutting obligations, Acceptance Criteria, and downstream handoffs required before detailed Domain Specifications and implementation-facing Specifications are completed.
 
-This document is currently Draft and therefore non-normative. Once Approved, it is normative only within its assigned business-Specification scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
+This document is Approved and is normative only within its assigned business-Specification scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
 
 This Specification refines `.ai/core/PRODUCT.md` without replacing it. It MUST NOT redefine canonical terminology, override `.ai/core/ARCHITECTURE.md`, weaken another governing Requirement, define a technical Contract, or own behavior assigned to a later Domain Specification. An implementation preference cannot resolve an Open Product Decision. Conflicts MUST be resolved through the Decision Hierarchy in `.ai/core/AGENTS.md`.
 
@@ -66,7 +66,7 @@ Version 1 aims to:
 2. Support governed Customer purchase journeys without resolving the open guest-checkout policy here.
 3. Preserve authoritative Product Variant, Price, Inventory, Payment, and Order state.
 4. Provide protected Staff User workflows for ordinary business operations.
-5. Support fulfilment, Shipment, notification, Refund, support, and reconciliation workflows established by Product policy.
+5. Support fulfilment, Shipment, Notification, Refund, support, and reconciliation workflows established by Product policy.
 6. Meet Approved accessibility, performance, security, privacy, testing, and observability Requirements.
 7. Produce trustworthy operational and commercial evidence.
 8. Preserve safe recovery and reconciliation paths for critical Customer and Staff User journeys.
@@ -173,7 +173,7 @@ The following rules apply throughout:
 
 - Approved canonical terminology MUST retain the meaning defined in `.ai/core/GLOSSARY.md`.
 - Client input, UI state, caches, search indexes, reports, and analytics MUST NOT become authoritative commercial truth.
-- A failure, retry, replay, callback, duplicate request, or concurrent action MUST NOT create an invalid or duplicate business effect.
+- A failure, retry, replay, Callback, duplicate request, or concurrent action MUST NOT create an invalid or duplicate business effect.
 - An unresolved policy MUST remain explicit and MUST NOT be converted into implementation behavior without applicable Product governance.
 - Requirements in an owning Domain Specification MAY add precision but MUST NOT weaken this business baseline or a higher-authority source.
 
@@ -287,11 +287,11 @@ Pending, unknown, failed, declined, cancelled, and confirmed Payment outcomes MU
 
 ### REQ-BUS-026 — Duplicate Financial-Effect Prevention
 
-Duplicate, replayed, retried, or concurrently processed Payment requests, callbacks, Webhooks, or reconciliation actions MUST NOT create duplicate Payment Authorizations, Captures, Voids, Refund Transactions, Orders, or other financial effects.
+Duplicate, replayed, retried, or concurrently processed Payment requests, Callbacks, Webhooks, or reconciliation actions MUST NOT create duplicate Payment Authorizations, Captures, Voids, Refund Transactions, Orders, or other financial effects.
 
 ### REQ-BUS-027 — Payment Data Protection
 
-The Product MUST use approved hosted or tokenized Payment handling that minimizes Payment-data exposure. Raw card data MUST NOT be stored where governing Product or Security policy prohibits it. Raw CVV MUST NOT be stored, logged, redisplayed after entry, telemetered, placed in fixtures, screenshots, analytics, error reports, or any other durable artifact. This Requirement does not claim PCI certification or define provider or storage technology.
+The Product MUST use approved hosted or tokenized Payment handling that minimizes Payment-data exposure. Raw card data MUST NOT be stored by the platform. Raw CVV MUST NOT be stored, logged, redisplayed after entry, telemetered, placed in fixtures, screenshots, analytics, error reports, or any other durable artifact. This Requirement does not claim PCI certification or define provider or storage technology.
 
 ### REQ-BUS-028 — Payment Concept Integrity
 
@@ -325,7 +325,7 @@ Material commercial, privileged, security-sensitive, Inventory, Payment, Order, 
 
 ### REQ-BUS-035 — Operational Correlation and Reconciliation
 
-Staff Users with applicable Permission MUST be able to correlate relevant Checkout, Payment Attempt, Payment Transaction, Order, Shipment, notification, Inventory, Return, and Refund evidence and identify unresolved discrepancies without treating analytics as commercial truth.
+Staff Users with applicable Permission MUST be able to correlate relevant Checkout, Payment Attempt, Payment Transaction, Order, Shipment, Notification, Inventory, Return, and Refund evidence and identify unresolved discrepancies without treating analytics as commercial truth.
 
 ### REQ-BUS-036 — Controlled Recovery
 
@@ -359,7 +359,7 @@ Customer and Staff User experiences MUST distinguish success, failure, pending, 
 
 ### REQ-BUS-043 — Operational Visibility
 
-The business MUST have authorized visibility into material Order, Payment, Refund, Inventory, fulfilment, Shipment, notification, security, and dependency outcomes needed for ordinary operation, reconciliation, support, and recovery.
+The business MUST have authorized visibility into material Order, Payment, Refund, Inventory, fulfilment, Shipment, Notification, security, and dependency outcomes needed for ordinary operation, reconciliation, support, and recovery.
 
 ### REQ-BUS-044 — Reporting and Projection Integrity
 
@@ -383,7 +383,7 @@ A material change to business scope, market, policy, actors, Customer eligibilit
 
 ### REQ-BUS-049 — Transactional Notifications and Customer Communications
 
-Applicable business-significant Customer communications, including Order confirmation or status, Payment, fulfilment or Shipment, Return, Refund, and material failure, retry, or reconciliation outcomes, MUST reliably represent authoritative state and remain traceable where operational investigation requires it. Communication content MUST NOT claim success before authoritative state exists, and a notification-delivery or provider failure MUST NOT alter authoritative commercial state. Channels, providers, retry counts, delivery targets, channel priorities, and template technology remain governed elsewhere.
+Applicable business-significant Customer communications, including Order confirmation or status, Payment, fulfilment or Shipment, Return, Refund, and material failure, retry, or reconciliation outcomes, MUST reliably represent authoritative state and remain traceable where operational investigation requires it. Communication content MUST NOT claim success before authoritative state exists, and a Notification delivery or provider failure MUST NOT alter authoritative commercial state. Channels, providers, retry counts, delivery targets, channel priorities, and template technology remain governed elsewhere.
 
 ### REQ-BUS-050 — Content Lifecycle and Product Media
 
@@ -424,7 +424,7 @@ The Product must support measurement of the following without treating analytics
 | --- | --- | --- |
 | Customer journey | Discovery engagement, search use and zero-result rate, Product-detail engagement, add-to-Cart rate, Checkout progression and completion, Payment outcomes, purchase conversion, repeat purchase, Wishlist use, and support contact by journey stage. | No numerical target Approved here. |
 | Commercial | Gross Revenue, Net Revenue, Average Order Value, units per Order, Discount and Promotion impact, cancellation and Refund rates, Product and Category performance, sell-through, and stock-out impact. | No numerical target Approved here. |
-| Operational | Order-to-fulfilment time, Shipment creation, tracking freshness, notification delivery, Payment reconciliation exceptions, Inventory discrepancies, support resolution, and administrative errors. | No numerical target Approved here. |
+| Operational | Order-to-fulfilment time, Shipment creation, tracking freshness, Notification delivery, Payment reconciliation exceptions, Inventory discrepancies, support resolution, and administrative errors. | No numerical target Approved here. |
 | Quality | Approved performance evidence, accessibility evidence, API reliability, Checkout and Payment errors, production defects, recovery evidence, and security finding remediation. | Governed standards own applicable thresholds. |
 | Guardrails | Accessibility failures, duplicate or uncertain Payment, Overselling or Stock Reservation discrepancies, complaints, support demand caused by change, performance regression, security/privacy/consent incidents, and Promotion misuse or margin impact. | Tolerances remain unresolved unless an Approved source establishes them. |
 
@@ -432,7 +432,7 @@ An improvement in engagement or conversion MUST NOT be represented as successful
 
 ## 20. Assumptions
 
-The Draft carries these Product-supported assumptions for validation:
+This Specification carries these Product-supported assumptions for validation:
 
 - The initial merchant owns or directly controls the Products sold.
 - The operation uses one primary South African market, English language, ZAR Currency, legal merchant, storefront, and catalogue.
@@ -504,25 +504,29 @@ Acceptance Criteria are grouped for maintainability and do not have separate ide
 | REQ-BUS-011–013 | Invalid Checkout input is rejected clearly; safe input remains recoverable; trusted Price and availability changes are shown before continuation; interrupted or duplicate submission does not create duplicate Order, Inventory, or Payment effects. |
 | REQ-BUS-014–015 | Customer-visible monetary values identify ZAR; trusted server outcomes determine final Price, Discount, Promotion, Voucher, tax, delivery, and total values. |
 | REQ-BUS-016 | Each production Promotion demonstrates complete applicable validity, eligibility, threshold, usage-limit, stackability, exclusion, calculation-order, and Refund-treatment definitions; missing mandatory semantics prevent binding production behavior, while unresolved policy values remain unresolved. |
-| REQ-BUS-017–020 | Inventory remains authoritative; stale Projections cannot authorize purchase; concurrent attempts cannot exceed valid Available-to-Sell; Stock Reservation and Stock change evidence remain traceable without inventing duration or allocation policy. |
+| REQ-BUS-017–019 | Inventory remains authoritative; stale Projections cannot authorize purchase; concurrent attempts cannot exceed valid Available-to-Sell; Stock Reservation creation, expiry, release, failure, and finalization remain traceable without inventing duration or allocation policy. |
+| REQ-BUS-020 | A material Stock Adjustment or Stock Movement preserves the authorized actor or system context, reason or source, time, quantity effect, and applicable Audit Record evidence; UI or reporting correction does not rewrite Inventory history. |
 | REQ-BUS-021–022 | A governed Checkout can produce one durable Order with historical commercial snapshots; invalid or uncertain outcomes do not appear confirmed; later Product, Customer, or pricing changes do not rewrite the snapshot. |
 | REQ-BUS-023 | Ordinary deletion of a confirmed Order is rejected; permitted later transitions remain traceable and preserve the historical commercial record despite governed storage-lifecycle treatment. |
-| REQ-BUS-024 | Unvalidated Callback or Webhook evidence cannot confirm Payment; validated provider evidence with established payload integrity may establish the applicable provider-dependent Payment state. |
+| REQ-BUS-024 | Unvalidated Callback or Webhook evidence cannot confirm Payment; applicable evidence establishes provider authenticity through signature validation or other approved cryptographic validation and establishes payload integrity before it may contribute to provider-dependent Payment truth. |
 | REQ-BUS-025 | Pending and unknown outcomes remain explicit until validated evidence or reconciliation permits transition; client cancellation, navigation, timeout, stopped observation, or request abortion does not prove provider processing stopped or negate a submitted effect. |
 | REQ-BUS-026 | Duplicate or replayed requests, Callback or Webhook evidence, and reconciliation activity cannot duplicate Payment Authorizations, Captures, Voids, Refund Transactions, Orders, or other financial effects. |
 | REQ-BUS-027 | Approved hosted or tokenized handling minimizes Payment-data exposure; prohibited raw card data is not stored; raw CVV is absent from storage, logs, redisplay, telemetry, fixtures, screenshots, analytics, error reports, and other durable artifacts. |
 | REQ-BUS-028 | Payment concepts remain distinguishable, and Payment Transaction is not confused with Database Transaction. |
-| REQ-BUS-029 | An authorized Staff User can complete supported fulfilment and Shipment work; provider or notification failure does not rewrite Shipment or Order truth; Customer communication reflects authoritative state. |
+| REQ-BUS-029 | An authorized Staff User can complete supported fulfilment and Shipment work; provider or Notification failure does not rewrite Shipment or Order truth; Customer communication reflects authoritative state. |
 | REQ-BUS-030 | Return, Refund, Refund Transaction, cancellation, Inventory disposition, and communication remain distinguishable and follow Approved policy. |
 | REQ-BUS-031 | An authorized Staff User can complete each permitted ordinary operation through a controlled workflow; unauthorized direct production modification or code deployment is not the normal workflow. |
-| REQ-BUS-032–033 | Unauthenticated or unauthorized attempts are denied safely; UI state cannot bypass server-side Authorization; high-Risk actions preserve applicable controls. |
-| REQ-BUS-034–036 | Material actions produce appropriate Audit Records; permitted Staff Users can correlate critical evidence; repeated repair or reconciliation cannot create duplicate harmful effects. |
+| REQ-BUS-032 | Unauthenticated or unauthorized attempts are denied safely; UI state, Role labels, Permissions, and Claims cannot bypass server-side Authorization for the current Principal, Resource, action, and Domain state. |
+| REQ-BUS-033 | A Staff User cannot exercise Permissions outside the approved least-privilege boundary; applicable separation of responsibilities is preserved; a high-Risk operation requires confirmation, a Human Approval Gate, or both where governing policy requires them; the material action produces appropriate Audit Record evidence. |
+| REQ-BUS-034–035 | Material actions produce appropriate Audit Records; permitted Staff Users can correlate critical evidence without treating analytics as commercial truth. |
+| REQ-BUS-036 | Only an authorized Principal can invoke a supported recovery action; the action respects applicable owning Domain state and rules, cannot create duplicate harmful effects when repeated where idempotency is required, and produces appropriate Audit Record evidence where material; invalid or disallowed actions are rejected safely. |
 | REQ-BUS-037 | Critical Customer and Staff User journeys have testable WCAG 2.2 AA evidence without a certification or silent AAA claim. |
 | REQ-BUS-038 | Performance evidence traces to the Approved governing Requirements without inventing an additional profile, budget, SLA, SLO, or threshold. |
 | REQ-BUS-039 | Sensitive Data and Secrets do not appear in unauthorized views, errors, logs, analytics, or exports and remain governed throughout their lifecycle. |
 | REQ-BUS-040 | Evidence distinguishes transactional necessity from Preference and marketing consent; completing a purchase does not create marketing consent. |
 | REQ-BUS-041 | Applicable legal and policy questions retain qualified-review evidence rather than unsupported compliance claims. |
-| REQ-BUS-042–043 | Material failure, denial, stale, partial, unavailable, pending, and unknown states are distinguishable; authorized operations can detect, investigate, reconcile, and recover critical outcomes. |
+| REQ-BUS-042 | Material failure, denial, stale, partial, unavailable, pending, and unknown states are distinguishable; recovery guidance reflects known state; error and recovery output does not expose unnecessary Sensitive Data, inaccessible Resource existence, or provider internals to Customer-facing or unauthorized contexts. |
+| REQ-BUS-043 | Authorized Staff Users retain the operational visibility needed to detect, investigate, reconcile, support, and recover material outcomes. |
 | REQ-BUS-044 | Reports identify their sources and definitions and do not alter or replace authoritative commercial records. |
 | REQ-BUS-045 | Critical failures have owned detection, recovery, reconciliation, and support outcomes without invented operational targets. |
 | REQ-BUS-046 | A provider outage or transient response does not redefine Product state or Customer-visible success; an applicable degraded, verification, or reconciliation path remains available. |
@@ -601,7 +605,7 @@ Future Accepted Product Decisions must be linked rather than copied. If a Produc
 
 ## 27. Dependencies
 
-This Draft depends on:
+This Approved Specification depends on:
 
 - Continued consistency with the Approved Product baseline and canonical terminology.
 - Approval of downstream Domain Specifications before their detailed behavior becomes binding.
@@ -674,6 +678,7 @@ No identifier in this table is a Product Decision identifier, and no option is A
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Approved the business requirements baseline after final Product, cross-domain, traceability, Acceptance Criteria, terminology, and lifecycle validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial business requirements baseline for the enterprise fashion e-commerce platform. |
 
 ## 33. Quality Requirements
@@ -684,7 +689,7 @@ Requirements and Acceptance Criteria MUST remain coherent enough for downstream 
 
 ## 34. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
 1. metadata and Revision History accurately describe the document lifecycle and `authoritative: false` remains unchanged;
 2. the declared scope code is `BUS`, current Requirement identifiers span `REQ-BUS-001` through `REQ-BUS-054`, identifiers are unique and stable, retired identifiers are not reused, and references remain valid;
