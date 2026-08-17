@@ -1,9 +1,9 @@
 ---
 title: DOCUMENTATION-STANDARDS
-version: 1.0.1
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-08-17
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -71,6 +71,21 @@ An unfinished document MUST NOT be represented as Approved or authoritative.
 
 Authoritative core documents MUST use YAML front matter with `title`, `version`, `status`, `owner`, `last_updated`, `review_cycle`, and an authority marker established by current core-document practice: `authoritative` or `source_of_truth`. Other normative documents SHOULD use the same fields where lifecycle and ownership matter. Informational local documentation MAY use lighter metadata when ownership remains discoverable.
 
+Normative Specification documents under `specifications/` MUST use at least:
+
+```yaml
+---
+title: <descriptive title>
+version: 0.1.0
+status: Draft
+owner: <accountable owner>
+last_updated: YYYY-MM-DD
+authoritative: false
+---
+```
+
+The example states the required initial Draft metadata. Approval changes lifecycle status and version through governed review but MUST NOT change `authoritative: false`; an Approved Specification is normative within its assigned scope without becoming a core Source of Truth. Additional metadata MAY be added when an applicable governing source requires it.
+
 ## 8. Document Status Lifecycle
 
 - **Draft** content is under development and is not yet an Approved normative baseline.
@@ -95,6 +110,12 @@ Review cadence MUST reflect document Risk and change rate. Reviews SHOULD also b
 ## 12. Naming and File Placement
 
 Names and repository-relative paths MUST be predictable and stable. Core governance belongs under `.ai/core`; domain-local documentation SHOULD remain near its owner. Ambiguous names and sequences such as `final-v2-new` are prohibited; use stable names, metadata, and revision history.
+
+Specification filenames MUST use descriptive lowercase kebab-case ending in `.md`. The filename MUST describe the Specification concern. Illustrative filenames include `business-requirements.md`, `checkout-flow.md`, `inventory-reservation.md`, and `payment-processing.md`; these examples do not reserve names or establish required Specifications.
+
+Directory placement remains meaningful and is governed by `AGENTS.md`, including `specifications/business/`, `specifications/domains/<domain>/`, `specifications/frontend/`, `specifications/backend/`, and `specifications/infrastructure/`. A filename MUST NOT expand or replace the directory's assigned scope.
+
+Specifications MUST NOT use sequential `SPEC-####` filenames or reuse the ADR filename convention. A separate repository-wide Specification identifier is not required unless later Approved governance establishes one.
 
 ## 13. Headings and Structure
 
@@ -124,6 +145,20 @@ Downstream documents MUST NOT restate complete security, testing, coding, Archit
 
 A Requirement SHOULD state intent, actor, triggering condition, expected outcome, constraints, failure behavior, and traceability. Implementation detail belongs only when it is itself an approved constraint.
 
+Material Requirements documented in Specifications MUST use a stable identifier in this format:
+
+```text
+REQ-<SCOPE>-NNN
+```
+
+`REQ` identifies a Requirement, `<SCOPE>` is the short uppercase stable scope code owned by the Specification, and `NNN` is a zero-padded sequence beginning at `001`. Examples such as `REQ-BUS-001`, `REQ-PAY-001`, `REQ-INV-001`, `REQ-FE-001`, and `REQ-BE-001` are illustrative rather than an exhaustive reserved registry.
+
+Requirement identifiers MUST be unique within the repository and MUST NOT be reused for a different Requirement. Removing a Requirement MUST NOT cause its identifier to be reassigned, and renumbering solely to close gaps is PROHIBITED. A materially different replacement SHOULD receive a new identifier; an editorial clarification that preserves Requirement meaning MAY retain the existing identifier. References to Requirements SHOULD use the stable identifier.
+
+A Specification introducing Requirement identifiers MUST declare its scope code near the beginning of the document. The scope code MUST be uppercase, concise, unique among active Specifications using Requirement identifiers, stable after Approval, and unchanged once references exist unless an Approved migration preserves traceability. It MUST NOT imply authority outside the Specification's assigned scope. `BUS` MAY identify the first business baseline because it directly represents the existing business Specification scope.
+
+Requirement identifiers MUST NOT be confused with ADR or Decision Record identifiers. This standard does not establish Acceptance Criteria identifiers, Business Rule identifiers, Contract identifiers, or another identifier scheme, and it does not create a centralized scope-code registry.
+
 ## 20. Acceptance Criteria
 
 Acceptance Criteria MUST be observable, testable, unambiguous, free of hidden assumptions, and consistent with `TESTING-STANDARDS.md`. Positive and negative paths SHOULD be included where material.
@@ -131,6 +166,8 @@ Acceptance Criteria MUST be observable, testable, unambiguous, free of hidden as
 ## 21. Specifications
 
 A Specification SHOULD define purpose, scope, Requirements, Acceptance Criteria, canonical domain terminology, lifecycle or state behavior, API and data impact, security impact, testing strategy, dependencies, unresolved questions, and migration or rollout where relevant. It MUST NOT redefine canonical terms or silently weaken higher-authority requirements.
+
+For repository identity, a Specification uses its stable repository path together with its document title and version. Specifications do not require a separate `SPEC-####` identifier. This rule does not alter the `ADR-####` and `DEC-####` identifiers governed by `DECISIONS.md`.
 
 ## 22. Architecture Documentation
 
@@ -321,6 +358,7 @@ Documentation standards govern how information is recorded and maintained. They 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-08-17 | Approved | Established repository-wide Specification filename, metadata, identity, Requirement identifier, and scope-code governance required to begin authoring under `specifications/`. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected the stale Vision status and refreshed directly relevant Vision, Decision Record, and Design System documentation references. |
 | 1.0.0 | 2026-08-11 | Approved | Promoted the repository-wide documentation standards after final governance, terminology, lifecycle, requirements, architecture, security, testing, operational, AI-context, traceability, and documentation-quality validation. |
 | 0.1.0 | 2026-08-11 | Draft | Established the initial repository-wide documentation standards covering authority, structure, lifecycle, versioning, Requirements, Specifications, ADRs, technical documentation, operations, AI-facing context, traceability, drift, and exception governance. |
