@@ -123,9 +123,13 @@ Disabled controls MUST communicate their state and MUST NOT be the sole Authoriz
 
 ## 18. Dialogs
 
-Dialogs require an accessible name, valid dialog semantics, deliberate initial focus, focus containment, safe Escape behavior, background interaction prevention, focus return, and usable scrolling and reflow.
+All dialogs require an accessible name, valid dialog semantics, deliberate initial focus, keyboard-operable dismissal, usable scrolling and reflow, and appropriate focus restoration when closed.
 
-Nested dialogs SHOULD be avoided. No modal library is selected.
+Modal dialogs MUST contain focus appropriately while active and prevent interaction with surrounding content according to the applicable accessible modal-dialog pattern.
+
+Non-modal dialogs MUST preserve accessible interaction with surrounding content and provide a deliberate, keyboard-accessible means to move between the dialog and the rest of the page.
+
+Nested dialogs SHOULD be avoided. No modal or dialog library is selected.
 
 ## 19. Menus, Popovers, and Disclosures
 
