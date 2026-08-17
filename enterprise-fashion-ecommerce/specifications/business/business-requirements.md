@@ -49,7 +49,7 @@ The business baseline addresses these approved problems:
 | Visitor | Discover and evaluate public Products, use a Cart, review public policies, and begin only those purchase or Account journeys permitted by Approved Product policy. |
 | Registered Customer | Manage supported Account information, Addresses, Preferences, Wishlist, Cart, Orders, Shipment tracking, and supported post-purchase actions. |
 | Store Administrator | Perform permitted store operations across catalogue, Categories, pricing, Promotions, Inventory, Orders, fulfilment, content, reporting, and Staff User administration. |
-| Merchandiser or Content Editor | Manage permitted Product information, Categories, Collections, media, merchandising, and content without receiving unrelated financial or security Permissions by default. |
+| Merchandiser or Content Editor | Manage permitted Product information, Categories, Collections, Product Media, merchandising, and content without receiving unrelated financial or security Permissions by default. |
 | Inventory or Fulfilment Operator | Review Inventory, record permitted Stock Adjustments, process fulfilment, manage Shipments, and investigate Stock Reservation or fulfilment exceptions. |
 | Customer Support Agent | Locate permitted Customer and Order context and perform only authorized support, recovery, cancellation, Return, or Refund actions. |
 | Finance or Operations User | Review Payment, Refund, reconciliation, sales, tax, Settlement, and approved operational information and perform controlled financial operations. |
@@ -78,7 +78,7 @@ These goals are qualitative outcomes. They do not establish conversion, revenue,
 Version 1 includes the following Product-established capability areas, subject to unresolved policies in section 30:
 
 - Storefront content, catalogue discovery, Categories, Collections, search, filtering, sorting, and Product detail.
-- Product Variant and quantity selection, Product media, attributes, Price, Discount, Promotion, Voucher, and availability presentation.
+- Product Variant and quantity selection, Product Media, attributes, Price, Discount, Promotion, Voucher, and availability presentation.
 - Visitor and registered Customer contexts, Cart, Checkout, Account, Address, Wishlist, Order history, Preferences, and privacy choices where governed.
 - Backend-authoritative pricing and Checkout revalidation.
 - Inventory visibility, Stock Reservation, Stock Adjustment, Stock Movement, fulfilment, and Shipment operations.
@@ -150,7 +150,7 @@ Authentication does not grant a capability by itself. Server-side Authorization,
 
 | Capability | Business responsibility |
 | --- | --- |
-| Catalogue and Category | Govern Product, Product Variant, Category, Collection, media, attribute, content, and publication outcomes. |
+| Catalogue and Category | Govern Product, Product Variant, Category, Collection, Product Media, attribute, content, and publication outcomes. |
 | Search and discovery | Help Customers locate relevant Customer-visible Products without becoming Product, Price, or Inventory authority. |
 | Customer | Support governed Visitor, Account, Address, Preference, privacy, Wishlist, and support contexts. |
 | Cart and Checkout | Preserve shopping intent, validate input, recalculate trusted totals, revalidate availability, and coordinate the purchase journey. |
@@ -159,7 +159,7 @@ Authentication does not grant a capability by itself. Server-side Authorization,
 | Order | Own the durable commercial record and governed Order lifecycle. |
 | Payment | Own Payment Attempts and platform Payment state based on validated Payment Provider evidence. |
 | Shipping and fulfilment | Own governed delivery choices, fulfilment work, Shipment state, tracking, and provider reconciliation. |
-| Return and Refund | Preserve distinct physical Return, commercial eligibility, Payment Refund, and Refund Transaction outcomes. |
+| Return and Refund | Preserve distinct physical Return, commercial eligibility, Refund, and Refund Transaction outcomes. |
 | Administration | Expose permitted operational capabilities without bypassing Domain ownership or server-side Authorization. |
 | Evidence and reporting | Provide Audit Records, correlation, reconciliation, operational visibility, and non-authoritative analytical Projections. |
 
@@ -197,7 +197,7 @@ Customers MUST be able to discover Products using the Product-established naviga
 
 ### REQ-BUS-005 — Product and Product Variant Evaluation
 
-Before purchase commitment, Customers MUST receive the governed Product and Product Variant information needed to evaluate a purchase, including applicable media, attributes, Price, availability, delivery, and policy information. Presentation MUST NOT create unsupported Product claims or conceal material uncertainty.
+Before purchase commitment, Customers MUST receive the governed Product and Product Variant information needed to evaluate a purchase, including applicable Product Media, attributes, Price, availability, delivery, and policy information. Presentation MUST NOT create unsupported Product claims or conceal material uncertainty.
 
 ### REQ-BUS-006 — Product Variant Selection
 
@@ -245,7 +245,7 @@ Authoritative Price, Discount, Promotion, Voucher, tax, delivery charge, and tot
 
 ### REQ-BUS-016 — Pricing Transparency
 
-Customers MUST receive understandable Price, Discount, Promotion, Voucher, delivery, tax, and total changes before commitment where applicable. Unresolved rounding, tax, stacking, priority, eligibility, and Refund-treatment policies MUST remain deferred to Product governance and the Pricing Domain Specification.
+Customers MUST receive understandable Price, Discount, Promotion, Voucher, delivery, tax, and total changes before commitment where applicable. Each applicable Promotion MUST have governed definitions for validity, eligibility, thresholds, usage limits, stackability, exclusions, calculation order, and Refund treatment before its behavior becomes binding in production. The required policy completeness does not resolve the values of those policies; unresolved rounding, tax, stacking, priority, eligibility, threshold, limit, and Refund-treatment outcomes MUST remain deferred to Product governance and the Pricing Domain Specification.
 
 ### REQ-BUS-017 — Inventory Authority
 
@@ -275,15 +275,15 @@ Confirmed Order Items, Product descriptions needed for history, Addresses, Price
 
 ### REQ-BUS-023 — Order Lifecycle and History
 
-Order transitions MUST be explicit, authorized, historically traceable, and consistent with separate Payment, fulfilment, cancellation, Return, and Refund concerns. Detailed states and transition rules remain owned by the Order Domain Specification.
+Order transitions MUST be explicit, authorized, historically traceable, and consistent with separate Payment, fulfilment, cancellation, Return, and Refund concerns. Confirmed Orders MUST NOT be ordinarily deleted; correction, cancellation, Return, and Refund activity MUST preserve the historical commercial record. Governed retention, anonymization, and legal obligations MAY affect the storage lifecycle without rewriting commercial history. Detailed states and transition rules remain owned by the Order Domain Specification.
 
 ### REQ-BUS-024 — Authoritative Payment Evidence
 
-Provider-dependent Payment success MUST be established only from validated Payment Provider evidence processed through the trusted backend. A Payment Redirect, browser result, query parameter, client report, local state, or UI callback state MUST NOT be Payment proof.
+Provider-dependent Payment success MUST be established only from validated Payment Provider evidence processed through the trusted backend. Applicable provider Callback or Webhook evidence MUST be authenticated, signature-validated, or otherwise cryptographically validated according to the approved provider Contract, and its payload integrity MUST be established before it can determine provider-dependent Payment truth. Unvalidated Callback or Webhook data, a Payment Redirect, browser result, query parameter, client report, local state, or UI callback state MUST NOT be Payment proof.
 
 ### REQ-BUS-025 — Payment Uncertainty
 
-Pending, unknown, failed, declined, cancelled, and confirmed Payment outcomes MUST remain distinguishable where applicable. An unknown or otherwise uncertain provider outcome MUST remain unresolved until trusted verification or reconciliation establishes the permitted next state.
+Pending, unknown, failed, declined, cancelled, and confirmed Payment outcomes MUST remain distinguishable where applicable. Frontend or client cancellation, navigation away, timeout, stopped observation, or an aborted request MUST NOT prove that provider-side processing stopped or reverse or negate an already-submitted Payment-side effect. An unknown or otherwise uncertain provider outcome MUST remain unresolved until trusted verification or reconciliation establishes the permitted next state.
 
 ### REQ-BUS-026 — Duplicate Financial-Effect Prevention
 
@@ -291,7 +291,7 @@ Duplicate, replayed, retried, or concurrently processed Payment requests, callba
 
 ### REQ-BUS-027 — Payment Data Protection
 
-The Product MUST use approved hosted or tokenized Payment handling that minimizes exposure to cardholder data. Raw CVV MUST NOT be stored, logged, displayed after entry, telemetered, placed in fixtures, or retained in any durable artifact.
+The Product MUST use approved hosted or tokenized Payment handling that minimizes Payment-data exposure. Raw card data MUST NOT be stored where governing Product or Security policy prohibits it. Raw CVV MUST NOT be stored, logged, redisplayed after entry, telemetered, placed in fixtures, screenshots, analytics, error reports, or any other durable artifact. This Requirement does not claim PCI certification or define provider or storage technology.
 
 ### REQ-BUS-028 — Payment Concept Integrity
 
@@ -381,6 +381,30 @@ Material downstream Specifications, Contracts, implementation, tests, and accept
 
 A material change to business scope, market, policy, actors, Customer eligibility, commercial semantics, or Version 1 goals and non-goals MUST follow Product Decision governance, update affected governing sources and Specifications, and preserve traceability before the changed behavior becomes current Product truth.
 
+### REQ-BUS-049 — Transactional Notifications and Customer Communications
+
+Applicable business-significant Customer communications, including Order confirmation or status, Payment, fulfilment or Shipment, Return, Refund, and material failure, retry, or reconciliation outcomes, MUST reliably represent authoritative state and remain traceable where operational investigation requires it. Communication content MUST NOT claim success before authoritative state exists, and a notification-delivery or provider failure MUST NOT alter authoritative commercial state. Channels, providers, retry counts, delivery targets, channel priorities, and template technology remain governed elsewhere.
+
+### REQ-BUS-050 — Content Lifecycle and Product Media
+
+Product-facing content MUST use governed creation, update, and publication outcomes; applicable policy content MUST be versioned, and Draft or unapproved content MUST NOT be published. Product and campaign claims MUST remain accurate and supportable, Product Media MUST meet Approved Product and Design System Requirements, and stale or misleading published content MUST be correctable. Material publication MUST remain authorized and traceable. This Requirement does not select a CMS, workflow engine, approval chain, publication schedule, image service, or asset pipeline.
+
+### REQ-BUS-051 — Customer Registration, Credentials, and Sessions
+
+The Product MUST support governed Customer registration and applicable Account recovery where Product policy establishes them. Credential and password handling MUST follow Security governance; Session establishment, expiry, and revocation and failed Authentication outcomes MUST protect Account access, prevent cross-Principal access, and MUST NOT allow Session state to bypass server-side Authorization. This Requirement does not select an Identity Provider, protocol, token or cookie strategy, MFA policy, password algorithm, or Session storage technology.
+
+### REQ-BUS-052 — Fraud and Abuse Protection
+
+Applicable registration, Authentication, Voucher, Promotion, Checkout, Payment, Refund, and administration workflows MUST support governed detection, restriction, and escalation of suspicious or abusive behavior. Such protections MUST preserve Authorization, auditability, and authoritative commercial state, MUST NOT create unauthorized commercial effects, and fraud signals or advice MUST NOT become Payment proof. False-positive recovery and manual review remain governed by applicable Product, Security, and Operations policy; this Requirement does not select a vendor, model, threshold, rule engine, review target, or blocking policy.
+
+### REQ-BUS-053 — Operational Export Integrity
+
+Exports containing commercial or operational records MUST require explicit Authorization, derive from appropriate authoritative sources, preserve applicable definitions and context, and MUST NOT become a competing source of truth. Sensitive Data MUST be minimized and protected, and material export generation and use MUST be auditable. Analytical reports remain non-authoritative Projections where applicable. Format, size, retention, storage, scheduling, and delivery channel remain governed elsewhere.
+
+### REQ-BUS-054 — Tax, Invoice, and Commercial Document Readiness
+
+Applicable tax display, invoice requirements, invoice numbering, credit-note requirements, and other commercial-document obligations MUST be defined and qualified where necessary before production reliance. Confirmed records MUST preserve applicable tax values, and client calculations MUST NOT establish authoritative tax or invoice totals. The specific policy values remain subject to Product governance and qualified legal or tax validation; this Requirement does not define a tax formula, rate, numbering format, legal interpretation, or invoice technology.
+
 ## 18. Security, Privacy, Accessibility, and Performance Boundaries
 
 This Specification establishes business outcomes rather than implementation controls:
@@ -438,7 +462,7 @@ Architecture-selected technologies are not business constraints owned by this Sp
 
 | Existing directory | Required downstream precision |
 | --- | --- |
-| `specifications/domains/product/` | Product, Product Variant, attribute, media, publication, sellability, and catalogue lifecycle rules. |
+| `specifications/domains/product/` | Product, Product Variant, attribute, Product Media, publication, sellability, and catalogue lifecycle rules. |
 | `specifications/domains/category/` | Category hierarchy, membership, navigation classification, and merchandising boundaries. |
 | `specifications/domains/customer/` | Customer, Account, Address, Preference, privacy, Wishlist, and support-context behavior. |
 | `specifications/domains/inventory/` | Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, concurrency, expiry, release, and reconciliation rules. |
@@ -474,24 +498,41 @@ Acceptance Criteria are grouped for maintainability and do not have separate ide
 | --- | --- |
 | REQ-BUS-001–002 | The initial context is South African, English, and ZAR; supported critical Customer journeys remain functionally usable in governed mobile and desktop contexts; no additional market or Currency is represented as current scope. |
 | REQ-BUS-003–006 | A Customer can discover and evaluate publishable Products and select a valid Product Variant; empty, failed, unavailable, stale, and invalid-selection outcomes are distinguishable and recoverable; non-publishable content is not exposed as sellable. |
-| REQ-BUS-007–008 | Visitor and registered Customer capabilities reflect Approved policy; protected Account data requires the correct Principal; historical Order snapshots remain unchanged after profile or Address edits. |
+| REQ-BUS-007 | Visitor and registered Customer capabilities reflect Approved policy without resolving guest Checkout. |
+| REQ-BUS-008 | A registered Customer can complete each supported profile, Address, Preference, Wishlist, and Order-access operation; access by another Principal is denied; profile or Address changes do not alter historical Order snapshots. |
 | REQ-BUS-009–010 | Cart operations preserve intended Product Variant and quantity state without implying final Price or Stock; repeated actions do not produce unintended duplicate quantities or Stock effects. |
 | REQ-BUS-011–013 | Invalid Checkout input is rejected clearly; safe input remains recoverable; trusted Price and availability changes are shown before continuation; interrupted or duplicate submission does not create duplicate Order, Inventory, or Payment effects. |
-| REQ-BUS-014–016 | Customer-visible monetary values identify ZAR; trusted server outcomes determine final values; unapproved rounding, tax, Promotion, Discount, and Voucher policies are not silently implemented. |
+| REQ-BUS-014–015 | Customer-visible monetary values identify ZAR; trusted server outcomes determine final Price, Discount, Promotion, Voucher, tax, delivery, and total values. |
+| REQ-BUS-016 | Each production Promotion demonstrates complete applicable validity, eligibility, threshold, usage-limit, stackability, exclusion, calculation-order, and Refund-treatment definitions; missing mandatory semantics prevent binding production behavior, while unresolved policy values remain unresolved. |
 | REQ-BUS-017–020 | Inventory remains authoritative; stale Projections cannot authorize purchase; concurrent attempts cannot exceed valid Available-to-Sell; Stock Reservation and Stock change evidence remain traceable without inventing duration or allocation policy. |
-| REQ-BUS-021–023 | A governed Checkout can produce one durable Order with historical commercial snapshots; invalid or uncertain outcomes do not appear confirmed; permitted transitions retain history and keep Payment and fulfilment concerns distinct. |
-| REQ-BUS-024–025 | A redirect, query, browser, client, or Story state cannot confirm Payment; pending and unknown outcomes remain explicit until validated evidence or reconciliation permits transition. |
-| REQ-BUS-026–028 | Duplicate Payment activity cannot duplicate financial effects; raw CVV is absent from durable artifacts and telemetry; Payment Transaction and Database Transaction remain distinguishable. |
-| REQ-BUS-029–030 | Authorized fulfilment work produces reconcilable Shipment state; Return, Refund, Refund Transaction, cancellation, Inventory disposition, and communication remain distinguishable and follow Approved policy. |
-| REQ-BUS-031–033 | Ordinary Staff User operations are available through controlled workflows; unauthenticated or unauthorized attempts are denied safely; UI state cannot bypass server-side Authorization; high-Risk actions preserve applicable controls. |
+| REQ-BUS-021–022 | A governed Checkout can produce one durable Order with historical commercial snapshots; invalid or uncertain outcomes do not appear confirmed; later Product, Customer, or pricing changes do not rewrite the snapshot. |
+| REQ-BUS-023 | Ordinary deletion of a confirmed Order is rejected; permitted later transitions remain traceable and preserve the historical commercial record despite governed storage-lifecycle treatment. |
+| REQ-BUS-024 | Unvalidated Callback or Webhook evidence cannot confirm Payment; validated provider evidence with established payload integrity may establish the applicable provider-dependent Payment state. |
+| REQ-BUS-025 | Pending and unknown outcomes remain explicit until validated evidence or reconciliation permits transition; client cancellation, navigation, timeout, stopped observation, or request abortion does not prove provider processing stopped or negate a submitted effect. |
+| REQ-BUS-026 | Duplicate or replayed requests, Callback or Webhook evidence, and reconciliation activity cannot duplicate Payment Authorizations, Captures, Voids, Refund Transactions, Orders, or other financial effects. |
+| REQ-BUS-027 | Approved hosted or tokenized handling minimizes Payment-data exposure; prohibited raw card data is not stored; raw CVV is absent from storage, logs, redisplay, telemetry, fixtures, screenshots, analytics, error reports, and other durable artifacts. |
+| REQ-BUS-028 | Payment concepts remain distinguishable, and Payment Transaction is not confused with Database Transaction. |
+| REQ-BUS-029 | An authorized Staff User can complete supported fulfilment and Shipment work; provider or notification failure does not rewrite Shipment or Order truth; Customer communication reflects authoritative state. |
+| REQ-BUS-030 | Return, Refund, Refund Transaction, cancellation, Inventory disposition, and communication remain distinguishable and follow Approved policy. |
+| REQ-BUS-031 | An authorized Staff User can complete each permitted ordinary operation through a controlled workflow; unauthorized direct production modification or code deployment is not the normal workflow. |
+| REQ-BUS-032–033 | Unauthenticated or unauthorized attempts are denied safely; UI state cannot bypass server-side Authorization; high-Risk actions preserve applicable controls. |
 | REQ-BUS-034–036 | Material actions produce appropriate Audit Records; permitted Staff Users can correlate critical evidence; repeated repair or reconciliation cannot create duplicate harmful effects. |
 | REQ-BUS-037 | Critical Customer and Staff User journeys have testable WCAG 2.2 AA evidence without a certification or silent AAA claim. |
 | REQ-BUS-038 | Performance evidence traces to the Approved governing Requirements without inventing an additional profile, budget, SLA, SLO, or threshold. |
-| REQ-BUS-039–041 | Sensitive Data and Secrets do not appear in unauthorized views, errors, logs, analytics, or exports; consent remains distinct from transaction necessity; applicable legal and policy questions retain qualified-review evidence rather than unsupported compliance claims. |
+| REQ-BUS-039 | Sensitive Data and Secrets do not appear in unauthorized views, errors, logs, analytics, or exports and remain governed throughout their lifecycle. |
+| REQ-BUS-040 | Evidence distinguishes transactional necessity from Preference and marketing consent; completing a purchase does not create marketing consent. |
+| REQ-BUS-041 | Applicable legal and policy questions retain qualified-review evidence rather than unsupported compliance claims. |
 | REQ-BUS-042–043 | Material failure, denial, stale, partial, unavailable, pending, and unknown states are distinguishable; authorized operations can detect, investigate, reconcile, and recover critical outcomes. |
 | REQ-BUS-044 | Reports identify their sources and definitions and do not alter or replace authoritative commercial records. |
-| REQ-BUS-045–046 | Critical failures have owned detection, recovery, reconciliation, and support outcomes; provider behavior does not redefine Product semantics or Customer-visible success. |
+| REQ-BUS-045 | Critical failures have owned detection, recovery, reconciliation, and support outcomes without invented operational targets. |
+| REQ-BUS-046 | A provider outage or transient response does not redefine Product state or Customer-visible success; an applicable degraded, verification, or reconciliation path remains available. |
 | REQ-BUS-047–048 | Downstream evidence references applicable stable Requirement identifiers; material Product changes have the required Decision and synchronized governing updates before being represented as current behavior. |
+| REQ-BUS-049 | Applicable Customer communications reflect authoritative Order, Payment, Shipment, Return, Refund, failure, retry, or reconciliation state; premature success is not communicated; delivery or provider failure does not alter commercial truth; material communication evidence supports investigation. |
+| REQ-BUS-050 | Only authorized, publishable content is exposed; policy versions and material publication evidence are traceable; unsupported or stale claims can be corrected; Product Media satisfies applicable Approved Product and Design System Requirements. |
+| REQ-BUS-051 | Supported registration and recovery outcomes protect Account access; failed Authentication is handled safely; Session expiry or revocation takes effect; cross-Principal access and Session-based Authorization bypass are denied. |
+| REQ-BUS-052 | Applicable workflows can identify and govern suspicious or abusive behavior without unauthorized commercial effects; fraud advice cannot establish Payment truth; permitted false-positive recovery or review remains auditable and policy-governed. |
+| REQ-BUS-053 | An authorized user can generate a permitted operational export from appropriate authoritative sources with definitions and context intact; unauthorized export is denied; Sensitive Data is minimized; the export does not become authoritative or silently replace analytical Projection status. |
+| REQ-BUS-054 | Production reliance is blocked until applicable tax display, invoice, invoice-numbering, credit-note, and commercial-document obligations are defined and qualified where necessary; confirmed tax values remain preserved and client totals remain non-authoritative. |
 
 Negative, concurrency, retry, cancellation, accessibility, responsive, Audit Record, and telemetry cases apply only where material to the referenced Requirement. No Gherkin or EARS notation is mandated.
 
@@ -499,17 +540,62 @@ Negative, concurrency, retry, cancellation, accessibility, responsive, Audit Rec
 
 No applicable `DEC-####` Product Decision Record currently exists in the repository. The table therefore links Approved Product sections, governing standards, and intended downstream Specifications without fabricating Decision references.
 
-| Requirement range | Primary Product trace | Additional governing trace | Intended downstream scope |
+| Requirement | Primary Product trace | Additional governing trace | Intended downstream scope |
 | --- | --- | --- | --- |
-| REQ-BUS-001–006 | PRODUCT.md sections 2–12, 14, 29–30 | VISION.md; DESIGN-SYSTEM.md; ACCESSIBILITY.md | Product, Category, frontend |
-| REQ-BUS-007–013 | PRODUCT.md sections 7, 12–14, 16, 30 | SECURITY-STANDARDS.md; API.md | Customer, Cart/Checkout, frontend, backend |
-| REQ-BUS-014–016 | PRODUCT.md sections 6, 16.1, 16.10 | GLOSSARY.md; SECURITY-STANDARDS.md | Pricing, Order, Payment |
-| REQ-BUS-017–020 | PRODUCT.md sections 9.2, 12.7, 16.2, 23 | ARCHITECTURE.md; DATABASE.md; EVENTS.md | Inventory, backend, Contracts |
-| REQ-BUS-021–030 | PRODUCT.md sections 14.4–14.8, 16.3–16.5, 16.11, 17 | SECURITY-STANDARDS.md; API.md; EVENTS.md | Order, Payment, Shipping, Inventory |
-| REQ-BUS-031–036 | PRODUCT.md sections 7.3–7.8, 15, 16.7, 31, 34 | SECURITY-STANDARDS.md; DESIGN-SYSTEM.md | Admin, Customer, backend, frontend |
-| REQ-BUS-037–041 | PRODUCT.md sections 5.7, 16.7, 16.9–16.10, 18–20 | ACCESSIBILITY.md; PERFORMANCE.md; TESTING-STANDARDS.md | Frontend, backend, infrastructure |
-| REQ-BUS-042–046 | PRODUCT.md sections 5.4–5.6, 9, 17–18, 23, 35 | ARCHITECTURE.md; SECURITY-STANDARDS.md; EVENTS.md; AZURE.md | All affected domains and operational scopes |
-| REQ-BUS-047–048 | PRODUCT.md sections 21–26, 36–41 | AGENTS.md; DOCUMENTATION-STANDARDS.md; DECISIONS.md | All downstream Specifications and Contracts |
+| REQ-BUS-001 | PRODUCT.md sections 6, 11, 20 | VISION.md | Product, frontend, backend |
+| REQ-BUS-002 | PRODUCT.md sections 5.2, 10, 30 | DESIGN-SYSTEM.md; ACCESSIBILITY.md | Frontend |
+| REQ-BUS-003 | PRODUCT.md sections 12.1, 14.1, 16.8, 32 | DESIGN-SYSTEM.md | Product, Category, frontend |
+| REQ-BUS-004 | PRODUCT.md sections 8.1, 12.1, 14.1, 30.1 | PERFORMANCE.md | Product, Category, frontend, backend |
+| REQ-BUS-005 | PRODUCT.md sections 8.2, 14.2, 30.2, 32.4 | DESIGN-SYSTEM.md; ACCESSIBILITY.md | Product, frontend |
+| REQ-BUS-006 | PRODUCT.md sections 14.2–14.3, 30.2–30.3 | GLOSSARY.md | Product, Cart/Checkout, frontend |
+| REQ-BUS-007 | PRODUCT.md sections 7.1–7.2, 12.2–12.3, 24 | SECURITY-STANDARDS.md | Customer, Cart/Checkout, frontend, backend |
+| REQ-BUS-008 | PRODUCT.md sections 7.2, 12.3–12.4, 16.7, 30.5 | SECURITY-STANDARDS.md | Customer, frontend, backend |
+| REQ-BUS-009 | PRODUCT.md sections 12.2, 14.3, 30.3 | GLOSSARY.md | Cart/Checkout, frontend, backend |
+| REQ-BUS-010 | PRODUCT.md sections 14.3, 16.2, 23 | API.md | Cart/Checkout, Inventory, frontend, backend |
+| REQ-BUS-011 | PRODUCT.md sections 14.4, 30.4 | SECURITY-STANDARDS.md; ACCESSIBILITY.md | Cart/Checkout, frontend, backend |
+| REQ-BUS-012 | PRODUCT.md sections 14.4, 16.1–16.2, 30.4 | API.md | Cart/Checkout, Pricing, Inventory, backend |
+| REQ-BUS-013 | PRODUCT.md sections 5.6, 8.4, 14.4, 23 | API.md | Cart/Checkout, Order, Payment, Inventory |
+| REQ-BUS-014 | PRODUCT.md sections 6, 16.1, 20 | GLOSSARY.md | Pricing, Order, frontend |
+| REQ-BUS-015 | PRODUCT.md sections 5.4, 14.4, 16.1 | SECURITY-STANDARDS.md | Pricing, Cart/Checkout, backend |
+| REQ-BUS-016 | PRODUCT.md sections 9.5, 16.1, 16.6, 23 | GLOSSARY.md | Pricing, Cart/Checkout, Order |
+| REQ-BUS-017 | PRODUCT.md sections 9.2, 13, 16.2 | ARCHITECTURE.md; DATABASE.md | Inventory, backend, Contracts |
+| REQ-BUS-018 | PRODUCT.md sections 9.2, 14.3–14.4, 16.2, 23 | DATABASE.md | Inventory, Cart/Checkout, backend |
+| REQ-BUS-019 | PRODUCT.md sections 16.2, 17, 24 | DATABASE.md; EVENTS.md | Inventory, Cart/Checkout, Order |
+| REQ-BUS-020 | PRODUCT.md sections 12.7, 15.2, 16.2 | SECURITY-STANDARDS.md; DATABASE.md | Inventory, admin, backend |
+| REQ-BUS-021 | PRODUCT.md sections 14.4–14.6, 16.4, 17 | API.md; EVENTS.md | Order, Cart/Checkout, Payment |
+| REQ-BUS-022 | PRODUCT.md sections 16.1, 16.4, 17.4 | DATABASE.md | Order, Pricing, Customer |
+| REQ-BUS-023 | PRODUCT.md sections 16.4, 17.3–17.4, 37.4 | DATABASE.md; SECURITY-STANDARDS.md | Order, Return/Refund, backend |
+| REQ-BUS-024 | PRODUCT.md sections 14.5–14.6, 16.3, 23 | SECURITY-STANDARDS.md; API.md | Payment, backend, provider Contract |
+| REQ-BUS-025 | PRODUCT.md sections 5.6, 14.5–14.6, 16.3, 17.2 | API.md | Payment, Cart/Checkout, frontend, backend |
+| REQ-BUS-026 | PRODUCT.md sections 14.5, 16.3, 23 | SECURITY-STANDARDS.md; API.md; EVENTS.md | Payment, Order, Cart/Checkout, backend |
+| REQ-BUS-027 | PRODUCT.md sections 16.3, 20, 23 | SECURITY-STANDARDS.md | Payment, frontend, backend, provider Contract |
+| REQ-BUS-028 | PRODUCT.md sections 13, 16.3 | GLOSSARY.md | Payment, database, backend |
+| REQ-BUS-029 | PRODUCT.md sections 12.7, 14.7, 15.3, 16.5, 28.5 | API.md; EVENTS.md | Shipping, Order, admin, frontend |
+| REQ-BUS-030 | PRODUCT.md sections 14.8, 16.11, 34 | SECURITY-STANDARDS.md; API.md | Return/Refund, Order, Payment, Inventory |
+| REQ-BUS-031 | PRODUCT.md sections 5.8, 7.3–7.8, 9.7, 15, 31 | SECURITY-STANDARDS.md | Admin, frontend, backend |
+| REQ-BUS-032 | PRODUCT.md sections 7, 16.7, 23 | SECURITY-STANDARDS.md; API.md | Customer, admin, frontend, backend |
+| REQ-BUS-033 | PRODUCT.md sections 5.5, 7.3–7.8, 23, 31 | SECURITY-STANDARDS.md | Admin, security, frontend, backend |
+| REQ-BUS-034 | PRODUCT.md sections 9.3, 12.9, 16, 17.4 | SECURITY-STANDARDS.md | All commercial and administrative domains |
+| REQ-BUS-035 | PRODUCT.md sections 9.3, 9.6, 14.8, 18.3, 34 | EVENTS.md | Admin, support, reporting, backend |
+| REQ-BUS-036 | PRODUCT.md sections 5.6, 15, 31.4, 34 | SECURITY-STANDARDS.md; API.md | Admin, support, all affected domains |
+| REQ-BUS-037 | PRODUCT.md sections 5.7, 8.6, 16.9, 19 | ACCESSIBILITY.md | Frontend, admin |
+| REQ-BUS-038 | PRODUCT.md sections 8.3, 18.4–18.6, 19, 35 | PERFORMANCE.md | Frontend, backend, infrastructure |
+| REQ-BUS-039 | PRODUCT.md sections 16.7, 20, 23, 34.5 | SECURITY-STANDARDS.md | All data-processing scopes |
+| REQ-BUS-040 | PRODUCT.md sections 7.2, 16.7, 24 | SECURITY-STANDARDS.md | Customer, frontend, backend |
+| REQ-BUS-041 | PRODUCT.md sections 16.10, 19–20, 35.5 | SECURITY-STANDARDS.md | Product, Finance, Legal/Privacy review |
+| REQ-BUS-042 | PRODUCT.md sections 5.4–5.6, 17.2, 30 | ACCESSIBILITY.md | Frontend, backend, all affected domains |
+| REQ-BUS-043 | PRODUCT.md sections 9.3, 9.6, 12.10, 18.3, 35.4 | SECURITY-STANDARDS.md | Admin, operations, reporting |
+| REQ-BUS-044 | PRODUCT.md sections 9.6, 12.10, 18.5, 33 | GLOSSARY.md | Reporting, analytics, admin |
+| REQ-BUS-045 | PRODUCT.md sections 5.6, 18.6, 23, 28.6, 35 | ARCHITECTURE.md; SECURITY-STANDARDS.md | Operations, infrastructure, all critical domains |
+| REQ-BUS-046 | PRODUCT.md sections 9.8, 13, 17, 23, 37.3 | ARCHITECTURE.md; API.md; EVENTS.md | Provider Adapters, all affected domains |
+| REQ-BUS-047 | PRODUCT.md sections 22, 26, 35 | DOCUMENTATION-STANDARDS.md | All downstream Specifications and Contracts |
+| REQ-BUS-048 | PRODUCT.md sections 21, 25, 36–38 | AGENTS.md; DECISIONS.md | All affected Product and implementation scopes |
+| REQ-BUS-049 | PRODUCT.md sections 4.1–4.2, 9.3, 10, 14.6–14.8, 16.5, 18.3, 28.4–28.5 | EVENTS.md; SECURITY-STANDARDS.md | Order, Payment, Shipping, Return/Refund, Customer, admin |
+| REQ-BUS-050 | PRODUCT.md sections 9.1, 12.1, 12.5, 15.1, 15.6, 16.8, 32, 35 | DESIGN-SYSTEM.md; SECURITY-STANDARDS.md | Product, Category, admin, frontend |
+| REQ-BUS-051 | PRODUCT.md sections 7.2, 12.3, 16.7, 24, 28.1, 28.3, 30.5 | SECURITY-STANDARDS.md | Customer, frontend, backend |
+| REQ-BUS-052 | PRODUCT.md sections 5.5, 16.12, 18.6, 23–24, 35 | SECURITY-STANDARDS.md | Customer, Pricing, Cart/Checkout, Payment, admin |
+| REQ-BUS-053 | PRODUCT.md sections 4.2, 7.3, 7.7, 12.10, 18.3, 18.5, 24, 31 | SECURITY-STANDARDS.md | Admin, reporting, analytics, backend |
+| REQ-BUS-054 | PRODUCT.md sections 16.10, 20, 24, 28.6, 35.3, 35.5 | SECURITY-STANDARDS.md | Pricing, Order, Finance, reporting |
 
 Future Accepted Product Decisions must be linked rather than copied. If a Product Decision changes PRODUCT.md, this Specification and affected downstream artifacts must be synchronized through governance.
 
@@ -601,7 +687,7 @@ Requirements and Acceptance Criteria MUST remain coherent enough for downstream 
 Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
 
 1. metadata and Revision History accurately describe the document lifecycle and `authoritative: false` remains unchanged;
-2. the declared scope code is `BUS`, Requirement identifiers are unique and stable, retired identifiers are not reused, and references remain valid;
+2. the declared scope code is `BUS`, current Requirement identifiers span `REQ-BUS-001` through `REQ-BUS-054`, identifiers are unique and stable, retired identifiers are not reused, and references remain valid;
 3. authority and conflict handling remain aligned with the `AGENTS.md` Decision Hierarchy;
 4. every Requirement remains traceable to Approved Product direction without inventing Product behavior or a Product Decision;
 5. canonical terminology remains aligned with `GLOSSARY.md`;
