@@ -1,7 +1,7 @@
 ---
 title: UI
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product Design and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -18,7 +18,7 @@ This standard covers UI composition, styling ownership, responsive behavior, int
 
 It does not define Product semantics, business workflows, exact visual values, an accessibility policy, performance budgets, provider behavior, or API Contracts.
 
-This standard is subordinate to the Decision Hierarchy in `.ai/core/AGENTS.md` and to Approved Canonical Documents within their scopes. Its `authoritative: false` metadata MUST remain false even if this document is later Approved.
+This standard is subordinate to the Decision Hierarchy in `.ai/core/AGENTS.md` and to Approved Canonical Documents within their scopes. Its `authoritative: false` metadata MUST remain false; approval does not make this document a core Source of Truth.
 
 `PRODUCT.md` owns Product behavior; `DESIGN-SYSTEM.md` owns reusable visual, interaction, accessibility, token, component, and content guidance; `ARCHITECTURE.md` owns frontend structure; and `ANGULAR.md` owns Angular implementation. Security and Testing remain governed by their core standards. Companion standards govern only within their assigned scopes when their own metadata and substantive content make them normative.
 
@@ -510,6 +510,7 @@ Deferral is not permission for feature-level invention.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the UI implementation standard after final governance, Design System, component, styling, responsive, interaction-state, Payment, Inventory, Authorization, accessibility, Storybook, testing, observability, performance, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial UI implementation standard covering Design System consumption, component composition, styling, responsive behavior, interaction states, forms, navigation, Payment, Inventory, accessibility boundaries, testing, observability, performance, and governance. |
 
 ## 74. Quality Requirements
@@ -520,9 +521,9 @@ Implementation rules MUST remain practical, traceable to governing sources, and 
 
 ## 75. Final Validation
 
-Before approval, material revision, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. sections are sequential and unique, content is complete, tables are valid, and Related Documents exist without self-reference;
 3. no UI, styling, icon, animation, analytics, rendering, or testing technology is silently selected;
 4. no color, font, token, Responsive Breakpoint, duration, budget, threshold, Product behavior, Decision type, or Exception type is invented;
@@ -532,4 +533,4 @@ Before approval, material revision, or implementation reliance, validation MUST 
 8. no unfinished marker, actual ellipsis, fabricated path, empty section, or malformed Markdown remains; and
 9. only `.ai/frontend/UI.md` changes for a scoped update.
 
-Approval would make this a subordinate UI implementation standard within its scope. It would not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Approved document is a subordinate UI implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
