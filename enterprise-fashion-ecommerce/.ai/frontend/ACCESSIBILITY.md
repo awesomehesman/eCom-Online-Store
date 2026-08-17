@@ -1,7 +1,7 @@
 ---
 title: ACCESSIBILITY
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product Design and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -14,7 +14,7 @@ review_cycle: Quarterly
 
 This document defines lower-level accessibility implementation requirements for the Storefront and administration UI, including forms, navigation, dialogs, tables, media, feedback, errors, loading, responsive behavior, keyboard, focus, screen-reader semantics, zoom, reflow, pointer input, motion, color, content, Authentication, account, Checkout, Payment, and Inventory interfaces.
 
-It is subordinate to the Decision Hierarchy and Approved Canonical Documents. `PRODUCT.md` owns Product behavior; `DESIGN-SYSTEM.md` owns reusable visual and interaction guidance; `UI.md` owns UI implementation; `ANGULAR.md` owns Angular mechanics; `SECURITY-STANDARDS.md` owns security; and `TESTING-STANDARDS.md` owns test governance. Its `authoritative: false` metadata MUST remain false; approval would not make it a core Source of Truth.
+It is subordinate to the Decision Hierarchy and Approved Canonical Documents. `PRODUCT.md` owns Product behavior; `DESIGN-SYSTEM.md` owns reusable visual and interaction guidance; `UI.md` owns UI implementation; `ANGULAR.md` owns Angular mechanics; `SECURITY-STANDARDS.md` owns security; and `TESTING-STANDARDS.md` owns test governance. Its `authoritative: false` metadata MUST remain false; approval does not make this document a core Source of Truth.
 
 ## 2. WCAG Target
 
@@ -560,6 +560,7 @@ Deferral does not weaken WCAG 2.2 AA or applicable release evidence.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the accessibility implementation standard after final governance, WCAG 2.2 AA, semantics, ARIA, keyboard, focus, forms, responsive behavior, Payment, Inventory, Authorization, security, Storybook, testing, human review, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial accessibility implementation standard covering WCAG 2.2 AA, semantic HTML, ARIA, keyboard, focus, forms, responsive behavior, Payment, Inventory, accessibility testing, Storybook, governance, and release evidence. |
 
 ## 85. Quality Requirements
@@ -570,9 +571,9 @@ Requirements MUST remain practical across the Storefront and administration UI a
 
 ## 86. Final Validation
 
-Before approval, material revision, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. WCAG 2.2 AA remains the target without certification, AAA escalation, invented exceptions, or inaccurate Success Criterion claims;
 3. axe and Lighthouse direction matches AGENTS.md while no exact dependency, integration, additional tool, provider, browser matrix, or assistive-technology matrix is silently selected;
 4. Product, Design System, UI, Angular, Security, Testing, Performance, Storybook, API, Payment, Inventory, and Authorization boundaries remain intact;
@@ -581,4 +582,4 @@ Before approval, material revision, or implementation reliance, validation MUST 
 7. no TODO, TBD, FIXME, actual ellipsis, placeholder, or fabricated path remains; and
 8. only `.ai/frontend/ACCESSIBILITY.md` changes for a scoped update.
 
-Approval would make this a subordinate accessibility implementation standard within its scope. It would not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Approved document is a subordinate accessibility implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
