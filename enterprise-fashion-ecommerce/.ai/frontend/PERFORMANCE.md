@@ -1,7 +1,7 @@
 ---
 title: PERFORMANCE
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -625,6 +625,7 @@ Deferral is not permission to select these independently or to weaken an applica
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the frontend performance implementation standard after final governance, Core Web Vitals, Angular rendering, loading, network efficiency, media, caching, Payment, Inventory, Authorization, accessibility, observability, testing, regression prevention, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial frontend performance implementation standard covering Angular rendering, loading, network efficiency, media, caching, Payment, Inventory, accessibility, observability, testing, regression prevention, and governance. |
 
 ## 93. Quality Requirements
@@ -635,9 +636,9 @@ Guidance MUST remain practical, testable, maintainable, and aligned with Product
 
 ## 94. Final Validation
 
-Before approval, material revision, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. no Product SLA, SLO, performance target, Core Web Vitals value beyond the existing AGENTS.md Requirements, bundle size, request or latency threshold, retry count, timeout, cache TTL, device or network profile, infrastructure capacity, or unsupported numerical value is independently invented;
 3. no RUM provider, synthetic performance platform, Lighthouse CI, bundler analyzer, image service, cache implementation, Unit Test runner, Component Test runner, browser matrix, or unapproved technology is selected;
 4. Angular 20, Standalone Components, Signals, RxJS, route-level lazy loading, `@defer`, Azure edge and Blob Storage direction, observability, Playwright, and Storybook match Approved governance;
@@ -648,4 +649,4 @@ Before approval, material revision, or implementation reliance, validation MUST 
 9. no TODO, TBD, FIXME, actual ellipsis, placeholder, fabricated path, or unsupported commitment remains; and
 10. only `.ai/frontend/PERFORMANCE.md` changes for a scoped update.
 
-Approval would make this a subordinate frontend performance implementation standard within its scope. It would not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Approved document is a subordinate frontend performance implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
