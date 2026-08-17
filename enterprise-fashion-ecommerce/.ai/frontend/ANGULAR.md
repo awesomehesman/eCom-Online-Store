@@ -1,7 +1,7 @@
 ---
 title: ANGULAR
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -515,6 +515,7 @@ Deferral is not permission for independent feature-level selection.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the Angular implementation standard after final governance, Angular 20, Standalone Components, Signals, RxJS, Typed Reactive Forms, state, API integration, Authentication, Authorization, Payment, Inventory, accessibility, security, testing, observability, performance, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Angular implementation standard covering Angular 20, Standalone Components, Signals, RxJS, Typed Reactive Forms, frontend state, API integration, security, Payment, Inventory, accessibility boundaries, testing, observability, performance, governance, and implementation quality. |
 
 ## 73. Quality Requirements
@@ -527,7 +528,7 @@ Implementation guidance MUST remain compatible with Angular 20 and avoid legacy-
 
 Before approval, material revision, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. Angular 20, strict TypeScript, Standalone Components, Signals, RxJS, Typed Reactive Forms, Router, OpenAPI 3.1, RFC 9457, WCAG 2.2 AA, Playwright, and Storybook match Approved Architecture;
 3. no state, UI, Identity, analytics, hosting, unit-test, rendering, or other unselected technology is silently established;
 4. frontend state remains non-authoritative and server-side Authentication, Authorization, Payment, Inventory, Price, Discount, and Order rules remain intact;
@@ -538,4 +539,4 @@ Before approval, material revision, or implementation reliance, validation MUST 
 9. implementation and test evidence is practical and Risk-based; and
 10. only `.ai/frontend/ANGULAR.md` changes for a scoped update.
 
-Approval would make this a subordinate implementation standard within its scope. It would not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Approved document is a subordinate implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
