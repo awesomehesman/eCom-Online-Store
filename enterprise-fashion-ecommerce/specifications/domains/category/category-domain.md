@@ -342,9 +342,9 @@ Acceptance Criteria have no separate identifiers.
 | REQ-CAT-021 | Rename, move, reclassification, withdrawal, retirement, and eligible deletion preserve confirmed Order snapshots and intelligible historical references. |
 | REQ-CAT-022 | A Product-association change preserves valid references or requires explicit resolution without silently changing publication or commercial history. |
 | REQ-CAT-023 | Valid authorized creation produces stable identity, valid hierarchy context, semantic uniqueness, and no accidental navigation eligibility; invalid, unauthorized, incomplete, cyclic, or duplicate creation is rejected, or incomplete state remains non-navigation-eligible only where governing lifecycle policy explicitly permits that outcome; explainable recovery exists where permitted, with applicable Audit Record evidence where material. |
-| REQ-CAT-024 | An authorized update preserves identity, hierarchy, classification, Product associations, and navigation eligibility while stale or concurrent conflict avoids silent accepted-data loss. |
-| REQ-CAT-025 | Reparenting rejects cycles and invalid parents, preserves coherent descendants and Product associations, and reconciles Projections without Product, Pricing, or Inventory effects. |
-| REQ-CAT-026 | Reclassification preserves identity, taxonomy meaning, history, and Product associations without silently changing external Domain truth. |
+| REQ-CAT-024 | An authorized update preserves Category identity, hierarchy, classification, Product associations, and navigation eligibility; a stale or concurrent conflict produces a safe outcome that is explainable to the authorized actor or operational process, does not silently overwrite accepted data, and does not silently change Product, Pricing, Inventory, or other downstream authority. |
+| REQ-CAT-025 | Reparenting rejects cycles and invalid parents, preserves coherent ancestor and descendant relationships, keeps affected Product associations valid where possible or gives them explicit governed handling, and reconciles downstream Projections without itself changing Product publication, Pricing, or Inventory truth. |
+| REQ-CAT-026 | Reclassification preserves Category identity, coherent taxonomy and classification meaning, historical references, and Product associations where valid or gives them governed handling where applicable; a material reclassification is explicit before acceptance and does not silently change Product publication, Product content, Price, Inventory, Customer eligibility, or purchase permission. |
 | REQ-CAT-027 | Withdrawal stops applicable new Category use, preserves historical meaning, preserves existing Product associations where they remain valid or subjects them to explicit governed handling, and reconciles delayed Projections without reactivation or alteration of Product truth. |
 | REQ-CAT-028 | Hard deletion is not the default; permitted deletion satisfies governing constraints without an invented retention or archival mechanism. |
 | REQ-CAT-029 | Search behavior is a reconcilable non-authoritative Projection and cannot create or redefine Category truth. |
@@ -354,14 +354,14 @@ Acceptance Criteria have no separate identifiers.
 | REQ-CAT-033 | Category cannot own or alter Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, Overselling protection, or availability truth. |
 | REQ-CAT-034 | Category cannot establish Account, Preference, consent, Customer eligibility, market, language, Currency expansion, or personalized visibility policy. |
 | REQ-CAT-035 | A governed Staff User workflow preserves Authentication, Authorization, Category invariants, hierarchy, Product associations, auditability, and safe high-Risk handling. |
-| REQ-CAT-036 | A protected Category action is denied when server-side Authorization for the Principal, Resource, action, or Category state fails; UI and claim-derived state cannot authorize alone. |
+| REQ-CAT-036 | A protected Category action is denied when authoritative server-side Authorization for the Principal, Resource, action, or applicable Category state fails; UI state, Role labels, client-represented Permissions or Claims, navigation visibility, and search state or results cannot authorize or substitute for that decision. |
 | REQ-CAT-037 | Contextually Sensitive Category information receives protection, and Secrets, credentials, provider evidence, and unrelated Customer PII are absent from prohibited artifacts. |
 | REQ-CAT-038 | Category labels and navigation meaning provide WCAG 2.2 AA evidence without relying solely on inaccessible presentation or claiming certification. |
 | REQ-CAT-039 | Category structures support bounded Contract delivery without inventing a payload limit, latency target, or measurement profile. |
 | REQ-CAT-040 | Applicable material Category actions produce Audit Records with actor/system context, action, time, and outcome while ordinary label edits remain proportionately governed. |
-| REQ-CAT-041 | A future Category Contract preserves Category/Product authority and cross-cutting boundaries while this Specification contains no wire or persistence design. |
-| REQ-CAT-042 | Material Category failures are distinguishable and safely recoverable where permitted without exposing Sensitive Data, inaccessible Resources, or internals. |
-| REQ-CAT-043 | Evidence covers applicable positive, negative, boundary, concurrency, security, accessibility, audit, failure, and recovery scenarios under Testing Standards. |
+| REQ-CAT-041 | A future Category Contract preserves Category authority, Product authority, applicable lifecycle semantics, server-side Authorization expectations, compatibility obligations, governed failure behavior, stale-state and reconciliation semantics, and Sensitive Data protection while this Specification defines no wire or persistence design. |
+| REQ-CAT-042 | Applicable invalid hierarchy, cycle attempt, invalid parent, stale or concurrent update, duplicate Category, unauthorized operation, referenced Category deletion attempt, Projection lag, and classification failure produce distinguishable, safe, explainable, and recoverable-where-permitted outcomes without exposing Sensitive Data, Secrets, inaccessible Resource existence, or implementation internals. |
+| REQ-CAT-043 | Evidence covers applicable positive, negative, Authorization, hierarchy, cycle, orphan, duplicate, Product-association, navigation, Projection, concurrency, withdrawal, deletion, security, accessibility, audit, failure, and recovery scenarios under Testing Standards. |
 
 ## 37. Requirement Traceability
 
@@ -423,6 +423,7 @@ The following current `PRODUCT.md` concerns are Category-domain relevant and rem
 | --- | --- |
 | Final brand name and visual identity | Brand governance may constrain Category labels and presentation but does not establish taxonomy or lifecycle here. |
 | Initial product Categories and catalogue taxonomy | Initial structure, depth, roots, naming, and classification remain undecided. |
+| Content approval and scheduled-publication workflow | Future Approved content-approval or scheduled-publication governance may affect Category content or navigation eligibility; this Specification establishes no approval workflow, scheduled-publication behavior, Category lifecycle state names, workflow technology, scheduler, approval chain, Role, timing rule, or publication mechanism. |
 | Product data import, export, and migration Requirements | No Category taxonomy format, migration source, import mechanism, schedule, or reconciliation policy is selected. |
 
 Product-to-Category membership cardinality, primary-Category behavior, Category ordering, and navigation presentation remain unresolved aspects of the applicable taxonomy and content governance; this Specification does not represent them as separately recorded Product Decisions. No `DEC-####` identifier is fabricated.
