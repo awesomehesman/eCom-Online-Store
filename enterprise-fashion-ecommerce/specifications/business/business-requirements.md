@@ -1,7 +1,7 @@
 ---
 title: Business Requirements
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product
 last_updated: 2026-08-17
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification translates the Approved Product baseline into stable, testable business Requirements for the initial enterprise fashion e-commerce platform. It establishes the business outcomes, actors, Version 1 boundaries, cross-cutting obligations, Acceptance Criteria, and downstream handoffs required before detailed Domain Specifications and implementation-facing Specifications are completed.
 
-This document is currently Draft and therefore non-normative. Once Approved, it is normative only within its assigned business-Specification scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
+This document is Approved and is normative only within its assigned business-Specification scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
 
 This Specification refines `.ai/core/PRODUCT.md` without replacing it. It MUST NOT redefine canonical terminology, override `.ai/core/ARCHITECTURE.md`, weaken another governing Requirement, define a technical Contract, or own behavior assigned to a later Domain Specification. An implementation preference cannot resolve an Open Product Decision. Conflicts MUST be resolved through the Decision Hierarchy in `.ai/core/AGENTS.md`.
 
@@ -432,7 +432,7 @@ An improvement in engagement or conversion MUST NOT be represented as successful
 
 ## 20. Assumptions
 
-The Draft carries these Product-supported assumptions for validation:
+This Specification carries these Product-supported assumptions for validation:
 
 - The initial merchant owns or directly controls the Products sold.
 - The operation uses one primary South African market, English language, ZAR Currency, legal merchant, storefront, and catalogue.
@@ -605,7 +605,7 @@ Future Accepted Product Decisions must be linked rather than copied. If a Produc
 
 ## 27. Dependencies
 
-This Draft depends on:
+This Approved Specification depends on:
 
 - Continued consistency with the Approved Product baseline and canonical terminology.
 - Approval of downstream Domain Specifications before their detailed behavior becomes binding.
@@ -678,6 +678,7 @@ No identifier in this table is a Product Decision identifier, and no option is A
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Approved the business requirements baseline after final Product, cross-domain, traceability, Acceptance Criteria, terminology, and lifecycle validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial business requirements baseline for the enterprise fashion e-commerce platform. |
 
 ## 33. Quality Requirements
@@ -688,7 +689,7 @@ Requirements and Acceptance Criteria MUST remain coherent enough for downstream 
 
 ## 34. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
 1. metadata and Revision History accurately describe the document lifecycle and `authoritative: false` remains unchanged;
 2. the declared scope code is `BUS`, current Requirement identifiers span `REQ-BUS-001` through `REQ-BUS-054`, identifiers are unique and stable, retired identifiers are not reused, and references remain valid;
