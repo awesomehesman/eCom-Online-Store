@@ -38,8 +38,8 @@ Exact colors, typography, spacing values, Responsive Breakpoints, icons, logos, 
 | Established | Storybook | Approved Design System documentation direction; configuration remains companion-owned. |
 | Established | Playwright | Approved End-to-End Test direction; exact configuration remains implementation-owned. |
 | Established | WCAG 2.2 AA | Approved accessibility target, not a certification claim. |
-| Established | Component-scoped styling | Approved default; global CSS is limited to genuinely global concerns. |
-| Conditional | CSS or SCSS | CSS/SCSS is within Coding Standards scope, but no preprocessor choice is selected by governance or repository configuration. |
+| Established | CSS with component-scoped styling | Approved styling baseline; global CSS is limited to genuinely global concerns. |
+| Unselected | SCSS preprocessor | Coding Standards apply if selected, but no Approved governance or repository configuration currently selects SCSS. |
 | Unselected | Angular Material, Tailwind, and Bootstrap | No UI or styling library is selected. |
 | Unselected | CSS-in-JS and utility CSS framework | No such styling model is selected. |
 | Unselected | Component Library and icon library | No implementation library or icon set is selected. |
