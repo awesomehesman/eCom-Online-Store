@@ -1,7 +1,7 @@
 ---
 title: Customer Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -17,7 +17,7 @@ It refines the Approved Product and business baselines without defining Identity
 
 ## 2. Scope and Authority
 
-This document is Draft and non-normative. Once Approved, it is normative only within its assigned Customer-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
+This document is Approved and is normative only within its assigned Customer-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
 
 `PRODUCT.md` remains the higher Product authority, and `specifications/business/business-requirements.md` remains the upstream business baseline. `GLOSSARY.md` owns canonical terminology, `ARCHITECTURE.md` owns Architecture, `SECURITY-STANDARDS.md` owns security controls, and Contracts remain separate. Conflicts MUST follow the `AGENTS.md` Decision Hierarchy.
 
@@ -536,13 +536,14 @@ No numerical Risk score or tolerance is established here.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the Customer Domain Specification after final governance, Customer identity, Account, Address, Preference, Consent, ownership isolation, privacy, security, downstream authority boundaries, accessibility, Acceptance Criteria, and traceability validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Customer Domain Specification covering Customer identity, Account, Address, Preference, consent, ownership, security, downstream boundaries, Acceptance Criteria, and traceability. |
 
 ## 45. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata remains `0.1.0` Draft with `authoritative: false` until governed promotion;
+1. metadata accurately states version `1.0.0` Approved with `authoritative: false`;
 2. the scope code remains `CUS`, Requirement identifiers remain unique and sequential, and retired identifiers are not reused;
 3. Customer terminology remains aligned with `GLOSSARY.md`, and no ungoverned Customer or Account lifecycle state is introduced;
 4. Customer owns Customer identity and governed Customer-owned data without absorbing Identity, Authorization, Product, Pricing, Inventory, Cart, Checkout, Order, Payment, Shipping, Administration, or Analytics authority;
