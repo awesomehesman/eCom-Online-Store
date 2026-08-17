@@ -189,21 +189,29 @@ Archiving, retirement, unpublication, or deletion eligibility MUST preserve the 
 
 ## 16. Category Boundary
 
-Category owns Category hierarchy, parent-child rules, classification, navigation taxonomy, membership policy, and Category lifecycle. The Product Domain MAY retain or expose governed Category membership references but MUST NOT define or independently validate Category-owned structure.
+Category is the owner of Category hierarchy, parent-child rules, classification, navigation taxonomy, membership policy, and Category lifecycle. Product may retain governed references without acquiring Category authority.
 
-Category membership MAY influence discovery but MUST NOT independently publish Product, establish Price or Inventory truth, or authorize purchase.
+### REQ-PRD-045 — Category Authority Boundary
+
+The Product Domain MUST treat Category hierarchy, parent-child structure, taxonomy, classification, navigation taxonomy, membership policy, and Category lifecycle as Category-owned concerns. Product MAY retain governed Category references or associations but MUST NOT redefine or independently validate Category-owned structure. Category state or association MUST NOT independently publish Product, establish Price or Inventory truth, or authorize purchase.
 
 ## 17. Pricing Boundary
 
-Pricing owns Price, Discount, Promotion, Voucher, Money calculations, Currency calculation rules, tax calculations, Pricing Rules, and Price history. Product MAY expose associations or consume derived Pricing information through governed Contracts or Projections but MUST NOT calculate or own it.
+Pricing remains authoritative for Price, Discount, Promotion, Voucher, Money calculations, Currency calculation rules, tax calculations, Pricing Rules, and Price history. Product may consume governed derived Pricing information without acquiring Pricing authority.
 
-Product content MUST NOT embed an ungoverned Price or imply that displayed derived Price information remains current without Pricing evidence.
+### REQ-PRD-046 — Pricing Authority Boundary
+
+The Product Domain MUST treat Price, Discount, Promotion, Voucher, Money calculations, Currency calculation rules, tax calculations, Pricing Rules, and Price history as Pricing-owned concerns. Product MAY consume or expose derived Pricing information through governed Contracts or Projections but MUST NOT calculate authoritative Price, embed ungoverned Price as Product truth, or imply that derived Pricing information remains current without authoritative Pricing evidence.
 
 ## 18. Inventory Boundary
 
-Inventory owns Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, Overselling protection, allocation, and Stock Reservation expiry and release. Product-owned sellability and visibility MUST NOT infer Inventory truth or promise availability.
+Inventory remains authoritative for Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, Overselling protection, allocation, and applicable Stock Reservation expiry or release. Product may consume governed Inventory outputs without acquiring Inventory authority.
 
-Product, search, cache, UI, and reporting Projections MUST remain non-authoritative for Inventory, and no synchronization or concurrency technology is selected here.
+### REQ-PRD-047 — Inventory Authority Boundary
+
+The Product Domain MUST treat Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, Overselling protection, allocation, and applicable Stock Reservation expiry or release as Inventory-owned concerns. Product-owned visibility or structural sellability MUST NOT infer Inventory truth. Product, search, cache, UI, reporting, and analytical Projections MUST remain non-authoritative for Inventory.
+
+No Stock Reservation duration, allocation algorithm, back-order policy, Safety Stock, replenishment policy, synchronization technology, or concurrency technology is selected here.
 
 ## 19. Search Boundary
 
@@ -219,11 +227,19 @@ No search technology, index schema, refresh interval, ranking algorithm, or cons
 
 ## 20. Customer and Market Boundary
 
-The Product Domain MUST NOT own Customer eligibility, Account state, Preference, consent, Permission, market expansion, language expansion, or Currency expansion. Product-owned visibility constraints MAY apply only when established by Product governance and MUST NOT substitute for Customer, Authorization, market, or Checkout decisions.
+Customer and market owners retain their respective eligibility, Account, Preference, consent, access, and expansion concerns.
+
+### REQ-PRD-048 — Customer and Market Authority Boundary
+
+The Product Domain MUST NOT own Customer eligibility, Account state, Preference, consent, Permissions, market expansion, language expansion, or Currency expansion. Product-owned visibility constraints MAY exist only where Approved Product governance establishes them and MUST NOT substitute for Customer, Authorization, market, or Checkout decisions.
 
 ## 21. Administration Boundary
 
-Administration owns Staff User operational workflows, not Product rules. An administrative workflow MAY invoke Product capabilities only for an authenticated and authorized Principal and MUST NOT bypass Product validation, lifecycle, publication, history, or concurrency Requirements.
+Administration owns Staff User operational workflows, not Product rules.
+
+### REQ-PRD-049 — Administration Boundary
+
+Administration MAY invoke Product capabilities through governed Staff User workflows, but such workflows MUST NOT bypass Product validation, lifecycle, publication, historical-integrity, or concurrency Requirements. Protected Product operations MUST be performed only by an authenticated and authorized Principal.
 
 This Specification does not define a Role or Permission matrix, approval chain, administration form, or bulk-operation implementation.
 
@@ -285,15 +301,23 @@ Failure output MUST NOT expose Sensitive Data, Secrets, inaccessible Resource ex
 
 ## 29. Authentication and Authorization
 
-Authentication establishes Principal identity; Authorization determines whether that Principal may perform an action on a Resource. Product mutation, publication, unpublication, archival, deletion, and other protected operations MUST enforce server-side Authorization and current Product state.
+Authentication establishes Principal identity; Authorization determines whether that Principal may perform an action on a Resource.
 
-UI state, Role labels, Permissions, Claims, search state, or administrative navigation MUST NOT substitute for the authoritative decision. No Identity Provider, protocol, token strategy, Session strategy, or password policy is selected here.
+### REQ-PRD-050 — Product Authorization
+
+Protected Product mutation, publication, unpublication, archival, deletion, and other governed operations MUST enforce server-side Authorization for the current Principal, Resource, action, and applicable Product state. UI state, Role labels, Permissions, Claims, search state, or administrative navigation MUST NOT substitute for the authoritative Authorization decision.
+
+No Identity Provider, protocol, token strategy, Session strategy, password policy, or MFA policy is selected here.
 
 ## 30. Security and Sensitive Data
 
-Published Product catalogue data is intended for Customer visibility, but Draft or unpublished content, internal notes, provider details, operational metadata, and pre-release information MAY be Sensitive Data according to context and MUST receive applicable protection.
+Published Product catalogue data is intended for Customer visibility. Other Product information may require protection according to context; this Specification does not create a data-classification scheme.
 
-Secrets, credentials, private provider evidence, and unrelated Customer PII MUST NOT appear in Product content, Product Media metadata, imports, exports, logs, fixtures, or ordinary operational evidence. This Specification does not create a data-classification scheme.
+### REQ-PRD-051 — Product Data Safety
+
+Draft, unpublished, pre-release, internal, provider-related, or operational Product information MUST receive Sensitive Data protection where its context requires it. Secrets, credentials, private provider evidence, and unrelated Customer PII MUST NOT be stored in Product content, Product Media metadata, imports, exports, logs, fixtures, or ordinary Product operational evidence.
+
+No classification levels, encryption implementation, DLP technology, or retention period is established here.
 
 ## 31. Accessibility
 
@@ -333,7 +357,9 @@ The canonical `ProductCreated` and `ProductPublished` concepts MAY be used only 
 
 Later governed Contracts may be required for Product query and detail, Product Variant information, Product Media, publication and administrative operations, search Projection inputs, and Product associations consumed by Pricing and Inventory.
 
-Contracts MUST preserve Product authority, lifecycle, Authorization, compatibility, failure, stale-state, and Sensitive Data boundaries. This Specification does not define paths, methods, status codes, fields, JSON, DTOs, schemas, event payloads, database structures, or provider formats.
+### REQ-PRD-052 — Product Contract Boundary
+
+Contracts exposing Product information or operations MUST preserve Product authority, lifecycle, Authorization, compatibility, failure, stale-state, and Sensitive Data boundaries. This Product Domain Specification MUST NOT itself define REST paths, HTTP methods, status codes, JSON fields, DTOs, schemas, event payloads, database structures, or provider formats.
 
 ## 36. Acceptance Criteria
 
@@ -345,12 +371,12 @@ Acceptance Criteria are grouped for maintainability and have no separate identif
 | REQ-PRD-003–006 | A valid Product has stable identity and coherent descriptive meaning; valid lifecycle transitions are authorized and traceable; invalid transitions are rejected; later changes do not rewrite or invalidate historical Orders. |
 | REQ-PRD-007–010 | Every Product Variant belongs to one Product, retains stable identity, uses valid distinguishing Attributes, rejects a semantically duplicate configuration, and cannot become Product-owned publishable before applicable Product validation passes. |
 | REQ-PRD-011–013 | Descriptive and variant-defining Attributes remain distinguishable; conflicting or invalid governed values are rejected; Attribute edits preserve Product Variant identity and historical commercial snapshots. |
-| REQ-PRD-014–017 | Product Media is associated unambiguously, accurately represents its subject, satisfies applicable publication and accessibility Requirements, excludes private or invalid media, and supports honest failure, correction, or withdrawal. |
-| REQ-PRD-018–020 | Incomplete or unauthorized Product state cannot become Published; authorized publication retains material evidence; UI, cache, search, Category, reporting, import, and analytics state cannot independently publish Product. |
+| REQ-PRD-014–017 | Product Media is associated unambiguously and accurately represents its subject; private, Draft, invalid, unauthorized, or otherwise unapproved Product Media cannot become Customer-visible; Published Product Media demonstrates applicable rights, security, quality, and accessibility evidence; failed, stale, or misleading media supports honest representation, correction, or withdrawal. |
+| REQ-PRD-018–020 | Incomplete or unauthorized Product state cannot become Published; an applicable material publication, unpublication, or reactivation demonstrates the authorized Principal or system context, action, time, previous state where applicable, resulting state, and applicable Audit Record evidence; UI, cache, search, Category, reporting, import, and analytics state cannot independently publish Product. |
 | REQ-PRD-021–022 | Product-owned structural sellability can be evaluated independently; it is not represented as final purchasability without applicable Pricing, Inventory, Customer, market, Checkout, and other governed outcomes. |
 | REQ-PRD-023–024 | Only Product-owned eligible state is Customer-visible; Category, search, UI, cache, Price, availability, and Customer context do not independently override Product visibility. |
 | REQ-PRD-025–027 | Published Product content demonstrates minimum governed completeness, accurate and supportable claims, accessible Customer meaning, and correction or withdrawal of stale or misleading information. |
-| REQ-PRD-028–029 | Creation, editing, validation, publication, correction, withdrawal, and archival follow the Product lifecycle; edits, imports, Projections, and media changes cannot cause a silent state transition. |
+| REQ-PRD-028–029 | Creation, editing, validation, publication, correction, withdrawal, and archival follow the Product lifecycle; edits, imports, Projections, and media changes cannot cause a silent publication-state transition; an invalid lifecycle transition is rejected and provides an explainable governed recovery path where recovery is permitted. |
 | REQ-PRD-030–031 | Product changes, unpublication, archival, retirement, and eligible deletion preserve intelligible historical references and confirmed Order snapshots without inventing retention mechanics. |
 | REQ-PRD-032–033 | Search contains only eligible indexed Product state, reconciles lag or drift, and does not prove current publication, Price, Inventory, Customer eligibility, or final purchasability. |
 | REQ-PRD-034 | Valid authorized creation produces stable non-accidentally-published Product state and material evidence; invalid, incomplete, unauthorized, or materially duplicate creation is rejected or retained only in a valid unpublished state. |
@@ -362,8 +388,16 @@ Acceptance Criteria are grouped for maintainability and have no separate identif
 | REQ-PRD-040 | Material failure states are distinguishable and safely recoverable where permitted; unauthorized or invalid actions are rejected without disclosing Sensitive Data, Secrets, inaccessible Resource existence, or internals. |
 | REQ-PRD-041 | Product content and Product Media provide applicable WCAG 2.2 AA evidence without a certification or Level AAA claim. |
 | REQ-PRD-042 | Product content and Product Variant structures support bounded Contract delivery without inventing a payload limit, performance target, or measurement profile. |
-| REQ-PRD-043 | Material governed Product actions produce appropriate Audit Records; ordinary low-Risk edits are not automatically elevated. |
+| REQ-PRD-043 | Applicable material Product actions produce Audit Record evidence containing sufficient actor or system context, action, time, and outcome; ordinary low-Risk field edits are not automatically elevated, and audit proportionality remains governed. |
 | REQ-PRD-044 | Downstream evidence references applicable stable Product and business Requirement identifiers without treating a reference as proof. |
+| REQ-PRD-045 | Product can retain a valid governed Category association without redefining or independently validating Category structure; Category state or association cannot independently publish Product, establish Price or Inventory truth, or authorize purchase. |
+| REQ-PRD-046 | Product can consume governed derived Pricing output without calculating authoritative Price, embedding ungoverned Price as Product truth, or representing stale derived Pricing information as current without authoritative Pricing evidence. |
+| REQ-PRD-047 | Product-owned visibility and structural sellability do not infer Inventory truth; Product, search, cache, UI, reporting, and analytical Projections cannot establish Stock, Stock Reservation, or Available-to-Sell authority. |
+| REQ-PRD-048 | Customer and market eligibility remain external to Product; Product visibility cannot substitute for Customer, Authorization, market, or Checkout eligibility decisions. |
+| REQ-PRD-049 | An authenticated and authorized Principal can invoke a Product capability through a governed Staff User workflow; the workflow cannot bypass Product validation, lifecycle, publication, historical-integrity, or concurrency Requirements. |
+| REQ-PRD-050 | A protected Product action is denied when authoritative server-side Authorization for the current Principal, Resource, action, or applicable Product state fails; UI, Role, Permission, Claims, search, or navigation state cannot authorize the action by itself. |
+| REQ-PRD-051 | Contextually Sensitive Product information receives applicable protection, and Secrets, credentials, private provider evidence, and unrelated Customer PII are absent from prohibited Product content, metadata, imports, exports, logs, fixtures, and ordinary operational evidence. |
+| REQ-PRD-052 | A future Product Contract preserves Product authority, lifecycle, Authorization, compatibility, failure, stale-state, and Sensitive Data boundaries, while this Specification contains no REST, HTTP, JSON, DTO, schema, event-payload, database, or provider-format design. |
 
 Negative, Authorization, lifecycle, stale-state, historical, accessibility, and Projection cases apply where material. No Acceptance Criteria identifier scheme is introduced.
 
@@ -417,6 +451,14 @@ No applicable Product-domain Decision Record currently exists. Traceability ther
 | REQ-PRD-042 | PRODUCT.md §§8.3, 18.4, 35.2 | REQ-BUS-038 | PERFORMANCE.md | Product, frontend, backend, Contracts |
 | REQ-PRD-043 | PRODUCT.md §§15.1, 17.4, 31, 35.3 | REQ-BUS-034, 050 | SECURITY-STANDARDS.md | Product, admin, operations |
 | REQ-PRD-044 | PRODUCT.md §§22, 26, 35 | REQ-BUS-047, 048 | DOCUMENTATION-STANDARDS.md | All downstream Product scopes |
+| REQ-PRD-045 | PRODUCT.md §§12.1, 12.5, 13 | REQ-BUS-003, 004 | ARCHITECTURE.md §9 | Product, Category, search, frontend |
+| REQ-PRD-046 | PRODUCT.md §§13, 16.1 | REQ-BUS-014, 015, 016 | ARCHITECTURE.md §9 | Product, Pricing, frontend, Checkout |
+| REQ-PRD-047 | PRODUCT.md §§13, 16.2 | REQ-BUS-017, 018, 019, 020 | ARCHITECTURE.md §§9, 20.3 | Product, Inventory, search, frontend |
+| REQ-PRD-048 | PRODUCT.md §§7.1–7.2, 13, 16.7 | REQ-BUS-001, 007, 032 | ARCHITECTURE.md §9 | Product, Customer, Authorization, Checkout |
+| REQ-PRD-049 | PRODUCT.md §§7.3–7.5, 12.5, 15.1, 31 | REQ-BUS-031, 032, 033, 036 | SECURITY-STANDARDS.md §12 | Product, administration, security, backend |
+| REQ-PRD-050 | PRODUCT.md §§7.3–7.5, 15.1, 31 | REQ-BUS-032, 033 | SECURITY-STANDARDS.md §12 | Product, administration, frontend, backend |
+| REQ-PRD-051 | PRODUCT.md §§16.7–16.8, 32 | REQ-BUS-039, 041, 050 | SECURITY-STANDARDS.md §35 | Product, administration, security, operations |
+| REQ-PRD-052 | PRODUCT.md §§22, 26, 35 | REQ-BUS-047, 048 | API.md; EVENTS.md; DOCUMENTATION-STANDARDS.md §§21, 24–25 | Product, Contracts, frontend, backend |
 
 Future Accepted Decisions must be linked rather than copied. A change to Product truth requires synchronized governing updates before this Specification may rely on it.
 
