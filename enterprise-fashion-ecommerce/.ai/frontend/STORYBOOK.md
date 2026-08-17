@@ -1,7 +1,7 @@
 ---
 title: STORYBOOK
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product Design and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -574,6 +574,7 @@ Deferral is not permission to select these independently or weaken an applicable
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the Storybook implementation standard after final governance, Design System, Component documentation, deterministic examples, Payment, Inventory, Authorization, accessibility, responsive behavior, security, testing boundaries, publication, lifecycle, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Storybook implementation standard covering Design System documentation, reusable Component states, accessibility, responsive behavior, Payment, Inventory, security, testing boundaries, review, lifecycle, and governance. |
 
 ## 86. Quality Requirements
@@ -584,9 +585,9 @@ Guidance MUST remain practical for design and engineering collaboration and trac
 
 ## 87. Final Validation
 
-Before approval, material revision, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 0.1.0 Draft with `authoritative: false`;
+1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
 2. Storybook remains Established without this document reopening or independently owning adoption;
 3. no exact Storybook version, builder, package manager, hosting, deployment, publication, CI gate, accessibility addon, axe integration, interaction tool, test runner, visual-regression service, performance profiler, analytics, MDX mandate, snapshot tool, viewport preset, or network-mocking library is selected;
 4. Product, Design System, Architecture, Angular, UI, Accessibility, Performance, Security, Testing, API, Events, Azure, Payment, Inventory, and Authorization boundaries remain intact;
@@ -597,4 +598,4 @@ Before approval, material revision, or implementation reliance, validation MUST 
 9. no TODO, TBD, FIXME, actual ellipsis, placeholder, fabricated path, or unsupported commitment remains; and
 10. only `.ai/frontend/STORYBOOK.md` changes for a scoped update.
 
-Approval would make this a subordinate Storybook implementation standard within its scope. It would not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Approved document is a subordinate Storybook implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
