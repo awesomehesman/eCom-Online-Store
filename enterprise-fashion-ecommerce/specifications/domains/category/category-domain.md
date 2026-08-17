@@ -1,7 +1,7 @@
 ---
 title: Category Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -17,7 +17,7 @@ It refines the Approved Product and business baselines without defining Product,
 
 ## 2. Scope and Authority
 
-This document is Draft and non-normative. Once Approved, it is normative only within its assigned Category-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
+This document is Approved and is normative only within its assigned Category-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
 
 `PRODUCT.md` remains the higher Product authority, `specifications/business/business-requirements.md` remains the upstream business baseline, and `specifications/domains/product/product-domain.md` governs Product-side Category association behavior. `GLOSSARY.md` owns canonical terminology, `ARCHITECTURE.md` owns Architecture, and Contracts remain separate. Conflicts MUST follow the `AGENTS.md` Decision Hierarchy.
 
@@ -465,13 +465,14 @@ No numerical Risk score or tolerance is established here.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the Category Domain Specification after final governance, Category identity, hierarchy, taxonomy, Product association, lifecycle, navigation, authority boundaries, security, accessibility, performance, Acceptance Criteria, and traceability validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Category Domain Specification covering Category identity, hierarchy, taxonomy, Product association, navigation eligibility, lifecycle, boundaries, Acceptance Criteria, and traceability. |
 
 ## 42. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata remains `0.1.0` Draft with `authoritative: false` until governed promotion;
+1. metadata accurately states version `1.0.0` Approved with `authoritative: false`;
 2. the scope code remains `CAT`, Requirement identifiers remain unique and sequential, and retired identifiers are not reused;
 3. Category terminology remains aligned with `GLOSSARY.md`, and no ungoverned named Category lifecycle state is introduced;
 4. Category owns classification and navigation truth without absorbing Product, Pricing, Inventory, Customer, search, Cart, Checkout, Order, Payment, Shipping, Authorization policy, or administration workflow authority;
