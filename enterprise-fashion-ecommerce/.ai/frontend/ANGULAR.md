@@ -144,7 +144,7 @@ These mappings are semantic defaults, not universal rules; operator choice MUST 
 
 Framework-managed template consumption, including the `async` pipe, SHOULD be preferred where it preserves clarity. Framework-provided lifecycle teardown mechanisms SHOULD manage imperative subscriptions.
 
-Manual subscriptions MUST have explicit teardown and ownership. Nested subscriptions are PROHIBITED when they obscure ownership, cancellation, error handling, or composition that can be expressed clearly in a single stream. Subscription callbacks MUST NOT hide unsafe duplicate effects.
+Manual subscriptions MUST have explicit teardown and ownership. Nested subscriptions are PROHIBITED where composition is possible. Observable flows SHOULD use appropriate composition operators so ownership, cancellation, error handling, teardown, ordering, and concurrency remain explicit. Subscription callbacks MUST NOT hide unsafe duplicate effects.
 
 ## 20. State Categories and Boundaries
 
@@ -208,7 +208,7 @@ Routes MUST preserve navigational semantics, deep linking, refresh behavior, tit
 
 ## 29. Route Guards and Resolvers
 
-Route guards MAY improve navigation and prevent known-invalid UX paths, but they are not an Authorization boundary. The backend MUST reauthenticate and authorize protected operations.
+Route guards MAY improve navigation and prevent known-invalid UX paths, but they are not an Authorization boundary. The backend MUST authenticate the Principal and authorize protected operations.
 
 Resolvers MAY be used when navigation truly requires data before activation. They SHOULD NOT block navigation for optional content or hide loading, cancellation, and failure behavior.
 
