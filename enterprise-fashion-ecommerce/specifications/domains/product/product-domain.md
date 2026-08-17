@@ -1,7 +1,7 @@
 ---
 title: Product Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-08-17
 authoritative: false
@@ -17,7 +17,7 @@ It refines the Approved Product baseline and `specifications/business/business-r
 
 ## 2. Scope and Authority
 
-This document is Draft and non-normative. Once Approved, it is normative only within its assigned Product-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
+This document is Approved and is normative only within its assigned Product-domain scope. Its `authoritative: false` metadata MUST remain false; approval does not make it a core Source of Truth.
 
 `PRODUCT.md` remains the higher Product authority, `GLOSSARY.md` owns canonical terminology, `ARCHITECTURE.md` owns Architecture, and the Approved business Requirements remain the upstream business baseline. Contracts and implementation standards remain separate. Conflicts MUST follow the `AGENTS.md` Decision Hierarchy.
 
@@ -515,13 +515,14 @@ No numerical Risk score or tolerance is established here.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-08-17 | Approved | Promoted the Product Domain Specification after final governance, Product authority, Product Variant, Attribute, Product Media, publication, sellability, lifecycle, historical integrity, domain boundaries, security, accessibility, performance, Acceptance Criteria, and traceability validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Product Domain Specification covering Product, Product Variant, Product Media, publication, sellability, lifecycle, boundaries, Acceptance Criteria, and traceability. |
 
 ## 42. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, validation MUST confirm that:
+Before material revision, re-approval, or implementation reliance, validation MUST confirm that:
 
-1. metadata remains `0.1.0` Draft with `authoritative: false` until governed promotion;
+1. metadata accurately states version `1.0.0` Approved with `authoritative: false`;
 2. the scope code remains `PRD`, Requirement identifiers remain unique and sequential, and retired identifiers are not reused;
 3. Product and Product Variant terminology and the canonical Draft, Published, and Archived states remain aligned with `GLOSSARY.md`;
 4. Product owns descriptive and lifecycle truth without absorbing Category, Pricing, Inventory, Customer, Cart, Checkout, Order, Payment, Shipping, or administration authority;
