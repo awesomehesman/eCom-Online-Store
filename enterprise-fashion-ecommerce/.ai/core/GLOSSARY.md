@@ -1,9 +1,9 @@
 ---
 title: GLOSSARY
-version: 1.1.2
+version: 1.1.3
 status: Approved
 owner: Engineering and Product
-last_updated: 2026-08-12
+last_updated: 2026-09-01
 source_of_truth: true
 review_cycle: Monthly
 ---
@@ -56,6 +56,7 @@ Defines the standardized terminology used throughout the enterprise fashion ecom
 - **SKU (Stock Keeping Unit)**: A unique identifier assigned to a Product Variant for Inventory tracking.
 - **Price**: A monetary amount expressed as Money and assigned to a Product or Product Variant under a defined Pricing Rule.
 - **Cart**: A temporary container holding products a customer intends to purchase.
+- **Cart Item**: A Cart-owned representation of shopping intent for a selected Product Variant and intended quantity. A Cart Item is not an Order Item, Stock Reservation, Price snapshot, or authoritative copy of Product or Product Variant data.
 - **Checkout**: The process of finalizing a purchase from the cart.
 - **Order**: A durable commercial record created from Checkout that captures the Customer, Order Items, prices, taxes, discounts, payment state, fulfilment state, and delivery details.
 - **Shipment**: The physical dispatch of ordered products.
@@ -692,6 +693,7 @@ status: Approved
 
 | Version | Date | Status | Description |
 | --- | --- | --- | --- |
+| 1.1.3 | 2026-09-01 | Approved | Added the canonical Cart Item definition while preserving Cart, Product, Pricing, Inventory, and Order authority boundaries. |
 | 1.1.2 | 2026-08-12 | Approved | Clarified Proposed as a Decision Record or governed-change state rather than an authoritative document lifecycle status after final core freeze validation. |
 | 1.1.1 | 2026-08-12 | Approved | Corrected a stale Draft-to-Approved status statement after approval of the canonical glossary. |
 | 1.1.0 | 2026-08-12 | Approved | Normalized canonical Product Variant, Stock Reservation, Database Transaction, Payment, Decision Record, and related terminology after the repository-wide core consistency audit; downstream core documents remain to be normalized separately. |
