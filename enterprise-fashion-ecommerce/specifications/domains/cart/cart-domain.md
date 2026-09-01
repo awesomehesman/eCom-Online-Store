@@ -1,7 +1,7 @@
 ---
 title: Cart Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-01
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines Cart-domain Requirements for shopping intent, Cart Items, selected Product Variant references, intended quantity, association and isolation, mutation, lifecycle boundaries, validation, concurrency, downstream authority separation, recovery, testing, and traceability.
 
-This Draft is non-normative. If Approved, it becomes normative only within its assigned Cart-domain scope, remains `authoritative: false`, and remains subordinate to governing core sources under the `AGENTS.md` Decision Hierarchy.
+This Specification is Approved and is normative only within its assigned Cart-domain scope. It remains `authoritative: false` and subordinate to governing core sources under the `AGENTS.md` Decision Hierarchy.
 
 ## 2. Scope and Authority
 
@@ -21,9 +21,9 @@ This Draft is non-normative. If Approved, it becomes normative only within its a
 
 Requirement identifiers use `REQ-CART-NNN` and remain stable under `.ai/core/DOCUMENTATION-STANDARDS.md`. This Specification refines Approved Product and business Requirements without defining implementation Architecture or resolving Product policy.
 
-### REQ-CART-001 — Lifecycle-Neutral Authority and Scope
+### REQ-CART-001 — Approved Authority and Scope
 
-While this Specification is Draft, its Requirements MUST remain non-normative. If Approved, it MUST remain `authoritative: false`, apply normatively only within the Cart Domain, remain subordinate to governing core sources, and use `CART` as its Requirement scope code.
+This Approved Specification MUST remain `authoritative: false`, apply normatively only within the Cart Domain, remain subordinate to governing core sources, and use `CART` as its Requirement scope code.
 
 ## 3. Domain Context
 
@@ -215,7 +215,7 @@ Verification MUST explicitly cover applicable positive and negative behavior, Ca
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-CART-001 | The Specification preserves `authoritative: false`, core-source precedence, and scope code `CART`; while status is Draft its Requirements are explicitly non-normative, and if Approved its normative effect is limited to the Cart Domain. |
+| REQ-CART-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; the text limits normative effect to Cart scope, preserves core-source precedence, and declares scope code `CART`. |
 | REQ-CART-002 | Cart truth identifies Cart existence, Cart Item membership, Product Variant references, quantities, governed association, and accepted mutations while remaining provisional and non-committal. |
 | REQ-CART-003 | Cart cannot establish or transition authority for Product, Product Variant identity or definition, Product content, Product Media, Product publication, Product structural sellability, Category, Price, Discount, Promotion, Voucher, tax, Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, Overselling protection, Checkout orchestration, Order truth, Payment truth, Shipment truth, fulfilment truth, Customer identity, Authentication, Authorization policy, Analytics truth, or Administration policy. |
 | REQ-CART-004 | Each Cart is associated only with a policy-permitted context; supplied identifiers cannot grant access, and another context cannot read or mutate it without Authorization. |
@@ -289,7 +289,7 @@ Verification MUST explicitly cover applicable positive and negative behavior, Ca
 
 ## 30. Open Product Decisions
 
-The current Approved `.ai/core/PRODUCT.md` §24 contains **5 Cart-relevant open Product Decisions**. This Draft does not resolve them.
+The current Approved `.ai/core/PRODUCT.md` §24 contains **5 Cart-relevant open Product Decisions**. This Specification does not resolve them.
 
 | Concern | Cart boundary pending an Approved Product Decision |
 | --- | --- |
@@ -343,13 +343,14 @@ Cart expiration, persistence duration, abandonment treatment, anonymous-to-authe
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-01 | Approved | Promoted the Cart Domain Specification after final governance, Cart authority, Cart Item, quantity, lifecycle boundaries, Product, Pricing, Inventory, Customer, Checkout, Order, Payment and Shipping boundaries, concurrency, security, accessibility, Acceptance Criteria, and traceability validation. |
 | 0.1.0 | 2026-09-01 | Draft | Established the initial Cart Domain Specification covering Cart intent, Cart Items, quantity and mutation, lifecycle boundaries, Product, Pricing, Inventory, Customer, Checkout and downstream authority separation, concurrency, security, failure, Acceptance Criteria, and traceability. |
 
 ## 34. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata remains accurate, Draft remains explicitly non-normative, and `authoritative: false` is preserved;
+1. metadata accurately states version `1.0.0` Approved and `authoritative: false` is preserved;
 2. scope code `CART` and stable sequential `REQ-CART-NNN` identifiers are used without a SPEC identifier;
 3. canonical terminology and Cart authority remain aligned with `GLOSSARY.md` and governing sources;
 4. Product, Product Variant, Pricing, Inventory, Customer or guest, Checkout, Order, Payment, Shipping, Administration, Authentication, and Authorization boundaries remain explicit;
@@ -360,4 +361,4 @@ Before material revision, approval or re-approval, or implementation reliance, r
 9. Related Documents exist, remain relevant, and do not self-reference this Specification;
 10. no Product policy, Architecture, technology, persistence, Contract shape, identifier format, lifecycle duration, merge policy, clearing timing, or implementation mechanism has leaked into Domain Requirements;
 11. headings are sequential, sections are non-empty, tables are valid, and no unfinished marker or unsupported numerical target remains; and
-12. the final change contains only this Cart Specification and any coordinated governing-source amendment required by this Specification, each change is limited to its intended governance scope, whitespace validation passes for every changed file, and all changes remain unstaged, uncommitted, and unpushed.
+12. each reviewed change contains only this Cart Specification and any coordinated governing-source amendment required by this Specification, each change is limited to its intended governance scope, whitespace validation passes for every changed file, and repository state is accurately reported for the applicable review stage.
