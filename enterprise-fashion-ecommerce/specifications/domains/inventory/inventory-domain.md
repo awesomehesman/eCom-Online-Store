@@ -1,7 +1,7 @@
 ---
 title: Inventory Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-01
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines Inventory-domain business Requirements for authoritative Stock, Available-to-Sell, Stock Reservation, Stock Adjustment, Stock Movement, Inventory ownership, Product Variant association, isolation, downstream coordination, concurrency, Overselling prevention, reconciliation, security, failure, recovery, testing, and traceability.
 
-This initial Draft is non-normative and MUST NOT be relied upon as an implementation baseline until Approved. Even when Approved, it remains `authoritative: false`, is normative only within its assigned Inventory-domain scope, and remains subordinate to the governing core sources under the `AGENTS.md` Decision Hierarchy.
+This Specification is Approved and is normative only within its assigned Inventory-domain scope. It remains `authoritative: false` and subordinate to the governing core sources under the `AGENTS.md` Decision Hierarchy.
 
 ## 2. Scope and Authority
 
@@ -21,9 +21,9 @@ This initial Draft is non-normative and MUST NOT be relied upon as an implementa
 
 Requirement identifiers use `REQ-INV-NNN` and remain stable under `.ai/core/DOCUMENTATION-STANDARDS.md`. This Specification refines the Approved Product baseline and business Requirements without defining implementation Architecture, Contracts, persistence, warehouse topology, replenishment policy, or downstream lifecycle policy.
 
-### REQ-INV-001 — Draft Authority and Scope
+### REQ-INV-001 — Approved Authority and Scope
 
-While this Specification is Draft, its Requirements MUST remain non-normative. If Approved, it MUST remain `authoritative: false`, apply normatively only within the Inventory Domain, remain subordinate to governing core sources, and use `INV` as its Requirement scope code.
+This Approved Specification MUST remain `authoritative: false`, apply normatively only within the Inventory Domain, remain subordinate to governing core sources, and use `INV` as its Requirement scope code.
 
 ## 3. Domain Context
 
@@ -259,7 +259,7 @@ Verification MUST cover applicable positive, negative, boundary, stale-state, du
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-INV-001 | Metadata remains `0.1.0`, `Draft`, and `authoritative: false`; the text states that the Draft is non-normative, limits any Approved effect to Inventory scope, preserves core-source precedence, and declares scope code `INV`. |
+| REQ-INV-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; the text limits normative effect to Inventory scope, preserves core-source precedence, and declares scope code `INV`. |
 | REQ-INV-002 | Authoritative Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, and governed availability can be identified only in Inventory; every consumer remains non-authoritative and cannot independently calculate or overwrite them. |
 | REQ-INV-003 | Inventory cannot create, redefine, transition, or become authoritative for Product identity, Product Variant identity, Product content, applicable Product Variant content, Product Media, Category, Price, Discount, Promotion, Voucher, tax, Customer identity, Account, Address, Preference, Consent, Cart intent, Checkout orchestration, Order commercial truth, Payment truth, Shipment truth, Administration policy, Analytics truth, Authentication, or Authorization policy. |
 | REQ-INV-004 | A valid mutation affects only its governed Product Variant or inventory Resource; unknown, invalid, ambiguous, mismatched, supplied cross-Resource, and unauthorized associations are rejected or safely withheld without relying on an identifier format. |
@@ -343,7 +343,7 @@ Source references use real repository sections and Requirement identifiers. `—
 
 ## 34. Open Product Decisions
 
-The current Approved `.ai/core/PRODUCT.md` §24 contains **4 Inventory-relevant open Product Decisions**. This Draft does not resolve them.
+The current Approved `.ai/core/PRODUCT.md` §24 contains **4 Inventory-relevant open Product Decisions**. This Specification does not resolve them.
 
 | Concern | Inventory boundary pending an Approved Product Decision |
 | --- | --- |
@@ -394,13 +394,14 @@ Warehouse/location topology, replenishment behavior, Inventory decrement timing,
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-01 | Approved | Promoted the Inventory Domain Specification after final governance, Inventory authority, Stock, Available-to-Sell, Stock Reservation, Stock Adjustment, Stock Movement, concurrency, overselling protection, downstream boundaries, security, accessibility, Acceptance Criteria, and traceability validation. |
 | 0.1.0 | 2026-09-01 | Draft | Established the initial Inventory Domain Specification covering Stock, Available-to-Sell, Stock Reservation, Stock Adjustment, Stock Movement, authority boundaries, concurrency, overselling protection, downstream coordination, Acceptance Criteria, and traceability. |
 
 ## 38. Final Validation
 
-Before material revision, approval or re-approval, or implementation reliance, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata remains accurate, Draft remains non-normative until Approved, and `authoritative: false` is preserved;
+1. metadata accurately states version `1.0.0` Approved and `authoritative: false` is preserved;
 2. scope code `INV` and stable sequential `REQ-INV-NNN` identifiers are used with no SPEC identifier;
 3. canonical terminology matches `GLOSSARY.md` and distinguishes Stock, Stock Reservation, and Available-to-Sell;
 4. Inventory authority and Product, Product Variant, publication, structural sellability, and Pricing boundaries remain explicit;
@@ -414,4 +415,4 @@ Before material revision, approval or re-approval, or implementation reliance, r
 12. Related Documents exist, are relevant, and do not self-reference this Specification;
 13. headings are sequential, tables are valid, sections are non-empty, and no unfinished marker or unsupported numerical target remains;
 14. no implementation Architecture, technology, persistence design, Contract shape, lifecycle timing, warehouse topology, or replenishment policy has leaked into Domain Requirements; and
-15. the final diff changes only this scoped file, passes `git diff --check`, and remains unstaged, uncommitted, unpushed, and Draft.
+15. the final diff changes only this scoped file, passes `git diff --check`, and remains unstaged, uncommitted, and unpushed.
