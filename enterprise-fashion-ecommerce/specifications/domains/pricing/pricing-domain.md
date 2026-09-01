@@ -1,7 +1,7 @@
 ---
 title: Pricing Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-01
 authoritative: false
@@ -11,9 +11,9 @@ authoritative: false
 
 ## 1. Purpose
 
-This Specification defines Draft Pricing-domain Requirements for authoritative commercial calculation, Money and Currency integrity, Price, Discount, Promotion and Voucher evaluation, cross-domain authority boundaries, revalidation, failure, recovery, security, accessibility, performance, testing, and traceability.
+This Specification defines Approved Pricing-domain Requirements for authoritative commercial calculation, Money and Currency integrity, Price, Discount, Promotion and Voucher evaluation, cross-domain authority boundaries, revalidation, failure, recovery, security, accessibility, performance, testing, and traceability.
 
-While this Specification remains Draft, its Requirements are non-normative. If Approved later, they apply normatively only within the Pricing Domain. This Specification remains `authoritative: false`, subordinate to governing core sources under the `AGENTS.md` Decision Hierarchy, and does not resolve an Open Product Decision.
+While this Specification remains Approved, its Requirements are normative only within the Pricing Domain. This Specification remains `authoritative: false`, subordinate to governing core sources under the `AGENTS.md` Decision Hierarchy, and does not resolve an Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -23,7 +23,7 @@ Requirement identifiers use `REQ-PRC-NNN`, remain stable under `.ai/core/DOCUMEN
 
 ### REQ-PRC-001 — Lifecycle, Authority, and Scope
 
-This Specification MUST remain `authoritative: false`, use `PRC` as its Requirement scope code, remain subordinate to governing core sources, and have normative effect only within the Pricing Domain if and when its status becomes Approved. While its status is Draft, its Requirements MUST remain non-normative.
+This Specification MUST remain `authoritative: false`, use `PRC` as its Requirement scope code, remain subordinate to governing core sources, and have normative effect only within the Pricing Domain. While its status is Approved, its Requirements MUST be normative only within that scope.
 
 ## 3. Domain Context
 
@@ -235,7 +235,7 @@ Verification MUST cover applicable positive and negative Pricing behavior, Produ
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-PRC-001 | Metadata states `0.1.0`, `Draft`, and `authoritative: false`; scope code is `PRC`; the text preserves core-source precedence, makes Draft Requirements non-normative, and limits any future Approved normative effect to Pricing scope. |
+| REQ-PRC-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope code is `PRC`; the text preserves core-source precedence and limits normative effect to the Pricing Domain. |
 | REQ-PRC-002 | Trusted server-side Pricing output owns only policy-permitted current Price, Discount, Promotion, Voucher, line-value, total, savings, eligibility, Tax, and delivery-related calculations; each output uses valid governed inputs and remains distinct from Order history. |
 | REQ-PRC-003 | Pricing cannot create, redefine, or establish success for any listed external Domain truth or policy. |
 | REQ-PRC-004 | Each outcome uses the correct governed Product or Product Variant and only permitted Product attributes without altering any listed Product-owned concept. |
@@ -313,7 +313,7 @@ Verification MUST cover applicable positive and negative Pricing behavior, Produ
 
 ## 37. Open Product Decisions
 
-The current Approved `.ai/core/PRODUCT.md` §24 contains **30 Open Product Decisions**. **8 are materially relevant to Pricing**. This Draft does not resolve them.
+The current Approved `.ai/core/PRODUCT.md` §24 contains **30 Open Product Decisions**. **8 are materially relevant to Pricing**. This Specification does not resolve them.
 
 | Exact Product Decision | Pricing boundary affected |
 | --- | --- |
@@ -372,12 +372,13 @@ The current Approved `.ai/core/PRODUCT.md` §24 contains **30 Open Product Decis
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-01 | Draft | Established initial Pricing authority, Money and Currency integrity, Price, Discount, Promotion, Voucher, tax and shipping-commercial boundaries, cross-domain separation, revalidation, failure, recovery, quality, Acceptance Criteria, and traceability. |
+| 1.0.0 | 2026-09-01 | Approved | Promoted the Pricing Domain Specification to Approved status after comprehensive governance, authority, terminology, Acceptance Criteria, traceability, structure, implementation-neutrality, and whitespace validation. |
 
 ## 41. Final Validation
 
 Before material revision, approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata states version `0.1.0`, status Draft, and `authoritative: false`, and Draft Requirements remain non-normative;
+1. metadata states version `1.0.0`, status Approved, and `authoritative: false`, and Requirements are normative only within the Pricing Domain;
 2. scope code `PRC` and stable sequential `REQ-PRC-NNN` identifiers are used without a SPEC identifier;
 3. canonical terminology and Pricing authority remain aligned with `GLOSSARY.md` and governing sources;
 4. Product and Product Variant, Customer, Inventory, Cart, Checkout, Order, Payment, Shipping, Return and Refund, fraud, and Administration boundaries remain explicit;
