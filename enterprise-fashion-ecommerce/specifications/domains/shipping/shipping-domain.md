@@ -1,7 +1,7 @@
 ---
 title: Shipping and Fulfilment Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-03
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Shipping and Fulfilment Domain Specification defines implementation-neutral authority for governed delivery choices, Fulfilment, Shipment, Dispatch, tracking, delivery, provider evidence, reconciliation, and safe recovery.
 
-This document uses requirement scope code `SHP`. Because its status is Draft, its Requirements are non-normative until Approved. Higher-authority governing sources retain precedence, and this Specification does not resolve Open Product Decisions.
+This document uses requirement scope code `SHP`. As an Approved Domain Specification, its Requirements are normative within the Shipping and Fulfilment Domain scope, remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, and do not resolve Open Product Decisions unless an Approved governing source explicitly does so.
 
 ## 2. Scope and Authority
 
 ### REQ-SHP-001 — Lifecycle, Authority, and Scope
 
-The Shipping and Fulfilment Domain MUST own authoritative Shipping processing truth within its scope, preserve governing-source precedence, use scope code `SHP`, and MUST NOT treat this Draft as authoritative before approval.
+The Shipping and Fulfilment Domain MUST own authoritative Shipping processing truth within its scope, preserve governing-source precedence, use scope code `SHP`, and MUST apply this Approved Specification normatively only within the Shipping and Fulfilment Domain scope while remaining subordinate to higher-authority governing sources.
 
 ### REQ-SHP-002 — Cross-Domain Authority Separation
 
@@ -265,7 +265,7 @@ Verification evidence MUST cover applicable positive and negative flows; deliver
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-SHP-001 | Metadata states `0.1.0`, `Draft`, and `authoritative: false`; scope is `SHP`; Shipping authority, source precedence, and Draft non-authority are identifiable. |
+| REQ-SHP-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope is `SHP`; Shipping and Fulfilment-owned truth, governing-source precedence, and normative authority limited to the Shipping and Fulfilment Domain scope are identifiable. |
 | REQ-SHP-002 | Shipping owns none of the listed external Domain truths or policies. |
 | REQ-SHP-003 | All listed Shipping and Fulfilment concerns share one authority while remaining distinguishable, and no representation becomes competing Shipment lifecycle truth. |
 | REQ-SHP-004 | Delivery choices use current governed context where applicable and select none of the prohibited provider, geography, service, timing, or commercial values. |
@@ -430,12 +430,13 @@ Verification evidence MUST cover applicable positive and negative flows; deliver
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-03 | Draft | Established the initial Shipping and Fulfilment Domain authority, delivery, fulfilment, Shipment, provider, resilience, security, quality, Acceptance Criteria, and traceability baseline. |
+| 1.0.0 | 2026-09-03 | Approved | Promoted the Shipping and Fulfilment Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 43. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `SHP`, Draft Requirements remain non-normative, and governing-source precedence is preserved;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `SHP`, Approved Requirements are normative only within the Shipping and Fulfilment Domain scope, and governing-source precedence is preserved;
 2. Requirement identifiers are unique, sequential, stable, and gap-free;
 3. canonical terminology is correct and descriptive phrases have not become accidental canonical terms;
 4. Shipping and Fulfilment authority is complete, unified, distinguishable, and implementation-neutral;
@@ -446,6 +447,6 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 9. accessibility, performance, observability, Audit Records, events, Contracts, representations, and testing remain implementation-neutral and complete;
 10. all 30 current Open Product Decisions were reviewed, the six materially Shipping and Fulfilment-relevant decisions are represented, and none is resolved;
 11. every Requirement has exactly one clause-complete Acceptance Criteria row and one supported traceability row;
-12. every Related Document exists and is relevant, no self-reference exists, and Revision History contains exactly one `0.1.0 Draft` row;
+12. every Related Document exists and is relevant, no self-reference exists, and Revision History preserves the `0.1.0 Draft` row and contains exactly one `1.0.0 Approved` promotion row;
 13. structure, Markdown, whitespace, final newline, and Git scope are valid; and
-14. only `shipping-domain.md` is created and no Glossary amendment is required unless direct evidence proves otherwise.
+14. the final promotion diff changes only `specifications/domains/shipping/shipping-domain.md`, no Glossary amendment is required unless direct evidence changes that conclusion, and read-only Git and Markdown validation passes.
