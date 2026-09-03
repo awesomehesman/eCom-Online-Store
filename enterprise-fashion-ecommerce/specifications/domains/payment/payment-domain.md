@@ -1,9 +1,9 @@
 ---
 title: Payment Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
-last_updated: 2026-09-02
+last_updated: 2026-09-03
 authoritative: false
 ---
 
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines the Payment Domain as the owner of authoritative Payment processing truth and governed payment outcomes. It establishes the semantic boundaries for Payment, Payment Attempt, Payment Provider evidence, Payment Redirect, Payment Authorization, Capture, Void, Settlement, Payment Transaction, Refund, Refund Transaction, and Chargeback without selecting an implementation or resolving an Open Product Decision.
 
-This document uses requirement scope code `PAY`. Because its status is Draft, its Requirements are non-normative until this Specification is Approved; the normative words within each Requirement state the intended Approved baseline.
+This document uses requirement scope code `PAY`. As an Approved Domain Specification, its Requirements are normative within the Payment Domain scope, remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, and do not resolve Open Product Decisions unless an Approved governing source explicitly does so.
 
 ## 2. Scope and Authority
 
 ### REQ-PAY-001 — Lifecycle, Authority, and Scope
 
-The Payment Domain MUST own authoritative payment-processing truth within its Domain, including applicable lifecycle state and provider-evidenced outcomes. It MUST preserve the precedence of governing sources, use scope code `PAY`, and MUST NOT treat this Draft Specification as authoritative before approval.
+The Payment Domain MUST own authoritative payment-processing truth within its Domain, including applicable lifecycle state and provider-evidenced outcomes. It MUST preserve the precedence of governing sources, use scope code `PAY`, and MUST apply this Approved Specification normatively only within the Payment Domain scope while remaining subordinate to higher-authority governing sources.
 
 ### REQ-PAY-002 — Payment Non-Authority
 
@@ -275,7 +275,7 @@ Verification evidence MUST cover applicable positive and negative flows; initiat
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-PAY-001 | Metadata states `0.1.0`, `Draft`, and `authoritative: false`; scope is `PAY`; review can identify Payment-owned processing truth, governing-source precedence, and the Draft non-authority statement. |
+| REQ-PAY-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope is `PAY`; review can identify Payment-owned processing truth, governing-source precedence, and the Specification's normative authority only within the Payment Domain scope. |
 | REQ-PAY-002 | Payment owns none of the listed external truths; Checkout initiation does not prove Payment success; Payment success alone does not prove an Order exists. |
 | REQ-PAY-003 | A Payment retains stable identity, governed obligation association, and distinguishable current truth; no UI, browser, Checkout, Order, analytics, or Projection state independently changes it, and no invented state enumeration is required. |
 | REQ-PAY-004 | Every attempt has stable identity, explicit Money and Currency, and correct Payment and purchase-context correlation; each invalid, ambiguous, mismatched, inaccessible, or stale context is rejected without fabricated outcome. |
@@ -445,12 +445,13 @@ Authorization duration, Capture timing, Settlement timing, Refund window, partia
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-02 | Draft | Established the initial Payment Domain authority, processing, provider, failure, recovery, security, quality, Acceptance Criteria, and traceability baseline. |
+| 1.0.0 | 2026-09-03 | Approved | Promoted the Payment Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 42. Final Validation
 
 Before approval, material revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata, lifecycle wording, `authoritative: false`, scope code `PAY`, and governing-source precedence are correct;
+1. metadata states `1.0.0 Approved`, lifecycle wording is consistent with normative Payment Domain scope, `authoritative: false` is retained, scope code `PAY` is correct, and governing-source precedence is preserved;
 2. Requirement identifiers are stable, sequential, unique, and gap-free from `REQ-PAY-001` through `REQ-PAY-045`;
 3. canonical terminology preserves every listed Payment concept and distinguishes Payment Authorization from access-control Authorization;
 4. Payment authority, provider neutrality, Payment Attempt, Money and Currency, Payment Redirect, Payment Authorization, Capture, Void, Settlement, Payment Transaction, Refund, and Chargeback are complete and implementation-neutral;
@@ -460,6 +461,6 @@ Before approval, material revision, or implementation reliance, reviewers MUST v
 8. accessibility, performance, observability, proportional Audit Records, events, Contracts, notifications, reporting, and testing remain complete without invented targets or mechanisms;
 9. all 30 current Open Product Decisions were reviewed, the nine materially Payment-relevant decisions are accurately represented, and none is resolved here;
 10. every Requirement has one clause-complete, observable Acceptance Criteria row and one semantically supported traceability row;
-11. every Related Document exists and is relevant, no self-reference exists, and the Revision History contains exactly the required initial row;
+11. every Related Document exists and is relevant, no self-reference exists, and the Revision History preserves the `0.1.0 Draft` row and contains exactly one `1.0.0 Approved` promotion row;
 12. the document has exactly one H1, sequential numbered H2 sections, valid tables, no empty section, malformed heading, unfinished marker, merge-conflict marker, trailing whitespace, or implementation detail; and
 13. the final diff changes only `specifications/domains/payment/payment-domain.md`, requires no Glossary amendment unless direct evidence changes that conclusion, and passes read-only Git and Markdown validation.
