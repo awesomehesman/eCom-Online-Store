@@ -1,7 +1,7 @@
 ---
 title: Checkout Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-04
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Checkout Domain Specification defines implementation-neutral authority for governed purchase orchestration from Cart intent through authoritative revalidation, Payment initiation, and the Order-creation handoff.
 
-This document uses requirement scope code `CHK`. Because its status is Draft, its Requirements are non-normative until Approved. If Approved, they become normative only within the Checkout Domain scope, remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, preserve Approved upstream Domain authority within each upstream scope, and do not resolve Open Product Decisions.
+This document uses requirement scope code `CHK`. Because its status is Approved, its Requirements are normative only within the Checkout Domain scope, remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, preserve Approved upstream Domain authority within each upstream scope, and do not resolve Open Product Decisions.
 
 ## 2. Scope and Authority
 
 ### REQ-CHK-001 — Lifecycle, Authority, and Scope
 
-The Checkout Domain MUST govern only Checkout-owned purchase-orchestration truth, preserve governing-source precedence and Approved upstream Domain authority, use scope code `CHK`, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+The Checkout Domain MUST govern only Checkout-owned purchase-orchestration truth, preserve governing-source precedence and Approved upstream Domain authority, use scope code `CHK`, and MUST treat this Approved Specification as normative only within the Checkout Domain scope and not as repository-wide authority.
 
 ### REQ-CHK-002 — Purchase-Orchestration Authority
 
@@ -249,7 +249,7 @@ Verification evidence MUST cover applicable positive and negative flows; entry a
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-CHK-001 | Metadata states `0.1.0`, `Draft`, and `authoritative: false`; scope is `CHK`; Draft non-normativity, prospective Domain-bounded normativity, governing precedence, and upstream authority are identifiable. |
+| REQ-CHK-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope is `CHK`; Approved Domain-bounded normativity, governing precedence, upstream authority, and absence of repository-wide authority are identifiable. |
 | REQ-CHK-002 | Checkout owns each listed orchestration concern while no coordinated fact transfers from its owning Domain. |
 | REQ-CHK-003 | Checkout owns or redefines none of the listed external Domain truths, policies, lifecycles, records, or representations. |
 | REQ-CHK-004 | Required context correlates to every applicable owning-Domain input and handoff; all listed invalid associations fail safely without protected enumeration. |
@@ -434,12 +434,13 @@ Verification evidence MUST cover applicable positive and negative flows; entry a
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-04 | Draft | Initial comprehensive Checkout Domain Specification. |
+| 1.0.0 | 2026-09-04 | Approved | Promoted the Checkout Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 33. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `CHK`, Draft Requirements remain non-normative, prospective Approved authority remains Domain-bounded, and governing-source precedence is preserved;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `CHK`, Approved Requirements are normative only within the Checkout Domain scope, governing-source precedence and Approved upstream Domain authority are preserved, Open Product Decisions remain unresolved, and Checkout has no repository-wide authority;
 2. Checkout is a purchase-orchestration authority and coordination transfers no owning-Domain truth;
 3. Product, Category, Customer, Identity, Cart, Pricing, Inventory, Shipping, Payment, Order, Return, Administration, Notifications, and Reporting boundaries remain intact;
 4. Requirement identifiers are unique, sequential, stable, gap-free, complete, testable, and implementation-neutral;
@@ -450,6 +451,6 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 9. canonical terminology is correct, ordinary descriptive Checkout phrases create no Checkout Session or state model, and no Glossary amendment is required unless direct evidence proves otherwise;
 10. Risks are material, non-duplicative, and paired with implementation-neutral controls;
 11. every Related Document exists and is relevant, with no self-reference or nonexistent future Domain Specification;
-12. Revision History contains exactly one `0.1.0 Draft` row and no Approved row;
+12. Revision History contains exactly the preserved `0.1.0 Draft` row and the `1.0.0 Approved` promotion row;
 13. structure, Markdown, whitespace, final newline, accessibility, performance, security, events, Contracts, audit, testing, and implementation-neutrality are valid; and
-14. the final Git scope contains only the new `specifications/domains/checkout/checkout-domain.md`, with nothing staged or otherwise modified.
+14. the final Git scope contains only lifecycle-promotion changes to `specifications/domains/checkout/checkout-domain.md`, with nothing staged or otherwise modified.
