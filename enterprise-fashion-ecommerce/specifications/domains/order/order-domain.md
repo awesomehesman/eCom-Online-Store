@@ -1,7 +1,7 @@
 ---
 title: Order Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-04
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Order Domain Specification defines implementation-neutral authority for durable commercial Order truth received through a governed Checkout handoff, including Order identity, creation, Order Items, historical snapshots, lifecycle, history, and Order-owned recovery and reconciliation outcomes.
 
-This document uses requirement scope code `ORD`. Because its status is Draft, its Requirements are non-normative until Approved. If Approved, they become normative only within the Order Domain scope, remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, preserve Approved upstream Domain authority within each upstream scope, and do not resolve Open Product Decisions. Historical evidence retained by Order does not make Order the live authority for the upstream facts represented by that evidence.
+This document uses requirement scope code `ORD`. Its Approved Requirements are normative only within the Order Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources under the repository Decision Hierarchy, preserve Approved upstream Domain authority within each upstream scope, and do not resolve Open Product Decisions. Historical evidence retained by Order does not make Order the live authority for the upstream facts represented by that evidence.
 
 ## 2. Scope and Authority
 
 ### REQ-ORD-001 — Lifecycle, Authority, and Scope
 
-The Order Domain MUST govern only Order-owned durable commercial truth, preserve governing-source precedence and Approved upstream Domain authority, use scope code `ORD`, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+The Order Domain MUST govern only Order-owned durable commercial truth, preserve governing-source precedence and Approved upstream Domain authority, use scope code `ORD`, and MUST treat this Approved Specification as normative only within the Order Domain scope and not as repository-wide authority.
 
 ### REQ-ORD-002 — Order-Owned Commercial Truth
 
@@ -279,7 +279,7 @@ Verification evidence MUST cover applicable positive and negative behavior for c
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-ORD-001 | Metadata states `0.1.0`, `Draft`, and `authoritative: false`; scope is `ORD`; Draft non-normativity, prospective Domain-bounded normativity, governing precedence, and upstream authority are identifiable. |
+| REQ-ORD-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope is `ORD`; Order-scoped normativity, governing precedence, and preserved Approved upstream Domain authority are identifiable. |
 | REQ-ORD-002 | Every listed Order-owned concern is identifiable, and retained external evidence transfers no source authority. |
 | REQ-ORD-003 | Order owns or redefines none of the listed external Domain truths, policies, lifecycles, records, or representations. |
 | REQ-ORD-004 | Each Order has stable unique identity correlated to creation and history; none of the listed external states proves identity and no generation mechanism is selected. |
@@ -391,7 +391,7 @@ Verification evidence MUST cover applicable positive and negative behavior for c
 
 ## 28. Open Product Decisions
 
-`PRODUCT.md` currently contains exactly 30 Open Product Decisions. Twenty-one are materially relevant to Order, and this Draft resolves none of them. All concrete values remain external until Approved by the owning governance.
+`PRODUCT.md` currently contains exactly 30 Open Product Decisions. Twenty-one are materially relevant to Order, and this Specification resolves none of them. All concrete values remain external until Approved by the owning governance.
 
 | Product Decision | Order boundary affected |
 | --- | --- |
@@ -486,12 +486,13 @@ Verification evidence MUST cover applicable positive and negative behavior for c
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-04 | Draft | Initial comprehensive Order Domain Specification. |
+| 1.0.0 | 2026-09-04 | Approved | Promoted the Order Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 32. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `ORD`, Draft Requirements remain non-normative, prospective Approved authority remains Domain-bounded, governing-source precedence and Approved upstream authority are preserved;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `ORD`, Approved Requirements are normative only within the Order Domain scope and not repository-wide authority, and governing-source precedence and Approved upstream Domain authority are preserved;
 2. Order authority and non-authority are complete, explicit, and transfer no adjacent Domain truth;
 3. stable Order identity and Order Number remain distinct, protected, isolated, and implementation-neutral;
 4. the Checkout-to-Order handoff preserves applicable governed context while Order alone establishes creation truth;
@@ -507,6 +508,6 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 14. canonical terminology is correct, no new canonical term is created, and no Glossary amendment is required;
 15. Risks are material, Order-specific, non-duplicative, and paired with implementation-neutral controls;
 16. every Related Document exists and is relevant, with no self-reference or nonexistent future Domain Specification;
-17. Revision History contains exactly one `0.1.0 Draft` row and no Approved row;
+17. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
 18. Markdown, whitespace, final newline, security, accessibility, performance, events, Contracts, audit, testing, and implementation-neutrality are valid; and
-19. the final Git scope contains only the new `specifications/domains/order/order-domain.md`, with nothing staged or otherwise modified.
+19. the final Git scope contains only lifecycle-promotion changes to `specifications/domains/order/order-domain.md`, with nothing staged or otherwise modified.
