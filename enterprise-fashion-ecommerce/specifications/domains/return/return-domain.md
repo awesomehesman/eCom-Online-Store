@@ -1,7 +1,7 @@
 ---
 title: Return Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-04
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Return-domain boundaries for post-delivery Return Requests, Return Items, eligibility evaluation under Approved policy, Return Authorization, lifecycle history, inspection evidence, Return Disposition, and Return-owned recovery and reconciliation.
 
-This document uses scope code `RET`. Because it is Draft, its Requirements are non-normative until Approved. If Approved, they become normative only within Return scope, remain subordinate to higher-authority governing sources, preserve every Approved upstream Domain's authority, resolve no Open Product Decision, and grant no repository-wide authority.
+This document uses scope code `RET`. Its Approved Requirements are normative only within the Return Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved upstream Domain’s authority, and resolve no Open Product Decision.
 
 ## 2. Scope and Authority
 
 ### REQ-RET-001 — Lifecycle, Authority, and Scope
 
-Return MUST govern only Return-owned truth, preserve governing-source precedence and Approved upstream authority, use scope `RET`, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Return MUST govern only Return-owned truth, preserve governing-source precedence and Approved upstream authority, use scope `RET`, and MUST treat this Approved Specification as normative only within the Return Domain scope and not as repository-wide authority.
 
 ### REQ-RET-002 — Return-Owned Truth
 
@@ -263,7 +263,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-RET-001 | Metadata, `RET` scope, Draft non-normativity, prospective Return-only normativity, precedence, and upstream authority are explicit. |
+| REQ-RET-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope is `RET`; Return-scoped normativity, governing precedence, and preserved Approved upstream Domain authority are explicit. |
 | REQ-RET-002 | Every listed Return-owned fact has one Return authority and durable history. |
 | REQ-RET-003 | Return owns none of the listed adjacent truths or policies. |
 | REQ-RET-004 | Stable unique Return identity correlates request, items, evidence, lifecycle, and outcomes without mechanism choice. |
@@ -367,7 +367,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 
 ## 28. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 21 are materially relevant to Return, remain in source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 21 are materially relevant to Return, remain in source order, and are unresolved by this Specification.
 
 | Product Decision | Return boundary affected |
 | --- | --- |
@@ -463,12 +463,13 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-04 | Draft | Initial comprehensive Return Domain Specification. |
+| 1.0.0 | 2026-09-04 | Approved | Promoted the Return Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 32. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `RET`, and Draft non-normativity, governing precedence, and upstream authority are preserved;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `RET`, Approved Requirements are normative only within the Return Domain scope and not repository-wide authority, and governing-source precedence and Approved upstream Domain authority are preserved;
 2. Return authority and non-authority are explicit and transfer no adjacent truth;
 3. Order, Order Item, Order Snapshot, Product, Customer, Pricing, Payment, Refund, Inventory, Shipping, and Administration boundaries remain intact;
 4. Return identity, creation, items, quantities, eligibility, authorization, lifecycle, inspection, disposition, and history are complete and implementation-neutral;
@@ -482,6 +483,6 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 12. terminology is canonical and no Glossary amendment is required;
 13. Risks are Return-specific and controls remain implementation-neutral;
 14. every Related Document exists and is relevant;
-15. Revision History contains exactly one `0.1.0 Draft` row;
+15. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
 16. Markdown, tables, headings, whitespace, UTF-8, final newline, and `git diff --check` pass; and
-17. Git scope contains only the untracked `specifications/domains/return/return-domain.md`, with nothing staged or otherwise modified.
+17. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/return/return-domain.md`, with nothing staged or otherwise modified.
