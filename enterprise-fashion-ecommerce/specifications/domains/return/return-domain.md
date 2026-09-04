@@ -89,7 +89,7 @@ Duplicate, overlapping, concurrent, stale, retried, or replayed requests MUST NO
 
 ### REQ-RET-014 — Eligibility Policy Deferral
 
-Return MUST evaluate eligibility only under Approved policy and authoritative context and MUST NOT invent Return Window values, categories, conditions, exclusions, fees, evidence thresholds, shipping responsibility, Exchange rules, or Refund treatment.
+Return MUST evaluate eligibility only under Approved policy and authoritative context and MUST NOT invent Return Window values, categories, conditions, exclusions, fees, evidence thresholds, shipping responsibility, Exchange rules, or Refund treatment. Customer-facing Return policy content MUST be governed, versioned where required, and consistent with currently supported operational capability without making that content the authority for eligibility decisions.
 
 ### REQ-RET-015 — Explicit Eligibility Outcome
 
@@ -125,7 +125,7 @@ Customer or Visitor initiation MUST use trusted association to the applicable Or
 
 ### REQ-RET-022 — Governed Staff Initiation
 
-Staff initiation or assistance MUST invoke Return-owned behavior with least privilege, reason and proportional audit where material, Customer isolation, and explicit outcomes without defining a Role, Permission, approval, support, or escalation matrix.
+Staff initiation, assistance, or manual deviation MUST invoke Return-owned behavior with least privilege, reason and proportional audit where material, Customer isolation, explicit outcomes, and reconciliation where applicable. A manual deviation MUST NOT waive a Requirement governed by another Canonical Document, and this Specification defines no Role, Permission, approval, support, or escalation matrix.
 
 ## 12. Inspection and Return Disposition
 
@@ -276,7 +276,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | REQ-RET-011 | Each Return Item has governed association, quantity, reason, evidence, and resolution while remaining distinct from adjacent records. |
 | REQ-RET-012 | Every applicable quantity category is distinct and constrained by Order and prior-return truth. |
 | REQ-RET-013 | Duplicate or concurrent activity cannot duplicate Returns, quantities, authorizations, resolutions, or effects. |
-| REQ-RET-014 | Eligibility uses Approved policy and invents none of the prohibited values or rules. |
+| REQ-RET-014 | Eligibility uses only Approved policy and authoritative context and invents none of the prohibited values or rules; customer-facing Return policy content is governed, versioned where required, consistent with currently supported operational capability, and non-authoritative for eligibility decisions. |
 | REQ-RET-015 | Eligibility outcomes are explicit, explainable, and safely disclosed. |
 | REQ-RET-016 | Return Authorization follows governed eligibility and remains distinct from access Authorization. |
 | REQ-RET-017 | Return Authorization proves none of the listed external effects. |
@@ -284,7 +284,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | REQ-RET-019 | Every transition validates applicable state, policy, authority, quantity, evidence, concurrency, and dependencies and preserves history. |
 | REQ-RET-020 | Return lifecycle establishes no external Domain truth. |
 | REQ-RET-021 | Customer or Visitor initiation is correctly associated, authorized, isolated, accessible, and policy-neutral. |
-| REQ-RET-022 | Staff initiation is least-privileged, reasoned and audited where material, isolated, and matrix-neutral. |
+| REQ-RET-022 | Staff initiation, assistance, and manual deviation invoke Return-owned behavior with least privilege, reason and proportional audit where material, Customer isolation, explicit outcomes, and applicable reconciliation; no deviation waives another Canonical Document's Requirement and no Role, Permission, approval, support, or escalation matrix is locally defined. |
 | REQ-RET-023 | Receipt and inspection evidence has provenance but independently proves no eligibility, disposition, Refund, or Stock outcome. |
 | REQ-RET-024 | Disposition is evidence-based and Inventory-execution-neutral with no invented rule. |
 | REQ-RET-025 | Every exceptional receipt or inspection outcome remains explicit, quantity-safe, historical, and reconcilable. |
@@ -318,7 +318,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | --- | --- | --- | --- | --- | --- |
 | REQ-RET-001 | PRODUCT.md §§16.11, 17.1, 24 | REQ-BUS-030, 047–048 | REQ-ORD-001, 039 | AGENTS.md §5; DOCUMENTATION-STANDARDS.md §§7–9 | Return governance |
 | REQ-RET-002 | PRODUCT.md §16.11 | REQ-BUS-023, 030 | REQ-ORD-039; REQ-PAY-035 | GLOSSARY.md §§8, 24 | Return |
-| REQ-RET-003 | PRODUCT.md §§16.1–16.12 | REQ-BUS-021–030, 044 | REQ-ORD-003, 039; REQ-PAY-035; REQ-SHP-032 | AGENTS.md §31 | All adjacent Domains |
+| REQ-RET-003 | PRODUCT.md §§16.1–16.12 | REQ-BUS-021–030, 044 | REQ-PRD-001–002; REQ-CUS-001–002; REQ-INV-002–003; REQ-PRC-002–003; REQ-PAY-002–003, 034–035; REQ-SHP-002–003, 032; REQ-ORD-002–003, 039 | AGENTS.md §31 | All adjacent Domains |
 | REQ-RET-004 | PRODUCT.md §§16.4, 16.11 | REQ-BUS-023, 030, 035 | REQ-ORD-004, 015 | GLOSSARY.md §§8, 24 | Customer, support |
 | REQ-RET-005 | PRODUCT.md §§12.3–12.4, 20 | REQ-BUS-032–033, 039 | REQ-ORD-006; REQ-CUS-005, 039 | SECURITY-STANDARDS.md §§12, 35 | Customer, Administration |
 | REQ-RET-006 | PRODUCT.md §§16.4, 16.11 | REQ-BUS-022–023, 030 | REQ-ORD-015, 017–019, 039 | ARCHITECTURE.md §§9, 40.5 | Order, Return |
@@ -329,7 +329,7 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | REQ-RET-011 | PRODUCT.md §§16.4, 16.11 | REQ-BUS-022–023, 030 | REQ-ORD-015; REQ-SHP-013 | GLOSSARY.md §24 | Order, Inventory |
 | REQ-RET-012 | PRODUCT.md §16.11 | REQ-BUS-030, 035–036 | REQ-ORD-015, 039; REQ-INV-017–019 | DATABASE.md §§20, 42 | Operations |
 | REQ-RET-013 | PRODUCT.md §§16.3, 16.11, 17.2 | REQ-BUS-026, 030, 036 | REQ-PAY-022–023; REQ-INV-014, 016 | ARCHITECTURE.md §§4.2, 26.4 | Payment, Inventory |
-| REQ-RET-014 | PRODUCT.md §§16.6, 16.11, 24 | REQ-BUS-030, 041, 048 | REQ-PRC-012, 021; REQ-PAY-035 | GLOSSARY.md §24 | Product, Legal |
+| REQ-RET-014 | PRODUCT.md §§16.6, 16.8, 16.11, 24 | REQ-BUS-030, 041, 048, 050 | REQ-PRC-012, 021; REQ-PAY-035 | GLOSSARY.md §24 | Product, Legal |
 | REQ-RET-015 | PRODUCT.md §§5.5–5.6, 16.11 | REQ-BUS-030, 042 | REQ-PAY-020–021 | API.md §45 | Customer, Staff |
 | REQ-RET-016 | PRODUCT.md §16.11 | REQ-BUS-030, 032–034 | REQ-CUS-039; REQ-ORD-042 | GLOSSARY.md §§5, 24 | Customer, Staff |
 | REQ-RET-017 | PRODUCT.md §16.11 | REQ-BUS-023, 028–030 | REQ-PAY-034–035; REQ-INV-024; REQ-SHP-032 | GLOSSARY.md §§9, 24 | All consumers |
@@ -337,11 +337,11 @@ Evidence MUST cover all applicable positive, negative, boundary, identity, assoc
 | REQ-RET-019 | PRODUCT.md §§16.11, 17.1 | REQ-BUS-030, 032–036 | REQ-ORD-034; REQ-CUS-039 | SECURITY-STANDARDS.md §12 | Operations |
 | REQ-RET-020 | PRODUCT.md §§16.3–16.5, 16.11 | REQ-BUS-023–030 | REQ-ORD-036, 039; REQ-PAY-027–028; REQ-SHP-013 | ARCHITECTURE.md §§9, 40 | All adjacent Domains |
 | REQ-RET-021 | PRODUCT.md §§12.3–12.4, 16.7, 24 | REQ-BUS-030, 032, 037, 040 | REQ-CUS-024–025, 034, 039 | SECURITY-STANDARDS.md §§10–12 | Customer, Identity |
-| REQ-RET-022 | PRODUCT.md §§15.3–15.5, 24 | REQ-BUS-031–034, 036 | REQ-CUS-037, 039, 045 | SECURITY-STANDARDS.md §§12, 27 | Administration |
+| REQ-RET-022 | PRODUCT.md §§15.3–15.5, 16.11, 24 | REQ-BUS-031–034, 036 | REQ-CUS-037, 039, 045 | SECURITY-STANDARDS.md §§12, 27 | Administration |
 | REQ-RET-023 | PRODUCT.md §16.11 | REQ-BUS-030, 034–035 | REQ-SHP-024, 032; REQ-INV-017–019 | GLOSSARY.md §24 | Inventory, Payment |
-| REQ-RET-024 | PRODUCT.md §16.11 | REQ-BUS-030, 034–035 | REQ-INV-017–019, 024 | GLOSSARY.md §24 | Inventory |
+| REQ-RET-024 | PRODUCT.md §16.11 | REQ-BUS-030, 034–035 | REQ-INV-017–019 | GLOSSARY.md §24 | Inventory |
 | REQ-RET-025 | PRODUCT.md §§5.5–5.6, 16.11 | REQ-BUS-030, 035–036, 042 | REQ-SHP-025–030; REQ-INV-030, 036 | ARCHITECTURE.md §§20, 26 | Operations |
-| REQ-RET-026 | PRODUCT.md §§16.1–16.5, 16.11, 24 | REQ-BUS-021–030, 048 | REQ-PRD-022; REQ-PRC-021; REQ-INV-024–026; REQ-SHP-032 | ARCHITECTURE.md §§9, 25 | All adjacent Domains |
+| REQ-RET-026 | PRODUCT.md §§16.1–16.5, 16.11, 24 | REQ-BUS-021–030, 048 | REQ-PRD-001–002, 007–010, 021–022; REQ-PRC-003, 021; REQ-INV-002–003, 008–010, 015; REQ-ORD-002–003, 009; REQ-PAY-002–003, 006; REQ-SHP-002, 032 | ARCHITECTURE.md §§9, 25 | All adjacent Domains |
 | REQ-RET-027 | PRODUCT.md §§16.3–16.4, 16.11 | REQ-BUS-023, 028, 030 | REQ-PAY-034–035; REQ-ORD-026–028, 039 | GLOSSARY.md §§9, 24 | Payment, Finance |
 | REQ-RET-028 | PRODUCT.md §§16.3–16.4, 16.11 | REQ-BUS-023, 028, 030, 049 | REQ-PAY-034–035, 043; REQ-ORD-028, 039 | ARCHITECTURE.md §25.5 | Customer, Finance |
 | REQ-RET-029 | PRODUCT.md §§16.3, 16.11, 17.2 | REQ-BUS-025–026, 030, 035–036 | REQ-PAY-008, 020–025, 034 | ARCHITECTURE.md §§20.2, 25.5 | Payment, Operations |
