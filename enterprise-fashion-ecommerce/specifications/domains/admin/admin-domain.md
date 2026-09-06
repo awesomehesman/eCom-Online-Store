@@ -1,7 +1,7 @@
 ---
 title: Administration Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-07
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for Administration-owned Staff-facing workflow coordination, protected invocation of owning-Domain capabilities, operational evidence, recovery, and reconciliation.
 
-This document uses scope code `ADM`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `ADM`. Its Approved Requirements are normative only within the Administration Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope, Authority, and Requirements
 
 ### REQ-ADM-001 — Lifecycle, Authority, and Scope
 
-Administration MUST govern only Administration-owned operational coordination under scope `ADM`, preserve governing-source precedence and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Administration MUST govern only Administration-owned operational coordination under scope `ADM`, preserve governing-source precedence and Approved Domain authority, and MUST treat this Approved Specification as normative only within scope `ADM` and not as repository-wide authority.
 
 ### REQ-ADM-002 — Administration-Owned Truth
 
@@ -241,7 +241,7 @@ Administration is a protected operational coordination Domain. It gives authoriz
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-ADM-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `ADM`, no Draft or repository-wide normativity, and preserved governing and Approved Domain authority. |
+| REQ-ADM-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `ADM`, Approved Requirements normative only within the Administration Domain scope and not repository-wide authority, preserved governing-source precedence, and preserved Approved Domain authority. |
 | REQ-ADM-002 | Each administrative workflow and request has one ADM identity, explicit outcome, correlated work context and evidence, and Administration-owned recovery state without claiming business-Domain truth. |
 | REQ-ADM-003 | No administrative record, view, request, action, approval, repair, export, or workflow can establish or alter any listed external authority or policy. |
 | REQ-ADM-004 | Workflow identity remains stable as actors, views, correlation, Domain outcomes, or provider references change, and none substitutes for identity. |
@@ -355,7 +355,7 @@ Administration is a protected operational coordination Domain. It gives authoriz
 
 ## 7. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 29 are materially relevant to Administration, remain in exact source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 29 are materially relevant to Administration, remain in exact source order, and are unresolved by this Specification.
 
 | Product Decision | Administration boundary affected |
 | --- | --- |
@@ -467,12 +467,13 @@ Administration is a protected operational coordination Domain. It gives authoriz
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Draft | Initial comprehensive Administration Domain Specification. |
+| 1.0.0 | 2026-09-07 | Approved | Promoted the Administration Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 11. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `ADM`, and the Draft is neither normative nor repository-wide authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `ADM`, Approved Requirements are normative only within the Administration Domain scope and not repository-wide authority, governing-source precedence is preserved, and Approved Domain authority is preserved;
 2. Administration owns only protected operational coordination and preserves every owning Domain;
 3. Staff User, Principal, Authentication, Session, Role, Permission, Claims, Scope, and contextual Authorization remain distinct;
 4. every mutation uses an owning-Domain capability and no direct persistence, provider, cache, queue, or projection manipulation becomes business authority;
@@ -483,7 +484,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 9. all 30 Product Decisions were reviewed, the 29 material decisions remain exact, source-ordered, and unresolved;
 10. all 28 Risks are material, non-duplicative, and have distinct implementation-neutral controls;
 11. all 37 Related Documents exist and are relevant;
-12. Revision History contains exactly one `0.1.0 Draft` row;
+12. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
 13. no Glossary amendment is required;
 14. Markdown, headings, tables, UTF-8, whitespace, final newline, prohibited markers, and structure pass; and
-15. Git scope contains exactly one untracked `specifications/domains/admin/admin-domain.md`, with no tracked, staged, or unrelated changes.
+15. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/admin/admin-domain.md`, with nothing staged, untracked, unrelated, or otherwise modified.
