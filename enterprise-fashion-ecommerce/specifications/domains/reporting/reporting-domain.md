@@ -1,7 +1,7 @@
 ---
 title: Reporting Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-07
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for Reporting-owned definitions, read models, Projections, reports, dashboards, exports, lineage, freshness, recovery, and reconciliation.
 
-This document uses scope code `RPT`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `RPT`. Its Approved Requirements are normative only within the Reporting Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope, Authority, and Requirements
 
 ### REQ-RPT-001 — Lifecycle, Authority, and Scope
 
-Reporting MUST govern only Reporting-owned truth under scope `RPT`, preserve governing-source precedence and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Reporting MUST govern only Reporting-owned truth under scope `RPT`, preserve governing-source precedence and Approved Domain authority, and MUST treat this Approved Specification as normative only within the Reporting Domain scope and not as repository-wide authority.
 
 ### REQ-RPT-002 — Reporting-Owned Truth
 
@@ -241,7 +241,7 @@ Reporting is a read-oriented Domain that produces governed analytical representa
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-RPT-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `RPT`, no Draft or repository-wide normativity, and preserved governing and Approved Domain authority. |
+| REQ-RPT-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `RPT`, Approved Requirements normative only within the Reporting Domain scope and not repository-wide authority, preserved governing-source precedence, and preserved Approved Domain authority. |
 | REQ-RPT-002 | A Reporting record can establish only the listed RPT facts and cannot establish a source-Domain or Product-policy outcome. |
 | REQ-RPT-003 | No report, dashboard, Projection, export, Metric, or analytical outcome can create, change, or prove any named external truth. |
 | REQ-RPT-004 | Changing presentation, execution context, file name, route, or provider reference does not replace a governed Reporting identity or merge distinct identities. |
@@ -355,7 +355,7 @@ Reporting is a read-oriented Domain that produces governed analytical representa
 
 ## 7. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 15 are materially relevant to Reporting, remain in exact source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 15 are materially relevant to Reporting, remain in exact source order, and are unresolved by this Specification.
 
 | Product Decision | Reporting boundary affected |
 | --- | --- |
@@ -453,12 +453,13 @@ Reporting is a read-oriented Domain that produces governed analytical representa
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Draft | Initial comprehensive Reporting Domain Specification. |
+| 1.0.0 | 2026-09-07 | Approved | Promoted the Reporting Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 11. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `RPT`, and the Draft is neither normative nor repository-wide authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `RPT`, Approved Requirements are normative only within the Reporting Domain scope and not repository-wide authority, governing-source precedence is preserved, and Approved Domain authority is preserved;
 2. Reporting owns only Reporting-specific definitions, Projections, outputs, lineage, and operational state while every source Domain retains authority;
 3. Metric, KPI, Dimension, Measure, Fact, Funnel, Attribution, event-category, transactional, and analytical meanings remain distinct and policy-neutral;
 4. source lineage, definition versions, historical reproducibility, freshness, completeness, uncertainty, replay, rebuild, backfill, recovery, and reconciliation remain explicit;
@@ -469,7 +470,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 9. all 30 Product Decisions were reviewed, the 15 material decisions remain exact, source-ordered, and unresolved;
 10. all 27 Risks are material, non-duplicative, and have distinct implementation-neutral controls;
 11. all 38 Related Documents exist and are relevant;
-12. Revision History contains exactly one `0.1.0 Draft` row;
+12. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 13. no Glossary amendment is required;
 14. Markdown, headings, tables, UTF-8, whitespace, final newline, prohibited markers, and structure pass; and
-15. Git scope contains exactly one untracked `specifications/domains/reporting/reporting-domain.md`, with no tracked, staged, or unrelated changes.
+15. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/reporting/reporting-domain.md`, with nothing staged, untracked, unrelated, or otherwise modified.
