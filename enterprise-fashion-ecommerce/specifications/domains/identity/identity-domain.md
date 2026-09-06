@@ -1,7 +1,7 @@
 ---
 title: Identity Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-06
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for Identity-owned authentication, credential, Principal, Session, access assignment, Staff User access, Service Principal, security-evidence, recovery, and reconciliation behavior.
 
-This document uses scope code `IDN`. While its status is Draft, it is non-normative, grants no repository-wide authority, remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, and resolves no Open Product Decision.
+This document uses scope code `IDN`. Its Approved Requirements are normative only within the Identity Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope and Authority
 
-### REQ-IDN-001 — Draft Lifecycle, Authority, and Scope
+### REQ-IDN-001 — Lifecycle, Authority, and Scope
 
-Identity MUST govern only Identity-owned truth, preserve governing-source precedence and Approved Domain authority, use scope `IDN`, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Identity MUST govern only Identity-owned truth, preserve governing-source precedence and Approved Domain authority, use scope `IDN`, and MUST treat this Approved Specification as normative only within the Identity Domain scope and not as repository-wide authority.
 
 ### REQ-IDN-002 — Identity-Owned Truth
 
@@ -271,7 +271,7 @@ Verification evidence MUST cover Identity and actor separation; Authentication; 
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-IDN-001 | Metadata is `0.1.0 Draft`, `authoritative: false`, scope is `IDN`, the Draft is non-normative and non-repository-wide, and governing and Approved Domain authority is preserved. |
+| REQ-IDN-001 | Metadata is `1.0.0 Approved`, `authoritative: false`, scope is `IDN`, Approved Requirements are normative only within the Identity Domain scope and not repository-wide, and governing and Approved Domain authority is preserved. |
 | REQ-IDN-002 | Every listed Identity-owned fact has one Identity authority, explicit history where applicable, and governed recovery or reconciliation. |
 | REQ-IDN-003 | Identity owns none of the listed Customer, commerce, operational-policy, fraud, communication, or projection truths. |
 | REQ-IDN-004 | Identity remains stable across every listed mutable credential, access, provider, Session, and business association without implementation choice. |
@@ -379,7 +379,7 @@ Verification evidence MUST cover Identity and actor separation; Authentication; 
 
 ## 28. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 10 are materially relevant to Identity, remain in source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 10 are materially relevant to Identity, remain in source order, and are unresolved by this Specification.
 
 | Product Decision | Identity boundary affected |
 | --- | --- |
@@ -465,12 +465,13 @@ Verification evidence MUST cover Identity and actor separation; Authentication; 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-06 | Draft | Initial comprehensive Identity Domain Specification. |
+| 1.0.0 | 2026-09-06 | Approved | Promoted the Identity Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 32. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `IDN`, and the Draft is non-normative and grants no repository-wide authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `IDN`, Approved Requirements are normative only within the Identity Domain scope and not repository-wide authority, and governing-source precedence and Approved Domain authority are preserved;
 2. governing-source precedence and every Approved Domain's authority are preserved;
 3. Identity ownership and explicit non-authority transfer no Customer, commerce, operational, fraud, Notification, Reporting, or Analytics truth;
 4. Identity, Principal, Customer, Account, Staff User, Service Principal, and Session remain distinct without unsupported cardinality;
@@ -488,6 +489,6 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 16. terminology is canonical, any Identity-specific descriptions remain Domain-scoped, and no Glossary amendment is required;
 17. Risks are Identity-specific, non-duplicative, material, and implementation-neutral;
 18. every Related Document exists and is relevant;
-19. Revision History contains exactly one `0.1.0 Draft` row;
-20. Markdown, tables, headings, UTF-8, whitespace, final newline, and untracked-file diff checks pass; and
-21. Git scope contains only the new untracked `specifications/domains/identity/identity-domain.md`, with nothing staged or otherwise modified.
+19. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
+20. Markdown, tables, headings, UTF-8, whitespace, final newline, and `git diff --check` pass; and
+21. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/identity/identity-domain.md`, with nothing staged, untracked, or otherwise modified.
