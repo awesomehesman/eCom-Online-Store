@@ -1,7 +1,7 @@
 ---
 title: Notifications Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-06
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for Notification identity, request handling, notification-specific templates, recipient delivery context, delivery attempts, retry state, Delivery Status, provider evidence, delivery history, recovery, and reconciliation.
 
-This document uses scope code `NTF`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `NTF`. Its Approved Requirements are normative only within the Notifications Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope and Authority
 
 ### REQ-NTF-001 — Lifecycle, Authority, and Scope
 
-Notifications MUST govern only Notifications-owned truth, preserve governing-source precedence and Approved Domain authority, use scope `NTF`, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Notifications MUST govern only Notifications-owned truth, preserve governing-source precedence and Approved Domain authority, use scope `NTF`, and MUST treat this Approved Specification as normative only within the Notifications Domain scope and not as repository-wide authority.
 
 ### REQ-NTF-002 — Notifications-Owned Truth
 
@@ -301,7 +301,7 @@ Verification evidence MUST cover authority, identity, request outcomes, provenan
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-NTF-001 | Metadata is `0.1.0 Draft`, `authoritative: false`, scope is `NTF`, the Draft is not normative or repository-wide authority, and governing and Approved Domain authority is preserved. |
+| REQ-NTF-001 | Metadata is `1.0.0 Approved`, `authoritative: false`, scope is `NTF`, Approved Requirements are normative only within the Notifications Domain scope and not repository-wide, and governing-source precedence and Approved Domain authority are preserved. |
 | REQ-NTF-002 | Every listed Notifications-owned fact has one Notifications authority with history, recovery, and reconciliation where applicable. |
 | REQ-NTF-003 | Notifications owns none of the listed business, Customer, Identity, commerce, CMS, Administration, fraud, marketing-policy, Reporting, or Analytics truths. |
 | REQ-NTF-004 | No request, render, attempt, provider, display, or delivery outcome changes source truth, and source truth alone never proves delivery. |
@@ -421,7 +421,7 @@ Verification evidence MUST cover authority, identity, request outcomes, provenan
 
 ## 31. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 15 are materially relevant to Notifications, remain in source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 15 are materially relevant to Notifications, remain in source order, and are unresolved by this Specification.
 
 | Product Decision | Notifications boundary affected |
 | --- | --- |
@@ -518,12 +518,13 @@ Verification evidence MUST cover authority, identity, request outcomes, provenan
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-06 | Draft | Initial comprehensive Notifications Domain Specification. |
+| 1.0.0 | 2026-09-06 | Approved | Promoted the Notifications Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 35. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `NTF`, the Draft is not normative or repository-wide authority, and governing-source precedence and Approved Domain authority are preserved;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `NTF`, Approved Requirements are normative only within the Notifications Domain scope and not repository-wide authority, governing-source precedence is preserved, and Approved Domain authority is preserved;
 2. Notifications owns only Notification, request, template, attempt, retry, Delivery Status, delivery evidence, history, recovery, and reconciliation truth;
 3. requests, renders, attempts, provider evidence, displays, and delivery outcomes never establish or alter source business truth;
 4. Notification identity, source provenance, correlation, request outcome, duplicate, and uncertainty semantics are complete and implementation-neutral;
@@ -542,7 +543,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 17. every upstream Requirement citation exists and directly supports the cited Notifications Requirement;
 18. Risks are Notifications-specific, material, non-duplicative, and implementation-neutral;
 19. every Related Document exists and is relevant;
-20. Revision History contains exactly one `0.1.0 Draft` row;
+20. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
 21. canonical terminology is preserved, Notifications-specific descriptions remain Domain-scoped, and no Glossary amendment is required;
 22. Markdown, tables, headings, UTF-8, whitespace, final newline, prohibited markers, and structural checks pass; and
-23. Git scope contains exactly one untracked `specifications/domains/notifications/notifications-domain.md`, with no tracked, staged, or unrelated changes.
+23. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/notifications/notifications-domain.md`, with nothing staged, untracked, unrelated, or otherwise modified.
