@@ -1,7 +1,7 @@
 ---
 title: CMS Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-06
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for CMS-owned content, versions, publication evidence, presentation eligibility, history, recovery, and reconciliation.
 
-This document uses scope code `CMS`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `CMS`. Its Approved Requirements are normative only within the CMS Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain’s authority, and resolve no Open Product Decision.
 
 ## 2. Scope and Authority
 
 ### REQ-CMS-001 — Lifecycle, Authority, and Scope
 
-CMS MUST govern only CMS-owned truth under scope `CMS`, preserve governing-source precedence and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+CMS MUST govern only CMS-owned truth under scope `CMS`, preserve governing-source precedence and Approved Domain authority, and MUST treat this Approved Specification as normative only within the CMS Domain scope and not as repository-wide authority.
 
 ### REQ-CMS-002 — CMS-Owned Truth
 
@@ -233,7 +233,7 @@ CMS governs publishable editorial presentation while preserving the authority of
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-CMS-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `CMS`, preserved governing precedence and Approved Domain authority, and no Draft or repository-wide normativity. |
+| REQ-CMS-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `CMS`, Approved Requirements normative only within the CMS Domain scope and not repository-wide, preserved governing-source precedence, and preserved Approved Domain authority. |
 | REQ-CMS-002 | Each listed CMS-owned fact has a single CMS authority and distinguishable identity, validation, version, publication, placement, provenance, history, recovery, and reconciliation evidence. |
 | REQ-CMS-003 | CMS records and operations cannot establish or redefine any listed external Domain, policy, projection, provider, delivery, storage, Contract-design, or implementation truth. |
 | REQ-CMS-004 | A publish, preview, render, cache, index, or display test leaves every referenced external authoritative fact unchanged and cannot repair it. |
@@ -343,7 +343,7 @@ CMS governs publishable editorial presentation while preserving the authority of
 
 ## 7. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 19 are materially relevant to CMS, remain in exact source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 19 are materially relevant to CMS, remain in exact source order, and are unresolved by this Specification.
 
 | Product Decision | CMS boundary affected |
 | --- | --- |
@@ -440,12 +440,13 @@ CMS governs publishable editorial presentation while preserving the authority of
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-06 | Draft | Initial comprehensive CMS Domain Specification. |
+| 1.0.0 | 2026-09-06 | Approved | Promoted the CMS Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 11. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `CMS`, and the Draft has no normative or repository-wide authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `CMS`, Approved Requirements are normative only within the CMS Domain scope and not repository-wide authority, governing-source precedence is preserved, and Approved Domain authority is preserved;
 2. CMS owns only CMS Content and CMS publication truth;
 3. every cross-Domain and Product-policy boundary is preserved;
 4. no complete mandatory lifecycle graph or implementation choice is introduced;
@@ -455,7 +456,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 8. all 30 Product Decisions were reviewed, the 19 material decisions remain source-ordered, and none is resolved;
 9. all Risks are material, CMS-specific, non-duplicative, and have distinct risk-specific controls without implementation prescription;
 10. all Related Documents exist and are relevant;
-11. Revision History contains exactly one `0.1.0 Draft` row;
+11. Revision History contains exactly the preserved `0.1.0 Draft` row and the new `1.0.0 Approved` row;
 12. no Glossary amendment is required;
 13. Markdown, headings, tables, UTF-8, whitespace, final newline, and prohibited-marker checks pass; and
-14. Git scope contains exactly one untracked `specifications/domains/cms/cms-domain.md`, with no tracked, staged, or unrelated changes.
+14. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/cms/cms-domain.md`, with nothing staged, untracked, unrelated, or otherwise modified.
