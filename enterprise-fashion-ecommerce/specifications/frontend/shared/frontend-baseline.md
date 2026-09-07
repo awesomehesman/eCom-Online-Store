@@ -1,7 +1,7 @@
 ---
 title: Shared Frontend Baseline Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-07
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines the implementation-neutral shared frontend obligations that every later customer-facing and Staff User-facing frontend experience must preserve.
 
-This document uses scope code `FEB`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `FEB`. Its Approved Requirements are normative only within the Shared Frontend Baseline scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope, Authority, and Requirements
 
 ### REQ-FEB-001 — Lifecycle, Authority, and Scope
 
-Shared frontend behavior MUST be governed only under scope `FEB`, preserve governing-source precedence and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Shared frontend behavior MUST be governed only under scope `FEB`, preserve governing-source precedence and Approved Domain authority, and MUST treat this Approved Specification as normative only within the Shared Frontend Baseline scope and not as repository-wide authority.
 
 ### REQ-FEB-002 — Shared Frontend Authority
 
@@ -237,7 +237,7 @@ The Design System owns governed visual principles, tokens, reusable Components, 
 
 | Requirement | Acceptance Criterion |
 | --- | --- |
-| REQ-FEB-001 | Metadata shows `0.1.0 Draft`, `authoritative: false`, and scope `FEB`; review evidence confirms governing precedence, preserved Approved Domain authority, and absence of normative or repository-wide authority before approval. |
+| REQ-FEB-001 | Metadata shows `1.0.0 Approved`, `authoritative: false`, and scope `FEB`; review evidence confirms normativity only within the Shared Frontend Baseline scope, no repository-wide authority, governing-source precedence, and preserved Approved Domain authority. |
 | REQ-FEB-002 | Every later frontend Specification traces to and preserves its applicable FEB obligations while retaining source-Domain ownership and without duplicating or transferring that authority to FEB. |
 | REQ-FEB-003 | Boundary review finds no FEB-owned business state or policy for any named Domain or cross-cutting authority. |
 | REQ-FEB-004 | Tests show client-held evidence alone cannot produce an authenticated, authorized, eligible, successful, owned, or commercially current outcome. |
@@ -430,12 +430,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following four 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Draft | Initial comprehensive Shared Frontend Baseline Specification. |
+| 1.0.0 | 2026-09-07 | Approved | Approved Shared Frontend Baseline Specification following comprehensive validation. |
 
 ## 11. Final Validation
 
-Before the Draft is committed, verify that:
+Before the Approved baseline is committed, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FEB`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FEB`, with normativity only within the Shared Frontend Baseline scope and no repository-wide authority;
 2. governing-source precedence and all Approved Domain authority remain preserved;
 3. frontend and cached state remain non-authoritative representations;
 4. Authentication presentation and server-side contextual Authorization remain distinct;
@@ -452,8 +453,8 @@ Before the Draft is committed, verify that:
 15. every cited Business or Approved Domain Requirement physically exists and directly supports its FEB Requirement;
 16. all four represented Product Decisions exactly match `PRODUCT.md`, remain source-ordered, and are unresolved;
 17. Risks have distinct, implementation-neutral controls and all Related Document paths exist;
-18. Revision History contains exactly one `0.1.0 Draft` row;
+18. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 19. no Glossary amendment is required and FEB-scoped descriptions do not become repository-wide terminology;
 20. no Product policy, provider, protocol, API or schema, persistence model, event taxonomy, numerical target, retry count, timeout, route design, lifecycle graph, or implementation mechanism is introduced;
 21. Markdown headings and tables, UTF-8, trailing whitespace, final newline, and prohibited-marker checks pass; and
-22. Git scope contains no tracked or staged change and only `specifications/frontend/shared/frontend-baseline.md` is untracked.
+22. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/shared/frontend-baseline.md`, with nothing staged, untracked, unrelated, or otherwise modified.
