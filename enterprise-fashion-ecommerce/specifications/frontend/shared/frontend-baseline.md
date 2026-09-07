@@ -298,31 +298,31 @@ The Design System owns governed visual principles, tokens, reusable Components, 
 | REQ-FEB-003 | PRODUCT.md §§16, 25.1 | REQ-BUS-044, 047–048 | REQ-PRD-001–002; REQ-CAT-001–002; REQ-CUS-001–002; REQ-IDN-002–003; REQ-INV-002–003; REQ-CART-002–003; REQ-PRC-002–003; REQ-PAY-002–003; REQ-SHP-002–003; REQ-CHK-002–003; REQ-ORD-002–003; REQ-RET-002–003; REQ-NTF-002–004; REQ-CMS-002–004; REQ-ADM-002–003; REQ-RPT-002–003; REQ-SRCH-002–003 | ENGINEERING-PRINCIPLES.md §§7–10 | All downstream frontend Specifications |
 | REQ-FEB-004 | PRODUCT.md §§14.2–14.6, 16 | REQ-BUS-012, 015, 017, 024, 032 | REQ-IDN-020, 026–028; REQ-ADM-007–008 | ANGULAR.md §§20–22, 29–31 | All customer and Staff User experiences |
 | REQ-FEB-005 | PRODUCT.md §§14.4–14.6, 16.1–16.4 | REQ-BUS-012, 015, 017, 024–025 | REQ-CHK-021–023 | ANGULAR.md §22; ARCHITECTURE.md §§36.5–36.6, 39.3; API.md §§23–24, 39–45 | All frontend experiences requiring current authoritative truth |
-| REQ-FEB-006 | — | REQ-BUS-042 | — | ANGULAR.md §§20–23; GLOSSARY.md §28 | All downstream frontend Specifications |
+| REQ-FEB-006 | — | — | — | ANGULAR.md §§20–23; GLOSSARY.md §28 | All downstream frontend Specifications |
 | REQ-FEB-007 | PRODUCT.md §§14.1–14.5, 30–32 | REQ-BUS-042, 044 | REQ-RPT-017–018; REQ-SRCH-025, 033 | ANGULAR.md §22; API.md §§23, 35 | All stale-capable frontend experiences |
-| REQ-FEB-008 | PRODUCT.md §§7, 16.7, 20 | REQ-BUS-032, 039 | REQ-CUS-005, 039–040; REQ-IDN-006; REQ-ADM-037 | SECURITY-STANDARDS.md §§12, 18, 35; ANGULAR.md §§43–44 | Account, purchase, post-purchase, Administration, Reporting |
-| REQ-FEB-009 | PRODUCT.md §§14, 29–32 | REQ-BUS-002, 042 | — | ANGULAR.md §§28–29; ACCESSIBILITY.md §§9, 11 | All routable frontend experiences |
+| REQ-FEB-008 | PRODUCT.md §§7, 16.7, 20 | REQ-BUS-032, 039 | REQ-CUS-005, 039–040; REQ-IDN-006; REQ-ADM-037 | SECURITY-STANDARDS.md §§12, 18, 35; ANGULAR.md §§43–44 | All frontend experiences using shared state |
+| REQ-FEB-009 | PRODUCT.md §§14, 29–32 | — | — | ANGULAR.md §§28–29; ACCESSIBILITY.md §§9, 11 | All routable frontend experiences |
 | REQ-FEB-010 | PRODUCT.md §§29–32 | REQ-BUS-002, 037 | — | UI.md §12; ACCESSIBILITY.md §§9, 11, 48 | All routable frontend experiences |
-| REQ-FEB-011 | PRODUCT.md §§7, 16.7 | REQ-BUS-032, 051 | REQ-IDN-009–10, 018–20 | ANGULAR.md §30; SECURITY-STANDARDS.md §§10–13 | Identity, account, purchase, post-purchase, Administration |
+| REQ-FEB-011 | PRODUCT.md §§7, 16.7 | REQ-BUS-032, 051 | REQ-IDN-009–10, 018–20 | ANGULAR.md §30; SECURITY-STANDARDS.md §§10–13 | All frontend experiences presenting Authentication or Session context |
 | REQ-FEB-012 | PRODUCT.md §§7.3–7.8, 16.7, 23 | REQ-BUS-032–033 | REQ-IDN-024–028; REQ-ADM-007 | ANGULAR.md §§29, 31; API.md §§25–26, 52–53; SECURITY-STANDARDS.md §12 | All protected frontend experiences |
 | REQ-FEB-013 | PRODUCT.md §§7.3–7.8, 23 | REQ-BUS-032–033 | REQ-IDN-020, 026–028; REQ-ADM-008 | ANGULAR.md §§29, 31, 62; SECURITY-STANDARDS.md §12 | All protected frontend experiences |
 | REQ-FEB-014 | PRODUCT.md §§5.4–5.6, 17.2, 30 | REQ-BUS-042 | — | ANGULAR.md §37; ACCESSIBILITY.md §§24–26 | All downstream frontend Specifications |
 | REQ-FEB-015 | PRODUCT.md §§5.4–5.6, 17.2 | REQ-BUS-025, 042, 046 | REQ-PAY-021; REQ-ADM-020; REQ-RPT-017–018 | ANGULAR.md §37; ACCESSIBILITY.md §26; API.md §§52–58 | All stateful frontend experiences |
 | REQ-FEB-016 | PRODUCT.md §§14.3–14.6, 30–32 | REQ-BUS-042 | — | ANGULAR.md §§27, 37; ACCESSIBILITY.md §§24–25 | All asynchronous frontend experiences |
 | REQ-FEB-017 | — | REQ-BUS-042 | — | ANGULAR.md §§18, 27, 37 | All asynchronous frontend experiences |
-| REQ-FEB-018 | PRODUCT.md §§14.1, 30 | REQ-BUS-004, 042 | REQ-SRCH-023–025 | ACCESSIBILITY.md §26; UI.md §§22–23 | Catalogue, discovery, account, Administration, Reporting |
+| REQ-FEB-018 | PRODUCT.md §§14.1, 30 | REQ-BUS-004, 042 | REQ-SRCH-023–025 | ACCESSIBILITY.md §26; UI.md §§22–23 | All frontend experiences with potentially empty data or results |
 | REQ-FEB-019 | PRODUCT.md §§14.3–14.4, 30–32 | REQ-BUS-011, 042 | — | ANGULAR.md §§24–27; ACCESSIBILITY.md §§12–16 | All form-based frontend experiences |
 | REQ-FEB-020 | PRODUCT.md §§5.4–5.6, 16.7, 17.2 | REQ-BUS-039, 042 | REQ-IDN-039, 043–044; REQ-ADM-020, 037–038 | SECURITY-STANDARDS.md §§18, 35; API.md §§52–60 | All downstream frontend Specifications |
 | REQ-FEB-021 | PRODUCT.md §§5.6, 14.8, 28.6 | REQ-BUS-036, 042, 045 | REQ-ADM-021–022 | ANGULAR.md §§36–38; API.md §§22, 51 | All recoverable frontend experiences |
-| REQ-FEB-022 | PRODUCT.md §§14.5–14.8, 17.2 | REQ-BUS-025, 035, 042, 045 | REQ-PAY-021, 023–025; REQ-ADM-020–022 | ANGULAR.md §§36–38; API.md §§22, 36–37, 48, 58 | Purchase, post-purchase, Administration |
-| REQ-FEB-023 | PRODUCT.md §§14.3–14.5 | REQ-BUS-010, 013, 026 | REQ-CART-009–010, 022–023; REQ-CHK-023–025 | ANGULAR.md §§27, 36–38; API.md §22 | Cart and purchase experiences |
+| REQ-FEB-022 | PRODUCT.md §§14.5–14.8, 17.2 | REQ-BUS-025, 035, 042, 045 | REQ-PAY-021, 023–025; REQ-ADM-020–022 | ANGULAR.md §§36–38; API.md §§22, 36–37, 48, 58 | All frontend mutation experiences with potentially unknown effects |
+| REQ-FEB-023 | PRODUCT.md §§14.3–14.5 | REQ-BUS-010, 013, 026 | REQ-CART-009–010, 022–023; REQ-CHK-023–025 | ANGULAR.md §§27, 36–38; API.md §22 | All frontend experiences submitting state-changing intent |
 | REQ-FEB-024 | PRODUCT.md §§14.3–14.5 | REQ-BUS-010, 012–013, 024–025 | — | ANGULAR.md §§22, 37; API.md §§22–24 | Stateful customer and Staff User experiences |
 | REQ-FEB-025 | PRODUCT.md §§14.3–14.5, 17.2 | REQ-BUS-013, 025, 042 | — | ENGINEERING-PRINCIPLES.md §§14, 18, 20; ANGULAR.md §§37–38 | Stateful customer and Staff User experiences |
 | REQ-FEB-026 | PRODUCT.md §§16.7, 20, 24 | REQ-BUS-039–040 | REQ-CUS-040–041; REQ-IDN-043–044; REQ-ADM-037–038 | SECURITY-STANDARDS.md §§18, 27, 35; ANGULAR.md §43 | All downstream frontend Specifications |
 | REQ-FEB-027 | PRODUCT.md §§16.7, 20 | REQ-BUS-039 | — | SECURITY-STANDARDS.md §§18, 33, 35; ANGULAR.md §§45–47 | All content and input surfaces |
 | REQ-FEB-028 | PRODUCT.md §§16.3, 16.7, 20 | REQ-BUS-027, 039 | REQ-PAY-031–032; REQ-ADM-038 | SECURITY-STANDARDS.md §§14, 18, 36; ANGULAR.md §§43–46 | All downstream frontend Specifications |
 | REQ-FEB-029 | PRODUCT.md §§7.2, 16.7, 24 | REQ-BUS-040 | REQ-CUS-018–021; REQ-NTF-013–015 | SECURITY-STANDARDS.md §35; ACCESSIBILITY.md §§60–61 | Account, purchase, content, analytics experiences |
-| REQ-FEB-030 | PRODUCT.md §§7, 16.7, 20 | REQ-BUS-032, 039, 052 | REQ-IDN-006, 011; REQ-CUS-039–042 | SECURITY-STANDARDS.md §§12, 18, 33; API.md §§52–53 | Identity, account, Administration, protected resources |
+| REQ-FEB-030 | PRODUCT.md §§7, 16.7, 20 | REQ-BUS-032, 039, 052 | REQ-IDN-006, 011; REQ-CUS-039–042 | SECURITY-STANDARDS.md §§12, 18, 33; API.md §§52–53 | All frontend experiences accessing protected or existence-sensitive Resources |
 | REQ-FEB-031 | PRODUCT.md §§5.2, 10, 30 | REQ-BUS-002, 037 | — | DESIGN-SYSTEM.md §§12–14; ANGULAR.md §50; ACCESSIBILITY.md §§36, 38, 55, 72 | All downstream frontend Specifications |
 | REQ-FEB-032 | PRODUCT.md §§5.7, 19 | REQ-BUS-037 | — | ACCESSIBILITY.md §§8, 41–42, 54–55 | All interactive frontend experiences |
 | REQ-FEB-033 | PRODUCT.md §§5.2, 5.7, 19 | REQ-BUS-002, 037 | — | ACCESSIBILITY.md §§35–38, 46, 55, 73 | All downstream frontend Specifications |
@@ -332,7 +332,7 @@ The Design System owns governed visual principles, tokens, reusable Components, 
 | REQ-FEB-037 | PRODUCT.md §§5.7, 19 | REQ-BUS-037 | — | ACCESSIBILITY.md §§4–7, 17–23, 56 | All downstream frontend Specifications |
 | REQ-FEB-038 | PRODUCT.md §§5.4–5.7, 17.2, 19 | REQ-BUS-037, 042 | — | ACCESSIBILITY.md §§13, 24–26, 32–34 | All stateful frontend experiences |
 | REQ-FEB-039 | PRODUCT.md §§8.6, 19, 30–32 | REQ-BUS-002, 037 | — | DESIGN-SYSTEM.md §§1–3, 17, 60–61, 75; ANGULAR.md §49; ACCESSIBILITY.md §§56, 63 | All downstream frontend Specifications |
-| REQ-FEB-040 | PRODUCT.md §§8.6, 24.1, 29–32 | REQ-BUS-048 | — | DESIGN-SYSTEM.md §§3, 6–18, 59, 88–89, 95–98; ANGULAR.md §§49–50, 65 | Design System and downstream frontend Specifications |
+| REQ-FEB-040 | PRODUCT.md §8.6; Open Product Decision 1; PRODUCT.md §§29–32 | REQ-BUS-048 | — | DESIGN-SYSTEM.md §§3, 6–18, 59, 88–89, 95–98; ANGULAR.md §§49–50, 65 | Design System and downstream frontend Specifications |
 | REQ-FEB-041 | PRODUCT.md §§8.6, 14.2, 19, 30 | REQ-BUS-002, 037, 050 | REQ-CMS-008, 021, 030, 034 | UI.md §§10, 42, 58, 62; ACCESSIBILITY.md §§46, 55, 73 | Storefront shell, catalogue, Product evaluation, content experiences |
 | REQ-FEB-042 | PRODUCT.md §§8.3, 18.4–18.6, 35 | REQ-BUS-038 | REQ-ADM-043; REQ-RPT-043–044; REQ-SRCH-041–042 | PERFORMANCE.md §§2, 4–25; ANGULAR.md §§51–54; API.md §32 | All downstream frontend Specifications |
 | REQ-FEB-043 | PRODUCT.md §§8.3, 18.4–18.6, 19 | REQ-BUS-037–039, 042 | — | PERFORMANCE.md §§2, 24–25; ACCESSIBILITY.md §62; ANGULAR.md §§51–54 | All performance-sensitive experiences |
