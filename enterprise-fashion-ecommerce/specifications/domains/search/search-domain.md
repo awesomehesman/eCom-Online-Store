@@ -1,7 +1,7 @@
 ---
 title: Search and Discovery Domain
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-07
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral Requirements for Search-owned query, result, index, Projection, matching, filtering, faceting, sorting, ranking, indexing, failure, recovery, and reconciliation behavior.
 
-This document uses scope code `SRCH`. It is a Draft and is not yet normative. It remains subordinate to higher-authority governing sources, preserves every Approved Domain's authority, resolves no Open Product Decision, and has no repository-wide authority.
+This document uses scope code `SRCH`. Its Approved Requirements are normative only within the Search and Discovery Domain scope and are not repository-wide authority. They remain subordinate to higher-authority governing sources, preserve every Approved Domain's authority, and resolve no Open Product Decision.
 
 ## 2. Scope, Authority, and Requirements
 
 ### REQ-SRCH-001 — Lifecycle, Authority, and Scope
 
-Search and Discovery MUST govern only Search-owned operational truth under scope `SRCH`, preserve governing-source precedence and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+Search and Discovery MUST govern only Search-owned operational truth under scope `SRCH`, preserve governing-source precedence and Approved Domain authority, and MUST treat this Approved Specification as normative only within the Search and Discovery Domain scope and not as repository-wide authority.
 
 ### REQ-SRCH-002 — Search-Owned Truth
 
@@ -229,7 +229,7 @@ Search and Discovery provides bounded, truthful discovery over non-authoritative
 
 | Requirement | Acceptance Criteria |
 | --- | --- |
-| REQ-SRCH-001 | Metadata shows the Draft lifecycle and SRCH scope; no Search statement overrides governing or Approved Domain authority. |
+| REQ-SRCH-001 | Metadata shows `1.0.0 Approved`, `authoritative: false`, and scope `SRCH`; Approved Requirements are normative only within the Search and Discovery Domain scope and not repository-wide, and governing-source precedence and Approved Domain authority remain preserved. |
 | REQ-SRCH-002 | Each stored or returned SRCH outcome establishes only listed Search concerns and cannot establish an upstream business fact. |
 | REQ-SRCH-003 | No index, query, result, rank, Facet, Filter, or Search event can create or change any listed external truth. |
 | REQ-SRCH-004 | Changing actor context, presentation, page, correlation, or provider reference neither replaces nor merges an accepted request identity. |
@@ -337,7 +337,7 @@ Search and Discovery provides bounded, truthful discovery over non-authoritative
 
 ## 7. Open Product Decisions
 
-`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 10 are materially relevant to Search and Discovery, remain in exact source order, and are unresolved by this Draft.
+`PRODUCT.md` contains exactly 30 Open Product Decisions. The following 10 are materially relevant to Search and Discovery, remain in exact source order, and are unresolved by this Specification.
 
 | Product Decision | Search boundary affected |
 | --- | --- |
@@ -422,12 +422,13 @@ Search and Discovery provides bounded, truthful discovery over non-authoritative
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Draft | Initial comprehensive Search and Discovery Domain Specification. |
+| 1.0.0 | 2026-09-07 | Approved | Promoted the Search and Discovery Domain Specification to its Approved normative baseline without changing substantive Domain behavior or authority boundaries. |
 
 ## 11. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `SRCH`, and the Draft is neither normative nor repository-wide authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `SRCH`, Approved Requirements are normative only within the Search and Discovery Domain scope and not repository-wide authority, governing-source precedence is preserved, and Approved Domain authority is preserved;
 2. Search owns only Search-specific operational truth and every source Domain retains authority;
 3. Product, Category, Pricing, Inventory, Customer, Identity, CMS, Cart, Checkout, Payment, Order, Shipping, Return, Notifications, Administration, and Reporting boundaries remain intact;
 4. query, result, eligibility, Filter, Facet, Sort Order, ranking, pagination, freshness, failure, replay, rebuild, recovery, and reconciliation behavior remains explicit and policy-neutral;
@@ -438,7 +439,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 9. all 30 Product Decisions were reviewed, the 10 material decisions remain exact, source-ordered, and unresolved;
 10. all 25 Risks are material, non-duplicative, and have distinct implementation-neutral controls;
 11. all 32 Related Documents exist and are relevant;
-12. Revision History contains exactly one `0.1.0 Draft` row;
+12. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 13. no Glossary amendment is required;
 14. Markdown, headings, tables, UTF-8, whitespace, final newline, prohibited markers, and structure pass; and
-15. Git scope contains exactly one untracked `specifications/domains/search/search-domain.md`, with no tracked, staged, or unrelated changes.
+15. Git scope contains only the authorized lifecycle-promotion changes to `specifications/domains/search/search-domain.md`, with nothing staged, untracked, unrelated, or otherwise modified.
