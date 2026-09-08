@@ -1,7 +1,7 @@
 ---
 title: Customer and Account / Identity Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-08
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for customer-facing registration, Authentication, Session, recovery, Customer, Account, profile, Address, Preference, Consent, and related protected-resource presentation.
 
-This document uses scope code `FCA`. While Draft, it is not normative. If Approved, its Requirements are normative only within Customer and Account / Identity frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, and FPE Requirements, and resolves no Open Product Decision.
+This document uses scope code `FCA`. This Specification is Approved, and its Requirements are normative only within Customer and Account / Identity frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, and FPE Requirements, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ For FCA only, **account context** describes non-authoritative presentation state
 
 ### REQ-FCA-001 — Lifecycle, Authority, and Scope
 
-FCA MUST govern only Customer and Account / Identity frontend behavior under scope `FCA`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FCA MUST govern only Customer and Account / Identity frontend behavior under scope `FCA`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST treat this Approved Specification as normative only within Customer and Account / Identity frontend scope and not as repository-wide authority.
 
 ### REQ-FCA-002 — Frontend Inheritance
 
@@ -235,7 +235,7 @@ FCA verification MUST cover authority, inheritance, canonical distinctions, regi
 
 | Requirement | Acceptance Criterion |
 | --- | --- |
-| REQ-FCA-001 | Lifecycle evidence confirms `0.1.0 Draft`, `authoritative: false`, scope `FCA`, Draft non-normativity, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement, and Approved Domain authority. |
+| REQ-FCA-001 | Lifecycle evidence confirms `1.0.0 Approved`, `authoritative: false`, scope `FCA`, normativity only within Customer and Account / Identity frontend scope, no repository-wide authority, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement, and Approved Domain authority. |
 | REQ-FCA-002 | Every materially applicable inherited obligation is mapped to FCA and none is copied, weakened, contradicted, or ownership-transferred. |
 | REQ-FCA-003 | Boundary review finds no FCA-owned source-Domain truth or detailed FCP, FPP, FAD, FRP, FSC, FCD, or FPE behavior and no authority transfer through presentation or handoff. |
 | REQ-FCA-004 | Tests distinguish every named actor, business, security, Session, access, and Consent concept without unsupported equivalence or cardinality. |
@@ -426,12 +426,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following ten a
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-08 | Draft | Initial comprehensive Customer and Account / Identity Specification. |
+| 1.0.0 | 2026-09-08 | Approved | Approved Customer and Account / Identity Specification. |
 
 ## 11. Final Validation
 
-Before this Draft is committed, verify that:
+For this Approved baseline, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FCA`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FCA`, with normativity only within Customer and Account / Identity frontend scope and no repository-wide authority;
 2. governing-source precedence, Product and Business Requirements, frontend inheritance, and Approved Domain authority remain preserved;
 3. FCA owns only Customer and Account / Identity presentation and remains separate from FSC, FCD, FPE, FCP, FPP, FAD, and FRP;
 4. Visitor, Customer, Account, Identity, Principal, Authentication, Session, Authorization, Role, Permission, Claims, Scope, and Consent remain distinct;
@@ -448,8 +449,8 @@ Before this Draft is committed, verify that:
 15. every cited Requirement and source section physically exists and directly supports its FCA Requirement;
 16. all ten Product Decisions exactly match `PRODUCT.md`, remain materially complete, source-ordered, and unresolved;
 17. Risks have distinct FCA-specific controls and all Related Document paths exist;
-18. Revision History contains exactly one `0.1.0 Draft` row;
+18. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 19. no Glossary amendment is required and FCA-local descriptions are not repository-wide terminology;
 20. no Product policy, provider, protocol, route, URL, API, schema, persistence, cache mechanism, event taxonomy, payload, numerical target, timeout, retry count, breakpoint, layout, visual token, lifecycle graph, or implementation mechanism is introduced;
 21. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-22. Git scope contains no tracked or staged change and only `specifications/frontend/storefront/account-identity.md` is untracked.
+22. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/account-identity.md`, with nothing staged, untracked, unrelated, or otherwise modified.
