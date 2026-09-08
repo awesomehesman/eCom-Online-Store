@@ -1,7 +1,7 @@
 ---
 title: Product Evaluation Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-08
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for customer-facing evaluation of governed Product and Product Variant evidence before a purchase journey.
 
-This document uses scope code `FPE`. While Draft, it is not yet normative. If Approved, its Requirements are normative only within Product Evaluation frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, and FCD Requirements, and resolves no Open Product Decision.
+This document uses scope code `FPE`. This Specification is Approved, and its Requirements are normative only within Product Evaluation frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, and FCD Requirements, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ Presented Product evidence remains owned by its source. A Product or Product Var
 
 ### REQ-FPE-001 — Lifecycle, Authority, and Scope
 
-FPE MUST govern only Product Evaluation frontend behavior under scope `FPE`, preserve governing-source precedence, FEB, FSC and applicable FCD obligations, Product and Business Requirements, and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FPE MUST govern only Product Evaluation frontend behavior under scope `FPE`, preserve governing-source precedence, FEB, FSC and applicable FCD obligations, Product and Business Requirements, and Approved Domain authority, and its Requirements MUST be treated as normative only within Product Evaluation frontend scope and MUST NOT be treated as repository-wide authority.
 
 ### REQ-FPE-002 — Frontend Inheritance
 
@@ -215,7 +215,7 @@ FPE verification MUST cover applicable authority, frontend inheritance, Product 
 
 | Requirement | Acceptance Criterion |
 | --- | --- |
-| REQ-FPE-001 | Lifecycle evidence confirms `0.1.0 Draft`, `authoritative: false`, scope `FPE`, Draft non-normativity, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement and Approved Domain authority. |
+| REQ-FPE-001 | Lifecycle evidence confirms `1.0.0 Approved`, `authoritative: false`, scope `FPE`, normativity only within Product Evaluation frontend scope, no repository-wide authority, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement and Approved Domain authority. |
 | REQ-FPE-002 | Verification maps every materially applicable FEB, FSC, and FCD Requirement to FPE and finds none copied, weakened, conflicted with, or ownership-transferred. |
 | REQ-FPE-003 | Boundary review finds no FPE-owned or redefined source-Domain truth, redefined FSC or FCD behavior, detailed FCA, FCP, FPP, FAD or FRP behavior, or authority transfer through presentation or handoff. |
 | REQ-FPE-004 | A governed Product destination opens a meaningful evaluation context with safe incoming discovery context while tests require no fixed route, URL, label, layout, Component, or navigation policy. |
@@ -402,12 +402,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following fourt
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-08 | Draft | Initial comprehensive Product Evaluation Specification. |
+| 1.0.0 | 2026-09-08 | Approved | Product Evaluation Specification approved after comprehensive validation. |
 
 ## 11. Final Validation
 
-Before this Draft is committed, verify that:
+For this Approved Specification, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FPE`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FPE`, with normativity confined to Product Evaluation frontend scope and no repository-wide authority;
 2. governing-source precedence, Product and Business Requirements, FEB, FSC and applicable FCD inheritance, and every Approved Domain's authority remain preserved;
 3. FPE owns only Product-evaluation presentation and remains separate from FSC, FCD, FCA, FCP, FPP, FAD and FRP;
 4. Product, Product Variant, Product Media, publication, visibility, lifecycle, structural sellability, Pricing, Inventory, Category, Search, CMS, Customer, Identity, Cart, Checkout, Payment, Order, Shipping, Return, Refund, reviews, Consent and Authorization boundaries remain explicit;
@@ -424,8 +425,8 @@ Before this Draft is committed, verify that:
 15. every FEB, FSC, FCD, Business Requirement, Approved Domain Requirement, Product section and governing-source citation physically exists and directly supports its FPE Requirement;
 16. all fourteen Product Decisions exactly match `PRODUCT.md`, remain materially complete, source-ordered and unresolved;
 17. Risks have distinct FPE-specific controls and all Related Document paths exist;
-18. Revision History contains exactly one `0.1.0 Draft` row;
+18. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 19. no Glossary amendment is required and FPE-local descriptions are not repository-wide terminology;
 20. no Product policy, provider, protocol, route, URL, API, schema, persistence, cache mechanism, event taxonomy, payload, numerical target, timeout, retry count, breakpoint, layout, visual token, lifecycle graph or implementation mechanism is introduced;
 21. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline and prohibited-marker checks pass; and
-22. Git scope contains no tracked or staged change and only `specifications/frontend/storefront/product-evaluation.md` is untracked.
+22. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/product-evaluation.md`, with nothing staged, untracked, unrelated, or otherwise modified.
