@@ -267,7 +267,7 @@ FPE verification MUST cover applicable authority, frontend inheritance, Product 
 | --- | --- | --- | --- | --- | --- | --- |
 | REQ-FPE-001 | REQ-FEB-001–003; REQ-FSC-001–003; REQ-FCD-001–003 | PRODUCT.md §§21–22, 36 | REQ-BUS-047–048 | — | AGENTS.md §§5, 10.3, 14 | All FPE consumers |
 | REQ-FPE-002 | REQ-FEB-002, 051; REQ-FSC-002–003, 043; REQ-FCD-002–003, 044 | PRODUCT.md §§21–22, 26 | REQ-BUS-047 | — | AGENTS.md §27.1 | FPE implementation and later storefront Specifications |
-| REQ-FPE-003 | REQ-FEB-003–004; REQ-FSC-003, 019–025; REQ-FCD-003, 010, 026 | PRODUCT.md §§12–13, 21 | REQ-BUS-005, 047 | REQ-PRD-001–002; REQ-PRC-002–003; REQ-INV-002–003; REQ-CART-002–003; REQ-SHP-002–003 | ENGINEERING-PRINCIPLES.md §§7–10 | FSC, FCD, FCA, FCP, FPP, FAD, FRP |
+| REQ-FPE-003 | REQ-FEB-003–004; REQ-FSC-003, 019–025; REQ-FCD-003, 010, 026 | PRODUCT.md §§12–13, 21 | REQ-BUS-005, 047 | REQ-PRD-001–002; REQ-CAT-001–002; REQ-CUS-001–002; REQ-IDN-002–003; REQ-INV-002–003; REQ-CART-002–003; REQ-PRC-002–003; REQ-PAY-002–003; REQ-SHP-002–003; REQ-CHK-002–003; REQ-ORD-002–003; REQ-RET-002–003; REQ-CMS-002–004; REQ-SRCH-002–003 | ENGINEERING-PRINCIPLES.md §§7–10 | FSC, FCD, FCA, FCP, FPP, FAD, FRP |
 | REQ-FPE-004 | REQ-FEB-009–010, 031; REQ-FSC-010–012; REQ-FCD-004, 024, 026 | PRODUCT.md §§5.2–5.3, 8.2, 14.2 | REQ-BUS-002, 005 | REQ-PRD-003–004, 023–024 | UI.md §§10, 12; ACCESSIBILITY.md §11 | Storefront visitors and FCD |
 | REQ-FPE-005 | REQ-FEB-003–005, 007, 041; REQ-FSC-019, 027–028; REQ-FCD-018 | PRODUCT.md §§8.2, 14.2, 16.1 | REQ-BUS-003, 005 | REQ-PRD-003–004, 025–027; REQ-CMS-020, 032 | DESIGN-SYSTEM.md §32; UI.md §§17, 42 | Storefront visitors and FCP |
 | REQ-FPE-006 | REQ-FEB-003–005, 007; REQ-FSC-019; REQ-FCD-018, 029 | PRODUCT.md §§12–13, 16.1 | REQ-BUS-003, 005 | REQ-PRD-018–024, 032–033 | UI.md §§23, 31 | Storefront visitors and FCP |
@@ -309,7 +309,7 @@ FPE verification MUST cover applicable authority, frontend inheritance, Product 
 | REQ-FPE-042 | REQ-FEB-048; REQ-FSC-040; REQ-FCD-041 | PRODUCT.md §§5.9, 21, 36–38; Open Product Decision 30 | — | — | ARCHITECTURE.md §§38.4, 43.3; ANGULAR.md §§62–63 | Storefront visitors and delivery teams |
 | REQ-FPE-043 | REQ-FEB-005, 007, 014–015, 020, 042, 049; REQ-FSC-041; REQ-FCD-042 | PRODUCT.md §§21–22, 26 | REQ-BUS-005, 042, 046–047 | REQ-PRD-052; REQ-PRC-033–034; REQ-INV-035–036; REQ-SHP-037; REQ-CART-031–032 | ARCHITECTURE.md §§13, 36.5, 39; API.md §§9–13, 16–17, 23, 35–37, 63–72 | FPE implementation and Contract owners |
 | REQ-FPE-044 | REQ-FEB-040, 047–050; REQ-FSC-042; REQ-FCD-043 | PRODUCT.md §§21, 25–26; Open Product Decisions 3, 7–9, 11, 13–15, 17–20, 25, 30 | REQ-BUS-038, 046, 048 | — | DECISIONS.md §§25–40; ENGINEERING-PRINCIPLES.md §§11, 24, 36 | Product, Design, Engineering and later storefront Specifications |
-| REQ-FPE-045 | REQ-FEB-001–003, 014, 020–021, 026–030, 034, 042–051; REQ-FSC-002–003, 043; REQ-FCD-002–003, 044 | PRODUCT.md §§22, 26, 35 | REQ-BUS-002–006, 014–018, 029, 037–040, 042, 047 | REQ-PRD-044; REQ-PRC-035; REQ-INV-037; REQ-SHP-043; REQ-CART-033 | TESTING-STANDARDS.md §§5, 7, 9, 11, 13, 19–24, 27–31, 33–40; ANGULAR.md §§56–60, 68 | Engineering, QA, Accessibility, Security and all FPE consumers |
+| REQ-FPE-045 | REQ-FEB-001–003, 014, 020–021, 026–030, 034, 042–051; REQ-FSC-002–003, 043; REQ-FCD-002–003, 044 | PRODUCT.md §§22, 26, 35 | REQ-BUS-002–006, 014–018, 029, 037–040, 042, 047 | REQ-PRD-044; REQ-CAT-043; REQ-CUS-049; REQ-IDN-050; REQ-INV-037; REQ-CART-033; REQ-PRC-035; REQ-PAY-045; REQ-SHP-043; REQ-CHK-044; REQ-ORD-052; REQ-RET-048; REQ-CMS-051; REQ-SRCH-050 | TESTING-STANDARDS.md §§5, 7, 9, 11, 13, 19–24, 27–31, 33–40; ANGULAR.md §§56–60, 68 | Engineering, QA, Accessibility, Security and all FPE consumers |
 
 ## 7. Open Product Decisions
 
@@ -394,6 +394,7 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following fourt
 - `specifications/domains/cms/cms-domain.md`
 - `specifications/domains/customer/customer-domain.md`
 - `specifications/domains/identity/identity-domain.md`
+- `specifications/domains/order/order-domain.md`
 - `specifications/domains/return/return-domain.md`
 
 ## 10. Revision History
