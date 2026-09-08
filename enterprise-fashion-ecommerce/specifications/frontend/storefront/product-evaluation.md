@@ -278,18 +278,18 @@ FPE verification MUST cover applicable authority, frontend inheritance, Product 
 | REQ-FPE-011 | REQ-FEB-006–007, 017; REQ-FCD-024 | PRODUCT.md §§5.4–5.6 | REQ-BUS-005–006, 042 | REQ-PRD-007–013; REQ-INV-007 | ANGULAR.md §§18, 37–38 | Storefront visitors |
 | REQ-FPE-012 | REQ-FEB-007, 033, 037, 041; REQ-FSC-027–028, 036; REQ-FCD-020 | PRODUCT.md §§8.2, 16.9 | REQ-BUS-005, 050 | REQ-PRD-014–017, 025–027; REQ-CMS-021, 030 | UI.md §33; ACCESSIBILITY.md §§43, 46 | Storefront visitors |
 | REQ-FPE-013 | REQ-FEB-032–037, 041; REQ-FCD-020 | PRODUCT.md §§5.3, 8.2 | REQ-BUS-002, 005, 037 | REQ-PRD-014–017, 041–042 | DESIGN-SYSTEM.md §§32, 57–58; ACCESSIBILITY.md §§41, 43 | Storefront visitors |
-| REQ-FPE-014 | REQ-FEB-003–005, 007, 037; REQ-FSC-022; REQ-FCD-021 | PRODUCT.md §§5.4, 16.1 | REQ-BUS-014–016 | REQ-PRC-002–003, 006–007, 019, 029, 033–034 | UI.md §26; ACCESSIBILITY.md §29 | Storefront visitors and FCP |
+| REQ-FPE-014 | REQ-FEB-003–005, 007; REQ-FSC-022; REQ-FCD-021 | PRODUCT.md §§5.4, 16.1 | REQ-BUS-014–016 | REQ-PRC-002–003, 006–007, 019 | UI.md §26; ACCESSIBILITY.md §29 | Storefront visitors and FCP |
 | REQ-FPE-015 | REQ-FEB-003–005, 007; REQ-FSC-022; REQ-FCD-021 | PRODUCT.md §§16.1, 18.1; Open Product Decisions 8, 14 | REQ-BUS-015–016 | REQ-PRC-009–012, 019, 023 | DESIGN-SYSTEM.md §34; UI.md §26 | Storefront visitors and FCP |
 | REQ-FPE-016 | REQ-FEB-005, 007, 014–015, 020–021; REQ-FCD-021, 023 | PRODUCT.md §§5.4–5.6, 17.2 | REQ-BUS-015–016, 042 | REQ-PRC-019, 024, 034 | UI.md §§23, 26, 45 | Storefront visitors and FCP |
-| REQ-FPE-017 | REQ-FEB-003–005, 007, 037; REQ-FSC-023; REQ-FCD-022 | PRODUCT.md §§5.4, 16.2; Open Product Decision 17 | REQ-BUS-017–018 | REQ-INV-002–003, 005–009, 021, 031, 035–036 | UI.md §25; ACCESSIBILITY.md §28 | Storefront visitors and FCP |
+| REQ-FPE-017 | REQ-FEB-003–005, 007; REQ-FSC-023; REQ-FCD-022 | PRODUCT.md §§5.4, 16.2; Open Product Decision 17 | REQ-BUS-017–018 | REQ-INV-002–009, 036 | UI.md §25; ACCESSIBILITY.md §28 | Storefront visitors and FCP |
 | REQ-FPE-018 | REQ-FEB-003–005, 007, 041; REQ-FCD-022 | PRODUCT.md §§16.2, 17.2; Open Product Decisions 13, 17 | REQ-BUS-017–018, 042 | REQ-INV-007–009, 020 | DESIGN-SYSTEM.md §35; UI.md §25 | Storefront visitors and FCP |
 | REQ-FPE-019 | REQ-FEB-003–005; REQ-FSC-019, 022–023; REQ-FCD-010, 018, 021–022 | PRODUCT.md §§14.2–14.3, 16.1–16.2 | REQ-BUS-005–006, 015, 017 | REQ-PRD-021–024; REQ-PRC-003; REQ-INV-003, 005, 009 | UI.md §§25–26 | Storefront visitors and FCP |
-| REQ-FPE-020 | REQ-FEB-019; REQ-FCD-019 | PRODUCT.md §§14.2–14.3 | REQ-BUS-006, 009–010 | REQ-CART-002, 005, 009–010; REQ-INV-009–011 | UI.md §§13–14, 29 | Storefront visitors and FCP |
+| REQ-FPE-020 | REQ-FEB-019; REQ-FCD-019 | PRODUCT.md §§14.2–14.3 | REQ-BUS-006, 009–010 | REQ-CART-002, 009; REQ-INV-010–011 | UI.md §§13–14, 29 | Storefront visitors and FCP |
 | REQ-FPE-021 | REQ-FEB-003–005, 007, 037; REQ-FSC-022; REQ-FCD-023 | PRODUCT.md §§16.5, 17.2; Open Product Decisions 7–9 | REQ-BUS-005, 014, 029, 042 | REQ-SHP-004–008, 025–026; REQ-PRC-014 | UI.md §§23, 26; ACCESSIBILITY.md §29 | Storefront visitors and FCP |
-| REQ-FPE-022 | REQ-FEB-003–005, 027, 041; REQ-FSC-016–018, 027–028; REQ-FCD-023 | PRODUCT.md §§16.8–16.9, 17.2 | REQ-BUS-005, 042, 050 | REQ-PRD-025–027; REQ-CMS-020–025, 031–032, 040 | UI.md §§23, 42 | Storefront visitors |
+| REQ-FPE-022 | REQ-FEB-003–005, 041; REQ-FSC-016–018, 027–028; REQ-FCD-023 | PRODUCT.md §§16.8–16.9, 16.11, 17.2; Open Product Decisions 11, 18 | REQ-BUS-005, 050 | REQ-PRD-025–027; REQ-PRC-019, 023; REQ-SHP-004–006; REQ-CMS-020, 023, 025, 032, 040; REQ-RET-014 | UI.md §§23, 42 | Storefront visitors |
 | REQ-FPE-023 | REQ-FEB-003, 041, 050 | Open Product Decision 15 | — | — | — | Storefront visitors and Product owners |
 | REQ-FPE-024 | REQ-FEB-006, 009–010; REQ-FCD-024–026 | PRODUCT.md §§5.6, 14 | REQ-BUS-004–005 | REQ-PRD-023–024; REQ-CAT-017–019; REQ-SRCH-004–005, 017 | UI.md §§12, 32; ACCESSIBILITY.md §11 | Storefront visitors and FCD |
-| REQ-FPE-025 | REQ-FEB-004–005, 009, 019; REQ-FSC-025; REQ-FCD-026 | PRODUCT.md §§14.2–14.3 | REQ-BUS-006, 009–013 | REQ-CART-002–005, 009–010, 014–018, 031–032; REQ-INV-009–011 | UI.md §§14, 29–30 | FCP and storefront visitors |
+| REQ-FPE-025 | REQ-FEB-004–005, 009, 019; REQ-FSC-025; REQ-FCD-026 | PRODUCT.md §§14.2–14.3 | REQ-BUS-006, 009–011 | REQ-CART-002–003, 005, 009, 014, 018; REQ-INV-010–012; REQ-CHK-002, 023, 027–028; REQ-PAY-006, 019 | UI.md §§14, 29–30 | FCP and storefront visitors |
 | REQ-FPE-026 | REQ-FEB-005, 007, 014–015, 020; REQ-FSC-018, 028–029; REQ-FCD-023 | PRODUCT.md §§5.4–5.6, 17.2 | REQ-BUS-005, 015, 017, 029, 042 | REQ-PRD-017, 027, 033, 040; REQ-PRC-019, 034; REQ-INV-007, 036; REQ-SHP-005, 025–026; REQ-CMS-040, 042 | UI.md §§23, 45 | Storefront visitors and FCP |
 | REQ-FPE-027 | REQ-FEB-016–017; REQ-FSC-031; REQ-FCD-024 | PRODUCT.md §§5.4–5.6 | REQ-BUS-005, 042 | REQ-PRD-040; REQ-PRC-024, 034; REQ-INV-007, 036 | ANGULAR.md §§18, 37–38 | Storefront visitors |
 | REQ-FPE-028 | REQ-FEB-014–018, 020; REQ-FSC-029; REQ-FCD-028 | PRODUCT.md §§5.4–5.6, 17.2 | REQ-BUS-005, 042 | REQ-PRD-040; REQ-PRC-034; REQ-INV-036 | UI.md §§21–23; ACCESSIBILITY.md §§24–26 | Storefront visitors |
@@ -308,12 +308,12 @@ FPE verification MUST cover applicable authority, frontend inheritance, Product 
 | REQ-FPE-041 | REQ-FEB-026, 029, 046–047; REQ-FSC-039; REQ-FCD-040 | PRODUCT.md §§18.3, 33; Open Product Decisions 19–20 | REQ-BUS-039–040, 043–044 | REQ-CUS-020–021, 038 | EVENTS.md §§6–8, 43–48; SECURITY-STANDARDS.md §§27–28 | Product, Analytics and Privacy owners |
 | REQ-FPE-042 | REQ-FEB-048; REQ-FSC-040; REQ-FCD-041 | PRODUCT.md §§5.9, 21, 36–38; Open Product Decision 30 | — | — | ARCHITECTURE.md §§38.4, 43.3; ANGULAR.md §§62–63 | Storefront visitors and delivery teams |
 | REQ-FPE-043 | REQ-FEB-005, 007, 014–015, 020, 042, 049; REQ-FSC-041; REQ-FCD-042 | PRODUCT.md §§21–22, 26 | REQ-BUS-005, 042, 046–047 | REQ-PRD-052; REQ-PRC-033–034; REQ-INV-035–036; REQ-SHP-037; REQ-CART-031–032 | ARCHITECTURE.md §§13, 36.5, 39; API.md §§9–13, 16–17, 23, 35–37, 63–72 | FPE implementation and Contract owners |
-| REQ-FPE-044 | REQ-FEB-040, 047–050; REQ-FSC-042; REQ-FCD-043 | PRODUCT.md §§21, 25–26; Open Product Decisions 3, 7–9, 13–15, 17, 19–20, 25, 30 | REQ-BUS-038, 046, 048 | — | DECISIONS.md §§25–40; ENGINEERING-PRINCIPLES.md §§11, 24, 36 | Product, Design, Engineering and later storefront Specifications |
+| REQ-FPE-044 | REQ-FEB-040, 047–050; REQ-FSC-042; REQ-FCD-043 | PRODUCT.md §§21, 25–26; Open Product Decisions 3, 7–9, 11, 13–15, 17–20, 25, 30 | REQ-BUS-038, 046, 048 | — | DECISIONS.md §§25–40; ENGINEERING-PRINCIPLES.md §§11, 24, 36 | Product, Design, Engineering and later storefront Specifications |
 | REQ-FPE-045 | REQ-FEB-001–003, 014, 020–021, 026–030, 034, 042–051; REQ-FSC-002–003, 043; REQ-FCD-002–003, 044 | PRODUCT.md §§22, 26, 35 | REQ-BUS-002–006, 014–018, 029, 037–040, 042, 047 | REQ-PRD-044; REQ-PRC-035; REQ-INV-037; REQ-SHP-043; REQ-CART-033 | TESTING-STANDARDS.md §§5, 7, 9, 11, 13, 19–24, 27–31, 33–40; ANGULAR.md §§56–60, 68 | Engineering, QA, Accessibility, Security and all FPE consumers |
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelve are materially relevant to FPE, retain their exact source wording and order, and remain unresolved by this Draft:
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following fourteen are materially relevant to FPE, retain their exact source wording and order, and remain unresolved by this Draft:
 
 | Source Order | Open Product Decision | FPE Boundary |
 | --- | --- | --- |
@@ -321,10 +321,12 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelv
 | 7 | Shipping provider, service levels, delivery areas, and fee policy. | FPE may present governed delivery evidence but selects no provider, service, area, eligibility, timing, fee, or fulfilment policy. |
 | 8 | Free-delivery threshold and promotional treatment. | FPE may present governed delivery or Promotion evidence but selects no threshold, qualification, wording, calculation, or promotional treatment. |
 | 9 | Tax-inclusive display and invoice requirements. | FPE may present governed Price and tax evidence but selects no inclusion, display, calculation, invoice, or jurisdictional policy. |
+| 11 | Returns, exchanges, and refund policy. | FPE may present governed Return, refund, or exchange policy evidence but selects no Return, exchange, refund, eligibility, timing, process, outcome, or policy. |
 | 13 | Back-order and pre-order support. | FPE selects no support, eligibility, availability label, purchase treatment, timing, reservation, or fulfilment behavior. |
 | 14 | Voucher and promotion stacking policy. | FPE may present governed commercial evidence but selects no stacking, priority, eligibility, application, or display rule. |
 | 15 | Product-review support. | FPE presents no reviews or ratings unless later Approved governance establishes support and selects no submission, moderation, aggregation, eligibility, or display policy. |
 | 17 | Low-stock and out-of-stock customer messaging. | FPE may present governed availability evidence but selects no threshold, wording, urgency, suppression, replenishment, or Customer-facing treatment. |
+| 18 | Customer-support channels and service expectations. | FPE may present governed support evidence but selects no support channel, availability, service expectation, response commitment, escalation, or support policy. |
 | 19 | Marketing-consent and communication-preference model. | FPE preserves Consent authority for analytics and selects no model, default, category, capture mechanism, communication behavior, or policy. |
 | 20 | Initial analytics provider and event taxonomy. | FPE selects no provider, taxonomy, canonical event name, payload, attribution, personalization, SDK, or destination. |
 | 25 | South African tax-display, invoice, and credit-note policy. | FPE may present governed tax-related Price or policy evidence but selects no tax-display, invoice, Credit Note, calculation, or legal policy. |
@@ -385,10 +387,14 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelv
 - `specifications/domains/inventory/inventory-domain.md`
 - `specifications/domains/shipping/shipping-domain.md`
 - `specifications/domains/cart/cart-domain.md`
+- `specifications/domains/checkout/checkout-domain.md`
+- `specifications/domains/payment/payment-domain.md`
 - `specifications/domains/category/category-domain.md`
+- `specifications/domains/search/search-domain.md`
 - `specifications/domains/cms/cms-domain.md`
 - `specifications/domains/customer/customer-domain.md`
 - `specifications/domains/identity/identity-domain.md`
+- `specifications/domains/return/return-domain.md`
 
 ## 10. Revision History
 
@@ -415,7 +421,7 @@ Before this Draft is committed, verify that:
 13. Contracts remain abstract, bounded and sufficient for truthful evaluation without routes, methods, operations, DTOs, schemas, wire formats, status mappings, event payloads, persistence, transport or providers;
 14. Requirements, Acceptance Criteria and traceability are equal in count, unique, sequential, gap-free and one-to-one;
 15. every FEB, FSC, FCD, Business Requirement, Approved Domain Requirement, Product section and governing-source citation physically exists and directly supports its FPE Requirement;
-16. all twelve Product Decisions exactly match `PRODUCT.md`, remain materially complete, source-ordered and unresolved;
+16. all fourteen Product Decisions exactly match `PRODUCT.md`, remain materially complete, source-ordered and unresolved;
 17. Risks have distinct FPE-specific controls and all Related Document paths exist;
 18. Revision History contains exactly one `0.1.0 Draft` row;
 19. no Glossary amendment is required and FPE-local descriptions are not repository-wide terminology;
