@@ -1,7 +1,7 @@
 ---
 title: Storefront Shell and Content Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-07
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for the customer-facing storefront shell, storefront entry, shared navigation presentation, homepage boundaries, and truthful presentation of governed content.
 
-This document uses scope code `FSC`. While Draft, it is not yet normative. If Approved, its Requirements are normative only within the Storefront Shell and Content scope and are not repository-wide authority. It remains subordinate to higher-authority governing sources, consumes the Approved Shared Frontend Baseline, preserves every Approved Domain's authority, and resolves no Open Product Decision.
+This document uses scope code `FSC`. Its Approved Requirements are normative only within the Storefront Shell and Content scope and are not repository-wide authority. It remains subordinate to higher-authority governing sources, consumes the Approved Shared Frontend Baseline, preserves every Approved Domain's authority, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ The shell may present header, footer, navigation, homepage, content, media, noti
 
 ### REQ-FSC-001 — Lifecycle, Authority, and Scope
 
-FSC MUST govern only Storefront Shell and Content behavior under scope `FSC`, preserve governing-source precedence, FEB obligations, Product and Business Requirements, and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FSC MUST govern only Storefront Shell and Content behavior under scope `FSC`, preserve governing-source precedence, FEB obligations, Product and Business Requirements, and Approved Domain authority, and MUST treat this Approved Specification as normative only within the Storefront Shell and Content scope and not as repository-wide authority.
 
 ### REQ-FSC-002 — FEB Conformance
 
@@ -207,7 +207,7 @@ FSC verification MUST cover applicable authority, FEB inheritance, entry, shell,
 
 | Requirement | Acceptance Criterion |
 | --- | --- |
-| REQ-FSC-001 | Metadata states `0.1.0 Draft`, `authoritative: false`, and scope `FSC`; review evidence confirms governing precedence, FEB inheritance, preserved Product, Business Requirement and Domain authority, and no normative or repository-wide authority before approval. |
+| REQ-FSC-001 | Metadata states `1.0.0 Approved`, `authoritative: false`, and scope `FSC`; review evidence confirms normativity only within the Storefront Shell and Content scope, no repository-wide authority, governing precedence, FEB inheritance, and preserved Product, Business Requirement and Domain authority. |
 | REQ-FSC-002 | A conformance matrix maps every applicable FSC behavior to the smallest direct FEB set and demonstrates no copied, weakened, conflicting, or authority-transferring shared rule. |
 | REQ-FSC-003 | Boundary and destination review finds no FSC-owned source-Domain truth, redefined shared FEB behavior, detailed FCD, FPE, FCA, FCP, FPP, FAD, or FRP behavior, or authority transfer through a link, shell entry, or destination presentation. |
 | REQ-FSC-004 | The entry remains meaningful and operable with governed capability evidence while tests require no fixed route, label, layout, module set, or proposition. |
@@ -301,7 +301,7 @@ FSC verification MUST cover applicable authority, FEB inheritance, entry, shell,
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eight are materially relevant to FSC, retain their exact source wording and order, and remain unresolved by this Draft:
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eight are materially relevant to FSC, retain their exact source wording and order, and remain unresolved by this Specification:
 
 | Source Order | Open Product Decision | FSC Boundary |
 | --- | --- | --- |
@@ -375,12 +375,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eight
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Draft | Initial comprehensive Storefront Shell and Content Specification. |
+| 1.0.0 | 2026-09-07 | Approved | Approved the Storefront Shell and Content Specification as its FSC-scoped normative baseline without changing substantive behavior or authority boundaries. |
 
 ## 11. Final Validation
 
-Before this Draft is committed, verify that:
+Before this Approved baseline is committed, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FSC`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FSC`, with normativity only within the Storefront Shell and Content scope and no repository-wide authority;
 2. governing-source precedence, Product and Business Requirements, FEB inheritance, and every Approved Domain's authority remain preserved;
 3. FSC owns only storefront-shell and content-presentation behavior and remains separate from FCD, FPE, FCA, FCP, FPP, FAD, and FRP;
 4. CMS publication, placement, lifecycle, withdrawal, content, and media authority remain outside FSC and presentation is truthful under absent, stale, partial, invalid, unavailable, and failed evidence;
@@ -397,8 +398,8 @@ Before this Draft is committed, verify that:
 15. every FEB, Business Requirement, Approved Domain Requirement, Product section, and governing-source citation physically exists and directly supports its FSC Requirement;
 16. all eight Product Decisions exactly match `PRODUCT.md`, remain source-ordered, and are unresolved;
 17. Risks have distinct FSC-specific controls and all Related Document paths exist;
-18. Revision History contains exactly one `0.1.0 Draft` row;
+18. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 19. no Glossary amendment is required and FSC-local descriptions are not repository-wide terminology;
 20. no Product policy, provider, protocol, route, URL, API, schema, persistence, cache mechanism, event taxonomy, payload, numerical target, timeout, retry count, breakpoint, layout, visual token, lifecycle graph, or implementation mechanism is introduced;
 21. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-22. Git scope contains no tracked or staged change and only `specifications/frontend/storefront/storefront-shell-content.md` is untracked.
+22. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/storefront-shell-content.md`, with nothing staged, untracked, unrelated, or otherwise modified.
