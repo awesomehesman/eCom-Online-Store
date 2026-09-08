@@ -1,7 +1,7 @@
 ---
 title: Catalogue and Discovery Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-08
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for the customer-facing frontend experience used to browse and discover the governed catalogue.
 
-This document uses scope code `FCD`. While Draft, it is not yet normative. If Approved, its Requirements are normative only within the Catalogue and Discovery scope and are not repository-wide authority. It remains subordinate to higher-authority governing sources, inherits the Approved Shared Frontend Baseline and Storefront Shell and Content Specification, preserves every Approved Domain's authority, and resolves no Open Product Decision.
+This document uses scope code `FCD`. Its Approved Requirements are normative only within the Catalogue and Discovery scope and are not repository-wide authority. It remains subordinate to higher-authority governing sources, inherits the Approved Shared Frontend Baseline and Storefront Shell and Content Specification, preserves every Approved Domain's authority, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ A presented result remains evidence from its owning sources. Its presence, absen
 
 ### REQ-FCD-001 — Lifecycle, Authority, and Scope
 
-FCD MUST govern only Catalogue and Discovery frontend behavior under scope `FCD`, preserve governing-source precedence, FEB and FSC obligations, Product and Business Requirements, and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FCD MUST govern only Catalogue and Discovery frontend behavior under scope `FCD`, preserve governing-source precedence, FEB and FSC obligations, Product and Business Requirements, and Approved Domain authority, and MUST treat this Approved Specification as normative only within the Catalogue and Discovery scope and not as repository-wide authority.
 
 ### REQ-FCD-002 — FEB and FSC Inheritance
 
@@ -211,7 +211,7 @@ FCD verification MUST cover applicable authority, FEB and FSC inheritance, catal
 
 | Requirement | Acceptance Criterion                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| REQ-FCD-001 | Lifecycle validation confirms that the document metadata, status, and Revision History agree; authoritative remains false; Draft status is non-normative; and, if promoted to Approved, normativity is confined to scope FCD without repository-wide authority or loss of governing-source, FEB, FSC, Product, Business Requirement, or Approved Domain precedence. |
+| REQ-FCD-001 | Lifecycle validation confirms that metadata and Revision History state `1.0.0 Approved`, `authoritative: false`, and scope `FCD`; normativity is confined to the Catalogue and Discovery scope without repository-wide authority or loss of governing-source, FEB, FSC, Product, Business Requirement, or Approved Domain precedence. |
 | REQ-FCD-002 | Verification assesses every materially applicable Approved FEB and FSC Requirement against FCD and finds none copied, weakened, conflicted with, or ownership-transferred.                                                                                                                                                                                                                                                                                                                                    |
 | REQ-FCD-003 | Boundary review finds no FCD-owned or redefined source-Domain truth, redefined FEB or FSC behavior, detailed FPE, FCA, FCP, FPP, FAD, or FRP behavior, or authority transfer through result or destination presentation.                                                                                                                                                                                                                                                                                      |
 | REQ-FCD-004 | A Customer can enter a meaningful discovery context from the governed shell while tests require no fixed route, label, layout, Component, or commercial proposition.                                                                                                                                                                                                                                                                                                                                          |
@@ -376,12 +376,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following six a
 | Version | Date       | Status | Summary                                                      |
 | ------- | ---------- | ------ | ------------------------------------------------------------ |
 | 0.1.0   | 2026-09-08 | Draft  | Initial comprehensive Catalogue and Discovery Specification. |
+| 1.0.0 | 2026-09-08 | Approved | Approved Catalogue and Discovery Specification. |
 
 ## 11. Final Validation
 
-Before this Draft is committed, verify that:
+Before this Approved baseline is committed, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FCD`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FCD`, with normativity only within the Catalogue and Discovery scope and no repository-wide authority;
 2. governing-source precedence, Product and Business Requirements, FEB and FSC inheritance, and every Approved Domain's authority remain preserved;
 3. FCD owns only catalogue-and-discovery presentation and remains separate from FSC, FPE, FCA, FCP, FPP, FAD, and FRP;
 4. Product, Product Variant, Product Media, Category, Search, Pricing, Inventory, CMS, Customer, Identity, Cart, Checkout, Payment, Reporting, Analytics, Consent, and Product-policy boundaries remain explicit;
@@ -398,8 +399,8 @@ Before this Draft is committed, verify that:
 15. every FEB, FSC, Business Requirement, Approved Domain Requirement, Product section, and governing-source citation physically exists and directly supports its FCD Requirement;
 16. the six represented Open Product Decisions are materially complete for FCD, exactly match `PRODUCT.md`, remain source-ordered, and are unresolved;
 17. Risks have distinct FCD-specific controls and all Related Document paths exist;
-18. Revision History contains exactly one `0.1.0 Draft` row;
+18. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 19. no Glossary amendment is required and FCD-local descriptions are not repository-wide terminology;
 20. no Product policy, provider, protocol, route, URL, API, schema, persistence, cache or index mechanism, event taxonomy, payload, ranking algorithm, relevance formula, numerical target, timeout, retry count, breakpoint, layout, visual token, lifecycle graph, or implementation mechanism is introduced;
 21. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-22. Git scope contains no tracked or staged change and only `specifications/frontend/storefront/catalogue-discovery.md` is untracked.
+22. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/catalogue-discovery.md`, with nothing staged, untracked, unrelated, or otherwise modified.
