@@ -1,7 +1,7 @@
 ---
 title: Cart and Purchase Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-09
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for customer-facing Cart and purchase presentation, intent, progression, uncertainty, recovery, and confirmation boundaries.
 
-This document uses scope code `FCP`. While Draft, it is not normative. If Approved, its Requirements are normative only within Cart and Purchase frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, FPE, and FCA Requirements, and resolves no Open Product Decision.
+This document uses scope code `FCP`. This Specification is Approved, and its Requirements are normative only within Cart and Purchase frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, FPE, and FCA Requirements, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ For FCP only, **purchase presentation context** describes non-authoritative fron
 
 ### REQ-FCP-001 — Lifecycle, Authority, and Scope
 
-FCP MUST govern only Cart and Purchase frontend behavior under scope `FCP`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FCP MUST govern only Cart and Purchase frontend behavior under scope `FCP`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST treat this Approved Specification as normative only within Cart and Purchase frontend scope and not as repository-wide authority.
 
 ### REQ-FCP-002 — Frontend Inheritance
 
@@ -263,7 +263,7 @@ FCP MUST provide traceable verification across authority and inheritance boundar
 
 | Requirement | Acceptance Criterion |
 | --- | --- |
-| REQ-FCP-001 | Lifecycle evidence confirms `0.1.0 Draft`, `authoritative: false`, scope `FCP`, Draft non-normativity, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement, and Approved Domain authority. |
+| REQ-FCP-001 | Lifecycle evidence confirms `1.0.0 Approved`, `authoritative: false`, scope `FCP`, normativity only within Cart and Purchase frontend scope, no repository-wide authority, governing precedence, inherited frontend obligations, and preserved Product, Business Requirement, and Approved Domain authority. |
 | REQ-FCP-002 | Applicable inherited obligations are mapped individually and none is copied, weakened, contradicted, or ownership-transferred. |
 | REQ-FCP-003 | Boundary review finds no FCP-owned source truth or detailed neighboring journey behavior and no authority transfer through presentation or handoff. |
 | REQ-FCP-004 | Cart presentation retains governed identity and each applicable association, while manipulated local context changes none of them. |
@@ -385,7 +385,7 @@ FCP MUST provide traceable verification across authority and inheritance boundar
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eighteen are materially relevant to FCP, retain their exact source wording and order, and remain unresolved by this Draft:
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eighteen are materially relevant to FCP, retain their exact source wording and order, and remain unresolved by this Specification:
 
 | Source Order | Open Product Decision | FCP Boundary |
 | --- | --- | --- |
@@ -479,12 +479,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following eight
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-09 | Draft | Initial comprehensive Cart and Purchase Specification. |
+| 1.0.0 | 2026-09-09 | Approved | Approved Cart and Purchase Specification. |
 
 ## 11. Final Validation
 
-Before this Draft is committed, verify that:
+For this Approved baseline, verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, and scope is `FCP`, with no normative or repository-wide authority before approval;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, and scope is `FCP`, with normativity only within Cart and Purchase frontend scope and no repository-wide authority;
 2. governing precedence, inherited frontend obligations, and Product, Business Requirement, and Approved Domain authority remain preserved;
 3. FCP owns only Cart and purchase presentation and remains separate from FSC, FCD, FPE, FCA, FPP, FAD, and FRP;
 4. Cart, Pricing, Inventory, Checkout, Payment, Order, Shipping, Customer, and Identity truth boundaries remain preserved;
@@ -503,7 +504,7 @@ Before this Draft is committed, verify that:
 17. every cited Requirement and source section physically exists and directly supports its FCP Requirement;
 18. all eighteen Product Decisions exactly match `PRODUCT.md`, remain materially complete, source-ordered, and unresolved;
 19. Risks have distinct FCP-specific controls and all Related Document paths exist;
-20. Revision History contains exactly one `0.1.0 Draft` row;
+20. Revision History contains exactly the preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 21. no Glossary amendment is required and FCP-local descriptions are not repository-wide terminology;
 22. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-23. Git scope contains no tracked or staged change and only `specifications/frontend/storefront/cart-purchase.md` is untracked.
+23. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/cart-purchase.md`, with nothing staged, untracked, unrelated, or otherwise modified.
