@@ -1,7 +1,7 @@
 ---
 title: Post-Purchase Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-09
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral requirements for customer-facing post-purchase presentation and interaction after authoritative Order creation.
 
-This document uses scope code `FPP`. While Draft, it is non-normative. If Approved, its Requirements are normative only within Post-Purchase frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, FPE, FCA, and FCP Requirements, and resolves no Open Product Decision.
+This document uses scope code `FPP`. This Specification is Approved. Its Requirements are normative only within Post-Purchase frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, Approved Domain Specifications, and applicable Approved FEB, FSC, FCD, FPE, FCA, and FCP Requirements, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ For FPP only, **post-purchase presentation context** means non-authoritative fro
 
 ### REQ-FPP-001 — Lifecycle, Authority, and Scope
 
-FPP MUST govern only Post-Purchase frontend behavior under scope `FPP`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FPP MUST govern only Post-Purchase frontend behavior under scope `FPP`, preserve governing-source precedence, applicable frontend inheritance and Approved Domain authority, and MUST treat this Approved Specification as normative only within FPP scope and not as repository-wide authority.
 
 ### REQ-FPP-002 — Frontend Inheritance
 
@@ -263,7 +263,7 @@ FPP MUST provide traceable verification across lifecycle and inheritance, FCP ha
 
 | Requirement | Acceptance Criterion |
 |---|---|
-| REQ-FPP-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `FPP`, Draft non-normativity, no repository-wide authority, and preserved governing, frontend, Product, Business Requirement, and Domain precedence. |
+| REQ-FPP-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `FPP`, normativity confined to FPP, no repository-wide authority, and preserved governing, frontend, Product, Business Requirement, and Domain precedence. |
 | REQ-FPP-002 | Each applicable inherited obligation is traced and conformance evidence shows it is consumed without copied ownership, weakening, or conflict. |
 | REQ-FPP-003 | Boundary review finds no FPP-owned source-Domain truth, redefined upstream journey behavior, detailed FAD or FRP behavior, or authority transfer through presentation or handoff. |
 | REQ-FPP-004 | Entry is available only after correlated Order-owned creation evidence; negative tests prove Payment, provider, Notification, analytics, local, navigation, and timeout evidence cannot create entry authority. |
@@ -385,7 +385,7 @@ FPP MUST provide traceable verification across lifecycle and inheritance, FCP ha
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelve are materially relevant to FPP, remain unresolved by this Draft, preserve their source order and exact names, and are not resolved here.
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelve are materially relevant to FPP, remain unresolved by this Specification, preserve their source order and exact names, and are not resolved here.
 
 | Source Decision | Exact Open Product Decision | FPP Boundary |
 |---|---|---|
@@ -475,10 +475,11 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelv
 | Version | Date | Status | Summary |
 |---|---|---|---|
 | 0.1.0 | 2026-09-09 | Draft | Initial comprehensive Post-Purchase Specification. |
+| 1.0.0 | 2026-09-09 | Approved | Approved Post-Purchase Specification after authority, traceability, boundary, and verification review. |
 
 ## 11. Final Validation
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `FPP`, Draft status is non-normative, future normativity is confined to FPP, and no repository-wide authority exists;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `FPP`, normativity is confined to FPP, and no repository-wide authority exists;
 2. governing-source, Product, Business Requirement, Approved Domain, and applicable FEB, FSC, FCD, FPE, FCA, and FCP precedence and inheritance are preserved;
 3. FPP starts only after authoritative Order creation, preserves the FCP-to-FPP boundary, and absorbs no purchase behavior;
 4. source-Domain and journey authority remain intact across Order, historical evidence, Shipping, cancellation, Return, Refund, Payment, Notifications, support, FAD, and FRP;
@@ -498,7 +499,7 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelv
 18. all 30 Open Product Decisions were reviewed, exactly twelve materially relevant decisions match `PRODUCT.md` verbatim, preserve source order, and remain unresolved;
 19. Risks are distinct, FPP-specific, and paired with implementation-neutral controls;
 20. every Related Document exists and is materially relevant;
-21. Revision History contains exactly one `0.1.0 Draft` row;
+21. Revision History contains the preserved `0.1.0 Draft` row and exactly one `1.0.0 Approved` row;
 22. canonical terminology is preserved, the FPP-local presentation concept is explicitly non-canonical and non-authoritative, and no Glossary amendment is required;
 23. Markdown headings and tables, UTF-8, whitespace, final newline, and prohibited-marker checks pass; and
-24. Git scope contains no tracked or staged modification, exactly `specifications/frontend/storefront/post-purchase.md` is untracked, and `git diff --check` plus equivalent untracked-file validation pass.
+24. Git scope contains only the authorized lifecycle-promotion changes to `specifications/frontend/storefront/post-purchase.md`, with nothing staged, untracked, unrelated, or otherwise modified, and `git diff --check` passes.
