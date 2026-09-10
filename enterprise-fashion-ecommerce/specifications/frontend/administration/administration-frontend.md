@@ -1,7 +1,7 @@
 ---
 title: Administration Frontend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-10
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Draft defines implementation-neutral requirements for protected Staff-facing presentation and interaction with governed Administration capabilities.
 
-This document uses scope code `FAD`. While Draft, it is non-normative. If Approved, its Requirements are normative only within Administration frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, the Approved Administration Domain, applicable Approved Domain Specifications, the Approved Shared Frontend Baseline (FEB), and relevant frontend boundary Requirements, and resolves no Open Product Decision.
+This document uses scope code `FAD`. As an Approved specification, its Requirements are normative only within Administration frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, the Approved Administration Domain, applicable Approved Domain Specifications, the Approved Shared Frontend Baseline (FEB), and relevant frontend boundary Requirements, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ For FAD only, **administrative presentation context** means frontend-only state 
 
 ### REQ-FAD-001 — Lifecycle, Authority, and Scope
 
-FAD MUST govern only Administration frontend behavior under scope `FAD`, preserve governing-source, Product, Business Requirement, Administration Domain, Approved Domain, and applicable frontend precedence, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FAD MUST govern only Administration frontend behavior under scope `FAD`, preserve governing-source, Product, Business Requirement, Administration Domain, Approved Domain, and applicable frontend precedence, and MUST NOT be treated as repository-wide authority.
 
 ### REQ-FAD-002 — Frontend Inheritance
 
@@ -291,7 +291,7 @@ FAD MUST provide traceable verification across authority, inheritance, security,
 
 | Requirement | Acceptance Criterion |
 |---|---|
-| REQ-FAD-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `FAD`, Draft non-normativity, no repository-wide authority, and preserved governing, Product, Business Requirement, Administration Domain, Approved Domain, and frontend precedence. |
+| REQ-FAD-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `FAD`, scoped normativity, no repository-wide authority, and preserved governing, Product, Business Requirement, Administration Domain, Approved Domain, and frontend precedence. |
 | REQ-FAD-002 | Applicability review maps each inherited FEB obligation to FAD evidence and finds none copied, weakened, contradicted, or ownership-transferred. |
 | REQ-FAD-003 | Boundary tests find no FAD-owned or redefined FSC, FCD, FPE, FCA, FCP, FPP, or FRP behavior and no authority transfer through presentation or handoff. |
 | REQ-FAD-004 | Every displayed workflow or operational fact identifies Administration or its owning source, and frontend-only evidence cannot create or alter that truth. |
@@ -427,7 +427,7 @@ FAD MUST provide traceable verification across authority, inheritance, security,
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 29 decisions are materially relevant to FAD, preserve their source wording and order, and remain unresolved by this Draft.
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 29 decisions are materially relevant to FAD, preserve their source wording and order, and remain unresolved by this specification.
 
 | Source Decision | Open Product Decision | FAD Boundary |
 |---|---|---|
@@ -547,12 +547,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 29 de
 | Version | Date | Status | Summary |
 |---|---|---|---|
 | 0.1.0 | 2026-09-10 | Draft | Initial comprehensive Administration Frontend Specification. |
+| 1.0.0 | 2026-09-10 | Approved | Approved Administration Frontend Specification after authority, security, traceability, accessibility, policy-neutrality, and implementation-neutrality validation. |
 
 ## 11. Final Validation
 
-Before this Draft advances:
+For this Approved specification:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `FAD`, the Draft is non-normative, and no repository-wide authority is claimed;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `FAD`, normativity is limited to Administration frontend scope, and no repository-wide authority is claimed;
 2. governing-source, Product, Business Requirement, Administration Domain, owning-Domain, FEB, and applicable frontend precedence is preserved;
 3. FSC, FCD, FPE, FCA, FCP, FPP, and future FRP boundaries remain intact;
 4. Staff User, Principal, Customer, Account, Authentication, and Session distinctions remain preserved;
