@@ -360,69 +360,69 @@ FAD MUST provide traceable verification across authority, inheritance, security,
 
 | Requirement | FEB/Frontend Boundaries | Product | Business Requirements | Approved Domains | Governing Sources | Consumers |
 |---|---|---|---|---|---|---|
-| REQ-FAD-001 | REQ-FEB-001 | PRODUCT.md §§1–4 | REQ-BUS-047 | REQ-ADM-001–003 | AGENTS.md §§2–5; DOCUMENTATION-STANDARDS.md | All Administration frontend specifications |
+| REQ-FAD-001 | REQ-FEB-001 | PRODUCT.md §§1–4 | — | REQ-ADM-001–003 | AGENTS.md §§2–5; DOCUMENTATION-STANDARDS.md | All Administration frontend specifications |
 | REQ-FAD-002 | REQ-FEB-001–023, 026–051 | — | — | REQ-ADM-001, 053 | AGENTS.md §§5, 24 | All FAD behavior |
 | REQ-FAD-003 | REQ-FSC-003; REQ-FCD-003; REQ-FPE-003; REQ-FCA-003; REQ-FCP-003; REQ-FPP-003 | PRODUCT.md §§5–8 | — | REQ-ADM-003 | ARCHITECTURE.md §§27–28 | Storefront and future Reporting frontends |
-| REQ-FAD-004 | REQ-FEB-002–003 | — | REQ-BUS-047 | REQ-ADM-002–004 | AGENTS.md §§3–5 | Administration frontend |
-| REQ-FAD-005 | REQ-FEB-011–013, 030 | — | REQ-BUS-032, 052 | REQ-ADM-005–008; REQ-IDN-018–021 | SECURITY-STANDARDS.md §§19–20 | Staff-facing entry |
-| REQ-FAD-006 | REQ-FEB-011–012 | Open Product Decisions 5, 23 | REQ-BUS-032, 051 | REQ-ADM-005–006; REQ-IDN-018–023 | GLOSSARY.md; SECURITY-STANDARDS.md | Staff-facing contexts |
-| REQ-FAD-007 | REQ-FEB-013 | Open Product Decision 23 | REQ-BUS-032, 052 | REQ-ADM-007; REQ-IDN-024–027 | SECURITY-STANDARDS.md §§19–20; API.md §77 | All protected FAD interactions |
-| REQ-FAD-008 | REQ-FEB-013, 048 | Open Product Decision 23 | REQ-BUS-032, 052 | REQ-ADM-008; REQ-IDN-024–027 | SECURITY-STANDARDS.md §§19–20 | All protected FAD interactions |
-| REQ-FAD-009 | REQ-FEB-013, 027 | Open Product Decision 23 | REQ-BUS-032, 052 | REQ-ADM-007–009; REQ-IDN-028–031 | SECURITY-STANDARDS.md | All protected FAD interactions |
-| REQ-FAD-010 | REQ-FEB-005, 012–013 | Open Product Decision 23 | REQ-BUS-032, 052 | REQ-ADM-009; REQ-IDN-037, 039–041 | SECURITY-STANDARDS.md §§19–20 | Long-lived Administration work |
-| REQ-FAD-011 | REQ-FEB-009–010 | — | REQ-BUS-047 | REQ-ADM-002, 012 | UI.md; ACCESSIBILITY.md | Administration shell |
-| REQ-FAD-012 | REQ-FEB-004–005, 015 | — | REQ-BUS-042, 047 | REQ-ADM-012, 020 | ARCHITECTURE.md §28; API.md §§17–20 | All evidence-bearing FAD regions |
-| REQ-FAD-013 | REQ-FEB-005, 014–018, 030 | — | REQ-BUS-042, 047 | REQ-ADM-012, 039; REQ-SRCH-024, 031–038 | ARCHITECTURE.md §28; PERFORMANCE.md §25 | Administrative investigation |
-| REQ-FAD-014 | REQ-FEB-045–046 | Open Product Decision 24 | REQ-BUS-047 | REQ-ADM-012, 040, 044–045 | EVENTS.md §47; SECURITY-STANDARDS.md | Investigation and support workflows |
-| REQ-FAD-015 | REQ-FEB-002–005 | Open Product Decisions 2–3, 13, 15, 17, 27 | REQ-BUS-003–006, 047 | REQ-ADM-023; REQ-PRD-034–040, 043, 049–052 | PRODUCT.md §§5, 16; ARCHITECTURE.md §28 | Product administration |
-| REQ-FAD-016 | REQ-FEB-002–005 | Open Product Decision 2 | REQ-BUS-003–004, 047 | REQ-ADM-023; REQ-CAT-023–028, 035–036, 040–042 | PRODUCT.md §§5, 16; ARCHITECTURE.md §28 | Category administration |
-| REQ-FAD-017 | REQ-FEB-002–005, 015 | Open Product Decisions 12–13, 17 | REQ-BUS-012–013, 047 | REQ-ADM-026; REQ-INV-016–019, 027–030, 033, 035–036 | ARCHITECTURE.md §28; API.md §§17–20 | Inventory administration |
-| REQ-FAD-018 | REQ-FEB-002–005 | Open Product Decisions 8–9, 14, 25, 29 | REQ-BUS-014–018, 047 | REQ-ADM-025; REQ-PRC-023–026, 028, 031, 033–034 | PRODUCT.md §§21, 25–26; ARCHITECTURE.md §28 | Pricing administration |
-| REQ-FAD-019 | REQ-FEB-002–005, 026–029 | Open Product Decisions 5, 16, 18–19, 28 | REQ-BUS-007–008, 032, 047 | REQ-ADM-027; REQ-CUS-024–029, 037, 039–041, 045, 047–048 | SECURITY-STANDARDS.md; PRODUCT.md §§8, 20 | Customer support administration |
-| REQ-FAD-020 | REQ-FEB-011–013, 026–030 | Open Product Decisions 5, 23 | REQ-BUS-032, 047, 051–052 | REQ-ADM-005–009; REQ-IDN-018–031, 037, 039–045, 049 | SECURITY-STANDARDS.md §§19–20 | Identity administration |
-| REQ-FAD-021 | REQ-FEB-002–005, 015–023 | Open Product Decisions 4, 10–11, 25, 29 | REQ-BUS-020–023, 047 | REQ-ADM-030; REQ-ORD-037–045, 048–050 | PRODUCT.md §§23, 25; API.md §§17–20 | Order administration |
-| REQ-FAD-022 | REQ-FEB-002–005, 015–023, 026–030 | Open Product Decisions 6, 11, 25–26, 29 | REQ-BUS-019, 024–025, 032, 047 | REQ-ADM-029; REQ-PAY-020–025, 030–039, 042 | SECURITY-STANDARDS.md; API.md §§17–20 | Payment and Refund administration |
-| REQ-FAD-023 | REQ-FEB-002–005, 015–023 | Open Product Decisions 7–8, 17, 24 | REQ-BUS-026–028, 047 | REQ-ADM-031; REQ-SHP-017–030, 033–040 | PRODUCT.md §§22–23; API.md §§17–20 | Shipping administration |
-| REQ-FAD-024 | REQ-FEB-002–005, 015–023 | Open Product Decisions 11, 24 | REQ-BUS-029–031, 047 | REQ-ADM-032; REQ-RET-014–025, 027–029, 038–046 | PRODUCT.md §24; API.md §§17–20 | Return administration |
-| REQ-FAD-025 | REQ-FEB-002–005, 031–041 | Open Product Decisions 22, 30 | REQ-BUS-035–036, 047 | REQ-ADM-024; REQ-CMS-007–019, 028, 040–048 | PRODUCT.md §§16, 27; DESIGN-SYSTEM.md | CMS administration |
-| REQ-FAD-026 | REQ-FEB-002–005, 026–029, 045–047 | Open Product Decisions 18–20 | REQ-BUS-033–034, 047 | REQ-ADM-033; REQ-NTF-016–031, 041–050, 054 | EVENTS.md §47; SECURITY-STANDARDS.md | Notifications administration |
-| REQ-FAD-027 | REQ-FEB-002–005, 030, 042 | — | REQ-BUS-004, 047 | REQ-ADM-039; REQ-SRCH-024, 028, 031–038, 044–045 | ARCHITECTURE.md §§27–28 | Search administration |
-| REQ-FAD-028 | REQ-FEB-002–005, 015–023 | Open Product Decisions 4, 12 | REQ-BUS-009–011, 047 | REQ-ADM-028; REQ-CART-022–026, 031–032; REQ-CHK-024–035, 038 | PRODUCT.md §§17–19; API.md §§17–20 | Cart and Checkout support |
-| REQ-FAD-029 | REQ-FEB-002–005, 015, 047; REQ-FPP-003 | Open Product Decisions 20–21 | REQ-BUS-045–047 | REQ-ADM-036; REQ-RPT-002–003, 039–048 | ARCHITECTURE.md §§27–28 | Administration reporting consumers; future FRP |
-| REQ-FAD-030 | REQ-FEB-019–025 | — | REQ-BUS-047 | REQ-ADM-010–011, 015 | API.md §§17–20 | All administrative mutations |
-| REQ-FAD-031 | REQ-FEB-004–005, 015, 019–023 | — | REQ-BUS-042, 047 | REQ-ADM-010, 020 | API.md §§17–20; EVENTS.md §47 | All administrative mutations |
-| REQ-FAD-032 | REQ-FEB-013, 019–023 | Open Product Decisions 23–24, 26 | REQ-BUS-032, 047 | REQ-ADM-015 | SECURITY-STANDARDS.md | High-Risk administrative actions |
-| REQ-FAD-033 | REQ-FEB-013, 019–023 | Open Product Decisions 22–24, 26 | REQ-BUS-047 | REQ-ADM-014 | PRODUCT.md §28; SECURITY-STANDARDS.md | Approval-coordinated interactions |
-| REQ-FAD-034 | REQ-FEB-019–023, 042 | Open Product Decisions 27–28 | REQ-BUS-047 | REQ-ADM-016–017 | PERFORMANCE.md §25; API.md §§17–20 | Bulk administration |
-| REQ-FAD-035 | REQ-FEB-013, 023, 030 | Open Product Decision 23 | REQ-BUS-032, 047, 052 | REQ-ADM-016; REQ-IDN-024–027 | SECURITY-STANDARDS.md §§19–20 | Bulk administration |
-| REQ-FAD-036 | REQ-FEB-015–023 | — | REQ-BUS-042, 047 | REQ-ADM-016–017, 020 | API.md §§17–20 | Bulk administration |
-| REQ-FAD-037 | REQ-FEB-020–023 | — | REQ-BUS-042, 047 | REQ-ADM-018, 021 | API.md §§19–20 | State-changing Administration interactions |
-| REQ-FAD-038 | REQ-FEB-017, 020–023 | — | REQ-BUS-042, 047 | REQ-ADM-019 | API.md §§19–20 | Concurrent Administration interactions |
-| REQ-FAD-039 | REQ-FEB-005, 017, 020–023 | — | REQ-BUS-042, 047 | REQ-ADM-019–020 | API.md §§17–20 | Asynchronous Administration interactions |
-| REQ-FAD-040 | REQ-FEB-015, 020–023 | — | REQ-BUS-042, 047 | REQ-ADM-020–021 | API.md §§19–20 | State-changing Administration interactions |
-| REQ-FAD-041 | REQ-FEB-014–023 | — | REQ-BUS-042, 047 | REQ-ADM-020–021 | API.md §§17–20; UI.md §32 | All FAD regions |
-| REQ-FAD-042 | REQ-FEB-005, 020–023 | Open Product Decision 24 | REQ-BUS-047 | REQ-ADM-021–022, 050 | API.md §§19–20; EVENTS.md §47 | Recovery and reconciliation workflows |
-| REQ-FAD-043 | REQ-FEB-010, 015–016 | Open Product Decisions 18, 24 | REQ-BUS-047 | REQ-ADM-041 | PRODUCT.md §28 | Support and escalation interactions |
-| REQ-FAD-044 | REQ-FEB-004, 013, 015 | Open Product Decision 26 | REQ-BUS-019, 047 | REQ-ADM-034; REQ-PAY-030–039 | PRODUCT.md §28; SECURITY-STANDARDS.md | Fraud review interactions |
-| REQ-FAD-045 | REQ-FEB-013, 026–030, 042–046 | Open Product Decisions 21, 27–28 | REQ-BUS-045–047 | REQ-ADM-035; REQ-RPT-039–048 | SECURITY-STANDARDS.md; PERFORMANCE.md §25 | Export interactions |
-| REQ-FAD-046 | REQ-FEB-004–005, 019–023 | Open Product Decisions 20, 22–23, 30 | REQ-BUS-047 | REQ-ADM-048 | ARCHITECTURE.md §28 | Configuration interactions |
-| REQ-FAD-047 | REQ-FEB-004–005, 019–023, 026–029 | Open Product Decision 28 | REQ-BUS-032, 047 | REQ-ADM-049; REQ-CUS-039–041 | SECURITY-STANDARDS.md | Retention and deletion interactions |
-| REQ-FAD-048 | REQ-FEB-007–008, 027, 030 | — | REQ-BUS-032, 047, 052 | REQ-ADM-037; REQ-CUS-024–029; REQ-IDN-024–027 | SECURITY-STANDARDS.md §§19–20 | All protected FAD regions |
-| REQ-FAD-049 | REQ-FEB-030 | — | REQ-BUS-032, 052 | REQ-ADM-037, 039; REQ-IDN-024–027 | SECURITY-STANDARDS.md §§19–20 | All protected FAD regions |
-| REQ-FAD-050 | REQ-FEB-026–029 | Open Product Decisions 19, 28 | REQ-BUS-032, 047 | REQ-ADM-037; REQ-CUS-037, 039–041 | SECURITY-STANDARDS.md; PRODUCT.md §20 | All FAD evidence surfaces |
-| REQ-FAD-051 | REQ-FEB-028 | — | REQ-BUS-032, 047 | REQ-ADM-038; REQ-PAY-020–025 | SECURITY-STANDARDS.md | All FAD evidence surfaces |
-| REQ-FAD-052 | REQ-FEB-026, 030 | — | REQ-BUS-032, 047 | REQ-ADM-037–038 | SECURITY-STANDARDS.md; UI.md | External-evidence Administration regions |
-| REQ-FAD-053 | REQ-FEB-014–016 | — | REQ-BUS-042, 047 | REQ-ADM-020 | UI.md §32; ACCESSIBILITY.md | All material FAD regions |
+| REQ-FAD-004 | REQ-FEB-002–003 | — | REQ-BUS-031 | REQ-ADM-002–004 | AGENTS.md §§3–5 | Administration frontend |
+| REQ-FAD-005 | REQ-FEB-011–013, 030 | — | REQ-BUS-031–032, 052 | REQ-ADM-005–008; REQ-IDN-006, 009–010, 018–020, 026–028 | SECURITY-STANDARDS.md §§19–20 | Staff-facing entry |
+| REQ-FAD-006 | REQ-FEB-011–012 | Open Product Decisions 5, 23 | REQ-BUS-032, 051 | REQ-ADM-005–006; REQ-IDN-005, 010, 018–020 | GLOSSARY.md; SECURITY-STANDARDS.md | Staff-facing contexts |
+| REQ-FAD-007 | REQ-FEB-013 | Open Product Decision 23 | REQ-BUS-031–032, 052 | REQ-ADM-007; REQ-IDN-027–028 | SECURITY-STANDARDS.md §§19–20; API.md §77 | All protected FAD interactions |
+| REQ-FAD-008 | REQ-FEB-013, 048 | Open Product Decision 23 | REQ-BUS-032, 052 | REQ-ADM-008; REQ-IDN-020, 026 | SECURITY-STANDARDS.md §§19–20 | All protected FAD interactions |
+| REQ-FAD-009 | REQ-FEB-013, 027 | Open Product Decision 23 | REQ-BUS-031–033, 052 | REQ-ADM-007–009; REQ-IDN-027–029, 031 | SECURITY-STANDARDS.md | All protected FAD interactions |
+| REQ-FAD-010 | REQ-FEB-005, 012–013 | Open Product Decision 23 | REQ-BUS-031–032, 052 | REQ-ADM-009; REQ-IDN-019, 027, 031, 039 | SECURITY-STANDARDS.md §§19–20 | Long-lived Administration work |
+| REQ-FAD-011 | REQ-FEB-009–010 | — | REQ-BUS-031 | REQ-ADM-002, 012 | UI.md; ACCESSIBILITY.md | Administration shell |
+| REQ-FAD-012 | REQ-FEB-004–005, 015 | — | REQ-BUS-035, 043 | REQ-ADM-012, 020 | ARCHITECTURE.md §28; API.md §§17–20 | All evidence-bearing FAD regions |
+| REQ-FAD-013 | REQ-FEB-005, 014–018, 030 | — | REQ-BUS-031–032, 035, 038 | REQ-ADM-012, 039; REQ-SRCH-002–003, 024–025, 033, 037–039, 041 | ARCHITECTURE.md §28; PERFORMANCE.md §25 | Administrative investigation |
+| REQ-FAD-014 | REQ-FEB-045–046 | Open Product Decision 24 | REQ-BUS-034–035 | REQ-ADM-012, 040, 044–045 | EVENTS.md §47; SECURITY-STANDARDS.md | Investigation and support workflows |
+| REQ-FAD-015 | REQ-FEB-002–005 | Open Product Decisions 2–3, 13, 15, 17, 27 | REQ-BUS-031, 048 | REQ-ADM-023; REQ-PRD-034–040, 049–051 | PRODUCT.md §§5, 16; ARCHITECTURE.md §28 | Product administration |
+| REQ-FAD-016 | REQ-FEB-002–005 | Open Product Decision 2 | REQ-BUS-031 | REQ-ADM-023; REQ-CAT-023–028, 035–036, 042 | PRODUCT.md §§5, 16; ARCHITECTURE.md §28 | Category administration |
+| REQ-FAD-017 | REQ-FEB-002–005, 015 | Open Product Decisions 12–13, 17 | REQ-BUS-017, 020, 031, 035 | REQ-ADM-026; REQ-INV-016–019, 027–030, 036 | ARCHITECTURE.md §28; API.md §§17–20 | Inventory administration |
+| REQ-FAD-018 | REQ-FEB-002–005 | Open Product Decisions 8–9, 14, 25, 29 | REQ-BUS-014–016, 031, 054 | REQ-ADM-025; REQ-PRC-002–003, 006–015, 019, 023–026, 028, 034 | PRODUCT.md §§21, 25–26; ARCHITECTURE.md §28 | Pricing administration |
+| REQ-FAD-019 | REQ-FEB-002–005, 026–029 | Open Product Decisions 5, 16, 18–19, 28 | REQ-BUS-007–008, 031, 039–041 | REQ-ADM-027; REQ-CUS-001–002, 004–005, 013–021, 024–029, 037, 039–041, 048 | SECURITY-STANDARDS.md; PRODUCT.md §§8, 20 | Customer support administration |
+| REQ-FAD-020 | REQ-FEB-011–013, 026–030 | Open Product Decisions 5, 23 | REQ-BUS-031–033, 039, 051–052 | REQ-ADM-005–009; REQ-IDN-005, 018–020, 024–031, 037 | SECURITY-STANDARDS.md §§19–20 | Identity administration |
+| REQ-FAD-021 | REQ-FEB-002–005, 015–023 | Open Product Decisions 4, 10–11, 25, 29 | REQ-BUS-021–023, 031, 035–036 | REQ-ADM-030; REQ-ORD-002–004, 017–020, 034–042, 048 | PRODUCT.md §§23, 25; API.md §§17–20 | Order administration |
+| REQ-FAD-022 | REQ-FEB-002–005, 015–023, 026–030 | Open Product Decisions 6, 11, 25–26, 29 | REQ-BUS-024–028, 031–033, 035–036, 039 | REQ-ADM-029; REQ-PAY-002–005, 008, 010–025, 030–032, 034–037, 043 | SECURITY-STANDARDS.md; API.md §§17–20 | Payment and Refund administration |
+| REQ-FAD-023 | REQ-FEB-002–005, 015–023 | Open Product Decisions 7–8, 17, 24 | REQ-BUS-029, 031, 035–036 | REQ-ADM-031; REQ-SHP-002–003, 017–030, 033–035, 041 | PRODUCT.md §§22–23; API.md §§17–20 | Shipping administration |
+| REQ-FAD-024 | REQ-FEB-002–005, 015–023 | Open Product Decisions 11, 24 | REQ-BUS-030–031, 035–036 | REQ-ADM-032; REQ-RET-002–004, 011, 014–029, 032, 038–040 | PRODUCT.md §24; API.md §§17–20 | Return administration |
+| REQ-FAD-025 | REQ-FEB-002–005, 031–041 | Open Product Decisions 22, 30 | REQ-BUS-031, 050 | REQ-ADM-024; REQ-CMS-002–005, 007–019, 028, 040–044, 049 | PRODUCT.md §§16, 27; DESIGN-SYSTEM.md | CMS administration |
+| REQ-FAD-026 | REQ-FEB-002–005, 026–029, 045–047 | Open Product Decisions 18–20 | REQ-BUS-031, 043, 046, 049 | REQ-ADM-033; REQ-NTF-002–007, 010, 013–031, 041–046 | EVENTS.md §47; SECURITY-STANDARDS.md | Notifications administration |
+| REQ-FAD-027 | REQ-FEB-002–005, 030, 042 | — | REQ-BUS-031–032, 038–039, 043 | REQ-ADM-039; REQ-SRCH-002–003, 029–033, 037–039 | ARCHITECTURE.md §§27–28 | Search administration |
+| REQ-FAD-028 | REQ-FEB-002–005, 015–023 | Open Product Decisions 4, 12 | REQ-BUS-009–013, 031, 035–036 | REQ-ADM-028; REQ-CART-002–003, 022–026, 032; REQ-CHK-002–003, 024–035 | PRODUCT.md §§17–19; API.md §§17–20 | Cart and Checkout support |
+| REQ-FAD-029 | REQ-FEB-002–005, 015, 047; REQ-FPP-003 | Open Product Decisions 20–21 | REQ-BUS-031, 043–045 | REQ-ADM-036; REQ-RPT-002–003, 017–018, 039–042 | ARCHITECTURE.md §§27–28 | Administration reporting consumers; future FRP |
+| REQ-FAD-030 | REQ-FEB-019–025 | — | REQ-BUS-031, 035–036 | REQ-ADM-010–011, 015 | API.md §§17–20 | All administrative mutations |
+| REQ-FAD-031 | REQ-FEB-004–005, 015, 019–023 | — | REQ-BUS-031, 035–036, 042 | REQ-ADM-010, 020 | API.md §§17–20; EVENTS.md §47 | All administrative mutations |
+| REQ-FAD-032 | REQ-FEB-013, 019–023 | Open Product Decisions 23–24, 26 | REQ-BUS-031–033 | REQ-ADM-015 | SECURITY-STANDARDS.md | High-Risk administrative actions |
+| REQ-FAD-033 | REQ-FEB-013, 019–023 | Open Product Decisions 22–24, 26 | REQ-BUS-031, 033 | REQ-ADM-014 | PRODUCT.md §28; SECURITY-STANDARDS.md | Approval-coordinated interactions |
+| REQ-FAD-034 | REQ-FEB-019–023, 042 | Open Product Decisions 27–28 | REQ-BUS-031, 038 | REQ-ADM-016–017 | PERFORMANCE.md §25; API.md §§17–20 | Bulk administration |
+| REQ-FAD-035 | REQ-FEB-013, 023, 030 | Open Product Decision 23 | REQ-BUS-031–033, 052 | REQ-ADM-016; REQ-IDN-027–028 | SECURITY-STANDARDS.md §§19–20 | Bulk administration |
+| REQ-FAD-036 | REQ-FEB-015–023 | — | REQ-BUS-031, 035–036, 042 | REQ-ADM-016–017, 020 | API.md §§17–20 | Bulk administration |
+| REQ-FAD-037 | REQ-FEB-020–023 | — | REQ-BUS-031, 035–036, 042 | REQ-ADM-018, 021 | API.md §§19–20 | State-changing Administration interactions |
+| REQ-FAD-038 | REQ-FEB-017, 020–023 | — | REQ-BUS-031, 035–036, 042 | REQ-ADM-019 | API.md §§19–20 | Concurrent Administration interactions |
+| REQ-FAD-039 | REQ-FEB-005, 017, 020–023 | — | REQ-BUS-031, 035, 042–043 | REQ-ADM-019–020 | API.md §§17–20 | Asynchronous Administration interactions |
+| REQ-FAD-040 | REQ-FEB-015, 020–023 | — | REQ-BUS-031, 035–036, 042 | REQ-ADM-020–021 | API.md §§19–20 | State-changing Administration interactions |
+| REQ-FAD-041 | REQ-FEB-014–023 | — | REQ-BUS-031, 036, 042, 045 | REQ-ADM-020–021 | API.md §§17–20; UI.md §32 | All FAD regions |
+| REQ-FAD-042 | REQ-FEB-005, 020–023 | Open Product Decision 24 | REQ-BUS-031, 035–036, 045 | REQ-ADM-021–022, 050 | API.md §§19–20; EVENTS.md §47 | Recovery and reconciliation workflows |
+| REQ-FAD-043 | REQ-FEB-010, 015–016 | Open Product Decisions 18, 24 | REQ-BUS-031 | REQ-ADM-041 | PRODUCT.md §28 | Support and escalation interactions |
+| REQ-FAD-044 | REQ-FEB-004, 013, 015 | Open Product Decision 26 | REQ-BUS-031–033, 052 | REQ-ADM-034; REQ-PAY-011, 019, 030, 033, 037, 043 | PRODUCT.md §28; SECURITY-STANDARDS.md | Fraud review interactions |
+| REQ-FAD-045 | REQ-FEB-013, 026–030, 042–046 | Open Product Decisions 21, 27–28 | REQ-BUS-031–032, 039–041, 043, 045, 053 | REQ-ADM-035; REQ-RPT-039–048 | SECURITY-STANDARDS.md; PERFORMANCE.md §25 | Export interactions |
+| REQ-FAD-046 | REQ-FEB-004–005, 019–023 | Open Product Decisions 20, 22–23, 30 | REQ-BUS-031 | REQ-ADM-048 | ARCHITECTURE.md §28 | Configuration interactions |
+| REQ-FAD-047 | REQ-FEB-004–005, 019–023, 026–029 | Open Product Decision 28 | REQ-BUS-031, 039–041 | REQ-ADM-049; REQ-CUS-039–041 | SECURITY-STANDARDS.md | Retention and deletion interactions |
+| REQ-FAD-048 | REQ-FEB-007–008, 027, 030 | — | REQ-BUS-032, 039, 052 | REQ-ADM-037; REQ-CUS-005; REQ-IDN-006 | SECURITY-STANDARDS.md §§19–20 | All protected FAD regions |
+| REQ-FAD-049 | REQ-FEB-030 | — | REQ-BUS-032, 052 | REQ-ADM-037, 039; REQ-CUS-005; REQ-IDN-006 | SECURITY-STANDARDS.md §§19–20 | All protected FAD regions |
+| REQ-FAD-050 | REQ-FEB-026–029 | Open Product Decisions 19, 28 | REQ-BUS-032, 039–040 | REQ-ADM-037; REQ-CUS-037, 039–041 | SECURITY-STANDARDS.md; PRODUCT.md §20 | All FAD evidence surfaces |
+| REQ-FAD-051 | REQ-FEB-028 | — | REQ-BUS-032, 039 | REQ-ADM-038; REQ-IDN-012, 043–044; REQ-PAY-031–032 | SECURITY-STANDARDS.md | All FAD evidence surfaces |
+| REQ-FAD-052 | REQ-FEB-026, 030 | — | REQ-BUS-032, 039 | REQ-ADM-037–038 | SECURITY-STANDARDS.md; UI.md | External-evidence Administration regions |
+| REQ-FAD-053 | REQ-FEB-014–016 | — | REQ-BUS-042 | REQ-ADM-020 | UI.md §32; ACCESSIBILITY.md | All material FAD regions |
 | REQ-FAD-054 | REQ-FEB-031–034, 040–041 | — | REQ-BUS-037–038 | REQ-ADM-042 | ACCESSIBILITY.md; UI.md; DESIGN-SYSTEM.md | All FAD experiences |
 | REQ-FAD-055 | REQ-FEB-031, 035–041 | — | REQ-BUS-037 | REQ-ADM-042 | ACCESSIBILITY.md; UI.md | All FAD experiences |
 | REQ-FAD-056 | REQ-FEB-016, 036–039 | — | REQ-BUS-037 | REQ-ADM-042 | ACCESSIBILITY.md; UI.md | Dynamic FAD experiences |
 | REQ-FAD-057 | REQ-FEB-035–039, 042 | — | REQ-BUS-037–038 | REQ-ADM-042–043 | ACCESSIBILITY.md; PERFORMANCE.md §25 | Table and bulk experiences |
 | REQ-FAD-058 | REQ-FEB-042–043 | — | REQ-BUS-038, 045 | REQ-ADM-043 | PERFORMANCE.md §§17, 25 | Data-intensive FAD experiences |
 | REQ-FAD-059 | REQ-FEB-044 | — | REQ-BUS-042, 045 | REQ-ADM-020–022, 043 | PERFORMANCE.md §25; UI.md §32 | All FAD experiences |
-| REQ-FAD-060 | REQ-FEB-045–047 | Open Product Decision 20 | REQ-BUS-046–047 | REQ-ADM-044–045, 047 | EVENTS.md §47; SECURITY-STANDARDS.md | Operations, audit, and observability consumers |
+| REQ-FAD-060 | REQ-FEB-045–047 | Open Product Decision 20 | REQ-BUS-034–035, 043, 046 | REQ-ADM-044–045, 047 | EVENTS.md §47; SECURITY-STANDARDS.md | Operations, audit, and observability consumers |
 | REQ-FAD-061 | REQ-FEB-047 | Open Product Decisions 19–20 | REQ-BUS-046 | REQ-ADM-036; REQ-RPT-002–003 | PRODUCT.md §20; EVENTS.md §47 | Analytics consumers |
-| REQ-FAD-062 | REQ-FEB-048 | Open Product Decision 30 | REQ-BUS-047 | REQ-ADM-048 | ARCHITECTURE.md §39; TESTING-STANDARDS.md | All flagged FAD behavior |
-| REQ-FAD-063 | REQ-FEB-049–050 | — | REQ-BUS-042, 047 | REQ-ADM-010, 046, 052 | ARCHITECTURE.md §28; API.md §§17–20; EVENTS.md §47 | FAD implementers and owning-Domain integrators |
+| REQ-FAD-062 | REQ-FEB-048 | Open Product Decision 30 | REQ-BUS-031–032, 037, 039 | REQ-ADM-048 | ARCHITECTURE.md §39; TESTING-STANDARDS.md | All flagged FAD behavior |
+| REQ-FAD-063 | REQ-FEB-049–050 | — | REQ-BUS-031, 042, 046 | REQ-ADM-010, 046, 052 | ARCHITECTURE.md §28; API.md §§17–20; EVENTS.md §47 | FAD implementers and owning-Domain integrators |
 | REQ-FAD-064 | REQ-FEB-051 | PRODUCT.md §§36–38 | REQ-BUS-037–038, 042, 047, 052 | REQ-ADM-053 | TESTING-STANDARDS.md §§5, 7, 9, 11, 13, 19–24, 27–31, 33–40 | FAD reviewers and verification owners |
 
 ## 7. Open Product Decisions
@@ -577,4 +577,4 @@ Before this Draft advances:
 23. Risks and Controls are FAD-specific, distinct, materially complete, and implementation-neutral;
 24. every Related Document exists and is materially relevant, and no Glossary amendment is required;
 25. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-26. Git scope contains only the new untracked `specifications/frontend/administration/administration-frontend.md`, nothing is staged or unrelated, and `git diff --check` plus equivalent untracked-file validation passes.
+26. Git scope contains only intended changes to `specifications/frontend/administration/administration-frontend.md`, nothing unrelated is staged or modified, and `git diff --check` plus applicable tracked-file validation passes.
