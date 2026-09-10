@@ -337,7 +337,7 @@ FPP MUST provide traceable verification across lifecycle and inheritance, FCP ha
 | REQ-FPP-010 | REQ-FEB-004–005 | PRODUCT.md §§16.1, 16.4, 17.4 | REQ-BUS-022–023 | REQ-ORD-017–020 | ARCHITECTURE.md §27 | Order detail and documents |
 | REQ-FPP-011 | REQ-FEB-004–007 | PRODUCT.md §§12–13, 16.4 | REQ-BUS-022 | REQ-ORD-016–020, 023; REQ-PRD-006, 030–031; REQ-PRC-019 | ARCHITECTURE.md §27 | Order detail |
 | REQ-FPP-012 | REQ-FEB-014–016 | PRODUCT.md §§16.4, 17 | REQ-BUS-023, 042 | REQ-ORD-034–036 | UI.md | Order status presentation |
-| REQ-FPP-013 | REQ-FEB-005–007, 020–021 | PRODUCT.md §§17.2, 30 | REQ-BUS-042 | REQ-ORD-040–041, 049 | API.md §§17–20 | Order presentation |
+| REQ-FPP-013 | REQ-FEB-005–007, 020–021 | PRODUCT.md §§17.2, 30 | REQ-BUS-042 | REQ-ORD-013–014, 040–041 | API.md §§17–20 | Order presentation |
 | REQ-FPP-014 | REQ-FEB-004–005 | PRODUCT.md §§14.7, 16.5 | REQ-BUS-029 | REQ-ORD-032–033; REQ-SHP-017 | ARCHITECTURE.md §§27–28 | Fulfilment presentation |
 | REQ-FPP-015 | REQ-FEB-004–005 | PRODUCT.md §§12.7, 16.5 | REQ-BUS-029 | REQ-SHP-018–019; REQ-ORD-032–033 | ARCHITECTURE.md §27 | Shipment presentation |
 | REQ-FPP-016 | REQ-FEB-005, 007, 013 | PRODUCT.md §§12.8, 16.5 | REQ-BUS-029, 042 | REQ-SHP-018, 021–023 | SECURITY-STANDARDS.md | Tracking presentation |
@@ -351,15 +351,15 @@ FPP MUST provide traceable verification across lifecycle and inheritance, FCP ha
 | REQ-FPP-024 | REQ-FEB-019, 023; REQ-FCA-029 | Open Product Decision 11 | REQ-BUS-030, 032 | REQ-RET-009–013, 021, 040 | API.md §§17–20 | Return initiation |
 | REQ-FPP-025 | REQ-FEB-004, 019 | PRODUCT.md §14.8 | REQ-BUS-030 | REQ-RET-006, 011–012 | GLOSSARY.md | Return initiation and detail |
 | REQ-FPP-026 | REQ-FEB-014–016 | Open Product Decision 11 | REQ-BUS-030, 042 | REQ-RET-018–020, 023 | UI.md | Return detail |
-| REQ-FPP-027 | REQ-FEB-004–005 | Open Product Decision 11 | REQ-BUS-030 | REQ-RET-024–031, 037 | PRODUCT.md §14.8 | Return detail |
+| REQ-FPP-027 | REQ-FEB-004–005 | Open Product Decision 11 | REQ-BUS-030 | REQ-RET-024, 026–031, 037 | PRODUCT.md §14.8 | Return detail |
 | REQ-FPP-028 | REQ-FEB-014–022 | PRODUCT.md §§17.2, 34 | REQ-BUS-030, 036, 042 | REQ-RET-010, 018–020, 025, 038–039 | API.md §§18–20 | Return interaction |
 | REQ-FPP-029 | REQ-FEB-004–007 | PRODUCT.md §§14.8, 16.3 | REQ-BUS-024–025, 030 | REQ-PAY-003–005, 008, 034–035; REQ-RET-027–029 | SECURITY-STANDARDS.md | Refund presentation |
 | REQ-FPP-030 | REQ-FEB-004 | PRODUCT.md §§13, 16.3–16.5 | REQ-BUS-028, 030 | REQ-PAY-002–003, 034–035; REQ-RET-028, 037; REQ-ORD-027–029, 039 | GLOSSARY.md | Post-purchase status presentation |
 | REQ-FPP-031 | REQ-FEB-014–022 | PRODUCT.md §§14.8, 17.2 | REQ-BUS-025, 030, 042 | REQ-PAY-020–021, 024, 034 | API.md §§18–20 | Refund presentation |
-| REQ-FPP-032 | REQ-FEB-004–007 | Open Product Decisions 9, 25, 29 | REQ-BUS-022, 054 | REQ-ORD-017–025; REQ-PRC-006, 019, 021 | GLOSSARY.md; SECURITY-STANDARDS.md | Order detail and documents |
+| REQ-FPP-032 | REQ-FEB-004–007 | Open Product Decisions 9, 25, 29 | REQ-BUS-022, 054 | REQ-ORD-017–020, 023–025; REQ-PRC-006, 019, 021 | GLOSSARY.md; SECURITY-STANDARDS.md | Order detail and documents |
 | REQ-FPP-033 | REQ-FEB-004–005 | Open Product Decisions 9, 25 | REQ-BUS-054 | REQ-ORD-025; REQ-PAY-044 | PRODUCT.md §§16.10, 20 | Commercial-document presentation |
 | REQ-FPP-034 | REQ-FEB-004–005 | PRODUCT.md §§14.6–14.8, 16.5 | REQ-BUS-049 | REQ-NTF-004, 028, 033–036 | EVENTS.md | All post-purchase communication contexts |
-| REQ-FPP-035 | REQ-FEB-005–007, 029 | Open Product Decision 19 | REQ-BUS-040, 049 | REQ-NTF-006, 010–15, 021–28 | SECURITY-STANDARDS.md | Communication presentation |
+| REQ-FPP-035 | REQ-FEB-005–007, 029 | Open Product Decision 19 | REQ-BUS-040, 049 | REQ-NTF-006, 010–15, 021–22, 024–28 | SECURITY-STANDARDS.md | Communication presentation |
 | REQ-FPP-036 | REQ-FEB-009–010, 021; REQ-FSC-009–013 | Open Product Decisions 18, 24 | REQ-BUS-036, 045 | REQ-CMS-025, 035; REQ-NTF-045 | PRODUCT.md §§15, 31.4, 34 | Support and recovery entry |
 | REQ-FPP-037 | REQ-FEB-014–021; REQ-FCP-040 | PRODUCT.md §§5.4–5.6, 17.2 | REQ-BUS-042 | — | UI.md; ACCESSIBILITY.md | All FPP regions |
 | REQ-FPP-038 | REQ-FEB-007, 017; REQ-FCP-041 | PRODUCT.md §17.2 | REQ-BUS-025, 042 | REQ-ORD-013–014, 040–041; REQ-RET-038–039 | API.md §§19–20 | All asynchronous FPP regions |
@@ -373,13 +373,13 @@ FPP MUST provide traceable verification across lifecycle and inheritance, FCP ha
 | REQ-FPP-046 | REQ-FEB-027–030; REQ-FSC-013, 037; REQ-FCP-046 | PRODUCT.md §§20, 23 | REQ-BUS-039, 042, 052 | REQ-CMS-031–033; REQ-NTF-020, 048 | SECURITY-STANDARDS.md | All rendered FPP evidence |
 | REQ-FPP-047 | REQ-FEB-031, 033, 041; REQ-FSC-032; REQ-FCP-047 | PRODUCT.md §§8.6, 19 | REQ-BUS-037–038 | — | UI.md; ACCESSIBILITY.md; PERFORMANCE.md | All FPP experiences |
 | REQ-FPP-048 | REQ-FEB-032, 034–035, 037; REQ-FCP-048 | PRODUCT.md §§8.6, 16.9, 19 | REQ-BUS-037 | REQ-ORD-047; REQ-PAY-040; REQ-SHP-038; REQ-RET-044 | ACCESSIBILITY.md; DESIGN-SYSTEM.md | All FPP experiences |
-| REQ-FPP-049 | REQ-FEB-035–038; REQ-FCP-049 | PRODUCT.md §§8.6, 16.9, 19 | REQ-BUS-037, 042 | REQ-ORD-047; REQ-PAY-040; REQ-SHP-040; REQ-RET-044 | ACCESSIBILITY.md; UI.md | Dynamic FPP experiences |
+| REQ-FPP-049 | REQ-FEB-035–038; REQ-FCP-049 | PRODUCT.md §§8.6, 16.9, 19 | REQ-BUS-037, 042 | REQ-ORD-047; REQ-PAY-040; REQ-SHP-038; REQ-RET-044 | ACCESSIBILITY.md; UI.md | Dynamic FPP experiences |
 | REQ-FPP-050 | REQ-FEB-042–043; REQ-FCP-050 | PRODUCT.md §§18.4–18.6, 35 | REQ-BUS-038 | REQ-ORD-049; REQ-PAY-041; REQ-SHP-039; REQ-RET-045 | PERFORMANCE.md | History and tracking experiences |
 | REQ-FPP-051 | REQ-FEB-044; REQ-FSC-030; REQ-FCP-051 | PRODUCT.md §§5.6, 17.2, 35 | REQ-BUS-042, 045–046 | REQ-ORD-040–041, 049; REQ-NTF-041 | ARCHITECTURE.md; PERFORMANCE.md | Critical FPP recovery |
 | REQ-FPP-052 | REQ-FEB-045–046; REQ-FCP-052 | PRODUCT.md §§18.3, 33–35 | REQ-BUS-034–035, 043–044 | REQ-ORD-049–051; REQ-PAY-041–043; REQ-SHP-039–041; REQ-RET-045–047 | EVENTS.md; SECURITY-STANDARDS.md | Operations and support |
 | REQ-FPP-053 | REQ-FEB-047; REQ-FCP-053 | Open Product Decision 20 | REQ-BUS-040, 044 | REQ-ORD-051; REQ-NTF-055 | EVENTS.md; SECURITY-STANDARDS.md | Analytics consumers |
 | REQ-FPP-054 | REQ-FEB-048; REQ-FSC-040; REQ-FCP-054 | PRODUCT.md §§26, 35 | REQ-BUS-045, 047 | — | ENGINEERING-PRINCIPLES.md | All flagged FPP capability |
-| REQ-FPP-055 | REQ-FEB-049; REQ-FSC-041; REQ-FCP-055 | PRODUCT.md §§22–23 | REQ-BUS-035, 042, 046–047 | REQ-ORD-045; REQ-PAY-039; REQ-SHP-037; REQ-RET-042; REQ-NTF-050; REQ-CUS-047; REQ-IDN-045; REQ-CMS-045 | API.md §§17–20, 77 | FPP Contract consumers and providers |
+| REQ-FPP-055 | REQ-FEB-049; REQ-FSC-041; REQ-FCP-055 | PRODUCT.md §§22–23 | REQ-BUS-035, 042, 046–047 | REQ-ORD-045; REQ-PAY-039; REQ-SHP-037; REQ-RET-042; REQ-NTF-050; REQ-CUS-047; REQ-IDN-045 | API.md §§17–20, 77 | FPP Contract consumers and providers |
 | REQ-FPP-056 | REQ-FEB-050; REQ-FSC-042; REQ-FCP-056 | Open Product Decisions 7, 9–11, 18–20, 24–26, 29–30 | REQ-BUS-030, 038, 040, 046, 049, 052, 054 | REQ-ORD-025, 044; REQ-PAY-033, 035, 044; REQ-RET-014, 026, 035, 041; REQ-NTF-021–022, 049 | AGENTS.md §§3.9, 23–24; ARCHITECTURE.md §§27–28 | Product and Engineering |
 | REQ-FPP-057 | REQ-FEB-051; REQ-FSC-043; REQ-FCD-044; REQ-FPE-045; REQ-FCA-050; REQ-FCP-057 | PRODUCT.md §§21, 25–26 | REQ-BUS-037–039, 042, 047 | REQ-ORD-052; REQ-PAY-045; REQ-SHP-043; REQ-RET-048; REQ-NTF-056; REQ-CUS-049; REQ-IDN-050; REQ-PRC-035; REQ-PRD-044; REQ-CMS-051 | TESTING-STANDARDS.md; DOCUMENTATION-STANDARDS.md | FPP reviewers and implementers |
 
@@ -461,6 +461,8 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following twelv
 - `specifications/domains/customer/customer-domain.md`
 - `specifications/domains/identity/identity-domain.md`
 - `specifications/domains/pricing/pricing-domain.md`
+- `specifications/domains/cart/cart-domain.md`
+- `specifications/domains/checkout/checkout-domain.md`
 - `specifications/domains/payment/payment-domain.md`
 - `specifications/domains/shipping/shipping-domain.md`
 - `specifications/domains/order/order-domain.md`
