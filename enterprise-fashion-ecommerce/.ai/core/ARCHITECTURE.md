@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.1.1
+version: 1.2.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-09-10
 applies_to:
   - Frontend
   - Backend
@@ -1278,6 +1278,10 @@ An open decision is not permission for each feature to choose independently. Unt
 
 ## 35. Backend Module Blueprint
 
+Backend Specification work MUST begin with the Shared Backend Baseline Specification under scope `BEB` at `specifications/backend/shared/backend-baseline.md`. BEB MUST be Approved before downstream Backend Specifications are drafted, and downstream Backend Specifications MUST inherit materially applicable BEB Requirements rather than duplicate them.
+
+Downstream Backend Specifications may specialize separately governed Domain, application-service, integration, persistence, API, event, workflow, or provider concerns. Their filenames, scope codes, and ordering after BEB remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, and standards under `.ai/backend/`.
+
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
 A representative Module should follow this structure:
@@ -1842,6 +1846,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-09-10 | Approved | Synchronized Accepted ADR-0001 by establishing the Shared Backend Baseline Specification as the prerequisite for downstream Backend Specifications. |
 | 1.1.1 | 2026-08-12 | Approved | Aligned the API error-response baseline to RFC 9457 Problem Details after final core freeze validation. |
 | 1.1.0 | 2026-08-12 | Approved | Normalized Product Variant, Stock Reservation, Database Transaction, Smoke Test, and Outbox Pattern terminology; corrected canonical Domain Event examples and Payment evidence semantics; removed unsupported lower-level authority claims; and applied focused core-audit consistency updates without redesigning the approved Architecture. |
 | 1.0.0 | 2026-08-05 | Approved | Released the Architecture blueprint as the Approved version 1.0.0 baseline. |
@@ -1850,7 +1855,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.1.1
+- **Version:** 1.2.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.

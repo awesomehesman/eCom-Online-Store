@@ -10,7 +10,7 @@ Backend Specification Roadmap
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -101,11 +101,11 @@ This decision creates no schema, storage, migration, retention, or data-model ch
 
 ## Compatibility and Migration Impact
 
-This Proposed ADR creates no runtime migration. Existing Approved Business, Domain, and Frontend Specifications remain unchanged. Future downstream Backend Specifications will inherit BEB once it is Approved. No compatibility requirement arises until implementation or specification work consumes BEB.
+This ADR creates no runtime migration. Existing Approved Business, Domain, and Frontend Specifications remain unchanged. Future downstream Backend Specifications will inherit BEB once it is Approved. No compatibility requirement arises until implementation or specification work consumes BEB.
 
 ## Operational Impact
 
-No runtime or production operational behavior changes at the Proposed ADR stage. Future BEB Requirements may govern resilience, failure containment, observability, bounded work, recovery, and reconciliation semantics. No operational threshold, SLO, infrastructure topology, or provider is selected.
+No runtime or production operational behavior changes as a result of this ADR. Future BEB Requirements may govern resilience, failure containment, observability, bounded work, recovery, and reconciliation semantics. No operational threshold, SLO, infrastructure topology, or provider is selected.
 
 ## References
 
