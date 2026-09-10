@@ -11,7 +11,7 @@ authoritative: false
 
 ## 1. Purpose
 
-This Draft defines implementation-neutral requirements for protected Staff-facing presentation and interaction with governed Administration capabilities.
+This Specification defines implementation-neutral requirements for protected Staff-facing presentation and interaction with governed Administration capabilities.
 
 This document uses scope code `FAD`. As an Approved specification, its Requirements are normative only within Administration frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, the Approved Administration Domain, applicable Approved Domain Specifications, the Approved Shared Frontend Baseline (FEB), and relevant frontend boundary Requirements, and resolves no Open Product Decision.
 
