@@ -1,7 +1,7 @@
 ---
 title: Reporting Frontend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-10
 authoritative: false
@@ -11,9 +11,9 @@ authoritative: false
 
 ## 1. Purpose
 
-This Draft defines implementation-neutral requirements for frontend presentation and interaction with governed Reporting capabilities.
+This Specification defines implementation-neutral requirements for frontend presentation and interaction with governed Reporting capabilities.
 
-This document uses scope code `FRP`. While Draft, it is non-normative. If Approved, its Requirements are normative only within Reporting frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, the Approved Reporting Domain, applicable Approved source Domains, FEB, and frontend boundary Specifications, and resolves no Open Product Decision.
+This document uses scope code `FRP`. As an Approved specification, its Requirements are normative only within Reporting frontend scope and are not repository-wide authority. It remains subordinate to governing sources, Product and Business Requirements, the Approved Reporting Domain, applicable Approved source Domains, FEB, and frontend boundary Specifications, and resolves no Open Product Decision.
 
 ## 2. Scope and Authority
 
@@ -33,7 +33,7 @@ For FRP only, **reporting presentation context** means frontend-only, non-canoni
 
 ### REQ-FRP-001 — Lifecycle, Authority, and Scope
 
-FRP MUST govern only Reporting frontend behavior under scope `FRP`, preserve governing-source, Product, Business Requirement, Reporting Domain, source-Domain, FEB, and frontend-boundary precedence, and MUST NOT treat this Draft as normative or repository-wide authority before approval.
+FRP MUST govern only Reporting frontend behavior under scope `FRP`, preserve governing-source, Product, Business Requirement, Reporting Domain, source-Domain, FEB, and frontend-boundary precedence, and MUST NOT claim repository-wide authority.
 
 ### REQ-FRP-002 — FEB Inheritance
 
@@ -263,7 +263,7 @@ FRP MUST provide traceable verification across lifecycle, authority, inheritance
 
 | Acceptance Criterion | Requirement | Criterion |
 |---|---|---|
-| AC-FRP-001 | REQ-FRP-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `FRP`, Draft non-normativity, no repository-wide authority, and preserved governing, Product, Business Requirement, Reporting Domain, source-Domain, FEB, and frontend precedence. |
+| AC-FRP-001 | REQ-FRP-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `FRP`, FRP-scoped normativity, no repository-wide authority, and preserved governing, Product, Business Requirement, Reporting Domain, source-Domain, FEB, and frontend precedence. |
 | AC-FRP-002 | REQ-FRP-002 | Applicability review maps each inherited FEB obligation to FRP evidence and finds none copied, weakened, contradicted, or ownership-transferred; provisional-presentation obligations appear only with separately governed applicability. |
 | AC-FRP-003 | REQ-FRP-003 | Boundary tests find no FRP-owned or redefined FSC, FCD, FPE, FCA, FCP, FPP, or FAD behavior and no authority transfer through navigation, embedding, context, or export. |
 | AC-FRP-004 | REQ-FRP-004 | Each Reporting definition, projection, process, freshness, completeness, lineage, recovery, reconciliation, or export claim is backed by governed Reporting evidence and cannot be created by frontend manipulation. |
@@ -385,7 +385,7 @@ FRP MUST provide traceable verification across lifecycle, authority, inheritance
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 15 are materially relevant to FRP, preserve exact source wording and order, and remain unresolved by this Draft.
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 15 are materially relevant to FRP, preserve exact source wording and order, and remain unresolved by this Specification.
 
 | Source Decision | Open Product Decision | FRP Boundary |
 |---|---|---|
@@ -487,12 +487,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following 15 ar
 | Version | Date | Status | Summary |
 |---|---|---|---|
 | 0.1.0 | 2026-09-10 | Draft | Initial comprehensive Reporting Frontend Specification. |
+| 1.0.0 | 2026-09-10 | Approved | Approved Reporting Frontend Specification. |
 
 ## 11. Final Validation
 
-Before this Draft advances:
+For this Approved specification:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `FRP`, the Draft is non-normative, and no repository-wide authority is claimed;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `FRP`, Requirements are normative only within FRP scope, and no repository-wide authority is claimed;
 2. Reporting Domain and every source Domain retain authority, and FRP cannot mutate or reconcile source truth;
 3. FEB inheritance and FSC, FCD, FPE, FCA, FCP, FPP, and FAD boundaries remain preserved;
 4. trusted Authentication, current contextual report- and field-level Authorization, least privilege, and stale-privilege revalidation remain verifiable;
@@ -516,6 +517,6 @@ Before this Draft advances:
 22. Requirement and Acceptance Criterion identifiers and Requirement/AC/traceability mappings are unique, sequential, gap-free, and one-to-one from `REQ-FRP-001` through `REQ-FRP-057` and `AC-FRP-001` through `AC-FRP-057`;
 23. all 30 Open Product Decisions were reviewed, exactly 15 materially relevant decisions are represented with exact source wording and order, and all remain unresolved;
 24. Risks and Controls are FRP-specific, distinct, materially complete, and implementation-neutral;
-25. every Related Document exists and is materially relevant, and no Glossary amendment is required;
+25. every Related Document exists and is materially relevant, no Glossary amendment is required, and Revision History contains exactly one preserved `0.1.0 Draft` row and one `1.0.0 Approved` row;
 26. Markdown headings and tables, UTF-8, trailing whitespace, exactly one final newline, and prohibited-marker checks pass; and
-27. Git scope contains only the new untracked `specifications/frontend/reporting/reporting-frontend.md`, nothing is staged or unrelated, and `git diff --check` plus equivalent untracked-file validation passes.
+27. Git scope contains only intended changes to `specifications/frontend/reporting/reporting-frontend.md`, nothing unrelated is staged or modified, and `git diff --check` plus applicable tracked-file validation passes.
