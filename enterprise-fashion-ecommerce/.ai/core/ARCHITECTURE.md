@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.3.0
+version: 1.4.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-17
@@ -1282,7 +1282,9 @@ Backend Specification work MUST begin with the Shared Backend Baseline Specifica
 
 The first downstream Backend Specification after BEB MUST be the Identity and Access Backend Specification under scope `BIDN` at `specifications/backend/identity/identity-backend.md`. BIDN MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST specialize the Approved Identity Domain without transferring Identity Domain authority to the backend Specification.
 
-All later downstream Backend Specification titles, paths, scope codes, and ordering remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The second downstream Backend Specification after BEB, immediately after BIDN, MUST be the Customer and Account Backend Specification under scope `BCUS` at `specifications/backend/customer/customer-backend.md`. BCUS MUST specialize the Approved Customer Domain without transferring Customer Domain authority, and Customer and Account business meaning MUST remain within the same BCUS backend Specification at this stage. BCUS MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN Contracts or trusted Identity evidence without transferring Identity authority.
+
+All Backend Specification titles, paths, scope codes, decompositions, and ordering after BCUS remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1848,6 +1850,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.4.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0003 by establishing the Customer and Account Backend Specification as the second downstream Backend Specification after BEB, immediately after BIDN, while leaving the later downstream roadmap unresolved. |
 | 1.3.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0002 by establishing the Identity and Access Backend Specification as the first downstream Backend Specification after BEB while leaving the later downstream roadmap unresolved. |
 | 1.2.0 | 2026-09-10 | Approved | Synchronized Accepted ADR-0001 by establishing the Shared Backend Baseline Specification as the prerequisite for downstream Backend Specifications. |
 | 1.1.1 | 2026-08-12 | Approved | Aligned the API error-response baseline to RFC 9457 Problem Details after final core freeze validation. |
@@ -1858,7 +1861,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.3.0
+- **Version:** 1.4.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.

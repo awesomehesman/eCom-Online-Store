@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.4
+version: 1.0.5
 status: Approved
 owner: Architecture
 last_updated: 2026-09-17
@@ -501,6 +501,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | ADR-0001 | Backend Specification Roadmap | Architecture Decision | Accepted | Architecture | 2026-09-10 | — | [`ADR-0001-backend-specification-roadmap.md`](../../specifications/adr/ADR-0001-backend-specification-roadmap.md) |
 | ADR-0002 | Identity and Access Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-16 | — | [ADR-0002-identity-access-backend-specification.md](../../specifications/adr/ADR-0002-identity-access-backend-specification.md) |
+| ADR-0003 | Customer and Account Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-17 | — | [ADR-0003-customer-account-backend-specification.md](../../specifications/adr/ADR-0003-customer-account-backend-specification.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -630,6 +631,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.5 | 2026-09-17 | Approved | Added ADR-0003 as Accepted following Architecture and affected Customer/Identity ownership approval and canonical Architecture synchronization. |
 | 1.0.4 | 2026-09-17 | Approved | Added ADR-0002 as Accepted following Architecture and affected Identity/Security ownership approval and canonical Architecture synchronization. |
 | 1.0.3 | 2026-09-10 | Approved | Updated ADR-0001 to Accepted following Architecture approval and canonical Architecture synchronization. |
 | 1.0.2 | 2026-09-10 | Approved | Indexed proposed ADR-0001 for the Backend Specification roadmap. |

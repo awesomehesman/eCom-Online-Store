@@ -10,7 +10,7 @@ Customer and Account Backend Specification Selection
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -32,14 +32,14 @@ Customer supplies governed Customer and Address context consumed by Cart and Che
 
 ## Decision
 
-The second downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN, is proposed to be:
+The second downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN, SHALL be:
 
 - **Title:** Customer and Account Backend Specification
 - **Path:** `specifications/backend/customer/customer-backend.md`
 - **Scope code:** `BCUS`
 - **Position:** Second downstream Backend Specification after BEB, immediately after BIDN
 
-`BCUS` means Backend Customer. It is proposed only for the Customer and Account Backend Specification. It does not reserve or imply a scope-code convention for later Backend Specifications, whose scope codes remain unresolved.
+`BCUS` means Backend Customer. It is introduced only for the Customer and Account Backend Specification. It does not reserve or imply a scope-code convention for later Backend Specifications, whose scope codes remain unresolved.
 
 BCUS MUST specialize the Approved Customer Domain without redefining Customer semantics or transferring Customer Domain authority. Customer and Account business meaning governed by the Customer Domain MUST remain within the same BCUS backend Specification at this stage; this decision does not create a separate Account backend Specification.
 
@@ -73,7 +73,7 @@ Contextual business Authorization remains with the Domain that owns the Resource
 
 ## Exclusions
 
-This proposed decision does not decide, and does not authorize BCUS to decide:
+This decision does not decide, and does not authorize BCUS to decide:
 
 - concrete API routes, operations, HTTP methods, status mappings, or DTO fields;
 - public or internal payload schemas;
@@ -142,7 +142,7 @@ Costs and trade-offs include:
 
 ## Acceptance Requirements
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
 - Architecture review;
 - affected Customer and Identity ownership review;
@@ -155,17 +155,17 @@ The Customer and Account Backend Specification MUST NOT be drafted as an Approve
 
 ## Acceptance Synchronization
 
-When ADR-0003 is accepted, governance must synchronize only:
+Acceptance synchronized governance through:
 
-- ADR-0003: change status from Proposed to Accepted and correct lifecycle-dependent wording where required.
-- `ARCHITECTURE.md` §35: establish the Customer and Account Backend Specification, path `specifications/backend/customer/customer-backend.md`, scope `BCUS`, its position as the second downstream Backend Specification after BEB and immediately after BIDN, mandatory materially applicable BEB inheritance, materially applicable BIDN consumption without Identity authority transfer, Customer Domain specialization, combined Customer and Account backend decomposition at this stage, and the continued unresolved status of all later Backend Specification titles, paths, scope codes, decompositions, and ordering. Update metadata, Document Status, and Revision History according to repository convention.
-- `DECISIONS.md`: add ADR-0003 to the Decision Index as Accepted and update metadata, version, and Revision History according to repository convention.
+- ADR-0003: changed status from Proposed to Accepted and corrected lifecycle-dependent wording without changing the decision semantics.
+- `ARCHITECTURE.md` §35: established the Customer and Account Backend Specification, path `specifications/backend/customer/customer-backend.md`, scope `BCUS`, its position as the second downstream Backend Specification after BEB and immediately after BIDN, mandatory materially applicable BEB inheritance, materially applicable BIDN consumption without Identity authority transfer, Customer Domain specialization, combined Customer and Account backend decomposition at this stage, and the continued unresolved status of all later Backend Specification titles, paths, scope codes, decompositions, and ordering; updated metadata, Document Status, and Revision History to version `1.4.0`.
+- `DECISIONS.md`: added ADR-0003 to the Decision Index as Accepted and updated metadata and Revision History to version `1.0.5`.
 
-No `PRODUCT.md` change is required because this proposed decision preserves Product authority and leaves every applicable Open Product Decision unresolved. If acceptance review identifies a direct Product contradiction, acceptance MUST stop until that contradiction is governed; this ADR does not authorize editing or overriding `PRODUCT.md`.
+No `PRODUCT.md` change is required because this decision preserves Product authority and leaves every applicable Open Product Decision unresolved. If acceptance review identifies a direct Product contradiction, acceptance MUST stop until that contradiction is governed; this ADR does not authorize editing or overriding `PRODUCT.md`.
 
 ## Matters Deliberately Unresolved
 
-This proposed decision leaves unresolved:
+This decision leaves unresolved:
 
 - every Backend Specification title, path, scope code, decomposition, and ordering position after BCUS;
 - concrete Customer and Account APIs and DTOs;
@@ -183,19 +183,19 @@ This proposed decision leaves unresolved:
 
 ## Security Impact
 
-This proposed decision introduces no new security policy or mechanism. BCUS would consume trusted BIDN evidence where materially applicable while preserving current server-side contextual Authorization, Customer isolation, privacy, Sensitive Data protection, resource concealment, least privilege, and audit obligations governed elsewhere. Identity mechanisms, access matrices, fraud policy, and numerical security controls remain unresolved.
+This decision introduces no new security policy or mechanism. BCUS would consume trusted BIDN evidence where materially applicable while preserving current server-side contextual Authorization, Customer isolation, privacy, Sensitive Data protection, resource concealment, least privilege, and audit obligations governed elsewhere. Identity mechanisms, access matrices, fraud policy, and numerical security controls remain unresolved.
 
 ## Data Impact
 
-This proposed decision creates no schema, table, column, SQL, storage, migration, retention, identifier, Account representation, Consent-storage, or Preference-storage design. Customer-owned data remains governed by the Approved Customer Domain. Identity-owned data remains governed by the Approved Identity Domain and BIDN, and every other Domain retains its data authority.
+This decision creates no schema, table, column, SQL, storage, migration, retention, identifier, Account representation, Consent-storage, or Preference-storage design. Customer-owned data remains governed by the Approved Customer Domain. Identity-owned data remains governed by the Approved Identity Domain and BIDN, and every other Domain retains its data authority.
 
 ## Compatibility and Migration Impact
 
-This proposed decision creates no runtime, data, or Contract migration. A future BCUS Specification must inherit materially applicable BEB compatibility obligations and consume BIDN Contracts compatibly where applicable. Concrete compatibility versions and migration mechanics require later governed Contracts or designs.
+This decision creates no runtime, data, or Contract migration. A future BCUS Specification must inherit materially applicable BEB compatibility obligations and consume BIDN Contracts compatibly where applicable. Concrete compatibility versions and migration mechanics require later governed Contracts or designs.
 
 ## Operational Impact
 
-This proposed decision creates no runtime operational behavior, provider commitment, infrastructure topology, support process, escalation path, capacity target, threshold, timeout, retry count, SLA, or SLO. A future BCUS Specification may specialize governed observability, recovery, reconciliation, and audit outcomes without selecting unresolved mechanisms or numerical values.
+This decision creates no runtime operational behavior, provider commitment, infrastructure topology, support process, escalation path, capacity target, threshold, timeout, retry count, SLA, or SLO. A future BCUS Specification may specialize governed observability, recovery, reconciliation, and audit outcomes without selecting unresolved mechanisms or numerical values.
 
 ## References
 
