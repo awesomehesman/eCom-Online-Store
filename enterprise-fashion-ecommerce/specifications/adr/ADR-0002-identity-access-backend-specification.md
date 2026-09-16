@@ -10,7 +10,7 @@ Identity and Access Backend Specification Selection
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -144,7 +144,7 @@ Costs and trade-offs include:
 
 ## Acceptance Requirements
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
 - Architecture review;
 - affected Identity and Security ownership review;
@@ -157,10 +157,10 @@ The Identity and Access Backend Specification MUST NOT be drafted as an Approved
 
 ## Acceptance Synchronization
 
-When ADR-0002 is accepted, governance must synchronize:
+Acceptance synchronized governance through:
 
-- `DECISIONS.md`: add ADR-0002 to the Decision Index as Accepted and update metadata, version, and Revision History according to repository convention.
-- `ARCHITECTURE.md` §35: establish the Identity and Access Backend Specification, path `specifications/backend/identity/identity-backend.md`, scope `BIDN`, its position as the first downstream Backend Specification after BEB, mandatory materially applicable BEB inheritance, and the continued unresolved status of all later downstream titles, paths, scope codes, and ordering. Update metadata, version, and Revision History according to repository convention.
+- `DECISIONS.md`: added ADR-0002 to the Decision Index as Accepted and updated metadata to version `1.0.4` with synchronized Revision History.
+- `ARCHITECTURE.md` §35: established the Identity and Access Backend Specification, path `specifications/backend/identity/identity-backend.md`, scope `BIDN`, its position as the first downstream Backend Specification after BEB, mandatory materially applicable BEB inheritance, and the continued unresolved status of all later downstream titles, paths, scope codes, and ordering; updated metadata to version `1.3.0` with synchronized Revision History.
 
 No change to `ARCHITECTURE.md` §30 is required unless acceptance review establishes that it is necessary for consistency.
 
