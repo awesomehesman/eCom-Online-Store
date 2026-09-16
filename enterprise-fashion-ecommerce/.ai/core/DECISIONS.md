@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.3
+version: 1.0.4
 status: Approved
 owner: Architecture
-last_updated: 2026-09-10
+last_updated: 2026-09-17
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -500,6 +500,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ID | Title | Type | Status | Owner | Date | Supersedes | Record |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | ADR-0001 | Backend Specification Roadmap | Architecture Decision | Accepted | Architecture | 2026-09-10 | — | [`ADR-0001-backend-specification-roadmap.md`](../../specifications/adr/ADR-0001-backend-specification-roadmap.md) |
+| ADR-0002 | Identity and Access Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-16 | — | [ADR-0002-identity-access-backend-specification.md](../../specifications/adr/ADR-0002-identity-access-backend-specification.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -629,6 +630,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.4 | 2026-09-17 | Approved | Added ADR-0002 as Accepted following Architecture and affected Identity/Security ownership approval and canonical Architecture synchronization. |
 | 1.0.3 | 2026-09-10 | Approved | Updated ADR-0001 to Accepted following Architecture approval and canonical Architecture synchronization. |
 | 1.0.2 | 2026-09-10 | Approved | Indexed proposed ADR-0001 for the Backend Specification roadmap. |
 | 1.0.1 | 2026-08-12 | Approved | Added the directly relevant Design System reference for material design decisions governed through durable Decision Records. |
