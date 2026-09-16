@@ -394,7 +394,7 @@ All BEB Requirements are materially applicable to BCUS except where their stated
 
 ## 17. Open Product and Architecture Decisions
 
-The following 15 materially relevant decisions remain unresolved by BCUS.
+The following 16 materially relevant decisions remain unresolved by BCUS.
 
 | Source | Open decision | BCUS boundary |
 | --- | --- | --- |
@@ -411,6 +411,7 @@ The following 15 materially relevant decisions remain unresolved by BCUS.
 | ARCHITECTURE.md §34 item 3 | Customer and administrator session/token strategy | BCUS selects no Identity, token, Session, cookie, storage, rotation, or lifetime mechanism. |
 | ARCHITECTURE.md §34 item 8 | Redis introduction and approved use cases | BCUS assumes no cache, Session, or storage technology. |
 | ARCHITECTURE.md §34 item 9 | External messaging introduction and service selection | BCUS assumes no broker or external messaging adoption. |
+| ARCHITECTURE.md §34 item 12 | Backup retention and production recovery objectives | BCUS preserves recoverability, restoration compatibility, reconciliation, and operational-recovery verification without selecting retention periods, recovery objectives, backup mechanisms, or numerical recovery targets. |
 | ARCHITECTURE.md §34 item 13 | PostgreSQL schema strategy for enforcing Domain ownership | BCUS selects no schema or physical ownership mechanism. |
 | ARCHITECTURE.md §34 item 14 | Repository-wide feature-flag implementation and lifecycle management | BCUS preserves flag safety without selecting tooling or lifecycle. |
 
@@ -476,7 +477,7 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 6. every Customer-owned and cross-Domain boundary named in this Specification remains intact;
 7. no API, DTO, schema, event, provider, infrastructure, identifier, Account model, Consent/Preference mechanism, Identity mechanism, matrix, numerical value, or unresolved Product policy is invented;
 8. every BCUS Requirement has exactly one complete Acceptance Criterion and one traceability row;
-9. all 15 listed Open Product and Architecture Decisions remain unresolved;
+9. all 16 listed Open Product and Architecture Decisions remain unresolved;
 10. every Backend Specification title, path, scope code, decomposition, and order after BCUS remains out of scope;
 11. all Related Documents exist and are materially relevant;
 12. Markdown, tables, headings, UTF-8, whitespace, and final newline validation pass; and
