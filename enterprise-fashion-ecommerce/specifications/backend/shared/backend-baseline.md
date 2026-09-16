@@ -1,7 +1,7 @@
 ---
 title: Shared Backend Baseline Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-09-16
 authoritative: false
@@ -13,13 +13,13 @@ authoritative: false
 
 This Specification defines implementation-neutral cross-cutting backend obligations that downstream Backend Specifications must inherit where materially applicable.
 
-This document uses scope code `BEB`. While Draft, it is non-normative. If Approved, its Requirements are normative only within the Shared Backend Baseline scope and are not repository-wide authority. It remains subordinate to governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, and standards under `.ai/backend/`, and resolves no Open Product Decision.
+This document uses scope code `BEB`. As an Approved Specification, its Requirements are normative only within the Shared Backend Baseline scope and are not repository-wide authority. It remains subordinate to governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, and standards under `.ai/backend/`, and resolves no Open Product Decision.
 
 ## 2. Scope, Authority, and Requirements
 
 ### BEB-REQ-001 — Lifecycle, Authority, and Scope
 
-BEB MUST govern only shared backend concerns under scope `BEB`, preserve governing-source and Approved Specification precedence, and MUST NOT be treated as normative or repository-wide authority while Draft.
+BEB MUST govern only shared backend concerns under scope `BEB`, preserve governing-source and Approved Specification precedence, and MUST be treated as normative only within its Approved Shared Backend Baseline scope and not as repository-wide authority.
 
 ### BEB-REQ-002 — Downstream Inheritance
 
@@ -245,7 +245,7 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 
 | Acceptance Criterion | Requirement | Criterion |
 |---|---|---|
-| BEB-AC-001 | BEB-REQ-001 | Metadata and review evidence show `0.1.0 Draft`, `authoritative: false`, scope `BEB`, Draft non-normativity, no repository-wide authority, and preserved governing and Approved Specification precedence. |
+| BEB-AC-001 | BEB-REQ-001 | Metadata and review evidence show `1.0.0 Approved`, `authoritative: false`, scope `BEB`, normativity only within the Approved Shared Backend Baseline scope, no repository-wide authority, and preserved governing and Approved Specification precedence. |
 | BEB-AC-002 | BEB-REQ-002 | Each proposed downstream backend scope maps its materially applicable BEB obligations and demonstrates no copied, weakened, conflicting, or authority-transferring requirement. |
 | BEB-AC-003 | BEB-REQ-003 | Boundary tests and review find no backend mechanism establishing Product policy or source-Domain or frontend truth outside its owner. |
 | BEB-AC-004 | BEB-REQ-004 | A downstream specialization review identifies its governed owner and inherited baseline while finding no assumed roadmap, filename, scope code, or order. |
@@ -382,7 +382,7 @@ Downstream Backend Specifications must:
 
 ## 7. Open Product Decisions
 
-All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following decisions are materially relevant to shared backend boundaries and remain unresolved by this Draft. BEB preserves their exact source wording and does not select a value.
+All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following decisions are materially relevant to shared backend boundaries and remain unresolved by this Specification. BEB preserves their exact source wording and does not select a value.
 
 | Source Decision | Open Product Decision | BEB Boundary |
 |---:|---|---|
@@ -475,12 +475,13 @@ All 30 Open Product Decisions in `PRODUCT.md` were reviewed. The following decis
 | Version | Date | Status | Summary |
 |---|---|---|---|
 | 0.1.0 | 2026-09-16 | Draft | Initial comprehensive Shared Backend Baseline Specification. |
+| 1.0.0 | 2026-09-16 | Approved | Promoted after approval-readiness audit and validated correction of traceability precision and Acceptance Criteria completeness. |
 
 ## 11. Final Validation
 
-The Draft is ready for comprehensive audit only when all of the following are true:
+The Approved Specification remains valid only while all of the following are true:
 
-1. metadata is exactly `0.1.0 Draft`, `authoritative: false`, scope `BEB`, Draft non-normativity and absence of repository-wide authority are explicit, and governing-source and Approved Specification precedence is preserved;
+1. metadata is exactly `1.0.0 Approved`, `authoritative: false`, scope `BEB`, normativity only within the Approved Shared Backend Baseline scope and absence of repository-wide authority are explicit, and governing-source and Approved Specification precedence is preserved;
 2. every Requirement is necessary, implementation-neutral, independently testable, and within BEB authority;
 3. Requirements, Acceptance Criteria, and traceability rows are equal in number, unique, sequential, gap-free, and one-to-one;
 4. every Acceptance Criterion is independently authored, observable, clause-complete, and non-expansive;
@@ -495,6 +496,6 @@ The Draft is ready for comprehensive audit only when all of the following are tr
 13. Risks are distinct and each control specifically mitigates its corresponding risk without selecting an implementation;
 14. every Related Document exists and is materially relevant;
 15. no Glossary amendment is introduced or required;
-16. Revision History contains exactly one `0.1.0 Draft` row;
+16. Revision History contains exactly one `0.1.0 Draft` row and exactly one `1.0.0 Approved` row;
 17. Markdown headings and tables, UTF-8, whitespace, exactly one final newline, and prohibited-marker checks pass; and
 18. Git validation confirms that the applicable change set contains only intended Specification changes, nothing unrelated is staged or modified, and `git diff --check` or equivalent committed-state validation passes.
