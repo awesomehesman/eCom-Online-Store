@@ -350,7 +350,7 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 | BEB-REQ-042 | — | REQ-BUS-025–026, 036, 043, 045–046 | — | — | ARCHITECTURE.md §§20.5, 26.6, 37.5, 45.3–45.4; EVENTS.md §§37–39 | Operations and support workflows |
 | BEB-REQ-043 | — | REQ-BUS-027, 032, 039–040 | — | — | SECURITY-STANDARDS.md §§7–21, 25–28, 35–40; API.md §§59–62 | All backend components |
 | BEB-REQ-044 | — | REQ-BUS-027, 039 | REQ-PAY-031–032 | — | SECURITY-STANDARDS.md §§14–16, 35–36; API.md §60 | Configuration, payment, and observability components |
-| BEB-REQ-045 | — | REQ-BUS-020, 033–36, 043 | REQ-ADM-045 | — | AGENTS.md §23; API.md §62; EVENTS.md §46; SECURITY-STANDARDS.md §27 | Material actions, investigation, and compliance |
+| BEB-REQ-045 | — | REQ-BUS-020, 033–036, 043 | REQ-ADM-045 | — | AGENTS.md §23; API.md §62; EVENTS.md §46; SECURITY-STANDARDS.md §27 | Material actions, investigation, and compliance |
 | BEB-REQ-046 | — | REQ-BUS-034–035, 043, 045 | — | — | AGENTS.md §23; ARCHITECTURE.md §18; API.md §§36–37, 61, 77–78; EVENTS.md §§47–48 | Operations and support |
 | BEB-REQ-047 | — | REQ-BUS-039, 045 | — | — | ARCHITECTURE.md §§31.2–31.3, 38.1–38.3, 38.5; SECURITY-STANDARDS.md §§14, 17 | Runtime and deployment configuration |
 | BEB-REQ-048 | — | REQ-BUS-047–048 | — | REQ-FEB-048 | ARCHITECTURE.md §§38.4, 43.3 | All flagged backend behavior |
