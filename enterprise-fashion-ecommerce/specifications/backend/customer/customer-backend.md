@@ -1,7 +1,7 @@
 ---
 title: Customer and Account Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend / Customer
 last_updated: 2026-09-17
 authoritative: false
@@ -14,7 +14,7 @@ scope: BCUS
 
 This Specification defines implementation-neutral backend Requirements for Customer-owned profile, Address, Preference, Consent, isolation, Customer and Account association, registration outcomes, history, use-case orchestration, Contracts, persistence, concurrency, failure, recovery, events, integration, observability, audit, and verification.
 
-This document uses scope code `BCUS`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Customer and Account backend scope. It remains subordinate to governing sources, Approved Business Requirements, the Approved Customer Domain, materially applicable Shared Backend Baseline (BEB) Requirements, and materially applicable BIDN Contracts and trusted Identity evidence. It is not repository-wide authority and resolves no Open Product or Architecture Decision.
+This document uses scope code `BCUS`. As an Approved Specification, its Requirements are normative only within the Customer and Account backend scope. It remains subordinate to governing sources, Approved Business Requirements, the Approved Customer Domain, materially applicable Shared Backend Baseline (BEB) Requirements, and materially applicable BIDN Contracts and trusted Identity evidence. It is not repository-wide authority and resolves no Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
@@ -250,7 +250,7 @@ Verification MUST prove BEB inheritance, materially applicable BIDN consumption,
 
 | Acceptance Criterion | Requirement | Acceptance evidence |
 | --- | --- | --- |
-| BCUS-AC-001 | BCUS-REQ-001 | Metadata and review show `0.1.0 Draft`, `authoritative: false`, scope `BCUS`, bounded non-normative authority, and no repository-wide claim. |
+| BCUS-AC-001 | BCUS-REQ-001 | Metadata and review show `1.0.0 Approved`, `authoritative: false`, scope `BCUS`, normative authority only within the bounded Customer and Account backend scope, and no repository-wide claim. |
 | BCUS-AC-002 | BCUS-REQ-002 | Boundary review finds only Customer backend specialization and no redefinition or transfer of Customer or other Domain authority or Product policy. |
 | BCUS-AC-003 | BCUS-REQ-003 | Tests preserve all named actor distinctions, keep Customer and Account within BCUS, and find no separate Account authority or concrete representation/lifecycle. |
 | BCUS-AC-004 | BCUS-REQ-004 | The BEB matrix covers BEB-REQ-001 through BEB-REQ-056 exactly once and traces every inherited or conditional obligation. |
@@ -464,12 +464,13 @@ Customer identifier design, concrete Account representation or lifecycle, Consen
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-17 | Draft | Initial Customer and Account Backend Specification established under Accepted ADR-0003 with explicit Customer Domain specialization, BEB inheritance, and bounded BIDN consumption. |
+| 1.0.0 | 2026-09-17 | Approved | Approved the Customer and Account Backend Specification after approval-readiness validation, preserving Customer Domain authority, complete BEB inheritance, bounded BIDN consumption, and all unresolved Product and Architecture Decisions. |
 
 ## 21. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `BCUS`, and Draft content is non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `BCUS`, and BCUS is normative only within its bounded Customer and Account backend scope;
 2. Customer and Account remain within one BCUS boundary while the Approved Customer Domain retains semantic authority;
 3. all 56 BEB Requirements have an explicit inherited or conditional disposition and trace;
 4. materially applicable BIDN evidence is consumed without transferring Identity authority;
