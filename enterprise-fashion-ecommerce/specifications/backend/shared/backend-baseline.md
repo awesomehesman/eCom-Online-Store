@@ -282,19 +282,19 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 | BEB-AC-035 | BEB-REQ-035 | Invalid-authenticity and altered-payload tests prevent Webhook evidence from affecting Domain truth and retain only governed, safely handled evidence. |
 | BEB-AC-036 | BEB-REQ-036 | Duplicate, reordered, failed, and replayed Webhook tests preserve effects, correlation, recovery, and the distinction between acknowledgement, processing, provider, and Domain outcomes. |
 | BEB-AC-037 | BEB-REQ-037 | Evidence classification distinguishes owned Domain Events, past-tense Integration Event facts, Audit Records, and Product policy and proves none substitutes for another. |
-| BEB-AC-038 | BEB-REQ-038 | Contract tests verify applicable envelope and compatibility semantics while finding no BEB-invented event name or payload schema. |
+| BEB-AC-038 | BEB-REQ-038 | Contract tests verify applicable event identity, type, version, occurrence time, producer, correlation, causation, payload semantics, and compatibility behavior while finding no BEB-invented event name or payload schema. |
 | BEB-AC-039 | BEB-REQ-039 | Publication and consumption tests cover duplicates, order, retry, poison handling, replay, and idempotency without unsupported exactly-once claims. |
 | BEB-AC-040 | BEB-REQ-040 | Architecture review confirms in-process initial delivery and rejects external messaging, registry, or extraction without required governance. |
 | BEB-AC-041 | BEB-REQ-041 | Failure tests preserve actionable categories through safe boundary translation and apply category-appropriate response, retry, recovery, alerting, and audit behavior. |
 | BEB-AC-042 | BEB-REQ-042 | Material partial, failed, interrupted, and uncertain outcomes have an owned reauthorized, state-revalidated recovery or reconciliation path with no duplicate effect. |
-| BEB-AC-043 | BEB-REQ-043 | Security tests cover applicable validation, injection, access, dependency, encryption, and minimization controls across every listed data surface. |
+| BEB-AC-043 | BEB-REQ-043 | Security tests verify secure defaults, least privilege, applicable input validation, output safety, injection resistance, dependency and supply-chain controls, encryption requirements, and Sensitive Data minimization across every listed data surface. |
 | BEB-AC-044 | BEB-REQ-044 | Repository and runtime evidence finds no Secret or prohibited Payment data in durable or observable artifacts and verifies governed secret failure behavior. |
 | BEB-AC-045 | BEB-REQ-045 | Material-action evidence contains required audit fields and remains distinct from logs, metrics, traces, events, analytics, and Domain history. |
 | BEB-AC-046 | BEB-REQ-046 | Operational tests demonstrate safe logs, metrics, traces, correlation, applicable business identifiers, health, and readiness sufficient for investigation without data leakage or invented targets. |
 | BEB-AC-047 | BEB-REQ-047 | Startup and environment tests reject invalid required configuration, preserve environment and sandbox/production provider separation and least privilege, and find no embedded Secret or business rule. |
 | BEB-AC-048 | BEB-REQ-048 | Every reachable flag state preserves all enumerated safeguards and review finds no selected provider, rollout policy, mechanism, or unresolved behavior. |
 | BEB-AC-049 | BEB-REQ-049 | Migration tests and review demonstrate versioned Flyway ownership, compatibility, failure blocking, recovery, immutable applied history, and no runtime drift. |
-| BEB-AC-050 | BEB-REQ-050 | Mixed-version and recovery evidence supports the approved deployment path and makes no unsafe rollback or compatibility claim. |
+| BEB-AC-050 | BEB-REQ-050 | Mixed-version and recovery evidence verifies additive or expand-and-contract evolution where required for the approved deployment path and demonstrates that rollback or forward-fix claims are evidence-based and data-safe. |
 | BEB-AC-051 | BEB-REQ-051 | Load and failure evidence shows bounded work and isolated degradation for applicable operations without a locally invented target or scaling policy. |
 | BEB-AC-052 | BEB-REQ-052 | Deterministic Domain and application tests cover invariants, orchestration, validation, Authorization, transactions, failure, and recovery beyond mocked success. |
 | BEB-AC-053 | BEB-REQ-053 | Realistic Adapter tests verify API, persistence, provider, migration, Webhook, and event boundaries across success, compatibility, security, duplicate, and failure cases. |
@@ -316,7 +316,7 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 | BEB-REQ-008 | — | REQ-BUS-047 | REQ-PRD-052; REQ-CAT-041; REQ-CUS-047; REQ-IDN-045; REQ-INV-035; REQ-CART-031; REQ-PRC-033; REQ-PAY-039; REQ-SHP-037; REQ-CHK-038; REQ-ORD-045; REQ-RET-042; REQ-NTF-050; REQ-CMS-045; REQ-ADM-046 | REQ-FEB-049 | ARCHITECTURE.md §§10.2, 35.5, 39; API.md §§12, 65–72 | Backend Module consumers |
 | BEB-REQ-009 | — | REQ-BUS-031–036 | — | — | ARCHITECTURE.md §§11.2–11.4, 35.2; SPRING.md | Backend Use Cases |
 | BEB-REQ-010 | — | REQ-BUS-021–026, 042 | — | — | ARCHITECTURE.md §§11.2, 37 | Backend Use Cases and clients |
-| BEB-REQ-011 | PRODUCT.md §23 | REQ-BUS-032–033, 036, 039 | REQ-IDN-016–024; REQ-ADM-006–010 | REQ-FEB-012–013 | ARCHITECTURE.md §30.4; API.md §§25–27, 52–53; SECURITY-STANDARDS.md §§10–13, 19–20 | Protected backend Use Cases |
+| BEB-REQ-011 | PRODUCT.md §23 | REQ-BUS-032–033, 036, 039 | REQ-IDN-024–028; REQ-ADM-006–010 | REQ-FEB-012–013 | ARCHITECTURE.md §30.4; API.md §§25–27, 52–53; SECURITY-STANDARDS.md §§10–13, 19–20 | Protected backend Use Cases |
 | BEB-REQ-012 | — | REQ-BUS-013, 017–026 | — | — | ARCHITECTURE.md §§10.3, 26.1, 35.2; DATABASE.md §§12–14; SPRING.md | Application Services |
 | BEB-REQ-013 | — | REQ-BUS-010–013 | — | REQ-FEB-049 | ARCHITECTURE.md §§5.4, 13; API.md §§5–9 | External API consumers |
 | BEB-REQ-014 | — | REQ-BUS-039 | — | REQ-FEB-049 | ARCHITECTURE.md §§11.3, 39.1; API.md §§12–16, 60, 66–68 | API consumers and backend Adapters |
@@ -325,22 +325,22 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 | BEB-REQ-017 | — | REQ-BUS-011, 032, 039, 042 | — | REQ-FEB-014–015, 021, 030 | ARCHITECTURE.md §§37.1–37.5; API.md §§9–11, 36–37, 52–58 | API clients and support operations |
 | BEB-REQ-018 | — | REQ-BUS-047–048 | — | REQ-FEB-049 | ARCHITECTURE.md §§5.9, 39.1–39.4; API.md §§63–72, 79 | API producers and consumers |
 | BEB-REQ-019 | PRODUCT.md §7 | REQ-BUS-032, 039, 051 | REQ-IDN-005–015 | REQ-FEB-011 | ARCHITECTURE.md §§30.1–30.3; API.md §25; SECURITY-STANDARDS.md §§10–13 | Authenticated backend Use Cases |
-| BEB-REQ-020 | — | REQ-BUS-032–033, 039, 042, 051 | REQ-IDN-016–024 | REQ-FEB-012–013, 030 | API.md §§26, 52–53; SECURITY-STANDARDS.md §§7.2–7.8, 12, 19–20 | Protected backend resources |
+| BEB-REQ-020 | — | REQ-BUS-032–033, 039, 042, 051 | REQ-IDN-006; REQ-IDN-024–028 | REQ-FEB-012–013, 030 | API.md §§26, 52–53; SECURITY-STANDARDS.md §§7.2–7.8, 12, 19–20 | Protected backend resources |
 | BEB-REQ-021 | — | REQ-BUS-017–023, 044 | REQ-RPT-002–003; REQ-SRCH-002–003 | — | ARCHITECTURE.md §§10.2, 15, 40; DATABASE.md §§6–7 | All persistence consumers |
 | BEB-REQ-022 | — | REQ-BUS-047 | — | — | ARCHITECTURE.md §§11.4–11.6, 35.3, 40; DATABASE.md §§8–10 | Persistence Adapters |
-| BEB-REQ-023 | PRODUCT.md §§6, 16 | REQ-BUS-014–23, 039 | — | — | ARCHITECTURE.md §§15, 40; DATABASE.md §§11, 19–25; JAVA.md §§22–26 | Owning backend Modules |
-| BEB-REQ-024 | — | REQ-BUS-020–023, 044 | REQ-ORD-026–032 | — | ARCHITECTURE.md §40.5; DATABASE.md §6 | Order, reporting, repair, and migration consumers |
+| BEB-REQ-023 | PRODUCT.md §§6, 16 | REQ-BUS-014–023, 039 | — | — | ARCHITECTURE.md §§15, 40; DATABASE.md §§11, 19–25; JAVA.md §§22–26 | Owning backend Modules |
+| BEB-REQ-024 | — | REQ-BUS-020–023, 044 | REQ-ORD-017–020; REQ-ORD-023–025 | — | ARCHITECTURE.md §40.5; DATABASE.md §6 | Order, reporting, repair, and migration consumers |
 | BEB-REQ-025 | — | REQ-BUS-012–013, 017–026 | — | — | ARCHITECTURE.md §§5.8, 20, 26.1–26.3; DATABASE.md §§12–14 | Transactional backend workflows |
 | BEB-REQ-026 | — | REQ-BUS-024–026, 045–046 | — | — | ARCHITECTURE.md §§20.1, 26.3; DATABASE.md §§13–14; SPRING.md | Provider-integrated workflows |
-| BEB-REQ-027 | — | REQ-BUS-010, 013, 017–019, 026 | REQ-INV-019–025; REQ-CART-020–024 | — | ARCHITECTURE.md §§26.5, 37.4; DATABASE.md §§15–18 | Concurrent backend operations |
+| BEB-REQ-027 | — | REQ-BUS-010, 013, 017–019, 026 | REQ-INV-015–016; REQ-CART-022–023 | — | ARCHITECTURE.md §§26.5, 37.4; DATABASE.md §§15–18 | Concurrent backend operations |
 | BEB-REQ-028 | — | REQ-BUS-019, 021–026, 030, 036, 045 | — | — | ARCHITECTURE.md §§20, 26.3, 26.6; EVENTS.md §§35–39 | Cross-system workflows and operations |
 | BEB-REQ-029 | — | REQ-BUS-010, 013, 019, 024–026, 036 | — | — | ARCHITECTURE.md §26.4; API.md §§22, 39–45; EVENTS.md §§18–20 | Mutation owners and Message consumers |
 | BEB-REQ-030 | — | REQ-BUS-013, 026, 036 | — | — | API.md §22; EVENTS.md §§14, 18–20 | Idempotent Use Cases |
-| BEB-REQ-031 | — | REQ-BUS-013, 019, 024–026, 036 | REQ-PAY-024–033; REQ-ORD-033–040 | — | API.md §§22, 40, 51; EVENTS.md §§18–24, 39 | Retry, Callback, and reconciliation handlers |
+| BEB-REQ-031 | — | REQ-BUS-013, 019, 024–026, 036 | REQ-PAY-022–025; REQ-ORD-012–014 | — | API.md §§22, 40, 51; EVENTS.md §§18–24, 39 | Retry, Callback, and reconciliation handlers |
 | BEB-REQ-032 | — | REQ-BUS-024–027, 029, 046 | — | — | ARCHITECTURE.md §§11.4–11.5, 16; API.md §50; SPRING.md | Provider integrations |
 | BEB-REQ-033 | — | REQ-BUS-025–026, 045–046 | — | — | ARCHITECTURE.md §§20.1, 44; API.md §§28, 50–51, 57–58; PERFORMANCE.md | Provider Adapters |
-| BEB-REQ-034 | — | REQ-BUS-024–026, 045–046 | REQ-PAY-021–033 | — | ARCHITECTURE.md §§20.2, 20.5, 26.6; EVENTS.md §§37–39 | Provider workflows and support |
-| BEB-REQ-035 | — | REQ-BUS-024–027, 039 | REQ-PAY-015–020 | — | API.md §40; SECURITY-STANDARDS.md §§14–16, 19–20, 35–36 | Webhook and Callback Adapters |
+| BEB-REQ-034 | — | REQ-BUS-024–026, 045–046 | REQ-PAY-021, 024–025 | — | ARCHITECTURE.md §§20.2, 20.5, 26.6; EVENTS.md §§37–39 | Provider workflows and support |
+| BEB-REQ-035 | — | REQ-BUS-024–027, 039 | REQ-PAY-010–014 | — | API.md §40; SECURITY-STANDARDS.md §§14–16, 19–20, 35–36 | Webhook and Callback Adapters |
 | BEB-REQ-036 | — | REQ-BUS-024–026, 034–036, 045 | — | — | API.md §§22, 36–37, 40, 51; EVENTS.md §§18–24, 37–39 | Webhook handlers and operations |
 | BEB-REQ-037 | — | REQ-BUS-034–035, 044 | — | — | ARCHITECTURE.md §§14.1–14.2; EVENTS.md §§6–8, 46 | Event producers and consumers |
 | BEB-REQ-038 | — | REQ-BUS-047 | — | — | EVENTS.md §§11–16, 27–35 | Integration Event producers and consumers |
@@ -349,8 +349,8 @@ BEB MUST NOT select unresolved Product policy, downstream roadmap, routes, opera
 | BEB-REQ-041 | — | REQ-BUS-011, 025, 032, 042, 045–046 | — | — | ARCHITECTURE.md §§37.1–37.3; API.md §§10–11, 52–58; JAVA.md §28 | Backend boundaries and clients |
 | BEB-REQ-042 | — | REQ-BUS-025–026, 036, 043, 045–046 | — | — | ARCHITECTURE.md §§20.5, 26.6, 37.5, 45.3–45.4; EVENTS.md §§37–39 | Operations and support workflows |
 | BEB-REQ-043 | — | REQ-BUS-027, 032, 039–040 | — | — | SECURITY-STANDARDS.md §§7–21, 25–28, 35–40; API.md §§59–62 | All backend components |
-| BEB-REQ-044 | — | REQ-BUS-027, 039 | REQ-PAY-009–014 | — | SECURITY-STANDARDS.md §§14–16, 35–36; API.md §60 | Configuration, payment, and observability components |
-| BEB-REQ-045 | — | REQ-BUS-020, 033–36, 043 | REQ-ADM-038–043 | — | AGENTS.md §23; API.md §62; EVENTS.md §46; SECURITY-STANDARDS.md §27 | Material actions, investigation, and compliance |
+| BEB-REQ-044 | — | REQ-BUS-027, 039 | REQ-PAY-031–032 | — | SECURITY-STANDARDS.md §§14–16, 35–36; API.md §60 | Configuration, payment, and observability components |
+| BEB-REQ-045 | — | REQ-BUS-020, 033–36, 043 | REQ-ADM-045 | — | AGENTS.md §23; API.md §62; EVENTS.md §46; SECURITY-STANDARDS.md §27 | Material actions, investigation, and compliance |
 | BEB-REQ-046 | — | REQ-BUS-034–035, 043, 045 | — | — | AGENTS.md §23; ARCHITECTURE.md §18; API.md §§36–37, 61, 77–78; EVENTS.md §§47–48 | Operations and support |
 | BEB-REQ-047 | — | REQ-BUS-039, 045 | — | — | ARCHITECTURE.md §§31.2–31.3, 38.1–38.3, 38.5; SECURITY-STANDARDS.md §§14, 17 | Runtime and deployment configuration |
 | BEB-REQ-048 | — | REQ-BUS-047–048 | — | REQ-FEB-048 | ARCHITECTURE.md §§38.4, 43.3 | All flagged backend behavior |
