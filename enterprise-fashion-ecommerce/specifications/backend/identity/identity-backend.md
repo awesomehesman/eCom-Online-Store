@@ -1,7 +1,7 @@
 ---
 title: Identity and Access Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-09-17
 authoritative: false
@@ -13,7 +13,7 @@ authoritative: false
 
 This Specification defines implementation-neutral backend Requirements for Identity-owned Authentication, credential, recovery, Principal, Session, revocation, access-assignment, Staff access, Service Principal, security-evidence, recovery, and reconciliation behavior.
 
-This document uses scope code `BIDN`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Identity and Access backend scope, subordinate to governing sources, Approved Business Requirements, the Approved Identity Domain, materially applicable Shared Backend Baseline (BEB) Requirements, and applicable Approved frontend Contracts. It does not become repository-wide authority and resolves no Open Product or Architecture Decision.
+This document uses scope code `BIDN`. Its Requirements are normative only within the Identity and Access backend scope, subordinate to governing sources, Approved Business Requirements, the Approved Identity Domain, materially applicable Shared Backend Baseline (BEB) Requirements, and applicable Approved frontend Contracts. It does not become repository-wide authority and resolves no Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
@@ -249,7 +249,7 @@ Verification MUST prove BEB inheritance, modular and hexagonal dependency direct
 
 | Acceptance Criterion | Requirement | Acceptance evidence |
 | --- | --- | --- |
-| BIDN-AC-001 | BIDN-REQ-001 | Metadata and scope review show `0.1.0 Draft`, `authoritative: false`, scope `BIDN`, non-normative Draft status, bounded authority, and no repository-wide claim. |
+| BIDN-AC-001 | BIDN-REQ-001 | Metadata and scope review show `1.0.0 Approved`, `authoritative: false`, scope `BIDN`, normative authority only within BIDN scope, bounded authority, and no repository-wide claim. |
 | BIDN-AC-002 | BIDN-REQ-002 | Boundary review finds only Identity backend specialization and no redefinition or transfer of Identity, Customer, Administration, commerce, Notification, Reporting, Analytics, fraud, or operational authority. |
 | BIDN-AC-003 | BIDN-REQ-003 | The BEB applicability matrix covers BEB-REQ-001 through BEB-REQ-056, every inherited item is traceable, and any inapplicability has reviewable capability-specific evidence. |
 | BIDN-AC-004 | BIDN-REQ-004 | Authorization tests show BIDN supplies trusted evidence while each owning Domain decides current Principal, Resource, action, property, association, and state permission. |
@@ -445,13 +445,14 @@ Additional deliberately unresolved matters include Identity Provider and Authent
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Approved | Approved the Identity and Access Backend Specification following complete requirement, acceptance-criteria, traceability, BEB-inheritance, authority-boundary, open-decision, and implementation-neutrality validation. |
 | 0.1.0 | 2026-09-17 | Draft | Initial Identity and Access Backend Specification established under Accepted ADR-0002 with explicit Identity Domain specialization and BEB inheritance. |
 
 ## 24. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `BIDN`, and Draft content is non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `BIDN`, and Approved content is normative only within BIDN scope;
 2. the Approved Identity Domain remains authoritative for Identity semantics and no Domain authority is transferred;
 3. all 56 BEB Requirements have an explicit inherited or conditional applicability disposition and materially applicable obligations are traced;
 4. contextual business Authorization remains with each owning Domain;
@@ -465,4 +466,4 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 12. later Backend Specification roadmap decisions remain out of scope;
 13. all Related Documents exist and are materially relevant;
 14. Markdown, tables, headings, UTF-8, whitespace, and final newline validation pass; and
-15. the final change creates only `specifications/backend/identity/identity-backend.md`, remains unstaged, uncommitted, and unpushed, and preserves any separately authorized pre-existing worktree changes.
+15. the approval change modifies only `specifications/backend/identity/identity-backend.md` and preserves any unrelated worktree changes.
