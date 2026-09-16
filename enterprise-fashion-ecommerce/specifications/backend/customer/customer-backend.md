@@ -482,4 +482,4 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 10. every Backend Specification title, path, scope code, decomposition, and order after BCUS remains out of scope;
 11. all Related Documents exist and are materially relevant;
 12. Markdown, tables, headings, UTF-8, whitespace, and final newline validation pass; and
-13. the final change creates only `specifications/backend/customer/customer-backend.md`, remains unstaged, uncommitted, and unpushed.
+13. the BCUS lifecycle change affects only `specifications/backend/customer/customer-backend.md` and introduces no unrelated repository changes.
