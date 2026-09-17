@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.8
+version: 1.0.9
 status: Approved
 owner: Architecture
 last_updated: 2026-09-17
@@ -505,6 +505,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0004 | Product Catalogue Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-17 | — | [ADR-0004-catalogue-backend-specification.md](../../specifications/adr/ADR-0004-catalogue-backend-specification.md) |
 | ADR-0005 | Inventory Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-17 | — | [ADR-0005-post-product-backend-specification.md](../../specifications/adr/ADR-0005-post-product-backend-specification.md) |
 | ADR-0006 | Pricing Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-17 | — | [ADR-0006-post-inventory-backend-specification.md](../../specifications/adr/ADR-0006-post-inventory-backend-specification.md) |
+| ADR-0007 | Cart Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-17 | — | [ADR-0007-post-pricing-backend-specification.md](../../specifications/adr/ADR-0007-post-pricing-backend-specification.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -634,6 +635,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.9 | 2026-09-17 | Approved | Added ADR-0007 as Accepted following Architecture and affected Cart, Category, Checkout, Administration, Product, Inventory, Pricing, Identity, Customer, Search and Discovery, Order, Payment, and Shipping and Fulfilment ownership approval and canonical Architecture synchronization; selected Cart-only `BCART` and established `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART`, while leaving Category independently eligible and unresolved and every later backend roadmap position unresolved. |
 | 1.0.8 | 2026-09-17 | Approved | Added ADR-0006 as Accepted following Architecture and affected Pricing, Category, Product, Search and Discovery, Cart, Checkout, Identity, Customer, and Inventory ownership approval and canonical Architecture synchronization; the canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC`, with BPRC immediately after BINV and every later backend roadmap position unresolved. |
 | 1.0.7 | 2026-09-17 | Approved | Added ADR-0005 as Accepted following Architecture and affected Inventory, Product, Pricing, Category, Search and Discovery, Identity, and Customer ownership approval and canonical Architecture synchronization; BINV is the Inventory-only Backend Specification immediately after BPRD, and every later backend roadmap position remains unresolved. |
 | 1.0.6 | 2026-09-17 | Approved | Added ADR-0004 as Accepted following Architecture and affected Product, Category, Search and Discovery, Identity, and Customer ownership approval and canonical Architecture synchronization. |

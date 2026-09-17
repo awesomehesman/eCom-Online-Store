@@ -10,11 +10,11 @@ Cart Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -42,7 +42,7 @@ Category owns taxonomy, hierarchy, classification, navigation eligibility, order
 
 Cart owns provisional shopping intent, Cart identity and association, Cart Item membership, selected Product Variant references, intended quantity, and accepted Cart mutation outcomes. BIDN and BCUS provide governed Identity, Customer, Account, and association context; BPRD provides Product and Product Variant evidence; BINV provides Inventory evidence; and BPRC now provides authoritative Pricing evidence. Cart can be specified without requiring Checkout, Order, Payment, or Shipping and Fulfilment backend specifications first, while remaining non-authoritative for those later capabilities.
 
-This Proposed ADR makes one conditional roadmap decision. While Proposed, it is non-normative, does not change the canonical roadmap, and does not authorize drafting the selected Backend Specification.
+This Accepted ADR establishes one bounded roadmap decision. Canonical synchronization establishes the roadmap through BCART, while drafting BCART under Approved governance remains gated until this synchronization is merged.
 
 ## Decision Drivers
 
@@ -80,7 +80,7 @@ Cart is selected because the Accepted sequence deliberately established Product,
 
 ## Decision
 
-If ADR-0007 is Accepted and canonical governance is synchronized and merged, the sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, SHALL be:
+The sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, SHALL be:
 
 - **Capability:** Cart
 - **Title:** Cart Backend Specification
@@ -89,7 +89,7 @@ If ADR-0007 is Accepted and canonical governance is synchronized and merged, the
 - **Decomposition:** Cart-only; specializes exactly the Approved Cart Domain
 - **Position:** Sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC
 
-`BCART` means Backend Cart. It is collision-free among current Specification scope codes and is proposed only for the Cart Backend Specification. It establishes no naming rule for later scopes.
+`BCART` means Backend Cart. It is collision-free among current Specification scope codes and is assigned only to the Cart Backend Specification. It establishes no naming rule for later scopes.
 
 BCART SHALL inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It SHALL specialize only the Approved Cart Domain and SHALL NOT absorb Category, Product, Inventory, Pricing, Customer, Identity, Checkout, Order, Payment, Shipping and Fulfilment, Search and Discovery, Return and Refund, Administration, Reporting and Analytics, CMS, Notifications, or another Domain's authority.
 
@@ -105,9 +105,9 @@ BCART SHALL consume materially applicable BPRC Contracts or governed Pricing evi
 
 Contextual Authorization SHALL remain with the Domain owning the affected Resource, action, property, association, and current state. Identity evidence, Customer context, Product context, Inventory context, Pricing context, Role labels, Claims, Scope, UI state, or supplied identifiers alone SHALL NOT grant Cart authority.
 
-This decision would establish only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCART would remain unresolved. It would not establish Category as following BCART and would not establish Search and Discovery, Checkout, Order, Payment, Shipping and Fulfilment, or another later backend position.
+This decision establishes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCART remains unresolved. It does not establish Category as following BCART and does not establish Search and Discovery, Checkout, Order, Payment, Shipping and Fulfilment, or another later backend position.
 
-Only after ADR-0007 is Accepted and canonical Architecture and Decision governance is synchronized and merged would this decision authorize drafting BCART under Approved governance. It would not itself approve the future BCART Specification, which must undergo its own Draft-to-Approved lifecycle.
+ADR-0007 is Accepted and canonical Architecture and Decision governance is synchronized by this change. Drafting BCART under Approved governance is authorized only after this synchronization is merged canonically. This decision does not itself approve the future BCART Specification, which must undergo its own Draft-to-Approved lifecycle.
 
 ## Selected Candidate Rationale
 
@@ -139,7 +139,7 @@ Deferred because each retains material unresolved dependencies on Checkout, Orde
 
 ### F. Leave the Roadmap Unresolved
 
-Not selected because repository evidence supports a bounded Cart-only specialization whose major upstream authorities are governed and whose output is a documented prerequisite for later Checkout orchestration. The selection still requires ADR acceptance and canonical synchronization.
+Not selected because repository evidence supports a bounded Cart-only specialization whose major upstream authorities are governed and whose output is a documented prerequisite for later Checkout orchestration. ADR acceptance and canonical synchronization establish that bounded selection.
 
 ## Authority and Dependency Boundaries
 
@@ -160,7 +160,7 @@ Not selected because repository evidence supports a bounded Cart-only specializa
 
 Positive consequences include:
 
-- a bounded Cart-only backend proposal based on satisfied Product, Inventory, Pricing, Identity, and Customer prerequisites;
+- a bounded Cart-only backend selection based on satisfied Product, Inventory, Pricing, Identity, and Customer prerequisites;
 - an explicit future backend owner for provisional Cart intent without transferring upstream authority;
 - removal of the Cart backend gap before later Checkout governance;
 - preservation of Category as an independently eligible, unresolved backend concern;
@@ -226,7 +226,7 @@ No listed decision is resolved by selecting the Cart backend boundary. Payment p
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after completion of:
 
 - Architecture review and approval of the immediate post-BPRC position, Cart-only decomposition, title, path, and scope code;
 - affected Cart ownership review confirming accurate specialization of the Approved Cart Domain;
@@ -244,25 +244,25 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/cart/cart-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCART remains unresolved; and
-- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` before ADR-0007 becomes Accepted.
+- preparation of synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of ADR-0007 acceptance.
 
-No review listed above is represented as completed.
+The required Architecture, Cart, Category, Checkout, Administration, Product, Inventory, Pricing, Identity, Customer, Search and Discovery, Order, Payment, and Shipping and Fulfilment reviews and the listed confirmations were completed for ADR acceptance. No reviewer names, signatures, ticket identifiers, or external evidence are asserted by this record.
 
 ## Acceptance Conditions
 
-ADR-0007 may become Accepted only when all Required Governance Reviews and confirmations are complete and canonical governance is synchronized and merged through:
+Acceptance synchronized governance through:
 
-- ADR-0007 lifecycle wording changing from Proposed to Accepted;
+- ADR-0007 lifecycle wording recording the Accepted decision;
 - `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History establishing BCART as the sixth downstream Backend Specification after BEB, immediately after BPRC; and
 - `DECISIONS.md` metadata, Decision Index, and Revision History indexing ADR-0007 as Accepted.
 
-No `PRODUCT.md` change is required unless review identifies a direct contradiction that prevents acceptance. If such a contradiction is found, acceptance must stop rather than silently changing Product policy.
+No `PRODUCT.md` change was required because review identified no direct contradiction preventing acceptance.
 
-BCART MUST NOT be drafted under Approved governance until ADR-0007 is Accepted and the canonical Architecture and Decision synchronization is merged. Acceptance would authorize drafting, not approve BCART; the future Cart Backend Specification must begin as Draft and complete its own Draft-to-Approved lifecycle.
+BCART MUST NOT be drafted under Approved governance until this canonical Architecture and Decision synchronization is merged. Once merged, Accepted governance authorizes drafting but does not approve BCART; the future Cart Backend Specification must begin as Draft and complete its own Draft-to-Approved lifecycle.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, schema, data model, migration, event, provider, infrastructure, deployment, configuration, cache, Cart persistence, or operational target. A future BCART Specification would inherit materially applicable BEB security, data protection, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting mechanisms.
+This Accepted decision creates no runtime behavior, API, schema, data model, migration, event, provider, infrastructure, deployment, configuration, cache, Cart persistence, or operational target. A future BCART Specification will inherit materially applicable BEB security, data protection, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting mechanisms.
 
 ## Related Documents
 
@@ -299,4 +299,5 @@ This Proposed decision creates no runtime behavior, API, schema, data model, mig
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Accepted | Accepted the Cart-only Cart Backend Specification as the sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, while leaving Category independently eligible and unresolved and every later backend roadmap position unresolved. |
 | 0.1.0 | 2026-09-17 | Proposed | Proposed the Cart-only Cart Backend Specification as the sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, while leaving Category and every later backend roadmap position unresolved. |
