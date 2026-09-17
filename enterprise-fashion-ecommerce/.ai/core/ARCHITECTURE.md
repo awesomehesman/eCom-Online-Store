@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.4.0
+version: 1.5.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-17
@@ -1284,7 +1284,9 @@ The first downstream Backend Specification after BEB MUST be the Identity and Ac
 
 The second downstream Backend Specification after BEB, immediately after BIDN, MUST be the Customer and Account Backend Specification under scope `BCUS` at `specifications/backend/customer/customer-backend.md`. BCUS MUST specialize the Approved Customer Domain without transferring Customer Domain authority, and Customer and Account business meaning MUST remain within the same BCUS backend Specification at this stage. BCUS MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN Contracts or trusted Identity evidence without transferring Identity authority.
 
-All Backend Specification titles, paths, scope codes, decompositions, and ordering after BCUS remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The third downstream Backend Specification after BEB, immediately after BIDN and BCUS, MUST be the Product Catalogue Backend Specification under scope `BPRD` at `specifications/backend/product/product-backend.md`. BPRD MUST use a Product-only decomposition and specialize only the Approved Product Domain without transferring Product Domain authority. Category MUST remain a separate Domain authority, and Search and Discovery MUST remain a separate Domain authority. BPRD MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN and BCUS Contracts or evidence without transferring Identity, Customer, or Account authority.
+
+All Backend Specification titles, paths, scope codes, decompositions, and ordering after BPRD remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1850,6 +1852,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.5.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0004 by establishing the Product-only Product Catalogue Backend Specification as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving Category and Search and Discovery authority and leaving the later downstream roadmap unresolved. |
 | 1.4.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0003 by establishing the Customer and Account Backend Specification as the second downstream Backend Specification after BEB, immediately after BIDN, while leaving the later downstream roadmap unresolved. |
 | 1.3.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0002 by establishing the Identity and Access Backend Specification as the first downstream Backend Specification after BEB while leaving the later downstream roadmap unresolved. |
 | 1.2.0 | 2026-09-10 | Approved | Synchronized Accepted ADR-0001 by establishing the Shared Backend Baseline Specification as the prerequisite for downstream Backend Specifications. |
@@ -1861,7 +1864,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.4.0
+- **Version:** 1.5.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
