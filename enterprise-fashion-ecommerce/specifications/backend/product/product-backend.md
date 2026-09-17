@@ -140,11 +140,11 @@ Product content correction MUST preserve stable identity, lifecycle authority, a
 
 ### BPRD-REQ-029 — Product Media Association and Metadata
 
-BPRD MAY own Product Media association and governed metadata, ordering, accessibility meaning, lifecycle compatibility, and correction evidence, but MUST NOT select upload, storage, transformation, delivery, provider, pipeline, format, or infrastructure mechanisms.
+BPRD MAY own Product Media association and governed metadata, ordering, accessibility meaning, lifecycle compatibility, and correction evidence. Product Media MUST retain an unambiguous association with the correct Product and, where applicable, Product Variant context, accurately represent that Product or Product Variant, and provide meaningful text alternatives where governed accessibility requires them. BPRD MUST NOT select upload, storage, transformation, delivery, provider, pipeline, concrete format, numerical media limit, approval workflow, or infrastructure mechanisms.
 
 ### BPRD-REQ-030 — Product Media Publication and Failure
 
-Product Media availability or processing success MUST NOT publish a Product; missing, invalid, inaccessible, stale, failed, or misleading media MUST produce a distinguishable safe Product-owned outcome and governed correction where permitted.
+Private, Draft, invalid, unauthorized, or otherwise non-publishable Product Media MUST NOT become Customer-visible. Published or Customer-visible Product Media MUST satisfy applicable governed rights, security, quality, accuracy, and accessibility checks. Product Media availability or processing success alone MUST NOT publish Product truth; invalid, inaccessible, stale, failed, misleading, or otherwise non-publishable media MUST produce a distinguishable safe Product-owned outcome and support governed correction where permitted.
 
 ## 7. Cross-Domain Boundaries
 
@@ -154,7 +154,7 @@ Category MUST retain authority for taxonomy, hierarchy, classification, navigati
 
 ### BPRD-REQ-032 — Search and Discovery Authority Boundary
 
-Search and Discovery MUST retain authority for search requests, normalization, filters, Facets, ranking, indexing outcomes, reconciliation, and Search operational truth; Search results, indexes, caches, and Projections MUST remain non-authoritative representations of Product truth.
+Search and Discovery MUST retain authority for search requests, normalization, filters, Facets, ranking, indexing outcomes, reconciliation, and Search operational truth. Only Product evidence currently eligible for indexing under Approved policy MAY be supplied as eligible Product evidence to Search. Product withdrawal, archival, correction, publication or visibility eligibility change, or another governed Product eligibility change MUST provide governed Product evidence sufficient to support reconciliation of stale or delayed Search representations where the governed Search Contract requires it. Search results, indexes, caches, and Projections MUST remain non-authoritative representations of Product truth; BPRD MUST NOT define Search indexing, ranking, reconciliation mechanics, provider, extraction thresholds, backend implementation, or transfer Product or Search authority.
 
 ### BPRD-REQ-033 — Pricing and Inventory Non-Authority
 
@@ -162,7 +162,7 @@ BPRD MUST NOT calculate or establish Price, Discount, Promotion, Voucher, Money,
 
 ### BPRD-REQ-034 — Customer, Cart, and Checkout Boundary
 
-Customer, Account, Cart intent, Customer eligibility, Checkout progression, commercial revalidation, and purchase readiness MUST remain with their owning Domains; Product state or BIDN/BCUS evidence MUST NOT establish those outcomes.
+Customer, Account, Cart intent, Customer eligibility, contextual Authorization, market eligibility, Checkout progression, commercial revalidation, and purchase readiness MUST remain with their applicable owning governance or Domain. BPRD MUST NOT establish market, language, or Currency expansion policy, and Product-owned visibility, Product evidence, or BIDN/BCUS evidence MUST NOT establish or substitute for Customer eligibility, contextual Authorization, market eligibility, Checkout eligibility, or the other listed outcomes.
 
 ### BPRD-REQ-035 — Order, Payment, Shipping, and Return Boundary
 
@@ -248,12 +248,12 @@ Verification MUST deterministically cover Product invariants, Use Case orchestra
 | BPRD-AC-026 | BPRD-REQ-026 | Later Product change leaves confirmed Order, Payment, Shipment, audit, and other retained Domain truth unchanged and intelligible. |
 | BPRD-AC-027 | BPRD-REQ-027 | Content tests accept complete, accurate, supportable, accessible Product information and safely reject, withdraw, or correct each prohibited state. |
 | BPRD-AC-028 | BPRD-REQ-028 | Correction tests preserve identity, lifecycle, history, compatibility, and explicit stale representations without rewriting another Domain's history. |
-| BPRD-AC-029 | BPRD-REQ-029 | Media review preserves association, metadata, ordering, accessibility, lifecycle, and correction while selecting none of the prohibited media mechanisms. |
-| BPRD-AC-030 | BPRD-REQ-030 | Media failure tests distinguish all listed conditions, support governed correction, and prove processing success cannot publish a Product. |
+| BPRD-AC-029 | BPRD-REQ-029 | Media tests prove unambiguous Product and applicable Product Variant association, accurate representation, governed meaningful text alternatives, metadata, ordering, lifecycle compatibility, and correction while review finds none of the prohibited media mechanisms, formats, limits, or workflows. |
+| BPRD-AC-030 | BPRD-REQ-030 | Visibility and failure tests prevent every listed non-publishable media state from becoming Customer-visible, verify applicable rights, security, quality, accuracy, and accessibility checks for visible media, distinguish every adverse outcome, support governed correction, and prove availability or processing success alone publishes no Product truth. |
 | BPRD-AC-031 | BPRD-REQ-031 | Category boundary tests preserve all Category-owned semantics and find no BPRD-defined Category backend placement. |
-| BPRD-AC-032 | BPRD-REQ-032 | Search tests preserve Search-owned behavior and prove Search indexes, results, caches, and Projections cannot establish Product truth. |
+| BPRD-AC-032 | BPRD-REQ-032 | Search tests reject ineligible Product evidence as indexing-eligible, prove governed Product eligibility changes provide sufficient evidence for required Search reconciliation, keep every Search representation non-authoritative for Product truth, preserve Product and Search authority, and find no BPRD-selected Search mechanism or implementation. |
 | BPRD-AC-033 | BPRD-REQ-033 | Review and integration tests find no Product-owned Pricing or Inventory truth and require current owning-Domain evidence where applicable. |
-| BPRD-AC-034 | BPRD-REQ-034 | Cross-Domain tests prove Product or BIDN/BCUS evidence establishes none of the listed Customer, Cart, or Checkout outcomes. |
+| BPRD-AC-034 | BPRD-REQ-034 | Cross-Domain tests prove Product visibility, Product evidence, and BIDN/BCUS evidence establish none of the listed Customer, Authorization, market, Cart, or Checkout outcomes, and review finds no market, language, or Currency expansion policy or invented Domain. |
 | BPRD-AC-035 | BPRD-REQ-035 | Cross-Domain tests preserve every listed owner and allow historical Product snapshots without transferring live Product authority. |
 | BPRD-AC-036 | BPRD-REQ-036 | Invocations and representations preserve Product rules and establish no Product identity, lifecycle, publication, visibility, sellability, or content truth. |
 | BPRD-AC-037 | BPRD-REQ-037 | Protected administration tests require trusted Authentication and current contextual Authorization, preserve Product rules and audit evidence, and find no invented matrix or workflow policy. |
@@ -302,7 +302,7 @@ Verification MUST deterministically cover Product invariants, Use Case orchestra
 | BPRD-REQ-029 | REQ-PRD-014–017 | BEB-REQ-021, 032–034, 043 | ARCHITECTURE.md §34 item 11; ADR-0004 Exclusions |
 | BPRD-REQ-030 | REQ-PRD-015–017 | BEB-REQ-041–043 | REQ-BUS-050; SECURITY-STANDARDS.md |
 | BPRD-REQ-031 | REQ-PRD-045 | BEB-REQ-003, 008, 021 | REQ-CAT-001–002, 010–014; ADR-0004 |
-| BPRD-REQ-032 | REQ-PRD-032–033 | BEB-REQ-003, 021, 037–040 | REQ-SRCH-002–003, 009–032; ADR-0004 |
+| BPRD-REQ-032 | REQ-PRD-032–033 | BEB-REQ-003, 021, 037–040 | REQ-SRCH-002–003, 009, 025, 029–033; ADR-0004 |
 | BPRD-REQ-033 | REQ-PRD-046–047 | BEB-REQ-003, 021 | Pricing and Inventory Domain authority |
 | BPRD-REQ-034 | REQ-PRD-022, 048 | BEB-REQ-003, 019–021 | BCUS-REQ-034–035; Cart and Checkout authority |
 | BPRD-REQ-035 | REQ-PRD-002, 006, 022, 030–031 | BEB-REQ-003, 021, 024 | Order, Payment, Shipping, Return authority |
