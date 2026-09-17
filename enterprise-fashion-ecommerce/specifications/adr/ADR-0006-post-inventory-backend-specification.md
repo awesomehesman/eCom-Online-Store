@@ -10,11 +10,11 @@ Pricing Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -42,7 +42,7 @@ The Approved Category Domain owns Category identity, taxonomy, hierarchy, classi
 
 The Approved Pricing Domain owns authoritative Price and governed commercial calculation outcomes, including applicable Discount, Promotion, Voucher, Money, Currency, and qualified tax-related Pricing outcomes. BPRD satisfies its Product and Product Variant prerequisite; BCUS can supply governed Customer or Account eligibility context; BINV preserves authoritative Inventory separation. Pricing is a direct prerequisite for fully supporting Cart and Checkout and supplies governed commercial context to Order and Payment.
 
-This Proposed ADR makes one conditional roadmap decision. While Proposed, it is non-normative, does not change the canonical roadmap, and does not authorize drafting the selected Backend Specification.
+This Accepted ADR establishes one bounded roadmap decision. With canonical governance synchronized, it establishes the canonical roadmap through BPRC and authorizes drafting the selected Backend Specification under Approved governance without approving that future Specification.
 
 ## Decision Drivers
 
@@ -74,7 +74,7 @@ Pricing is eligible. Existing governance did not previously order it ahead of Ca
 
 ## Decision
 
-If ADR-0006 is Accepted and canonical governance is synchronized, the fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, SHALL be:
+The fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, SHALL be:
 
 - **Capability:** Pricing
 - **Title:** Pricing Backend Specification
@@ -83,7 +83,7 @@ If ADR-0006 is Accepted and canonical governance is synchronized, the fifth down
 - **Decomposition:** Pricing-only; specializes exactly the Approved Pricing Domain
 - **Position:** Fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV
 
-`BPRC` means Backend Pricing. It is unique among current Specification scope codes and is proposed only for the Pricing Backend Specification. It does not establish a naming rule for later scopes.
+`BPRC` means Backend Pricing. It is unique among current Specification scope codes and is assigned only to the Pricing Backend Specification. It does not establish a naming rule for later scopes.
 
 BPRC SHALL inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It SHALL specialize only the Approved Pricing Domain and SHALL NOT absorb Category, Product, Inventory, Customer, Identity, Cart, Checkout, Order, Payment, Shipping, Return, Search, Administration, or another Domain's authority.
 
@@ -99,11 +99,11 @@ Contextual Authorization SHALL remain with the Domain owning the affected Resour
 
 This decision establishes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BPRC remains unresolved. It does not establish Category, Search and Discovery, Cart, Checkout, Order, Payment, Shipping and Fulfilment, or another later backend position.
 
-Only after ADR-0006 is Accepted and canonical synchronization is complete would this decision authorize drafting BPRC under Approved governance. It would not itself approve the future BPRC Specification.
+ADR-0006 is Accepted and canonical synchronization is complete. This decision therefore authorizes drafting BPRC under Approved governance, but it does not itself approve the future BPRC Specification, which MUST undergo its own Draft-to-Approved lifecycle.
 
 ## Authority Boundary
 
-BPRC would remain subordinate to governing sources, Approved Business Requirements, the Approved Pricing Domain, BEB, and materially applicable BIDN, BCUS, BPRD, and BINV Contracts or evidence. It would not become repository-wide authority.
+BPRC remains subordinate to governing sources, Approved Business Requirements, the Approved Pricing Domain, BEB, and materially applicable BIDN, BCUS, BPRD, and BINV Contracts or evidence. It does not become repository-wide authority.
 
 Pricing would retain only its governed authority for current authoritative commercial calculation outcomes, including applicable Price, Discount, Promotion, Voucher, Money, Currency, qualified tax-related Pricing outcomes, rule evaluation, explainability, and Pricing-owned failure and reconciliation.
 
@@ -147,7 +147,7 @@ Costs and trade-offs include:
 
 ### A. Pricing Next
 
-Selected conditionally because its prerequisites are already governed and it is a documented prerequisite for multiple later transaction capabilities. The selection preserves all unresolved commercial policy and does not establish Cart, Checkout, Order, or Payment ordering.
+Selected because its prerequisites are already governed and it is a documented prerequisite for multiple later transaction capabilities. The selection preserves all unresolved commercial policy and does not establish Cart, Checkout, Order, or Payment ordering.
 
 ### B. Category Next
 
@@ -167,7 +167,7 @@ Not selected because Cart still requires Pricing, and Checkout additionally requ
 
 ### F. Leave the Roadmap Unresolved
 
-Not selected because repository evidence supports a bounded Pricing specialization that removes a documented prerequisite from several later capabilities. The decision still requires acceptance and canonical synchronization.
+Not selected because repository evidence supports a bounded Pricing specialization that removes a documented prerequisite from several later capabilities. ADR acceptance and canonical synchronization have established that bounded selection.
 
 ## Open Product Decisions
 
@@ -212,7 +212,7 @@ ADR-0006 does not select or define:
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after completion of:
 
 - Architecture review and approval of the immediate post-BINV position, Pricing-only decomposition, title, path, and scope code;
 - affected Pricing ownership review confirming accurate specialization of the Approved Pricing Domain;
@@ -228,15 +228,15 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/pricing/pricing-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BPRC remains unresolved; and
-- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` before ADR-0006 becomes Accepted.
+- completion of synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of ADR-0006 acceptance.
 
-No review listed above is represented as completed. BPRC MUST NOT be drafted under Approved governance until ADR-0006 is Accepted and canonical synchronization is complete.
+The required Architecture, Pricing, Category, Product, Search and Discovery, Cart, Checkout, Identity, Customer, and Inventory reviews and the listed confirmations were completed for ADR acceptance. No reviewer names, dates, tickets, signatures, or external artifacts are asserted by this record.
 
-If ADR-0006 is later Accepted, governance must synchronize only ADR-0006 lifecycle wording, `ARCHITECTURE.md` §35 plus metadata, Document Status, and Revision History, and `DECISIONS.md` metadata, Decision Index, and Revision History. No `PRODUCT.md` change is required unless review identifies a direct contradiction that prevents acceptance.
+Acceptance synchronized governance through ADR-0006 lifecycle wording, `ARCHITECTURE.md` §35 plus metadata, Document Status, and Revision History, and `DECISIONS.md` metadata, Decision Index, and Revision History. No `PRODUCT.md` change was required because review identified no direct contradiction preventing acceptance.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, schema, data model, migration, event, provider, infrastructure, deployment, configuration, cache, Pricing calculation, or operational target. A future BPRC Specification would inherit materially applicable BEB security, data protection, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting mechanisms.
+This Accepted decision creates no runtime behavior, API, schema, data model, migration, event, provider, infrastructure, deployment, configuration, cache, Pricing calculation, or operational target. A future BPRC Specification will inherit materially applicable BEB security, data protection, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting mechanisms.
 
 ## Related Documents
 
@@ -271,4 +271,5 @@ This Proposed decision creates no runtime behavior, API, schema, data model, mig
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Accepted | Accepted the Pricing-only Pricing Backend Specification as the fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, while leaving Category and every later backend roadmap position unresolved. |
 | 0.1.0 | 2026-09-17 | Proposed | Proposed the Pricing-only Pricing Backend Specification as the fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, while leaving Category and every later backend roadmap position unresolved. |
