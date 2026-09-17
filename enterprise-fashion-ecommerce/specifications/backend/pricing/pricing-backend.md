@@ -1,7 +1,7 @@
 ---
 title: Pricing Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Pricing
 last_updated: 2026-09-17
 authoritative: false
@@ -14,13 +14,13 @@ scope: BPRC
 
 This Specification defines implementation-neutral backend Requirements for the Pricing capability authorized by Accepted ADR-0006. BPRC specializes only the Approved Pricing Domain and governs backend handling of current authoritative Pricing outcomes, Money and Currency integrity, Price, Discount, Promotion and Voucher evaluation, governed commercial inputs, revalidation, persistence boundaries, consistency, failure, recovery, reconciliation, security, observability, Contracts, conditional events, and verification.
 
-While Draft, this Specification is non-normative. If Approved, its Requirements will be normative only within the governed Pricing backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources, and does not claim repository-wide authority or resolve any Open Product or Architecture Decision.
+This Approved Specification is normative only within the governed Pricing backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources, and does not claim repository-wide authority or resolve any Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
 ### BPRC-REQ-001 — Lifecycle, Scope, and Authority
 
-BPRC MUST retain scope `BPRC`, `authoritative: false`, and `0.1.0 Draft` lifecycle metadata, remain non-normative while Draft, and remain subordinate to governing sources. If Approved, it MUST be normative only within the Pricing backend scope.
+BPRC MUST retain scope `BPRC`, `authoritative: false`, and `1.0.0 Approved` lifecycle metadata, remain normative only within the Pricing backend scope, and remain subordinate to governing sources.
 
 ### BPRC-REQ-002 — Pricing Domain Specialization
 
@@ -208,7 +208,7 @@ BPRC MUST preserve all 8 materially applicable Open Product Decisions and all 11
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BPRC-AC-001 | BPRC-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Pricing`, `authoritative: false`, and scope `BPRC`; text states non-normative Draft status and bounded future normativity. |
+| BPRC-AC-001 | BPRC-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Pricing`, `authoritative: false`, and scope `BPRC`; text states bounded normativity only within the governed Pricing backend scope. |
 | BPRC-AC-002 | BPRC-REQ-002 | Coverage review maps REQ-PRC-001–035 completely to BPRC Requirements without authority transfer. |
 | BPRC-AC-003 | BPRC-REQ-003 | Boundary review finds no non-Pricing truth assigned to BPRC. |
 | BPRC-AC-004 | BPRC-REQ-004 | The BEB matrix accounts for BEB-REQ-001–056 exactly once with applicability, rationale, and BPRC trace. |
@@ -490,19 +490,20 @@ BPRC selects no Pricing algorithm, formula, Price List structure, effective-date
 
 ## 17. Governance Review Requirements
 
-Before promotion, reviewers MUST confirm complete Pricing Domain coverage; one-to-one Requirement, Acceptance Criterion, and traceability; complete BEB applicability; bounded BIDN, BCUS, BPRD, and BINV consumption; Pricing-only authority; preservation of all 8 Product and 11 Architecture decisions; security, privacy, integrity, failure, recovery, observability, compatibility, and verification completeness; and absence of invented policy, implementation mechanisms, numerical values, or later-roadmap positions. Drafting this Specification does not constitute approval.
+The completed governance review for this promotion confirmed complete Pricing Domain coverage; one-to-one Requirement, Acceptance Criterion, and traceability; complete BEB applicability; bounded BIDN, BCUS, BPRD, and BINV consumption; Pricing-only authority; preservation of all 8 Product and 11 Architecture decisions; security, privacy, integrity, failure, recovery, observability, compatibility, and verification completeness; and absence of invented policy, implementation mechanisms, numerical values, or later-roadmap positions. No reviewer names, ticket identifiers, signatures, or external evidence are asserted by this Specification.
 
 ## 18. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Approved | Promoted BPRC following completed governance review, preserving Pricing-only authority, complete Pricing Domain and BEB coverage, bounded upstream consumption, Open Product and Architecture Decisions, and the unresolved downstream backend roadmap. |
 | 0.1.0 | 2026-09-17 | Draft | Established the initial Pricing Backend Specification with Pricing-only authority, complete Pricing Domain coverage, complete BEB applicability, bounded BIDN/BCUS/BPRD/BINV consumption, open decisions, Acceptance Criteria, and traceability. |
 
 ## 19. Final Validation
 
-Before Draft approval review, verify that:
+For Approved lifecycle validation, verify that:
 
-1. metadata remains `0.1.0 Draft`, `authoritative: false`, owner `Pricing`, and scope `BPRC`;
+1. metadata remains `1.0.0 Approved`, `authoritative: false`, owner `Pricing`, and scope `BPRC`;
 2. all BPRC Requirements remain subordinate to governing sources and specialize only the Approved Pricing Domain;
 3. the canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC`, with every later title, path, scope code, decomposition, and order unresolved;
 4. Product, Category, Inventory, Search, Customer, Identity, Cart, Checkout, Order, Payment, Shipping, Return, Administration, Reporting, and every other Domain authority remains intact;
