@@ -184,7 +184,7 @@ This Proposed decision leaves applicable Open Product Decisions unresolved, incl
 - administrative Role and Permission matrix; and
 - Product launch date, release scope, and post-launch support window.
 
-It also leaves applicable Open Architecture Decisions unresolved, including backend hosting, infrastructure as code, external messaging, initial Search implementation and extraction thresholds, Product-media upload and transformation, backup retention and production recovery objectives, PostgreSQL schema strategy, and repository-wide feature-flag implementation and lifecycle management.
+It also leaves applicable Open Architecture Decisions unresolved, including backend hosting, infrastructure as code, customer and administrator session/token strategy, Redis introduction and its approved use cases, external messaging, initial Search implementation and extraction thresholds, Product-media upload and transformation, backup retention and production recovery objectives, PostgreSQL schema strategy, and repository-wide feature-flag implementation and lifecycle management.
 
 An Open Decision is not permission for BPRD or an implementation to choose independently. No decision listed here is answered by the selected Product-only boundary.
 
