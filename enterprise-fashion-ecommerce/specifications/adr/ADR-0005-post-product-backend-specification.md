@@ -10,11 +10,11 @@ Inventory Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -36,13 +36,13 @@ false
 
 Accepted ADR-0001 established the Shared Backend Baseline Specification under scope `BEB`. Accepted ADR-0002 established the Identity and Access Backend Specification under scope `BIDN` as the first downstream Backend Specification after BEB. Accepted ADR-0003 established the Customer and Account Backend Specification under scope `BCUS` as the second downstream Backend Specification after BEB, immediately after BIDN. Accepted ADR-0004 established the Product-only Product Catalogue Backend Specification under scope `BPRD` as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS. BEB, BIDN, BCUS, and BPRD now exist as Approved Specifications.
 
-`ARCHITECTURE.md` §35 and Accepted ADR-0004 leave every Backend Specification title, path, scope code, decomposition, and ordering position after BPRD unresolved. ADR-0004 identified Product and Product Variant identity as a common prerequisite for Pricing and Inventory but deliberately did not determine their relative order. Category also became a viable candidate once the Product-side association boundary was established. A further Architecture Decision is therefore required before another downstream Backend Specification may be drafted under Approved governance.
+Before this decision, `ARCHITECTURE.md` §35 and Accepted ADR-0004 left every Backend Specification title, path, scope code, decomposition, and ordering position after BPRD unresolved. ADR-0004 identified Product and Product Variant identity as a common prerequisite for Pricing and Inventory but deliberately did not determine their relative order. Category also became a viable candidate once the Product-side association boundary was established. ADR-0005 supplies the further Architecture Decision required before another downstream Backend Specification may be drafted under Approved governance.
 
 The Approved Inventory Domain owns Stock, Stock Reservation, Available-to-Sell, Stock Adjustment, Stock Movement, inventory availability state, Overselling prevention, and Inventory-specific reconciliation. Its governed Product Variant association now has an Approved backend source in BPRD. Inventory outcomes are direct inputs to Search and Discovery representation, Cart availability handling, Checkout validation and reservation coordination, Order-related Inventory effects, Shipping and Fulfilment coordination, Administration, and Reporting.
 
 The Approved Pricing Domain is also a strong immediate candidate and now has its Product prerequisite. It has substantial downstream importance but retains a wider concentration of unresolved commercial policy concerning promotions, vouchers, tax, invoicing, fraud-related eligibility, and post-purchase adjustments. The Approved Category Domain is likewise ready for a bounded specialization, but its principal immediate downstream dependency is catalogue navigation and Search and Discovery rather than the transaction-integrity chain.
 
-This Proposed ADR selects one immediate roadmap position. While Proposed, it is non-normative, does not modify the canonical roadmap, and does not authorize drafting the selected Backend Specification.
+This Accepted ADR establishes one immediate roadmap position in synchronized canonical governance and authorizes drafting the selected Backend Specification under Approved governance without approving that future Specification.
 
 ## Decision Drivers
 
@@ -57,14 +57,14 @@ This Proposed ADR selects one immediate roadmap position. While Proposed, it is 
 
 ## Decision
 
-If ADR-0005 is Accepted and canonical governance is synchronized, the fourth downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN, BCUS, and BPRD, SHALL be:
+The fourth downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN, BCUS, and BPRD, SHALL be:
 
 - **Title:** Inventory Backend Specification
 - **Path:** `specifications/backend/inventory/inventory-backend.md`
 - **Scope code:** `BINV`
 - **Position:** Fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD
 
-`BINV` means Backend Inventory. It is unique among current Specification scope codes and is proposed only for the Inventory Backend Specification. It does not reserve or imply a scope-code convention for later Backend Specifications.
+`BINV` means Backend Inventory. It is unique among current Specification scope codes and is established only for the Inventory Backend Specification. It does not reserve or imply a scope-code convention for later Backend Specifications.
 
 BINV SHALL specialize only the Approved Inventory Domain. It SHALL NOT absorb Product, Category, Pricing, Search and Discovery, Cart, Checkout, Order, Payment, Shipping and Fulfilment, Return and Refund, Administration, CMS, Notifications, Reporting and Analytics, Identity, Customer, Account, or another Domain's authority.
 
@@ -90,7 +90,7 @@ Contextual Authorization SHALL remain with the Domain owning the affected Resour
 
 This decision does not establish Category or Pricing backend titles, paths, scope codes, decompositions, or positions. It does not establish Search and Discovery, Cart, Checkout, or another later backend position. Every Backend Specification title, path, scope code, decomposition, and ordering position after BINV remains unresolved until separately governed.
 
-Only after ADR-0005 is Accepted and canonical synchronization is complete would this decision authorize drafting BINV as an Approved-governance downstream Specification. It would not itself approve the future BINV Specification.
+ADR-0005 is Accepted and canonical synchronization is complete, so this decision authorizes drafting BINV as an Approved-governance downstream Specification. It does not itself approve the future BINV Specification.
 
 ## Authority Boundary
 
@@ -164,13 +164,13 @@ Not selected because Category, Pricing, and Inventory are separate Approved Doma
 
 ### H. Leave the Roadmap Unresolved
 
-Not selected because the Approved Inventory Domain and now-Approved Product backend establish a bounded, mechanism-neutral next specialization with extensive downstream value. Governance can select Inventory without resolving Pricing, Category, Search, or any later roadmap position. The selection remains conditional until this ADR is Accepted and canonical synchronization is complete.
+Not selected because the Approved Inventory Domain and Approved Product backend establish a bounded, mechanism-neutral next specialization with extensive downstream value. Governance selected Inventory without resolving Pricing, Category, Search, or any later roadmap position.
 
 ## Consequences
 
 Positive consequences include:
 
-- a single-Domain Inventory backend proposal immediately after BPRD;
+- a single-Domain Inventory backend decision immediately after BPRD;
 - explicit placement of a trust-critical availability and reservation boundary before later Cart, Checkout, Order, and fulfilment specializations;
 - complete preservation of Product, Category, Pricing, Search, Cart, Checkout, and downstream authority;
 - explicit BEB inheritance and bounded BIDN, BCUS, and BPRD consumption;
@@ -244,7 +244,7 @@ An Open Decision is not permission for BINV or an implementation to choose indep
 
 ## Acceptance and Governance Conditions
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
 - Architecture review and approval of the immediate post-BPRD position, single-Domain decomposition, title, path, and scope code;
 - affected Inventory ownership review confirming the proposed boundary accurately specializes the Approved Inventory Domain;
@@ -258,17 +258,17 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/inventory/inventory-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that every Backend Specification title, path, scope code, decomposition, and ordering position after BINV remains unresolved; and
-- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` before ADR-0005 becomes Accepted.
+- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md`.
 
-No review listed above is represented as completed by this Proposed ADR.
+The required acceptance governance reviews and confirmations listed above were completed without changing the decision's authority boundaries, exclusions, or unresolved matters.
 
-BINV MUST NOT be drafted as an Approved-governance downstream Specification until ADR-0005 is Accepted and canonical synchronization is complete.
+BINV MAY now be drafted as an Approved-governance downstream Specification because ADR-0005 is Accepted and canonical synchronization is complete; this authorization does not approve the future BINV Specification.
 
-If ADR-0005 is later Accepted, governance must synchronize only:
+Acceptance synchronized governance through:
 
-- ADR-0005 from `Proposed` to `Accepted`, with lifecycle-dependent wording updated without changing decision semantics;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History to establish BINV as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, while preserving every later roadmap position as unresolved; and
-- `DECISIONS.md` metadata, Decision Index, and Revision History to record ADR-0005 as Accepted.
+- ADR-0005: changed Version from `0.1.0` to `1.0.0`, changed Status from `Proposed` to `Accepted`, and updated lifecycle-dependent wording without changing decision semantics;
+- `ARCHITECTURE.md` §35: established BINV as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, while preserving every later roadmap position as unresolved, and synchronized metadata, Document Status, and Revision History; and
+- `DECISIONS.md`: recorded ADR-0005 as Accepted in the Decision Index and synchronized metadata and Revision History.
 
 No `PRODUCT.md` change is required because this decision preserves Inventory and all other Domain authority and leaves applicable Product Decisions unresolved. If acceptance review identifies a direct Product contradiction, acceptance must stop until that contradiction is governed; this ADR does not authorize editing or overriding `PRODUCT.md`.
 
@@ -341,4 +341,5 @@ This decision creates no runtime operational behavior, provider commitment, infr
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Accepted | Accepted the single-Domain Inventory Backend Specification as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, and synchronized canonical governance while preserving every later backend roadmap decision. |
 | 0.1.0 | 2026-09-17 | Proposed | Proposed the single-Domain Inventory Backend Specification as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, while preserving Category, Pricing, Search and Discovery, and every later backend roadmap decision. |
