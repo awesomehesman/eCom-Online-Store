@@ -471,4 +471,4 @@ Before lifecycle promotion, verify that:
 9. all 4 Product and 10 Architecture decisions listed here remain unresolved;
 10. no API, DTO, schema, database, event, broker, provider, cache, infrastructure, warehouse, reservation-duration, backorder, numerical-policy, authorization-matrix, or later-roadmap decision is invented;
 11. security, observability, audit, failure, recovery, reconciliation, compatibility, boundedness, accessibility, and verification remain complete and mechanism-neutral; and
-12. the final change creates only `specifications/backend/inventory/inventory-backend.md`, remains unstaged, uncommitted, and unpushed.
+12. the lifecycle change modifies only `specifications/backend/inventory/inventory-backend.md` and introduces no unrelated repository changes.
