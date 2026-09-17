@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.5.0
+version: 1.6.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-17
@@ -1286,7 +1286,9 @@ The second downstream Backend Specification after BEB, immediately after BIDN, M
 
 The third downstream Backend Specification after BEB, immediately after BIDN and BCUS, MUST be the Product Catalogue Backend Specification under scope `BPRD` at `specifications/backend/product/product-backend.md`. BPRD MUST use a Product-only decomposition and specialize only the Approved Product Domain without transferring Product Domain authority. Category MUST remain a separate Domain authority, and Search and Discovery MUST remain a separate Domain authority. BPRD MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN and BCUS Contracts or evidence without transferring Identity, Customer, or Account authority.
 
-All Backend Specification titles, paths, scope codes, decompositions, and ordering after BPRD remain unresolved until separately governed. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, MUST be the Inventory Backend Specification under scope `BINV` at `specifications/backend/inventory/inventory-backend.md`. BINV MUST use an Inventory-only decomposition and specialize only the Approved Inventory Domain without transferring Inventory Domain authority. BINV MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN, BCUS, and BPRD Contracts or evidence without transferring Identity, Customer, Account, Product, or Product Variant authority.
+
+All Backend Specification titles, paths, scope codes, decompositions, and ordering after BINV remain unresolved until separately governed. Category, Pricing, Search and Discovery, Cart, Checkout, and every later backend capability retain their Approved Domain authority and no backend identity or position is established for them by this roadmap. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1852,6 +1854,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.6.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0005 by establishing the Inventory-only Inventory Backend Specification as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, while leaving every later downstream roadmap position unresolved. |
 | 1.5.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0004 by establishing the Product-only Product Catalogue Backend Specification as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving Category and Search and Discovery authority and leaving the later downstream roadmap unresolved. |
 | 1.4.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0003 by establishing the Customer and Account Backend Specification as the second downstream Backend Specification after BEB, immediately after BIDN, while leaving the later downstream roadmap unresolved. |
 | 1.3.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0002 by establishing the Identity and Access Backend Specification as the first downstream Backend Specification after BEB while leaving the later downstream roadmap unresolved. |
@@ -1864,7 +1867,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.5.0
+- **Version:** 1.6.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
