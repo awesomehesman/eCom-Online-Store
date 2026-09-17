@@ -1,7 +1,7 @@
 ---
 title: Inventory Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend / Inventory
 last_updated: 2026-09-17
 authoritative: false
@@ -14,13 +14,13 @@ scope: BINV
 
 This Specification defines implementation-neutral backend Requirements for the Inventory capability authorized by Accepted ADR-0005. BINV specializes only the Approved Inventory Domain and governs backend handling of Inventory authority, Stock, Available-to-Sell, Stock Reservation, Stock Adjustment, Stock Movement, Product Variant association, integrity, concurrency, failure, recovery, reconciliation, security, observability, Contracts, persistence boundaries, and verification.
 
-While Draft, this Specification is non-normative. If Approved, its Requirements become normative only within the governed Inventory backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources, and does not claim repository-wide authority.
+This Approved Specification is normative only within the governed Inventory backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources, and does not claim repository-wide authority.
 
 ## 2. Scope, Authority, and Inheritance
 
 ### BINV-REQ-001 — Lifecycle, Scope, and Authority
 
-BINV MUST retain `BINV` scope, `authoritative: false`, and its current lifecycle metadata; while Draft it MUST remain non-normative, and if Approved it MUST be normative only within the Inventory backend scope and subordinate to governing sources.
+BINV MUST retain `BINV` scope, `authoritative: false`, and `1.0.0 Approved` lifecycle metadata, remain normative only within the Inventory backend scope, and remain subordinate to governing sources.
 
 ### BINV-REQ-002 — Inventory Domain Specialization
 
@@ -218,7 +218,7 @@ BINV MUST preserve every applicable unresolved Product and Architecture Decision
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BINV-AC-001 | BINV-REQ-001 | Metadata shows `0.1.0 Draft`, `Backend / Inventory`, `authoritative: false`, and `BINV`; text states Draft non-normativity and bounded future authority. |
+| BINV-AC-001 | BINV-REQ-001 | Metadata shows `1.0.0 Approved`, `Backend / Inventory`, `authoritative: false`, and `BINV`; text states bounded Approved normativity only within the governed Inventory backend scope. |
 | BINV-AC-002 | BINV-REQ-002 | Coverage review maps every REQ-INV-001–037 obligation to BINV Requirements without authority transfer. |
 | BINV-AC-003 | BINV-REQ-003 | Boundary review finds no non-Inventory truth assigned to BINV. |
 | BINV-AC-004 | BINV-REQ-004 | The BEB matrix accounts for BEB-REQ-001–056 exactly once with applicability and rationale. |
@@ -454,13 +454,14 @@ BINV selects no warehouse or location topology; reservation duration; backorder 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Approved | Promoted BINV following approval-readiness validation with Inventory authority, BEB inheritance, BIDN/BCUS/BPRD boundaries, Open Decisions, Acceptance Criteria, and traceability intact. |
 | 0.1.0 | 2026-09-17 | Draft | Established the initial Inventory Backend Specification with Inventory-only authority, complete BEB applicability, bounded BIDN/BCUS/BPRD consumption, core Inventory integrity, cross-Domain boundaries, open decisions, Acceptance Criteria, and traceability. |
 
 ## 20. Final Validation
 
-Before lifecycle promotion, verify that:
+For Approved lifecycle validation, verify that:
 
-1. metadata remains `0.1.0 Draft`, `authoritative: false`, owner `Backend / Inventory`, and scope `BINV`;
+1. metadata remains `1.0.0 Approved`, `authoritative: false`, owner `Backend / Inventory`, and scope `BINV`;
 2. all BINV Requirements remain subordinate to governing sources and specialize only the Approved Inventory Domain;
 3. the canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV`, with every later title, path, scope code, decomposition, and order unresolved;
 4. Product, Category, Pricing, Search, Customer, Identity, Cart, Checkout, Order, Payment, Shipping, Return, Administration, Reporting, and other Domain authority remains intact;
