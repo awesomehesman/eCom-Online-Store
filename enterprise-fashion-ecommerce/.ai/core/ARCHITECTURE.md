@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.7.0
+version: 1.8.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-17
@@ -1290,7 +1290,9 @@ The fourth downstream Backend Specification after BEB, immediately after BIDN, B
 
 The fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, MUST be the Pricing Backend Specification under scope `BPRC` at `specifications/backend/pricing/pricing-backend.md`. BPRC MUST use a Pricing-only decomposition and specialize only the Approved Pricing Domain without transferring Pricing Domain authority. BPRC MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN, BCUS, BPRD, and BINV Contracts or evidence without transferring Identity, Customer, Account, Product, Product Variant, or Inventory authority.
 
-All Backend Specification titles, paths, scope codes, decompositions, and ordering after BPRC remain unresolved until separately governed. Category remains a separate Domain authority, and its later backend identity and roadmap position remain unresolved. ADR-0006 establishes no Search and Discovery, Cart, Checkout, Order, Payment, Shipping and Fulfilment, or other later backend position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, MUST be the Cart Backend Specification under scope `BCART` at `specifications/backend/cart/cart-backend.md`. BCART MUST use a Cart-only decomposition and specialize only the Approved Cart Domain without transferring Cart Domain authority. BCART MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MUST consume materially applicable BIDN, BCUS, BPRD, BINV, and BPRC Contracts or evidence without transferring Identity, Customer, Account, Product, Product Variant, Inventory, or Pricing authority. Contextual Authorization MUST remain with the Domain owning the affected Resource, action, property, association, and current state.
+
+All Backend Specification titles, paths, scope codes, decompositions, and ordering after BCART remain unresolved until separately governed. Category remains a separate Domain authority, remains independently eligible, and has no established backend identity or later roadmap position. ADR-0007 establishes no Category, Search and Discovery, Checkout, Order, Payment, Shipping and Fulfilment, or other later backend position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1856,6 +1858,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.8.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0007 by establishing the Cart-only Cart Backend Specification as the sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, while leaving Category independently eligible and unresolved and every later downstream roadmap position unresolved. |
 | 1.7.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0006 by establishing the Pricing-only Pricing Backend Specification as the fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, while leaving Category and every later downstream roadmap position unresolved. |
 | 1.6.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0005 by establishing the Inventory-only Inventory Backend Specification as the fourth downstream Backend Specification after BEB, immediately after BIDN, BCUS, and BPRD, while leaving every later downstream roadmap position unresolved. |
 | 1.5.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0004 by establishing the Product-only Product Catalogue Backend Specification as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving Category and Search and Discovery authority and leaving the later downstream roadmap unresolved. |
@@ -1870,7 +1873,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.7.0
+- **Version:** 1.8.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
