@@ -1,7 +1,7 @@
 ---
 title: Product Catalogue Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend / Product
 last_updated: 2026-09-17
 authoritative: false
@@ -14,7 +14,7 @@ scope: BPRD
 
 This Specification defines implementation-neutral backend Requirements for Product-owned Product and Product Variant identity, descriptive information, Product-owned Attributes, Product Media association and metadata, lifecycle, publication, visibility eligibility, structural sellability, history, correction, failure, recovery, Contracts, persistence, concurrency, conditional integration, observability, Audit Records, and verification.
 
-This document uses scope code `BPRD`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Product Catalogue backend scope. It is the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, uses the Product-only decomposition established by Accepted ADR-0004, and remains subordinate to governing sources, Approved Business Requirements, the Approved Product Domain, materially applicable BEB Requirements, and materially applicable BIDN and BCUS Contracts or evidence. It is not repository-wide authority and resolves no Open Product or Architecture Decision.
+This document uses scope code `BPRD`. As an Approved Specification, its Requirements are normative only within the Product Catalogue backend scope. It is the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, uses the Product-only decomposition established by Accepted ADR-0004, and remains subordinate to governing sources, Approved Business Requirements, the Approved Product Domain, materially applicable BEB Requirements, and materially applicable BIDN and BCUS Contracts or evidence. It is not repository-wide authority and resolves no Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
@@ -220,7 +220,7 @@ Verification MUST deterministically cover Product invariants, Use Case orchestra
 
 | Acceptance Criterion | Requirement | Acceptance evidence |
 | --- | --- | --- |
-| BPRD-AC-001 | BPRD-REQ-001 | Metadata and review show `0.1.0 Draft`, `authoritative: false`, scope `BPRD`, Draft non-normativity, bounded authority, and no repository-wide claim. |
+| BPRD-AC-001 | BPRD-REQ-001 | Metadata and review show `1.0.0 Approved`, `authoritative: false`, scope `BPRD`, normative authority only within the bounded Product Catalogue backend scope, and no repository-wide claim. |
 | BPRD-AC-002 | BPRD-REQ-002 | Boundary review finds only Product backend specialization and no redefinition or transfer of Product or another Domain's authority or policy. |
 | BPRD-AC-003 | BPRD-REQ-003 | Review proves “Catalogue” is Product descriptive capability only and finds no absorbed Category or Search and Discovery behavior. |
 | BPRD-AC-004 | BPRD-REQ-004 | The BEB matrix accounts for BEB-REQ-001 through BEB-REQ-056 exactly once, traces applicable obligations, and authorizes no conditional capability. |
@@ -448,12 +448,13 @@ BPRD does not establish Category or Search and Discovery backend placement and d
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-17 | Draft | Initial Product Catalogue Backend Specification established under Accepted ADR-0004 with Product-only decomposition, complete BEB applicability, bounded BIDN and BCUS consumption, and preserved Category and Search and Discovery authority. |
+| 1.0.0 | 2026-09-17 | Approved | Approved BPRD after approval-readiness review and correction while preserving Product-only decomposition, complete BEB inheritance and applicability, bounded BIDN and BCUS consumption, Domain authority boundaries, and all unresolved Open Decisions. |
 
 ## 20. Final Validation
 
 Before approval, revision, or implementation reliance, reviewers MUST verify that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, scope is `BPRD`, and Draft content is non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, scope is `BPRD`, and BPRD is normative only within its bounded Product Catalogue backend scope;
 2. BPRD remains the Product-only third downstream Backend Specification after BEB, immediately after BIDN and BCUS;
 3. the Approved Product Domain retains semantic authority and Category and Search and Discovery remain separate Domain authorities;
 4. all 56 BEB Requirements are classified exactly once and every applicable or capability-conditional obligation is explicitly traced;
@@ -465,4 +466,4 @@ Before approval, revision, or implementation reliance, reviewers MUST verify tha
 10. every Backend Specification title, path, scope code, decomposition, and order after BPRD remains unresolved;
 11. all Related Documents exist and are materially relevant;
 12. Markdown, tables, headings, UTF-8, whitespace, and final newline validation pass; and
-13. the final change creates only `specifications/backend/product/product-backend.md`, remains unstaged, uncommitted, and unpushed.
+13. the BPRD lifecycle change affects only `specifications/backend/product/product-backend.md` and introduces no unrelated repository changes.
