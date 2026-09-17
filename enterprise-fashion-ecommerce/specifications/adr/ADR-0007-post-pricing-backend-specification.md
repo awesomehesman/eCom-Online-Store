@@ -232,6 +232,7 @@ This Proposed decision becomes Accepted only after:
 - affected Cart ownership review confirming accurate specialization of the Approved Cart Domain;
 - affected Category ownership review confirming Category remains independently eligible, separate, and unordered after BCART;
 - affected Checkout ownership review confirming Cart handoff does not transfer Checkout authority or prematurely define Checkout Contracts or ordering;
+- affected Administration ownership review confirming that administrative visibility or support uses Cart-owned capabilities, transfers no Cart authority, and defines no Role or Permission matrix;
 - affected Product ownership review confirming bounded BPRD consumption and preservation of Product and Product Variant authority;
 - affected Inventory ownership review confirming bounded BINV consumption and preservation of Inventory authority;
 - affected Pricing ownership review confirming bounded BPRC consumption and preservation of Pricing authority;
