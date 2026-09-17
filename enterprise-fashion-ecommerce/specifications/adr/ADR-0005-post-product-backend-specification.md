@@ -224,8 +224,7 @@ This decision leaves all applicable Open Product Decisions unresolved, including
 - content approval and scheduled-publication workflow;
 - Product import, export, and migration requirements;
 - administrative Role and Permission policy;
-- unresolved returns, Refunds, gift-card, store-credit, communication, support, analytics, launch, and other Product policy; and
-- every unresolved numerical Inventory or Pricing rule.
+- unresolved returns, Refunds, gift-card, store-credit, communication, support, analytics, launch, and other Product policy.
 
 This decision also leaves all applicable Open Architecture Decisions unresolved, including:
 
