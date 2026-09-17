@@ -513,4 +513,4 @@ Before Draft approval review, verify that:
 9. all 8 Product and 11 Architecture decisions listed here remain unresolved;
 10. no Pricing formula, Price List, effective-date, rounding, exchange-rate, Discount, Promotion, Voucher, tax, shipping-fee, fraud, credit, segmentation, scarcity, API, DTO, schema, persistence, event, provider, cache, infrastructure, numerical, authorization-matrix, or later-roadmap decision is invented;
 11. security, observability, audit, failure, recovery, reconciliation, compatibility, boundedness, accessibility, and verification remain complete and mechanism-neutral; and
-12. the final change creates only `specifications/backend/pricing/pricing-backend.md`, remains unstaged, uncommitted, and unpushed.
+12. the BPRC lifecycle change affects only `specifications/backend/pricing/pricing-backend.md` and introduces no unrelated repository changes.
