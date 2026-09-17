@@ -10,11 +10,11 @@ Product Catalogue Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -42,7 +42,7 @@ The Approved Product Domain owns stable Product and Product Variant identity, Pr
 
 The Approved Category Domain separately owns Category identity, taxonomy, hierarchy, classification, navigation eligibility, and Category-side Product membership policy. The Product Domain explicitly excludes Category hierarchy and classification authority, while the Category Domain preserves Product authority. The Approved Search and Discovery Domain separately owns search request and result semantics and consumes Product, Category, Pricing, and Inventory evidence without becoming authoritative for those facts.
 
-Repository evidence therefore supports a Product-only backend specialization as the minimum defensible next boundary. Combining Category or Search and Discovery with Product would merge separately governed Domain authority without an established requirement to do so. This Proposed ADR does not authorize the downstream Specification unless and until the decision is Accepted and canonical governance is synchronized.
+Repository evidence therefore supports a Product-only backend specialization as the minimum defensible next boundary. Combining Category or Search and Discovery with Product would merge separately governed Domain authority without an established requirement to do so. Acceptance and canonical governance synchronization now authorize drafting the downstream Specification under Approved governance.
 
 ## Decision Drivers
 
@@ -56,7 +56,7 @@ Repository evidence therefore supports a Product-only backend specialization as 
 
 ## Decision
 
-If this ADR is Accepted and canonical governance is synchronized, the third downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN and BCUS, SHALL be:
+The third downstream Backend Specification after the Shared Backend Baseline, immediately after BIDN and BCUS, SHALL be:
 
 - **Title:** Product Catalogue Backend Specification
 - **Path:** `specifications/backend/product/product-backend.md`
@@ -84,7 +84,7 @@ Contextual Authorization SHALL remain with the Domain owning the affected Resour
 
 This decision does not establish Category or Search and Discovery backend decomposition. Every Backend Specification title, path, scope code, decomposition, and ordering position after BPRD remains unresolved until separately governed.
 
-While this ADR remains Proposed, it is not authoritative and does not authorize drafting BPRD as an Approved-governance downstream Specification.
+As an Accepted decision with synchronized canonical governance, this ADR authorizes drafting BPRD as an Approved-governance downstream Specification; it does not itself approve the future BPRD Specification.
 
 ## Authority Boundary
 
@@ -171,7 +171,7 @@ This decision does not decide, and does not authorize BPRD to decide:
 
 ## Open Decisions Preserved
 
-This Proposed decision leaves applicable Open Product Decisions unresolved, including:
+This decision leaves applicable Open Product Decisions unresolved, including:
 
 - final brand name and visual identity;
 - initial Product Categories and catalogue taxonomy;
@@ -190,7 +190,7 @@ An Open Decision is not permission for BPRD or an implementation to choose indep
 
 ## Acceptance and Governance Conditions
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
 - Architecture review;
 - affected Product ownership review;
@@ -203,13 +203,13 @@ This Proposed decision becomes Accepted only after:
 - confirmation that all backend titles, paths, scope codes, decompositions, and ordering after BPRD remain unresolved; and
 - synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md`.
 
-The Product Catalogue Backend Specification MUST NOT be drafted as an Approved-governance downstream Specification until ADR-0004 is Accepted and canonical synchronization is complete.
+ADR-0004 is Accepted and canonical synchronization is complete, so the Product Catalogue Backend Specification may now be drafted under Approved governance.
 
-When ADR-0004 is accepted, governance must synchronize only:
+Acceptance synchronized governance through:
 
-- ADR-0004 from `Proposed` to `Accepted`, with lifecycle-dependent wording updated without changing decision semantics;
-- `ARCHITECTURE.md` §35 plus its metadata, Document Status, and Revision History to establish BPRD as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving every later roadmap position as unresolved; and
-- `DECISIONS.md` metadata, Decision Index, and Revision History to record ADR-0004 as Accepted.
+- ADR-0004: changed status from `Proposed` to `Accepted` and updated lifecycle-dependent wording without changing decision semantics;
+- `ARCHITECTURE.md` §35: established BPRD as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving every later roadmap position as unresolved, and synchronized metadata, Document Status, and Revision History; and
+- `DECISIONS.md`: recorded ADR-0004 as Accepted in the Decision Index and synchronized metadata and Revision History.
 
 No `PRODUCT.md` change is required because this decision preserves Product authority and leaves applicable Product Decisions unresolved. If acceptance review identifies a direct Product contradiction, acceptance must stop until the contradiction is governed; this ADR does not authorize editing or overriding `PRODUCT.md`.
 
@@ -260,3 +260,4 @@ This decision creates no runtime operational behavior, provider commitment, infr
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-17 | Proposed | Proposed the Product-only Product Catalogue Backend Specification as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving Category, Search and Discovery, and all later backend roadmap decisions. |
+| 1.0.0 | 2026-09-17 | Accepted | Accepted the Product-only Product Catalogue Backend Specification as the third downstream Backend Specification after BEB, immediately after BIDN and BCUS, while preserving Category, Search and Discovery, and all later backend roadmap decisions. |
