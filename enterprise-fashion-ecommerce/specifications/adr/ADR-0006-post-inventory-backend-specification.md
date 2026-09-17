@@ -186,7 +186,7 @@ No listed decision is resolved by selecting the Pricing backend boundary.
 
 ## Open Architecture Decisions
 
-This decision preserves all materially applicable `ARCHITECTURE.md` §34 decisions, including backend hosting, infrastructure as code, customer and administrator session/token strategy, Payment provider selection, Shipping provider selection, Redis introduction and approved use cases, external messaging introduction and service selection, backup retention and production recovery objectives, PostgreSQL schema strategy, and repository-wide feature-flag implementation and lifecycle management.
+This decision preserves all materially applicable `ARCHITECTURE.md` §34 decisions, including backend hosting, infrastructure as code, customer and administrator session/token strategy, Payment provider selection, Shipping provider selection, Redis introduction and approved use cases, external messaging introduction and service selection, initial Search implementation details and extraction thresholds, backup retention and production recovery objectives, PostgreSQL schema strategy, and repository-wide feature-flag implementation and lifecycle management.
 
 No listed decision is resolved by selecting the Pricing backend boundary.
 
