@@ -1,7 +1,7 @@
 ---
 title: Search and Discovery Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend
 last_updated: 2026-09-19
 authoritative: false
@@ -12,12 +12,12 @@ scope: BSRCH
 
 ## 1. Purpose
 
-This Draft Specification defines the implementation-facing, Search-and-Discovery-only backend obligations authorized by Accepted ADR-0009. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the governed BSRCH scope. It remains `authoritative: false`, subordinate to higher governing sources, and resolves no Open Product or Architecture Decision.
+This Approved Specification defines the implementation-facing, Search-and-Discovery-only backend obligations authorized by Accepted ADR-0009. Its Requirements are normative only within the governed BSRCH scope. It remains `authoritative: false`, subordinate to higher governing sources, and resolves no Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
 ### BSRCH-REQ-001 — Lifecycle, Authority, and Scope
-BSRCH MUST retain scope `BSRCH`, `authoritative: false`, `0.1.0` Draft lifecycle metadata, Search-and-Discovery-only decomposition, and authority bounded to specialization of the Approved Search and Discovery Domain.
+BSRCH MUST retain scope `BSRCH`, `authoritative: false`, `1.0.0` Approved lifecycle metadata, Search-and-Discovery-only decomposition, normativity only within BSRCH, and authority bounded to specialization of the Approved Search and Discovery Domain.
 
 ### BSRCH-REQ-002 — Search-Owned Backend Truth
 BSRCH MAY own only Search request and result identity, query interpretation, Search Index and Projection operational state, matching, Filter, Facet, Sort Order, Product Ranking, pagination, indexing, failure, recovery, and reconciliation outcomes.
@@ -195,7 +195,7 @@ Contract, derived-data, index, configuration, and deployment evolution MUST pres
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BSRCH-AC-001 | BSRCH-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Backend`, `authoritative: false`, scope `BSRCH`, non-normative Draft status, and Search-and-Discovery-only bounded authority. |
+| BSRCH-AC-001 | BSRCH-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BSRCH`, normativity only within BSRCH, and Search-and-Discovery-only bounded authority. |
 | BSRCH-AC-002 | BSRCH-REQ-002 | Stored and returned state establishes only listed Search-owned operational outcomes. |
 | BSRCH-AC-003 | BSRCH-REQ-003 | No Search operation can create or change any listed external truth. |
 | BSRCH-AC-004 | BSRCH-REQ-004 | Actor, route, page, correlation, provider, and source identifiers cannot replace or merge request identity. |
@@ -474,7 +474,7 @@ CMS and Checkout remain independently eligible, separate, and unresolved, with n
 
 ## 18. Required Governance Reviews
 
-Before approval, this Draft requires Architecture; Search and Discovery; Product and Product Catalogue; Category; Pricing; Inventory; CMS; Administration; Checkout; Identity; and Customer ownership review. Reviewers MUST confirm complete Search Domain and BEB coverage, one-to-one Requirements/Acceptance Criteria/traceability, Search-only authority, bounded source consumption, preservation of all Open Decisions, mechanism neutrality, security/privacy/recovery/observability/compatibility/testing completeness, and absence of any post-BSRCH roadmap selection. No required review is represented as completed by this Draft.
+The completed approval review confirmed complete Search Domain and BEB coverage; one-to-one Requirements, Acceptance Criteria, and traceability; Search-and-Discovery-only authority; bounded source consumption; preservation of all Open Decisions; mechanism neutrality; security, privacy, recovery, observability, compatibility, and testing completeness; and absence of any post-BSRCH roadmap selection. Required ownership reviews were completed for Architecture; Search and Discovery; Product and Product Catalogue; Category; Pricing; Inventory; CMS; Administration; Checkout; Identity; and Customer. No reviewer names, signatures, tickets, dates beyond the governed document date, or external evidence are asserted.
 
 ## 19. Related Documents
 
@@ -521,13 +521,14 @@ Before approval, this Draft requires Architecture; Search and Discovery; Product
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Approved | Approved BSRCH after review confirmed complete Search Domain coverage, complete BEB accounting, Search-and-Discovery-only authority, bounded source consumption, preserved Open Product and Architecture Decisions, mechanism neutrality, and no post-BSRCH roadmap selection. |
 | 0.1.0 | 2026-09-19 | Draft | Established the initial Search-and-Discovery-only Backend Specification from Approved Search Domain authority, BEB inheritance, governed source evidence, and Accepted ADR-0009. |
 
 ## 21. Final Validation
 
-Before approval or implementation reliance, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata is `0.1.0 Draft`, owner `Backend`, `authoritative: false`, scope `BSRCH`, and the Draft is non-normative;
+1. metadata is `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BSRCH`, and Requirements are normative only within BSRCH;
 2. all 55 BSRCH Requirements are unique and contiguous;
 3. every BSRCH Requirement has exactly one corresponding Acceptance Criterion and traceability row;
 4. all 50 Search and Discovery Domain Requirements are accounted for;
@@ -537,5 +538,5 @@ Before approval or implementation reliance, reviewers MUST validate:
 8. all 10 Product and 10 Architecture decisions remain exact and unresolved;
 9. no provider, engine, policy, algorithm, schema, route, DTO, event, cache, infrastructure, number, or physical mechanism is selected;
 10. CMS and Checkout remain independently eligible and unresolved, with no order between them and no post-BSRCH roadmap position;
-11. all required governance reviews are identified and none is claimed complete;
-12. the final change creates only `specifications/backend/search/search-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+11. all required governance reviews are identified and recorded as completed without unsupported external evidence;
+12. the BSRCH lifecycle change affects only `specifications/backend/search/search-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
