@@ -192,13 +192,14 @@ ADR-0008 does not select or define:
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **4 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
+This Proposed decision preserves the following **5 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
 
 | Source Decision | Open Product Decision | Preserved BCAT boundary |
 | ---: | --- | --- |
 | 1 | Final brand name and visual identity. | Brand governance may constrain Category labels and presentation but selects no taxonomy, lifecycle, or Category behavior. |
 | 2 | Initial product categories and catalogue taxonomy. | Initial structure, roots, depth, naming, hierarchy, and classification remain unresolved. |
 | 22 | Content approval and scheduled-publication workflow. | No Category content workflow, approval chain, scheduler, state, timing rule, CMS mechanism, or publication behavior is selected. |
+| 23 | Administrative role and permission matrix. | BCAT requires contextual Authorization for protected Category behavior without selecting or defining administrative Roles, Permissions, role mappings, or a Role/Permission matrix. |
 | 27 | Product data import, export, and migration requirements. | No taxonomy format, source, migration, import/export mechanism, schedule, or reconciliation policy is selected. |
 
 Product-to-Category membership cardinality, primary-Category behavior, Category ordering, navigation presentation, automatic classification, and detailed lifecycle behavior remain unresolved Category policy boundaries rather than additional `PRODUCT.md` §24 decisions.
