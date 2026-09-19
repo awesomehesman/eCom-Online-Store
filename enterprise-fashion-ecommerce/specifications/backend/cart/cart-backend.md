@@ -1,7 +1,7 @@
 ---
 title: Cart Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Cart
 last_updated: 2026-09-17
 authoritative: false
@@ -12,13 +12,13 @@ scope: BCART
 
 ## 1. Purpose
 
-This Specification defines the implementation-facing backend obligations for the Cart-only boundary authorized by Accepted ADR-0007. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the governed Cart backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources and the Approved Cart Domain, and does not claim repository-wide authority or resolve an Open Product or Architecture Decision.
+This Approved Specification defines the implementation-facing backend obligations for the Cart-only boundary authorized by Accepted ADR-0007. Its Requirements are normative only within the governed Cart backend scope. It remains `authoritative: false`, subordinate to higher-authority governing sources and the Approved Cart Domain, and does not claim repository-wide authority or resolve an Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
 ### BCART-REQ-001 — Lifecycle, Scope, and Authority
 
-BCART MUST retain scope `BCART`, `authoritative: false`, Draft lifecycle metadata until separately Approved, and authority bounded to Cart backend behavior under the Approved Cart Domain and Accepted ADR-0007.
+BCART MUST retain scope `BCART`, `authoritative: false`, `1.0.0` Approved lifecycle metadata, and authority bounded to Cart backend behavior under the Approved Cart Domain and Accepted ADR-0007.
 
 ### BCART-REQ-002 — Complete Cart Domain Specialization
 
@@ -210,7 +210,7 @@ Cart Contracts, data changes, configuration, reachable feature states, and deplo
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BCART-AC-001 | BCART-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Cart`, `authoritative: false`, and scope `BCART`; Draft status is non-normative and authority is bounded. |
+| BCART-AC-001 | BCART-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Cart`, `authoritative: false`, and scope `BCART`; Requirements are normative only within the governed Cart backend scope and authority is bounded. |
 | BCART-AC-002 | BCART-REQ-002 | The Cart coverage matrix accounts for `REQ-CART-001` through `REQ-CART-033` without a gap or transferred authority. |
 | BCART-AC-003 | BCART-REQ-003 | Only Cart is specialized; the canonical sequence ends at BCART and Category plus every later position remain unresolved. |
 | BCART-AC-004 | BCART-REQ-004 | The BEB matrix accounts for `BEB-REQ-001` through `BEB-REQ-056` and traces applicable obligations. |
@@ -422,7 +422,7 @@ The following **8 materially applicable Open Architecture Decisions** from `ARCH
 | 13 | PostgreSQL schema strategy for enforcing domain ownership within the modular monolith. | Cart ownership is preserved without selecting physical schema layout. |
 | 14 | Repository-wide feature-flag implementation and lifecycle-management approach. | Reachable-state safety is required without selecting a flag mechanism or lifecycle. |
 
-No listed decision is resolved by this Draft.
+No listed decision is resolved by this Approved Specification.
 
 ## 15. Explicit Non-Decisions
 
@@ -478,19 +478,20 @@ BCART does not select guest behavior; persistence, expiration, abandonment, clea
 
 ## 18. Governance Review Requirements
 
-Before approval, review MUST confirm complete Cart Domain coverage; one-to-one Requirement, Acceptance Criterion, and traceability; complete BEB accounting; bounded BIDN, BCUS, BPRD, BINV, and BPRC consumption; Cart-only authority; preservation of all 5 Product and 8 Architecture decisions; security, privacy, integrity, failure, recovery, observability, compatibility, accessibility, and verification completeness; and absence of invented policy, mechanisms, numerical values, or later-roadmap positions. This Draft does not claim that approval review is complete.
+The required approval review confirmed complete Cart Domain coverage; one-to-one Requirement, Acceptance Criterion, and traceability integrity; complete BEB accounting; bounded BIDN, BCUS, BPRD, BINV, and BPRC consumption; Cart-only authority; preservation of all 5 Open Product Decisions and all 8 Open Architecture Decisions; required security, privacy, integrity, failure, recovery, observability, compatibility, accessibility, and verification obligations; and absence of invented policy, mechanisms, numerical values, or later-roadmap positions.
 
 ## 19. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-17 | Approved | Approved BCART after governance review confirmed complete Cart Domain coverage, complete BEB accounting, bounded upstream consumption, preserved Open Product and Architecture Decisions, and no downstream backend roadmap selection. |
 | 0.1.0 | 2026-09-17 | Draft | Established the initial Cart-only backend specialization under Accepted ADR-0007 while preserving all unresolved Product and Architecture decisions and downstream backend sequencing. |
 
 ## 20. Final Validation
 
-Before Draft approval review, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata is `0.1.0` Draft, owner is `Cart`, `authoritative: false`, and scope is `BCART`;
+1. metadata is `1.0.0` Approved, owner is `Cart`, `authoritative: false`, and scope is `BCART`;
 2. all 45 `BCART-REQ-NNN` identifiers are unique and contiguous;
 3. all 33 Approved Cart Domain Requirements are covered without weakened or transferred authority;
 4. every BCART Requirement has exactly one Acceptance Criterion and one traceability row;
