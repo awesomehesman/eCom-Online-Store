@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.9.0
+version: 1.10.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-19
@@ -1294,9 +1294,11 @@ The sixth downstream Backend Specification after BEB, immediately after BIDN, BC
 
 The seventh downstream Backend Specification after BEB, immediately after BCART, MUST be the Category Backend Specification under scope `BCAT` at `specifications/backend/category/category-backend.md`. BCAT MUST use a Category-only decomposition and specialize exactly the Approved Category Domain without transferring Category Domain authority. BCAT MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring their authority. Category remains authoritative for Category-owned taxonomy, hierarchy, membership, classification, navigation, ordering, lifecycle, content, and other Category-owned behavior. Search and Discovery remains separate, and Checkout remains independently eligible and unresolved.
 
-The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT`.
+The eighth downstream Backend Specification after BEB, immediately after BCAT, MUST be the Search and Discovery Backend Specification under scope `BSRCH` at `specifications/backend/search/search-backend.md`. BSRCH MUST use a Search-and-Discovery-only decomposition and specialize exactly the Approved Search and Discovery Domain without transferring Search and Discovery Domain authority. BSRCH MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Product, Product Variant, Category, Pricing, Inventory, Identity, Customer, Account, Consent, Preference, Cart, CMS, Administration, Checkout, or other Domain authority. Search indexes, documents, caches, Projections, rankings, and results remain non-authoritative representations.
 
-All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BCAT remain unresolved until separately governed. ADR-0008 establishes no Search and Discovery, Checkout, Order, Payment, Shipping and Fulfilment, or other later backend position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH`.
+
+Checkout and CMS remain independently eligible and unresolved, and no ordering between them is established. All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BSRCH remain unresolved until separately governed. ADR-0009 establishes no Checkout, CMS, Order, Payment, Shipping and Fulfilment, or other later backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1862,6 +1864,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.10.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0009 by establishing the Search-and-Discovery-only Search and Discovery Backend Specification as the eighth downstream Backend Specification after BEB, immediately after BCAT, while preserving Checkout and CMS as independently eligible and unresolved and leaving every post-BSRCH roadmap position unresolved. |
 | 1.9.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0008 by establishing the Category-only Category Backend Specification as the seventh downstream Backend Specification after BEB, immediately after BCART, while preserving Search, Checkout, and every post-BCAT roadmap position as unresolved. |
 | 1.8.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0007 by establishing the Cart-only Cart Backend Specification as the sixth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, BINV, and BPRC, while leaving Category independently eligible and unresolved and every later downstream roadmap position unresolved. |
 | 1.7.0 | 2026-09-17 | Approved | Synchronized Accepted ADR-0006 by establishing the Pricing-only Pricing Backend Specification as the fifth downstream Backend Specification after BEB, immediately after BIDN, BCUS, BPRD, and BINV, while leaving Category and every later downstream roadmap position unresolved. |
@@ -1878,7 +1881,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.9.0
+- **Version:** 1.10.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
