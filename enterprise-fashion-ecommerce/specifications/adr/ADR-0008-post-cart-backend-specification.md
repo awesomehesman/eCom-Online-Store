@@ -10,11 +10,11 @@ Post-Cart Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -42,7 +42,7 @@ Category is independently eligible. BPRD supplies governed Product and Product V
 
 Checkout is also independently eligible after Approved BCART. BIDN, BCUS, BPRD, BINV, BPRC, and BCART supply its major governed upstream evidence. Approved Order, Payment, and Shipping and Fulfilment Domains define downstream authority boundaries without requiring those backend implementations first. Provider, delivery, reservation-duration, promotion, tax, fraud, guest, and downstream Contract details can remain unresolved.
 
-This Proposed ADR resolves only the immediate Category-versus-Checkout ambiguity. It does not authorize BCAT drafting under Approved governance unless and until this ADR is Accepted and canonical Architecture and Decision synchronization is merged.
+This Accepted ADR resolves only the immediate Category-versus-Checkout ambiguity. Synchronized canonical Architecture and Decision governance establishes BCAT as the next Backend Specification after BCART. BCAT drafting under Approved governance is authorized only after these synchronized changes are merged.
 
 ## Decision Drivers
 
@@ -94,9 +94,9 @@ BCAT MAY consume materially applicable governed Contracts or evidence from BPRD 
 
 Contextual Authorization SHALL remain with the Domain owning the affected Resource, action, property, association, and current state. Identity evidence, Role labels, Claims, UI state, or supplied identifiers alone SHALL NOT grant Category authority.
 
-This decision proposes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT`. BCAT MUST be Approved before another downstream Backend Specification is introduced under this roadmap. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCAT remains unresolved.
+This decision establishes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT`. BCAT MUST be Approved before another downstream Backend Specification is introduced under this roadmap. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCAT remains unresolved.
 
-Because ADR-0008 remains Proposed, the sequence through BCAT is not yet canonical. BCAT MUST NOT be drafted as an Approved-governance downstream Specification until ADR-0008 is Accepted and synchronized canonical Architecture and Decision changes are merged. Acceptance would authorize a BCAT Draft, not approve BCAT; BCAT must complete its own Draft-to-Approved lifecycle.
+ADR-0008 is Accepted and canonical Architecture and Decision governance is synchronized by this change. BCAT MUST NOT be drafted under Approved governance until these synchronized changes are merged canonically. Acceptance authorizes a BCAT Draft only; it does not approve BCAT, which must complete its own Draft-to-Approved lifecycle.
 
 ## Selected Candidate Rationale
 
@@ -168,7 +168,7 @@ Not decided. BCAT removes one identified Search prerequisite, but Search must be
 
 ### D. Leave the Immediate Position Unresolved
 
-Not selected because the completed audit identified two eligible candidates and repository evidence supports the bounded BCAT selection as a way to close Search's missing upstream Category boundary. Acceptance and synchronization, not this Proposed state alone, would establish that selection.
+Not selected because the completed audit identified two eligible candidates and repository evidence supports the bounded BCAT selection as a way to close Search's missing upstream Category boundary. Accepted ADR-0008 and synchronized canonical governance establish that selection.
 
 ## Explicit Non-Decisions
 
@@ -192,7 +192,7 @@ ADR-0008 does not select or define:
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **5 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
+This Accepted decision preserves the following **5 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
 
 | Source Decision | Open Product Decision | Preserved BCAT boundary |
 | ---: | --- | --- |
@@ -208,7 +208,7 @@ No listed Product Decision is resolved by selecting the BCAT roadmap boundary.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **9 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **9 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Source Decision | Open Architecture Decision | Preserved BCAT boundary |
 | ---: | --- | --- |
@@ -226,7 +226,7 @@ No listed Architecture Decision is resolved by selecting the BCAT roadmap bounda
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after completion of:
 
 - Architecture review and approval of the immediate post-BCART position, Category-only decomposition, title, path, and scope code;
 - affected Category ownership review confirming accurate specialization of the Approved Category Domain;
@@ -244,28 +244,28 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/category/category-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCAT remains unresolved; and
-- preparation of synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of ADR-0008 acceptance.
+- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` included with ADR-0008 acceptance.
 
-No reviewer names, signatures, ticket identifiers, dates beyond this record's governed date, or external evidence are asserted by this Proposed ADR.
+The required Architecture, Category, Product, Search and Discovery, CMS, Administration, Pricing, Inventory, Cart, Checkout, Identity, and Customer reviews and the listed confirmations were completed for ADR acceptance. No reviewer names, signatures, ticket identifiers, dates beyond this record's governed date, or external evidence are asserted by this record.
 
 ## Acceptance Conditions
 
-ADR-0008 may become Accepted only when:
+Acceptance synchronized governance through:
 
-- governance approves BCAT as the next Backend Specification after BCART;
-- review confirms BCAT remains Category-only and preserves every owning-Domain authority;
-- review confirms Search remains separate and is not selected after BCAT;
-- review confirms Checkout remains independently eligible and unresolved;
-- review confirms every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCAT remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized to establish BCAT as the seventh downstream Backend Specification after BEB, immediately after BCART;
-- `DECISIONS.md` metadata, Decision Index, and Revision History are synchronized to index ADR-0008 as Accepted; and
-- ADR-0008 lifecycle wording records the Accepted decision consistently with those synchronized canonical changes.
+- governance approval selecting BCAT as the next Backend Specification after BCART;
+- confirmation that BCAT remains Category-only and preserves every owning-Domain authority;
+- confirmation that Search remains separate and is not selected after BCAT;
+- confirmation that Checkout remains independently eligible and unresolved;
+- confirmation that every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCAT remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History synchronization establishing BCAT as the seventh downstream Backend Specification after BEB, immediately after BCART;
+- `DECISIONS.md` metadata, Decision Index, and Revision History synchronization indexing ADR-0008 as Accepted; and
+- ADR-0008 lifecycle wording recording the Accepted decision consistently with those synchronized canonical changes.
 
-No `PRODUCT.md` change is required unless acceptance review discovers a direct contradiction that prevents this decision. BCAT MUST NOT be drafted under Approved governance until the Accepted ADR and canonical synchronization are merged. Acceptance would authorize drafting only; it would not approve BCAT.
+No `PRODUCT.md` change was required because acceptance review identified no direct contradiction preventing this decision. BCAT MUST NOT be drafted under Approved governance until the Accepted ADR and canonical synchronization are merged. Acceptance authorizes drafting only; it does not approve BCAT.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, schema, data model, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BCAT Specification must inherit materially applicable BEB security, Authorization, data protection, integrity, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting unresolved mechanisms.
+This Accepted decision creates no runtime behavior, API, schema, data model, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BCAT Specification must inherit materially applicable BEB security, Authorization, data protection, integrity, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting unresolved mechanisms.
 
 ## Related Documents
 
@@ -296,4 +296,5 @@ This Proposed decision creates no runtime behavior, API, schema, data model, mig
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Accepted | Accepted BCAT as the next Backend Specification after BCART while preserving Checkout, Search, and every post-BCAT roadmap position as unresolved. |
 | 0.1.0 | 2026-09-19 | Proposed | Proposed BCAT as the next backend specialization after BCART while preserving Checkout and every post-BCAT sequencing position as unresolved. |
