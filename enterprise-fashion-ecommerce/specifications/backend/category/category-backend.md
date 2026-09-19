@@ -1,7 +1,7 @@
 ---
 title: Category Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Category
 last_updated: 2026-09-19
 authoritative: false
@@ -12,12 +12,12 @@ scope: BCAT
 
 ## 1. Purpose
 
-This Draft defines the implementation-facing Category-only backend obligations authorized by Accepted ADR-0008. While Draft, it is non-normative. If Approved, its Requirements will be normative only within BCAT. It remains `authoritative: false`, subordinate to higher governing sources, and resolves no Open Product or Architecture Decision.
+This Approved Specification defines the implementation-facing Category-only backend obligations authorized by Accepted ADR-0008. Its Requirements are normative only within BCAT. It remains `authoritative: false`, subordinate to higher governing sources, and resolves no Open Product or Architecture Decision.
 
 ## 2. Scope, Authority, and Inheritance
 
 ### BCAT-REQ-001 — Lifecycle and Authority
-BCAT MUST retain scope `BCAT`, `authoritative: false`, Draft lifecycle metadata until separately Approved, and authority bounded to the Approved Category Domain.
+BCAT MUST retain scope `BCAT`, `authoritative: false`, `1.0.0` Approved lifecycle metadata, and authority bounded to the Approved Category Domain.
 
 ### BCAT-REQ-002 — Complete Category Specialization
 BCAT MUST specialize every `REQ-CAT-001` through `REQ-CAT-043` obligation without weakening, extending, or transferring Category authority.
@@ -174,7 +174,7 @@ Verification MUST cover every applicable Category requirement, invariant, bounda
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BCAT-AC-001 | BCAT-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Category`, `authoritative: false`, scope `BCAT`, and bounded non-normative Draft authority. |
+| BCAT-AC-001 | BCAT-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Category`, `authoritative: false`, scope `BCAT`, and normative authority only within BCAT. |
 | BCAT-AC-002 | BCAT-REQ-002 | The coverage matrix accounts for all 43 Category Requirements without weakened or transferred authority. |
 | BCAT-AC-003 | BCAT-REQ-003 | The sequence ends at BCAT and every later identity/order remains unresolved. |
 | BCAT-AC-004 | BCAT-REQ-004 | The BEB matrix accounts for all 56 Requirements exactly once. |
@@ -447,19 +447,20 @@ BCAT selects no Search or CMS implementation; administrative Role/Permission mat
 
 ## 17. Governance Review Requirements
 
-Before approval, review MUST confirm complete Category Domain and BEB coverage; one-to-one Requirements, Acceptance Criteria, and traceability; Category-only authority; bounded BIDN, BCUS, BPRD, BINV, BPRC, and BCART evidence; Search/CMS/Administration/Checkout separation; preservation of 5 Product and 9 Architecture decisions; security, integrity, recovery, observability, accessibility, compatibility, and verification completeness; and no invented policy, mechanism, number, or roadmap position. Required ownership reviews are Architecture, Category, Product, Product Catalogue, Search and Discovery, CMS, Administration, Pricing, Inventory, Cart, Checkout, Identity, and Customer. This Draft does not claim review completion.
+The completed approval review confirmed complete Category Domain and BEB coverage; one-to-one Requirements, Acceptance Criteria, and traceability; Category-only authority; bounded BIDN, BCUS, BPRD, BINV, BPRC, and BCART evidence; Search/CMS/Administration/Checkout separation; preservation of 5 Product and 9 Architecture decisions; security, integrity, recovery, observability, accessibility, compatibility, and verification completeness; and no invented policy, mechanism, number, or roadmap position. Required ownership reviews were completed for Architecture, Category, Product, Product Catalogue, Search and Discovery, CMS, Administration, Pricing, Inventory, Cart, Checkout, Identity, and Customer. No reviewer names, signatures, tickets, or external evidence are asserted.
 
 ## 18. Revision History
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Approved | Approved BCAT after review confirmed complete Category Domain coverage, complete BEB accounting, Category-only authority, bounded cross-Domain dependencies, preserved Open Product and Architecture Decisions, and no post-BCAT roadmap selection. |
 | 0.1.0 | 2026-09-19 | Draft | Established the initial Category-only Backend Specification from Approved Category authority, BEB, governed upstream backend evidence, and Accepted ADR-0008. |
 
 ## 19. Final Validation
 
-Before Draft approval review, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata is `0.1.0` Draft, owner `Category`, `authoritative: false`, scope `BCAT`;
+1. metadata is `1.0.0` Approved, owner `Category`, `authoritative: false`, scope `BCAT`;
 2. all 48 BCAT Requirements are unique and contiguous;
 3. every BCAT Requirement has exactly one corresponding Acceptance Criterion and traceability row;
 4. all 43 Category Domain Requirements are accounted for;
