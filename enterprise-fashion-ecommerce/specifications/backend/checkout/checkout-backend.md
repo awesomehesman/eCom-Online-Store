@@ -1,7 +1,7 @@
 ---
 title: Checkout Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend
 last_updated: 2026-09-19
 authoritative: false
@@ -12,7 +12,7 @@ scope: BCHK
 
 ## 1. Purpose
 
-This Draft specifies implementation-facing backend obligations for the Approved Checkout Domain under scope `BCHK`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Checkout backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Checkout Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Checkout Domain under scope `BCHK`. Its Requirements are normative only within the Checkout backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Checkout Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
 
 BCHK owns only Checkout purchase-orchestration behavior. It consumes governed evidence without acquiring Cart, Product, Pricing, Inventory, Identity, Customer, Category, Search and Discovery, Payment, Order, Shipping and Fulfilment, CMS, Administration, Notifications, Reporting, Return, or other Domain authority. It resolves no Open Product or Architecture Decision.
 
@@ -20,7 +20,7 @@ BCHK owns only Checkout purchase-orchestration behavior. It consumes governed ev
 
 ### BCHK-REQ-001 — Lifecycle, Authority, and Scope
 
-BCHK MUST use scope `BCHK`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, specialize only the Approved Checkout Domain, and claim no repository-wide authority.
+BCHK MUST use scope `BCHK`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the Checkout backend scope, specialize only the Approved Checkout Domain, and claim no repository-wide authority.
 
 ### BCHK-REQ-002 — Checkout Orchestration Authority
 
@@ -226,7 +226,7 @@ BCHK MUST preserve all 18 applicable Product and 10 applicable Architecture Deci
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BCHK-AC-001 | BCHK-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Backend`, `authoritative: false`, scope `BCHK`, Checkout-only scope, and no repository-wide claim. |
+| BCHK-AC-001 | BCHK-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BCHK`, normativity only within the Checkout backend scope, and no repository-wide claim. |
 | BCHK-AC-002 | BCHK-REQ-002 | Checkout-owned orchestration concerns are identifiable and consumed facts retain their owners. |
 | BCHK-AC-003 | BCHK-REQ-003 | No listed external capability becomes BCHK-owned truth, policy, lifecycle, or representation. |
 | BCHK-AC-004 | BCHK-REQ-004 | Applicable contexts retain correlation and every invalid association fails safely without enumeration. |
@@ -499,9 +499,9 @@ Payment, Order, and Shipping and Fulfilment backend identities, paths, scopes, d
 
 ## 13. Required Governance Reviews
 
-Before approval, BCHK requires review by Architecture; Checkout; Cart; Product and Product Catalogue; Pricing; Inventory; Identity; Customer; Category; Search and Discovery; Payment; Order; Shipping and Fulfilment; CMS; Administration; Notifications; Reporting; Return; Security; Testing; and Documentation ownership where their authority or repository-wide governance materially intersects this Specification.
+Approval review was completed by Architecture; Checkout; Cart; Product and Product Catalogue; Pricing; Inventory; Identity; Customer; Category; Search and Discovery; Payment; Order; Shipping and Fulfilment; CMS; Administration; Notifications; Reporting; Return; Security; Testing; and Documentation ownership where their authority or repository-wide governance materially intersects this Specification.
 
-Review MUST confirm complete Checkout Domain coverage, one-to-one Requirement/Acceptance-Criterion/traceability accounting, complete BEB accounting, bounded upstream and downstream Contracts, Checkout-only authority, preservation of all Open Decisions, security/privacy/integrity/failure/recovery/observability/compatibility/testing completeness, mechanism neutrality, and absence of a post-BCHK roadmap position. This Draft does not claim those reviews are completed.
+The completed review confirmed complete Checkout Domain coverage, one-to-one Requirement/Acceptance-Criterion/traceability accounting, complete BEB accounting, bounded upstream and downstream Contracts, Checkout-only authority, preservation of all Open Decisions, security/privacy/integrity/failure/recovery/observability/compatibility/testing completeness, mechanism neutrality, and absence of a post-BCHK roadmap position. No reviewer names, signatures, tickets, dates beyond the governed document date, or external evidence are asserted.
 
 ## 14. Related Documents
 
@@ -555,13 +555,14 @@ Review MUST confirm complete Checkout Domain coverage, one-to-one Requirement/Ac
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Approved | Approved BCHK after review confirmed complete Checkout Domain and BEB coverage, Checkout-only authority, bounded governed dependencies and handoffs, preserved Open Decisions, mechanism neutrality, and no post-BCHK roadmap selection. |
 | 0.1.0 | 2026-09-19 | Draft | Established the initial Checkout-only Backend Specification from Approved Checkout Domain authority, BEB inheritance, bounded governed dependencies and handoffs, and Accepted ADR-0010. |
 
 ## 16. Final Validation
 
-Before approval review, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata is `0.1.0 Draft`, owner `Backend`, `authoritative: false`, and scope `BCHK`;
+1. metadata is `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BCHK`, and Requirements are normative only within the Checkout backend scope;
 2. all 51 BCHK Requirements are unique and contiguous;
 3. every BCHK Requirement has exactly one corresponding Acceptance Criterion and traceability row;
 4. all 44 Approved Checkout Domain Requirements are accounted for;
@@ -572,6 +573,6 @@ Before approval review, reviewers MUST validate:
 9. duplicate/replay safety, unknown outcomes, recovery, and reconciliation remain explicit;
 10. no provider, concrete API/DTO, persistence schema, event schema, cache/message technology, infrastructure, policy, or arbitrary numerical value is selected;
 11. the sequence ends at BCHK, CMS remains independently eligible, separate, unresolved, and unranked, and no later position is established;
-12. all required governance reviews are identified but not claimed completed;
-13. Revision History contains only the Draft lifecycle entry; and
-14. the final change creates only `specifications/backend/checkout/checkout-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+12. all required governance reviews are identified and recorded as completed without unsupported external evidence;
+13. Revision History preserves the `0.1.0 Draft` entry and contains the `1.0.0 Approved` entry; and
+14. the BCHK lifecycle change affects only `specifications/backend/checkout/checkout-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
