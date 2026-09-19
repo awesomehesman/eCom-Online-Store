@@ -468,4 +468,4 @@ Before Draft approval review, reviewers MUST validate:
 7. all 5 Product and 9 Architecture decisions remain unresolved;
 8. Search remains separate, Checkout remains unresolved, and no post-BCAT position is established;
 9. no unsupported policy, mechanism, provider, schema, number, or physical design is selected;
-10. the final change creates only `specifications/backend/category/category-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+10. the BCAT lifecycle change affects only `specifications/backend/category/category-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
