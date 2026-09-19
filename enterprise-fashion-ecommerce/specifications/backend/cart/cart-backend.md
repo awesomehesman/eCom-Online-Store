@@ -501,4 +501,4 @@ Before Draft approval review, reviewers MUST validate:
 9. Category and every Backend Specification identity, decomposition, scope, path, and order after BCART remain unresolved;
 10. no concrete API, DTO, schema, event, cache, provider, infrastructure, Role matrix, numerical target, or unresolved business policy is invented;
 11. security, privacy, concurrency, idempotency, recovery, accessibility, operations, compatibility, and verification obligations remain complete and traceable;
-12. the final change creates only `specifications/backend/cart/cart-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+12. the BCART lifecycle change affects only `specifications/backend/cart/cart-backend.md` and introduces no unrelated repository changes.
