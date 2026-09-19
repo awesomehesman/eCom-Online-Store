@@ -10,11 +10,11 @@ Post-Search Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -40,7 +40,7 @@ The completed post-BSRCH eligibility audit found exactly two independently eligi
 
 Checkout can now be specialized from Approved Cart, Product, Inventory, Pricing, Identity, Customer, Category, and Search backend boundaries. Approved Payment, Order, and Shipping and Fulfilment Domain Specifications preserve their downstream authority without requiring those backend specifications to be selected first.
 
-CMS is also independently eligible from governed Product and Category authority. It remains a legitimate separate candidate that does not require a Search or Administration backend prerequisite. This Proposed ADR selects between the two eligible candidates without claiming that either is objectively superior.
+CMS is also independently eligible from governed Product and Category authority. It remains a legitimate separate candidate that does not require a Search or Administration backend prerequisite. This Accepted ADR selects between the two eligible candidates without claiming that either is objectively superior.
 
 ## Decision Drivers
 
@@ -95,9 +95,9 @@ BCHK MAY consume materially applicable governed evidence from BIDN, BCUS, BPRD, 
 
 BCHK MAY later define bounded Checkout-owned handoff obligations to Payment, Order, and Shipping and Fulfilment, but MUST NOT establish their backend titles, paths, scope codes, decompositions, implementation mechanisms, or later roadmap positions.
 
-This decision proposes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCHK remains unresolved.
+This decision establishes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BCHK remains unresolved.
 
-Because ADR-0010 remains Proposed, BCHK MUST NOT be drafted under Approved governance until this ADR is Accepted and synchronized canonical Architecture and Decision changes are merged. Acceptance would authorize a BCHK Draft only; it would not approve BCHK.
+ADR-0010 is Accepted and canonical Architecture and Decision governance is synchronized by this change. BCHK MUST NOT be drafted under Approved governance until these synchronized changes are merged canonically. Acceptance authorizes a BCHK Draft only; it does not approve BCHK.
 
 ## Authority Boundary
 
@@ -144,7 +144,7 @@ The canonical post-BSRCH eligibility audit is evidence for the two-candidate set
 
 ## Consequences
 
-Established consequences if this ADR is Accepted and synchronized include:
+Established consequences of this Accepted and synchronized decision include:
 
 - BCHK becomes the authorized immediate Backend Specification after BSRCH;
 - a future BCHK Draft can specialize Checkout using governed upstream evidence and bounded downstream Domain authority;
@@ -182,7 +182,7 @@ The decision does not select Order, Payment, Shipping and Fulfilment, CMS, Retur
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **18 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Checkout Domain §29:
+This Accepted decision preserves the following **18 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Checkout Domain §29:
 
 | Item | Open Product Decision | Preserved BCHK boundary |
 | ---: | --- | --- |
@@ -209,7 +209,7 @@ No listed Product Decision is resolved by selecting BCHK.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BCHK boundary |
 | ---: | --- | --- |
@@ -228,7 +228,7 @@ No listed Architecture Decision is resolved by selecting BCHK. Frontend hosting,
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after completion of:
 
 - Architecture review of the immediate post-BSRCH selection, Checkout-only decomposition, title, path, and scope code;
 - affected Checkout ownership review confirming accurate Domain specialization;
@@ -251,27 +251,27 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/checkout/checkout-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BCHK is established; and
-- preparation of synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of acceptance.
+- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of acceptance.
 
-No review is represented as completed, and no reviewer names, signatures, tickets, dates beyond this record's date, or external evidence are asserted.
+The required Architecture, Checkout, Cart, Product and Product Catalogue, Pricing, Inventory, Identity, Customer, Category, Search and Discovery, Payment, Order, Shipping and Fulfilment, CMS, Administration, Notifications, and Reporting ownership reviews were completed for acceptance. No reviewer names, signatures, tickets, dates beyond this record's date, or external evidence are asserted.
 
 ## Acceptance Conditions
 
-ADR-0010 may become Accepted only when:
+ADR-0010 was Accepted after:
 
-- governance approves BCHK as the immediate Backend Specification after BSRCH;
-- review confirms BCHK remains Checkout-only and preserves every source and downstream authority;
-- review confirms CMS remains independently eligible, separate, unresolved, and unranked;
-- review confirms every post-BCHK roadmap identity and position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BCHK;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0010 as Accepted; and
-- ADR-0010 lifecycle wording records the Accepted decision consistently.
+- governance approved BCHK as the immediate Backend Specification after BSRCH;
+- review confirmed BCHK remains Checkout-only and preserves every source and downstream authority;
+- review confirmed CMS remains independently eligible, separate, unresolved, and unranked;
+- review confirmed every post-BCHK roadmap identity and position remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized through BCHK;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0010 as Accepted; and
+- ADR-0010 lifecycle wording recorded the Accepted decision consistently.
 
-No `PRODUCT.md` change is required unless acceptance review discovers a direct contradiction. BCHK MUST NOT be drafted under Approved governance until Accepted ADR-0010 and synchronized canonical changes are merged. Acceptance authorizes drafting only; it does not approve BCHK.
+No `PRODUCT.md` change was required because acceptance review discovered no direct contradiction. BCHK MUST NOT be drafted under Approved governance until Accepted ADR-0010 and synchronized canonical changes are merged. Acceptance authorizes drafting only; it does not approve BCHK.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, DTO, schema, database structure, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BCHK Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, idempotency, replay, and verification obligations without selecting unresolved mechanisms.
+This Accepted decision creates no runtime behavior, API, DTO, schema, database structure, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BCHK Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, idempotency, replay, and verification obligations without selecting unresolved mechanisms.
 
 ## Related Documents
 
@@ -307,4 +307,5 @@ This Proposed decision creates no runtime behavior, API, DTO, schema, database s
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Accepted | Accepted Checkout-only BCHK as the immediate post-BSRCH Backend Specification while preserving CMS as independently eligible, separate, unresolved, and unranked and leaving every post-BCHK roadmap position unresolved. |
 | 0.1.0 | 2026-09-19 | Proposed | Proposed Checkout-only BCHK as the immediate post-BSRCH Backend Specification while preserving CMS as independently eligible, separate, unresolved, and unranked and leaving every post-BCHK roadmap position unresolved. |
