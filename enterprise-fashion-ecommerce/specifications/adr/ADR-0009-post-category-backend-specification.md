@@ -10,11 +10,11 @@ Post-Category Backend Specification Selection
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -40,7 +40,7 @@ A targeted post-BCAT audit found exactly three independently eligible candidates
 
 Search was previously blocked by the absence of a governed Category backend boundary. Approved BCAT now supplies governed Category taxonomy, hierarchy, classification, membership, navigation-eligibility, ordering, and other Category-owned evidence. BPRD supplies Product and Product Variant evidence; BPRC and BINV supply governed Pricing and Inventory evidence where applicable. Search can now be specified without acquiring source authority or resolving mechanisms.
 
-Checkout remains independently eligible from BIDN, BCUS, BPRD, BINV, BPRC, BCART, and materially applicable BCAT evidence. CMS remains independently eligible from governed Product and Category reference authority. This Proposed ADR selects among these candidates without ranking or rejecting the alternatives.
+Checkout remains independently eligible from BIDN, BCUS, BPRD, BINV, BPRC, BCART, and materially applicable BCAT evidence. CMS remains independently eligible from governed Product and Category reference authority. This Accepted ADR selects among these candidates without ranking or rejecting the alternatives.
 
 ## Decision Drivers
 
@@ -89,9 +89,9 @@ BSRCH SHALL inherit every materially applicable BEB Requirement and explicitly t
 
 BSRCH MAY consume materially applicable governed evidence from BPRD, BCAT, BPRC, BINV, BIDN, BCUS, and other Approved sources where Search authority requires it. Product, Product Variant, Category, Pricing, Inventory, Identity, Customer, Account, Consent, and Preference authority SHALL remain with their owners. Search indexes, documents, caches, Projections, rankings, and results SHALL NOT become authoritative source truth.
 
-This decision proposes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BSRCH remains unresolved.
+This decision establishes only `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH`. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BSRCH remains unresolved.
 
-Because ADR-0009 remains Proposed, BSRCH MUST NOT be drafted under Approved governance until this ADR is Accepted and synchronized canonical Architecture and Decision changes are merged. Acceptance would authorize a BSRCH Draft only; it would not approve BSRCH.
+ADR-0009 is Accepted and canonical Architecture and Decision governance is synchronized by this change. BSRCH MUST NOT be drafted under Approved governance until these synchronized changes are merged canonically. Acceptance authorizes a BSRCH Draft only; it does not approve BSRCH.
 
 ## Selected Candidate Rationale
 
@@ -165,7 +165,7 @@ ADR-0009 does not select or define detailed BSRCH Requirements; Elasticsearch, O
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **10 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
+This Accepted decision preserves the following **10 materially applicable Open Product Decisions** from `PRODUCT.md` §24:
 
 | Item | Open Product Decision | Preserved BSRCH boundary |
 | ---: | --- | --- |
@@ -186,7 +186,7 @@ No listed Product Decision is resolved by selecting BSRCH.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BSRCH boundary |
 | ---: | --- | --- |
@@ -207,9 +207,9 @@ No listed Architecture Decision is resolved by selecting BSRCH. Frontend hosting
 
 Established consequences include:
 
-- the immediate post-BCAT ambiguity is resolved if this ADR is Accepted and synchronized;
-- BSRCH becomes the authorized next Backend Specification only after acceptance synchronization is merged;
-- a future BSRCH Draft can specialize Search against governed Product, Category, Pricing, Inventory, Identity, Customer, and conditional CMS boundaries;
+- the immediate post-BCAT ambiguity is resolved by this Accepted decision and synchronized governance;
+- BSRCH is the authorized next Backend Specification once acceptance synchronization is merged;
+- a future BSRCH Draft may specialize Search against governed Product, Category, Pricing, Inventory, Identity, Customer, and conditional CMS boundaries;
 - every source Domain retains authority; and
 - post-BSRCH ordering remains unresolved.
 
@@ -224,7 +224,7 @@ These trade-offs are governance consequences, not deficiencies or candidate rank
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after completion of:
 
 - Architecture review of the immediate post-BCAT selection, Search-only decomposition, title, path, and scope code;
 - affected Search and Discovery ownership review confirming accurate Domain specialization;
@@ -241,27 +241,27 @@ This Proposed decision becomes Accepted only after:
 - confirmation that `specifications/backend/search/search-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BSRCH is established; and
-- preparation of synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of acceptance.
+- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` as part of acceptance.
 
-No review is represented as completed, and no reviewer names, signatures, tickets, dates beyond this record's date, or external evidence are asserted.
+The required Architecture, Search and Discovery, Product and Product Catalogue, Category, Pricing, Inventory, CMS, Administration, Checkout, Identity, and Customer ownership reviews were completed for acceptance. No reviewer names, signatures, tickets, dates beyond this record's date, or external evidence are asserted.
 
 ## Acceptance Conditions
 
-ADR-0009 may become Accepted only when:
+ADR-0009 was Accepted after:
 
-- governance approves BSRCH as the immediate Backend Specification after BCAT;
-- review confirms BSRCH remains Search-and-Discovery-only and preserves all source authority;
-- review confirms Checkout and CMS remain independently eligible and unresolved with no ordering between them;
-- review confirms every post-BSRCH roadmap identity and position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BSRCH;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0009 as Accepted; and
-- ADR-0009 lifecycle wording records the Accepted decision consistently.
+- governance approved BSRCH as the immediate Backend Specification after BCAT;
+- review confirmed BSRCH remains Search-and-Discovery-only and preserves all source authority;
+- review confirmed Checkout and CMS remain independently eligible and unresolved with no ordering between them;
+- review confirmed every post-BSRCH roadmap identity and position remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized through BSRCH;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0009 as Accepted; and
+- ADR-0009 lifecycle wording recorded the Accepted decision consistently.
 
-No `PRODUCT.md` change is required unless acceptance review discovers a direct contradiction. BSRCH MUST NOT be drafted under Approved governance until Accepted ADR-0009 and synchronized canonical changes are merged. Acceptance authorizes drafting only; it does not approve BSRCH.
+No `PRODUCT.md` change was required because acceptance review discovered no direct contradiction. BSRCH MUST NOT be drafted under Approved governance until Accepted ADR-0009 and synchronized canonical changes are merged. Acceptance authorizes drafting only; it does not approve BSRCH.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, schema, document model, index, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BSRCH Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, workload isolation, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting unresolved mechanisms.
+This Accepted decision creates no runtime behavior, API, schema, document model, index, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BSRCH Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, workload isolation, observability, audit, failure, recovery, reconciliation, and verification obligations without selecting unresolved mechanisms.
 
 ## Related Documents
 
@@ -289,4 +289,5 @@ This Proposed decision creates no runtime behavior, API, schema, document model,
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Accepted | Accepted Search and Discovery as the immediate post-BCAT Backend Specification while preserving Checkout and CMS as independently eligible and unresolved and leaving every post-BSRCH roadmap position unresolved. |
 | 0.1.0 | 2026-09-19 | Proposed | Proposed Search and Discovery as the immediate post-BCAT Backend Specification while preserving Checkout and CMS as independently eligible and unresolved. |
