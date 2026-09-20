@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.11.0
+version: 1.12.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-19
@@ -1298,9 +1298,11 @@ The eighth downstream Backend Specification after BEB, immediately after BCAT, M
 
 The ninth downstream Backend Specification after BEB, immediately after BSRCH, MUST be the Checkout Backend Specification under scope `BCHK` at `specifications/backend/checkout/checkout-backend.md`. BCHK MUST use a Checkout-only decomposition and specialize exactly the Approved Checkout Domain without transferring Checkout Domain authority. BCHK MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Identity, Customer, Account, Address, Product, Product Variant, Inventory, Pricing, Cart, Category, Search and Discovery, or other Domain authority. Payment, Order, and Shipping and Fulfilment remain separate authoritative capabilities; BCHK MAY define bounded Checkout-owned handoffs without acquiring their authority or establishing their backend identities or positions.
 
-The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK`.
+The tenth downstream Backend Specification after BEB, immediately after BCHK, MUST be the Order Backend Specification under scope `BORD` at `specifications/backend/order/order-backend.md`. BORD MUST use an Order-only decomposition and specialize exactly the Approved Order Domain without transferring Order Domain authority. BORD MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Checkout, Payment, Shipping and Fulfilment, Inventory, Product, Product Variant, Pricing, Customer, Account, Identity, Cart, Return, Administration, Notifications, Reporting, CMS, Category, Search and Discovery, or other Domain authority. BORD is authorized to enter Draft lifecycle but is not Approved and must complete its own Draft-to-Approved lifecycle.
 
-CMS remains independently eligible, separate, unresolved, and unranked. All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BCHK remain unresolved until separately governed. ADR-0010 establishes no Order, Payment, Shipping and Fulfilment, CMS, Return, Administration, Reporting, Notifications, or other later backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD`.
+
+CMS and Payment remain independently eligible, separate, unresolved, and unranked, with no ordering established between them. Shipping and Fulfilment, Return, Administration, Notifications, and Reporting remain separate and unresolved, and Shipping and Fulfilment is not automatically selected after BORD. All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BORD remain unresolved until separately governed. ADR-0011 establishes no CMS, Payment, Shipping and Fulfilment, Return, Administration, Notifications, Reporting, or other later backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1866,6 +1868,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.12.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0011 by establishing the Order-only Order Backend Specification as the tenth downstream Backend Specification after BEB, immediately after BCHK, while preserving CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered and leaving every post-BORD roadmap position unresolved. |
 | 1.11.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0010 by establishing the Checkout-only Checkout Backend Specification as the ninth downstream Backend Specification after BEB, immediately after BSRCH, while preserving CMS as independently eligible, separate, unresolved, and unranked and leaving every post-BCHK roadmap position unresolved. |
 | 1.10.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0009 by establishing the Search-and-Discovery-only Search and Discovery Backend Specification as the eighth downstream Backend Specification after BEB, immediately after BCAT, while preserving Checkout and CMS as independently eligible and unresolved and leaving every post-BSRCH roadmap position unresolved. |
 | 1.9.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0008 by establishing the Category-only Category Backend Specification as the seventh downstream Backend Specification after BEB, immediately after BCART, while preserving Search, Checkout, and every post-BCAT roadmap position as unresolved. |
@@ -1884,7 +1887,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.11.0
+- **Version:** 1.12.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.

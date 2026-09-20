@@ -10,11 +10,11 @@ Post-Checkout Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -40,7 +40,7 @@ The completed post-BCHK eligibility audit found exactly three independently elig
 
 Approved BCHK now supplies the governed Checkout-to-Order request, correlation, duplicate-safety, uncertainty, Payment/Order mismatch, recovery, and reconciliation boundary required to specialize Order without transferring Checkout authority. The Approved Payment and Shipping and Fulfilment Domains define their separate authority sufficiently for a mechanism-neutral Order backend boundary while their backend identities remain unresolved.
 
-CMS remains independently eligible without depending on Order. Payment also remains independently eligible from BCHK's governed initiation and evidence boundary. This Proposed ADR selects one permissible immediate roadmap position through dependency-closure governance; it does not rank business value, technical merit, effort, priority, or customer value.
+CMS remains independently eligible without depending on Order. Payment also remains independently eligible from BCHK's governed initiation and evidence boundary. This Accepted ADR selects one permissible immediate roadmap position through dependency-closure governance; it does not rank business value, technical merit, effort, priority, or customer value.
 
 ## Decision Drivers
 
@@ -71,7 +71,7 @@ The post-BCHK audit identifies the missing governed Order backend boundary as fo
 
 ## Decision
 
-ADR-0011 proposes that the tenth downstream Backend Specification after BEB, immediately after BCHK, SHALL be:
+ADR-0011 establishes that the tenth downstream Backend Specification after BEB, immediately after BCHK, SHALL be:
 
 - **Capability:** Order
 - **Specification:** Order Backend Specification
@@ -82,11 +82,11 @@ ADR-0011 proposes that the tenth downstream Backend Specification after BEB, imm
 
 `BORD` means Backend Order. It is collision-free among current Specification scope codes and establishes no naming rule for later scopes.
 
-If Accepted and canonically synchronized, BORD SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Order Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
+BORD SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Order Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
 
-The resulting canonical sequence would be `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD`.
+The resulting canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD`.
 
-BORD is the only roadmap position proposed by ADR-0011. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BORD remains unresolved. BORD MUST NOT be drafted under Approved governance until ADR-0011 is Accepted and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is complete. Acceptance would authorize a BORD Draft only; it would not approve BORD.
+BORD is the only roadmap position established by ADR-0011. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BORD remains unresolved. Accepted ADR-0011 and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization authorize a BORD Draft only; they do not approve BORD, which must complete its own Draft-to-Approved lifecycle.
 
 ## Authority Boundary
 
@@ -130,19 +130,19 @@ Contextual Authorization remains with the Domain owning the affected Resource, a
 | Notifications Domain | Approved | Conditional downstream consumer | Notification delivery truth |
 | Reporting Domain | Approved | Conditional downstream consumer | Reporting definitions and Projections |
 
-The eligibility audit supplies evidence for the three-candidate set; it is not authority for this selection. ADR-0011 would supply the Architecture decision only if Accepted and synchronized.
+The eligibility audit supplies evidence for the three-candidate set; it is not authority for this selection. Accepted ADR-0011 and synchronized canonical governance supply the Architecture decision.
 
 ## Consequences
 
-If Accepted and synchronized:
+Accepted and synchronized governance establishes that:
 
-- BORD would become the authorized immediate Backend Specification after BCHK;
-- a BORD Draft could specialize Order identity, creation truth, Order Items, Order Snapshots, lifecycle, history, cancellation coordination, recovery, reconciliation, and bounded handoffs without transferring external authority;
-- the documented missing Order backend boundary blocking Shipping and Fulfilment eligibility would be closed once BORD itself completes its Draft-to-Approved lifecycle;
-- Shipping and Fulfilment would remain a separate future eligibility and governance decision rather than becoming automatically next;
-- CMS and Payment would remain independently eligible, separate, unresolved, and unranked, with no ordering between them;
-- Return, Administration, Notifications, and Reporting would remain separate and unresolved; and
-- every position after BORD would remain unresolved.
+- BORD is the authorized immediate Backend Specification after BCHK;
+- a BORD Draft may specialize Order identity, creation truth, Order Items, Order Snapshots, lifecycle, history, cancellation coordination, recovery, reconciliation, and bounded handoffs without transferring external authority;
+- the documented missing Order backend boundary blocking Shipping and Fulfilment eligibility is governed, while operational dependency closure requires BORD to complete its own Draft-to-Approved lifecycle;
+- Shipping and Fulfilment remains a separate future eligibility and governance decision rather than becoming automatically next;
+- CMS and Payment remain independently eligible, separate, unresolved, and unranked, with no ordering between them;
+- Return, Administration, Notifications, and Reporting remain separate and unresolved; and
+- every position after BORD remains unresolved.
 
 Trade-offs are that CMS and Payment remain unresolved despite independent eligibility, and selecting BORD does not itself create any downstream Contract or runtime behavior. These are governance consequences, not rankings of value, priority, effort, difficulty, or technical quality.
 
@@ -158,7 +158,7 @@ Payment is independently eligible and could legitimately have been selected. Its
 
 ### C. Order
 
-Order is proposed because Approved BCHK enables authority-safe specialization and the audit identifies the governed Order backend boundary as the remaining foundational prerequisite for Shipping and Fulfilment eligibility. This closes one documented dependency without selecting Shipping and Fulfilment or another later capability.
+Order is selected because Approved BCHK enables authority-safe specialization and the audit identifies the governed Order backend boundary as the remaining foundational prerequisite for Shipping and Fulfilment eligibility. This closes one documented dependency without selecting Shipping and Fulfilment or another later capability.
 
 ### D. Defer the Decision
 
@@ -168,13 +168,13 @@ Deferral would preserve the three-candidate ambiguity and establish no position 
 
 ADR-0011 does not create BORD Requirements or `order-backend.md`; define Order APIs, routes, methods, statuses, DTOs, payloads, persistence, database schemas, tables, columns, indexes, ORM mappings, event names or schemas, topics, queues, brokers, transports, Order lifecycle implementation, state machine, workflow engine, cache or Redis use, provider integration, messaging, hosting, infrastructure, deployment, Payment mechanisms, Shipping mechanisms, retry counts, timeout values, retention periods, rate limits, performance targets, SLA/SLO values, recovery objectives, or other numerical operational values.
 
-This Proposed decision does not resolve Order numbering, cancellation, Return, Refund, Payment, Shipping, Inventory, Pricing, tax, invoice, Credit Note, fraud, gift/store/promotional credit, Customer data, Consent, support, escalation, notification, reporting, or other Product policy.
+This Accepted decision does not resolve Order numbering, cancellation, Return, Refund, Payment, Shipping, Inventory, Pricing, tax, invoice, Credit Note, fraud, gift/store/promotional credit, Customer data, Consent, support, escalation, notification, reporting, or other Product policy.
 
-BORD is the only roadmap position proposed. CMS remains independently eligible, separate, unresolved, and unranked. Payment remains independently eligible, separate, unresolved, and unranked. No ordering between CMS and Payment is established, and neither is stated to follow BORD. Shipping and Fulfilment remains separate, not selected, and unresolved; the audit's dependency evidence does not make it automatically next. Return, Administration, Notifications, and Reporting remain separate and unresolved. Every backend roadmap position after BORD remains unresolved.
+BORD is the only roadmap position established. CMS remains independently eligible, separate, unresolved, and unranked. Payment remains independently eligible, separate, unresolved, and unranked. No ordering between CMS and Payment is established, and neither is stated to follow BORD. Shipping and Fulfilment remains separate, not selected, and unresolved; the audit's dependency evidence does not make it automatically next. Return, Administration, Notifications, and Reporting remain separate and unresolved. Every backend roadmap position after BORD remains unresolved.
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **21 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Order Domain §28:
+This Accepted decision preserves the following **21 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Order Domain §28:
 
 | Item | Open Product Decision | Preserved BORD boundary |
 | ---: | --- | --- |
@@ -200,11 +200,11 @@ This Proposed decision preserves the following **21 materially applicable Open P
 | 28 | Customer data export, correction, deletion, and account-closure workflow. | No Customer-data workflow or effect on retained Order history is selected. |
 | 29 | Gift cards, store credit, and promotional credit policy. | No credit instrument, balance, redemption, restoration, or treatment is selected. |
 
-No listed Product Decision is resolved by proposing BORD.
+No listed Product Decision is resolved by selecting BORD.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **11 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **11 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BORD boundary |
 | ---: | --- | --- |
@@ -220,11 +220,11 @@ This Proposed decision preserves the following **11 materially applicable Open A
 | 13 | PostgreSQL schema strategy for enforcing domain ownership within the modular monolith. | No physical schema or Order persistence layout is selected. |
 | 14 | Repository-wide feature-flag implementation and lifecycle-management approach. | No flag mechanism, rollout system, or lifecycle is selected. |
 
-No listed Architecture Decision is resolved by proposing BORD. Frontend hosting, initial Search implementation, and Product-media upload/transformation remain unresolved but are not materially required for this Order-only roadmap decision.
+No listed Architecture Decision is resolved by selecting BORD. Frontend hosting, initial Search implementation, and Product-media upload/transformation remain unresolved but are not materially required for this Order-only roadmap decision.
 
 ## Required Governance Reviews
 
-This Proposed decision becomes Accepted only after completion of:
+This decision was Accepted after completion of:
 
 - Architecture review of the immediate post-BCHK selection, Order-only decomposition, title, path, scope code, and dependency-closure rationale;
 - affected Order ownership review confirming accurate Domain specialization;
@@ -249,30 +249,30 @@ This Proposed decision becomes Accepted only after completion of:
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered relative to each other;
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BORD is established; and
-- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` before ADR-0011 becomes Accepted.
+- synchronized canonical updates to `ARCHITECTURE.md` and `DECISIONS.md` completed with ADR-0011 acceptance.
 
 No CMS, Category, or Search and Discovery ownership review is required for acceptance because ADR-0011 neither consumes their backend Contracts materially for Order specialization nor changes their authority or roadmap position. CMS remains explicitly preserved as an independently eligible alternative.
 
-The required reviews are identified but are not represented as completed while ADR-0011 remains Proposed.
+The required Architecture, Order, Checkout, Payment, Shipping and Fulfilment, Inventory, Product and Product Catalogue, Pricing, Customer, Identity, Cart, Return, Notifications, Reporting, Administration, Security, Testing, and Documentation reviews were completed for acceptance. No reviewer names, signatures, tickets, dates beyond this record's date, or external evidence are asserted.
 
 ## Acceptance Conditions and Synchronization
 
-ADR-0011 may become Accepted only after:
+ADR-0011 was Accepted after:
 
-- governance approves BORD as the immediate Backend Specification after BCHK;
-- review confirms BORD remains Order-only and preserves every source and downstream authority;
-- review confirms the dependency-closure rationale without ranking CMS, Payment, or Order;
-- review confirms CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered relative to each other;
-- review confirms Shipping and Fulfilment, Return, Administration, Notifications, Reporting, and every post-BORD roadmap position remain unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BORD;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0011 as Accepted; and
-- ADR-0011 lifecycle wording records the Accepted decision consistently.
+- governance approved BORD as the immediate Backend Specification after BCHK;
+- review confirmed BORD remains Order-only and preserves every source and downstream authority;
+- review confirmed the dependency-closure rationale without ranking CMS, Payment, or Order;
+- review confirmed CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered relative to each other;
+- review confirmed Shipping and Fulfilment, Return, Administration, Notifications, Reporting, and every post-BORD roadmap position remain unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized through BORD;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0011 as Accepted; and
+- ADR-0011 lifecycle wording recorded the Accepted decision consistently.
 
-Acceptance synchronization must modify only ADR-0011, `ARCHITECTURE.md`, and `DECISIONS.md` unless acceptance review discovers a direct contradiction requiring separate governance. No `PRODUCT.md` change is currently required. BORD must not be drafted under Approved governance before Accepted ADR-0011 and synchronized canonical changes are merged.
+Acceptance synchronized only ADR-0011, `ARCHITECTURE.md`, and `DECISIONS.md`; acceptance review discovered no direct contradiction and required no `PRODUCT.md` change. BORD is authorized to enter Draft lifecycle but is not Approved.
 
 ## Security, Data, Compatibility, and Operational Impact
 
-This Proposed decision creates no runtime behavior, API, DTO, schema, database structure, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BORD Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, idempotency, replay, and verification obligations without selecting unresolved mechanisms.
+This Accepted decision creates no runtime behavior, API, DTO, schema, database structure, migration, event, provider, cache, infrastructure, deployment, configuration, or operational target. A future BORD Specification must inherit materially applicable BEB security, Authorization, privacy, compatibility, migration, boundedness, observability, audit, failure, recovery, reconciliation, idempotency, replay, and verification obligations without selecting unresolved mechanisms.
 
 ## Related Documents
 
@@ -319,4 +319,5 @@ This Proposed decision creates no runtime behavior, API, DTO, schema, database s
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-19 | Accepted | Accepted Order-only BORD as the immediate post-BCHK Backend Specification through governance dependency closure while preserving CMS and Payment as independently eligible, separate, unresolved, unranked alternatives and leaving every post-BORD position unresolved. |
 | 0.1.0 | 2026-09-19 | Proposed | Proposed Order-only BORD as the immediate post-BCHK Backend Specification through governance dependency closure while preserving CMS and Payment as independently eligible, unresolved alternatives and leaving every post-BORD position unresolved. |
