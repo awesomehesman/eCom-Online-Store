@@ -1,7 +1,7 @@
 ---
 title: Order Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend
 last_updated: 2026-09-20
 authoritative: false
@@ -12,14 +12,14 @@ scope: BORD
 
 ## 1. Purpose
 
-This Draft defines implementation-facing backend obligations for the Approved Order Domain under scope `BORD`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Order backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Order Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Order Domain under scope `BORD`. Its Requirements are normative only within the Order backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Order Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
 
 BORD owns only durable Order commercial truth. It consumes governed evidence without acquiring Checkout, Payment, Shipping and Fulfilment, Inventory, Product, Pricing, Customer, Identity, Cart, Return, Administration, Notifications, Reporting, CMS, Category, Search, or other authority. It resolves no Open Product or Architecture Decision and establishes no post-BORD roadmap position.
 
 ## 2. Requirements
 
 ### BORD-REQ-001 — Lifecycle, Authority, and Scope
-BORD MUST use scope `BORD`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, specialize only the Approved Order Domain, and claim no repository-wide authority.
+BORD MUST use scope `BORD`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the Order backend scope, specialize only the Approved Order Domain, and claim no repository-wide authority.
 
 ### BORD-REQ-002 — Order-Owned Commercial Truth
 BORD MUST own Order identity, Order Number, creation truth, durable commercial records, Order Items, Order Snapshots, lifecycle and status history, controlled transitions, cancellation coordination, and Order-owned failure, recovery, and reconciliation history without acquiring source authority for retained evidence.
@@ -190,7 +190,7 @@ BORD MUST inherit every materially applicable `BEB-REQ-001` through `BEB-REQ-056
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BORD-AC-001 | BORD-REQ-001 | Metadata shows `0.1.0 Draft`, owner `Backend`, `authoritative: false`, scope `BORD`, Order-only scope, and no repository-wide claim. |
+| BORD-AC-001 | BORD-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BORD`, normativity only within the Order backend scope, and no repository-wide claim. |
 | BORD-AC-002 | BORD-REQ-002 | Each listed Order-owned fact is represented while retained evidence transfers no source authority. |
 | BORD-AC-003 | BORD-REQ-003 | No listed external truth, policy, lifecycle, or representation becomes BORD-owned. |
 | BORD-AC-004 | BORD-REQ-004 | Identity is stable, unique, correlated, externally non-inferable, and mechanism-neutral. |
@@ -488,9 +488,9 @@ CMS and Payment remain independently eligible, separate, unresolved, unranked, a
 
 ## 13. Required Governance Reviews
 
-Before approval, BORD requires review by Architecture; Order; Checkout; Payment; Shipping and Fulfilment; Inventory; Product and Product Catalogue; Pricing; Customer; Identity; Cart; Return; Notifications; Reporting; Administration; CMS; Security; Testing; and Documentation ownership where materially intersecting.
+Approval review was completed by Architecture; Order; Checkout; Payment; Shipping and Fulfilment; Inventory; Product and Product Catalogue; Pricing; Customer; Identity; Cart; Return; Notifications; Reporting; Administration; CMS; Security; Testing; and Documentation ownership where materially intersecting.
 
-Review MUST confirm complete Order Domain and BEB coverage, one-to-one Requirement/Acceptance-Criterion/traceability accounting, Order-only authority, bounded BCHK consumption, external Payment and Shipping/Fulfilment authority, preservation of all Open Decisions, security/privacy/integrity/failure/recovery/observability/compatibility/testing completeness, mechanism neutrality, and absence of a post-BORD roadmap position. This Draft does not claim those reviews are completed.
+The completed review confirmed complete Order Domain and BEB coverage, one-to-one Requirement/Acceptance-Criterion/traceability accounting, Order-only authority, bounded BCHK consumption, external Payment and Shipping/Fulfilment authority, preservation of all Open Decisions, security/privacy/integrity/failure/recovery/observability/compatibility/testing completeness, mechanism neutrality, and absence of a post-BORD roadmap position. No reviewer names, signatures, tickets, dates beyond the governed document date, or external evidence are asserted.
 
 ## 14. Related Documents
 
@@ -536,13 +536,14 @@ Review MUST confirm complete Order Domain and BEB coverage, one-to-one Requireme
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-20 | Approved | Approved BORD after review confirmed complete Order Domain and BEB coverage, Order-only authority, bounded BCHK consumption, external Payment and Shipping/Fulfilment authority, preserved Open Decisions, mechanism neutrality, and no post-BORD roadmap selection. |
 | 0.1.0 | 2026-09-20 | Draft | Established the initial Order-only Backend Specification from Approved Order Domain authority, complete BEB inheritance, governed BCHK handoff, bounded external Payment/Shipping authority, and Accepted ADR-0011. |
 
 ## 16. Final Validation
 
-Before approval review, reviewers MUST validate:
+Before material revision, re-approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata is `0.1.0 Draft`, owner `Backend`, `authoritative: false`, and scope `BORD`;
+1. metadata is `1.0.0 Approved`, owner `Backend`, `authoritative: false`, scope `BORD`, and Requirements are normative only within the Order backend scope;
 2. all 56 BORD Requirements are unique and contiguous;
 3. every BORD Requirement has exactly one corresponding Acceptance Criterion and traceability row;
 4. all 52 Approved Order Domain Requirements are accounted for;
@@ -552,6 +553,6 @@ Before approval review, reviewers MUST validate:
 8. duplicate/replay/concurrency safety, unknown outcomes, partial completion, recovery, and reconciliation remain explicit;
 9. no provider, concrete API/DTO, persistence schema, event schema, cache/message technology, infrastructure, policy, or arbitrary numerical value is selected;
 10. the sequence ends at BORD and no later position is established;
-11. all required governance reviews are identified but not claimed completed;
-12. Revision History contains only the Draft lifecycle entry; and
+11. all required governance reviews are identified and recorded as completed without unsupported external evidence;
+12. Revision History preserves the `0.1.0 Draft` entry and contains the `1.0.0 Approved` entry; and
 13. the BORD lifecycle change affects only `specifications/backend/order/order-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
