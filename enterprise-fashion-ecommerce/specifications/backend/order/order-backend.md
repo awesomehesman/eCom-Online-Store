@@ -554,4 +554,4 @@ Before approval review, reviewers MUST validate:
 10. the sequence ends at BORD and no later position is established;
 11. all required governance reviews are identified but not claimed completed;
 12. Revision History contains only the Draft lifecycle entry; and
-13. the final change creates only `specifications/backend/order/order-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+13. the BORD lifecycle change affects only `specifications/backend/order/order-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
