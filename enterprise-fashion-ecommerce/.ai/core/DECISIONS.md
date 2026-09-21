@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.13
+version: 1.0.14
 status: Approved
 owner: Architecture
-last_updated: 2026-09-19
+last_updated: 2026-09-21
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -510,6 +510,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0009 | Post-Category Backend Specification Selection | Architecture Decision | Accepted | Architecture | 2026-09-19 | — | [ADR-0009-post-category-backend-specification.md](../../specifications/adr/ADR-0009-post-category-backend-specification.md) |
 | ADR-0010 | Post-Search Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-19 | — | [ADR-0010-post-search-backend-specification.md](../../specifications/adr/ADR-0010-post-search-backend-specification.md) |
 | ADR-0011 | Post-Checkout Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-19 | — | [ADR-0011-post-checkout-backend-specification.md](../../specifications/adr/ADR-0011-post-checkout-backend-specification.md) |
+| ADR-0012 | Post-Order Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-21 | — | [ADR-0012-post-order-backend-specification.md](../../specifications/adr/ADR-0012-post-order-backend-specification.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -639,6 +640,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.14 | 2026-09-21 | Approved | Added ADR-0012 as Accepted following Architecture, affected ownership, Security, Testing, and Documentation review and canonical Architecture synchronization; selected Shipping-and-Fulfilment-only `BSHP` at `specifications/backend/shipping/shipping-backend.md` immediately after BORD, preserved CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered, preserved Return's unresolved Payment backend dependency, and left every post-BSHP backend roadmap position unresolved. |
 | 1.0.13 | 2026-09-19 | Approved | Added ADR-0011 as Accepted following Architecture and affected Order, Checkout, Payment, Shipping and Fulfilment, Inventory, Product and Product Catalogue, Pricing, Customer, Identity, Cart, Return, Notifications, Reporting, Administration, Security, Testing, and Documentation review and canonical Architecture synchronization; selected Order-only `BORD` at `specifications/backend/order/order-backend.md` immediately after BCHK while preserving CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered and leaving every post-BORD backend roadmap position unresolved. |
 | 1.0.12 | 2026-09-19 | Approved | Added ADR-0010 as Accepted following Architecture and affected Checkout, Cart, Product and Product Catalogue, Pricing, Inventory, Identity, Customer, Category, Search and Discovery, Payment, Order, Shipping and Fulfilment, CMS, Administration, Notifications, and Reporting ownership review and canonical Architecture synchronization; selected Checkout-only `BCHK` at `specifications/backend/checkout/checkout-backend.md` immediately after BSRCH and left CMS independently eligible, separate, unresolved, and unranked with every post-BCHK backend roadmap position unresolved. |
 | 1.0.11 | 2026-09-19 | Approved | Added ADR-0009 as Accepted following Architecture and affected Search and Discovery, Product and Product Catalogue, Category, Pricing, Inventory, CMS, Administration, Checkout, Identity, and Customer ownership review and canonical Architecture synchronization; selected Search-and-Discovery-only `BSRCH` at `specifications/backend/search/search-backend.md` immediately after BCAT and left Checkout and CMS independently eligible and unresolved with every post-BSRCH backend roadmap position unresolved. |

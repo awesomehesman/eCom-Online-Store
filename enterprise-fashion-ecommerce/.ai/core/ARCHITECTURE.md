@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.12.0
+version: 1.13.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-19
+last_updated: 2026-09-21
 applies_to:
   - Frontend
   - Backend
@@ -1298,11 +1298,13 @@ The eighth downstream Backend Specification after BEB, immediately after BCAT, M
 
 The ninth downstream Backend Specification after BEB, immediately after BSRCH, MUST be the Checkout Backend Specification under scope `BCHK` at `specifications/backend/checkout/checkout-backend.md`. BCHK MUST use a Checkout-only decomposition and specialize exactly the Approved Checkout Domain without transferring Checkout Domain authority. BCHK MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Identity, Customer, Account, Address, Product, Product Variant, Inventory, Pricing, Cart, Category, Search and Discovery, or other Domain authority. Payment, Order, and Shipping and Fulfilment remain separate authoritative capabilities; BCHK MAY define bounded Checkout-owned handoffs without acquiring their authority or establishing their backend identities or positions.
 
-The tenth downstream Backend Specification after BEB, immediately after BCHK, MUST be the Order Backend Specification under scope `BORD` at `specifications/backend/order/order-backend.md`. BORD MUST use an Order-only decomposition and specialize exactly the Approved Order Domain without transferring Order Domain authority. BORD MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Checkout, Payment, Shipping and Fulfilment, Inventory, Product, Product Variant, Pricing, Customer, Account, Identity, Cart, Return, Administration, Notifications, Reporting, CMS, Category, Search and Discovery, or other Domain authority. BORD is authorized to enter Draft lifecycle but is not Approved and must complete its own Draft-to-Approved lifecycle.
+The tenth downstream Backend Specification after BEB, immediately after BCHK, MUST be the Order Backend Specification under scope `BORD` at `specifications/backend/order/order-backend.md`. BORD MUST use an Order-only decomposition and specialize exactly the Approved Order Domain without transferring Order Domain authority. BORD MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Checkout, Payment, Shipping and Fulfilment, Inventory, Product, Product Variant, Pricing, Customer, Account, Identity, Cart, Return, Administration, Notifications, Reporting, CMS, Category, Search and Discovery, or other Domain authority. BORD is `1.0.0 Approved`; this lifecycle correction changes no BORD authority or semantics.
 
-The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD`.
+The eleventh downstream Backend Specification after BEB, immediately after BORD, MUST be the Shipping and Fulfilment Backend Specification under scope `BSHP` at `specifications/backend/shipping/shipping-backend.md`. BSHP MUST use a Shipping-and-Fulfilment-only decomposition and specialize exactly the Approved Shipping and Fulfilment Domain without transferring Shipping and Fulfilment Domain authority. BSHP MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Identity, Customer, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Payment, Return, CMS, Administration, Notifications, Reporting, Search and Discovery, or other Domain authority. Accepted ADR-0012 authorizes BSHP to enter Draft lifecycle only; BSHP is not Approved, `specifications/backend/shipping/shipping-backend.md` is not created by this synchronization, and BSHP MUST complete its own Draft-to-Approved lifecycle.
 
-CMS and Payment remain independently eligible, separate, unresolved, and unranked, with no ordering established between them. Shipping and Fulfilment, Return, Administration, Notifications, and Reporting remain separate and unresolved, and Shipping and Fulfilment is not automatically selected after BORD. All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BORD remain unresolved until separately governed. ADR-0011 establishes no CMS, Payment, Shipping and Fulfilment, Return, Administration, Notifications, Reporting, or other later backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP`.
+
+CMS and Payment remain independently eligible, separate, unresolved, and unranked, with no ordering established between them. Return remains separate, unresolved, not automatically next, and dependent on an unresolved Payment backend Contract in addition to a future Approved BSHP Contract. Administration, Notifications, and Reporting remain separate and unresolved. All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BSHP remain unresolved until separately governed. ADR-0012 establishes no CMS, Payment, Return, Administration, Notifications, Reporting, or other post-BSHP backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1868,6 +1870,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.13.0 | 2026-09-21 | Approved | Synchronized Accepted ADR-0012 by establishing the Shipping-and-Fulfilment-only Shipping and Fulfilment Backend Specification as the eleventh downstream Backend Specification after BEB, immediately after BORD, while preserving CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered and leaving every post-BSHP roadmap position unresolved; also corrected BORD's stale lifecycle wording to reflect its existing 1.0.0 Approved state without changing authority or semantics. |
 | 1.12.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0011 by establishing the Order-only Order Backend Specification as the tenth downstream Backend Specification after BEB, immediately after BCHK, while preserving CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered and leaving every post-BORD roadmap position unresolved. |
 | 1.11.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0010 by establishing the Checkout-only Checkout Backend Specification as the ninth downstream Backend Specification after BEB, immediately after BSRCH, while preserving CMS as independently eligible, separate, unresolved, and unranked and leaving every post-BCHK roadmap position unresolved. |
 | 1.10.0 | 2026-09-19 | Approved | Synchronized Accepted ADR-0009 by establishing the Search-and-Discovery-only Search and Discovery Backend Specification as the eighth downstream Backend Specification after BEB, immediately after BCAT, while preserving Checkout and CMS as independently eligible and unresolved and leaving every post-BSRCH roadmap position unresolved. |
@@ -1887,7 +1890,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.12.0
+- **Version:** 1.13.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.

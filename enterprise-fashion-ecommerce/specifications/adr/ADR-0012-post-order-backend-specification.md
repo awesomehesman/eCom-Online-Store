@@ -10,11 +10,11 @@ Post-Order Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Context
 
@@ -38,9 +38,9 @@ Accepted ADR-0001 through ADR-0011 and synchronized `ARCHITECTURE.md` §35 estab
 
 The completed post-BORD eligibility audit found exactly three independently eligible capabilities: CMS, Payment, and Shipping and Fulfilment. It found no unique next capability and did not select or rank them. Return still lacks governed Payment and Shipping backend Contracts; Administration, Notifications, and Reporting still lack materially required owning-source backend Contracts.
 
-CMS was independently eligible before BORD and remains independently eligible. Payment was independently eligible before BORD and remains independently eligible. Shipping and Fulfilment became independently eligible specifically because Approved BORD now supplies the governed Order and Order Item backend handoff that was missing after BCHK. This Proposed decision selects Shipping and Fulfilment through governance dependency closure: it closes the dependency chain intentionally opened by ADR-0011's selection of Order. It does not claim that Shipping and Fulfilment has greater technical merit, business value, priority, convenience, or implementation advantage than CMS or Payment.
+CMS was independently eligible before BORD and remains independently eligible. Payment was independently eligible before BORD and remains independently eligible. Shipping and Fulfilment became independently eligible specifically because Approved BORD now supplies the governed Order and Order Item backend handoff that was missing after BCHK. This Accepted decision selects Shipping and Fulfilment through governance dependency closure: it closes the dependency chain intentionally opened by ADR-0011's selection of Order. It does not claim that Shipping and Fulfilment has greater technical merit, business value, priority, convenience, or implementation advantage than CMS or Payment.
 
-`ARCHITECTURE.md` §35 still states that BORD is authorized to enter Draft lifecycle but is not Approved. That lifecycle statement is stale and must be corrected during acceptance synchronization; this Proposed ADR does not modify `ARCHITECTURE.md`.
+Acceptance synchronization corrected the stale `ARCHITECTURE.md` §35 statement that described BORD as authorized to enter Draft lifecycle but not Approved. This correction records BORD's existing `1.0.0 Approved` lifecycle without changing BORD authority or semantics.
 
 ## Decision Drivers
 
@@ -70,7 +70,7 @@ Shipping and Fulfilment is selected because it is the capability newly unblocked
 
 ## Decision
 
-ADR-0012 proposes that the eleventh downstream Backend Specification after BEB, immediately after BORD, SHALL be:
+ADR-0012 establishes that the eleventh downstream Backend Specification after BEB, immediately after BORD, SHALL be:
 
 - **Capability:** Shipping and Fulfilment
 - **Specification:** Shipping and Fulfilment Backend Specification
@@ -81,11 +81,11 @@ ADR-0012 proposes that the eleventh downstream Backend Specification after BEB, 
 
 `BSHP` means Backend Shipping and Fulfilment. It is collision-free among current Specification scope codes and establishes no naming rule for later scopes.
 
-If Accepted and canonically synchronized, BSHP SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Shipping and Fulfilment Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
+BSHP SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Shipping and Fulfilment Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
 
-The resulting canonical sequence would be `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP`.
+The resulting canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP`.
 
-BSHP is the sole roadmap position proposed by ADR-0012. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BSHP remains unresolved. Proposed ADR-0012 does not authorize BSHP drafting. If ADR-0012 becomes Accepted and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is complete, BSHP may enter Draft lifecycle only; that governance action will not approve BSHP, which must complete its own Draft-to-Approved lifecycle.
+BSHP is the sole roadmap position established by ADR-0012. Every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BSHP remains unresolved. Accepted ADR-0012 and completed canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization authorize BSHP to enter Draft lifecycle only; this acceptance does not approve BSHP, which must complete its own Draft-to-Approved lifecycle.
 
 ## Authority and Decomposition Boundaries
 
@@ -109,7 +109,7 @@ Contextual Authorization remains with the Domain owning the affected Resource, a
 
 Approved BORD closes the governed Order and Order Item handoff that previously blocked authority-safe Shipping and Fulfilment specialization. Approved BCHK supplies bounded delivery-choice context; BINV supplies Inventory evidence; BPRC preserves commercial authority; and the remaining Approved upstream backends supply bounded identity, customer, catalogue, cart, category, and search evidence.
 
-Selecting BSHP would close Shipping and Fulfilment's immediate roadmap ambiguity but would not make Return automatically eligible or next. Return would still depend on an unresolved Payment backend Contract in addition to any future Approved BSHP Contract. Administration, Notifications, and Reporting would remain dependent on other unresolved owning-source backend Contracts.
+Selecting BSHP closes Shipping and Fulfilment's immediate roadmap ambiguity but does not make Return automatically eligible or next. Return still depends on an unresolved Payment backend Contract in addition to a future Approved BSHP Contract. Administration, Notifications, and Reporting remain dependent on other unresolved owning-source backend Contracts.
 
 ## Considered Independently Eligible Alternatives
 
@@ -131,7 +131,7 @@ Deferral would preserve the three-candidate ambiguity and establish no position 
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **6 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Shipping and Fulfilment Domain §39:
+This Accepted decision preserves the following **6 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Shipping and Fulfilment Domain §39:
 
 | Item | Open Product Decision | Preserved BSHP boundary |
 | ---: | --- | --- |
@@ -146,7 +146,7 @@ No listed Product Decision is resolved by selecting BSHP.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BSHP boundary |
 | ---: | --- | --- |
@@ -165,7 +165,7 @@ No listed Architecture Decision is resolved by selecting BSHP. Frontend hosting,
 
 ## Required Governance Reviews
 
-Before ADR-0012 may become Accepted, governance must record completion of:
+ADR-0012 was Accepted after governance recorded completion of:
 
 - Architecture review of the immediate post-BORD selection, Shipping-and-Fulfilment-only decomposition, title, path, scope code, and dependency-closure rationale;
 - affected Shipping and Fulfilment ownership review confirming accurate Domain specialization;
@@ -191,25 +191,25 @@ Before ADR-0012 may become Accepted, governance must record completion of:
 - confirmation that CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered, with no ordering between them;
 - confirmation that Return, Administration, Notifications, and Reporting remain separate and unresolved;
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BSHP is established; and
-- synchronized canonical updates to ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md` upon acceptance.
+- synchronized canonical updates to ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md`.
 
-No reviewer names, signatures, tickets, dates beyond this record's governed date, or external evidence are asserted while this ADR remains Proposed.
+The governed Architecture, affected ownership, Security, Testing, and Documentation reviews represented above were completed for acceptance. No reviewer names, signatures, tickets, dates beyond this record's governed date, or external evidence are asserted.
 
 ## Acceptance Conditions and Synchronization
 
-ADR-0012 may become Accepted only after:
+ADR-0012 was Accepted after:
 
-- governance approves BSHP as the immediate Backend Specification after BORD;
-- required reviews confirm Shipping-and-Fulfilment-only specialization and preservation of every external authority;
-- review confirms the dependency-closure rationale without ranking CMS, Payment, or Shipping and Fulfilment by technical or business merit;
-- review confirms CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered relative to each other;
-- review confirms Return still depends on the unresolved Payment backend boundary and is not automatically next;
-- review confirms every post-BSHP roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BSHP and the stale statement that Approved BORD is still Draft/unapproved is corrected;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0012 as Accepted; and
-- ADR-0012 lifecycle wording is synchronized to the Accepted decision.
+- governance approved BSHP as the immediate Backend Specification after BORD;
+- required reviews confirmed Shipping-and-Fulfilment-only specialization and preservation of every external authority;
+- review confirmed the dependency-closure rationale without ranking CMS, Payment, or Shipping and Fulfilment by technical or business merit;
+- review confirmed CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered relative to each other;
+- review confirmed Return still depends on the unresolved Payment backend boundary and is not automatically next;
+- review confirmed every post-BSHP roadmap position remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized through BSHP and the stale statement that Approved BORD was still Draft/unapproved was corrected;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0012 as Accepted; and
+- ADR-0012 lifecycle wording was synchronized to the Accepted decision.
 
-Acceptance synchronization must modify only ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md` unless acceptance review discovers a direct contradiction requiring separately governed correction. No `PRODUCT.md` change is currently required.
+Acceptance synchronization modified only ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md`. Acceptance review discovered no direct contradiction, and no `PRODUCT.md` change was required. Acceptance established BSHP immediately after BORD with Shipping-and-Fulfilment-only decomposition through dependency closure while preserving CMS and Payment, unresolved Return, every post-BSHP roadmap position, and all listed Product and Architecture Decisions.
 
 ## Explicit Non-Decisions
 
@@ -219,40 +219,40 @@ It does not resolve Pricing, Promotion, Discount, Tax, Payment, Refund, Return, 
 
 ## Consequences
 
-If Accepted and synchronized:
+Accepted and synchronized governance establishes that:
 
-- BSHP will be authorized to enter Draft lifecycle as the immediate Backend Specification after BORD;
+- BSHP is authorized to enter Draft lifecycle as the immediate Backend Specification after BORD;
 - a future BSHP Draft may specialize Shipping and Fulfilment behavior already governed by its Approved Domain and consume BORD's governed Order and Order Item handoff without transferring Order authority;
-- BSHP will still require its own Draft-to-Approved lifecycle before becoming an Approved normative backend Specification;
-- CMS and Payment will remain independently eligible, separate, unresolved, unranked, and unordered;
-- Return will remain separate and unresolved and will not automatically follow BSHP because its Payment backend dependency remains unresolved;
-- Administration, Notifications, and Reporting will remain separate and unresolved; and
-- every position after BSHP will remain unresolved.
+- BSHP still requires its own Draft-to-Approved lifecycle before becoming an Approved normative backend Specification;
+- CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered;
+- Return remains separate and unresolved and does not automatically follow BSHP because its Payment backend dependency remains unresolved;
+- Administration, Notifications, and Reporting remain separate and unresolved; and
+- every position after BSHP remains unresolved.
 
 The trade-off is that independently eligible CMS and Payment remain unresolved. This is a governance consequence of dependency closure, not a ranking of value, priority, effort, convenience, or technical quality.
 
 ## Roadmap Containment
 
-The sole proposed roadmap addition is BSHP immediately after BORD. The proposal establishes no backend identity, title, path, scope code, decomposition, or ordering position after BSHP.
+The sole roadmap addition established by ADR-0012 is BSHP immediately after BORD. This decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BSHP.
 
 CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered, with no ordering between them. Return, Administration, Notifications, and Reporting remain separate and unresolved. Search, Category, Cart, Checkout, Order, and all existing Approved backend authorities remain unchanged. Return is not stated or implied to follow BSHP.
 
 ## Validation Criteria
 
-Before acceptance, review must verify that:
+The completed acceptance review verified that:
 
 1. Shipping and Fulfilment is the sole selected capability;
-2. the proposed Specification is exactly the Shipping and Fulfilment Backend Specification at `specifications/backend/shipping/shipping-backend.md` under unique scope `BSHP`;
+2. the established Specification is exactly the Shipping and Fulfilment Backend Specification at `specifications/backend/shipping/shipping-backend.md` under unique scope `BSHP`;
 3. the decomposition is Shipping-and-Fulfilment-only and preserves the Approved Shipping and Fulfilment Domain authority;
-4. the proposed sequence ends at `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP`;
+4. the canonical sequence ends at `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP`;
 5. CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered, with no ordering between them;
 6. Return remains separate and unresolved, retains its unresolved Payment backend dependency, and is not automatically eligible or next merely because BSHP is selected;
 7. every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BSHP remains unresolved;
 8. all 6 listed Product Decisions and 10 listed Architecture Decisions remain unresolved;
 9. no implementation, provider, policy, Contract, numerical value, or later roadmap position is selected;
-10. no statement incorrectly describes canonical BORD as Draft or unapproved;
-11. ADR-0012 remains `0.1.0 Proposed` until required reviews and canonical synchronization are complete;
-12. acceptance corrects the stale BORD lifecycle wording in `ARCHITECTURE.md` §35 without changing BORD authority or semantics;
+10. canonical BORD is represented as `1.0.0 Approved` without changing its authority or semantics;
+11. ADR-0012 is `1.0.0 Accepted` and `authoritative: true`, and canonical synchronization is complete;
+12. BSHP is authorized to enter Draft lifecycle only, is not Approved, and `specifications/backend/shipping/shipping-backend.md` was not created by acceptance;
 13. whitespace and reference validation pass; and
 14. ADR-0012 lifecycle and canonical synchronization changes remain limited to ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md` unless a separately governed correction is explicitly required, and no unrelated repository changes are introduced.
 
@@ -289,4 +289,5 @@ Before acceptance, review must verify that:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-21 | Accepted | Accepted Shipping-and-Fulfilment-only BSHP immediately after BORD through governance dependency closure, preserved CMS and Payment as independently eligible, unresolved, and unranked, left every post-BSHP position unresolved, and authorized BSHP for Draft lifecycle only after canonical synchronization. |
 | 0.1.0 | 2026-09-21 | Proposed | Proposed Shipping-and-Fulfilment-only BSHP immediately after BORD through governance dependency closure while preserving CMS and Payment as independently eligible, unresolved, unranked alternatives and leaving every post-BSHP position unresolved. |
