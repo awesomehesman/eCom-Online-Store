@@ -544,4 +544,4 @@ Before Draft approval review, verify that:
 9. security, privacy, Authorization, integrity, failure, uncertainty, duplicate, replay, concurrency, recovery, reconciliation, observability, audit, accessibility, compatibility, migration, and verification obligations are complete;
 10. CMS and Payment remain independently eligible, separate, unresolved, unranked, and unordered, Return remains separate and unresolved, and every post-BSHP roadmap position remains unresolved;
 11. related references, terminology, Markdown, and whitespace validation pass; and
-12. the final change creates only `specifications/backend/shipping/shipping-backend.md`, remains unstaged, uncommitted, and unpushed.
+12. the BSHP lifecycle change affects only `specifications/backend/shipping/shipping-backend.md` and introduces no unrelated repository changes.
