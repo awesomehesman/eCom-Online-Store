@@ -1,7 +1,7 @@
 ---
 title: Shipping and Fulfilment Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend / Shipping and Fulfilment
 last_updated: 2026-09-21
 authoritative: false
@@ -12,7 +12,7 @@ scope: BSHP
 
 ## 1. Purpose
 
-This Draft Specification defines implementation-facing backend obligations for the Approved Shipping and Fulfilment Domain under scope `BSHP`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Shipping and Fulfilment backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Shipping and Fulfilment Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Shipping and Fulfilment Domain under scope `BSHP`. Its Requirements are normative only within the Shipping and Fulfilment backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Shipping and Fulfilment Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, and applicable repository standards.
 
 BSHP uses a Shipping-and-Fulfilment-only decomposition authorized by Accepted ADR-0012 immediately after BORD. It owns no Identity, Customer, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Payment, Return, CMS, Administration, Notifications, Reporting, Search and Discovery, or other external truth. It resolves no Open Product or Architecture Decision and establishes no post-BSHP roadmap position.
 
@@ -20,7 +20,7 @@ BSHP uses a Shipping-and-Fulfilment-only decomposition authorized by Accepted AD
 
 ### BSHP-REQ-001 — Lifecycle, Scope, and Authority
 
-BSHP MUST retain scope `BSHP`, `authoritative: false`, Draft lifecycle metadata until governed approval, Shipping-and-Fulfilment-only authority, governing-source precedence, and no repository-wide authority.
+BSHP MUST retain scope `BSHP`, version `1.0.0`, status `Approved`, `authoritative: false`, Shipping-and-Fulfilment-only authority, governing-source precedence, and no repository-wide authority.
 
 ### BSHP-REQ-002 — Complete Shipping Domain Specialization
 
@@ -222,7 +222,7 @@ BSHP MUST preserve all 6 materially applicable Open Product Decisions and 10 mat
 
 | Acceptance Criterion | Requirement | Observable criterion |
 | --- | --- | --- |
-| BSHP-AC-001 | BSHP-REQ-001 | Metadata shows `0.1.0 Draft`, `authoritative: false`, scope `BSHP`, non-normative Draft status, bounded Shipping-and-Fulfilment-only authority, and governing-source precedence. |
+| BSHP-AC-001 | BSHP-REQ-001 | Metadata shows `1.0.0 Approved`, `authoritative: false`, scope `BSHP`, normativity only within the bounded Shipping and Fulfilment backend scope, and governing-source precedence. |
 | BSHP-AC-002 | BSHP-REQ-002 | The Domain coverage matrix accounts for `REQ-SHP-001` through `REQ-SHP-043` without omission, weakening, or authority transfer. |
 | BSHP-AC-003 | BSHP-REQ-003 | Review finds Shipping-and-Fulfilment-only decomposition and no backend identity, path, scope, decomposition, or position after BSHP. |
 | BSHP-AC-004 | BSHP-REQ-004 | The BEB matrix accounts for `BEB-REQ-001` through `BEB-REQ-056`, including conditional applicability, without weakening BEB. |
@@ -470,7 +470,7 @@ CMS and Payment remain independently eligible, separate, unresolved, unranked, a
 
 ## 13. Required Governance Reviews
 
-Before promotion to `1.0.0 Approved`, governance review must confirm:
+The completed approval review confirmed:
 
 - complete and accurate specialization of all 43 Shipping and Fulfilment Domain Requirements;
 - one-to-one BSHP Requirement, Acceptance Criterion, and traceability accounting;
@@ -484,7 +484,7 @@ Before promotion to `1.0.0 Approved`, governance review must confirm:
 - Security, Testing, Architecture, and Documentation review; and
 - lifecycle, metadata, Revision History, reference, terminology, whitespace, and final-diff consistency.
 
-This Draft does not claim that any approval review has been completed.
+No reviewer names, tickets, signatures, dates beyond the governed document date, or external evidence are asserted.
 
 ## 14. Related Documents
 
@@ -527,13 +527,14 @@ This Draft does not claim that any approval review has been completed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-21 | Approved | Approved the Shipping-and-Fulfilment-only BSHP Specification after governance, authority, traceability, decision-preservation, implementation-neutrality, and lifecycle validation completed with no remaining blockers. |
 | 0.1.0 | 2026-09-21 | Draft | Established the initial Shipping-and-Fulfilment-only BSHP Draft immediately after BORD under Accepted ADR-0012, specializing the Approved Shipping and Fulfilment Domain while preserving upstream and unresolved external authority. |
 
 ## 16. Final Validation
 
-Before Draft approval review, verify that:
+Final Approved-state validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Backend / Shipping and Fulfilment`, and scope is `BSHP`;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Backend / Shipping and Fulfilment`, and scope is `BSHP`;
 2. all 50 BSHP Requirements are unique, contiguous, implementation-neutral, and paired one-to-one with Acceptance Criteria and traceability rows;
 3. all 43 Shipping and Fulfilment Domain Requirements are accounted for without authority expansion;
 4. all 56 BEB Requirements are accounted for with defensible applicability classifications;
