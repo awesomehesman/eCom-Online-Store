@@ -254,7 +254,7 @@ Before acceptance, review must verify that:
 11. ADR-0012 remains `0.1.0 Proposed` until required reviews and canonical synchronization are complete;
 12. acceptance corrects the stale BORD lifecycle wording in `ARCHITECTURE.md` §35 without changing BORD authority or semantics;
 13. whitespace and reference validation pass; and
-14. the Proposed change creates only `specifications/adr/ADR-0012-post-order-backend-specification.md` and remains unstaged, uncommitted, and unpushed.
+14. ADR-0012 lifecycle and canonical synchronization changes remain limited to ADR-0012, `ARCHITECTURE.md`, and `DECISIONS.md` unless a separately governed correction is explicitly required, and no unrelated repository changes are introduced.
 
 ## Related Documents
 
