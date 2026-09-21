@@ -226,7 +226,7 @@ This Proposed decision becomes Accepted only after:
 - review confirms CMS remains independently eligible, separate, unresolved, unranked, and unordered;
 - review confirms Return is not pre-authorized and depends on a future Approved BPAY Contract;
 - review confirms every post-BPAY roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BPAY;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized by recording BSHP as `1.0.0 Approved`, removing or replacing the obsolete assertion that `specifications/backend/shipping/shipping-backend.md` has not been created or that BSHP remains unauthorized or unapproved, recording that Return's governed Order, Inventory/restocking, and Shipping/reverse-logistics backend prerequisites are closed and its remaining identified backend prerequisite is an Approved Payment backend Contract, and then establishing BPAY as the immediate backend position after BSHP in accordance with Accepted ADR-0013;
 - `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0013 as Accepted; and
 - ADR-0013 lifecycle wording is synchronized to the Accepted decision.
 
