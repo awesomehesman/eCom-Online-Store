@@ -10,11 +10,11 @@ Post-Shipping Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Context
 
@@ -38,7 +38,7 @@ Accepted ADR-0001 through ADR-0012 and synchronized `ARCHITECTURE.md` §35 estab
 
 The completed post-BSHP eligibility audit found exactly two independently eligible capabilities: CMS and Payment. It found no unique next capability and did not rank them. Return now has governed Order, Inventory, and Shipping/Fulfilment backend boundaries but still lacks an Approved Payment backend Contract. Administration, Notifications, and Reporting still lack materially required owning-source backend Contracts. A governance decision is therefore required before another Backend Specification may enter Draft.
 
-This Proposed decision evaluates CMS and Payment symmetrically through governance dependency closure. It proposes Payment because an Approved Payment backend boundary would close Return's last identified backend prerequisite and would also supply missing Payment/Refund producer or source Contracts for Notifications, Reporting, and Administration. CMS is also authority-safe to specify now and supplies a missing source boundary for Reporting and an invocation boundary for Administration, but selecting CMS would not close as many currently identified dependency gaps. This comparison is not a judgment of business importance, technical merit, implementation effort, convenience, or priority.
+This Accepted decision evaluates CMS and Payment symmetrically through governance dependency closure. It selects Payment because an Approved Payment backend boundary would close Return's last identified backend prerequisite and would also supply missing Payment/Refund producer or source Contracts for Notifications, Reporting, and Administration. CMS is also authority-safe to specify now and supplies a missing source boundary for Reporting and an invocation boundary for Administration, but selecting CMS does not close as many currently identified dependency gaps. This comparison is not a judgment of business importance, technical merit, implementation effort, convenience, or priority.
 
 ## Decision Drivers
 
@@ -87,7 +87,7 @@ Deferral would preserve the two-candidate ambiguity and establish no post-BSHP p
 
 ## Decision
 
-ADR-0013 proposes that the twelfth downstream Backend Specification after BEB, immediately after BSHP, SHALL be:
+ADR-0013 establishes that the twelfth downstream Backend Specification after BEB, immediately after BSHP, SHALL be:
 
 - **Capability:** Payment
 - **Specification:** Payment Backend Specification
@@ -100,9 +100,9 @@ ADR-0013 proposes that the twelfth downstream Backend Specification after BEB, i
 
 BPAY SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Payment Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
 
-If ADR-0013 becomes Accepted and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is completed, the resulting canonical sequence will be `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY`.
+The resulting canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY`.
 
-Proposed ADR-0013 does not yet authorize BPAY drafting. BPAY may enter Draft only after ADR-0013 is Accepted and canonical synchronization is complete. Acceptance would not approve BPAY; BPAY would require its own Draft-to-Approved lifecycle.
+Accepted ADR-0013 and completed canonical synchronization authorize BPAY to enter Draft. This decision does not approve BPAY; BPAY requires its own Draft-to-Approved lifecycle.
 
 ## Authority and Decomposition Boundaries
 
@@ -123,7 +123,7 @@ Contextual Authorization remains with the Domain owning the affected Resource, a
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **9 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Payment Domain §38:
+This Accepted decision preserves the following **9 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Payment Domain §38:
 
 | Item | Open Product Decision | Preserved BPAY boundary |
 | ---: | --- | --- |
@@ -141,7 +141,7 @@ No listed Product Decision is resolved by selecting BPAY.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **10 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BPAY boundary |
 | ---: | --- | --- |
@@ -168,21 +168,21 @@ It does not establish a CMS backend identity or position, pre-authorize Return, 
 
 ## Consequences
 
-If Accepted and canonically synchronized:
+Accepted and synchronized governance establishes that:
 
-- BPAY will be authorized to enter Draft lifecycle as the immediate Backend Specification after BSHP;
+- BPAY is authorized to enter Draft lifecycle as the immediate Backend Specification after BSHP;
 - BPAY may specialize only Payment behavior already governed by the Approved Payment Domain and consume bounded upstream Contracts without transferring authority;
 - BPAY must complete its own Draft-to-Approved lifecycle before becoming an Approved normative backend Specification;
 - a future Approved BPAY Contract may close Return's remaining identified backend prerequisite, but ADR-0013 does not pre-authorize Return to enter Draft or establish Return's position;
-- CMS will remain independently eligible, separate, unresolved, unranked, and unordered relative to all unresolved capabilities;
-- Administration, Notifications, Reporting, and Return will remain separate and unresolved; and
-- every position after BPAY will remain unresolved.
+- CMS remains independently eligible, separate, unresolved, unranked, and unordered relative to all unresolved capabilities;
+- Administration, Notifications, Reporting, and Return remain separate and unresolved; and
+- every position after BPAY remains unresolved.
 
 The trade-off is that independently eligible CMS remains unresolved while Payment dependency closure is pursued. This is a governance consequence, not a ranking of value, priority, effort, convenience, or technical quality.
 
 ## Downstream Roadmap Containment
 
-The sole roadmap position proposed by ADR-0013 is BPAY immediately after BSHP. This Proposed decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BPAY.
+The sole roadmap position established by ADR-0013 is BPAY immediately after BSHP. This Accepted decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BPAY.
 
 CMS remains independently eligible, separate, unresolved, unranked, and unordered. Return remains separate and unresolved: Payment selection alone does not authorize Return, and its Payment dependency closes only after a future BPAY Specification becomes Approved and exposes the applicable governed Contract. Administration, Notifications, and Reporting remain separate and unresolved. No ordering among these capabilities is stated or implied.
 
@@ -190,7 +190,7 @@ A future eligibility audit or Accepted ADR must govern any later position.
 
 ## Required Governance Reviews
 
-Before ADR-0013 may become Accepted, governance must record completion of:
+ADR-0013 was Accepted after governance recorded completion of:
 
 - Architecture review of the immediate post-BSHP selection, Payment-only decomposition, title, path, scope code, and dependency-closure rationale;
 - affected Payment ownership review confirming accurate specialization of the Approved Payment Domain;
@@ -214,44 +214,44 @@ Before ADR-0013 may become Accepted, governance must record completion of:
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BPAY is established; and
 - synchronized canonical updates to ADR-0013, `ARCHITECTURE.md`, and `DECISIONS.md`.
 
-No review is represented as completed while ADR-0013 remains Proposed. No reviewer names, signatures, tickets, or external approval artifacts are asserted.
+The governed Architecture, affected ownership, Security, Testing, and Documentation reviews represented above were completed for acceptance. No reviewer names, signatures, tickets, or external approval artifacts are asserted.
 
 ## Acceptance Conditions and Synchronization
 
-This Proposed decision becomes Accepted only after:
+ADR-0013 was Accepted after:
 
-- governance approves BPAY as the immediate Backend Specification after BSHP;
-- required reviews confirm Payment-only specialization and preservation of every external authority;
-- review confirms the dependency-closure rationale without ranking Payment or CMS by business or technical merit;
-- review confirms CMS remains independently eligible, separate, unresolved, unranked, and unordered;
-- review confirms Return is not pre-authorized and depends on a future Approved BPAY Contract;
-- review confirms every post-BPAY roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized by recording BSHP as `1.0.0 Approved`, removing or replacing the obsolete assertion that `specifications/backend/shipping/shipping-backend.md` has not been created or that BSHP remains unauthorized or unapproved, recording that Return's governed Order, Inventory/restocking, and Shipping/reverse-logistics backend prerequisites are closed and its remaining identified backend prerequisite is an Approved Payment backend Contract, and then establishing BPAY as the immediate backend position after BSHP in accordance with Accepted ADR-0013;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0013 as Accepted; and
-- ADR-0013 lifecycle wording is synchronized to the Accepted decision.
+- governance approved BPAY as the immediate Backend Specification after BSHP;
+- required reviews confirmed Payment-only specialization and preservation of every external authority;
+- review confirmed the dependency-closure rationale without ranking Payment or CMS by business or technical merit;
+- review confirmed CMS remains independently eligible, separate, unresolved, unranked, and unordered;
+- review confirmed Return is not pre-authorized and depends on a future Approved BPAY Contract;
+- review confirmed every post-BPAY roadmap position remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized by recording BSHP as `1.0.0 Approved`, removing the obsolete assertion that `specifications/backend/shipping/shipping-backend.md` had not been created or that BSHP remained unauthorized or unapproved, recording that Return's governed Order, Inventory/restocking, and Shipping/reverse-logistics backend prerequisites are closed and its remaining identified backend prerequisite is an Approved Payment backend Contract, and establishing BPAY as the immediate backend position after BSHP in accordance with Accepted ADR-0013;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0013 as Accepted; and
+- ADR-0013 lifecycle wording was synchronized to the Accepted decision.
 
-Acceptance synchronization must modify only ADR-0013, `ARCHITECTURE.md`, and `DECISIONS.md` unless review discovers a direct contradiction requiring a separately governed correction. `PRODUCT.md` requires no change unless such a contradiction is discovered.
+Acceptance synchronization modified only ADR-0013, `ARCHITECTURE.md`, and `DECISIONS.md`. Review discovered no direct contradiction, and `PRODUCT.md` required no change.
 
-Until every acceptance condition and canonical synchronization step is complete, BPAY remains unauthorized for Draft governance.
+Acceptance and canonical synchronization are complete. BPAY is authorized to enter Draft governance but is not Approved and must complete its own Draft-to-Approved lifecycle.
 
 ## Validation Criteria
 
-Acceptance review must verify that:
+The completed acceptance review verified that:
 
 1. Payment is the sole selected capability;
-2. the proposed Specification is exactly the Payment Backend Specification at `specifications/backend/payment/payment-backend.md` under unique scope `BPAY`;
+2. the established Specification is exactly the Payment Backend Specification at `specifications/backend/payment/payment-backend.md` under unique scope `BPAY`;
 3. the decomposition is Payment-only and preserves the Approved Payment Domain authority;
-4. the proposed canonical sequence ends at `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY`;
+4. the canonical sequence ends at `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY`;
 5. CMS remains independently eligible, separate, unresolved, unranked, and unordered;
 6. Return remains separate, unresolved, and unauthorized until a future Approved BPAY Contract and separate governance establish eligibility and position;
 7. Administration, Notifications, and Reporting remain separate and unresolved;
 8. every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BPAY remains unresolved;
 9. all 9 listed Product Decisions and 10 listed Architecture Decisions remain unresolved;
 10. no implementation, provider, policy, Contract design, numerical value, or later roadmap position is selected;
-11. ADR-0013 remains `0.1.0 Proposed` and `authoritative: false` before acceptance;
-12. BPAY remains unauthorized for Draft until ADR-0013 acceptance and canonical synchronization are complete;
+11. ADR-0013 is `1.0.0 Accepted` and `authoritative: true`;
+12. BPAY is authorized to enter Draft only, is not Approved, and `specifications/backend/payment/payment-backend.md` was not created by acceptance;
 13. whitespace and reference validation pass; and
-14. ADR-0013 creation affects only `specifications/adr/ADR-0013-post-shipping-backend-specification.md` and introduces no unrelated repository changes.
+14. ADR-0013 lifecycle and canonical synchronization changes remain limited to ADR-0013, `ARCHITECTURE.md`, and `DECISIONS.md`, and no unrelated repository changes are introduced.
 
 ## Related Documents
 
@@ -278,4 +278,5 @@ Acceptance review must verify that:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-21 | Accepted | Accepted Payment-only BPAY immediately after BSHP through governance dependency closure, synchronized canonical Architecture and Decision Index, preserved CMS as independently eligible and unresolved, and left every post-BPAY position unresolved. |
 | 0.1.0 | 2026-09-21 | Proposed | Proposed Payment-only BPAY immediately after BSHP through governance dependency closure while preserving CMS as independently eligible, unresolved, and unranked and leaving every post-BPAY position unresolved. |
