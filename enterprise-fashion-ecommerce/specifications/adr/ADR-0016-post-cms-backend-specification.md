@@ -10,11 +10,11 @@ Post-CMS Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -42,7 +42,7 @@ Accepted ADR-0001 through ADR-0015 establish the canonical backend sequence `BEB
 
 The completed post-BCMS eligibility audit found exactly two independently eligible capabilities: Notifications and Reporting. Administration remains ineligible because it lacks Approved Notifications and Reporting backend invocation Contracts. Approved BRET has closed the applicable Return producer, source, and invocation prerequisites; Approved BCMS has closed Reporting's CMS source prerequisite and Administration's CMS invocation prerequisite.
 
-Canonical `ARCHITECTURE.md` §35 remains lifecycle-stale: it says BCMS is not Approved and that `cms-backend.md` does not exist. That text does not match the committed `1.0.0 Approved` BCMS Specification and must be corrected during any ADR-0016 acceptance synchronization. This Proposed ADR does not modify canonical files.
+Canonical `ARCHITECTURE.md` §35 was lifecycle-stale: it said BCMS was not Approved and that `cms-backend.md` did not exist. That text did not match the committed `1.0.0 Approved` BCMS Specification and is corrected through the ADR-0016 acceptance synchronization.
 
 ## Eligibility Evidence
 
@@ -72,13 +72,13 @@ The dependency-closure comparison is tied. Neither selection closes more governe
 
 ## Tie-Resolution Rationale
 
-Because continued deferral would preserve ambiguity and no canonical tie-break convention exists, ADR-0016 proposes the narrowest reversible sequencing decision necessary to make progress: assign exactly one immediate position and leave every other position unresolved. It selects Notifications for that single position without asserting superiority, priority, preference, business value, technical merit, lower effort, delivery advantage, or an ordering rule.
+Because continued deferral would preserve ambiguity and no canonical tie-break convention exists, ADR-0016 makes the narrowest reversible sequencing decision necessary to make progress: assign exactly one immediate position and leave every other position unresolved. It selects Notifications for that single position without asserting superiority, priority, preference, business value, technical merit, lower effort, delivery advantage, or an ordering rule.
 
-This selection is the decision being proposed; it is not derived from an invented dependency distinction. Reporting's eligibility is unchanged, and the decision creates no presumption that Reporting must follow Notifications.
+This selection is the Accepted decision; it is not derived from an invented dependency distinction. Reporting's eligibility is unchanged, and the decision creates no presumption that Reporting must follow Notifications.
 
 ## Decision
 
-ADR-0016 proposes that the fifteenth downstream Backend Specification after BEB, immediately after BCMS, SHALL be:
+ADR-0016 decides that the fifteenth downstream Backend Specification after BEB, immediately after BCMS, SHALL be:
 
 - **Capability:** Notifications
 - **Specification:** Notifications Backend Specification
@@ -89,11 +89,11 @@ ADR-0016 proposes that the fifteenth downstream Backend Specification after BEB,
 
 `BNTF` derives from the established backend `B` prefix and canonical Notifications Domain scope `NTF`. It is collision-free among current Specification scope codes and establishes no naming convention for later scopes.
 
-If Accepted, BNTF SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Notifications Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
+Under this Accepted decision, BNTF SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Notifications Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
 
-The proposed canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF`.
+The canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF`.
 
-Proposed ADR-0016 does not authorize BNTF drafting. BNTF may enter Draft only after ADR-0016 is Accepted and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is complete. That authorization would not approve BNTF; it would require its own Draft-to-Approved lifecycle.
+Accepted ADR-0016 authorizes BNTF to enter Draft after this canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is committed. That authorization does not approve BNTF; it requires its own Draft-to-Approved lifecycle.
 
 ## Unselected Eligible Capability
 
@@ -121,7 +121,7 @@ Contextual Authorization remains with the Domain owning the affected Resource, a
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **15 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Notifications Domain §31:
+This Accepted decision preserves the following **15 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Notifications Domain §31:
 
 | Item | Open Product Decision | Preserved BNTF boundary |
 | ---: | --- | --- |
@@ -145,7 +145,7 @@ No listed Product Decision is resolved by selecting BNTF.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **9 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **9 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BNTF boundary |
 | ---: | --- | --- |
@@ -163,7 +163,7 @@ No listed Architecture Decision is resolved by selecting BNTF. Frontend hosting,
 
 ## Consequences
 
-If Accepted and canonically synchronized:
+With acceptance and canonical synchronization:
 
 - BNTF will be authorized to enter Draft as the immediate Backend Specification after BCMS;
 - BNTF may specialize only behavior governed by the Approved Notifications Domain and consume bounded Approved Contracts without transferring authority;
@@ -183,13 +183,13 @@ It defines no concrete downstream Contract and no post-BNTF roadmap position.
 
 ## Roadmap Containment
 
-The sole roadmap position proposed by ADR-0016 is BNTF immediately after BCMS. This Proposed decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BNTF.
+The sole roadmap position established by ADR-0016 is BNTF immediately after BCMS. This Accepted decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BNTF.
 
 Reporting remains independently eligible, separate, unresolved, unranked, and unordered beyond the immediate decision. Administration remains unresolved and dependency-blocked as recorded above. ADR-0016 does not authorize either capability or state or imply which capability follows BNTF.
 
 ## Required Governance Reviews
 
-Before ADR-0016 may become Accepted, governance must record completion of:
+The successful acceptance-readiness governance review recorded completion of:
 
 - Architecture review of the tied dependency state, narrow tie resolution, Notifications-only decomposition, title, path, scope, and ordinal position;
 - affected Notifications ownership review confirming accurate specialization of the Approved Notifications Domain;
@@ -205,34 +205,34 @@ Before ADR-0016 may become Accepted, governance must record completion of:
 - confirmation that `specifications/backend/notifications/notifications-backend.md` is collision-free;
 - confirmation that no unresolved Product or Architecture Decision is implicitly resolved;
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BNTF is established; and
-- synchronized canonical updates to ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md`.
+- confirmation that the canonical synchronization set is exactly ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md`.
 
-No reviewer identity, signature, ticket, or external approval artifact is asserted by this Proposed ADR.
+The review concluded with Critical: 0, High: 0, Medium: 0, and Low: 0. It confirmed that Notifications and Reporting were independently eligible, Administration was not eligible, the dependency-closure comparison was tied, no deterministic canonical tie-break convention existed, BNTF identity, path, scope, decomposition, position, authority, and collision checks passed, both Open Decision inventories passed, and authority boundaries, implementation neutrality, and roadmap containment passed. No reviewer identity, signature, ticket, or external approval artifact is asserted by this Accepted ADR.
 
 ## Acceptance Conditions and Synchronization
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
-- governance approves Notifications-only BNTF as the immediate Backend Specification after BCMS;
-- required reviews confirm both Notifications and Reporting were independently eligible and Administration was not eligible;
-- review confirms the dependency-closure comparison is tied and the selection asserts no fabricated advantage or ranking;
-- review confirms Reporting remains independently eligible, separate, unresolved, unranked, and unordered beyond the immediate BNTF position;
-- review confirms Administration remains blocked by missing Approved Notifications and Reporting invocation Contracts during BNTF Draft and would retain the Reporting prerequisite after future BNTF approval;
-- review confirms every post-BNTF roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized by recording BCMS as `1.0.0 Approved` and `specifications/backend/cms/cms-backend.md` as existing and Approved; removing obsolete wording that BCMS is unapproved, missing, or Draft-only; recording that Approved BCMS closed Reporting's CMS source and Administration's CMS invocation prerequisites; establishing Notifications-only BNTF immediately after BCMS with authorization only to enter Draft after ADR-0016 acceptance and canonical synchronization; preserving Reporting as independently eligible, separate, unresolved, unranked, and unordered; preserving Administration's exact remaining Notifications and Reporting dependency state; and leaving every post-BNTF roadmap position unresolved;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0016 as Accepted; and
-- ADR-0016 lifecycle wording is synchronized to the Accepted decision.
+- governance approved Notifications-only BNTF as the immediate Backend Specification after BCMS;
+- required reviews confirmed both Notifications and Reporting were independently eligible and Administration was not eligible;
+- review confirmed the dependency-closure comparison was tied and the selection asserted no fabricated advantage or ranking;
+- review confirmed Reporting remained independently eligible, separate, unresolved, unranked, and unordered beyond the immediate BNTF position;
+- review confirmed Administration remained blocked by missing Approved Notifications and Reporting invocation Contracts during BNTF Draft and would retain the Reporting prerequisite after future BNTF approval;
+- review confirmed every post-BNTF roadmap position remained unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized by recording BCMS as `1.0.0 Approved` and `specifications/backend/cms/cms-backend.md` as existing and Approved; removing obsolete wording that BCMS was unapproved, missing, or Draft-only; recording that Approved BCMS closed Reporting's CMS source and Administration's CMS invocation prerequisites; establishing Notifications-only BNTF immediately after BCMS with authorization only to enter Draft after ADR-0016 acceptance and canonical synchronization; preserving Reporting as independently eligible, separate, unresolved, unranked, and unordered; preserving Administration's exact remaining Notifications and Reporting dependency state; and leaving every post-BNTF roadmap position unresolved;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0016 as Accepted; and
+- ADR-0016 lifecycle wording was synchronized to the Accepted decision.
 
-Acceptance synchronization must modify only ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md` unless validation discovers a direct contradiction requiring a separately governed correction. `PRODUCT.md` requires no change unless such a contradiction is discovered.
+Acceptance synchronization modifies only ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md`; no direct contradiction requires a separately governed correction, and `PRODUCT.md` requires no change.
 
-Until all acceptance conditions and canonical synchronization are complete, ADR-0016 remains Proposed and BNTF is unauthorized for drafting.
+With acceptance conditions satisfied and canonical synchronization complete, ADR-0016 is Accepted and BNTF is authorized to enter Draft after this synchronization is committed. BNTF is not Approved and must complete its own Draft-to-Approved lifecycle.
 
 ## Validation Criteria
 
-Before acceptance, reviewers must verify that:
+Final validation confirms that:
 
-1. metadata remains `0.1.0 Proposed`, `authoritative: true`, owner `Architecture`, and scope `backend-roadmap`;
-2. the canonical baseline recognizes BCMS as `1.0.0 Approved` despite stale `ARCHITECTURE.md` §35 lifecycle text;
+1. metadata is `1.0.0 Accepted`, `authoritative: true`, owner `Architecture`, and scope `backend-roadmap`;
+2. the canonical baseline records BCMS as `1.0.0 Approved` and corrects the former stale `ARCHITECTURE.md` §35 lifecycle text;
 3. Notifications and Reporting were both independently eligible and Administration was not eligible;
 4. exactly one immediate post-BCMS specification is selected: Notifications-only BNTF at `specifications/backend/notifications/notifications-backend.md`;
 5. BNTF is the fifteenth downstream Backend Specification after BEB, immediately after BCMS;
@@ -240,12 +240,12 @@ Before acceptance, reviewers must verify that:
 7. Reporting remains independently eligible, separate, unresolved, unranked, and unordered beyond the immediate decision;
 8. Administration remains blocked by missing Approved Notifications and Reporting invocation Contracts during BNTF Draft and is not authorized;
 9. no post-BNTF Backend Specification identity, title, path, scope code, decomposition, or ordering position is established;
-10. `specifications/backend/notifications/notifications-backend.md` is not created by this Proposed decision;
+10. `specifications/backend/notifications/notifications-backend.md` is not created by this Accepted decision;
 11. all 15 listed Product Decisions and all 9 listed Architecture Decisions remain unresolved;
 12. owning-Domain authority and contextual Authorization remain preserved;
 13. no concrete API, DTO, persistence, event, provider, cache, infrastructure, deployment, numerical, Role/Permission, or unresolved policy decision is selected;
-14. acceptance requires synchronized lifecycle and canonical changes to ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md`, including correction of stale BCMS lifecycle text, before BNTF may enter Draft;
-15. only `specifications/adr/ADR-0016-post-cms-backend-specification.md` is created by this Proposed lifecycle change, whitespace validation passes, and no unrelated repository changes are introduced.
+14. synchronized lifecycle and canonical changes affect exactly ADR-0016, `ARCHITECTURE.md`, and `DECISIONS.md`, include correction of stale BCMS lifecycle text, and authorize BNTF only to enter Draft after the synchronization is committed;
+15. the acceptance synchronization modifies only `specifications/adr/ADR-0016-post-cms-backend-specification.md`, `.ai/core/ARCHITECTURE.md`, and `.ai/core/DECISIONS.md`, whitespace validation passes, and no unrelated repository changes are introduced.
 
 ## Related Documents
 
@@ -265,4 +265,5 @@ Before acceptance, reviewers must verify that:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-23 | Accepted | Accepted Notifications-only BNTF as the immediate Backend Specification after Approved BCMS following successful governance validation of the tied eligibility state, while preserving Reporting and every post-BNTF position as unresolved. |
 | 0.1.0 | 2026-09-23 | Proposed | Proposed Notifications-only BNTF as the immediate Backend Specification after Approved BCMS through a narrow reversible resolution of tied dependency closure, while preserving Reporting eligibility and every post-BNTF position as unresolved. |
