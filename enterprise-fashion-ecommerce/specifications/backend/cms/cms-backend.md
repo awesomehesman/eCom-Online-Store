@@ -200,7 +200,7 @@ BCMS configuration and any future feature-controlled state MUST be validated, pr
 
 ### BCMS-REQ-046 — Migration, Deployment Compatibility, and Bounded Work
 
-BCMS data and Contract evolution MUST preserve CMS history, authority, rollback or forward-recovery safety, mixed-version compatibility, bounded resource use, and failure containment without selecting migration tooling, deployment topology, schema strategy, pagination values, or operational limits.
+BCMS data and Contract evolution MUST use the version-controlled Flyway migrations already governed by BEB-REQ-049, preserve immutable applied migration history, prohibit runtime schema mutation and untracked schema drift, and preserve CMS history, authority, rollback or forward-recovery safety, mixed-version compatibility, bounded resource use, and failure containment while remaining neutral about migration, deployment, and schema choices not already selected by canonical governance and about pagination values or operational limits.
 
 ### BCMS-REQ-047 — Backend Verification Layers
 
@@ -261,7 +261,7 @@ BCMS is governed by `AGENTS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `DECISIONS.md`
 | BCMS-REQ-022 | REQ-CMS-027–029 | BEB-REQ-011, 019–020, 043 | BCMS-AC-022 |
 | BCMS-REQ-023 | REQ-CMS-030 | BEB-REQ-032–034, 043 | BCMS-AC-023 |
 | BCMS-REQ-024 | REQ-CMS-031–032 | BEB-REQ-015, 041, 043 | BCMS-AC-024 |
-| BCMS-REQ-025 | REQ-CMS-034 | BEB-REQ-003, 051, 055 | BCMS-AC-025 |
+| BCMS-REQ-025 | REQ-CMS-034 | ACCESSIBILITY.md §§1–32; DESIGN-SYSTEM.md | BCMS-AC-025 |
 | BCMS-REQ-026 | REQ-CMS-035–036 | BEB-REQ-032–034, 041–042, 051 | BCMS-AC-026 |
 | BCMS-REQ-027 | REQ-CMS-037 | BEB-REQ-003–004, 037–040 | BCMS-AC-027 |
 | BCMS-REQ-028 | REQ-CMS-038 | BEB-REQ-003–004, 037–040 | BCMS-AC-028 |
@@ -276,7 +276,7 @@ BCMS is governed by `AGENTS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `DECISIONS.md`
 | BCMS-REQ-037 | REQ-CMS-047 | BEB-REQ-046, 051 | BCMS-AC-037 |
 | BCMS-REQ-038 | REQ-CMS-048 | BEB-REQ-045–046 | BCMS-AC-038 |
 | BCMS-REQ-039 | REQ-CMS-049 | BEB-REQ-021, 024–031, 041–042 | BCMS-AC-039 |
-| BCMS-REQ-040 | REQ-CMS-050 | BEB-REQ-021, 024, 042–043, 049 | BCMS-AC-040 |
+| BCMS-REQ-040 | REQ-CMS-050 | BEB-REQ-021, 024, 042–043 | BCMS-AC-040 |
 | BCMS-REQ-041 | REQ-CMS-051 | BEB-REQ-052–055 | BCMS-AC-041 |
 | BCMS-REQ-042 | REQ-CMS-007, 013–19, 041–044 | BEB-REQ-012, 025–026 | BCMS-AC-042 |
 | BCMS-REQ-043 | REQ-CMS-030, 036, 042–044 | BEB-REQ-032–036 | BCMS-AC-043 |
@@ -330,7 +330,7 @@ All 51 Approved CMS Domain Requirements are accounted for without transferring D
 | BEB-REQ-043–044 | Applicable | Security, data, Secret, and Payment-data safety. BCMS-REQ-021–024, 044. |
 | BEB-REQ-045–046 | Applicable | Proportional Audit Records, observability, and health. BCMS-REQ-037–038. |
 | BEB-REQ-047–048 | Applicable | Safe configuration and conditional feature controls without selecting mechanisms. BCMS-REQ-045, 048. |
-| BEB-REQ-049–051 | Applicable | Migration safety, mixed-version compatibility, bounded work, and failure containment. BCMS-REQ-040, 046. |
+| BEB-REQ-049–051 | Applicable | Version-controlled Flyway migration safety with immutable applied history and no runtime schema mutation or untracked drift; backward-compatible mixed-version deployment; and bounded work and failure containment. BCMS-REQ-046. |
 | BEB-REQ-052–055 | Applicable | Domain, application, Adapter, integration, architecture, operational, and traceable verification. BCMS-REQ-041, 047, 050. |
 | BEB-REQ-056 | Applicable | Open-decision and implementation neutrality. BCMS-REQ-020, 048. |
 
@@ -385,7 +385,7 @@ All 56 BEB Requirements are accounted for. Conditional applicability preserves t
 | BCMS-AC-043 | BCMS-REQ-043 | External interactions use owned Ports and preserve authenticity, uncertainty, recovery, and reconciliation without provider selection. |
 | BCMS-AC-044 | BCMS-REQ-044 | Security verification demonstrates least privilege, isolation, safe errors, protected evidence, and no unauthorized disclosure. |
 | BCMS-AC-045 | BCMS-REQ-045 | Configuration and possible feature-controlled states are safe, compatible, observable, and non-authoritative without a selected system. |
-| BCMS-AC-046 | BCMS-REQ-046 | Evolution evidence preserves history, compatibility, recovery, bounded work, and containment without concrete migration or deployment design. |
+| BCMS-AC-046 | BCMS-REQ-046 | Evolution evidence confirms version-controlled Flyway migration governance, immutable applied migration history, no runtime schema mutation or untracked schema drift, and preserved history, compatibility, recovery, bounded work, and failure containment without adding an implementation choice beyond canonical governance. |
 | BCMS-AC-047 | BCMS-REQ-047 | Layered tests cover Domain through operations and retain one-to-one traceability without mandated tools or targets. |
 | BCMS-AC-048 | BCMS-REQ-048 | Review finds no resolved Open Decision or selected API, schema, event, provider, cache, infrastructure, numerical, or Role/Permission mechanism. |
 | BCMS-AC-049 | BCMS-REQ-049 | Draft BCMS closes no downstream dependency; Reporting, Administration, and Notifications retain exactly their governed states and no later position. |
@@ -503,4 +503,4 @@ Before approval-readiness review, verify that:
 9. Draft BCMS closes no downstream dependency, Notifications remains independently eligible and unordered, Reporting and Administration remain unresolved, and every post-BCMS roadmap position remains unresolved;
 10. required governance reviews remain pending and Revision History contains only the `0.1.0 Draft` entry;
 11. Related Documents exist and terminology remains consistent with governing sources; and
-12. the final change creates only `specifications/backend/cms/cms-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+12. the BCMS lifecycle change affects only `specifications/backend/cms/cms-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
