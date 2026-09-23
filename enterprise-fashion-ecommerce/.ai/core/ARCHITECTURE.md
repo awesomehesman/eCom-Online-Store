@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.17.0
+version: 1.18.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-23
+last_updated: 2026-09-24
 applies_to:
   - Frontend
   - Backend
@@ -1308,15 +1308,21 @@ The thirteenth downstream Backend Specification after BEB, immediately after BPA
 
 The fourteenth downstream Backend Specification after BEB, immediately after BRET, MUST be the CMS Backend Specification under scope `BCMS` at `specifications/backend/cms/cms-backend.md`. BCMS MUST use a CMS-only decomposition and specialize exactly the Approved CMS Domain without transferring CMS Domain authority. BCMS MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved upstream Backend Specifications without transferring Product, Category, Pricing, Inventory, Identity, Customer, Consent, Preference, Search and Discovery, Notifications, Reporting, Administration, commerce, or other Domain authority. BCMS exists at `specifications/backend/cms/cms-backend.md` as `1.0.0 Approved`, remains `authoritative: false`, and resolves no Open Product or Architecture Decision. Approved BCMS closes Reporting's CMS source prerequisite and Administration's CMS invocation prerequisite without establishing a post-BCMS roadmap position by itself.
 
-The fifteenth downstream Backend Specification after BEB, immediately after BCMS, MUST be the Notifications Backend Specification under scope `BNTF` at `specifications/backend/notifications/notifications-backend.md`. BNTF MUST use a Notifications-only decomposition and specialize exactly the Approved Notifications Domain without transferring Notifications Domain authority. BNTF MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved Backend Specifications without transferring Identity, Customer, Account, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, Administration, or other Domain authority. Accepted ADR-0016 and this canonical synchronization authorize BNTF only to enter Draft after the synchronized acceptance state is committed and canonical; `specifications/backend/notifications/notifications-backend.md` does not yet exist, BNTF is not Approved, and BNTF MUST complete its own Draft-to-Approved lifecycle.
+The fifteenth downstream Backend Specification after BEB, immediately after BCMS, MUST be the Notifications Backend Specification under scope `BNTF` at `specifications/backend/notifications/notifications-backend.md`. BNTF MUST use a Notifications-only decomposition and specialize exactly the Approved Notifications Domain without transferring Notifications Domain authority. BNTF MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved Backend Specifications without transferring Identity, Customer, Account, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, Administration, or other Domain authority. BNTF exists at `specifications/backend/notifications/notifications-backend.md` as `1.0.0 Approved`, remains `authoritative: false`, and resolves no Open Product or Architecture Decision.
 
-The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF`.
+The sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF, MUST be the Reporting Backend Specification under scope `BRPT` at `specifications/backend/reporting/reporting-backend.md`. BRPT MUST use a Reporting-only decomposition, specialize only the Approved Reporting Domain without transferring Reporting Domain authority, remain `authoritative: false`, inherit and explicitly trace every materially applicable BEB Requirement, and consume other Approved backend or Domain evidence only through materially applicable governed Contracts without acquiring transactional, Notifications, Administration, Customer, Identity, commerce, CMS, or other Domain authority. BRPT MUST preserve unresolved Product Decisions 6, 7, 8, 9, 10, 11, 13, 14, 19, 20, 21, 25, 26, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, and 14. This authorization permits BRPT only to enter Draft; BRPT MUST complete its own Draft-to-Approved lifecycle and resolves no Open Product or Architecture Decision.
+
+The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF → BRPT`.
 
 Approved BRET closed Reporting's Return source prerequisite and Administration's Return invocation prerequisite. Approved BCMS closed Reporting's CMS source prerequisite and Administration's CMS invocation prerequisite. Notifications and Reporting were independently eligible post-BCMS, while Administration remained ineligible. Accepted ADR-0016 resolves their tied immediate sequencing state by selecting Notifications-only BNTF without asserting priority, superiority, preference, or greater dependency closure.
 
-Reporting remains independently eligible, separate, unresolved, unranked, and unordered beyond the immediate BNTF position. During BNTF Draft, Administration remains separate, unresolved, and dependency-blocked by missing Approved Notifications and Reporting backend invocation Contracts. A future Approved BNTF may close only Administration's Notifications invocation prerequisite; its Reporting invocation prerequisite would remain missing. ADR-0016 does not authorize Reporting or Administration and does not imply that Reporting follows BNTF.
+Approved BNTF closes only Administration's Notifications backend invocation prerequisite and does not by itself make Administration eligible. Administration remains separate, unresolved, and dependency-blocked by exactly one missing prerequisite: an Approved Reporting backend invocation Contract.
 
-All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BNTF remain unresolved until separately governed. ADR-0016 establishes no Reporting, Administration, or other post-BNTF backend position. Another governance decision is required unless canonical governance later uniquely determines the next position. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+Reporting is the only independently eligible remaining backend capability: Administration is dependency-blocked, and no other backend-capable Approved Domain remains without an Approved Backend Specification. The immediate BRPT position follows from this single-eligible-capability state without ranking Reporting above Administration or retrospectively extending ADR-0016, which selected only BNTF.
+
+Administration remains dependency-blocked while BRPT is absent or unapproved. A future Approved BRPT may close Administration's remaining Reporting backend invocation prerequisite, but this synchronization does not authorize an Administration Backend Specification, assign Administration a backend title, path, scope, decomposition, or roadmap position, or state that Administration automatically follows BRPT.
+
+All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BRPT remain unresolved until separately governed. No post-BRPT backend position is established. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1882,6 +1888,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.18.0 | 2026-09-24 | Approved | Synchronized BNTF to its existing 1.0.0 Approved state, recorded closure of Administration's Notifications prerequisite, established Reporting as the sole independently eligible remaining capability, authorized Reporting-only BRPT immediately after BNTF, and preserved Administration and every post-BRPT roadmap position as unresolved and unauthorized. |
 | 1.17.0 | 2026-09-23 | Approved | Corrected BCMS to its existing 1.0.0 Approved state, synchronized Accepted ADR-0016 by authorizing Notifications-only BNTF to enter Draft immediately after BCMS, preserved Reporting as independently eligible and unresolved, preserved Administration's remaining Notifications and Reporting invocation dependencies, and left every post-BNTF position unresolved. |
 | 1.16.0 | 2026-09-23 | Approved | Synchronized Accepted ADR-0015, corrected BRET to its existing 1.0.0 Approved state, established CMS-only BCMS immediately after BRET with Draft-only authorization once canonical, preserved Notifications as independently eligible, separate, unresolved, unranked, and unordered, recorded the remaining Reporting and Administration dependency state, and left every post-BCMS position unresolved. |
 | 1.15.0 | 2026-09-23 | Approved | Synchronized Accepted ADR-0014, corrected BPAY to its existing 1.0.0 Approved state, established Return-only BRET immediately after BPAY with Draft-only authorization, preserved CMS as independently eligible, unresolved, unranked, and unordered, recorded the remaining Administration, Notifications, and Reporting dependency state, and left every post-BRET position unresolved. |
@@ -1906,7 +1913,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.16.0
+- **Version:** 1.18.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
