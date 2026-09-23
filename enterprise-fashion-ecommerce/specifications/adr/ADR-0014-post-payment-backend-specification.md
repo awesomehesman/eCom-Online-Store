@@ -10,11 +10,11 @@ Post-Payment Backend Specification
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -38,7 +38,7 @@ Accepted ADR-0001 through ADR-0013 and synchronized `ARCHITECTURE.md` §35 estab
 
 The completed post-BPAY eligibility audit found exactly two independently eligible capabilities: CMS and Return. Administration remains dependency-blocked by missing CMS, Return, Notifications, and Reporting backend Contracts. Notifications remains blocked by a missing Return producer Contract. Reporting remains blocked by missing Return and CMS source Contracts. The audit did not select, rank, or order CMS and Return, so a governance decision is required before another Backend Specification may enter Draft.
 
-This Proposed decision evaluates CMS and Return symmetrically through governance dependency closure. It proposes Return because a future Approved Return backend Contract would close Notifications' remaining identified producer dependency and one of Reporting's two remaining source dependencies, while also closing a Return invocation dependency for Administration. A future Approved CMS backend Contract would close Reporting's CMS source dependency and a CMS invocation dependency for Administration but would leave Notifications blocked by Return. This is dependency analysis only, not a judgment of business value, technical merit, effort, simplicity, commercial importance, or preference.
+This Accepted decision evaluates CMS and Return symmetrically through governance dependency closure. It selects Return because a future Approved Return backend Contract would close Notifications' remaining identified producer dependency and one of Reporting's two remaining source dependencies, while also closing a Return invocation dependency for Administration. A future Approved CMS backend Contract would close Reporting's CMS source dependency and a CMS invocation dependency for Administration but would leave Notifications blocked by Return. This is dependency analysis only, not a judgment of business value, technical merit, effort, simplicity, commercial importance, or preference.
 
 ## Decision Drivers
 
@@ -88,7 +88,7 @@ Deferral would preserve the two-candidate ambiguity and establish no post-BPAY p
 
 ## Decision
 
-ADR-0014 proposes that the thirteenth downstream Backend Specification after BEB, immediately after BPAY, SHALL be:
+ADR-0014 establishes that the thirteenth downstream Backend Specification after BEB, immediately after BPAY, SHALL be:
 
 - **Capability:** Return
 - **Specification:** Return Backend Specification
@@ -101,9 +101,9 @@ ADR-0014 proposes that the thirteenth downstream Backend Specification after BEB
 
 BRET SHALL inherit and explicitly trace every materially applicable BEB Requirement, specialize only the Approved Return Domain, and consume governed Contracts or evidence without acquiring another Domain's authority.
 
-If ADR-0014 becomes Accepted and canonical `ARCHITECTURE.md` and `DECISIONS.md` synchronization is completed, the resulting canonical sequence will be `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET`.
+The resulting canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET`.
 
-Proposed ADR-0014 does not yet authorize BRET drafting. BRET may enter Draft only after ADR-0014 is Accepted and canonical synchronization is complete. Acceptance would not approve BRET; BRET would require its own Draft-to-Approved lifecycle.
+Accepted ADR-0014 and completed canonical synchronization authorize BRET to enter Draft. This decision does not approve BRET; BRET requires its own Draft-to-Approved lifecycle.
 
 ## Authority and Decomposition Boundaries
 
@@ -125,7 +125,7 @@ Contextual Authorization remains with the Domain owning the affected Resource, a
 
 ## Dependency Consequences
 
-Accepted ADR-0014 and canonical synchronization would authorize only a BRET Draft. Selecting BRET does not itself close downstream dependencies. Those dependencies can close only after a future BRET Specification becomes Approved and exposes the applicable governed Contracts.
+Accepted ADR-0014 and completed canonical synchronization authorize only a BRET Draft. Selecting BRET does not itself close downstream dependencies. Those dependencies can close only after a future BRET Specification becomes Approved and exposes the applicable governed Contracts.
 
 - **Administration:** remains separate and dependency-blocked by missing Approved CMS, Return, Notifications, and Reporting invocation Contracts during the BRET Draft lifecycle. After future BRET approval, CMS, Notifications, and Reporting would remain missing.
 - **Notifications:** remains separate and dependency-blocked by the missing Approved Return producer Contract during the BRET Draft lifecycle. Future BRET approval may close that dependency but does not authorize Notifications or establish its position.
@@ -136,7 +136,7 @@ No downstream capability is authorized by this dependency analysis.
 
 ## Open Product Decisions
 
-This Proposed decision preserves the following **21 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Return Domain §28:
+This Accepted decision preserves the following **21 materially applicable Open Product Decisions** from `PRODUCT.md` §24 and the Approved Return Domain §28:
 
 | Item | Open Product Decision | Preserved BRET boundary |
 | ---: | --- | --- |
@@ -166,7 +166,7 @@ No listed Product Decision is resolved by selecting BRET.
 
 ## Open Architecture Decisions
 
-This Proposed decision preserves the following **11 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
+This Accepted decision preserves the following **11 materially applicable Open Architecture Decisions** from `ARCHITECTURE.md` §34:
 
 | Item | Open Architecture Decision | Preserved BRET boundary |
 | ---: | --- | --- |
@@ -192,27 +192,27 @@ It defines no Role or Permission matrix, concrete Authorization mechanism, downs
 
 ## Consequences
 
-If Accepted and canonically synchronized:
+Acceptance and canonical synchronization establish that:
 
-- BRET will be authorized to enter Draft lifecycle as the immediate Backend Specification after BPAY;
+- BRET is authorized to enter Draft lifecycle as the immediate Backend Specification after BPAY;
 - BRET may specialize only behavior already governed by the Approved Return Domain and consume bounded Approved upstream Contracts without transferring authority;
 - BRET must complete its own Draft-to-Approved lifecycle before becoming an Approved normative backend Specification;
-- CMS will remain independently eligible, separate, unresolved, unranked, and unordered;
-- Administration, Notifications, and Reporting will remain separate and dependency-blocked during the BRET Draft lifecycle;
+- CMS remains independently eligible, separate, unresolved, unranked, and unordered;
+- Administration, Notifications, and Reporting remain separate and dependency-blocked during the BRET Draft lifecycle;
 - future BRET approval may close the Return dependency for Notifications and Reporting without authorizing either capability; and
-- every position after BRET will remain unresolved.
+- every position after BRET remains unresolved.
 
 The trade-off is that independently eligible CMS remains unresolved while Return dependency closure is pursued. This is a governance consequence, not a ranking of value, priority, effort, simplicity, commercial importance, or technical quality.
 
 ## Roadmap Containment
 
-The sole roadmap position proposed by ADR-0014 is BRET immediately after BPAY. This Proposed decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BRET.
+The sole roadmap position established by ADR-0014 is BRET immediately after BPAY. This Accepted decision establishes no backend identity, title, path, scope code, decomposition, or ordering position after BRET.
 
 CMS remains independently eligible, separate, unresolved, unranked, and unordered. Administration, Notifications, and Reporting remain separate and unresolved with the dependency state recorded above. No ordering among these capabilities is stated or implied. A future eligibility audit or Accepted ADR must govern any later position.
 
 ## Required Governance Reviews
 
-Before ADR-0014 may become Accepted, governance must record completion of:
+ADR-0014 was Accepted after governance recorded completion of:
 
 - Architecture review of the immediate post-BPAY selection, Return-only decomposition, title, path, scope code, and dependency-closure rationale;
 - affected Return ownership review confirming accurate specialization of the Approved Return Domain;
@@ -235,46 +235,46 @@ Before ADR-0014 may become Accepted, governance must record completion of:
 - confirmation that no Backend Specification identity, title, path, scope code, decomposition, or order after BRET is established; and
 - synchronized canonical updates to ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md`.
 
-No review is represented as completed while ADR-0014 remains Proposed. No reviewer name, signature, ticket, or external approval artifact is asserted.
+These completed governance reviews preserve the recorded authority, dependency, open-decision, implementation-neutrality, and roadmap-containment findings. No reviewer name, signature, ticket, or external approval artifact is asserted.
 
 ## Acceptance Conditions and Synchronization
 
-This Proposed decision becomes Accepted only after:
+This decision was Accepted after:
 
-- governance approves BRET as the immediate Backend Specification after BPAY;
-- required reviews confirm Return-only specialization and preservation of every external authority;
-- review confirms the dependency-closure rationale without ranking Return or CMS by business or technical merit;
-- review confirms CMS remains independently eligible, separate, unresolved, unranked, and unordered;
-- review confirms Administration remains blocked by missing Approved CMS, Return, Notifications, and Reporting invocation Contracts during the BRET Draft lifecycle;
-- review confirms Notifications remains blocked by a missing Approved Return producer Contract during the BRET Draft lifecycle;
-- review confirms Reporting remains blocked by missing Approved Return and CMS source Contracts during the BRET Draft lifecycle;
-- review confirms every post-BRET roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized by recording BPAY as `1.0.0 Approved` and `specifications/backend/payment/payment-backend.md` as existing and Approved; removing obsolete wording that BPAY is not Approved or that its file need not exist; recording that Approved BPAY closed Return's previously missing Payment/Refund backend prerequisite; establishing Return-only BRET immediately after BPAY with authorization only to enter Draft after ADR-0014 acceptance and canonical synchronization; preserving CMS as independently eligible, separate, unresolved, unranked, and unordered; preserving the exact remaining Administration, Notifications, and Reporting dependency state; and leaving every post-BRET roadmap position unresolved;
-- `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0014 as Accepted; and
-- ADR-0014 lifecycle wording is synchronized to the Accepted decision.
+- governance approved BRET as the immediate Backend Specification after BPAY;
+- required reviews confirmed Return-only specialization and preservation of every external authority;
+- review confirmed the dependency-closure rationale without ranking Return or CMS by business or technical merit;
+- review confirmed CMS remains independently eligible, separate, unresolved, unranked, and unordered;
+- review confirmed Administration remains blocked by missing Approved CMS, Return, Notifications, and Reporting invocation Contracts during the BRET Draft lifecycle;
+- review confirmed Notifications remains blocked by a missing Approved Return producer Contract during the BRET Draft lifecycle;
+- review confirmed Reporting remains blocked by missing Approved Return and CMS source Contracts during the BRET Draft lifecycle;
+- review confirmed every post-BRET roadmap position remains unresolved;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History were synchronized by recording BPAY as `1.0.0 Approved` and `specifications/backend/payment/payment-backend.md` as existing and Approved; removing obsolete wording that BPAY was not Approved or that its file need not exist; recording that Approved BPAY closed Return's previously missing Payment/Refund backend prerequisite; establishing Return-only BRET immediately after BPAY with authorization only to enter Draft after ADR-0014 acceptance and canonical synchronization; preserving CMS as independently eligible, separate, unresolved, unranked, and unordered; preserving the exact remaining Administration, Notifications, and Reporting dependency state; and leaving every post-BRET roadmap position unresolved;
+- `DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0014 as Accepted; and
+- ADR-0014 lifecycle wording was synchronized to the Accepted decision.
 
-Acceptance synchronization must modify only ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md` unless review discovers a direct contradiction requiring a separately governed correction. `PRODUCT.md` requires no change unless such a contradiction is discovered.
+Acceptance synchronization modified only ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md`; review discovered no direct contradiction requiring a separately governed correction, and `PRODUCT.md` required no change.
 
-Until every acceptance condition and canonical synchronization step is complete, BRET remains unauthorized for Draft governance.
+Acceptance and canonical synchronization are complete. BRET is authorized to enter Draft governance but is not Approved and must complete its own Draft-to-Approved lifecycle.
 
 ## Validation Criteria
 
-Acceptance review must verify that:
+The synchronized Accepted decision verifies that:
 
-1. ADR-0014 is `0.1.0 Proposed`, `authoritative: true`, dated and last updated `2026-09-23`;
-2. the canonical pre-decision sequence ends at `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY`;
+1. ADR-0014 is `1.0.0 Accepted`, `authoritative: true`, dated and last updated `2026-09-23`;
+2. the canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET`;
 3. the post-BPAY audit accurately identifies CMS and Return as independently eligible and Administration, Notifications, and Reporting as dependency-blocked;
 4. CMS and Return are represented fairly without subjective ranking;
 5. Return is the sole selected immediate post-BPAY capability through governance dependency closure;
-6. the proposed Specification is exactly the Return Backend Specification at `specifications/backend/return/return-backend.md` under unique scope `BRET` with Return-only decomposition;
-7. BRET is authorized only for Draft after ADR acceptance and canonical synchronization and is not Approved;
+6. the established Specification is exactly the Return Backend Specification at `specifications/backend/return/return-backend.md` under unique scope `BRET` with Return-only decomposition;
+7. BRET is authorized for Draft after completed ADR acceptance and canonical synchronization and is not Approved;
 8. CMS remains independently eligible, separate, unresolved, unranked, and unordered;
 9. Administration retains missing CMS, Return, Notifications, and Reporting invocation dependencies during the BRET Draft lifecycle;
 10. Notifications retains its missing Approved Return producer dependency during the BRET Draft lifecycle;
 11. Reporting retains its missing Approved Return and CMS source dependencies during the BRET Draft lifecycle;
 12. all 21 listed Product Decisions and 11 listed Architecture Decisions remain exact and unresolved;
 13. no provider, Product policy, Contract design, implementation mechanism, infrastructure choice, or numerical value is selected;
-14. acceptance synchronization remains limited to ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md` unless a separately governed correction is required;
+14. acceptance synchronization is complete and limited to ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md`, with no separately governed correction required;
 15. every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BRET remains unresolved; and
 16. acceptance synchronization affects only `specifications/adr/ADR-0014-post-payment-backend-specification.md`, `.ai/core/ARCHITECTURE.md`, and `.ai/core/DECISIONS.md` unless a separately governed correction is required, and introduces no unrelated repository changes.
 
@@ -313,4 +313,5 @@ Acceptance review must verify that:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-23 | Accepted | Accepted Return-only BRET immediately after BPAY with Draft-only authorization, preserved CMS as independently eligible and unresolved, and left every post-BRET position unresolved. |
 | 0.1.0 | 2026-09-23 | Proposed | Proposed Return-only BRET immediately after BPAY through governance dependency closure while preserving CMS as independently eligible, unresolved, unranked, and unordered and leaving every post-BRET position unresolved. |
