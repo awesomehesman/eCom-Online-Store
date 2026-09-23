@@ -1,7 +1,7 @@
 ---
 title: Notifications Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-09-24
 authoritative: false
@@ -12,7 +12,7 @@ scope: BNTF
 
 ## 1. Purpose
 
-This Draft Specification defines implementation-facing backend obligations for the Approved Notifications Domain under scope `BNTF`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Notifications backend scope, remain `authoritative: false`, and remain subordinate to higher-authority governing sources, Approved Business Requirements, the Approved Notifications Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0016, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Notifications Domain under scope `BNTF`. Its Requirements are normative only within the Notifications backend scope, remain `authoritative: false`, and remain subordinate to higher-authority governing sources, Approved Business Requirements, the Approved Notifications Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0016, and applicable repository standards.
 
 BNTF uses the Notifications-only decomposition authorized by Accepted ADR-0016 as the fifteenth downstream Backend Specification after BEB, immediately after Approved BCMS. It consumes only materially applicable governed Contracts or evidence and acquires no Identity, Customer, Account, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, Administration, or other Domain authority. It resolves no Open Product or Architecture Decision and establishes no post-BNTF roadmap position.
 
@@ -20,7 +20,7 @@ BNTF uses the Notifications-only decomposition authorized by Accepted ADR-0016 a
 
 ### BNTF-REQ-001 — Lifecycle, Scope, and Authority
 
-BNTF MUST use scope `BNTF`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, remain non-normative while Draft, specialize only the Approved Notifications Domain, preserve governing-source precedence, and claim no repository-wide authority.
+BNTF MUST use scope `BNTF`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the Notifications backend scope, specialize only the Approved Notifications Domain, preserve governing-source precedence, and claim no repository-wide authority.
 
 ### BNTF-REQ-002 — Complete Notifications Domain Specialization
 
@@ -28,7 +28,7 @@ BNTF MUST specialize every `REQ-NTF-001` through `REQ-NTF-056` without weakening
 
 ### BNTF-REQ-003 — Decomposition and Roadmap Containment
 
-BNTF MUST use a Notifications-only decomposition, immediately follow Approved BCMS, preserve Reporting as independently eligible, separate, unresolved, unranked, and unordered, preserve Administration as dependency-blocked during BNTF Draft, and MUST NOT establish or authorize any post-BNTF Backend Specification identity, title, path, scope, decomposition, or ordering.
+BNTF MUST use a Notifications-only decomposition, immediately follow Approved BCMS, preserve Reporting as independently eligible, separate, unresolved, unranked, and unordered, preserve Administration as dependency-blocked by the missing Approved Reporting backend invocation Contract after BNTF approval closes only its Notifications prerequisite, and MUST NOT establish or authorize any post-BNTF Backend Specification identity, title, path, scope, decomposition, or ordering.
 
 ### BNTF-REQ-004 — BEB Inheritance
 
@@ -220,7 +220,7 @@ BNTF MUST preserve required historical, security, audit, investigation, and reco
 
 ### BNTF-REQ-051 — Downstream Dependency Containment
 
-During BNTF Draft, Administration MUST remain blocked by missing Approved Notifications and Reporting backend invocation Contracts. Future BNTF approval MAY close only Administration's Notifications invocation prerequisite; Reporting remains independently eligible, separate, unresolved, unranked, and unordered, its invocation prerequisite remains missing, and no post-BNTF roadmap position is established.
+Approved BNTF closes only Administration's Notifications backend invocation prerequisite. Administration MUST remain blocked by the missing Approved Reporting backend invocation Contract; Reporting remains independently eligible, separate, unresolved, unranked, and unordered, and no post-BNTF roadmap position is established.
 
 ### BNTF-REQ-052 — Governance Integrity and Traceability
 
@@ -433,9 +433,9 @@ All 56 BEB Requirements are accounted for as materially applicable; explicitly n
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BNTF-AC-001 | BNTF-REQ-001 | Metadata shows `0.1.0 Draft`, `authoritative: false`, scope `BNTF`, Draft non-normativity, bounded authority, and governing-source subordination. |
+| BNTF-AC-001 | BNTF-REQ-001 | Metadata shows `1.0.0 Approved`, `authoritative: false`, scope `BNTF`, normativity only within BNTF scope, bounded authority, and governing-source subordination. |
 | BNTF-AC-002 | BNTF-REQ-002 | The Domain matrix accounts for every `REQ-NTF-001` through `REQ-NTF-056`. |
-| BNTF-AC-003 | BNTF-REQ-003 | BNTF is Notifications-only after BCMS; Reporting and Administration states and every later position remain contained. |
+| BNTF-AC-003 | BNTF-REQ-003 | BNTF is Notifications-only after BCMS; approval closes only Administration's Notifications prerequisite, Reporting remains unresolved and unpositioned, Administration remains blocked by Reporting, and every later position remains contained. |
 | BNTF-AC-004 | BNTF-REQ-004 | The BEB matrix accounts individually for all 56 BEB Requirements with BNTF traces. |
 | BNTF-AC-005 | BNTF-REQ-005 | Architecture evidence preserves Module, layer, Port, Adapter, and inward dependency boundaries. |
 | BNTF-AC-006 | BNTF-REQ-006 | Contracts and Use Cases are intentional, bounded, validated, compatible, failure-safe, and free of concrete transport authority. |
@@ -483,7 +483,7 @@ All 56 BEB Requirements are accounted for as materially applicable; explicitly n
 | BNTF-AC-048 | BNTF-REQ-048 | Review finds all Open Decisions unresolved and no unauthorized policy, API, schema, event, provider, cache, infrastructure, numerical, or Role/Permission choice. |
 | BNTF-AC-049 | BNTF-REQ-049 | Provider and callback interactions preserve authenticity, integrity, correlation, replay safety, privacy, uncertainty, recovery, and non-authority. |
 | BNTF-AC-050 | BNTF-REQ-050 | Historical evidence is preserved under governing policy; unresolved correction, deletion, closure, and retention rules remain explicit with no local mechanism or period. |
-| BNTF-AC-051 | BNTF-REQ-051 | During Draft both Administration prerequisites remain missing; future approval can close only Notifications, Reporting remains eligible and unresolved, and no later position is created. |
+| BNTF-AC-051 | BNTF-REQ-051 | Approved BNTF closes only Administration's Notifications prerequisite; the Reporting prerequisite remains missing, Reporting remains independently eligible and unresolved, Administration remains blocked, and no later position is created. |
 | BNTF-AC-052 | BNTF-REQ-052 | Counts, matrices, decisions, review requirements, documents, history, and validation are complete, consistent, and lifecycle-correct. |
 
 ## 8. Open Product Decisions
@@ -530,7 +530,7 @@ BNTF selects no communication eligibility, transactional/marketing classificatio
 
 ## 11. Dependency and Roadmap Containment
 
-During the BNTF Draft lifecycle, Administration remains blocked by missing Approved Notifications and Reporting backend invocation Contracts. Future BNTF approval may close only Administration's Notifications invocation prerequisite; the Reporting invocation prerequisite would remain missing, so BNTF approval alone cannot make Administration eligible or authorize its Draft.
+Approved BNTF closes only Administration's Notifications backend invocation prerequisite. Administration remains blocked by the missing Approved Reporting backend invocation Contract, so BNTF approval alone does not make Administration eligible or authorize its Draft.
 
 Reporting remains independently eligible, separate, unresolved, unranked, and unordered beyond BNTF. BNTF does not assign Reporting a title, path, scope, decomposition, or position and does not imply that Reporting follows BNTF. Every post-BNTF roadmap position remains unresolved.
 
@@ -549,7 +549,7 @@ Reporting remains independently eligible, separate, unresolved, unranked, and un
 
 ## 13. Required Governance Reviews
 
-Before approval, governance must review Architecture and Notifications ownership; materially affected Identity, Customer, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, and Administration ownership where Contracts or evidence intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation. Review must confirm complete Domain and BEB accounting, one-to-one Requirement/Acceptance-Criterion traceability, provider and cross-Domain non-authority, exact Open Decision inventories, implementation neutrality, dependency state, and roadmap containment. This Draft records no completed approval-readiness review and asserts no reviewer identity, signature, ticket, date, or external evidence.
+Approval-readiness review completed with no blockers across Architecture and Notifications ownership; materially affected Identity, Customer, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, and Administration ownership where Contracts or evidence intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation. The review confirmed complete Domain and BEB accounting, one-to-one Requirement/Acceptance-Criterion traceability, provider and cross-Domain non-authority, exact Open Decision inventories, implementation neutrality, dependency state, and roadmap containment. No reviewer identity, signature, ticket, date beyond the governed document date, or external evidence is asserted.
 
 ## 14. Related Documents
 
@@ -593,13 +593,14 @@ Before approval, governance must review Architecture and Notifications ownership
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-24 | Approved | Promoted the Notifications Backend Specification after approval-readiness validation confirmed complete Notifications Domain coverage, BEB accounting, traceability, authority boundaries, unresolved-decision preservation, implementation neutrality, and roadmap containment with no blockers. |
 | 0.1.0 | 2026-09-24 | Draft | Established the initial Notifications-only BNTF backend Specification authorized by Accepted ADR-0016, specializing the Approved Notifications Domain and materially applicable BEB Requirements while preserving external authority, unresolved decisions, implementation neutrality, and post-BNTF roadmap containment. |
 
 ## 16. Final Validation
 
-Before approval, reviewers must verify that:
+Final approval validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Engineering`, scope is `BNTF`, and Draft content is non-normative and subordinate to governing authority;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Engineering`, scope is `BNTF`, and Requirements are normative only within BNTF scope and subordinate to governing authority;
 2. decomposition is Notifications-only, BNTF immediately follows Approved BCMS, and every owning-Domain authority boundary remains intact;
 3. all 52 BNTF Requirements and 52 corresponding Acceptance Criteria are unique, contiguous, independently reviewable, and one-to-one;
 4. all 52 Requirement Traceability rows map each BNTF Requirement to exactly one Acceptance Criterion and materially supporting sources, with no orphan or duplicate identifier;
@@ -607,8 +608,8 @@ Before approval, reviewers must verify that:
 6. exactly Product Decisions `4, 5, 7, 10, 11, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28` and Architecture Decisions `1, 2, 3, 7, 8, 9, 12, 13, 14` remain unresolved;
 7. Notifications identity, requests, recipient context, templates, rendering, channels, providers, attempts, Delivery Status, retry, exhaustion, stale facts, failure, recovery, reconciliation, accessibility, security, privacy, observability, audit, Contracts, conditional events, and verification are covered;
 8. no external Domain authority, concrete cross-Domain Contract, event, provider, API, DTO, persistence, cache, infrastructure, deployment, Role/Permission, numerical, or unresolved policy choice is introduced;
-9. governance review requirements are complete but are not represented as completed while this Specification remains Draft;
-10. Revision History contains exactly one `0.1.0 Draft` entry and no Approved entry;
+9. approval-readiness review completed with no Critical, High, Medium, or Low blockers and without invented reviewer identities or external evidence;
+10. Revision History contains exactly one preserved `0.1.0 Draft` entry and one `1.0.0 Approved` entry;
 11. Related Documents exist and terminology remains consistent with governing sources;
 12. repository validation confirms the BNTF change affects only `specifications/backend/notifications/notifications-backend.md`, whitespace validation passes, no unrelated repository changes exist, and the staging area remains empty; and
-13. Reporting remains independently eligible and unresolved, Administration remains blocked by both Notifications and Reporting invocation Contracts during BNTF Draft, future BNTF approval may close only the Notifications prerequisite, and no post-BNTF roadmap position is established.
+13. Approved BNTF closes only Administration's Notifications invocation prerequisite; Administration remains blocked by the missing Approved Reporting invocation Contract, Reporting remains independently eligible, separate, unresolved, unranked, and unordered, and no post-BNTF roadmap position is established.
