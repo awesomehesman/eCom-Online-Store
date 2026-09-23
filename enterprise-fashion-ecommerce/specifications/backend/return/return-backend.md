@@ -1,7 +1,7 @@
 ---
 title: Return Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend
 last_updated: 2026-09-23
 authoritative: false
@@ -12,7 +12,7 @@ scope: BRET
 
 ## 1. Purpose
 
-This Draft Specification defines implementation-facing backend obligations for the Approved Return Domain under scope `BRET`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Return backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Return Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0014, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Return Domain under scope `BRET`. Its Requirements are normative only within the Return backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Return Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0014, and applicable repository standards.
 
 BRET uses the Return-only decomposition authorized by Accepted ADR-0014 immediately after BPAY as the thirteenth downstream Backend Specification after BEB. It consumes governed evidence without acquiring Order, Inventory, Shipping and Fulfilment, Payment, Pricing, Product, Category, Cart, Checkout, Identity, Customer, CMS, Administration, Notifications, Reporting, or other authority. It resolves no Open Product or Architecture Decision and establishes no post-BRET roadmap position.
 
@@ -20,7 +20,7 @@ BRET uses the Return-only decomposition authorized by Accepted ADR-0014 immediat
 
 ### BRET-REQ-001 — Lifecycle, Scope, and Authority
 
-BRET MUST use scope `BRET`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, remain non-normative while Draft, specialize only the Approved Return Domain, preserve governing-source precedence, and claim no repository-wide authority.
+BRET MUST use scope `BRET`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the Return backend scope, specialize only the Approved Return Domain, preserve governing-source precedence, and claim no repository-wide authority.
 
 ### BRET-REQ-002 — Complete Return Domain Specialization
 
@@ -208,21 +208,21 @@ BRET MUST provide implementation-neutral correlated diagnostic evidence sufficie
 
 ### BRET-REQ-048 — Downstream Dependency Containment
 
-During BRET Draft, Administration MUST remain blocked by missing Approved CMS, Return, Notifications, and Reporting invocation Contracts; Notifications MUST remain blocked by an Approved Return producer Contract; Reporting MUST remain blocked by Approved Return and CMS source Contracts. Draft BRET closes none of these dependencies, authorizes no downstream Specification, and creates no downstream Contract authority.
+Approved BRET closes Administration's Return backend invocation Contract prerequisite, Notifications' Return backend producer Contract prerequisite, and Reporting's Return backend source Contract prerequisite. Administration MUST remain separate and unresolved with missing Approved CMS, Notifications, and Reporting invocation Contracts; Notifications MUST remain separate and unresolved; Reporting MUST remain separate and unresolved with a missing Approved CMS source Contract. BRET approval authorizes no downstream Specification, establishes no eligibility conclusion for these capabilities, and creates no downstream Contract authority beyond the governed Return-side prerequisites.
 
-### BRET-REQ-049 — Future Approval Effects Remain Conditional
+### BRET-REQ-049 — Approval Effects Remain Bounded
 
-A future Approved BRET MAY close only applicable Return-side prerequisites for Administration, Notifications, and Reporting. Such approval MUST NOT close CMS, Notifications, Reporting, or other missing dependencies, authorize another Draft, or establish a later roadmap position.
+BRET approval closes only the applicable Return-side prerequisites described in BRET-REQ-048. It MUST NOT close CMS, Notifications, Reporting, or other missing dependencies, authorize another Draft, establish another capability's eligibility, or establish a later roadmap position.
 
 ### BRET-REQ-050 — Governance Completeness
 
-BRET MUST maintain complete Requirement-to-Acceptance-Criterion traceability, Return Domain coverage, BEB accounting, open-decision inventories, authority matrices, pending governance reviews, Related Documents, Revision History, and lifecycle-correct final validation.
+BRET MUST maintain complete Requirement-to-Acceptance-Criterion traceability, Return Domain coverage, BEB accounting, open-decision inventories, authority matrices, governance reviews, Related Documents, Revision History, and lifecycle-correct final validation.
 
 ## 3. Acceptance Criteria
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BRET-AC-001 | BRET-REQ-001 | Metadata and scope review show `0.1.0 Draft`, `authoritative: false`, scope `BRET`, non-normative Draft status, bounded authority, and no repository-wide claim. |
+| BRET-AC-001 | BRET-REQ-001 | Metadata and scope review show `1.0.0 Approved`, `authoritative: false`, scope `BRET`, normative authority only within the Return backend scope, continued subordination to governing sources, bounded authority, and no repository-wide claim. |
 | BRET-AC-002 | BRET-REQ-002 | The Return coverage matrix accounts for every `REQ-RET-001` through `REQ-RET-048` without omission or authority transfer. |
 | BRET-AC-003 | BRET-REQ-003 | BRET is Return-only, follows BPAY, preserves CMS status, and establishes no later identity or position. |
 | BRET-AC-004 | BRET-REQ-004 | The BEB matrix accounts for `BEB-REQ-001` through `BEB-REQ-056`, with every applicable obligation inherited. |
@@ -269,8 +269,8 @@ BRET MUST maintain complete Requirement-to-Acceptance-Criterion traceability, Re
 | BRET-AC-045 | BRET-REQ-045 | Effect-capable operations remain correlated, idempotent where applicable, retry/replay-safe, duplicate-safe, and reconcilable without selected values or mechanisms. |
 | BRET-AC-046 | BRET-REQ-046 | Security evidence demonstrates least privilege, validation, minimization, safe errors, Secret isolation, and protected diagnostics across all listed data classes. |
 | BRET-AC-047 | BRET-REQ-047 | Diagnostic evidence distinguishes ownership and dependency failures and supports safe investigation, recovery, and truthful health without provider or target choices. |
-| BRET-AC-048 | BRET-REQ-048 | Draft BRET closes none of the exact Administration, Notifications, or Reporting dependencies and authorizes no downstream specification or Contract authority. |
-| BRET-AC-049 | BRET-REQ-049 | Future BRET approval effects remain conditional, Return-side only, and establish no other eligibility or roadmap position. |
+| BRET-AC-048 | BRET-REQ-048 | Approved BRET closes only the governed Return-side Administration invocation, Notifications producer, and Reporting source prerequisites; every stated CMS, Notifications, and Reporting dependency and all downstream non-authorization boundaries remain intact. |
+| BRET-AC-049 | BRET-REQ-049 | BRET approval effects are Return-side only and close no CMS, Notifications, Reporting, or other missing dependency, authorize no Draft, establish no other eligibility, and establish no roadmap position. |
 | BRET-AC-050 | BRET-REQ-050 | Counts, mappings, matrices, decision inventories, reviews, references, history, and final validation are complete and internally consistent. |
 
 ## 4. Requirement Traceability
@@ -453,7 +453,7 @@ The following **11 materially applicable Open Architecture Decisions** from `ARC
 
 BRET selects no Return eligibility policy, Return Window, Exchange policy, Refund eligibility or amount policy, Partial Refund policy, cancellation rule, Voucher or Promotion restoration, Tax or Credit Note policy, store-credit policy, Return fee, restocking fee, shipping-fee Refund policy, Return reason policy, inspection policy, disposition policy, provider, API, HTTP detail, DTO, payload, schema, table, column, index, ORM mapping, event, topic, queue, broker, cache, Redis use, infrastructure product, topology, identifier format, retry count, timeout, TTL, retention period, rate limit, SLA, SLO, recovery objective, fraud mechanism, Role/Permission matrix, or other unresolved mechanism or policy.
 
-CMS remains independently eligible, separate, unresolved, unranked, and unordered. Administration, Notifications, and Reporting remain separate and unresolved with the dependencies recorded in BRET-REQ-048–049. BRET establishes no post-BRET title, path, scope, decomposition, or order and authorizes no downstream Draft.
+CMS remains independently eligible, separate, unresolved, unranked, and unordered. Approved BRET closes only the governed Return-side prerequisites recorded in BRET-REQ-048–049: Administration remains separate and unresolved with missing CMS, Notifications, and Reporting invocation Contracts; Notifications remains separate and unresolved after closure of its Return producer prerequisite; Reporting remains separate and unresolved with its CMS source Contract still missing after closure of its Return source prerequisite. BRET establishes no post-BRET title, path, scope, decomposition, or order and authorizes no downstream Draft.
 
 ## 12. Risks and Controls
 
@@ -472,7 +472,7 @@ CMS remains independently eligible, separate, unresolved, unranked, and unordere
 
 ## 13. Required Governance Reviews
 
-Before approval, governance review MUST confirm:
+Approval governance recorded confirmation of:
 
 - Architecture and Return ownership review of Return-only scope, ADR-0014 conformance, BEB inheritance, and roadmap containment;
 - affected Order, Inventory, Shipping and Fulfilment, Payment, Pricing, Product, Identity, Customer, Administration, Notifications, Reporting, and CMS ownership review of bounded Contracts and preserved authority;
@@ -481,10 +481,10 @@ Before approval, governance review MUST confirm:
 - Documentation review of lifecycle, terminology, references, traceability, decision inventories, and implementation neutrality;
 - all 48 Return Domain Requirements and all 56 BEB Requirements are accounted for;
 - all 21 Product and 11 Architecture Decisions remain exact and unresolved;
-- BRET Draft closes no Administration, Notifications, or Reporting prerequisite and authorizes no later backend Specification; and
+- BRET approval closes only the governed Return-side Administration, Notifications, and Reporting prerequisites, preserves every other missing dependency, and authorizes no later backend Specification; and
 - no provider, policy, API, persistence, event, cache, infrastructure, numerical target, or Role/Permission matrix is selected.
 
-These reviews are pending for the `0.1.0 Draft`. No completed approval, reviewer identity, signature, ticket, or external approval artifact is asserted.
+The Architecture, affected ownership, Security, Testing, and Documentation review dimensions above were completed for approval. No reviewer identity, signature, ticket, or external approval artifact is asserted.
 
 ## 14. Related Documents
 
@@ -529,13 +529,14 @@ These reviews are pending for the `0.1.0 Draft`. No completed approval, reviewer
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-23 | Approved | Approved the Return-only BRET backend Specification following successful governance validation, preserving complete Return Domain and BEB coverage, upstream authority boundaries, unresolved decisions, implementation neutrality, and post-BRET roadmap containment. |
 | 0.1.0 | 2026-09-23 | Draft | Established the initial Return-only BRET backend Specification authorized by Accepted ADR-0014, specializing the Approved Return Domain and materially applicable BEB Requirements while preserving upstream authority, unresolved decisions, implementation neutrality, and post-BRET roadmap containment. |
 
 ## 16. Final Validation
 
-Before Draft approval review, verify that:
+Final validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Backend`, scope is `BRET`, and the Draft remains non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Backend`, scope is `BRET`, and Requirements are normative only within the Return backend scope;
 2. the decomposition is Return-only, BRET immediately follows BPAY, and all cross-Domain authority boundaries remain intact;
 3. all 50 BRET Requirements are unique, contiguous, normative, implementation-neutral, and within scope;
 4. all 50 Acceptance Criteria map one-to-one to Requirements with no orphan or duplicate identifier;
@@ -545,5 +546,5 @@ Before Draft approval review, verify that:
 8. BORD, BINV, BSHP, and BPAY evidence is consumed without transferring Order, Inventory, Shipping and Fulfilment, Payment, Refund execution, or financial authority;
 9. Return eligibility, window, Exchange, Refund, cancellation, restoration, Tax, Credit Note, credit, fee, reason, inspection, and disposition policy remain unresolved where governance requires;
 10. no provider, API, DTO, persistence, event, cache, infrastructure, numerical target, Role/Permission matrix, or implementation mechanism is selected;
-11. required governance reviews remain pending, Revision History is lifecycle-correct, BRET Draft closes no downstream dependency, and every post-BRET roadmap position remains unresolved; and
+11. governance validation is complete, Revision History is lifecycle-correct, BRET approval closes only the governed Return-side Administration invocation, Notifications producer, and Reporting source prerequisites, Administration remains missing CMS, Notifications, and Reporting invocation Contracts, Reporting remains missing its CMS source Contract, CMS and all downstream capabilities remain separate and unresolved, no later Draft is authorized, and every post-BRET roadmap position remains unresolved; and
 12. the BRET lifecycle change affects only `specifications/backend/return/return-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
