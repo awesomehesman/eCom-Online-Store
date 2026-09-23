@@ -377,7 +377,7 @@ Every `REQ-RET-001` through `REQ-RET-048` is specialized; none is omitted or cla
 | BEB-REQ-043–044 | Applicable | Backend security, data protection, Secrets, and evidence safety. BRET-REQ-009, 018–20, 22–24, 26, 28–33, 36–37, 43, 45–47. |
 | BEB-REQ-045–046 | Applicable | Proportional Audit Records, observability, correlation, and health. BRET-REQ-007, 015, 017–20, 22–24, 28–31, 35–37, 43–47. |
 | BEB-REQ-047–048 | Applicable | Safe configuration and reachable feature states without selecting mechanisms. BRET-REQ-039–42, 50. |
-| BEB-REQ-049–051 | Applicable | Migration, deployment compatibility, bounded work, accessibility, and failure containment. BRET-REQ-007–008, 026, 032, 034–35, 40–42, 47. |
+| BEB-REQ-049–051 | Applicable | Migration, deployment compatibility, bounded work, and failure containment. BRET-REQ-007–008, 026, 032, 034–35, 40–42, 47. |
 | BEB-REQ-052–055 | Applicable | Domain, application, Adapter, integration, Contract, security, architecture, operational, and traceable verification. BRET-REQ-038, 050. |
 | BEB-REQ-056 | Applicable | Policy, provider, implementation, numerical, and roadmap neutrality. BRET-REQ-003, 014, 018, 021–27, 31–35, 039–50. |
 
@@ -546,4 +546,4 @@ Before Draft approval review, verify that:
 9. Return eligibility, window, Exchange, Refund, cancellation, restoration, Tax, Credit Note, credit, fee, reason, inspection, and disposition policy remain unresolved where governance requires;
 10. no provider, API, DTO, persistence, event, cache, infrastructure, numerical target, Role/Permission matrix, or implementation mechanism is selected;
 11. required governance reviews remain pending, Revision History is lifecycle-correct, BRET Draft closes no downstream dependency, and every post-BRET roadmap position remains unresolved; and
-12. the final change creates only `specifications/backend/return/return-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed.
+12. the BRET lifecycle change affects only `specifications/backend/return/return-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
