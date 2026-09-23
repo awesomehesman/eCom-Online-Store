@@ -249,7 +249,7 @@ This Proposed decision becomes Accepted only after:
 - review confirms Notifications remains blocked by a missing Approved Return producer Contract during the BRET Draft lifecycle;
 - review confirms Reporting remains blocked by missing Approved Return and CMS source Contracts during the BRET Draft lifecycle;
 - review confirms every post-BRET roadmap position remains unresolved;
-- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized through BRET;
+- `ARCHITECTURE.md` §35, metadata, Document Status, and Revision History are synchronized by recording BPAY as `1.0.0 Approved` and `specifications/backend/payment/payment-backend.md` as existing and Approved; removing obsolete wording that BPAY is not Approved or that its file need not exist; recording that Approved BPAY closed Return's previously missing Payment/Refund backend prerequisite; establishing Return-only BRET immediately after BPAY with authorization only to enter Draft after ADR-0014 acceptance and canonical synchronization; preserving CMS as independently eligible, separate, unresolved, unranked, and unordered; preserving the exact remaining Administration, Notifications, and Reporting dependency state; and leaving every post-BRET roadmap position unresolved;
 - `DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0014 as Accepted; and
 - ADR-0014 lifecycle wording is synchronized to the Accepted decision.
 
@@ -276,7 +276,7 @@ Acceptance review must verify that:
 13. no provider, Product policy, Contract design, implementation mechanism, infrastructure choice, or numerical value is selected;
 14. acceptance synchronization remains limited to ADR-0014, `ARCHITECTURE.md`, and `DECISIONS.md` unless a separately governed correction is required;
 15. every Backend Specification identity, title, path, scope code, decomposition, and ordering position after BRET remains unresolved; and
-16. the ADR-0014 lifecycle change affects only `specifications/adr/ADR-0014-post-payment-backend-specification.md` and introduces no unrelated repository changes.
+16. acceptance synchronization affects only `specifications/adr/ADR-0014-post-payment-backend-specification.md`, `.ai/core/ARCHITECTURE.md`, and `.ai/core/DECISIONS.md` unless a separately governed correction is required, and introduces no unrelated repository changes.
 
 ## Related Documents
 
