@@ -1,9 +1,9 @@
 ---
 title: Payment Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend / Payment
-last_updated: 2026-09-21
+last_updated: 2026-09-23
 authoritative: false
 scope: BPAY
 ---
@@ -12,7 +12,7 @@ scope: BPAY
 
 ## 1. Purpose
 
-This Draft Specification defines implementation-facing backend obligations for the Approved Payment Domain under scope `BPAY`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the Payment backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Payment Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0013, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved Payment Domain under scope `BPAY`. Its Requirements are normative only within the Payment backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved Payment Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0013, and applicable repository standards.
 
 BPAY uses the Payment-only decomposition authorized by Accepted ADR-0013 immediately after BSHP. It consumes governed evidence without acquiring Identity, Customer, Product, Category, Search and Discovery, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Return, CMS, Administration, Notifications, Reporting, or other authority. It resolves no Open Product or Architecture Decision and establishes no post-BPAY roadmap position.
 
@@ -20,7 +20,7 @@ BPAY uses the Payment-only decomposition authorized by Accepted ADR-0013 immedia
 
 ### BPAY-REQ-001 — Lifecycle, Scope, and Authority
 
-BPAY MUST use scope `BPAY`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, specialize only the Approved Payment Domain, preserve governing-source precedence, and claim no repository-wide authority.
+BPAY MUST use scope `BPAY`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the Payment backend scope, specialize only the Approved Payment Domain, preserve governing-source precedence, and claim no repository-wide authority.
 
 ### BPAY-REQ-002 — Complete Payment Domain Specialization
 
@@ -222,7 +222,7 @@ BPAY MUST maintain one-to-one Requirement and Acceptance Criterion coverage, com
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BPAY-AC-001 | BPAY-REQ-001 | Metadata and scope review show `0.1.0 Draft`, `authoritative: false`, scope `BPAY`, Payment-only bounded authority, and governing-source precedence. |
+| BPAY-AC-001 | BPAY-REQ-001 | Metadata and scope review show `1.0.0 Approved`, `authoritative: false`, scope `BPAY`, normativity only within the Payment backend scope, Payment-only bounded authority, and governing-source precedence. |
 | BPAY-AC-002 | BPAY-REQ-002 | The Payment coverage matrix accounts for `REQ-PAY-001` through `REQ-PAY-045` with no gap or authority transfer. |
 | BPAY-AC-003 | BPAY-REQ-003 | The document establishes no backend identity or order after BPAY and preserves every listed unresolved capability. |
 | BPAY-AC-004 | BPAY-REQ-004 | The BEB matrix accounts for `BEB-REQ-001` through `BEB-REQ-056` and applies each material or conditional obligation. |
@@ -452,7 +452,7 @@ CMS remains independently eligible, separate, unresolved, unranked, and unordere
 
 ## 13. Required Governance Reviews
 
-Before Draft approval review may complete, governance must record:
+Approval governance recorded completion of:
 
 - Architecture and Payment ownership review of Payment-only scope, BEB inheritance, ADR-0013 conformance, and roadmap containment;
 - affected Checkout, Order, Return, Pricing, Inventory, Shipping and Fulfilment, Administration, Notifications, Reporting, Identity, and Customer ownership review of their bounded Contracts and preserved authority;
@@ -463,7 +463,7 @@ Before Draft approval review may complete, governance must record:
 - confirmation that all 9 Product and 10 Architecture Decisions remain unresolved; and
 - confirmation that no post-BPAY backend identity or position is established.
 
-No review is represented as completed while BPAY remains Draft. No reviewer identity, signature, ticket, or external approval artifact is asserted.
+The Architecture, affected ownership, Security, Testing, and Documentation reviews represented above were completed for approval. No reviewer identity, signature, ticket, or external approval artifact is asserted.
 
 ## 14. Related Documents
 
@@ -507,13 +507,14 @@ No review is represented as completed while BPAY remains Draft. No reviewer iden
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-23 | Approved | Approved the Payment-only BPAY backend Specification following successful approval-readiness validation, preserving Payment Domain and BEB coverage, cross-domain authority boundaries, unresolved Product and Architecture decisions, implementation neutrality, and post-BPAY roadmap containment. |
 | 0.1.0 | 2026-09-21 | Draft | Established the initial Payment-only BPAY backend Specification authorized by ADR-0013, specializing the Approved Payment Domain and applicable Backend Engineering Baseline while preserving cross-domain authority and unresolved Product and Architecture decisions. |
 
 ## 16. Final Validation
 
-Before approval review, verify that:
+Final validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Backend / Payment`, scope is `BPAY`, and Draft content remains non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Backend / Payment`, scope is `BPAY`, and Requirements are normative only within the Payment backend scope;
 2. the decomposition is Payment-only and all cross-Domain authority boundaries remain intact;
 3. all 50 BPAY Requirements are unique, contiguous, normative, and within scope;
 4. all 50 Acceptance Criteria map one-to-one to Requirements with no orphan or duplicate identifier;
