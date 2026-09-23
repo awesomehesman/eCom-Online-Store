@@ -1,7 +1,7 @@
 ---
 title: CMS Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Backend
 last_updated: 2026-09-23
 authoritative: false
@@ -12,7 +12,7 @@ scope: BCMS
 
 ## 1. Purpose
 
-This Draft Specification defines implementation-facing backend obligations for the Approved CMS Domain under scope `BCMS`. While Draft, it is non-normative. If Approved, its Requirements will be normative only within the CMS backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved CMS Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0015, and applicable repository standards.
+This Approved Specification defines implementation-facing backend obligations for the Approved CMS Domain under scope `BCMS`. Its Requirements are normative only within the CMS backend scope, remain `authoritative: false`, and remain subordinate to governing sources, Approved Business Requirements, the Approved CMS Domain, materially applicable Shared Backend Baseline (`BEB`) Requirements, Accepted ADR-0015, and applicable repository standards.
 
 BCMS uses the CMS-only decomposition authorized by Accepted ADR-0015 immediately after Approved BRET as the fourteenth downstream Backend Specification after BEB. It consumes governed evidence without acquiring Product, Category, Pricing, Inventory, Identity, Customer, Consent, Preference, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Refund, Return, Search and Discovery, Notifications, Reporting, Administration, or other authority. It resolves no Open Product or Architecture Decision and establishes no post-BCMS roadmap position.
 
@@ -20,7 +20,7 @@ BCMS uses the CMS-only decomposition authorized by Accepted ADR-0015 immediately
 
 ### BCMS-REQ-001 — Lifecycle, Scope, and Authority
 
-BCMS MUST use scope `BCMS`, remain `authoritative: false`, identify its `0.1.0 Draft` lifecycle, remain non-normative while Draft, specialize only the Approved CMS Domain, preserve governing-source precedence, and claim no repository-wide authority.
+BCMS MUST use scope `BCMS`, remain `authoritative: false`, identify its `1.0.0 Approved` lifecycle, remain normative only within the CMS backend scope, specialize only the Approved CMS Domain, preserve governing-source precedence, and claim no repository-wide authority.
 
 ### BCMS-REQ-002 — Complete CMS Domain Specialization
 
@@ -212,11 +212,11 @@ BCMS MUST preserve all Open Product and Architecture Decisions, remain reversibl
 
 ### BCMS-REQ-049 — Downstream Dependency Containment
 
-During BCMS Draft, Reporting MUST remain blocked by a missing Approved CMS source Contract and Administration MUST remain blocked by missing Approved CMS, Notifications, and Reporting invocation Contracts; Notifications MUST remain independently eligible, separate, unresolved, unranked, and unordered, and no future BCMS approval effect may be represented as already closed.
+Approved BCMS closes Reporting's previously missing CMS source Contract prerequisite and Administration's previously missing CMS invocation Contract prerequisite. Administration MUST remain blocked by missing Approved Notifications and Reporting invocation Contracts; Notifications MUST remain independently eligible, separate, unresolved, unranked, and unordered without a CMS prerequisite; and BCMS approval MUST NOT establish or imply any post-BCMS roadmap position.
 
 ### BCMS-REQ-050 — Governance Integrity and Traceability
 
-BCMS MUST maintain complete Requirement-to-Acceptance-Criterion traceability, CMS Domain coverage, BEB accounting, open-decision inventories, authority boundaries, pending governance reviews, Related Documents, Revision History, and lifecycle-correct final validation.
+BCMS MUST maintain complete Requirement-to-Acceptance-Criterion traceability, CMS Domain coverage, BEB accounting, open-decision inventories, authority boundaries, completed governance-review evidence, Related Documents, Revision History, and lifecycle-correct final validation.
 
 ## 3. Canonical Inputs and Authority Boundaries
 
@@ -340,7 +340,7 @@ All 56 BEB Requirements are accounted for. Conditional applicability preserves t
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BCMS-AC-001 | BCMS-REQ-001 | Metadata and scope review show `0.1.0 Draft`, `authoritative: false`, scope `BCMS`, non-normative Draft status, bounded authority, and no repository-wide claim. |
+| BCMS-AC-001 | BCMS-REQ-001 | Metadata and scope review show `1.0.0 Approved`, `authoritative: false`, scope `BCMS`, normativity only within the CMS backend scope, bounded authority, governing-source subordination, and no repository-wide claim. |
 | BCMS-AC-002 | BCMS-REQ-002 | The coverage matrix accounts for every `REQ-CMS-001` through `REQ-CMS-051` without omission or authority transfer. |
 | BCMS-AC-003 | BCMS-REQ-003 | BCMS is CMS-only, follows BRET, preserves Notifications status, and establishes no later identity or position. |
 | BCMS-AC-004 | BCMS-REQ-004 | The BEB matrix accounts for `BEB-REQ-001` through `BEB-REQ-056` with defensible applicability and BCMS traces. |
@@ -388,7 +388,7 @@ All 56 BEB Requirements are accounted for. Conditional applicability preserves t
 | BCMS-AC-046 | BCMS-REQ-046 | Evolution evidence confirms version-controlled Flyway migration governance, immutable applied migration history, no runtime schema mutation or untracked schema drift, and preserved history, compatibility, recovery, bounded work, and failure containment without adding an implementation choice beyond canonical governance. |
 | BCMS-AC-047 | BCMS-REQ-047 | Layered tests cover Domain through operations and retain one-to-one traceability without mandated tools or targets. |
 | BCMS-AC-048 | BCMS-REQ-048 | Review finds no resolved Open Decision or selected API, schema, event, provider, cache, infrastructure, numerical, or Role/Permission mechanism. |
-| BCMS-AC-049 | BCMS-REQ-049 | Draft BCMS closes no downstream dependency; Reporting, Administration, and Notifications retain exactly their governed states and no later position. |
+| BCMS-AC-049 | BCMS-REQ-049 | Approved BCMS closes Reporting's CMS source and Administration's CMS invocation prerequisites; Administration remains blocked by Notifications and Reporting invocation Contracts, Notifications retains its governed independent and unordered state without a CMS prerequisite, and no later position is established. |
 | BCMS-AC-050 | BCMS-REQ-050 | Counts, matrices, decisions, reviews, documents, history, and final validation are complete, consistent, and lifecycle-correct. |
 
 ## 8. Open Product Decisions
@@ -441,7 +441,7 @@ BCMS selects no content schema or closed taxonomy; approval Role, workflow, or s
 
 ## 11. Dependency and Roadmap Containment
 
-Draft BCMS closes no downstream dependency. Reporting remains blocked by the missing Approved CMS source Contract; Approved BRET already closed its Return source prerequisite. Administration remains blocked by missing Approved CMS, Notifications, and Reporting invocation Contracts; Approved BRET already closed its Return invocation prerequisite. Notifications remains independently eligible, separate, unresolved, unranked, and unordered and has no CMS prerequisite. Future Approved BCMS may close the CMS-side Reporting and Administration prerequisites, but this Draft neither closes them nor authorizes or positions any downstream capability. Every post-BCMS position remains unresolved.
+Approved BCMS closes Reporting's previously missing CMS source Contract prerequisite; Approved BRET already closed its Return source prerequisite. Approved BCMS also closes Administration's previously missing CMS invocation Contract prerequisite; Approved BRET already closed its Return invocation prerequisite. Administration remains blocked by missing Approved Notifications and Reporting invocation Contracts. Notifications remains independently eligible, separate, unresolved, unranked, and unordered and has no CMS prerequisite. BCMS approval neither authorizes nor positions Reporting, Administration, Notifications, or any other downstream capability. Every post-BCMS position remains unresolved.
 
 ## 12. Risks and Controls
 
@@ -454,11 +454,11 @@ Draft BCMS closes no downstream dependency. Reporting remains blocked by the mis
 | Duplicate or concurrent work corrupts outcomes | Require stable effect semantics, concurrency safety, idempotency, and reconciliation. |
 | Sensitive data leaks | Minimize data and protect every Contract, representation, log, event, and audit surface. |
 | Copies become authoritative | Treat storefront, cache, CDN, Search, Reporting, and analytics representations as stale-capable. |
-| Draft implies downstream authorization | Preserve dependency and roadmap containment explicitly. |
+| BCMS approval is treated as downstream roadmap authorization | Preserve dependency effects and roadmap containment explicitly. |
 
 ## 13. Required Governance Reviews
 
-Before promotion, pending review MUST include Architecture and CMS ownership; affected Product, Category, Pricing, Inventory, Identity, Customer, Search and Discovery, Notifications, Reporting, Administration, and commerce ownership where Contracts intersect; Security; Accessibility; Testing; and Documentation. Review must confirm all 51 CMS Domain Requirements and 56 BEB Requirements are accounted for, one-to-one Requirement/AC/traceability, authority preservation, exact open-decision inventories, implementation neutrality, and post-BCMS containment. This Draft records no completed approval review, reviewer identity, signature, ticket, or external artifact.
+The completed approval-readiness governance review covered Architecture and CMS ownership; affected Product, Category, Pricing, Inventory, Identity, Customer, Search and Discovery, Notifications, Reporting, Administration, and commerce ownership where Contracts intersect; Security; Accessibility; Testing; and Documentation. It confirmed all 51 CMS Domain Requirements and 56 BEB Requirements are accounted for; all 50 BCMS Requirements, 50 Acceptance Criteria, and 50 traceability rows are one-to-one; authority boundaries are preserved; all 19 Product and 11 Architecture Decisions remain unresolved; implementation neutrality is preserved except mechanisms already mandated by canonical governance, including BEB-REQ-049 Flyway governance; and every post-BCMS roadmap position remains unresolved. No reviewer identity, signature, ticket, or external artifact is asserted.
 
 ## 14. Related Documents
 
@@ -486,13 +486,14 @@ Before promotion, pending review MUST include Architecture and CMS ownership; af
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-23 | Approved | Promoted BCMS after approval-readiness validation confirmed complete CMS Domain and BEB coverage, traceability, authority boundaries, unresolved decisions, implementation neutrality, and dependency and roadmap containment. |
 | 0.1.0 | 2026-09-23 | Draft | Established the initial CMS-only BCMS backend Specification authorized by Accepted ADR-0015, specializing the Approved CMS Domain and materially applicable BEB Requirements while preserving external authority, unresolved decisions, implementation neutrality, and post-BCMS roadmap containment. |
 
 ## 16. Final Validation
 
-Before approval-readiness review, verify that:
+Final approval validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Backend`, scope is `BCMS`, and the Draft is non-normative;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Backend`, scope is `BCMS`, and the Specification is normative only within BCMS scope and subordinate to governing authority;
 2. the decomposition is CMS-only, BCMS immediately follows Approved BRET, and all authority boundaries remain intact;
 3. all 50 BCMS Requirements and 50 corresponding Acceptance Criteria are unique and contiguous;
 4. all 50 traceability rows map each Requirement to exactly one Acceptance Criterion and governed sources;
@@ -500,7 +501,7 @@ Before approval-readiness review, verify that:
 6. all 19 Product and 11 Architecture Decisions remain unresolved;
 7. CMS identity, versions, publication, withdrawal, placement, history, recovery, reconciliation, accessibility, security, failure, Contract, event, observability, audit, and verification obligations are covered;
 8. no external Domain authority, concrete implementation mechanism, Role/Permission matrix, numerical target, or unresolved policy is introduced;
-9. Draft BCMS closes no downstream dependency, Notifications remains independently eligible and unordered, Reporting and Administration remain unresolved, and every post-BCMS roadmap position remains unresolved;
-10. required governance reviews remain pending and Revision History contains only the `0.1.0 Draft` entry;
+9. Approved BCMS closes Reporting's CMS source and Administration's CMS invocation prerequisites, Administration remains blocked by missing Notifications and Reporting invocation Contracts, Notifications remains independently eligible, separate, unresolved, unranked, and unordered without a CMS prerequisite, and every post-BCMS roadmap position remains unresolved;
+10. required governance review is completed and Revision History contains both the `1.0.0 Approved` and preserved `0.1.0 Draft` entries;
 11. Related Documents exist and terminology remains consistent with governing sources; and
 12. the BCMS lifecycle change affects only `specifications/backend/cms/cms-backend.md`, passes whitespace validation, and introduces no unrelated repository changes.
