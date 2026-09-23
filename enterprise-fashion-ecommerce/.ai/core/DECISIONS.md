@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.16
+version: 1.0.17
 status: Approved
 owner: Architecture
 last_updated: 2026-09-23
@@ -513,6 +513,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0012 | Post-Order Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-21 | — | [ADR-0012-post-order-backend-specification.md](../../specifications/adr/ADR-0012-post-order-backend-specification.md) |
 | ADR-0013 | Post-Shipping Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-21 | — | [ADR-0013-post-shipping-backend-specification.md](../../specifications/adr/ADR-0013-post-shipping-backend-specification.md) |
 | ADR-0014 | Post-Payment Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0014-post-payment-backend-specification.md](../../specifications/adr/ADR-0014-post-payment-backend-specification.md) |
+| ADR-0015 | Post-Return Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0015-post-return-backend-specification.md](../../specifications/adr/ADR-0015-post-return-backend-specification.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -642,6 +643,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.17 | 2026-09-23 | Approved | Added ADR-0015 as Accepted following completed governance review and canonical Architecture synchronization; selected CMS-only `BCMS` immediately after Approved BRET using governed dependency closure, preserved Notifications as independently eligible, separate, unresolved, unranked, and unordered, and left every post-BCMS backend roadmap position unresolved. |
 | 1.0.16 | 2026-09-23 | Approved | Added ADR-0014 as Accepted following completed governance review and canonical Architecture synchronization; selected Return-only `BRET` immediately after BPAY with Draft-only authorization, preserved CMS as independently eligible, separate, unresolved, unranked, and unordered, and left every post-BRET backend roadmap position unresolved. |
 | 1.0.15 | 2026-09-21 | Approved | Added ADR-0013 as Accepted following Architecture, affected ownership, Security, Testing, and Documentation review and canonical Architecture synchronization; selected Payment-only `BPAY` at `specifications/backend/payment/payment-backend.md` immediately after BSHP, preserved CMS as independently eligible, separate, unresolved, unranked, and unordered, preserved Return's unresolved Approved Payment backend Contract prerequisite, and left every post-BPAY backend roadmap position unresolved. |
 | 1.0.14 | 2026-09-21 | Approved | Added ADR-0012 as Accepted following Architecture, affected ownership, Security, Testing, and Documentation review and canonical Architecture synchronization; selected Shipping-and-Fulfilment-only `BSHP` at `specifications/backend/shipping/shipping-backend.md` immediately after BORD, preserved CMS and Payment as independently eligible, separate, unresolved, unranked, and unordered, preserved Return's unresolved Payment backend dependency, and left every post-BSHP backend roadmap position unresolved. |
