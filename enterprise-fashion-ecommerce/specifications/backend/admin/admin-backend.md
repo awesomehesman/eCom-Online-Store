@@ -1,7 +1,7 @@
 ---
 title: Administration Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-09-24
 authoritative: false
@@ -14,7 +14,7 @@ scope: BADM
 
 This Specification defines implementation-neutral backend obligations for Administration-owned Staff-facing workflow coordination, protected invocation of owning-Domain capabilities, operational evidence, recovery, and reconciliation.
 
-BADM is the Administration-only seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT. While Draft, it is non-normative. If Approved, its Requirements will be normative only within scope `BADM`, remain `authoritative: false`, subordinate to canonical governance and the Approved Administration Domain, inherit materially applicable BEB Requirements, and resolve no Open Product or Architecture Decision.
+BADM is the `1.0.0 Approved` Administration-only seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT. Its Requirements are normative only within scope `BADM`; it remains `authoritative: false`, subordinate to canonical governance and the Approved Administration Domain, inherits materially applicable BEB Requirements, and resolves no Open Product or Architecture Decision.
 
 ## 2. Requirements
 
@@ -240,7 +240,7 @@ BADM MUST inherit and explicitly account for every materially applicable BEB Req
 
 ### BADM-REQ-056 — Dependency and Roadmap Containment
 
-BADM is Administration-only immediately after Approved BRPT and authorized only as `0.1.0 Draft`; it MUST NOT authorize or establish any post-BADM backend identity, title, path, scope, decomposition, lifecycle, or position.
+BADM is `1.0.0 Approved`, Administration-only, and immediately after Approved BRPT; it MUST NOT authorize or establish any post-BADM backend identity, title, path, scope, decomposition, lifecycle, or position.
 
 ## 3. Canonical Inputs and Upstream Authority Boundaries
 
@@ -571,7 +571,7 @@ BADM selects no endpoint route, HTTP method or status, DTO or payload, schema, t
 
 ## 11. Dependency and Roadmap Containment
 
-BADM is the Administration-only seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT, and is authorized only as `0.1.0 Draft`. It consumes upstream capabilities solely through governed Contracts and transfers no authority. It does not authorize another Backend Specification, imply automatic progression, or establish any identity, scope, path, decomposition, or position after BADM. Every post-BADM position remains unresolved until separately governed.
+BADM is the `1.0.0 Approved` Administration-only seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT. It consumes upstream capabilities solely through governed Contracts and transfers no authority. It does not authorize another Backend Specification, imply automatic progression, or establish any identity, scope, path, decomposition, lifecycle, or position after BADM. Every post-BADM position remains unresolved until separately governed.
 
 ## 12. Risks and Controls
 
@@ -584,11 +584,11 @@ BADM is the Administration-only seventeenth downstream Backend Specification aft
 | Direct data repair bypasses Domains | Prohibit direct mutation and require governed recovery capabilities. |
 | Reports, search, or UI become authority | Preserve stale-capable, non-authoritative representations and source provenance. |
 | Implementation choices become policy | Preserve exact Open Decisions and explicit non-decisions. |
-| Draft is treated as later-roadmap authorization | Preserve all post-BADM positions as unresolved. |
+| BADM approval is treated as later-roadmap authorization | Preserve all post-BADM positions as unresolved. |
 
 ## 13. Required Governance Reviews
 
-Before approval, BADM requires Architecture and Administration ownership review; materially affected owning-Domain review where Contracts intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation review. Review MUST confirm complete Administration Domain and BEB accounting, one-to-one Requirement/Acceptance-Criterion traceability, protected operational boundaries, source non-authority, exact Open Decision inventories, implementation neutrality, and roadmap containment. This Draft claims no completed approval, reviewer identity, ticket, signature, merge, or external evidence.
+BADM completed its approval-readiness governance review with no blockers. The review verified complete Administration Domain and BEB accounting, Requirement/Acceptance-Criterion integrity, protected operational and authority boundaries, exact Open Decision inventories, implementation neutrality, and roadmap containment across Architecture and Administration ownership; materially affected owning-Domain boundaries where Contracts intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation. No reviewer identity, ticket, signature, meeting, external approval, implementation completion, or external evidence is asserted.
 
 ## 14. Related Documents
 
@@ -632,13 +632,14 @@ Before approval, BADM requires Architecture and Administration ownership review;
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-24 | Approved | Promoted BADM following approval-readiness validation while preserving Administration-only authority, complete Administration Domain and BEB accounting, exact Open Decisions, implementation neutrality, and post-BADM roadmap containment. |
 | 0.1.0 | 2026-09-24 | Draft | Established the governed Administration-only BADM backend Draft authorized by canonical Architecture, specializing the Approved Administration Domain and materially applicable BEB Requirements while preserving upstream authority, unresolved decisions, implementation neutrality, and post-BADM roadmap containment. |
 
 ## 16. Final Validation
 
-Before approval-readiness review, verify that:
+Final approval validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Engineering`, and scope is `BADM`;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Engineering`, and scope is `BADM`;
 2. decomposition is Administration-only and BADM immediately follows Approved BRPT;
 3. all 56 BADM Requirements and 56 Acceptance Criteria are unique, contiguous, independently verifiable, and one-to-one;
 4. all 56 traceability rows map each Requirement to exactly one Acceptance Criterion;
@@ -647,7 +648,7 @@ Before approval-readiness review, verify that:
 7. upstream authority, trusted server-side Authorization, protected operational boundaries, and non-authoritative representations remain intact;
 8. security, privacy, accessibility, audit, observability, failure, concurrency, recovery, reconciliation, compatibility, persistence, and testing are covered;
 9. no concrete API, DTO, schema, event, provider, cache, infrastructure, deployment, workflow, Role/Permission, numerical, policy, or later-roadmap choice is introduced;
-10. Required Governance Reviews remain pending and Revision History contains only the initial Draft entry;
+10. the approval-readiness governance review completed with no blockers and without invented human or external evidence, and Revision History preserves both `0.1.0 Draft` and `1.0.0 Approved` lifecycle states;
 11. Related Documents exist and terminology remains consistent with governing sources;
-12. the Draft change creates only `specifications/backend/admin/admin-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed; and
+12. the approval change affects only `specifications/backend/admin/admin-backend.md` and passes whitespace and integrity validation; and
 13. every post-BADM backend identity and position remains unresolved and unauthorized.
