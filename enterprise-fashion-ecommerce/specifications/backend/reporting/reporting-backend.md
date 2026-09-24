@@ -1,7 +1,7 @@
 ---
 title: Reporting Backend Specification
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Engineering
 last_updated: 2026-09-24
 authoritative: false
@@ -14,7 +14,7 @@ scope: BRPT
 
 This Specification defines implementation-neutral backend obligations for Reporting-owned definitions, read models, Projections, reports, dashboards, exports, lineage, freshness, recovery, and reconciliation.
 
-BRPT is the Reporting-only sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF. While Draft, it is non-normative. If Approved, its Requirements will be normative only within scope `BRPT`, remain `authoritative: false`, remain subordinate to governing sources and the Approved Reporting Domain, inherit materially applicable BEB Requirements, and resolve no Open Product or Architecture Decision.
+BRPT is the Approved Reporting-only sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF. Its Requirements are normative only within scope `BRPT`; it remains `authoritative: false`, remains subordinate to governing sources and the Approved Reporting Domain, inherits materially applicable BEB Requirements, and resolves no Open Product or Architecture Decision.
 
 ## 2. Requirements
 
@@ -240,7 +240,7 @@ BRPT MUST inherit and explicitly account for every materially applicable BEB Req
 
 ### BRPT-REQ-056 — Dependency and Roadmap Containment
 
-BRPT is Reporting-only immediately after Approved BNTF. While BRPT is Draft, Administration remains blocked by the missing Approved Reporting invocation Contract; BRPT MUST NOT authorize Administration or establish any post-BRPT identity or position.
+BRPT is Reporting-only immediately after Approved BNTF. Approved BRPT closes Administration's previously missing Approved Reporting backend invocation Contract prerequisite; BRPT MUST NOT authorize an Administration Backend Specification, assign Administration a backend identity, title, path, scope code, decomposition, or roadmap position, state that Administration automatically follows BRPT, or establish any post-BRPT backend position.
 
 ## 3. Canonical Inputs and Authority Boundaries
 
@@ -258,7 +258,7 @@ BRPT is governed by core governance, applicable backend standards, Approved BEB,
 | BRET | Governed Return, inspection, disposition, recovery, and reconciliation evidence | Return eligibility, lifecycle, disposition, Refund coordination, and restocking truth |
 | BCMS | Governed content, Campaign, placement, and publication evidence | CMS content, editorial, placement, and publication truth |
 | BNTF | Protected Notification, attempt, Delivery Status, and communication evidence | Notification, provider, channel, delivery, and recipient-delivery truth |
-| Administration | Protected invocation of future Approved BRPT capabilities | Administration workflows, Roles, Permissions, support, approval, and operational policy |
+| Administration | Protected invocation of Approved BRPT capabilities | Administration workflows, Roles, Permissions, support, approval, and operational policy |
 
 Reporting outputs remain read-oriented, stale-capable where applicable, and non-authoritative for transactional state.
 
@@ -556,7 +556,7 @@ BRPT selects no API route, HTTP method or status, DTO or payload, table, column,
 
 ## 11. Dependency and Roadmap Containment
 
-BRPT consumes only materially applicable governed evidence from Approved upstream sources and transfers no authority. While BRPT remains Draft, Administration remains blocked by the missing Approved Reporting backend invocation Contract. A future Approved BRPT may close that prerequisite, but this Draft does not authorize Administration, assign it a backend identity, or state that it follows BRPT. Every post-BRPT position remains unresolved.
+Approved BRPT consumes only materially applicable governed evidence from Approved upstream sources and transfers no authority. The Approved Reporting backend invocation Contract prerequisite is now available and closed for Administration, but BRPT approval does not authorize an Administration Backend Specification. Administration still requires separate governance before any backend identity, title, path, scope code, decomposition, lifecycle, or roadmap position may be established; BRPT does not state that Administration automatically follows it. Every post-BRPT position remains unresolved.
 
 ## 12. Risks and Controls
 
@@ -569,11 +569,11 @@ BRPT consumes only materially applicable governed evidence from Approved upstrea
 | Sensitive data leaks through reports or exports | Enforce purpose, minimization, masking, isolation, Authorization, and audit. |
 | Reporting harms transactional workloads | Require bounded work, isolation, and governed degradation. |
 | Implementation choices become policy | Preserve explicit non-decisions and exact Open Decision inventories. |
-| Draft is treated as downstream authorization | Preserve Administration and post-BRPT roadmap containment. |
+| BRPT approval is treated as downstream authorization | Preserve Administration and post-BRPT roadmap containment. |
 
 ## 13. Required Governance Reviews
 
-Before approval, BRPT requires Architecture and Reporting ownership review; materially affected source-Domain ownership review where Contracts intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation review. Review MUST confirm complete Reporting Domain and BEB accounting, one-to-one traceability, source non-authority, exact Open Decision inventories, implementation neutrality, and roadmap containment. This Draft claims no completed approval, reviewer identity, ticket, signature, merge, or external evidence.
+Approval-readiness governance review completed with no blockers across Architecture and Reporting ownership; materially affected source-Domain ownership where Contracts intersect; Security and Privacy; Accessibility; Testing; Operations; and Documentation. The review confirmed complete Reporting Domain and BEB accounting, one-to-one traceability, source non-authority, exact Open Decision inventories, implementation neutrality, and roadmap containment. No reviewer identity, ticket, signature, merge, or external evidence is asserted.
 
 ## 14. Related Documents
 
@@ -618,13 +618,14 @@ Before approval, BRPT requires Architecture and Reporting ownership review; mate
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-24 | Approved | Promoted BRPT following approval-readiness validation with Reporting Domain and BEB accounting, authority boundaries, unresolved decisions, implementation neutrality, and roadmap containment preserved. |
 | 0.1.0 | 2026-09-24 | Draft | Established the initial Reporting-only BRPT backend Specification authorized by canonical Architecture, specializing the Approved Reporting Domain and materially applicable BEB Requirements while preserving source authority, unresolved decisions, implementation neutrality, Administration dependency, and post-BRPT roadmap containment. |
 
 ## 16. Final Validation
 
-Before approval-readiness review, verify that:
+Final approval validation confirms that:
 
-1. metadata is `0.1.0 Draft`, `authoritative: false`, owner is `Engineering`, and scope is `BRPT`;
+1. metadata is `1.0.0 Approved`, `authoritative: false`, owner is `Engineering`, and scope is `BRPT`;
 2. decomposition is Reporting-only and BRPT immediately follows Approved BNTF;
 3. all 56 BRPT Requirements and 56 Acceptance Criteria are unique, contiguous, independently verifiable, and one-to-one;
 4. all 56 traceability rows map each Requirement to exactly one Acceptance Criterion;
@@ -633,7 +634,7 @@ Before approval-readiness review, verify that:
 7. Reporting remains non-authoritative for transactional truth and cannot mutate source Domains;
 8. security, privacy, Authorization, accessibility, audit, observability, failure, recovery, reconciliation, workload isolation, compatibility, persistence, and testing are covered;
 9. no concrete API, DTO, schema, event, provider, cache, infrastructure, deployment, numerical, policy, or later-roadmap choice is introduced;
-10. Required Governance Reviews remain pending and the Revision History contains only the initial Draft entry;
+10. the required approval-readiness governance review completed with no blockers and without invented reviewer identities or external evidence, and Revision History preserves both the `0.1.0 Draft` and `1.0.0 Approved` entries;
 11. Related Documents exist and terminology remains consistent with governing sources;
-12. the Draft change creates only `specifications/backend/reporting/reporting-backend.md`, passes whitespace validation, and remains unstaged, uncommitted, and unpushed; and
-13. Administration remains blocked until an Approved BRPT Contract exists, and no post-BRPT position is established.
+12. the BRPT lifecycle change affects only `specifications/backend/reporting/reporting-backend.md`, passes whitespace validation, and introduces no unrelated repository changes; and
+13. Approved BRPT closes Administration's Reporting backend invocation Contract prerequisite without authorizing an Administration Backend Specification, assigning Administration a backend identity or position, stating that Administration follows BRPT, or establishing any post-BRPT backend position.
