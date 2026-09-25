@@ -1,9 +1,9 @@
 ---
 title: DATABASE
-version: 1.0.1
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-09-25
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -170,7 +170,9 @@ This document does not select one universal Primary Key type or generation strat
 
 Database tables, columns, constraints, and indexes MUST use the canonical `snake_case` convention established by `GLOSSARY.md`. Names MUST be descriptive, stable, and qualified enough to reveal ownership without unnecessary abbreviation.
 
-This document does not select a physical schema-per-Module strategy, global schema name, table prefix, sequence convention, or other ungoverned namespace layout. The ownership strategy is an open Architecture Decision requiring the applicable ADR; PostgreSQL-specific namespace mechanics belong in the applicable scope of `.ai/backend/POSTGRES.md`.
+Accepted ADR-0017 establishes one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary. Every governed persistent object MUST remain attributable to one owner. Schema separation reinforces but does not replace Domain and Module ownership, approved Contracts, Application Services, Ports and Adapters, Authorization, or the prohibition on unauthorized direct cross-Module table or schema access.
+
+Schema names MUST be deterministic lowercase `snake_case` and traceable to their owner, without this standard inventing the concrete schema inventory. Flyway migration ownership MUST align with the owning Module or Domain. Ordinary runtime capability MUST NOT perform DDL or schema administration; migration or schema-changing capability MUST remain separately bounded under least privilege. PostgreSQL-specific namespace mechanics belong in `.ai/backend/POSTGRES.md`.
 
 ## 24. Column and Data-Type Design
 
@@ -554,13 +556,14 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary while preserving naming, ownership, Flyway, least-privilege, transaction, and implementation-neutrality constraints. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected lifecycle-sensitive PostgreSQL companion references to use durable metadata-governed authority wording. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the database implementation standard after final governance, architecture, persistence-boundary, Database Transaction, integrity, migration, query, security, Payment, Inventory, idempotency, reconciliation, testing, observability, recovery, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial database implementation standard covering ownership, PostgreSQL direction, persistence boundaries, Database Transactions, integrity, Flyway migrations, queries, security, Payment, Inventory, testing, observability, and recovery governance. |
 
 ## 69. Quality Requirements
 
-This standard MUST preserve PostgreSQL as the Architecture-approved transactional database while remaining a platform-neutral database implementation standard. It MUST NOT invent an exact release, cloud SKU, physical schema layout, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
+This standard MUST preserve PostgreSQL as the Architecture-approved transactional database and inherit the schema-per-owning-Module/Domain strategy established by Accepted ADR-0017 while remaining a platform-neutral database implementation standard. It MUST NOT independently alter that physical schema layout or invent an exact release, cloud SKU, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
 
 Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to POSTGRES.md within its metadata-governed scope.
 

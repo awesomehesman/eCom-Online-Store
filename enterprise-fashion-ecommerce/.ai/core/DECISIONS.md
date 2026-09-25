@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.22
+version: 1.0.23
 status: Approved
 owner: Architecture
 last_updated: 2026-09-25
@@ -533,7 +533,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0014 | Post-Payment Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0014-post-payment-backend-specification.md](../../specifications/adr/ADR-0014-post-payment-backend-specification.md) |
 | ADR-0015 | Post-Return Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0015-post-return-backend-specification.md](../../specifications/adr/ADR-0015-post-return-backend-specification.md) |
 | ADR-0016 | Post-CMS Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0016-post-cms-backend-specification.md](../../specifications/adr/ADR-0016-post-cms-backend-specification.md) |
-| ADR-0017 | PostgreSQL Schema Strategy | Architecture Decision | Proposed | Architecture | 2026-09-25 | — | [ADR-0017-postgresql-schema-strategy.md](../../specifications/adr/ADR-0017-postgresql-schema-strategy.md) |
+| ADR-0017 | PostgreSQL Schema Strategy | Architecture Decision | Accepted | Architecture | 2026-09-25 | — | [ADR-0017-postgresql-schema-strategy.md](../../specifications/adr/ADR-0017-postgresql-schema-strategy.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
@@ -664,6 +664,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.23 | 2026-09-25 | Approved | Synchronized ADR-0017 to Accepted following completed governance review and canonical Architecture synchronization of the PostgreSQL schema-per-owning-Module/Domain strategy. |
 | 1.0.22 | 2026-09-25 | Approved | Indexed ADR-0017, PostgreSQL Schema Strategy, as Proposed to correct the missing durable-decision registration without accepting the decision or resolving Architecture Open Decision 13. |
 | 1.0.21 | 2026-09-25 | Approved | Synchronized DEC-0001 to Accepted following completed governance and evidence review, establishing the backend Gradle and Spring dependency-management decision without claiming completion of executable build implementation. |
 | 1.0.20 | 2026-09-25 | Approved | Indexed DEC-0001, Backend Build Tool and Dependency Management Baseline, as Proposed without authorizing implementation or changing the Approved Architecture baseline. |

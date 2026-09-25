@@ -10,11 +10,11 @@ PostgreSQL Schema Strategy
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Scope
 
@@ -40,11 +40,11 @@ persistence-architecture
 
 The Approved Architecture establishes PostgreSQL as the authoritative transactional database for the initial platform, one primary PostgreSQL database service, a modular-monolith deployment, explicit Domain and Module data ownership, and version-controlled Flyway migrations. `ARCHITECTURE.md` §40.3 permits the initial PostgreSQL deployment to use one database with one or more schemas but does not select the physical schema strategy.
 
-`ARCHITECTURE.md` §34 item 13 therefore remains an explicit Open Architecture Decision: the PostgreSQL schema strategy for enforcing Domain ownership within the modular monolith. `DATABASE.md` and `POSTGRES.md` preserve the same unresolved boundary. They require identifiable ownership, prohibit unauthorized cross-Module persistence access, and require Flyway migration ownership, least privilege, compatibility, recovery, and realistic verification without selecting one shared schema, schema-per-Module, grouped schemas, or database-per-Module.
+Before this decision was Accepted, `ARCHITECTURE.md` §34 item 13 was an explicit Open Architecture Decision: the PostgreSQL schema strategy for enforcing Domain ownership within the modular monolith. `DATABASE.md` and `POSTGRES.md` preserved the same unresolved boundary. They required identifiable ownership, prohibited unauthorized cross-Module persistence access, and required Flyway migration ownership, least privilege, compatibility, recovery, and realistic verification without selecting one shared schema, schema-per-Module, grouped schemas, or database-per-Module.
 
 Logical Module boundaries, project-owned Ports and Adapters, Application Services, Contracts, query boundaries, Projections, and approved events already govern collaboration. A physical schema strategy must reinforce those boundaries without making database proximity a new source of authority or implying that PostgreSQL permissions replace Domain and application enforcement.
 
-This Proposed ADR selects the minimum physical containment strategy needed to resolve Architecture Open Decision 13. While Proposed, it is not authoritative, does not modify canonical Architecture, and does not authorize persistence implementation.
+This Accepted ADR selects the minimum physical containment strategy needed to resolve former Architecture Open Decision 13. Canonical Architecture and applicable database standards are synchronized with this decision. Acceptance authorizes the architecture direction but does not claim or authorize completed persistence implementation.
 
 ## Decision Drivers
 
@@ -60,7 +60,7 @@ This Proposed ADR selects the minimum physical containment strategy needed to re
 
 ## Decision
 
-If Accepted, the initial modular monolith SHALL use one application PostgreSQL database within the initial primary PostgreSQL service, with a dedicated PostgreSQL schema for each persistence-owning Module or Domain boundary.
+The initial modular monolith SHALL use one application PostgreSQL database within the initial primary PostgreSQL service, with a dedicated PostgreSQL schema for each persistence-owning Module or Domain boundary.
 
 Each governed persistent object SHALL belong to one identifiable owner and SHALL reside in that owner's governed schema unless a separately Accepted Architecture Decision explicitly authorizes another arrangement. Schema separation strengthens physical ownership visibility and enforcement, but it does not replace logical Module boundaries, Domain authority, project-owned Ports and Adapters, contextual Authorization, or approved Contracts.
 
@@ -200,7 +200,7 @@ This ADR assigns physical containment to existing owning Module and Domain bound
 
 ## Compatibility and Migration Impact
 
-No existing application schema or production data migration is claimed because executable persistence has not been authorized or implemented by this Proposed ADR. Initial implementation must establish the selected schemas and migration boundaries through version-controlled Flyway changes.
+No existing application schema or production data migration is claimed because executable persistence has not been authorized or implemented by this Accepted ADR. Initial implementation must establish the selected schemas and migration boundaries through version-controlled Flyway changes.
 
 Later schema evolution must remain compatible with the approved deployment strategy, use additive or expand-and-contract changes where required, preserve applied migration history, and define evidence-based recovery or forward-fix behavior.
 
@@ -239,7 +239,7 @@ DEC-0002 must inherit an Accepted ADR-0017 and cannot redefine, weaken, or bypas
 
 ## Required Governance Reviews
 
-Before acceptance, ADR-0017 requires:
+Acceptance governance recorded completion of:
 
 - Architecture review of the single-application-database and schema-per-owning-Module/Domain strategy;
 - affected Domain and Module ownership review of the ownership mapping principle;
@@ -251,32 +251,31 @@ Before acceptance, ADR-0017 requires:
 - documentation review of terminology, authority, alternatives, consequences, exclusions, and canonical synchronization; and
 - confirmation that exact PostgreSQL release, persistence libraries, operational topology, Product Decision 30, and other excluded decisions remain unresolved.
 
-No review is represented as completed while this ADR remains Proposed.
+The completed governance review found no blocker to acceptance. No reviewer identity, signature, ticket, or external approval artifact is asserted by this ADR.
 
 ## Acceptance Conditions and Synchronization
 
-ADR-0017 may become Accepted only after:
+This decision was Accepted after:
 
-- the required governance reviews approve the selected strategy and boundaries;
-- validation confirms the strategy resolves Architecture Open Decision 13 without creating direct cross-Module access or transferring Domain authority;
-- validation confirms Flyway ownership, runtime/migration capability separation, transaction consequences, testing, evolution, and explicit exclusions are complete;
-- `.ai/core/ARCHITECTURE.md` metadata and Revision History are synchronized, §34 item 13 is recorded as resolved, and §40.3 establishes the accepted schema-per-owning-Module/Domain strategy;
-- `.ai/core/DECISIONS.md` metadata, Decision Index, and Revision History index ADR-0017 as Accepted;
-- `.ai/backend/DATABASE.md` is synchronized where its schema-strategy wording currently remains unresolved;
-- `.ai/backend/POSTGRES.md` is synchronized where its naming, physical schema, `search_path`, Flyway, role, and validation wording depends directly on this decision; and
-- `.ai/backend/SPRING.md` is synchronized only if its existing migration-execution wording becomes stale as a direct consequence of acceptance.
+- governance approved the selected strategy and boundaries through the required reviews;
+- review confirmed the strategy resolves former Architecture Open Decision 13 without creating direct cross-Module access or transferring Domain authority;
+- review confirmed Flyway ownership, runtime/migration capability separation, transaction consequences, testing, evolution, and explicit exclusions are complete;
+- `.ai/core/ARCHITECTURE.md` metadata and Revision History were synchronized, §34 item 13 was resolved, and §40.3 established the accepted schema-per-owning-Module/Domain strategy;
+- `.ai/core/DECISIONS.md` metadata, Decision Index, and Revision History indexed ADR-0017 as Accepted;
+- `.ai/backend/DATABASE.md` was synchronized where its schema-strategy wording was unresolved; and
+- `.ai/backend/POSTGRES.md` was synchronized where its naming, physical schema, `search_path`, Flyway, role, and validation wording depended directly on this decision.
 
-Acceptance synchronization must not modify `PRODUCT.md`, resolve Product Decision 30, create DEC-0002, select the exact PostgreSQL release, or implement database dependencies, configuration, schemas, migrations, or application persistence.
+Acceptance synchronization did not modify `PRODUCT.md`, resolve Product Decision 30, create DEC-0002, select the exact PostgreSQL release, or implement database dependencies, configuration, schemas, migrations, or application persistence. `SPRING.md` required no synchronization because its existing migration-execution wording remains compatible with this decision.
 
-While ADR-0017 remains Proposed, none of these canonical sources are synchronized and the selected strategy is not implementation authority.
+Acceptance and canonical synchronization make the selected architecture authoritative. Executable persistence still requires separately governed dependency and implementation work.
 
 ## Validation Criteria
 
-Acceptance-readiness validation must confirm that:
+Final validation confirms that:
 
-1. metadata is `0.1.0 Proposed`, `authoritative: false`, owner `Architecture`, and scope `persistence-architecture` before acceptance;
+1. metadata is `1.0.0 Accepted`, `authoritative: true`, owner `Architecture`, and scope `persistence-architecture`;
 2. the selected strategy is exactly one application PostgreSQL database in the initial primary service with a dedicated schema for each persistence-owning Module or Domain boundary;
-3. Architecture Open Decision 13 is resolved only upon acceptance and synchronized Architecture governance;
+3. former Architecture Open Decision 13 is resolved by this Accepted ADR and synchronized Architecture governance;
 4. every governed persistent object retains one identifiable owner and schema separation does not replace logical Module, Domain, Port, Adapter, Contract, or Authorization boundaries;
 5. physical co-location creates no direct cross-Module access authority and no general exception is introduced;
 6. Flyway remains mandatory, migration ownership is attributable, migration boundaries prevent ambiguity and collisions, applied migrations remain immutable, and corrections use governed forward migrations;
@@ -289,8 +288,8 @@ Acceptance-readiness validation must confirm that:
 13. benefits, costs, and all considered alternatives are documented in repository-specific terms;
 14. every Explicit Non-Decision remains unresolved and no implementation dependency, schema, migration, configuration, provider, topology, or numerical value is selected;
 15. ADR-0017's boundary with future DEC-0002 is explicit and prevents DEC-0002 from redefining the schema Architecture;
-16. canonical acceptance synchronization targets are limited to ADR-0017, `ARCHITECTURE.md`, `DECISIONS.md`, `DATABASE.md`, `POSTGRES.md`, and `SPRING.md` only if its migration-execution wording becomes directly stale; and
-17. no implementation or completed governance review is falsely claimed while the ADR remains Proposed.
+16. canonical acceptance synchronization is limited to ADR-0017, `ARCHITECTURE.md`, `DECISIONS.md`, `DATABASE.md`, and `POSTGRES.md`; and
+17. no executable persistence implementation is falsely claimed by the Accepted decision or synchronized sources.
 
 ## Related Documents
 
@@ -310,4 +309,5 @@ Acceptance-readiness validation must confirm that:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-25 | Accepted | Accepted and canonically synchronized one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary, preserving ownership, Flyway, least-privilege, transaction, testing, and evolution constraints without claiming implementation. |
 | 0.1.0 | 2026-09-25 | Proposed | Proposed one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary, preserving governed ownership, Flyway, least-privilege, transaction, testing, and evolution constraints. |
