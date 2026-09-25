@@ -1,9 +1,9 @@
 ---
 title: SPRING
-version: 1.0.1
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-09-25
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -40,19 +40,21 @@ This standard MAY refine Spring-specific implementation detail but MUST NOT sile
 
 ## 4. Exact Spring Boot Release
 
-`ARCHITECTURE.md` establishes Spring Boot 3.x with Java 21 LTS. No current repository build file or dependency-management source establishes an exact Spring Boot minor or patch release.
+`ARCHITECTURE.md` establishes Spring Boot 3.x with Java 21 LTS. Accepted DEC-0001 selects Spring Boot 3.5.16 as the exact Spring Boot 3.x release and Gradle 8.14.5 as the backend build-tool release. Spring Boot 4.x is not authorized by that decision.
 
-Before backend implementation begins, Engineering MUST select a currently supported Spring Boot 3.x release compatible with Java 21 LTS. The exact version MUST be recorded in this document or an approved repository-owned dependency-management source. Selection and upgrades MUST be governed changes and MUST pass compatibility testing, dependency and security review, and the applicable Pipeline gates.
+Java 21 remains the required runtime and toolchain baseline inherited from Architecture and `JAVA.md`. The separate executable implementation baseline MUST enforce these exact versions and complete compatibility testing, dependency and security review, and applicable Pipeline gates before Spring Boot backend implementation begins.
 
-No contributor may infer or introduce an exact Spring Boot release from external currency, personal preference, or an ungoverned local build.
+No contributor may infer or introduce a different Spring Boot or Gradle release from external currency, personal preference, or an ungoverned local build.
 
 ## 5. Dependency Management
 
-The build MUST use the Spring Boot parent, BOM, or an equivalent centralized dependency-management mechanism so Spring framework modules remain mutually compatible. Spring Framework versions MUST NOT be pinned independently unless an approved compatibility need is documented and verified.
+Once the executable implementation baseline is established, builds MUST use the committed Gradle Wrapper pinned to Gradle 8.14.5. Spring dependency alignment MUST be centralized through the Spring Boot Gradle plugin and Gradle-native consumption of the `spring-boot-dependencies` BOM/platform so Spring framework modules remain mutually compatible. Spring Framework versions MUST NOT be pinned independently unless an approved compatibility need is documented and verified.
+
+Dependency versions MUST be fixed or governed through approved platform/BOM constraints. Dynamic versions and changing modules are prohibited unless separately governed. Applicable resolvable dependency configurations MUST use Gradle-native dependency locking. Dependency verification using reviewed checksums or signatures where applicable, Gradle Wrapper distribution/JAR integrity controls, and explicit reproducibility controls for applicable archives and build outputs are required.
 
 Third-party versions SHOULD be centralized where practical. Duplicate or conflicting versions are prohibited. Every dependency MUST have a justified capability, owner, compatible license and maintenance posture, and security review under `CODING-STANDARDS.md` and `SECURITY-STANDARDS.md`.
 
-Dependency upgrades MUST run applicable compilation, Unit Tests, Integration Tests, Contract Tests, security scans, and migration checks. This standard does not select Maven or Gradle because the repository does not yet establish either build tool.
+Dependency upgrades MUST run applicable compilation, Unit Tests, Integration Tests, Contract Tests, security scans, and migration checks. Applicable CI dependency, build, security, reproducibility, and review evidence MUST be complete before backend implementation is considered ready. Accepted DEC-0001 authorizes creation of this executable baseline but does not claim that the build files, Wrapper, locks, verification metadata, reproducibility configuration, or CI evidence already exist.
 
 ## 6. Application Bootstrap
 
@@ -487,6 +489,7 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0001 by establishing Spring Boot 3.5.16, Gradle 8.14.5, Java 21 toolchain alignment, and governed dependency integrity and reproducibility requirements while leaving executable build implementation incomplete. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected stale backend companion lifecycle references and aligned lower-level authority discovery with document metadata. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the Spring Boot implementation standard after final governance, architecture, framework-boundary, dependency-management, Database Transaction, persistence, API, security, Payment, Inventory, Authorization, observability, testing, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial Spring Boot implementation standard covering framework boundaries, dependency management, configuration, controllers, validation, RFC 9457 errors, Database Transactions, security integration, persistence boundaries, events, observability, testing, upgrades, and exception governance. |
@@ -502,16 +505,16 @@ An exact Spring Boot release, build tool, ORM, HTTP client, resilience library, 
 Before approval or implementation reliance, reviewers MUST verify:
 
 1. metadata remains accurate for the document lifecycle;
-2. the exact Spring Boot release is evidence-backed or explicitly deferred;
+2. the exact Spring Boot release is the evidence-backed 3.5.16 selection governed by Accepted DEC-0001;
 3. Java 21 LTS compatibility and the Spring Boot 3.x Architecture baseline are preserved;
 4. domain code remains insulated from unnecessary Spring leakage;
 5. Controller, application, domain, and infrastructure boundaries align with Architecture;
 6. Database Transaction and RFC 9457 Problem Details terminology is canonical;
 7. Payment, Inventory, and server-side Authorization semantics remain authoritative;
-8. no ORM, build tool, HTTP client, resilience library, Identity Provider, or cloud provider was invented;
+8. no ORM, unrelated build tool, HTTP client, resilience library, Identity Provider, or cloud provider was invented;
 9. no exactly-once behavior is assumed;
 10. Flyway remains the canonical migration mechanism;
 11. Testcontainers guidance aligns with `TESTING-STANDARDS.md`;
 12. no empty lower-level companion is treated as Approved;
 13. no new formal Exception type was created; and
-14. changes remain limited to `SPRING.md`.
+14. changes to this standard remain limited to `SPRING.md` within the controlled DEC-0001 synchronization and introduce no unrelated changes.
