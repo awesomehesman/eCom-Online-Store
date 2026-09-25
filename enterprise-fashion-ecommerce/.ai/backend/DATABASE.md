@@ -1,9 +1,9 @@
 ---
 title: DATABASE
-version: 1.2.0
+version: 1.3.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-25
+last_updated: 2026-09-26
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -74,6 +74,8 @@ Persistence is an outbound infrastructure concern. Domain and application code M
 
 Persistence representations MUST remain distinct from API DTOs and Domain objects where their identity, lifecycle, normalization, mutability, or compatibility semantics differ. Mapping MUST preserve required invariants and remain reviewable.
 
+Persistence-framework details, including Spring Data JDBC annotations and types, `JdbcClient`, JDBC types, SQL representations, persistence records or models, `RowMapper` implementations, and equivalent persistence concerns, MUST remain within Adapter or infrastructure boundaries and MUST NOT leak into Domain or application code.
+
 ## 9. Repository and Adapter Boundaries
 
 A Repository Port MUST express Domain or application needs without exposing persistence technology. A persistence Adapter or Spring Repository MAY implement that Port using the selected database-access mechanism.
@@ -82,11 +84,13 @@ Repository methods SHOULD describe owned intent rather than expose arbitrary sto
 
 The term Code Repository MUST be used for Git; Repository and Spring Repository retain the meanings established by `GLOSSARY.md`.
 
-## 10. Persistence Technology Neutrality
+## 10. Persistence Technology
 
-Neither Architecture nor the current build selects JPA, Hibernate, another ORM, a SQL mapper, or a database-access library as mandatory. This document does not select one.
+Accepted ADR-0018 establishes Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism. Spring `JdbcClient` is a narrowly bounded complementary persistence-Adapter mechanism for justified Adapter-level cases that Spring Data JDBC repository or query abstractions do not adequately express, such as appropriate complex reads or projections, explicit SQL, locking operations, PostgreSQL-specific operations, or unsuitable repository query shapes. `JdbcClient` is not a second repository-wide persistence architecture.
 
-Any adopted mechanism MUST preserve Domain independence, Repository Ports, explicit query behavior, Database Transaction ownership, constraint enforcement, migration ownership, testability, and observability. A persistence-technology choice that changes the approved Architecture baseline requires Architecture governance and an ADR with synchronized governing updates. An implementation choice within an already-approved Architecture boundary follows the applicable Decision and governance process and does not require an ADR solely because it is a persistence choice.
+Both mechanisms MUST preserve Domain and application independence, project-owned Repository Ports, explicit query behavior, Application Use Case ownership of Database Transactions, constraint enforcement, Flyway migration ownership, testability, and observability. `JdbcClient` MUST NOT bypass the schema-per-persistence-owner strategy established by Accepted ADR-0017, enable unauthorized direct cross-Module persistence access, or replace an owning Module's approved Contract or Application boundary.
+
+JPA or Hibernate MUST NOT be introduced as a second aggregate-persistence model; jOOQ and MyBatis MUST NOT be introduced as additional repository-wide persistence models; and features MUST NOT select arbitrary persistence technologies independently. Acceptance of ADR-0018 does not admit dependencies or claim that persistence implementation, schemas, tables, migrations, Repositories, mappings, or SQL exist. Dependency admission and implementation remain separate changes governed by Accepted DEC-0001. This standard does not select dependency coordinates or versions, concrete mappings or SQL, a global transaction model, exact isolation levels, universal locking or retry rules, connection-pool implementation or settings, timeout values, or numerical thresholds.
 
 ## 11. Data Model Ownership
 
@@ -193,6 +197,8 @@ Defaults MUST be deterministic, safe, and semantically owned. A default MUST NOT
 Flyway is the Architecture-approved mechanism for versioned database migrations. Every governed schema or data change MUST be represented through version-controlled Flyway migrations executed by the approved delivery or application integration process.
 
 Runtime schema mutation, automatic production schema creation, and manual untracked schema drift are prohibited. A migration failure MUST block the affected deployment or startup according to the approved delivery strategy.
+
+Spring Data JDBC, `JdbcClient`, and any other persistence mechanism MUST NOT perform competing runtime schema generation or DDL. Flyway remains the mandatory and sole governed schema-migration mechanism.
 
 ## 27. Migration Authorship and Review
 
@@ -551,6 +557,8 @@ Approved governing and directly relevant documents:
 
 `specifications/decisions/DEC-0002-postgresql-release-baseline.md` is the Accepted General Decision Record that establishes PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility. DATABASE.md inherits that baseline by reference and does not independently redefine it.
 
+`specifications/adr/ADR-0018-persistence-technology.md` is the Accepted Architecture Decision that establishes Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and bounded Spring `JdbcClient` as its complementary persistence-Adapter mechanism. Dependency admission and implementation remain separate changes governed by Accepted DEC-0001.
+
 The lifecycle and authority of the following lower-level companions MUST be determined from their own metadata and substantive content. Empty or unapproved companion content remains outside this standard's owned detail and MUST NOT be treated as normative:
 
 - `.ai/backend/API.md`
@@ -560,6 +568,7 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.3.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as primary aggregate persistence and bounded Spring JdbcClient as the complementary persistence-Adapter mechanism while preserving separate DEC-0001-governed dependency and implementation admission. |
 | 1.2.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0002 by establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility, updating Testcontainers guidance to reference the PostgreSQL 18 major baseline, and adding DEC-0002 to Related Documents while preserving separate implementation authority and all unresolved persistence/infrastructure choices. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary while preserving naming, ownership, Flyway, least-privilege, transaction, and implementation-neutrality constraints. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected lifecycle-sensitive PostgreSQL companion references to use durable metadata-governed authority wording. |
@@ -568,7 +577,7 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 ## 69. Quality Requirements
 
-This standard MUST preserve PostgreSQL as the Architecture-approved transactional database, inherit the PostgreSQL 18 major-version baseline established by Accepted DEC-0002, and inherit the schema-per-owning-Module/Domain strategy established by Accepted ADR-0017 while remaining a platform-neutral database implementation standard. It MUST NOT independently alter that physical schema layout, pin a permanent exact maintenance release, or invent a cloud SKU, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
+This standard MUST preserve PostgreSQL as the Architecture-approved transactional database, inherit the PostgreSQL 18 major-version baseline established by Accepted DEC-0002, inherit the schema-per-owning-Module/Domain strategy established by Accepted ADR-0017, and conform to the Spring Data JDBC primary and bounded Spring `JdbcClient` complementary persistence mechanisms established by Accepted ADR-0018. It MUST NOT independently alter that physical schema layout, admit or claim implementation of persistence dependencies, introduce a competing aggregate or repository-wide persistence model, pin a permanent exact maintenance release, or invent a cloud SKU, extension, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
 
 Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to POSTGRES.md within its metadata-governed scope.
 
@@ -579,7 +588,7 @@ Before approval or implementation reliance, reviewers MUST verify:
 1. metadata remains accurate for the document lifecycle;
 2. PostgreSQL remains the Architecture-approved transactional database and PostgreSQL 18 is referenced as the governed major-version baseline per Accepted DEC-0002 without pinning a permanent exact maintenance release or cloud SKU;
 3. Domain and Module ownership is preserved across schemas, tables, Repositories, and Adapters;
-4. no ORM, JPA, Hibernate, database-access library, connection-pool implementation, or PostgreSQL extension was selected;
+4. persistence technology conforms to Accepted ADR-0018: Spring Data JDBC remains the primary aggregate-persistence mechanism, Spring `JdbcClient` remains a narrowly bounded complementary persistence-Adapter mechanism, neither leaks into Domain or application code or bypasses Module ownership, and no competing persistence model, dependency admission, connection-pool implementation, or PostgreSQL extension is introduced;
 5. Database Transaction ownership, atomicity, rollback, isolation, locking, and retry behavior are explicit and evidence-based;
 6. Database Transaction and Payment Transaction remain distinct;
 7. constraints, identifiers, migrations, indexes, queries, pagination, and resources preserve integrity and compatibility;

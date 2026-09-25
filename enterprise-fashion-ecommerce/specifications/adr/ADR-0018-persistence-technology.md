@@ -10,11 +10,11 @@ Persistence Technology
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -22,7 +22,7 @@ Proposed
 
 ## Last Updated
 
-2026-09-25
+2026-09-26
 
 ## Owner
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Scope
 
@@ -42,7 +42,7 @@ The Approved Architecture establishes a Java 21 and Spring Boot 3.x modular mono
 
 Flyway is already the mandatory and sole governed schema-migration mechanism. Domain and Application layers must depend inwardly on project-owned Ports rather than persistence frameworks, database drivers, SQL representations, or infrastructure models. Direct unauthorized cross-Module persistence access remains prohibited even though Modules share one application database.
 
-The current Architecture and implementation standards deliberately do not select JPA, Hibernate, another ORM, a SQL mapper, or a database-access library. A repository-wide persistence direction is material because it shapes aggregate persistence, mappings, queries, concurrency, framework coupling, build dependencies, testing, and operational diagnosis. This Proposed ADR records the owner-selected direction without authorizing dependencies or claiming implementation.
+Before this decision was Accepted, the Architecture and implementation standards deliberately did not select JPA, Hibernate, another ORM, a SQL mapper, or a database-access library. A repository-wide persistence direction is material because it shapes aggregate persistence, mappings, queries, concurrency, framework coupling, build dependencies, testing, and operational diagnosis. This Accepted ADR records the owner-selected direction without authorizing dependencies or claiming implementation.
 
 ## Decision Drivers
 
@@ -59,21 +59,21 @@ The current Architecture and implementation standards deliberately do not select
 - Prevent arbitrary per-feature persistence technology proliferation.
 - Keep dependency admission subordinate to DEC-0001.
 
-## Proposed Decision
+## Decision
 
-If Accepted, Spring Data JDBC SHALL be the repository-wide primary persistence technology for aggregate-oriented transactional persistence.
+Spring Data JDBC SHALL be the repository-wide primary persistence technology for aggregate-oriented transactional persistence.
 
 Spring `JdbcClient` SHALL be permitted only as a narrowly bounded complementary mechanism inside persistence Adapters where a concrete need is not adequately expressed by Spring Data JDBC repository or query abstractions. Such needs may include justified complex reads or Projections, explicit SQL, locking operations, PostgreSQL-specific operations, and query shapes that are not appropriately represented by Spring Data JDBC repositories.
 
 `JdbcClient` is not a second repository-wide persistence architecture. Its use must be attributable to the persistence-owning Module or Domain, remain behind project-owned Ports, and satisfy the same ownership, transaction, security, testing, observability, and compatibility rules as Spring Data JDBC persistence.
 
-This proposal does not authorize dependency or implementation work while its status remains Proposed.
+This Accepted decision does not add dependencies or claim persistence implementation. Dependency admission and executable implementation must occur later through a separate DEC-0001-governed implementation change.
 
 ## Primary and Complementary Responsibilities
 
 ### Spring Data JDBC
 
-Spring Data JDBC is proposed to own the default aggregate-persistence mechanism within persistence Adapters, including applicable aggregate loading, insertion, update, deletion, repository integration, mapping, and governed optimistic-version behavior.
+Spring Data JDBC owns the default aggregate-persistence mechanism within persistence Adapters, including applicable aggregate loading, insertion, update, deletion, repository integration, mapping, and governed optimistic-version behavior.
 
 Its aggregate model must follow the owning Domain's approved Aggregate boundaries. Framework convenience must not redefine Aggregate ownership, lifecycle, invariants, associations, or transaction scope.
 
@@ -114,7 +114,7 @@ Database constraints and uniqueness remain authoritative concurrency-safe enforc
 
 ## Schema, Ownership, and Flyway
 
-This proposal inherits Accepted ADR-0017 without redefinition:
+This decision inherits Accepted ADR-0017 without redefinition:
 
 - one application PostgreSQL database in the initial primary PostgreSQL service;
 - one dedicated schema for each persistence-owning Module or Domain boundary;
@@ -131,7 +131,7 @@ Flyway remains the mandatory and sole governed mechanism for schema and governed
 
 ## Dependency and Build Boundary
 
-This proposal inherits Java 21, Spring Boot 3.5.16, Gradle 8.14.5, the Spring Boot dependency-management baseline, fixed versions, dependency locking, dependency verification, reproducibility, and applicable Pipeline controls from Accepted DEC-0001.
+This decision inherits Java 21, Spring Boot 3.5.16, Gradle 8.14.5, the Spring Boot dependency-management baseline, fixed versions, dependency locking, dependency verification, reproducibility, and applicable Pipeline controls from Accepted DEC-0001.
 
 ADR-0018 does not select exact new dependency coordinates or versions. After acceptance, actual dependency admission must occur through a separate implementation change under DEC-0001. That change must use the governed Spring Boot dependency-management baseline where applicable, update lock and verification evidence, pass compatibility and security review, and introduce no competing persistence framework.
 
@@ -163,13 +163,13 @@ SQL and parameter logging must not expose Secrets, credentials, tokens, payment 
 
 ## Security Impact
 
-This persistence-technology proposal does not alter existing Authentication, Authorization, Sensitive Data, least-privilege, Audit Record, or security authority. Persistence Adapters remain subject to all applicable security governance, and SQL or debugging observability must not expose Sensitive Data, Secrets, credentials, tokens, or payment credentials.
+This persistence-technology decision does not alter existing Authentication, Authorization, Sensitive Data, least-privilege, Audit Record, or security authority. Persistence Adapters remain subject to all applicable security governance, and SQL or debugging observability must not expose Sensitive Data, Secrets, credentials, tokens, or payment credentials.
 
 Ordinary runtime persistence access must not gain DDL or schema-administration authority. Migration and schema-changing capability remains separately bounded under ADR-0017 and existing database and security governance.
 
 ## Data Impact
 
-PostgreSQL 18 remains authoritative under Accepted DEC-0002, ADR-0017's schema-per-persistence-owner strategy remains authoritative, and Flyway remains the sole governed migration mechanism. Acceptance of ADR-0018 would not create schemas, tables, columns, indexes, mappings, migrations, or production data changes.
+PostgreSQL 18 remains authoritative under Accepted DEC-0002, ADR-0017's schema-per-persistence-owner strategy remains authoritative, and Flyway remains the sole governed migration mechanism. Acceptance of ADR-0018 did not create schemas, tables, columns, indexes, mappings, migrations, or production data changes.
 
 Direct cross-Module persistence access remains prohibited unless separately governed through the existing Accepted-ADR and synchronized-Architecture mechanism.
 
@@ -179,17 +179,17 @@ Acceptance establishes the architectural persistence direction only. No existing
 
 Replacing Spring Data JDBC after persistence Adapters and mappings exist would have non-trivial migration cost. Project-owned Ports and Domain and Application independence reduce, but do not eliminate, that cost. A future replacement must preserve governed boundaries, safely migrate affected Adapters, persistence representations, and data where applicable, synchronize affected canonical sources, and use a new or superseding durable Architecture Decision.
 
-This Proposed ADR does not invent a concrete migration plan before an executable persistence implementation exists.
+This Accepted ADR does not invent a concrete migration plan before an executable persistence implementation exists.
 
 ## Operational Impact
 
-Acceptance alone creates no deployment or runtime operational change. Later implementation must preserve existing observability, failure translation, Database Transaction, locking, security, migration, and PostgreSQL verification requirements.
+Acceptance created no deployment or runtime operational change. Later implementation must preserve existing observability, failure translation, Database Transaction, locking, security, migration, and PostgreSQL verification requirements.
 
 This ADR does not invent numerical operational thresholds.
 
 ## Authority Boundaries
 
-This proposal selects a persistence technology direction only. It does not transfer Product, Domain, Module, security, data, or operational authority to Spring Data JDBC, `JdbcClient`, PostgreSQL, or a persistence Adapter.
+This decision selects a persistence technology direction only. It does not transfer Product, Domain, Module, security, data, or operational authority to Spring Data JDBC, `JdbcClient`, PostgreSQL, or a persistence Adapter.
 
 The owning Domain remains authoritative for business meaning, Aggregate boundaries, invariants, lifecycle, contextual Authorization, and approved persistence needs. Database constraints supplement but do not replace Domain validation or Authorization. Persistence success does not prove an External System outcome, event delivery, Payment result, Inventory decision, or other separately owned truth.
 
@@ -217,7 +217,7 @@ The owning Domain remains authoritative for business meaning, Aggregate boundari
 
 ### A. Spring Data JDBC with Bounded JdbcClient
 
-Selected as this proposal. It provides a repository-wide aggregate-persistence mechanism integrated with Spring while retaining narrowly bounded explicit SQL for justified Adapter needs. Its costs are explicit mapping, aggregate-model discipline, and additional SQL or row-mapping work for complex operations.
+Selected. It provides a repository-wide aggregate-persistence mechanism integrated with Spring while retaining narrowly bounded explicit SQL for justified Adapter needs. Its costs are explicit mapping, aggregate-model discipline, and additional SQL or row-mapping work for complex operations.
 
 ### B. jOOQ
 
@@ -229,7 +229,7 @@ JPA and Hibernate provide mature ORM, repository, transaction, optimistic-lockin
 
 ### D. Spring JdbcClient or JdbcTemplate as the Sole Primary Mechanism
 
-An explicit JDBC-only direction provides direct SQL visibility and control over PostgreSQL behavior, constraints, locking, batching, and mappings. It was not selected as the sole primary mechanism because aggregate loading, change persistence, repository implementation, version handling, and repeated mapping infrastructure would remain entirely application-owned. The proposal instead bounds `JdbcClient` to cases where explicit control is justified.
+An explicit JDBC-only direction provides direct SQL visibility and control over PostgreSQL behavior, constraints, locking, batching, and mappings. It was not selected as the sole primary mechanism because aggregate loading, change persistence, repository implementation, version handling, and repeated mapping infrastructure would remain entirely application-owned. The decision instead bounds `JdbcClient` to cases where explicit control is justified.
 
 ### E. MyBatis
 
@@ -237,9 +237,9 @@ MyBatis provides explicit SQL mapping, dynamic query support, Spring transaction
 
 ## Competing Persistence Technologies
 
-Acceptance of this ADR would not authorize JPA, Hibernate, jOOQ, MyBatis, or another ORM, mapper, generated SQL DSL, or repository-wide persistence mechanism alongside Spring Data JDBC.
+This Accepted ADR does not authorize JPA, Hibernate, jOOQ, MyBatis, or another ORM, mapper, generated SQL DSL, or repository-wide persistence mechanism alongside Spring Data JDBC.
 
-It would also prohibit arbitrary per-feature selection of persistence technologies. A future departure, replacement, or material expansion beyond this direction requires applicable governance and, where the Approved Architecture baseline changes, an Accepted ADR with synchronized canonical sources.
+It also prohibits arbitrary per-feature selection of persistence technologies. A future departure, replacement, or material expansion beyond this direction requires applicable governance and, where the Approved Architecture baseline changes, an Accepted ADR with synchronized canonical sources.
 
 ## Explicit Non-Decisions
 
@@ -265,7 +265,7 @@ ADR-0018 does not select, define, or authorize:
 
 ## Required Governance Reviews
 
-Before this Proposed ADR may become Accepted, governance must complete:
+Acceptance governance completed:
 
 - Architecture review of the primary and complementary technology boundary;
 - affected Domain and Module ownership review of aggregate and persistence-model separation;
@@ -277,13 +277,13 @@ Before this Proposed ADR may become Accepted, governance must complete:
 - Operations review of diagnosis, logging, metrics, tracing, and support consequences; and
 - Documentation review of authority, alternatives, consequences, exclusions, acceptance conditions, and synchronization scope.
 
-No review is represented as complete while this ADR remains Proposed.
+The governance review completed with no unresolved acceptance blocker. No named reviewer, meeting, ticket, signature, test run, or external approval artifact is asserted by this ADR, and no implementation evidence is claimed.
 
 ## Acceptance Conditions and Synchronization
 
-This Proposed decision may become Accepted only after:
+This decision was Accepted after governance review confirmed that:
 
-- all required governance reviews complete without an unresolved blocker;
+- all required governance reviews completed without an unresolved blocker;
 - the primary Spring Data JDBC role and bounded `JdbcClient` role are confirmed as unambiguous and enforceable;
 - Domain and Application independence, project-owned Ports, separate persistence representations, and Adapter containment are confirmed;
 - Flyway remains the sole migration authority and runtime schema generation remains prohibited;
@@ -295,7 +295,7 @@ This Proposed decision may become Accepted only after:
 
 Acceptance of ADR-0018 requires exactly the following minimum canonical synchronization under current repository evidence:
 
-1. `specifications/adr/ADR-0018-persistence-technology.md` must be promoted from `0.1.0 Proposed` to the repository's Accepted lifecycle and version, record completed governance review without fabricated evidence, and preserve that dependency and implementation work has not yet occurred.
+1. `specifications/adr/ADR-0018-persistence-technology.md` is promoted from `0.1.0 Proposed` to `1.0.0 Accepted`, records completed governance review without fabricated evidence, and preserves that dependency and implementation work has not yet occurred.
 2. `.ai/core/DECISIONS.md` must change the ADR-0018 Decision Index status from Proposed to Accepted and update applicable metadata and Revision History.
 3. `.ai/core/ARCHITECTURE.md` must replace the directly affected Spring Data JPA outbound-Adapter example or direction, establish Spring Data JDBC as the primary aggregate-persistence mechanism, establish `JdbcClient` as a bounded Adapter-only complementary explicit-query and SQL mechanism, preserve Domain and Application independence, and prohibit persistence annotations and types from leaking inward.
 4. `.ai/backend/DATABASE.md` must replace directly affected persistence-technology-neutral wording, establish the Accepted ADR-0018 direction, synchronize directly affected quality and final-validation wording, and preserve Flyway, PostgreSQL 18, ADR-0017, ownership, Database Transaction, concurrency, and unresolved implementation constraints.
@@ -303,14 +303,14 @@ Acceptance of ADR-0018 requires exactly the following minimum canonical synchron
 
 Current repository evidence does not require acceptance synchronization of `.ai/backend/POSTGRES.md`, `.ai/backend/JAVA.md`, `.ai/core/PRODUCT.md`, Approved backend Domain Specifications, `.ai/backend/API.md`, ADR-0017, DEC-0001, or DEC-0002. This synchronization determination is limited to current repository evidence and does not authorize unrelated edits.
 
-Acceptance would authorize a subsequent dependency-admission and implementation-baseline change. It would not itself add dependencies, schemas, migrations, mappings, repositories, SQL, configuration, or application code.
+Acceptance authorizes a subsequent dependency-admission and implementation-baseline change governed by DEC-0001. Acceptance did not itself add dependencies, schemas, migrations, mappings, repositories, SQL, configuration, or application code.
 
 ## Validation Criteria
 
-Acceptance-readiness validation must confirm that:
+Accepted-record validation must confirm that:
 
-1. metadata remains `0.1.0 Proposed`, `authoritative: false`, owner `Architecture`, and scope `persistence-architecture` until acceptance;
-2. Spring Data JDBC is unambiguously the proposed repository-wide primary aggregate-persistence mechanism;
+1. metadata is `1.0.0 Accepted`, `authoritative: true`, owner `Architecture`, and scope `persistence-architecture`;
+2. Spring Data JDBC is unambiguously the repository-wide primary aggregate-persistence mechanism;
 3. `JdbcClient` is a narrowly bounded complementary persistence-Adapter mechanism and not an alternative primary architecture;
 4. every `JdbcClient` use requires a concrete justified need, owned schema, project-owned Port or supporting Adapter operation, and focused verification;
 5. Domain and Application code remain independent of persistence technology;
@@ -326,8 +326,8 @@ Acceptance-readiness validation must confirm that:
 15. JPA/Hibernate, jOOQ, MyBatis, and arbitrary per-feature technology selection are not silently authorized;
 16. every Explicit Non-Decision remains unresolved and no concrete persistence implementation is claimed;
 17. alternatives and consequences are described without unsupported incompatibility claims;
-18. every affected Related Document exists and materially supports the proposal;
-19. Proposed registration changes remain limited to ADR-0018 and `DECISIONS.md` and introduce no unrelated repository changes; and
+18. every affected Related Document exists and materially supports the decision;
+19. acceptance synchronization remains limited to ADR-0018, `DECISIONS.md`, `ARCHITECTURE.md`, `DATABASE.md`, and `SPRING.md` under current repository evidence and introduces no unrelated repository changes; and
 20. Markdown, links, lifecycle language, terminology, and whitespace validation pass.
 
 ## Supersedes
@@ -360,4 +360,5 @@ None. ADR-0018 has not been superseded.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-26 | Accepted | Accepted Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism with Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism, preserving Domain and Application independence, project-owned Ports, Flyway authority, PostgreSQL 18, ADR-0017 ownership, DEC-0001 dependency governance, and separate implementation. |
 | 0.1.0 | 2026-09-25 | Proposed | Proposed Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism with Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism, preserving Domain independence, project-owned Ports, Flyway authority, PostgreSQL 18, ADR-0017 ownership, DEC-0001 dependency governance, and implementation neutrality. |

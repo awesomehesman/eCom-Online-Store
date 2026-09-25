@@ -1,9 +1,9 @@
 ---
 title: SPRING
-version: 1.1.0
+version: 1.2.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-25
+last_updated: 2026-09-26
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -194,17 +194,25 @@ Propagation MUST NOT be used to conceal poor Module boundaries, split an invaria
 
 ## 22. Persistence
 
-Spring persistence integration MUST preserve Repository Ports, domain ownership, and Adapter direction. Domain and application interfaces MUST remain independent of the selected persistence technology.
+Spring persistence integration MUST preserve project-owned Repository Ports, domain ownership, and Adapter direction. Domain and application interfaces MUST remain independent of persistence technology, and Spring persistence Adapters MUST implement the inward-facing project-owned Ports without exposing Spring persistence APIs through Domain or application Contracts.
 
-Neither `ARCHITECTURE.md` nor the current repository build selects JPA, Hibernate, or another ORM as mandatory. This standard therefore does not select one. Any selection that materially changes Architecture requires the applicable Decision Record and synchronized governing updates.
+Accepted ADR-0018 establishes Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism. Spring `JdbcClient` is a narrowly bounded complementary persistence-Adapter mechanism for justified Adapter-level cases that Spring Data JDBC repository or query abstractions do not adequately express, including appropriate complex reads or projections, explicit SQL, locking operations, PostgreSQL-specific operations, or unsuitable repository query shapes. `JdbcClient` is not a second repository-wide persistence architecture.
 
-Persistence mappings, Spring Repositories, query behavior, locking, and Database Transaction behavior MUST be tested with realistic infrastructure where their semantics matter. Detailed data rules remain governed by `ARCHITECTURE.md`, `.ai/backend/DATABASE.md`, and `.ai/backend/POSTGRES.md` within each document's metadata-governed scope.
+Spring Data JDBC annotations and types, `JdbcClient`, JDBC types, SQL representations, persistence records or models, `RowMapper` implementations, and equivalent persistence concerns MUST remain within Adapter or infrastructure boundaries and MUST NOT leak into Domain or application code. `JdbcClient` MUST NOT bypass the one-application-database, schema-per-persistence-owner strategy established by Accepted ADR-0017, enable unauthorized direct cross-Module persistence access, or replace an owning Module's approved Contract or Application boundary.
+
+Where an Approved requirement requires Optimistic Locking, explicit locking, constraints, or uniqueness, Spring persistence Adapters MUST implement those semantics without treating framework behavior as a substitute for governed invariants. `JdbcClient` explicit SQL and locking remain requirement-driven. Spring, JDBC, and database exceptions MUST NOT leak through project-owned Domain or application Contracts where project-owned failure semantics are required.
+
+JPA or Hibernate MUST NOT be introduced as a second aggregate-persistence model; jOOQ and MyBatis MUST NOT be introduced as additional repository-wide persistence models; and features MUST NOT select arbitrary persistence technologies independently. Acceptance of ADR-0018 does not admit Spring Data JDBC or `JdbcClient` dependencies or claim that persistence implementation, models, mappings, Repositories, SQL, schemas, tables, or migrations exist. Dependency admission and implementation remain separate changes governed by Accepted DEC-0001, which continues to govern Java 21, Spring Boot 3.5.16, Gradle 8.14.5, and dependency management. This standard does not select dependency coordinates or versions, a global transaction model, exact isolation levels, universal locking or automatic retry rules, connection-pool implementation or settings, timeout values, or numerical thresholds.
+
+PostgreSQL 18 remains the governed database-major baseline established by Accepted DEC-0002. Persistence mappings, Spring Repositories, query behavior, locking, and Database Transaction behavior MUST be tested with realistic PostgreSQL infrastructure where their semantics matter. Detailed data rules remain governed by `ARCHITECTURE.md`, `.ai/backend/DATABASE.md`, and `.ai/backend/POSTGRES.md` within each document's metadata-governed scope.
 
 ## 23. Flyway Integration
 
 Flyway is the Architecture-approved migration mechanism. Schema and governed data changes MUST use version-controlled Flyway migrations through the approved build, deployment, or application integration process.
 
 Application code MUST NOT mutate the schema at runtime or enable automatic production schema creation. A migration failure MUST fail the affected deployment or startup according to the approved delivery strategy rather than silently continuing against an incompatible schema.
+
+Spring Data JDBC, `JdbcClient`, and any other Spring persistence facility MUST NOT introduce competing runtime DDL or schema-generation authority. Flyway remains the mandatory and sole governed schema-migration mechanism.
 
 Migration ownership MUST align with Module and data ownership. Detailed migration naming, repair, compatibility, and database conventions remain governed by `.ai/backend/DATABASE.md` and `.ai/backend/POSTGRES.md` within each document's metadata-governed scope.
 
@@ -298,6 +306,8 @@ Spring and Micrometer capabilities MAY provide the structured Logs, Metrics, Tra
 
 Telemetry MUST identify useful technical and business outcomes without exposing Secrets, tokens, Sensitive Data, raw provider payloads, or unnecessary PII. Metric and Trace attributes MUST remain bounded and operationally useful.
 
+Persistence SQL, debugging, and telemetry evidence MUST remain sufficient for diagnosis without exposing Sensitive Data, Secrets, credentials, or unbounded SQL parameter values.
+
 This document does not select an additional external monitoring vendor. Instrumentation MUST remain compatible with the OpenTelemetry and Azure observability direction established by Architecture.
 
 ## 35. Actuator
@@ -379,7 +389,7 @@ Full application tests are appropriate only when the complete context is the beh
 
 ## 45. Testcontainers
 
-Testcontainers SHOULD be used where realistic infrastructure behavior is important and practical, including PostgreSQL persistence and migration tests under the approved Architecture.
+Testcontainers SHOULD be used where realistic infrastructure behavior is important and practical, including persistence and migration tests against the governed PostgreSQL 18 major baseline under the approved Architecture. PostgreSQL-dependent behavior that cannot be established through Test Doubles MUST be verified through this governed approach when implemented; this synchronization does not claim that those tests already exist or have run.
 
 Containerized tests MUST be deterministic, isolated, version-controlled, and compatible with CI. They MUST NOT introduce or imply production adoption of infrastructure that Architecture has not approved.
 
@@ -446,7 +456,7 @@ The applicable Coding, Architecture, Security, Testing, Documentation, Decision 
 | Documentation | `.ai/core/DOCUMENTATION-STANDARDS.md` | Keep configuration and framework behavior current | Documentation review |
 | Decisions | `.ai/core/DECISIONS.md` | Record material technology and Architecture choices | Decision Record or ADR where applicable |
 | API | `ARCHITECTURE.md`; approved API Contracts | Implement thin Controllers, DTOs, and Problem Details | Contract and API tests |
-| Persistence | `ARCHITECTURE.md`; approved data standards when established | Keep persistence behind Repository Ports | Integration and architecture tests |
+| Persistence | `ARCHITECTURE.md`; Accepted ADR-0018; approved data standards | Keep Spring Data JDBC and bounded `JdbcClient` persistence behind Repository Ports | Integration and architecture tests |
 | Database Transactions | `ARCHITECTURE.md`; `CODING-STANDARDS.md` | Own focused Use Case boundaries | Rollback and concurrency tests |
 | Payments | `PRODUCT.md`; `SECURITY-STANDARDS.md` | Preserve validated provider evidence and idempotency | Payment, replay, and reconciliation tests |
 | Inventory | `PRODUCT.md`; `ARCHITECTURE.md` | Preserve Stock and Stock Reservation authority | Invariant and concurrency tests |
@@ -479,6 +489,10 @@ Approved lower-level governing companions:
 - `.ai/backend/JAVA.md`
 - `.ai/backend/DATABASE.md`
 
+Accepted persistence Architecture decision:
+
+- `specifications/adr/ADR-0018-persistence-technology.md`
+
 The lifecycle and authority of the following companion files MUST be determined from their own metadata and substantive content. Empty or unapproved companion content MUST NOT be treated as normative:
 
 - `.ai/backend/API.md`
@@ -489,6 +503,7 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as primary aggregate persistence and bounded Spring JdbcClient as the complementary persistence-Adapter mechanism while preserving separate DEC-0001-governed dependency and implementation admission. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0001 by establishing Spring Boot 3.5.16, Gradle 8.14.5, Java 21 toolchain alignment, and governed dependency integrity and reproducibility requirements while leaving executable build implementation incomplete. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected stale backend companion lifecycle references and aligned lower-level authority discovery with document metadata. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the Spring Boot implementation standard after final governance, architecture, framework-boundary, dependency-management, Database Transaction, persistence, API, security, Payment, Inventory, Authorization, observability, testing, terminology, and documentation-quality validation. |
@@ -496,9 +511,9 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 ## 55. Quality Requirements
 
-This standard MUST contain no unresolved completion markers, fabricated technology selections, or Product scope expansion. It MUST use exact canonical terminology from `GLOSSARY.md`, remain subordinate to `.ai/core/`, and distinguish current Architecture decisions from metadata-governed lower-level standards.
+This standard MUST contain no unresolved completion markers, fabricated technology selections, or Product scope expansion. It MUST use exact canonical terminology from `GLOSSARY.md`, remain subordinate to `.ai/core/`, and distinguish current Architecture decisions from metadata-governed lower-level standards. It MUST conform to Accepted ADR-0018 by preserving Spring Data JDBC as the primary aggregate-persistence mechanism and Spring `JdbcClient` as a narrowly bounded complementary persistence-Adapter mechanism without claiming dependency admission or implementation.
 
-An exact Spring Boot release, build tool, ORM, HTTP client, resilience library, Identity Provider, cache technology, and additional monitoring provider MUST NOT be stated as selected without repository evidence and applicable governance.
+An exact Spring Boot release, build tool, HTTP client, resilience library, Identity Provider, cache technology, and additional monitoring provider MUST NOT be stated as selected without repository evidence and applicable governance. No competing aggregate or repository-wide persistence model may be introduced outside applicable governance.
 
 ## 56. Final Validation
 
@@ -511,10 +526,10 @@ Before approval or implementation reliance, reviewers MUST verify:
 5. Controller, application, domain, and infrastructure boundaries align with Architecture;
 6. Database Transaction and RFC 9457 Problem Details terminology is canonical;
 7. Payment, Inventory, and server-side Authorization semantics remain authoritative;
-8. no ORM, unrelated build tool, HTTP client, resilience library, Identity Provider, or cloud provider was invented;
+8. persistence technology conforms to Accepted ADR-0018: Spring Data JDBC remains the primary aggregate-persistence mechanism, Spring `JdbcClient` remains a narrowly bounded complementary persistence-Adapter mechanism, neither leaks into Domain or application code or bypasses Module ownership, and no competing persistence model, dependency admission, or implementation is introduced;
 9. no exactly-once behavior is assumed;
-10. Flyway remains the canonical migration mechanism;
-11. Testcontainers guidance aligns with `TESTING-STANDARDS.md`;
+10. Flyway remains the sole governed migration mechanism and no Spring persistence facility introduces competing runtime DDL or schema generation;
+11. PostgreSQL-dependent behavior aligns with the PostgreSQL 18 baseline and Testcontainers guidance in `TESTING-STANDARDS.md`, without claiming implementation tests already exist or have run;
 12. no empty lower-level companion is treated as Approved;
 13. no new formal Exception type was created; and
-14. changes to this standard remain limited to `SPRING.md` within the controlled DEC-0001 synchronization and introduce no unrelated changes.
+14. changes to this standard remain limited to `SPRING.md` within the controlled ADR-0018 synchronization and introduce no unrelated changes.

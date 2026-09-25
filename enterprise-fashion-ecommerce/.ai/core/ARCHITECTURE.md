@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.21.0
+version: 1.22.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-25
+last_updated: 2026-09-26
 applies_to:
   - Frontend
   - Backend
@@ -235,7 +235,7 @@ The approved initial baseline is:
 | Backend                     | Java 21 LTS and Spring Boot 3.x; the exact supported minor and patch release must be selected and governed through an approved lower-level backend standard or dependency-management process before implementation locks it |
 | API                         | REST-first JSON APIs documented with OpenAPI 3.1                                                                                                            |
 | Security                    | Spring Security with approved token/session strategy and role/permission authorization                                                                      |
-| Persistence                 | PostgreSQL with versioned Flyway migrations                                                                                                                 |
+| Persistence                 | PostgreSQL 18 with versioned Flyway migrations; Spring Data JDBC is the primary aggregate-persistence mechanism, with Spring JdbcClient permitted only as a bounded complementary persistence-Adapter mechanism under Accepted ADR-0018 |
 | Cache                       | Redis only for justified cache, session, idempotency, or coordination use cases                                                                             |
 | Object Storage              | Azure Blob Storage                                                                                                                                          |
 | Edge Delivery               | Azure Front Door and/or approved CDN capability                                                                                                             |
@@ -438,7 +438,8 @@ Ports must use project-owned types rather than leaking provider SDK models inwar
 
 Adapters implement ports through:
 
-- Spring Data JPA.
+- Spring Data JDBC for primary aggregate persistence.
+- Spring `JdbcClient` only as a bounded complementary persistence-Adapter mechanism for justified operations that Spring Data JDBC repository or query abstractions do not adequately express.
 - HTTP clients.
 - Azure SDKs.
 - Payment or courier SDKs.
@@ -448,9 +449,15 @@ Adapters implement ports through:
 
 Provider-specific translation, validation, signatures, timeouts, retries, and errors belong in Adapters.
 
+Accepted ADR-0018 permits `JdbcClient` only for justified Adapter-level cases such as appropriate complex reads or Projections, explicit SQL, locking operations, PostgreSQL-specific operations, or query shapes unsuitable for Spring Data JDBC repositories. `JdbcClient` is not an alternative repository-wide persistence architecture and MUST NOT become an unrestricted bypass of Module or Domain ownership, project-owned Ports, Application Services, Contracts, Authorization, or ADR-0017 schema boundaries.
+
 ### 11.6 Persistence Mapping
 
-Persistence entities must not be exposed through REST APIs or used as domain models by default. Mapping may be explicit or implemented with approved mapping tools, but it must remain understandable and testable.
+Domain and Application code MUST remain independent of persistence technology and depend inwardly on project-owned Ports. Persistence Adapters implement those Ports. The conceptual dependency direction is Domain and Application code → project-owned Ports → persistence Adapters → Spring Data JDBC as primary aggregate persistence → bounded `JdbcClient` where justified → JDBC/pgJDBC → PostgreSQL 18. This direction does not claim that dependencies, configuration, mappings, Repositories, SQL, schemas, migrations, or executable persistence implementation already exist.
+
+Persistence representations must remain separate from governed Domain models wherever framework annotations, persistence metadata, storage-driven construction, mutable persistence lifecycle, or other persistence concerns would otherwise enter Domain code. Spring Data JDBC annotations and types, `JdbcClient`, JDBC types, SQL representations, persistence records or models, `RowMapper` implementations, and equivalent persistence-framework concerns MUST remain in Adapter or infrastructure boundaries and MUST NOT leak into Domain or Application code. Mapping must remain explicit enough to be understandable, testable, and protective of Domain invariants.
+
+JPA/Hibernate, jOOQ, MyBatis, another repository-wide persistence model, and arbitrary per-feature persistence-framework selection are not authorized by Accepted ADR-0018. Spring Data JDBC and bounded `JdbcClient` use MUST preserve Flyway as the sole governed schema-migration authority, runtime DDL prohibition, project-owned transaction ownership, use-case-driven concurrency and locking, and authoritative database constraints and uniqueness where applicable. This Architecture selects no new global transaction model, isolation level, locking rule, retry policy, connection pool, timeout, or numerical operational threshold.
 
 ## 12. Frontend Architecture Direction
 
@@ -1363,8 +1370,8 @@ product/
 The domain package owns business state and invariants. It must not import:
 
 - Spring MVC.
-- Spring Data.
-- JPA annotations unless an Accepted ADR and synchronized Architecture update permit them.
+- Spring Data JDBC annotations or types.
+- `JdbcClient`, JDBC types, SQL representations, persistence records or models, `RowMapper` implementations, or equivalent persistence-framework concerns.
 - Azure SDKs.
 - HTTP client libraries.
 - Provider SDKs.
@@ -1372,7 +1379,7 @@ The domain package owns business state and invariants. It must not import:
 
 ### 35.2 Application Package
 
-The application package owns Use Case orchestration and Database Transaction boundaries. It may depend on the domain package and project-owned Ports, but not on concrete Adapters.
+The application package owns Use Case orchestration and Database Transaction boundaries. It may depend on the domain package and project-owned Ports, but not on concrete Adapters, Spring Data JDBC annotations or types, `JdbcClient`, JDBC types, SQL representations, persistence records or models, `RowMapper` implementations, or equivalent persistence-framework concerns.
 
 ### 35.3 Adapter Packages
 
@@ -1893,6 +1900,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.22.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism while preserving Domain and Application independence, project-owned Ports, ADR-0017 and PostgreSQL 18 authority, Flyway migration authority, and separate DEC-0001-governed dependency and implementation admission without claiming implementation. |
 | 1.21.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by resolving PostgreSQL schema-strategy Open Decision 13 with one application database and a dedicated schema for each persistence-owning Module or Domain boundary while preserving ownership, Flyway, least-privilege, transaction, and evolution constraints without claiming implementation. |
 | 1.20.0 | 2026-09-25 | Approved | Synchronized BADM to its existing 1.0.0 Approved state, recorded completion of the currently governed backend specification sequence through BADM, confirmed that all currently governed backend-capable Approved Domains have Approved Backend Specifications, preserved post-BADM roadmap containment, and authorized no successor. |
 | 1.19.0 | 2026-09-24 | Approved | Synchronized BRPT to its existing 1.0.0 Approved state, recorded closure of Administration's Reporting prerequisite, authorized Administration-only BADM to enter Draft immediately after BRPT, and preserved every post-BADM roadmap position as unresolved. |
