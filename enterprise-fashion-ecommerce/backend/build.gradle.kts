@@ -4,7 +4,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     java
-    id("org.springframework.boot") version "3.5.16"
+    id("org.springframework.boot") version "4.1.1"
 }
 
 java {
@@ -14,7 +14,7 @@ java {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:3.5.16"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:4.1.1"))
 }
 
 dependencyLocking {
