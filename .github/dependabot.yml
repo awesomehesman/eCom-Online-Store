@@ -4,6 +4,16 @@ updates:
     directory: /enterprise-fashion-ecommerce/backend
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: gradle
+        update-types:
+          - version-update:semver-major
+      - dependency-name: org.springframework.boot
+        update-types:
+          - version-update:semver-major
+      - dependency-name: org.springframework.boot:spring-boot-dependencies
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
