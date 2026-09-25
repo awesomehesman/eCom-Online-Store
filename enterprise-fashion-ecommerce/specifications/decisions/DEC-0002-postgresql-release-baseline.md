@@ -3,11 +3,11 @@
 - **Identifier:** DEC-0002
 - **Title:** PostgreSQL Release Baseline
 - **Type:** Engineering Practice Decision / Technology Adoption Decision
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-09-25
 - **Owner:** Engineering
 - **Supersedes:** Not applicable — this is the first governed PostgreSQL release-baseline decision.
-- **Superseded By:** Not applicable — this Proposed Decision Record has not been superseded.
+- **Superseded By:** Not applicable — this Decision Record has not been superseded.
 
 ## Context
 
@@ -15,7 +15,7 @@ The Approved Architecture governs PostgreSQL as the authoritative transactional 
 
 The repository-wide implementation-readiness audit identified the absent exact PostgreSQL release as a prerequisite to establishing an executable PostgreSQL baseline. `DECISIONS.md` governs `specifications/decisions/` and the `DEC-####` namespace for durable general non-Architecture decisions. DEC-0001 establishes the backend build-tool and dependency-management baseline (Java 21, Gradle 8.14.5, Spring Boot 3.5.16).
 
-This record proposes the minimum PostgreSQL major-version baseline decision needed to enable subsequent implementation work. Acceptance would establish the governed major release; it would not claim that executable PostgreSQL dependencies, Testcontainers configuration, Flyway configuration, schemas, migrations, or production infrastructure already exist. Concrete implementation remains blocked until separately governed implementation work demonstrates that the actual BOM-managed dependency combination supports the selected PostgreSQL major.
+This record establishes the minimum PostgreSQL major-version baseline decision needed to enable subsequent implementation work. Acceptance establishes PostgreSQL 18 as the governed major release; it does not claim that executable PostgreSQL dependencies, Testcontainers configuration, Flyway configuration, schemas, migrations, or production infrastructure already exist. Concrete implementation remains separately governed and must demonstrate that the actual BOM-managed dependency combination supports PostgreSQL 18.
 
 ### PostgreSQL Upstream Facts
 
@@ -38,7 +38,7 @@ This evidence establishes expected compatibility; it does not claim guaranteed s
 
 ## Decision
 
-If Accepted, the repository-wide PostgreSQL baseline MUST use:
+The repository-wide PostgreSQL baseline MUST use:
 
 - **PostgreSQL 18** as the supported PostgreSQL major-version baseline;
 - a currently supported PostgreSQL 18 maintenance release in all environments;
@@ -143,15 +143,15 @@ This decision MUST NOT select or invent:
 
 ## Implementation Authority
 
-### Acceptance Would Authorize
+### Acceptance Authorizes
 
-If Accepted, this decision would authorize:
+This Accepted decision authorizes:
 
 - PostgreSQL 18 as the supported PostgreSQL major-version baseline for subsequent implementation work.
 - The expectation that implementation-phase dependency additions align with PostgreSQL 18.
 - The expectation that Testcontainers-based PostgreSQL verification exercises PostgreSQL 18.
 
-### Acceptance Would NOT Automatically Authorize
+### Acceptance Does NOT Automatically Authorize
 
 Acceptance of this decision alone does NOT automatically authorize:
 
@@ -242,9 +242,9 @@ Local development, CI, and deployed environments will use the same PostgreSQL 18
 
 ## Explicit Boundaries and Non-Decisions
 
-This Proposed decision does not:
+This Accepted decision does not:
 
-- authorize PostgreSQL implementation before acceptance;
+- authorize executable PostgreSQL or persistence implementation by itself;
 - authorize persistence libraries, ORM, or connection-pool selection;
 - create schemas, migrations, or domain persistence;
 - establish infrastructure, hosting, or provider decisions;
@@ -252,14 +252,20 @@ This Proposed decision does not:
 - resolve unrelated Open Decisions; or
 - claim that PostgreSQL 18 support is verified beyond current ecosystem evidence.
 
-## Proposed-State Constraints
+## Acceptance Synchronization
 
-Because this decision remains Proposed:
+This acceptance change synchronizes DEC-0002, the `DECISIONS.md` index and history, `.ai/backend/DATABASE.md`, and `.ai/backend/POSTGRES.md`. It establishes the governed PostgreSQL 18 major-version baseline but does not create or claim completion of executable PostgreSQL dependencies, Testcontainers configuration, Flyway configuration, schemas, migrations, or production infrastructure.
 
-- PostgreSQL 18 MUST NOT be described as an Accepted repository baseline.
-- `DATABASE.md` and `POSTGRES.md` MUST continue to state that the exact release is unresolved.
-- No executable implementation authority exists from this Proposed record.
-- No canonical source other than the required Proposed Decision Index registration is synchronized to PostgreSQL 18.
+A separate implementation-baseline change MUST establish and validate, as applicable:
+
+- PostgreSQL-dependent BOM-managed dependency additions;
+- verification that pgJDBC and Flyway versions support PostgreSQL 18;
+- Testcontainers PostgreSQL 18 configuration;
+- Flyway migration configuration;
+- concrete Domain schemas and migrations; and
+- applicable CI, deployment, security, and operational evidence.
+
+PostgreSQL implementation remains blocked until that executable baseline and its required validation evidence are complete. `ARCHITECTURE.md` does not require modification because its PostgreSQL baseline remains unchanged at the family level. ADR-0017 remains authoritative for schema architecture.
 
 ## References
 
