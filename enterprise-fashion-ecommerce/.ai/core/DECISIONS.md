@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.25
+version: 1.0.26
 status: Approved
 owner: Architecture
 last_updated: 2026-09-25
@@ -534,6 +534,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0015 | Post-Return Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0015-post-return-backend-specification.md](../../specifications/adr/ADR-0015-post-return-backend-specification.md) |
 | ADR-0016 | Post-CMS Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0016-post-cms-backend-specification.md](../../specifications/adr/ADR-0016-post-cms-backend-specification.md) |
 | ADR-0017 | PostgreSQL Schema Strategy | Architecture Decision | Accepted | Architecture | 2026-09-25 | — | [ADR-0017-postgresql-schema-strategy.md](../../specifications/adr/ADR-0017-postgresql-schema-strategy.md) |
+| ADR-0018 | Persistence Technology | Architecture Decision | Proposed | Architecture | 2026-09-25 | — | [ADR-0018-persistence-technology.md](../../specifications/adr/ADR-0018-persistence-technology.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
 
@@ -665,6 +666,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.26 | 2026-09-25 | Approved | Indexed ADR-0018, Persistence Technology, as Proposed without accepting the decision, authorizing dependency or persistence implementation, or changing the Approved Architecture and persistence standards. |
 | 1.0.25 | 2026-09-25 | Approved | Synchronized DEC-0002 to Accepted following completed governance review, establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility while preserving separate implementation authority, ADR-0017 schema-architecture authority, DEC-0001 build-baseline authority, and all unresolved persistence/infrastructure choices. |
 | 1.0.24 | 2026-09-25 | Approved | Indexed DEC-0002, PostgreSQL Release Baseline, as Proposed without accepting the decision, authorizing implementation, or modifying DATABASE.md, POSTGRES.md, or other canonical sources. |
 | 1.0.23 | 2026-09-25 | Approved | Synchronized ADR-0017 to Accepted following completed governance review and canonical Architecture synchronization of the PostgreSQL schema-per-owning-Module/Domain strategy. |
