@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.18
+version: 1.0.19
 status: Approved
 owner: Architecture
-last_updated: 2026-09-23
+last_updated: 2026-09-25
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -152,6 +152,8 @@ DEC-0002
 
 `DEC` identifies a general Decision Record; it does not create a new decision type. An ADR is an Architecture Decision Record and is reserved for Architecture Decisions. Identifiers MUST be zero-padded to four digits, unique within their sequence, immutable, and never reused after rejection or supersession. The identifier MUST appear in the filename, title or metadata, index, references, and supersession links.
 
+General Decision Record numbering begins at `DEC-0001`. The next identifier is the lowest positive four-digit `DEC` number not already occupied by an actual governed Decision Record. Examples in governance documentation do not occupy or reserve identifiers. An identifier MUST NOT be reused after its Decision Record has existed, including after rejection or supersession. Renumbering an existing Decision Record is prohibited except through governance to correct an identifier collision.
+
 ## 10. Decision Record Location
 
 Architecture Decision Records belong in the verified repository ADR location established by `AGENTS.md`:
@@ -166,7 +168,23 @@ Filenames MUST follow the repository convention:
 ADR-0001-concise-kebab-case-title.md
 ```
 
-No repository location is currently established for non-Architecture Decision Records. The applicable governing authority MUST approve that location before such a record is added; this document MUST NOT invent a path in place of that approval. The Decision Index MUST link each record at its approved repository path.
+General non-Architecture Decision Records belong in the canonical repository location:
+
+```text
+specifications/decisions/
+```
+
+Their filenames MUST follow this convention:
+
+```text
+DEC-####-<descriptive-slug>.md
+```
+
+For example, `DEC-0001-example-decision.md` demonstrates filename shape only and does not occupy or reserve `DEC-0001`.
+
+The ADR and DEC namespaces and locations are exclusive: `DEC-####` records MUST NOT be placed in the ADR location, and `ADR-####` records MUST NOT be placed in the general Decision Record location. A general Decision Record does not become an ADR merely because it affects engineering or technology. Architecture Decisions continue to follow ADR governance. Material non-Architecture Product, Engineering Practice, Technology Adoption, operational, or other governed decisions MAY use `DEC-####` where this document requires a durable Decision Record.
+
+Every actual `DEC-####` record MUST be discoverable from `DECISIONS.md` through the governed Decision Index and linked at its canonical repository path. No index entry may reserve an identifier before its actual Decision Record exists.
 
 `DECISIONS.md` is the governance document and index. It MUST NOT absorb the full body of every Decision Record. Domain Specifications, Product sources, and other governing documents MAY link to a Decision Record but MUST NOT create a competing copy of its rationale.
 
@@ -531,7 +549,7 @@ The owner of a new or changed decision record MUST update this index in the same
 - stale or broken links are corrected; and
 - history and evidence are never fabricated.
 
-Periodic review SHOULD reconcile the index with actual files under `specifications/adr/` and any other decision-record location approved under section 10.
+Periodic review SHOULD reconcile the index with actual files in both governed Decision Record locations established under section 10.
 
 ## 51. AI Use of Decision Records
 
@@ -644,6 +662,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.19 | 2026-09-25 | Approved | Established the canonical location, filename convention, namespace separation, deterministic numbering, and index-discovery requirements for general non-Architecture `DEC-####` Decision Records without creating or reserving a Decision Record. |
 | 1.0.18 | 2026-09-23 | Approved | Added ADR-0016 as Accepted following successful governance review and canonical Architecture synchronization; selected Notifications-only `BNTF` immediately after BCMS to resolve a tied immediate sequencing state without ranking eligible capabilities, preserved Reporting as independently eligible and unresolved, preserved Administration's missing Notifications and Reporting backend invocation Contracts, and left every post-BNTF position unresolved. |
 | 1.0.17 | 2026-09-23 | Approved | Added ADR-0015 as Accepted following completed governance review and canonical Architecture synchronization; selected CMS-only `BCMS` immediately after Approved BRET using governed dependency closure, preserved Notifications as independently eligible, separate, unresolved, unranked, and unordered, and left every post-BCMS backend roadmap position unresolved. |
 | 1.0.16 | 2026-09-23 | Approved | Added ADR-0014 as Accepted following completed governance review and canonical Architecture synchronization; selected Return-only `BRET` immediately after BPAY with Draft-only authorization, preserved CMS as independently eligible, separate, unresolved, unranked, and unordered, and left every post-BRET backend roadmap position unresolved. |
