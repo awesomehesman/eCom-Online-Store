@@ -1,0 +1,100 @@
+name: Backend Gradle baseline
+
+on:
+  pull_request:
+    paths:
+      - "enterprise-fashion-ecommerce/backend/**"
+      - ".github/workflows/backend-gradle-baseline.yml"
+      - ".github/dependabot.yml"
+  push:
+    branches:
+      - develop
+    paths:
+      - "enterprise-fashion-ecommerce/backend/**"
+      - ".github/workflows/backend-gradle-baseline.yml"
+      - ".github/dependabot.yml"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: enterprise-fashion-ecommerce/backend
+
+jobs:
+  validate:
+    name: Validate Gradle baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Java 21
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up and validate Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          build-root-directory: enterprise-fashion-ecommerce/backend
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+          validate-wrappers: true
+
+      - name: Verify Java and Gradle versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          java_major="$(java -XshowSettings:properties -version 2>&1 | sed -n 's/^[[:space:]]*java\.version = \([0-9][0-9]*\).*/\1/p')"
+          test "$java_major" = "21"
+          ./gradlew --version | grep -F "Gradle 8.14.5"
+
+      - name: Run checks with strict dependency verification
+        run: ./gradlew clean check --dependency-verification=strict
+
+      - name: Verify dependency lock state
+        shell: bash
+        run: |
+          set -euo pipefail
+          temporary_directory="$(mktemp -d)"
+          cp gradle.lockfile "$temporary_directory/gradle.lockfile"
+          restore_lockfile() {
+            cp "$temporary_directory/gradle.lockfile" gradle.lockfile
+            rm -rf "$temporary_directory"
+          }
+          trap restore_lockfile EXIT
+          ./gradlew dependencies --write-locks --dependency-verification=strict
+          cmp "$temporary_directory/gradle.lockfile" gradle.lockfile
+
+      - name: Verify reproducible ordinary JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          temporary_directory="$(mktemp -d)"
+          trap 'rm -rf "$temporary_directory"' EXIT
+
+          ./gradlew clean jar --dependency-verification=strict
+          mapfile -t first_build_jars < <(find build/libs -maxdepth 1 -type f -name '*.jar' -print | sort)
+          test "${#first_build_jars[@]}" -eq 1
+          cp "${first_build_jars[0]}" "$temporary_directory/first.jar"
+          sha256sum "$temporary_directory/first.jar"
+
+          ./gradlew clean jar --dependency-verification=strict
+          mapfile -t second_build_jars < <(find build/libs -maxdepth 1 -type f -name '*.jar' -print | sort)
+          test "${#second_build_jars[@]}" -eq 1
+          sha256sum "${second_build_jars[0]}"
+          cmp "$temporary_directory/first.jar" "${second_build_jars[0]}"
+
+  dependency-review:
+    name: Review dependency changes
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: critical
