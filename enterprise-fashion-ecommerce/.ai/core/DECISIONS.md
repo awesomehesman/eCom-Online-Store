@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.19
+version: 1.0.20
 status: Approved
 owner: Architecture
 last_updated: 2026-09-25
@@ -533,6 +533,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0014 | Post-Payment Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0014-post-payment-backend-specification.md](../../specifications/adr/ADR-0014-post-payment-backend-specification.md) |
 | ADR-0015 | Post-Return Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0015-post-return-backend-specification.md](../../specifications/adr/ADR-0015-post-return-backend-specification.md) |
 | ADR-0016 | Post-CMS Backend Specification | Architecture Decision | Accepted | Architecture | 2026-09-23 | — | [ADR-0016-post-cms-backend-specification.md](../../specifications/adr/ADR-0016-post-cms-backend-specification.md) |
+| DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Proposed | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -662,6 +663,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.20 | 2026-09-25 | Approved | Indexed DEC-0001, Backend Build Tool and Dependency Management Baseline, as Proposed without authorizing implementation or changing the Approved Architecture baseline. |
 | 1.0.19 | 2026-09-25 | Approved | Established the canonical location, filename convention, namespace separation, deterministic numbering, and index-discovery requirements for general non-Architecture `DEC-####` Decision Records without creating or reserving a Decision Record. |
 | 1.0.18 | 2026-09-23 | Approved | Added ADR-0016 as Accepted following successful governance review and canonical Architecture synchronization; selected Notifications-only `BNTF` immediately after BCMS to resolve a tied immediate sequencing state without ranking eligible capabilities, preserved Reporting as independently eligible and unresolved, preserved Administration's missing Notifications and Reporting backend invocation Contracts, and left every post-BNTF position unresolved. |
 | 1.0.17 | 2026-09-23 | Approved | Added ADR-0015 as Accepted following completed governance review and canonical Architecture synchronization; selected CMS-only `BCMS` immediately after Approved BRET using governed dependency closure, preserved Notifications as independently eligible, separate, unresolved, unranked, and unordered, and left every post-BCMS backend roadmap position unresolved. |
