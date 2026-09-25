@@ -1,9 +1,9 @@
 ---
 title: POSTGRES
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-09-25
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -71,15 +71,15 @@ Physical layout, roles, views, functions, triggers, indexes, and maintenance pro
 
 ## 8. Naming
 
-Tables, columns, constraints, and indexes MUST use the canonical `snake_case` convention established by `GLOSSARY.md`. Names MUST be descriptive, stable, and free of ambiguous abbreviations.
+Schemas, tables, columns, constraints, and indexes MUST use the canonical `snake_case` convention established by `GLOSSARY.md`. Names MUST be descriptive, stable, and free of ambiguous abbreviations. Schema names MUST be deterministic unquoted lowercase `snake_case` and traceable to the owning Module or Domain boundary.
 
-Unquoted lowercase identifiers SHOULD be used so PostgreSQL case folding does not create accidental quoted-name dependencies. Index names MUST use the governed `idx_` prefix and identify the table and relevant columns or expression clearly. This document does not invent a universal constraint-name or schema-name pattern.
+Unquoted lowercase identifiers SHOULD be used so PostgreSQL case folding does not create accidental quoted-name dependencies. Index names MUST use the governed `idx_` prefix and identify the table and relevant columns or expression clearly. This document does not invent a universal constraint-name pattern or concrete schema-name inventory.
 
 ## 9. Physical Schema Strategy
 
-PostgreSQL schemas MAY be used as an implementation mechanism only after the physical schema ownership strategy is approved through Architecture governance. This document does not select schema-per-Module, one shared schema, database-per-Module, or database-per-service.
+Accepted ADR-0017 establishes one application PostgreSQL database within the initial primary PostgreSQL service, with a dedicated schema for each persistence-owning Module or Domain boundary. Every governed persistent object MUST remain attributable to one owner. Schema separation reinforces logical ownership and MUST NOT replace approved Module Contracts, Application Services, Ports and Adapters, Authorization, or other application boundaries.
 
-The selected strategy MUST preserve identifiable Module and data ownership, Flyway migration ownership, least privilege, operational support, and a credible evolution path. PostgreSQL `search_path` behavior MUST NOT silently substitute for an approved ownership model.
+Physical co-location never authorizes direct cross-Module table or schema access. Such access remains prohibited except through a separate Accepted ADR and synchronized Architecture update under the existing governance mechanism. The strategy MUST preserve identifiable Module and data ownership, Flyway migration ownership, least privilege, operational support, and a credible evolution path without authorizing database-per-Module, service extraction, microservices, or distributed transactions.
 
 ## 10. Identifier Strategy
 
@@ -238,7 +238,7 @@ The boundary is PostgreSQL driver failure to persistence Adapter classification 
 
 ## 34. Flyway Migration Governance
 
-Flyway remains the Architecture-approved migration mechanism. PostgreSQL schema and governed data changes MUST use version-controlled Flyway migrations under the ownership, review, compatibility, immutability, and recovery rules in `DATABASE.md`.
+Flyway remains the Architecture-approved migration mechanism. PostgreSQL schema and governed data changes MUST use version-controlled Flyway migrations attributable to the owning Module or Domain under the ownership, review, compatibility, immutability, and recovery rules in `DATABASE.md`. Migration locations and execution boundaries MUST prevent ambiguous ownership and migration collisions.
 
 Runtime schema mutation, automatic production schema creation, manual untracked DDL, and editing an applied migration are prohibited. Corrections SHOULD use a new forward migration.
 
@@ -282,7 +282,7 @@ Future sizing MUST account for PostgreSQL capacity, provider limits, application
 
 Session-local state MUST be minimized, explicitly owned, and reset safely before a pooled connection is reused. Application behavior MUST NOT depend on accidental persistence of role, time zone, locale, configuration, temporary objects, or advisory locks across borrowers.
 
-The effective `search_path` MUST be controlled and MUST NOT include untrusted schema resolution. `SECURITY DEFINER` behavior, object qualification, and role changes require focused review. Session configuration MUST NOT bypass the approved physical schema strategy or Authorization boundary.
+The effective `search_path` MUST be controlled, MUST NOT include untrusted schema resolution, and MUST NOT make another Module's schema implicitly accessible in a way that bypasses ownership. `SECURITY DEFINER` behavior, object qualification, and role changes require focused review. Session configuration MUST NOT bypass the approved schema-per-owning-Module/Domain strategy, Module Contracts, or Authorization boundary.
 
 ## 42. Timeouts and Resource Controls
 
@@ -348,7 +348,7 @@ Once a topology exists, PostgreSQL-specific client routing, transaction outcome 
 
 PostgreSQL access MUST use least-privilege roles appropriate to runtime, migration, read-only, administrative, backup, monitoring, and break-glass responsibilities where those responsibilities exist. Exact role names and provider mappings are not selected here.
 
-The ordinary application role MUST NOT be a PostgreSQL superuser or own unrestricted administrative capability. Migration and ownership privileges SHOULD be separated from runtime access. Shared human credentials are prohibited, and privileged activity MUST be attributable and auditable.
+Ordinary runtime capability MUST NOT perform DDL, schema administration, PostgreSQL superuser actions, or unrestricted administrative operations. Migration and schema-changing capability MUST be separately bounded from ordinary runtime capability and limited to approved owned schemas and objects. Shared human credentials are prohibited, and privileged activity MUST be attributable and auditable.
 
 ## 53. TLS and Encryption Boundaries
 
@@ -529,6 +529,7 @@ This document does not treat empty lower-level companion files as authority.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary and aligning naming, Flyway ownership, search-path, role, least-privilege, and validation rules. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the PostgreSQL implementation standard after final governance, database-boundary, release-selection, type-system, integrity, query, concurrency, migration, connection, maintenance, security, Payment, Inventory, testing, observability, operational, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial PostgreSQL implementation standard covering release governance, schemas, types, constraints, indexes, SQL, MVCC, isolation, locking, Flyway migrations, connections, maintenance, security, Payment, Inventory, testing, observability, and operational boundaries. |
 
@@ -542,9 +543,9 @@ PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Pa
 
 Before approval or implementation reliance, reviewers MUST verify:
 
-1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
+1. metadata accurately states version 1.1.0 Approved with `authoritative: false`;
 2. PostgreSQL remains the approved database family and no exact release or image tag was invented;
-3. no cloud SKU, service tier, topology, schema strategy, universal identifier, extension, persistence library, or connection pool was selected;
+3. the Accepted ADR-0017 strategy of one application database with a dedicated schema for each persistence-owning Module or Domain is preserved without selecting a concrete schema inventory, cloud SKU, service tier, hosting topology, universal identifier, extension, persistence library, or connection pool;
 4. Money uses exact decimal representation with explicit Currency and no universal precision or scale was invented;
 5. temporal types follow their actual semantics and `timestamptz` is not described as retaining a named time zone;
 6. native enum, JSONB, arrays, extensions, partitioning, replication, and row-level security remain conditional;
