@@ -1,0 +1,5 @@
+# This is a Gradle generated file for dependency locking.
+# Manual edits can break the build and are not advised.
+# This file is expected to be part of source control.
+org.springframework.boot:spring-boot-dependencies:3.5.16=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+empty=annotationProcessor,developmentOnly,testAndDevelopmentOnly,testAnnotationProcessor
