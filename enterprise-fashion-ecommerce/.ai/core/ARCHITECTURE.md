@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.19.0
+version: 1.20.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-24
+last_updated: 2026-09-25
 applies_to:
   - Frontend
   - Backend
@@ -1312,7 +1312,7 @@ The fifteenth downstream Backend Specification after BEB, immediately after BCMS
 
 The sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF, MUST be the Reporting Backend Specification under scope `BRPT` at `specifications/backend/reporting/reporting-backend.md`. BRPT MUST use a Reporting-only decomposition, specialize only the Approved Reporting Domain without transferring Reporting Domain authority, remain `authoritative: false`, inherit and explicitly trace every materially applicable BEB Requirement, and consume other Approved backend or Domain evidence only through materially applicable governed Contracts without acquiring transactional, Notifications, Administration, Customer, Identity, commerce, CMS, or other Domain authority. BRPT MUST preserve unresolved Product Decisions 6, 7, 8, 9, 10, 11, 13, 14, 19, 20, 21, 25, 26, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, and 14. BRPT exists at `specifications/backend/reporting/reporting-backend.md` as `1.0.0 Approved`, remains Reporting-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, and resolves no Open Product or Architecture Decision.
 
-The seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT, MUST be the Administration Backend Specification under scope `BADM` at `specifications/backend/admin/admin-backend.md`. BADM MUST use an Administration-only decomposition, specialize only the Approved Administration Domain, remain subordinate to canonical governance and the Approved Administration Domain, inherit and explicitly trace every materially applicable BEB Requirement, and consume Approved upstream backend capabilities only through materially applicable governed Contracts without transferring authority. BADM MUST NOT redefine Identity, Customer, Product, Category, CMS, Pricing, Inventory, Cart, Checkout, Payment, Order, Shipping and Fulfilment, Return, Notifications, Search and Discovery, Reporting, or other owning-Domain truth; it MUST preserve trusted server-side Authorization, Administration's governed operational boundaries, and implementation neutrality. BADM MUST preserve unresolved Product Decisions 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, and 14. This synchronization authorizes BADM only to enter `0.1.0 Draft`; it does not approve BADM, claim that `admin-backend.md` exists or is implemented, or select any route, method, status, DTO, payload, schema, table, ORM mapping, event, topic, queue, provider, infrastructure, cache, retry, timeout, TTL, SLO, Role/Permission matrix, workflow mechanism, or unresolved Product policy.
+The seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT, MUST be the Administration Backend Specification under scope `BADM` at `specifications/backend/admin/admin-backend.md`. BADM MUST use an Administration-only decomposition, specialize only the Approved Administration Domain, remain subordinate to canonical governance and the Approved Administration Domain, inherit and explicitly trace every materially applicable BEB Requirement, and consume Approved upstream backend capabilities only through materially applicable governed Contracts without transferring authority. BADM MUST NOT redefine Identity, Customer, Product, Category, CMS, Pricing, Inventory, Cart, Checkout, Payment, Order, Shipping and Fulfilment, Return, Notifications, Search and Discovery, Reporting, or other owning-Domain truth; it MUST preserve trusted server-side Authorization, Administration's governed operational boundaries, and implementation neutrality. BADM MUST preserve unresolved Product Decisions 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, and 14. BADM exists at `specifications/backend/admin/admin-backend.md` as `1.0.0 Approved`, remains Administration-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, remains subordinate to canonical governance and the Approved Administration Domain, acquires no upstream Domain authority, and resolves no Open Product or Architecture Decision. It selects no route, method, status, DTO, payload, schema, table, ORM mapping, event, topic, queue, provider, infrastructure, cache, retry, timeout, TTL, SLO, Role/Permission matrix, workflow mechanism, or unresolved Product policy.
 
 The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF → BRPT → BADM`.
 
@@ -1322,7 +1322,9 @@ Approved BNTF closed Administration's Notifications backend invocation prerequis
 
 BRPT approval did not itself authorize an Administration Backend Specification. Administration required this separate canonical Architecture synchronization before Draft authorization. No candidate-selection ADR is required because Administration is the sole independently eligible remaining Approved backend-capable Domain without an Approved Backend Specification.
 
-All Backend Specification identities, titles, paths, scope codes, decompositions, and ordering after BADM remain unresolved until separately governed. No post-BADM capability or roadmap position is established or implied, and progression after BADM is not automatic. Historical ADR decisions remain unchanged. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
+BEB remains the shared backend baseline. All seventeen currently governed downstream Backend Specifications from BIDN through BADM are Approved, every currently governed backend-capable Approved Domain has an Approved Backend Specification, and no currently governed backend-specification dependency remains missing. The currently governed backend specification roadmap therefore completes at BADM. This bounded completion does not imply that the product, implementation, or Architecture is permanently complete, and it resolves no Open Product or Architecture Decision.
+
+All Backend Specification identities, titles, paths, scope codes, decompositions, lifecycles, and ordering after BADM remain unresolved until separately governed. No post-BADM capability or roadmap position is established or implied, progression after BADM is not automatic, and any future Backend Specification after BADM requires separate canonical governance before Draft creation. Historical ADR decisions remain unchanged. All Backend Specifications remain subordinate to higher governing sources, Approved Business Requirements, Approved Domain Specifications, applicable Approved Frontend Specifications where Contracts intersect, standards under `.ai/backend/`, and materially applicable BEB Requirements.
 
 Each backend domain Module must use a predictable internal structure so contributors and architecture tests can identify ownership and dependency direction.
 
@@ -1888,6 +1890,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.20.0 | 2026-09-25 | Approved | Synchronized BADM to its existing 1.0.0 Approved state, recorded completion of the currently governed backend specification sequence through BADM, confirmed that all currently governed backend-capable Approved Domains have Approved Backend Specifications, preserved post-BADM roadmap containment, and authorized no successor. |
 | 1.19.0 | 2026-09-24 | Approved | Synchronized BRPT to its existing 1.0.0 Approved state, recorded closure of Administration's Reporting prerequisite, authorized Administration-only BADM to enter Draft immediately after BRPT, and preserved every post-BADM roadmap position as unresolved. |
 | 1.18.0 | 2026-09-24 | Approved | Synchronized BNTF to its existing 1.0.0 Approved state, recorded closure of Administration's Notifications prerequisite, established Reporting as the sole independently eligible remaining capability, authorized Reporting-only BRPT immediately after BNTF, and preserved Administration and every post-BRPT roadmap position as unresolved and unauthorized. |
 | 1.17.0 | 2026-09-23 | Approved | Corrected BCMS to its existing 1.0.0 Approved state, synchronized Accepted ADR-0016 by authorizing Notifications-only BNTF to enter Draft immediately after BCMS, preserved Reporting as independently eligible and unresolved, preserved Administration's remaining Notifications and Reporting invocation dependencies, and left every post-BNTF position unresolved. |
@@ -1914,8 +1917,9 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.19.0
+- **Version:** 1.20.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
+- **Backend Roadmap:** The currently governed backend specification roadmap completes through Approved BADM; no post-BADM Backend Specification is authorized.
 - **Review Cycle:** Monthly, or immediately following any material architectural change.
 - **Change Policy:** Material Architecture changes require an Accepted Architecture Decision Record (ADR) together with corresponding updates to this document and any affected standards.
