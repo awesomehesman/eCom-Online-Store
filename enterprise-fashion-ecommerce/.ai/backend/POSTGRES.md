@@ -1,6 +1,6 @@
 ---
 title: POSTGRES
-version: 1.1.0
+version: 1.2.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-25
@@ -51,11 +51,13 @@ These meanings apply in prose, lists, tables, and review criteria.
 
 ## 5. PostgreSQL Baseline and Release Selection
 
-PostgreSQL is the Architecture-approved authoritative transactional database family for the initial platform. No repository build, Docker, Testcontainers, CI/CD, infrastructure, Environment configuration, or approved lower-level source currently establishes an exact supported PostgreSQL release or image tag.
+PostgreSQL is the Architecture-approved authoritative transactional database family for the initial platform. Accepted DEC-0002 establishes PostgreSQL 18 as the supported PostgreSQL major-version baseline.
 
-An exact release MUST be selected and recorded in an approved source before implementation, testing, or deployment locks the runtime. Selection MUST include compatibility, security support, migration behavior, driver and framework compatibility, Testcontainers evidence, extension compatibility where applicable, backup and restore evidence, operational support, and deployment-platform compatibility.
+Implementations MUST use a currently supported PostgreSQL 18 maintenance release in all environments. Supported PostgreSQL 18 maintenance/security releases MAY be adopted without a new General Decision Record solely because the maintenance release changed, subject to applicable compatibility, security, automated testing, migration, dependency/build, deployment, and operational validation.
 
-This standard does not select any exact PostgreSQL release.
+A transition to PostgreSQL 19 or another PostgreSQL major version requires applicable repository governance and a new or superseding durable decision. Pre-release/beta/RC PostgreSQL versions MUST NOT become the production baseline.
+
+This standard does not pin a permanent exact PostgreSQL 18 maintenance release or image tag. Implementation must verify that the actual BOM-managed pgJDBC, Flyway, and Testcontainers dependency combination supports PostgreSQL 18 before executable implementation proceeds.
 
 ## 6. DATABASE.md and POSTGRES.md Boundary
 
@@ -426,7 +428,7 @@ Unknown commit or failover outcomes MUST remain uncertain until authoritative st
 
 ## 65. PostgreSQL Testing with Testcontainers
 
-Integration Tests SHOULD use real PostgreSQL through Testcontainers where PostgreSQL behavior matters. The exact image tag or release MUST match the supported release once selected; this standard selects neither.
+Integration Tests SHOULD use real PostgreSQL through Testcontainers where PostgreSQL behavior matters. Testcontainers PostgreSQL verification MUST exercise the governed PostgreSQL 18 major baseline once implementation is authorized. This standard does not select an exact Testcontainers library version, container image tag, or maintenance release.
 
 An in-memory substitute does not prove PostgreSQL types, SQL, constraints, indexes, locks, MVCC, isolation, Flyway, SQLSTATE, planner, or migration behavior. Tests MUST be isolated, reliable, reproducible, CI-compatible, and free of production Secrets and Sensitive Data.
 
@@ -444,7 +446,7 @@ Payment tests MUST protect provider-evidence authority and duplicate-effect prev
 
 ## 68. Environment Compatibility
 
-Development, CI, test, staging, and production SHOULD preserve relevant PostgreSQL compatibility: the supported release or approved compatible major, required features and extensions, migration behavior, isolation semantics, SQL behavior, and provider constraints.
+Development, CI, test, staging, and production SHOULD preserve relevant PostgreSQL compatibility: the governed PostgreSQL 18 major baseline or approved compatible version, required features and extensions, migration behavior, isolation semantics, SQL behavior, and provider constraints.
 
 Parity does not require identical scale, service tier, topology, data volume, or operational configuration. Any difference that could invalidate evidence MUST be documented and covered by suitable Environment-specific verification.
 
@@ -522,6 +524,7 @@ Approved governing and directly relevant documents:
 - `.ai/backend/SPRING.md`
 - `.ai/backend/JAVA.md`
 - `.ai/backend/DATABASE.md`
+- `specifications/decisions/DEC-0002-postgresql-release-baseline.md`
 
 This document does not treat empty lower-level companion files as authority.
 
@@ -529,13 +532,14 @@ This document does not treat empty lower-level companion files as authority.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0002 by establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility, updating Testcontainers and environment-compatibility guidance, and adding DEC-0002 to Related Documents while preserving separate implementation authority and all unresolved persistence/infrastructure choices. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary and aligning naming, Flyway ownership, search-path, role, least-privilege, and validation rules. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the PostgreSQL implementation standard after final governance, database-boundary, release-selection, type-system, integrity, query, concurrency, migration, connection, maintenance, security, Payment, Inventory, testing, observability, operational, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial PostgreSQL implementation standard covering release governance, schemas, types, constraints, indexes, SQL, MVCC, isolation, locking, Flyway migrations, connections, maintenance, security, Payment, Inventory, testing, observability, and operational boundaries. |
 
 ## 76. Quality Requirements
 
-This standard MUST remain subordinate to Approved core and backend standards, preserve PostgreSQL as the approved database family, and avoid selecting an exact release or implementation option without repository evidence and applicable governance.
+This standard MUST remain subordinate to Approved core and backend standards, preserve PostgreSQL as the approved database family, inherit the PostgreSQL 18 major-version baseline established by Accepted DEC-0002, and avoid pinning a permanent exact maintenance release or implementation option without repository evidence and applicable governance.
 
 PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Payment Transaction distinctions, validated Payment Provider evidence, Inventory authority, server-side Authorization, Sensitive Data protection, safe migration, bounded concurrency recovery, and evidence-driven operations.
 
@@ -543,8 +547,8 @@ PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Pa
 
 Before approval or implementation reliance, reviewers MUST verify:
 
-1. metadata accurately states version 1.1.0 Approved with `authoritative: false`;
-2. PostgreSQL remains the approved database family and no exact release or image tag was invented;
+1. metadata accurately states version 1.2.0 Approved with `authoritative: false`;
+2. PostgreSQL remains the approved database family and PostgreSQL 18 is referenced as the governed major-version baseline per Accepted DEC-0002 without pinning a permanent exact maintenance release or image tag;
 3. the Accepted ADR-0017 strategy of one application database with a dedicated schema for each persistence-owning Module or Domain is preserved without selecting a concrete schema inventory, cloud SKU, service tier, hosting topology, universal identifier, extension, persistence library, or connection pool;
 4. Money uses exact decimal representation with explicit Currency and no universal precision or scale was invented;
 5. temporal types follow their actual semantics and `timestamptz` is not described as retaining a named time zone;
@@ -562,7 +566,7 @@ Before approval or implementation reliance, reviewers MUST verify:
 17. the Outbox Pattern remains conditional and exactly-once delivery is not assumed;
 18. formal Exception governance remains distinct from runtime database errors;
 19. PostgreSQL logs are not treated as complete Audit Records;
-20. tests use real PostgreSQL where PostgreSQL behavior matters without inventing an image tag;
+20. tests use real PostgreSQL where PostgreSQL behavior matters and reference the governed PostgreSQL 18 major baseline without pinning an exact image tag or maintenance release;
 21. Related Documents contains no self-reference and names only actual governing sources;
 22. no unfinished-work marker or placeholder content exists;
 23. headings and Markdown tables are valid and sequential; and

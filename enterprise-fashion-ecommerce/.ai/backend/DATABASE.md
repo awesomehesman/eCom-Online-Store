@@ -1,6 +1,6 @@
 ---
 title: DATABASE
-version: 1.1.0
+version: 1.2.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-25
@@ -52,7 +52,9 @@ These meanings apply in prose, lists, tables, and review criteria.
 
 PostgreSQL is the Architecture-approved authoritative transactional database technology for the platform. The primary transactional persistence implementation MUST remain compatible with PostgreSQL and the approved Azure deployment direction.
 
-This document does not select an exact PostgreSQL release, Azure database SKU, service tier, extension, topology, parameter profile, or PostgreSQL-specific operational implementation. PostgreSQL-specific configuration and version-dependent mechanics belong in `.ai/backend/POSTGRES.md` when its metadata makes it normative within that scope; material Architecture changes and other implementation choices remain subject to their applicable repository governance.
+Accepted DEC-0002 establishes PostgreSQL 18 as the supported PostgreSQL major-version baseline. Implementations MUST use a currently supported PostgreSQL 18 maintenance release. Supported PostgreSQL 18 maintenance/security releases MAY be adopted without a new General Decision Record solely because the maintenance release changed, subject to applicable compatibility, security, automated testing, migration, dependency/build, deployment, and operational validation. A transition to PostgreSQL 19 or another PostgreSQL major version requires applicable repository governance and a new or superseding durable decision.
+
+This document does not pin a permanent exact PostgreSQL 18 maintenance release, Azure database SKU, service tier, extension, topology, parameter profile, or PostgreSQL-specific operational implementation. PostgreSQL-specific configuration and version-dependent mechanics belong in `.ai/backend/POSTGRES.md` when its metadata makes it normative within that scope; material Architecture changes and other implementation choices remain subject to their applicable repository governance.
 
 ## 6. Database Authority and Product Truth
 
@@ -414,7 +416,7 @@ Integration Tests SHOULD use real PostgreSQL through Testcontainers where practi
 
 An in-memory substitute MUST NOT be used as evidence for PostgreSQL SQL, types, constraints, locking, isolation, Flyway, query plans, or Database Transaction behavior when those semantics matter.
 
-Containerized tests MUST be deterministic, isolated, version-controlled, and compatible with CI. This document does not establish a PostgreSQL image tag, exact release, or engine configuration; compatibility with the supported deployment baseline belongs in the applicable scope of `.ai/backend/POSTGRES.md` once that baseline is established.
+Containerized tests MUST be deterministic, isolated, version-controlled, and compatible with CI. Testcontainers PostgreSQL verification MUST exercise the governed PostgreSQL 18 major baseline once implementation is authorized. This document does not select an exact Testcontainers library version, container image tag, or maintenance release; compatibility with the supported deployment baseline belongs in the applicable scope of `.ai/backend/POSTGRES.md`.
 
 ## 57. Migration Testing
 
@@ -547,6 +549,8 @@ Approved governing and directly relevant documents:
 
 `.ai/backend/POSTGRES.md` is the lower-level PostgreSQL-specific companion standard for exact release governance, version-specific SQL and isolation behavior, engine types and extensions, index implementations, connection and operational parameters, observability, tuning, and engine-level backup or recovery mechanics. Its lifecycle and authority are governed by its own metadata; this document MUST NOT assume unapproved companion content is normative.
 
+`specifications/decisions/DEC-0002-postgresql-release-baseline.md` is the Accepted General Decision Record that establishes PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility. DATABASE.md inherits that baseline by reference and does not independently redefine it.
+
 The lifecycle and authority of the following lower-level companions MUST be determined from their own metadata and substantive content. Empty or unapproved companion content remains outside this standard's owned detail and MUST NOT be treated as normative:
 
 - `.ai/backend/API.md`
@@ -556,6 +560,7 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.2.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0002 by establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility, updating Testcontainers guidance to reference the PostgreSQL 18 major baseline, and adding DEC-0002 to Related Documents while preserving separate implementation authority and all unresolved persistence/infrastructure choices. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary while preserving naming, ownership, Flyway, least-privilege, transaction, and implementation-neutrality constraints. |
 | 1.0.1 | 2026-08-12 | Approved | Corrected lifecycle-sensitive PostgreSQL companion references to use durable metadata-governed authority wording. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the database implementation standard after final governance, architecture, persistence-boundary, Database Transaction, integrity, migration, query, security, Payment, Inventory, idempotency, reconciliation, testing, observability, recovery, terminology, and documentation-quality validation. |
@@ -563,7 +568,7 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 ## 69. Quality Requirements
 
-This standard MUST preserve PostgreSQL as the Architecture-approved transactional database and inherit the schema-per-owning-Module/Domain strategy established by Accepted ADR-0017 while remaining a platform-neutral database implementation standard. It MUST NOT independently alter that physical schema layout or invent an exact release, cloud SKU, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
+This standard MUST preserve PostgreSQL as the Architecture-approved transactional database, inherit the PostgreSQL 18 major-version baseline established by Accepted DEC-0002, and inherit the schema-per-owning-Module/Domain strategy established by Accepted ADR-0017 while remaining a platform-neutral database implementation standard. It MUST NOT independently alter that physical schema layout, pin a permanent exact maintenance release, or invent a cloud SKU, extension, ORM, connection pool, isolation default, retention period, backup schedule, RPO, RTO, or performance threshold.
 
 Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.md; distinguish Database Transaction from Payment Transaction; preserve validated Payment Provider evidence; preserve Inventory authority; enforce security and Authorization; and defer PostgreSQL-specific implementation to POSTGRES.md within its metadata-governed scope.
 
@@ -572,7 +577,7 @@ Database rules MUST remain subordinate to core governance, SPRING.md, and JAVA.m
 Before approval or implementation reliance, reviewers MUST verify:
 
 1. metadata remains accurate for the document lifecycle;
-2. PostgreSQL remains the Architecture-approved transactional database and no exact release or cloud SKU was invented;
+2. PostgreSQL remains the Architecture-approved transactional database and PostgreSQL 18 is referenced as the governed major-version baseline per Accepted DEC-0002 without pinning a permanent exact maintenance release or cloud SKU;
 3. Domain and Module ownership is preserved across schemas, tables, Repositories, and Adapters;
 4. no ORM, JPA, Hibernate, database-access library, connection-pool implementation, or PostgreSQL extension was selected;
 5. Database Transaction ownership, atomicity, rollback, isolation, locking, and retry behavior are explicit and evidence-based;
