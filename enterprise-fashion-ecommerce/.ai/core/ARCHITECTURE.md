@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.22.0
+version: 1.23.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-26
+last_updated: 2026-09-28
 applies_to:
   - Frontend
   - Backend
@@ -1134,7 +1134,7 @@ Administrative access requires stronger controls than ordinary storefront browsi
 - Controlled account provisioning.
 - Session revocation.
 - Audit Records.
-- Future MFA enforcement.
+- Mandatory privileged MFA under `SECURITY-STANDARDS.md`, with concrete provider, factor, protocol, and exact configuration remaining unresolved.
 - Environment and operational-access separation.
 
 ### 30.4 Authorization
@@ -1145,16 +1145,17 @@ The frontend may hide unavailable actions for usability but must not be trusted 
 
 ### 30.5 Session Strategy
 
-The exact token or session model requires an ADR. The selected design must address:
+Accepted ADR-0019 establishes an Identity-owned authoritative server-side Session for the initial first-party browser Authentication flow. The browser credential MUST use a minimally scoped protected cookie with `HttpOnly`, `Secure`, and the strictest workable `SameSite` policy. The browser MUST NOT directly own Access Tokens or Refresh Tokens for this flow, and persistent browser storage of Session secrets or equivalent bearer credentials remains prohibited.
 
-- Access Token or other access-credential lifetime, as applicable.
-- Refresh Token or Session revocation, as applicable.
-- Rotation and replay detection.
-- Browser storage and cookie protections.
-- CSRF implications.
-- CORS implications.
-- Logout semantics.
-- Multi-device behaviour.
+This is a BFF-style credential-custody and trust boundary only; it does not authorize a new deployable BFF service, process, or topology. Session renewal remains server-side and does not require a browser-held Refresh Token. Ordinary logout terminates the current authoritative Session server-side, and clearing browser or frontend state alone is insufficient.
+
+Customers MAY hold multiple concurrent Sessions. Each Session MUST be independently identifiable and revocable. Governed security events, including required password-reset invalidation, compromise handling, account disablement, and material privilege change, MUST be capable of invalidating all affected Sessions. Renewal, retries, races, or reordered work MUST NOT recreate withdrawn access. Session identifiers MUST change after successful Authentication and after privilege elevation without treating identifier rotation as the complete Session-fixation defense.
+
+Cookie-authenticated state-changing requests MUST use CSRF protection. CORS MUST remain explicitly configured, MUST NOT be treated as CSRF protection, and MUST NOT use wildcard origins with credentialed requests. `HttpOnly` cookie custody reduces direct JavaScript extraction of the Session credential but does not eliminate XSS Risk or replace applicable browser-security controls.
+
+Authentication and Session possession establish trusted Principal context but do not replace contextual server-side Authorization by the owning Domain or Use Case. Privileged MFA is already mandatory under `SECURITY-STANDARDS.md`; its concrete provider, factor, protocol, and exact configuration, together with any broader Customer MFA policy, remain unresolved.
+
+ADR-0019 does not select physical Session storage, Redis, PostgreSQL Session persistence, Spring Session JDBC or Redis, concrete dependencies, an Identity Provider, a service-to-service credential strategy, JWT or opaque credentials for separately governed boundaries, API Contracts, numerical lifetimes or thresholds, or infrastructure topology. Dependency admission and executable implementation remain separately governed by DEC-0001. A future separately governed OIDC/OAuth2 Identity Provider remains compatible with the server-side credential-custody boundary.
 
 ## 31. Deployment Topology
 
@@ -1268,7 +1269,6 @@ The following Architecture Decisions must be resolved through ADRs before their 
 
 1. Azure App Service versus Azure Container Apps for backend hosting.
 2. Bicep versus Terraform for infrastructure as code.
-3. Customer and administrator session/token strategy.
 4. Frontend hosting service and server-side rendering or prerendering strategy.
 5. Payment provider selection.
 6. Shipping provider selection.
@@ -1316,9 +1316,9 @@ The fourteenth downstream Backend Specification after BEB, immediately after BRE
 
 The fifteenth downstream Backend Specification after BEB, immediately after BCMS, MUST be the Notifications Backend Specification under scope `BNTF` at `specifications/backend/notifications/notifications-backend.md`. BNTF MUST use a Notifications-only decomposition and specialize exactly the Approved Notifications Domain without transferring Notifications Domain authority. BNTF MUST inherit every materially applicable BEB Requirement and explicitly trace that inheritance. It MAY consume materially applicable governed Contracts or evidence from existing Approved Backend Specifications without transferring Identity, Customer, Account, Product, Category, Inventory, Pricing, Cart, Checkout, Order, Shipping and Fulfilment, Payment, Return, CMS, Reporting, Administration, or other Domain authority. BNTF exists at `specifications/backend/notifications/notifications-backend.md` as `1.0.0 Approved`, remains `authoritative: false`, and resolves no Open Product or Architecture Decision.
 
-The sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF, MUST be the Reporting Backend Specification under scope `BRPT` at `specifications/backend/reporting/reporting-backend.md`. BRPT MUST use a Reporting-only decomposition, specialize only the Approved Reporting Domain without transferring Reporting Domain authority, remain `authoritative: false`, inherit and explicitly trace every materially applicable BEB Requirement, and consume other Approved backend or Domain evidence only through materially applicable governed Contracts without acquiring transactional, Notifications, Administration, Customer, Identity, commerce, CMS, or other Domain authority. BRPT MUST preserve unresolved Product Decisions 6, 7, 8, 9, 10, 11, 13, 14, 19, 20, 21, 25, 26, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, and 14. BRPT exists at `specifications/backend/reporting/reporting-backend.md` as `1.0.0 Approved`, remains Reporting-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, and resolves no Open Product or Architecture Decision.
+The sixteenth downstream Backend Specification after BEB, immediately after Approved BNTF, MUST be the Reporting Backend Specification under scope `BRPT` at `specifications/backend/reporting/reporting-backend.md`. BRPT MUST use a Reporting-only decomposition, specialize only the Approved Reporting Domain without transferring Reporting Domain authority, remain `authoritative: false`, inherit and explicitly trace every materially applicable BEB Requirement, and consume other Approved backend or Domain evidence only through materially applicable governed Contracts without acquiring transactional, Notifications, Administration, Customer, Identity, commerce, CMS, or other Domain authority. BRPT MUST preserve unresolved Product Decisions 6, 7, 8, 9, 10, 11, 13, 14, 19, 20, 21, 25, 26, 29, and 30 and unresolved Architecture Decisions 1, 2, 5, 6, 7, 8, 9, 10, 12, and 14. BRPT exists at `specifications/backend/reporting/reporting-backend.md` as `1.0.0 Approved`, remains Reporting-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, and resolves no Open Product or Architecture Decision.
 
-The seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT, MUST be the Administration Backend Specification under scope `BADM` at `specifications/backend/admin/admin-backend.md`. BADM MUST use an Administration-only decomposition, specialize only the Approved Administration Domain, remain subordinate to canonical governance and the Approved Administration Domain, inherit and explicitly trace every materially applicable BEB Requirement, and consume Approved upstream backend capabilities only through materially applicable governed Contracts without transferring authority. BADM MUST NOT redefine Identity, Customer, Product, Category, CMS, Pricing, Inventory, Cart, Checkout, Payment, Order, Shipping and Fulfilment, Return, Notifications, Search and Discovery, Reporting, or other owning-Domain truth; it MUST preserve trusted server-side Authorization, Administration's governed operational boundaries, and implementation neutrality. BADM MUST preserve unresolved Product Decisions 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, and 30 and unresolved Architecture Decisions 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, and 14. BADM exists at `specifications/backend/admin/admin-backend.md` as `1.0.0 Approved`, remains Administration-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, remains subordinate to canonical governance and the Approved Administration Domain, acquires no upstream Domain authority, and resolves no Open Product or Architecture Decision. It selects no route, method, status, DTO, payload, schema, table, ORM mapping, event, topic, queue, provider, infrastructure, cache, retry, timeout, TTL, SLO, Role/Permission matrix, workflow mechanism, or unresolved Product policy.
+The seventeenth downstream Backend Specification after BEB, immediately after Approved BRPT, MUST be the Administration Backend Specification under scope `BADM` at `specifications/backend/admin/admin-backend.md`. BADM MUST use an Administration-only decomposition, specialize only the Approved Administration Domain, remain subordinate to canonical governance and the Approved Administration Domain, inherit and explicitly trace every materially applicable BEB Requirement, and consume Approved upstream backend capabilities only through materially applicable governed Contracts without transferring authority. BADM MUST NOT redefine Identity, Customer, Product, Category, CMS, Pricing, Inventory, Cart, Checkout, Payment, Order, Shipping and Fulfilment, Return, Notifications, Search and Discovery, Reporting, or other owning-Domain truth; it MUST preserve trusted server-side Authorization, Administration's governed operational boundaries, and implementation neutrality. BADM MUST preserve unresolved Product Decisions 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, and 30 and unresolved Architecture Decisions 1, 2, 5, 6, 7, 8, 9, 10, 12, and 14. BADM exists at `specifications/backend/admin/admin-backend.md` as `1.0.0 Approved`, remains Administration-only and `authoritative: false`, has completed its governed Draft-to-Approved lifecycle, remains subordinate to canonical governance and the Approved Administration Domain, acquires no upstream Domain authority, and resolves no Open Product or Architecture Decision. It selects no route, method, status, DTO, payload, schema, table, ORM mapping, event, topic, queue, provider, infrastructure, cache, retry, timeout, TTL, SLO, Role/Permission matrix, workflow mechanism, or unresolved Product policy.
 
 The canonical Backend Specification sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC → BCART → BCAT → BSRCH → BCHK → BORD → BSHP → BPAY → BRET → BCMS → BNTF → BRPT → BADM`.
 
@@ -1900,6 +1900,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.23.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture for the initial first-party browser flow, recording mandatory privileged MFA, removing the resolved Session/token Open Architecture Decision, and preserving unresolved implementation, provider, storage, service-credential, and dependency-admission choices. |
 | 1.22.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism while preserving Domain and Application independence, project-owned Ports, ADR-0017 and PostgreSQL 18 authority, Flyway migration authority, and separate DEC-0001-governed dependency and implementation admission without claiming implementation. |
 | 1.21.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by resolving PostgreSQL schema-strategy Open Decision 13 with one application database and a dedicated schema for each persistence-owning Module or Domain boundary while preserving ownership, Flyway, least-privilege, transaction, and evolution constraints without claiming implementation. |
 | 1.20.0 | 2026-09-25 | Approved | Synchronized BADM to its existing 1.0.0 Approved state, recorded completion of the currently governed backend specification sequence through BADM, confirmed that all currently governed backend-capable Approved Domains have Approved Backend Specifications, preserved post-BADM roadmap containment, and authorized no successor. |
@@ -1929,7 +1930,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.21.0
+- **Version:** 1.23.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Backend Roadmap:** The currently governed backend specification roadmap completes through Approved BADM; no post-BADM Backend Specification is authorized.
