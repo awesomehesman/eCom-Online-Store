@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.23.0
+version: 1.23.1
 status: Approved
 owner: Engineering
 last_updated: 2026-09-28
@@ -312,10 +312,10 @@ Detailed ownership rules remain governed by `.ai/core/AGENTS.md` and domain spec
 
 ## 10. Domain-Driven Modular Structure
 
-The backend root package should be organised by business capability:
+The canonical backend Java root package is `com.enterprise.fashion.ecommerce` and MUST be organised by business capability:
 
 ```text
-com.enterprisefashioncommerce
+com.enterprise.fashion.ecommerce
 ├── identity
 ├── customer
 ├── product
@@ -327,12 +327,39 @@ com.enterprisefashioncommerce
 ├── payment
 ├── order
 ├── shipping
-├── notification
+├── notifications
 ├── cms
 ├── administration
 ├── reporting
+├── search
+├── returns
 └── shared
 ```
+
+The canonical governed capability-to-Java-package mapping beneath `com.enterprise.fashion.ecommerce` is:
+
+| Governed Module or capability | Java package segment |
+| --- | --- |
+| Identity | `identity` |
+| Customer | `customer` |
+| Product | `product` |
+| Category | `category` |
+| Inventory | `inventory` |
+| Pricing | `pricing` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+| Payment | `payment` |
+| Order | `order` |
+| Shipping and Fulfilment | `shipping` |
+| Notifications | `notifications` |
+| CMS | `cms` |
+| Administration | `administration` |
+| Reporting | `reporting` |
+| Search and Discovery | `search` |
+| Return | `returns` |
+| Shared technical area | `shared` |
+
+These Java package identifiers do not rename their governed business capabilities. In particular, `returns` is the implementation package for the governed Return capability because `return` is a Java keyword and cannot be a package identifier, and `search` is the implementation package for the governed Search and Discovery capability.
 
 The `shared` area must remain small and may contain only genuine cross-cutting technical primitives or stable value types. It must not become a location for business logic that lacks clear ownership.
 
@@ -1900,6 +1927,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.23.1 | 2026-09-28 | Approved | Clarified the canonical backend Java root package and complete Module-to-package mapping, including Java-safe Search and Discovery, Return, and Notifications package identifiers, while preserving the existing Module-first architecture, internal layer structure, and dependency direction. |
 | 1.23.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture for the initial first-party browser flow, recording mandatory privileged MFA, removing the resolved Session/token Open Architecture Decision, and preserving unresolved implementation, provider, storage, service-credential, and dependency-admission choices. |
 | 1.22.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism while preserving Domain and Application independence, project-owned Ports, ADR-0017 and PostgreSQL 18 authority, Flyway migration authority, and separate DEC-0001-governed dependency and implementation admission without claiming implementation. |
 | 1.21.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by resolving PostgreSQL schema-strategy Open Decision 13 with one application database and a dedicated schema for each persistence-owning Module or Domain boundary while preserving ownership, Flyway, least-privilege, transaction, and evolution constraints without claiming implementation. |
@@ -1930,7 +1958,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.23.0
+- **Version:** 1.23.1
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Backend Roadmap:** The currently governed backend specification roadmap completes through Approved BADM; no post-BADM Backend Specification is authorized.
