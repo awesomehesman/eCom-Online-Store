@@ -19,6 +19,7 @@
          <ignored-key id="86FDC7E2A11262CB" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="9E31AB27445478DB" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="A500607F1E9C0457" reason="Key couldn't be downloaded from any key server"/>
+         <ignored-key id="B5BD4591883D638C" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="C485C5A843FADB15" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="CA62973FBF0451C0" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="D3FA67D522C55256" reason="Key couldn't be downloaded from any key server"/>
@@ -236,6 +237,46 @@
       <component group="com.querydsl" name="querydsl-bom" version="5.1.0">
          <artifact name="querydsl-bom-5.1.0.pom">
             <pgp value="57312C37B064EE0FDAB0130490D5CE79E1DE6A2C"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit" version="1.4.1">
+         <artifact name="archunit-1.4.1.jar">
+            <sha256 value="6a92458c544308e42ca534cfcbdb6f1947ea4a9ca8717e087cd671d31f2d9b0c" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="archunit-1.4.1.pom">
+            <sha256 value="3c4304859697fa04a0ae7bd0af855e5e23c8daa26f622cbc3eabaa3b56f82834" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5" version="1.4.1">
+         <artifact name="archunit-junit5-1.4.1.jar">
+            <sha256 value="6dd27babf04eaa2bc86e8f7d32961754651643bf625ec17943ac28696b00ffdd" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="archunit-junit5-1.4.1.pom">
+            <sha256 value="a6c28c915e37ec302068c4a215a4330fd2ba03a21ea9e3bd8dcae26eeda9c048" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-api" version="1.4.1">
+         <artifact name="archunit-junit5-api-1.4.1.jar">
+            <sha256 value="599eb08497235773ca63905f530d4e8a7384b8b429eaa991375850222a71efed" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="archunit-junit5-api-1.4.1.pom">
+            <sha256 value="32a3eaba6a68bfe4d3139fe41817fdd641e121e214fae9641f1b800831648d4d" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-engine" version="1.4.1">
+         <artifact name="archunit-junit5-engine-1.4.1.jar">
+            <sha256 value="e000e7113480f3d412bc2c8a258f90fe0e2b5ef005fbc3179791e391861096d7" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="archunit-junit5-engine-1.4.1.pom">
+            <sha256 value="9fee5d132208e03ba73f0b97a996da243f1f414fb659c2c90722b6ada1910776" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-engine-api" version="1.4.1">
+         <artifact name="archunit-junit5-engine-api-1.4.1.jar">
+            <sha256 value="558c090b9a29243add7d2eb07eea0323f6f0f11b38457a4837e35228be1b10f2" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="archunit-junit5-engine-api-1.4.1.pom">
+            <sha256 value="198d5d34725512c7d39d9d1a9f6894320d9a86ae80e712ed024f992beb1a91f0" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
       </component>
       <component group="com.vaadin.external.google" name="android-json" version="0.0.20131108.vaadin1">
