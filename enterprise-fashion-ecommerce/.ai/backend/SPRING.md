@@ -1,9 +1,9 @@
 ---
 title: SPRING
-version: 1.3.0
+version: 1.4.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -256,7 +256,7 @@ Spring Security is an implementation mechanism, not the owner of Product Authori
 
 Security configuration MUST deny by default. Role, Permission, Claims, and Scope mapping MUST preserve the canonical model and remain qualified by the actual protocol. Request or method security MUST NOT replace object-level and domain-state Authorization where required.
 
-Frontend visibility and route behavior are not Authorization controls. Accepted ADR-0019 establishes the initial first-party browser Authentication boundary as an Identity-owned authoritative server-side Session with protected browser-cookie credential custody. This standard does not select or define an Identity Provider, physical Session store, service-to-service credential strategy, or bearer-token format for separately governed boundaries.
+Frontend visibility and route behavior are not Authorization controls. Accepted ADR-0019 establishes the initial first-party browser Authentication boundary as an Identity-owned authoritative server-side Session with protected browser-cookie credential custody. Accepted ADR-0020 selects Spring Session JDBC as the narrowly bounded Spring Session infrastructure mechanism and the governed application PostgreSQL database as the authoritative physical Session store within the Identity-owned persistence boundary. This standard does not select or define an Identity Provider, service-to-service credential strategy, or bearer-token format for separately governed boundaries.
 
 Spring implementations of that browser boundary MUST preserve:
 
@@ -273,7 +273,9 @@ Spring implementations of that browser boundary MUST preserve:
 
 Cookie-authenticated state-changing requests MUST use CSRF protection. CORS MUST remain explicitly configured, MUST NOT be treated as CSRF protection, and MUST NOT use wildcard origins with credentialed requests. Protected cookie custody reduces direct JavaScript extraction of the Session credential but does not eliminate XSS Risk or replace applicable browser-security controls.
 
-The BFF-style boundary established by ADR-0019 describes credential custody and trust semantics only and does not authorize a new deployable service. This standard does not admit Spring Security, Spring Session, Spring Session JDBC or Redis, Redis, PostgreSQL Session persistence, OAuth2 Client, OAuth2 Resource Server, JOSE/JWT, a provider SDK, a concrete Session repository, or another dependency or implementation. Dependency admission and executable implementation remain separately governed by DEC-0001.
+The BFF-style boundary established by ADR-0019 describes credential custody and trust semantics only and does not authorize a new deployable service. Spring Session is technical infrastructure and MUST NOT become Domain or Application authority; Spring Session, JDBC, PostgreSQL, and storage representations MUST remain outside inward Domain and Application layers. Spring Session JDBC does not supersede ADR-0018 or become a second repository-wide business persistence model. Runtime automatic Session schema initialization MUST NOT become migration authority; Identity-owned Flyway migrations remain the sole governed mechanism for Session database-object evolution.
+
+Acceptance of ADR-0020 does not admit Spring Security, Spring Session JDBC, Redis, OAuth2 Client, OAuth2 Resource Server, JOSE/JWT, a provider SDK, or another dependency and does not claim configuration or implementation. Spring Security, Spring Session JDBC, and any additional dependency admission and executable implementation remain separately governed by DEC-0001.
 
 ## 29. Security Configuration
 
@@ -506,9 +508,11 @@ Approved lower-level governing companions:
 - `.ai/backend/JAVA.md`
 - `.ai/backend/DATABASE.md`
 
-Accepted persistence Architecture decision:
+Accepted directly relevant Architecture decisions:
 
 - `specifications/adr/ADR-0018-persistence-technology.md`
+- `specifications/adr/ADR-0019-authentication-session-token-strategy.md`
+- `specifications/adr/ADR-0020-identity-session-store-strategy.md`
 
 The lifecycle and authority of the following companion files MUST be determined from their own metadata and substantive content. Empty or unapproved companion content MUST NOT be treated as normative:
 
@@ -520,6 +524,7 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.4.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by establishing Spring Session JDBC with PostgreSQL as the approved Identity Session infrastructure while preserving ADR-0019 security semantics, inward-layer independence, Flyway authority, ADR-0018 persistence boundaries, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.3.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing Spring implementation boundaries for the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture while preserving contextual Authorization, mandatory privileged MFA, unresolved storage, provider, and concrete configuration choices, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.2.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as primary aggregate persistence and bounded Spring JdbcClient as the complementary persistence-Adapter mechanism while preserving separate DEC-0001-governed dependency and implementation admission. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0001 by establishing Spring Boot 3.5.16, Gradle 8.14.5, Java 21 toolchain alignment, and governed dependency integrity and reproducibility requirements while leaving executable build implementation incomplete. |
@@ -550,5 +555,5 @@ Before approval or implementation reliance, reviewers MUST verify:
 11. PostgreSQL-dependent behavior aligns with the PostgreSQL 18 baseline and Testcontainers guidance in `TESTING-STANDARDS.md`, without claiming implementation tests already exist or have run;
 12. no empty lower-level companion is treated as Approved;
 13. no new formal Exception type was created;
-14. changes to this standard remain limited to `SPRING.md` within the controlled ADR-0019 synchronization and introduce no unrelated changes; and
-15. the Accepted ADR-0019 browser Session boundary, CSRF and CORS obligations, fixation resistance, failure-closed behavior, contextual Authorization, mandatory privileged MFA authority, unresolved implementation choices, and separate DEC-0001 dependency admission are preserved without claiming dependencies or implementation.
+14. changes to this standard remain limited to `SPRING.md` within the controlled ADR-0020 synchronization and introduce no unrelated changes; and
+15. the Accepted ADR-0019 browser Session boundary and Accepted ADR-0020 Spring Session JDBC and PostgreSQL store direction preserve CSRF and CORS obligations, fixation resistance, failure-closed behavior, contextual Authorization, mandatory privileged MFA authority, Flyway-only migration authority, unresolved implementation choices, and separate DEC-0001 dependency admission without claiming dependencies or implementation.

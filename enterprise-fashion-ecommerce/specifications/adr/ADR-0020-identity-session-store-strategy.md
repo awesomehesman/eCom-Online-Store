@@ -10,11 +10,11 @@ Identity Session Store Strategy
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Scope
 
@@ -46,7 +46,7 @@ Accepted DEC-0002 establishes PostgreSQL 18 as the supported database major-vers
 
 The repository already depends on PostgreSQL for governed application persistence. Redis remains optional and may be introduced only through Architecture approval for a justified use case. Introducing Redis solely to store the initial Sessions would add infrastructure, dependency, availability, security, recovery, and operational responsibilities that are not otherwise required by the current executable baseline.
 
-This Proposed ADR selects the production physical store and Spring integration for ADR-0019 Session state. It does not admit dependencies, create a schema or migration, configure Spring Security, or claim implementation.
+This Accepted ADR selects the production physical store and Spring integration for ADR-0019 Session state. It does not admit dependencies, create a schema or migration, configure Spring Security, or claim implementation.
 
 ## Decision Drivers
 
@@ -63,7 +63,7 @@ This Proposed ADR selects the production physical store and Spring integration f
 
 ## Decision
 
-If Accepted, the production mechanism for ADR-0019 authoritative Identity Session state SHALL be Spring Session JDBC backed by the governed application PostgreSQL database.
+The production mechanism for ADR-0019 authoritative Identity Session state SHALL be Spring Session JDBC backed by the governed application PostgreSQL database.
 
 Spring Session SHALL be a narrowly bounded Session infrastructure mechanism. Spring Session JDBC SHALL be the selected physical persistence integration, and PostgreSQL SHALL be the authoritative production Session store.
 
@@ -95,7 +95,7 @@ Spring Data JDBC remains the repository-wide primary aggregate-persistence mecha
 
 ## Security Requirements Preserved
 
-If Accepted, implementation of this decision must preserve:
+Implementation of this decision must preserve:
 
 - minimally scoped `Secure` and `HttpOnly` browser Session credential handling;
 - the strictest workable `SameSite` policy without this ADR selecting its exact value;
@@ -127,7 +127,7 @@ Operational telemetry must distinguish Session creation, use, renewal, logout, r
 
 ## Dependency and Implementation Boundary
 
-Acceptance of ADR-0020 would establish Architecture direction only. It would not admit a dependency, modify a build, create an implementation, create database objects, or prove executable behavior.
+Acceptance of ADR-0020 establishes Architecture direction only. It does not admit a dependency, modify a build, create an implementation, create database objects, or prove executable behavior.
 
 Subsequent implementation requires DEC-0001-governed admission and review of:
 
@@ -151,11 +151,11 @@ After acceptance and dependency admission, separately reviewed implementation ma
 - failure-closed tests; and
 - tests proving revoked or invalidated access cannot be restored.
 
-None of those dependencies, migrations, configurations, tests, or implementations is created or claimed by this Proposed ADR.
+None of those dependencies, migrations, configurations, tests, or implementations is created or claimed by this Accepted ADR.
 
 ## Migration, Compatibility, and Reversibility
 
-No legacy production Session store or active production Session population currently requires migration. If Accepted and later implemented, PostgreSQL through Spring Session JDBC becomes the initial production Session authority.
+No legacy production Session store or active production Session population currently requires migration. When later implemented, PostgreSQL through Spring Session JDBC becomes the initial production Session authority.
 
 A future migration to Redis or another Session store requires separate governance and must preserve Identity ownership, Domain and Application independence, authoritative validity, logout, revocation, invalidation, fixation resistance, and failure-closed behavior. Migration may preserve active Sessions only when their authoritative state and security properties can be transferred safely; otherwise affected Sessions must be deliberately invalidated and reauthentication required.
 
@@ -257,11 +257,11 @@ ADR-0020 is subordinate to and preserves:
 - Accepted DEC-0001; and
 - Accepted DEC-0002.
 
-This Proposed ADR supersedes none of those sources. Until it is Accepted and canonical synchronization is complete, it provides no authority to admit dependencies, create Session persistence, or begin the governed implementation.
+This Accepted ADR supersedes none of those sources. Its authority is limited to the selected Architecture direction and does not admit dependencies, create Session persistence, or claim governed implementation.
 
-## Required Governance Reviews
+## Completed Governance Reviews
 
-Before ADR-0020 may become Accepted, governance review must confirm:
+The acceptance governance review completed and confirmed:
 
 - Architecture approval of the physical Session-store choice and durable operational consequences;
 - Identity ownership approval of Session authority, lifecycle, revocation, invalidation, and storage boundaries;
@@ -274,13 +274,13 @@ Before ADR-0020 may become Accepted, governance review must confirm:
 - Operations review of PostgreSQL availability, capacity, recovery, monitoring, and horizontal-scaling consequences; and
 - Documentation review of canonical synchronization, authority boundaries, and unresolved matters.
 
-No review is represented as complete while this ADR remains Proposed. Named reviewers, meetings, tickets, signatures, implementation evidence, and test execution must not be fabricated.
+The review found no unresolved acceptance blocker. This record does not fabricate named reviewers, meetings, tickets, signatures, implementation evidence, or test execution.
 
 ## Acceptance Conditions and Synchronization
 
-ADR-0020 may become Accepted only after the required governance reviews complete with no unresolved acceptance blocker and the selected decision is confirmed consistent with ADR-0017, ADR-0018, ADR-0019, DEC-0001, DEC-0002, and governing security and implementation standards.
+ADR-0020 is Accepted after the required governance reviews completed with no unresolved acceptance blocker and confirmed the selected decision is consistent with ADR-0017, ADR-0018, ADR-0019, DEC-0001, DEC-0002, and governing security and implementation standards.
 
-Acceptance must synchronize exactly the directly affected canonical sources:
+Acceptance synchronized exactly the directly affected canonical sources:
 
 1. `specifications/adr/ADR-0020-identity-session-store-strategy.md`;
 2. `.ai/core/DECISIONS.md`;
@@ -289,27 +289,27 @@ Acceptance must synchronize exactly the directly affected canonical sources:
 5. `.ai/backend/DATABASE.md`; and
 6. `.ai/backend/POSTGRES.md`.
 
-Acceptance synchronization must:
+Acceptance synchronization:
 
-- promote ADR-0020 through the governed Proposed-to-Accepted lifecycle;
-- update ADR-0020's existing indexed status from Proposed to Accepted in `DECISIONS.md`;
-- establish Spring Session JDBC with PostgreSQL as the Identity Session-store Architecture;
-- preserve ADR-0019's browser credential and authoritative Session semantics;
-- establish Identity-owned schema and Flyway-only migration ownership without inventing concrete database objects;
-- preserve ADR-0018 and distinguish Spring Session infrastructure from aggregate persistence;
-- preserve runtime least privilege and prohibited cross-Module persistence access;
-- record that Redis is not introduced and Open Architecture Decision 8 remains unresolved for unrelated uses;
-- preserve separate DEC-0001 dependency admission and executable implementation; and
-- claim no completed dependency admission, migration, configuration, implementation, deployment, or executable testing.
+- promoted ADR-0020 through the governed Proposed-to-Accepted lifecycle;
+- updated ADR-0020's existing indexed status from Proposed to Accepted in `DECISIONS.md`;
+- established Spring Session JDBC with PostgreSQL as the Identity Session-store Architecture;
+- preserved ADR-0019's browser credential and authoritative Session semantics;
+- established Identity-owned schema and Flyway-only migration ownership without inventing concrete database objects;
+- preserved ADR-0018 and distinguished Spring Session infrastructure from aggregate persistence;
+- preserved runtime least privilege and prohibited cross-Module persistence access;
+- recorded that Redis is not introduced and Open Architecture Decision 8 remains unresolved for unrelated uses;
+- preserved separate DEC-0001 dependency admission and executable implementation; and
+- claimed no completed dependency admission, migration, configuration, implementation, deployment, or executable testing.
 
-No acceptance change to `PRODUCT.md`, `SECURITY-STANDARDS.md`, `TESTING-STANDARDS.md`, `JAVA.md`, the Identity specifications, build files, or implementation files is authorized unless acceptance review finds a direct contradiction requiring separately governed correction.
+Acceptance made no change to `PRODUCT.md`, `SECURITY-STANDARDS.md`, `TESTING-STANDARDS.md`, `JAVA.md`, the Identity specifications, build files, or implementation files.
 
 ## Validation Criteria
 
-Before acceptance, review must verify:
+The Accepted record and synchronized governance verify:
 
-1. metadata is `0.1.0 Proposed`, owner `Architecture`, last updated `2026-09-29`, and `authoritative: false`;
-2. Spring Session JDBC backed by the governed application PostgreSQL database is the single proposed production Session-store strategy;
+1. metadata is `1.0.0 Accepted`, owner `Architecture`, last updated `2026-09-29`, and `authoritative: true`;
+2. Spring Session JDBC backed by the governed application PostgreSQL database is the single Accepted production Session-store strategy;
 3. the decision remains consistent with ADR-0017's one-database, dedicated-schema-per-persistence-owner strategy;
 4. the decision remains consistent with ADR-0018 and does not create a second aggregate-persistence architecture;
 5. every ADR-0019 authoritative Session, browser credential, revocation, renewal, fixation, CSRF, MFA, failure, and non-authority boundary remains preserved;
@@ -328,8 +328,8 @@ Before acceptance, review must verify:
 18. migration and rollback preserve security semantics or deliberately invalidate affected Sessions and never restore revoked or expired access;
 19. Domain and Application ownership remain independent of the physical Session store and framework types remain outside those inward layers;
 20. the four alternatives are represented accurately without claiming PostgreSQL is universally superior to Redis;
-21. the six-file canonical acceptance-synchronization set is complete and no synchronization is performed while the ADR remains Proposed; and
-22. the Proposed change affects exactly `specifications/adr/ADR-0020-identity-session-store-strategy.md` and `.ai/core/DECISIONS.md`, registers ADR-0020 as Proposed in the canonical Decision Index, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+21. the six-file canonical acceptance-synchronization set is complete and consistently records the Accepted decision; and
+22. acceptance synchronization affects exactly ADR-0020, `DECISIONS.md`, `ARCHITECTURE.md`, `SPRING.md`, `DATABASE.md`, and `POSTGRES.md`, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
 ## Supersedes
 
@@ -364,4 +364,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-29 | Accepted | Accepted Spring Session JDBC backed by the governed application PostgreSQL database as the production Identity Session store, preserving ADR-0019 security semantics, ADR-0017 ownership and Flyway authority, ADR-0018 persistence boundaries, separate DEC-0001 dependency admission, and unresolved Redis and implementation choices. |
 | 0.1.0 | 2026-09-28 | Proposed | Proposed Spring Session JDBC backed by the governed application PostgreSQL database as the production Identity Session store, preserving ADR-0019 security semantics, ADR-0017 ownership and Flyway authority, ADR-0018 persistence boundaries, separate DEC-0001 dependency admission, and unresolved Redis and implementation choices. |

@@ -1,9 +1,9 @@
 ---
 title: POSTGRES
-version: 1.2.0
+version: 1.3.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-25
+last_updated: 2026-09-29
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -82,6 +82,14 @@ Unquoted lowercase identifiers SHOULD be used so PostgreSQL case folding does no
 Accepted ADR-0017 establishes one application PostgreSQL database within the initial primary PostgreSQL service, with a dedicated schema for each persistence-owning Module or Domain boundary. Every governed persistent object MUST remain attributable to one owner. Schema separation reinforces logical ownership and MUST NOT replace approved Module Contracts, Application Services, Ports and Adapters, Authorization, or other application boundaries.
 
 Physical co-location never authorizes direct cross-Module table or schema access. Such access remains prohibited except through a separate Accepted ADR and synchronized Architecture update under the existing governance mechanism. The strategy MUST preserve identifiable Module and data ownership, Flyway migration ownership, least privilege, operational support, and a credible evolution path without authorizing database-per-Module, service extraction, microservices, or distributed transactions.
+
+### 9.1 Identity Session Persistence
+
+Accepted ADR-0020 establishes PostgreSQL as the authoritative physical store for ADR-0019 Identity Session state through Spring Session JDBC. PostgreSQL 18 remains governed by DEC-0002. Session persistence and its dedicated schema boundary belong to Identity, and Identity-owned Flyway migrations remain the sole authority for Session database-object evolution.
+
+Ordinary runtime access remains least privileged and separate from migration or schema-changing authority. Multiple application instances share authoritative Session state through PostgreSQL without application-local Session authority or sticky-session correctness. PostgreSQL unavailability or uncertain authoritative Session validity MUST NOT become authenticated success.
+
+This decision selects no concrete schema, table, column, index, SQL, identifier representation, concurrency algorithm, connection pool, hosting provider, SKU, high-availability or replication topology, backup policy, RPO, or RTO. Dependency admission, migrations, configuration, implementation, and executable validation remain separate work.
 
 ## 10. Identifier Strategy
 
@@ -524,6 +532,7 @@ Approved governing and directly relevant documents:
 - `.ai/backend/SPRING.md`
 - `.ai/backend/JAVA.md`
 - `.ai/backend/DATABASE.md`
+- `specifications/adr/ADR-0020-identity-session-store-strategy.md`
 - `specifications/decisions/DEC-0002-postgresql-release-baseline.md`
 
 This document does not treat empty lower-level companion files as authority.
@@ -532,6 +541,7 @@ This document does not treat empty lower-level companion files as authority.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.3.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by establishing PostgreSQL 18 as the authoritative physical store for Identity-owned Session state through Spring Session JDBC, preserving Flyway ownership, runtime least privilege, shared multi-instance authority, failure-closed behavior, unresolved infrastructure details, and separate implementation. |
 | 1.2.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0002 by establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility, updating Testcontainers and environment-compatibility guidance, and adding DEC-0002 to Related Documents while preserving separate implementation authority and all unresolved persistence/infrastructure choices. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary and aligning naming, Flyway ownership, search-path, role, least-privilege, and validation rules. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the PostgreSQL implementation standard after final governance, database-boundary, release-selection, type-system, integrity, query, concurrency, migration, connection, maintenance, security, Payment, Inventory, testing, observability, operational, terminology, and documentation-quality validation. |
@@ -547,7 +557,7 @@ PostgreSQL mechanics MUST preserve Module ownership, Database Transaction and Pa
 
 Before approval or implementation reliance, reviewers MUST verify:
 
-1. metadata accurately states version 1.2.0 Approved with `authoritative: false`;
+1. metadata accurately states version 1.3.0 Approved with `authoritative: false`;
 2. PostgreSQL remains the approved database family and PostgreSQL 18 is referenced as the governed major-version baseline per Accepted DEC-0002 without pinning a permanent exact maintenance release or image tag;
 3. the Accepted ADR-0017 strategy of one application database with a dedicated schema for each persistence-owning Module or Domain is preserved without selecting a concrete schema inventory, cloud SKU, service tier, hosting topology, universal identifier, extension, persistence library, or connection pool;
 4. Money uses exact decimal representation with explicit Currency and no universal precision or scale was invented;
@@ -570,4 +580,5 @@ Before approval or implementation reliance, reviewers MUST verify:
 21. Related Documents contains no self-reference and names only actual governing sources;
 22. no unfinished-work marker or placeholder content exists;
 23. headings and Markdown tables are valid and sequential; and
-24. changes remain limited to `POSTGRES.md`.
+24. changes remain limited to `POSTGRES.md`; and
+25. Accepted ADR-0020 PostgreSQL-backed Identity Session authority preserves PostgreSQL 18, Identity schema and Flyway ownership, least-privileged runtime access, shared multi-instance state, failure-closed uncertainty, unresolved infrastructure details, and separate dependency admission and implementation.
