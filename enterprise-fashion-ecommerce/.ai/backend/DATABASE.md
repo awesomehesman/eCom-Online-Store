@@ -1,9 +1,9 @@
 ---
 title: DATABASE
-version: 1.3.0
+version: 1.4.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-26
+last_updated: 2026-09-29
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -179,6 +179,12 @@ Database tables, columns, constraints, and indexes MUST use the canonical `snake
 Accepted ADR-0017 establishes one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary. Every governed persistent object MUST remain attributable to one owner. Schema separation reinforces but does not replace Domain and Module ownership, approved Contracts, Application Services, Ports and Adapters, Authorization, or the prohibition on unauthorized direct cross-Module table or schema access.
 
 Schema names MUST be deterministic lowercase `snake_case` and traceable to their owner, without this standard inventing the concrete schema inventory. Flyway migration ownership MUST align with the owning Module or Domain. Ordinary runtime capability MUST NOT perform DDL or schema administration; migration or schema-changing capability MUST remain separately bounded under least privilege. PostgreSQL-specific namespace mechanics belong in `.ai/backend/POSTGRES.md`.
+
+### Identity Session Persistence
+
+Accepted ADR-0020 establishes the governed application PostgreSQL database as the authoritative physical store for ADR-0019 Identity Session state through Spring Session JDBC. Session persistence belongs to Identity and MUST remain within an Identity-owned schema consistent with ADR-0017. Session database objects are governed database objects; physical co-location does not authorize direct cross-Module persistence access.
+
+Identity-owned Flyway migrations are the sole authority for creating and evolving Session database objects. Runtime automatic schema initialization MUST NOT create or evolve them as a competing migration authority. Ordinary runtime database access remains least privileged and separate from migration or schema-changing authority. Spring Session JDBC is technical Session infrastructure and does not redefine business Aggregate persistence or supersede ADR-0018.
 
 ## 24. Column and Data-Type Design
 
@@ -559,6 +565,8 @@ Approved governing and directly relevant documents:
 
 `specifications/adr/ADR-0018-persistence-technology.md` is the Accepted Architecture Decision that establishes Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and bounded Spring `JdbcClient` as its complementary persistence-Adapter mechanism. Dependency admission and implementation remain separate changes governed by Accepted DEC-0001.
 
+`specifications/adr/ADR-0020-identity-session-store-strategy.md` is the Accepted Architecture Decision that establishes PostgreSQL-backed Spring Session JDBC as the authoritative physical store for Identity Session state while preserving Identity ownership, Flyway authority, ADR-0018 persistence boundaries, and separate dependency admission and implementation.
+
 The lifecycle and authority of the following lower-level companions MUST be determined from their own metadata and substantive content. Empty or unapproved companion content remains outside this standard's owned detail and MUST NOT be treated as normative:
 
 - `.ai/backend/API.md`
@@ -568,6 +576,7 @@ The lifecycle and authority of the following lower-level companions MUST be dete
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.4.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by establishing PostgreSQL-backed Identity Session persistence through Spring Session JDBC within an Identity-owned schema, preserving Flyway-only migration authority, runtime least privilege, cross-Module isolation, ADR-0018 persistence boundaries, and separate dependency admission without claiming implementation. |
 | 1.3.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as primary aggregate persistence and bounded Spring JdbcClient as the complementary persistence-Adapter mechanism while preserving separate DEC-0001-governed dependency and implementation admission. |
 | 1.2.0 | 2026-09-25 | Approved | Synchronized Accepted DEC-0002 by establishing PostgreSQL 18 as the governed major-version baseline with maintenance-release flexibility, updating Testcontainers guidance to reference the PostgreSQL 18 major baseline, and adding DEC-0002 to Related Documents while preserving separate implementation authority and all unresolved persistence/infrastructure choices. |
 | 1.1.0 | 2026-09-25 | Approved | Synchronized Accepted ADR-0017 by establishing one application PostgreSQL database with a dedicated schema for each persistence-owning Module or Domain boundary while preserving naming, ownership, Flyway, least-privilege, transaction, and implementation-neutrality constraints. |
@@ -601,4 +610,5 @@ Before approval or implementation reliance, reviewers MUST verify:
 14. observability and failure handling remain safe and actionable;
 15. empty lower-level companion files are not treated as Approved;
 16. no new formal Exception type or waiver mechanism was created; and
-17. changes remain limited to DATABASE.md.
+17. changes remain limited to DATABASE.md; and
+18. Accepted ADR-0020 Session persistence remains Identity-owned in the governed PostgreSQL database, uses Flyway-only database-object evolution and least-privileged runtime access, creates no cross-Module access or competing business persistence architecture, and claims no dependency admission or implementation.

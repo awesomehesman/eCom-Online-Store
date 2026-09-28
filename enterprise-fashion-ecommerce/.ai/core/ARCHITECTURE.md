@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.23.1
+version: 1.24.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-28
+last_updated: 2026-09-29
 applies_to:
   - Frontend
   - Backend
@@ -1182,7 +1182,9 @@ Cookie-authenticated state-changing requests MUST use CSRF protection. CORS MUST
 
 Authentication and Session possession establish trusted Principal context but do not replace contextual server-side Authorization by the owning Domain or Use Case. Privileged MFA is already mandatory under `SECURITY-STANDARDS.md`; its concrete provider, factor, protocol, and exact configuration, together with any broader Customer MFA policy, remain unresolved.
 
-ADR-0019 does not select physical Session storage, Redis, PostgreSQL Session persistence, Spring Session JDBC or Redis, concrete dependencies, an Identity Provider, a service-to-service credential strategy, JWT or opaque credentials for separately governed boundaries, API Contracts, numerical lifetimes or thresholds, or infrastructure topology. Dependency admission and executable implementation remain separately governed by DEC-0001. A future separately governed OIDC/OAuth2 Identity Provider remains compatible with the server-side credential-custody boundary.
+Accepted ADR-0020 selects Spring Session JDBC as the narrowly bounded Session infrastructure mechanism and the governed application PostgreSQL database as the authoritative physical store for ADR-0019 Identity Session state. Session persistence belongs to the Identity boundary and MUST use an Identity-owned schema consistent with ADR-0017. Shared PostgreSQL-backed authority MUST support multiple application instances without application-local authoritative Session state or sticky-session correctness. Spring Session JDBC does not supersede ADR-0018 or become a second business aggregate-persistence architecture.
+
+ADR-0019 continues to govern the overall browser Authentication and Session architecture, including authoritative logout, independent revocation, security-wide invalidation, renewal, fixation resistance, and failure-closed behavior. ADR-0020 introduces no Redis use; Open Architecture Decision 8 remains unresolved for unrelated Redis uses. A future Session-store replacement requires separate governance and MUST preserve Identity ownership and withdrawn-access semantics. Concrete dependencies, schema objects, an Identity Provider, service-to-service credentials, API Contracts, numerical lifetimes or thresholds, and infrastructure topology remain unresolved. Dependency admission and executable implementation remain separately governed by DEC-0001.
 
 ## 31. Deployment Topology
 
@@ -1927,6 +1929,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.24.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by selecting Spring Session JDBC backed by the governed application PostgreSQL database for authoritative Identity Session state, preserving ADR-0019 security semantics, Identity-owned ADR-0017 schema and Flyway authority, ADR-0018 persistence boundaries, unresolved unrelated Redis use, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.23.1 | 2026-09-28 | Approved | Clarified the canonical backend Java root package and complete Module-to-package mapping, including Java-safe Search and Discovery, Return, and Notifications package identifiers, while preserving the existing Module-first architecture, internal layer structure, and dependency direction. |
 | 1.23.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture for the initial first-party browser flow, recording mandatory privileged MFA, removing the resolved Session/token Open Architecture Decision, and preserving unresolved implementation, provider, storage, service-credential, and dependency-admission choices. |
 | 1.22.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as the repository-wide primary aggregate-persistence mechanism and Spring JdbcClient as a narrowly bounded complementary persistence-Adapter mechanism while preserving Domain and Application independence, project-owned Ports, ADR-0017 and PostgreSQL 18 authority, Flyway migration authority, and separate DEC-0001-governed dependency and implementation admission without claiming implementation. |
@@ -1958,7 +1961,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.23.1
+- **Version:** 1.24.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Backend Roadmap:** The currently governed backend specification roadmap completes through Approved BADM; no post-BADM Backend Specification is authorized.
