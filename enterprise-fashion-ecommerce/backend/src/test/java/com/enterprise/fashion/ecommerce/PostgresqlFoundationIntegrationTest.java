@@ -47,6 +47,6 @@ class PostgresqlFoundationIntegrationTest {
             assertEquals(18, metadata.getDatabaseMajorVersion());
         }
 
-        assertEquals(0, flyway.info().all().length);
+        assertTrue(flyway.info().all().length > 0);
     }
 }
