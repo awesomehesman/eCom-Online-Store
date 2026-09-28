@@ -10,11 +10,11 @@ Authentication Session and Token Strategy
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Scope
 
@@ -46,7 +46,7 @@ Existing security governance prefers minimally scoped `HttpOnly`, `Secure`, stri
 
 Privileged identities retain the mandatory MFA requirements already established by `SECURITY-STANDARDS.md`. The concrete Identity Provider, MFA factor, provider, protocol, broader Customer MFA policy, Session or token mechanism, and implementation technology remain unresolved.
 
-`ARCHITECTURE.md` §30.5 and §34 item 3 require an ADR for the exact Customer and administrator Session/token strategy. This Proposed ADR resolves only the initial human/browser Session boundary. It does not invent Product behavior, API Contracts, token Claims, numerical expiry values, provider selection, infrastructure, or implementation.
+`ARCHITECTURE.md` §30.5 and former §34 item 3 required an ADR for the exact Customer and administrator Session/token strategy. This Accepted ADR resolves only the initial human/browser Session boundary. It does not invent Product behavior, API Contracts, token Claims, numerical expiry values, provider selection, infrastructure, or implementation.
 
 ## Decision Drivers
 
@@ -62,19 +62,19 @@ Privileged identities retain the mandatory MFA requirements already established 
 - Avoid prematurely selecting Session storage, dependencies, topology, APIs, schemas, or numerical values.
 - Preserve separate DEC-0001 dependency admission and executable implementation.
 
-## Proposed Decision
+## Decision
 
-If Accepted, the initial first-party browser Authentication architecture SHALL use an Identity-owned authoritative server-side Session with a protected browser cookie.
+The initial first-party browser Authentication architecture SHALL use an Identity-owned authoritative server-side Session with a protected browser cookie.
 
 The browser SHALL NOT directly own bearer Access Tokens or Refresh Tokens for the normal first-party browser Authentication flow. The browser credential represents or references authoritative server-side Session state; browser-held credential state does not become authoritative Identity, Session, or Authorization truth.
 
 This is a BFF-style Session-cookie trust boundary. “BFF-style” describes credential custody and trust semantics only. It does not create or authorize a new deployable BFF service, process, or topology. The existing Spring Boot backend may implement the browser-facing boundary subject to later dependency admission and implementation governance.
 
-Because this ADR remains Proposed, this section records the proposed direction and does not authorize implementation before acceptance and canonical synchronization.
+This Accepted decision establishes Architecture direction only. It does not claim dependency admission, configuration, executable implementation, or physical Session storage.
 
 ## Browser Credential
 
-If Accepted, the browser Session credential SHALL use a minimally scoped cookie with:
+The browser Session credential SHALL use a minimally scoped cookie with:
 
 - `HttpOnly`;
 - `Secure`; and
@@ -90,7 +90,7 @@ This prohibition does not apply to ordinary non-secret frontend state. Frontend 
 
 ## CSRF and CORS
 
-Because the proposed browser Authentication model uses a cookie credential:
+Because the Accepted browser Authentication model uses a cookie credential:
 
 - state-changing authenticated browser requests MUST use the repository-approved CSRF protection model;
 - CORS MUST remain explicitly configured;
@@ -112,7 +112,7 @@ Identity SHALL own authoritative server-side Session state sufficient to determi
 - compromise or security invalidation; and
 - applicable security context needed to prevent withdrawn access from being restored.
 
-The proposed decision does not define a database schema and does not select PostgreSQL, Redis, Spring Session JDBC, Spring Session Redis, in-memory storage, or another physical Session store. Physical Session persistence and storage remain separate implementation or technology decisions where required by governance.
+The decision does not define a database schema and does not select PostgreSQL, Redis, Spring Session JDBC, Spring Session Redis, in-memory storage, or another physical Session store. Physical Session persistence and storage remain separate implementation or technology decisions where required by governance.
 
 ## Renewal
 
@@ -142,7 +142,7 @@ Identity MUST be capable of invalidating all affected Sessions when required by 
 - material privilege changes; and
 - other existing security requirements requiring withdrawal of access.
 
-Concurrent renewal, retries, races, or reordered processing MUST NOT recreate withdrawn access. The proposed decision selects no invalidation propagation interval or distributed consistency mechanism.
+Concurrent renewal, retries, races, or reordered processing MUST NOT recreate withdrawn access. The decision selects no invalidation propagation interval or distributed consistency mechanism.
 
 ## Customer and Privileged Identity Boundary
 
@@ -159,7 +159,7 @@ Privileged MFA is already mandatory under `SECURITY-STANDARDS.md`. The unresolve
 
 ## Identity Provider Boundary
 
-ADR-0019 does not select an external Identity Provider. The proposed Session architecture SHALL remain compatible with a future separately governed OIDC/OAuth2 Identity Provider.
+ADR-0019 does not select an external Identity Provider. The Accepted Session architecture SHALL remain compatible with a future separately governed OIDC/OAuth2 Identity Provider.
 
 If a future provider supplies upstream Access Tokens, ID Tokens, or Refresh Tokens for browser Authentication, those credentials MUST remain behind the trusted server-side BFF-style boundary unless future governance explicitly changes the browser credential architecture.
 
@@ -187,7 +187,7 @@ Browser Session cookies MUST NOT silently become the service-to-service Authenti
 
 ## Required Security Properties
 
-If Accepted, the architecture must preserve:
+The architecture must preserve:
 
 - Session fixation resistance;
 - Session identifier change after successful Authentication and after privilege elevation as required by `SECURITY-STANDARDS.md`, without treating identifier rotation as the complete Session-fixation defense;
@@ -248,7 +248,7 @@ This ADR does not select sticky Sessions, PostgreSQL Session storage, Redis, Spr
 
 Accepted DEC-0001 continues to govern Java 21, Spring Boot 3.5.16, Gradle 8.14.5, dependency alignment, locking, verification, reproducibility, and implementation admission.
 
-This proposal does not claim that the repository currently contains or implements:
+This decision does not claim that the repository currently contains or implements:
 
 - Spring Security;
 - Spring Session;
@@ -259,7 +259,7 @@ This proposal does not claim that the repository currently contains or implement
 - an Identity Provider SDK; or
 - Session persistence.
 
-Acceptance of ADR-0019 would establish Architecture direction only. Actual dependency admission, configuration, executable implementation, tests, Session storage, schemas, migrations, and operational deployment remain separate DEC-0001-governed or otherwise applicable changes.
+Acceptance of ADR-0019 establishes Architecture direction only. Actual dependency admission, configuration, executable implementation, tests, Session storage, schemas, migrations, and operational deployment remain separate DEC-0001-governed or otherwise applicable changes.
 
 ## Compatibility, Migration, and Reversibility
 
@@ -294,25 +294,25 @@ The architecture is reversible through governance, but its exit cost increases o
 
 ## Alternatives Considered
 
-### A. Server-Side Session with Protected Browser Cookie — Proposed
+### A. Server-Side Session with Protected Browser Cookie — Selected
 
-Benefits include direct authoritative revocation, server-side logout, no persistent browser bearer token, and straightforward stale-privilege invalidation. Costs include operationally significant Session state, CSRF requirements, and the need for a governed scalable Session store. This is proposed for the initial first-party browser architecture because it satisfies current requirements without introducing browser-owned bearer-token and Refresh Token family complexity.
+Benefits include direct authoritative revocation, server-side logout, no persistent browser bearer token, and straightforward stale-privilege invalidation. Costs include operationally significant Session state, CSRF requirements, and the need for a governed scalable Session store. This is selected for the initial first-party browser architecture because it satisfies current requirements without introducing browser-owned bearer-token and Refresh Token family complexity.
 
 ### B. Short-Lived JWT Access Token with Refresh Token
 
-Benefits include local access-token validation and established ecosystem support. Costs include key and Claims governance, browser credential custody, refresh-family state, replay detection, revocation propagation, logout complexity, and stale-privilege handling. It is technically viable but is not proposed for the initial browser architecture. JWT may remain viable for separately governed machine or API boundaries or a future superseding decision.
+Benefits include local access-token validation and established ecosystem support. Costs include key and Claims governance, browser credential custody, refresh-family state, replay detection, revocation propagation, logout complexity, and stale-privilege handling. It is technically viable but is not selected for the initial browser architecture. JWT may remain viable for separately governed machine or API boundaries or a future superseding decision.
 
 ### C. Opaque Access Token with Refresh Token and Introspection
 
-Benefits include central token authority and direct revocation through authoritative token state. Costs include introspection availability and latency, token-state operations, browser bearer-token custody, refresh replay protection, and another service or authority boundary. It is technically viable but is not proposed for the initial browser architecture. Opaque credentials may remain viable for separately governed machine or API boundaries.
+Benefits include central token authority and direct revocation through authoritative token state. Costs include introspection availability and latency, token-state operations, browser bearer-token custody, refresh replay protection, and another service or authority boundary. It is technically viable but is not selected for the initial browser architecture. Opaque credentials may remain viable for separately governed machine or API boundaries.
 
 ### D. External OIDC/OAuth2 Identity Provider with Server-Side/BFF Custody
 
-Benefits include standards-based federation and compatibility with externally managed Authentication capabilities. Costs include provider selection, provider availability, Claims mapping, redirect and issuer governance, upstream logout/revocation integration, and provider-token custody. The proposed BFF-style boundary remains compatible with this alternative, but no external provider is selected by ADR-0019.
+Benefits include standards-based federation and compatibility with externally managed Authentication capabilities. Costs include provider selection, provider availability, Claims mapping, redirect and issuer governance, upstream logout/revocation integration, and provider-token custody. The selected BFF-style boundary remains compatible with this alternative, but no external provider is selected by ADR-0019.
 
 ### E. Browser-Owned Bearer-Token Architecture
 
-Benefits include conventional bearer API interaction and reduced dependence on cookie-based browser Sessions. Costs include browser token custody, XSS theft exposure, persistent-storage restrictions, refresh handling, revocation, logout, rotation, and replay complexity. It is technically viable with appropriate controls but is not proposed for the initial first-party browser flow.
+Benefits include conventional bearer API interaction and reduced dependence on cookie-based browser Sessions. Costs include browser token custody, XSS theft exposure, persistent-storage restrictions, refresh handling, revocation, logout, rotation, and replay complexity. It is technically viable with appropriate controls but is not selected for the initial first-party browser flow.
 
 ## Explicitly Unresolved and Out of Scope
 
@@ -348,7 +348,7 @@ ADR-0019 is subordinate to and preserves:
 - `.ai/core/AGENTS.md`;
 - `.ai/core/GLOSSARY.md`;
 - `.ai/core/PRODUCT.md`;
-- `.ai/core/ARCHITECTURE.md` while this ADR remains Proposed;
+- `.ai/core/ARCHITECTURE.md` as synchronized with this Accepted ADR;
 - `.ai/core/SECURITY-STANDARDS.md`;
 - `.ai/core/TESTING-STANDARDS.md`;
 - `.ai/core/CODING-STANDARDS.md`;
@@ -359,11 +359,11 @@ ADR-0019 is subordinate to and preserves:
 - the Approved Identity and Access Backend Specification; and
 - Accepted DEC-0001.
 
-This ADR supersedes none of those sources. If Accepted, only the explicitly synchronized portions of current Architecture and Spring standards change; all unaffected authority remains intact.
+This ADR supersedes none of those sources. Only the explicitly synchronized portions of current Architecture and Spring standards changed; all unaffected authority remains intact.
 
-## Required Governance Reviews
+## Completed Governance Reviews
 
-Before ADR-0019 may become Accepted, governance review must confirm:
+The acceptance-readiness governance review completed successfully and confirmed:
 
 - Architecture approval of the initial browser Session boundary and operational consequences;
 - Identity ownership approval of authoritative Session, renewal, revocation, and invalidation semantics;
@@ -375,39 +375,39 @@ Before ADR-0019 may become Accepted, governance review must confirm:
 - Operations review of authoritative Session-state availability and scaling consequences; and
 - Documentation review of canonical synchronization and unresolved detail.
 
-Review must find no unresolved acceptance blocker. It must not fabricate named reviewers, meetings, tickets, signatures, implementation evidence, or test execution.
+The review found no unresolved acceptance blocker. This record does not fabricate named reviewers, meetings, tickets, signatures, implementation evidence, or test execution.
 
 ## Acceptance Conditions and Synchronization
 
-ADR-0019 remains Proposed and non-authoritative. It does not authorize dependency admission, Session storage, configuration, or implementation.
+ADR-0019 is Accepted and authoritative within its governed Architecture scope. Acceptance does not authorize dependency admission, Session storage, configuration, or implementation.
 
-If ADR-0019 is later Accepted, the minimum expected canonical synchronization set is exactly:
+Acceptance synchronized exactly:
 
 1. `specifications/adr/ADR-0019-authentication-session-token-strategy.md`;
 2. `.ai/core/DECISIONS.md`;
 3. `.ai/core/ARCHITECTURE.md`; and
 4. `.ai/backend/SPRING.md`.
 
-Acceptance synchronization must:
+Acceptance synchronization:
 
-- promote ADR-0019 through the governed lifecycle and record completed review without fabricated evidence;
-- index ADR-0019 as Accepted in `DECISIONS.md`;
-- replace the unresolved Session/token strategy in Architecture;
-- remove the corresponding Open Architecture Decision;
-- preserve trusted server-side contextual Authorization;
-- accurately state that privileged MFA is already mandatory while provider, factor, and protocol remain unresolved;
-- synchronize the affected Spring Security, CSRF, CORS, and Session boundaries; and
-- preserve separate DEC-0001 dependency admission and executable implementation.
+- promoted ADR-0019 through the governed lifecycle and recorded completed review without fabricated evidence;
+- indexed ADR-0019 as Accepted in `DECISIONS.md`;
+- replaced the unresolved Session/token strategy in Architecture;
+- removed the corresponding Open Architecture Decision;
+- preserved trusted server-side contextual Authorization;
+- recorded that privileged MFA is already mandatory while provider, factor, and protocol remain unresolved;
+- synchronized the affected Spring Security, CSRF, CORS, and Session boundaries; and
+- preserved separate DEC-0001 dependency admission and executable implementation.
 
 Current evidence does not pre-authorize acceptance changes to `PRODUCT.md`, `SECURITY-STANDARDS.md`, `GLOSSARY.md`, `API.md`, Identity specifications, frontend specifications, build files, or implementation files.
 
 ## Validation Criteria
 
-Before this proposal may be accepted, reviewers must verify:
+The Accepted record and synchronized governance verify:
 
-1. metadata remains `0.1.0 Proposed`, owner `Architecture`, last updated `2026-09-28`, and `authoritative: false` until acceptance;
-2. no Accepted-state authority or implementation is falsely claimed;
-3. the proposed initial browser architecture is an Identity-owned authoritative server-side Session;
+1. metadata is `1.0.0 Accepted`, owner `Architecture`, last updated `2026-09-28`, and `authoritative: true` within this ADR's governed Architecture scope;
+2. Accepted-state authority is bounded to Architecture direction and no implementation is falsely claimed;
+3. the initial browser architecture is an Identity-owned authoritative server-side Session;
 4. the browser credential is a minimally scoped protected cookie;
 5. the initial browser flow does not make the browser owner of Access Tokens or Refresh Tokens;
 6. authoritative Session identity, Principal association, validity, expiry, renewal eligibility, revocation, termination, and invalidation remain server-side;
@@ -423,7 +423,7 @@ Before this proposal may be accepted, reviewers must verify:
 16. no Spring Security, Spring Session, OAuth2, JOSE/JWT, Redis, provider SDK, or other dependency is admitted;
 17. no executable implementation or completed implementation test is claimed;
 18. every listed implementation and policy detail remains unresolved;
-19. the future acceptance synchronization set is exactly ADR-0019, `DECISIONS.md`, `ARCHITECTURE.md`, and `SPRING.md`;
+19. acceptance synchronization changed exactly ADR-0019, `DECISIONS.md`, `ARCHITECTURE.md`, and `SPRING.md`;
 20. Session identifiers are required to change after successful Authentication and after privilege elevation without treating identifier rotation as the complete Session-fixation defense;
 21. acceptance migrates no existing Authentication implementation, establishes Architecture direction only, preserves separately governed dependency admission, implementation, rollout, and Session storage, and requires any future replacement to use superseding governance and safely migrate, terminate, or reconcile affected Session and browser credential state without restoring withdrawn access;
 22. `HttpOnly` cookie custody is recognized as reducing direct JavaScript credential extraction without eliminating XSS Risk or replacing applicable browser-security controls; and
@@ -457,4 +457,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-28 | Accepted | Accepted the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture following completed governance review and canonical Architecture and Spring synchronization, while preserving contextual Authorization, mandatory privileged MFA, unresolved implementation choices, and separate DEC-0001 dependency admission. |
 | 0.1.0 | 2026-09-28 | Proposed | Proposed an Identity-owned authoritative server-side Session with a protected browser cookie for initial first-party browser Authentication while preserving contextual Authorization, privileged MFA requirements, implementation neutrality, provider deferral, and separate dependency admission. |
