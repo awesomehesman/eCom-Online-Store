@@ -8,6 +8,9 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import com.enterprise.fashion.ecommerce.identity.adapter.out.session.SpringSessionJdbcRevocationAdapter;
+import com.enterprise.fashion.ecommerce.identity.application.SessionRevocationOutcome;
+import com.enterprise.fashion.ecommerce.identity.application.usecase.RevokeIdentitySession;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -54,6 +57,9 @@ class IdentitySessionJdbcIntegrationTest {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @Autowired
+    private SpringSessionJdbcRevocationAdapter revocationAdapter;
+
     @Test
     void persistsIdentitySessionsThroughFlywayOwnedPostgresqlObjects() throws Exception {
         assertPostgresql18();
@@ -83,6 +89,39 @@ class IdentitySessionJdbcIntegrationTest {
         assertThat(repository.findById(created.getId())).isNull();
         assertThat(rowCount("identity.spring_session", "session_id", created.getId())).isZero();
         assertThat(attributeRowCount(created.getId())).isZero();
+    }
+
+    @Test
+    void confirmsAuthoritativeAbsenceAfterRevocationOfAnExistingSession() {
+        SessionRepository<Session> repository = sessionRepository(sessionRepository);
+        Session created = repository.createSession();
+        created.setAttribute("revocation_attribute", "removed-with-session");
+        repository.save(created);
+
+        assertThat(rowCount("identity.spring_session", "session_id", created.getId())).isOne();
+        assertThat(attributeRowCount(created.getId())).isOne();
+
+        SessionRevocationOutcome outcome = new RevokeIdentitySession(revocationAdapter)
+                .revoke(created.getId());
+
+        assertThat(outcome).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
+        assertThat(repository.findById(created.getId())).isNull();
+        assertThat(rowCount("identity.spring_session", "session_id", created.getId())).isZero();
+        assertThat(attributeRowCount(created.getId())).isZero();
+    }
+
+    @Test
+    void confirmsAuthoritativeAbsenceWhenTheSessionWasAlreadyAbsent() {
+        String absentSessionIdentifier = "known-absent-session";
+        SessionRepository<Session> repository = sessionRepository(sessionRepository);
+        assertThat(repository.findById(absentSessionIdentifier)).isNull();
+
+        SessionRevocationOutcome outcome = new RevokeIdentitySession(revocationAdapter)
+                .revoke(absentSessionIdentifier);
+
+        assertThat(outcome).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
+        assertThat(repository.findById(absentSessionIdentifier)).isNull();
+        assertThat(rowCount("identity.spring_session", "session_id", absentSessionIdentifier)).isZero();
     }
 
     private void assertPostgresql18() throws Exception {
