@@ -27,7 +27,7 @@ For the initial Customer Authentication model, the canonical comparison represen
 
 1. an initial ASCII-only local part validated as an unquoted dot-atom;
 2. the local part converted with locale-independent ASCII lowercase mapping;
-3. a domain accepted as a valid IDNA2008 U-label or A-label and converted deterministically to its ASCII-compatible A-label representation;
+3. a domain split into non-empty labels only on ASCII full stop (`U+002E`), with each label validated and converted under the strict per-label IDNA2008 profile defined below to its canonical ASCII label representation;
 4. the domain converted with locale-independent ASCII lowercase mapping; and
 5. the resulting canonical local part and domain joined as one comparison value.
 
@@ -40,10 +40,12 @@ Before validation and comparison:
 - surrounding ASCII space (`U+0020`) and horizontal tab (`U+0009`) SHALL be removed;
 - an empty or blank result SHALL be invalid;
 - carriage return, line feed, control characters, interior whitespace, and unpaired or malformed Unicode input SHALL be invalid;
+- ASCII full stop (`U+002E`) SHALL be the only accepted domain-label separator; `U+3002` IDEOGRAPHIC FULL STOP, `U+FF0E` FULLWIDTH FULL STOP, `U+FF61` HALFWIDTH IDEOGRAPHIC FULL STOP, and every other separator-like character SHALL be rejected rather than mapped;
+- a leading domain separator, consecutive domain separators, an empty interior domain label, and a trailing separator or root-label notation SHALL be invalid;
 - comments, display-name syntax, address lists, domain literals, quoted local parts, and multiple-address input SHALL be invalid for the initial login identifier; and
 - normalization SHALL precede equality comparison.
 
-The initial local part SHALL use the ASCII `atext` character repertoire defined by RFC 5322, with dots permitted only between non-empty segments. A leading, trailing, or consecutive dot is invalid. Non-ASCII local parts remain unsupported initially rather than being transformed or approximated.
+The initial local part SHALL use the ASCII `atext` character repertoire defined by RFC 5322, with dots permitted only between non-empty segments. A leading, trailing, or consecutive dot is invalid. Quoted and internationalized or other non-ASCII local parts remain intentionally outside the initial Customer login-identifier scope rather than being transformed or approximated. This restriction does not claim that email standards universally prohibit those forms. Supporting them later requires explicit Product and compatibility governance, a deterministic comparison and migration model, and preserved ownership and collision safety.
 
 These are logical input semantics. No API field, request schema, response, error text, or validation library is selected.
 
@@ -51,7 +53,13 @@ These are logical input semantics. No API field, request schema, response, error
 
 The initial local part and canonical ASCII domain are compared case-insensitively through locale-independent ASCII lowercase mapping. Equality MUST NOT depend on a process locale, database collation, filesystem behavior, or provider behavior.
 
-The domain portion SHALL use a deterministic IDNA2008 ASCII-compatible representation. A domain that cannot be converted to and validated as that representation is invalid for login-email establishment or lookup. Unicode domain input and an equivalent valid A-label therefore compare through the same canonical domain representation.
+The domain consists of one or more non-empty labels separated in submitted input only by ASCII full stop (`U+002E`). IDNA2008 U-label and A-label terminology applies to each label, not to the domain as a whole. Each label SHALL be processed independently under a strict IDNA2008 profile, and the canonical comparison domain SHALL be the resulting sequence of validated canonical ASCII labels joined by `U+002E`.
+
+An accepted Unicode label SHALL already satisfy the Unicode normalization and validity requirements of strict IDNA2008, including the required normalized form, and SHALL be converted deterministically to its corresponding A-label. UTS #46 transitional or non-transitional mapping, compatibility mapping, provider mapping, runtime-specific normalization, and any other preprocessing that changes logical equality are prohibited. Input requiring such additional mapping is invalid rather than silently rewritten.
+
+A submitted `xn--` label SHALL be accepted only when it is a valid A-label under the same strict IDNA2008 profile, decodes to a valid corresponding U-label, and re-encodes under that profile to the same A-label after locale-independent ASCII lowercase canonicalization. An arbitrary ASCII label beginning with `xn--`, a malformed A-label, or a non-canonical round trip is invalid. An ordinary ASCII label that is not an A-label SHALL satisfy the applicable strict IDNA2008 ASCII-label validity rules and SHALL be canonicalized using locale-independent ASCII lowercase mapping.
+
+If any label cannot be validated, converted, or round-tripped deterministically under this profile, canonical comparison fails and uniqueness remains unresolved. Registration, login lookup, identifier establishment, and identifier change SHALL NOT claim success from that input. Database collation, locale, provider behavior, DNS resolver behavior, filesystem behavior, and library-specific optional mapping modes SHALL NOT alter logical equality.
 
 This decision selects no third-party IDNA or email-validation library and does not authorize environment-specific or locale-sensitive conversion.
 
@@ -284,12 +292,16 @@ Before DEC-0005 may become Accepted, review must verify:
 18. Product Decisions 5 and 28 remain unresolved;
 19. no persistence object, migration, API Contract, framework component, dependency, provider, infrastructure, numerical control, or implementation is authorized;
 20. downstream password-security, persistence, association, Contract, dependency, recovery, MFA, and implementation work remains separately gated;
-21. alternatives and consequences remain fair and complete; and
-22. proposal registration affects only DEC-0005 and `DECISIONS.md`, registers DEC-0005 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+21. alternatives and consequences remain fair and complete;
+22. promotion to Accepted has durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority; Identity remains the single accountable owner, one accountable owner does not remove cross-authority review, and pull-request approval counts only when those authorities are represented by durable evidence;
+23. while the approval gate remains unsatisfied, DEC-0005 remains Proposed and non-authoritative; and
+24. proposal registration affects only DEC-0005 and `DECISIONS.md`, registers DEC-0005 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
 ## Proposal Registration and Acceptance Planning
 
 Proposal-stage registration changes only DEC-0005 and `DECISIONS.md`. If later Accepted, DEC-0005 and its existing Decision Index status and history require synchronization. Acceptance-readiness review must determine whether the selected Product, Security, and Data semantics directly require synchronization of `PRODUCT.md`, `SECURITY-STANDARDS.md`, `ARCHITECTURE.md`, backend standards, Domains, or Specifications; this proposal makes no acceptance-stage change and does not presume that final set.
+
+Promotion from Proposed to Accepted requires durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority. Identity remains the single accountable owner; that ownership does not eliminate required cross-authority review. Pull-request approval is sufficient only when the required authorities are actually represented and the evidence is durable and discoverable under `DECISIONS.md`. Until this gate is satisfied and the record is promoted through governance, DEC-0005 remains Proposed and non-authoritative.
 
 ## References
 
