@@ -3,13 +3,13 @@
 - **Identifier:** DEC-0004
 - **Title:** Customer Login Identifier Semantics
 - **Type:** Product Decision / Security Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-29
 - **Owner:** Identity
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** Not applicable — this is the first governed Customer login-identifier decision.
-- **Superseded By:** Not applicable — this Proposed Decision Record has not been superseded.
+- **Superseded By:** Not applicable — this Accepted Decision Record has not been superseded.
 
 ## Context
 
@@ -17,13 +17,13 @@ Accepted ADR-0021 establishes Identity-owned local Customer Authentication autho
 
 The Approved Identity Domain and BIDN require identifiers to remain untrusted references, preserve enumeration resistance, and avoid becoming Authentication or Authorization proof. The Approved Customer Domain and BCUS require stable Customer and Account business identity independently of mutable contact, credential, Principal, or Session state. The Storefront Account and Identity Frontend Specification presents Authentication intent but cannot establish identifier, Identity, Principal, or Authentication truth.
 
-Registration and login Contracts cannot safely define required input, uniqueness conflicts, error concealment, or association semantics until the initial Customer-facing login identifier is governed. This Proposed decision selects only that identifier category and the minimum semantic, security, lifecycle, and evolution boundaries necessary for later governance.
+Registration and login Contracts cannot safely define required input, uniqueness conflicts, error concealment, or association semantics until the initial Customer-facing login identifier is governed. This Accepted decision selects only that identifier category and the minimum semantic, security, lifecycle, and evolution boundaries necessary for later governance.
 
 ## Decision
 
-If Accepted, an **email address** SHALL be the single initial Customer-facing login identifier category for local Customer Authentication.
+An **email address** SHALL be the single initial Customer-facing login identifier category for local Customer Authentication.
 
-The submitted email address SHALL be treated only as untrusted Authentication lookup input. Possession, knowledge, submission, lookup match, or Customer-profile presence of an email address SHALL NOT prove Identity, Authentication, Authorization, Customer ownership, Account ownership, mailbox control, or verified-email status. Identity may establish the local Principal only after the separately governed password credential is successfully verified through accepted Identity-owned Authentication evidence.
+The submitted email address SHALL be treated only as untrusted Authentication lookup input. Possession, knowledge, submission, lookup match, Customer-profile presence, or mailbox access SHALL NOT prove Identity, Authentication, Authorization, Customer ownership, Account ownership, mailbox control, verified-email status, or recovery authority. Identity may establish the local Principal only after the separately governed password credential is successfully verified through accepted Identity-owned Authentication evidence.
 
 The initial implementation SHALL NOT support login by mobile or phone number, username, Customer ID, Account ID, Principal ID, internal credential identifier, or arbitrary multiple identifier categories. Those alternatives are deferred rather than permanently prohibited.
 
@@ -39,13 +39,13 @@ The initial implementation SHALL NOT support login by mobile or phone number, us
 
 ### Out of Scope
 
-This proposal does not select verified-email policy, exact canonicalization, case-comparison implementation, persistence design, Contracts, recovery, MFA, framework components, dependencies, providers, infrastructure, or numerical controls.
+This decision does not select verified-email policy, exact canonicalization, case-comparison implementation, persistence design, Contracts, recovery, MFA, framework components, dependencies, providers, infrastructure, or numerical controls.
 
 ## Product Decision 5 Boundary
 
 Product Decision 5, Customer email-verification requirements, remains unresolved.
 
-Selecting email as the login identifier does not decide whether Customer email verification is required. Verified email is not made a prerequisite for registration, Authentication, Session establishment, Account access, or another Product outcome by this proposal. If a later Approved registration or Authentication workflow requires verified email, the dependency MUST be resolved through applicable Product governance.
+Selecting email as the login identifier does not decide whether Customer email verification is required. Verified email is not made a prerequisite for registration, Authentication, Session establishment, Account access, or another Product outcome by this decision. If a later Approved registration or Authentication workflow requires verified email, the dependency MUST be resolved through applicable Product governance.
 
 Email-as-identifier semantics and email-verification policy remain distinct: an address can be lookup input without its submission or presence proving mailbox control.
 
@@ -96,7 +96,7 @@ Email use can make phishing and stuffing targeting easier when addresses are kno
 
 ### Identifier Changes, Conflict, and Reassignment
 
-Email change, conflict, reassignment, reuse, and concurrent update can create account-takeover or identity-confusion Risk. Later change governance must require sufficient authority, preserve stable Identity and Customer association, handle conflicts safely, invalidate or review affected access where required, and retain appropriate evidence. This proposal does not select proof, workflow, Session consequences, notification, or recovery consequences.
+Email change, conflict, reassignment, reuse, and concurrent update can create account-takeover or identity-confusion Risk. Later change governance must require sufficient authority, preserve stable Identity and Customer association, handle conflicts safely, invalidate or review affected access where required, and retain appropriate evidence. This decision does not select proof, workflow, Session consequences, notification, or recovery consequences.
 
 ### Recovery and Shared Devices
 
@@ -122,7 +122,7 @@ The password-based local Customer credential remains the single initial credenti
 
 ## Alternatives Considered
 
-### A. Email Address — Selected in This Proposal
+### A. Email Address — Selected
 
 Email is familiar for Customer-facing account access, aligns with existing Customer Account and password-management capability direction, and avoids inventing a new public username or requiring phone collection. It can remain lookup input without resolving email verification or making contact data authoritative.
 
@@ -163,15 +163,15 @@ These consequences do not resolve Product Decision 5, make verified email mandat
 
 ## Product Impact
 
-The proposal defines the initial Customer-facing login-input category only. It does not establish registration eligibility, mandatory mailbox verification, mandatory contact fields beyond later Contract needs, guest-versus-account policy, Customer lifecycle, recovery policy, or MFA policy.
+The decision defines the initial Customer-facing login-input category only. It does not establish registration eligibility, mandatory mailbox verification, mandatory contact fields beyond later Contract needs, guest-versus-account policy, Customer lifecycle, recovery policy, or MFA policy.
 
 ## Architecture Impact
 
-No Module, trust, provider, persistence, Session, deployment, or authority boundary changes. Identity remains Authentication owner; Customer remains Customer and Account business owner. No new ADR is required by this proposal.
+No Module, trust, provider, persistence, Session, deployment, or authority boundary changes. Identity remains Authentication owner; Customer remains Customer and Account business owner. No new ADR is required by this decision.
 
 ## Data Impact
 
-Email login input is purpose-limited PII. This proposal selects no source-of-truth record, persistence representation, table, column, schema, index, constraint, retention period, or Customer-to-Identity association implementation. Later persistence must follow ADR-0017, ADR-0018, Database standards, least privilege, and governed uniqueness semantics.
+Email login input is purpose-limited PII. This decision selects no source-of-truth record, persistence representation, table, column, schema, index, constraint, retention period, or Customer-to-Identity association implementation. Later persistence must follow ADR-0017, ADR-0018, Database standards, least privilege, and governed uniqueness semantics.
 
 ## Compatibility, Migration, and Reversibility
 
@@ -179,7 +179,7 @@ No production Customer login-identifier population requires migration. A future 
 
 ## Operational Impact
 
-Later implementation must support safe duplicate and conflict handling, identifier changes, reassignment investigation, enumeration-resistant support, privacy-safe diagnostics, monitoring, Audit Records, and incident response. This proposal selects no provider, support workflow, service level, rate, timeout, lockout, recovery target, or infrastructure.
+Later implementation must support safe duplicate and conflict handling, identifier changes, reassignment investigation, enumeration-resistant support, privacy-safe diagnostics, monitoring, Audit Records, and incident response. This decision selects no provider, support workflow, service level, rate, timeout, lockout, recovery target, or infrastructure.
 
 ## Downstream Non-Decisions
 
@@ -207,29 +207,30 @@ DEC-0004 does not select, define, admit, or authorize:
 
 ## Acceptance and Validation Criteria
 
-Before DEC-0004 may become Accepted, review must verify:
+The Accepted record and canonical synchronization verify:
 
-1. metadata remains `0.1.0 Proposed`, Type `Product Decision / Security Decision`, owner `Identity`, and `authoritative: false`;
-2. email address is proposed as the single initial Customer-facing login identifier category;
-3. email input, possession, submission, match, or profile presence is not Identity, Authentication, Authorization, ownership, mailbox-control, or verification proof;
+1. metadata is `1.0.0 Accepted`, Type `Product Decision / Security Decision`, owner `Identity`, and `authoritative: true`;
+2. email address is the single initial Customer-facing login identifier category;
+3. email input, possession, submission, match, profile presence, or mailbox access is not Identity, Authentication, Authorization, ownership, mailbox-control, verification, or recovery proof;
 4. Product Decision 5 remains unresolved and verified email is not silently required;
 5. Identity owns Authentication interpretation and Principal establishment while Customer retains Customer and Account business truth;
 6. no other initial identifier category or fallback is selected, and future alternatives remain governable;
-7. email, phone, username, and multiple-identifier alternatives are represented fairly;
-8. enumeration, stuffing, brute-force assistance, PII, timing, logging, support, change, conflict, reassignment, recovery, shared-device, phishing, takeover, and migration consequences are addressed without numerical invention;
-9. deterministic comparison, normalization, case, uniqueness, conflict, change, and persistence semantics are required before implementation without being invented here;
-10. identifier change cannot create a new Identity, Customer, Account, Principal, credential, or Session merely because the email changes;
-11. password recovery remains separately governed and mailbox access is not assumed sufficient recovery proof;
-12. ADR-0019, ADR-0020, ADR-0021, and DEC-0003 remain unchanged;
-13. no Contract, API, persistence model, framework component, dependency, provider, infrastructure, or implementation is authorized;
-14. Product Decisions 5 and 23 remain unresolved;
-15. acceptance-readiness review determines the final canonical synchronization set without expanding this decision boundary;
-16. DEC-0004 is indexed exactly once as Proposed in `DECISIONS.md`; and
-17. acceptance has not occurred, the proposal affects exactly DEC-0004 and `DECISIONS.md`, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+7. deterministic comparison, normalization, case, uniqueness, conflict, change, reassignment, and persistence semantics remain required before implementation without being invented here;
+8. identifier change cannot create a new Identity, Customer, Account, Principal, credential, or Session merely because the email changes;
+9. password recovery remains separately governed and mailbox access is not assumed sufficient recovery proof;
+10. ADR-0019, ADR-0020, ADR-0021, and DEC-0003 remain compatible and unchanged;
+11. no registration, login, recovery, verification, or other API Contract is authorized;
+12. no credential, identifier, Customer, Account, or association persistence model is authorized;
+13. no framework component, dependency, provider, or infrastructure is authorized;
+14. no executable registration or login implementation is authorized;
+15. Product Decisions 5 and 23 remain unresolved;
+16. email, phone, username, and multiple-identifier alternatives remain represented fairly;
+17. security, privacy, operational, compatibility, migration, and reversibility consequences remain recorded without numerical or implementation invention; and
+18. canonical acceptance synchronization is limited to DEC-0004, `DECISIONS.md`, and `PRODUCT.md`, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
-## Proposal Registration and Acceptance Planning
+## Acceptance Synchronization
 
-Proposal-stage registration changes only DEC-0004 and `DECISIONS.md`. If later Accepted, DEC-0004 and its index status and history require synchronization. Because the selected identifier is Customer-facing Product semantics, acceptance review must assess `PRODUCT.md`; other canonical sources change only if a direct contradiction or synchronization requirement is identified. This Proposed record performs no acceptance-stage synchronization.
+Acceptance synchronized DEC-0004, its indexed status and history in `DECISIONS.md`, and the directly affected Customer-facing Product truth in `PRODUCT.md`. No other canonical source, Specification, Contract, build file, dependency, test, or implementation file required synchronization. Acceptance establishes the governed identifier direction only and claims no dependency admission or implementation completion.
 
 ## References
 
@@ -265,4 +266,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-29 | Accepted | Established email address as the single initial Customer-facing login identifier while preserving Product Decision 5 and downstream normalization, uniqueness, persistence, Contract, recovery, MFA, dependency, and implementation decisions. |
 | 0.1.0 | 2026-09-29 | Proposed | Proposed email address as the single initial Customer-facing login identifier while preserving Product Decision 5 and downstream security, normalization, persistence, Contract, recovery, MFA, dependency, and implementation decisions. |
