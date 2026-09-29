@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.35
+version: 1.0.36
 status: Approved
 owner: Architecture
 last_updated: 2026-09-29
@@ -540,7 +540,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0021 | Customer Authentication Authority Strategy | Architecture Decision | Accepted | Architecture | 2026-09-29 | — | [ADR-0021-customer-authentication-authority-strategy.md](../../specifications/adr/ADR-0021-customer-authentication-authority-strategy.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
-| DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Proposed | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
+| DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -670,6 +670,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.36 | 2026-09-29 | Approved | Synchronized DEC-0003 to Accepted, establishing an Identity-owned password-based local Customer credential as the single initial credential category with no initial fallback while preserving unresolved Product Decisions 5 and 23, login identifier, password-security configuration, persistence, recovery, MFA, API Contracts, dependency admission, implementation, and external-provider governance without claiming any such approval or completion. |
 | 1.0.35 | 2026-09-29 | Approved | Corrected Proposed DEC-0003 to identify Identity as its single accountable owner while preserving its Security Decision classification, required Security and Architecture review authority, unchanged credential decision, Proposed lifecycle, and absence of acceptance or implementation authority. |
 | 1.0.34 | 2026-09-29 | Approved | Indexed DEC-0003, Initial Local Customer Credential Mechanism, as Proposed with a password-based local credential as the single initial category and no fallback category, without accepting the decision, resolving Product Decisions 5 or 23, selecting downstream policy or implementation details, admitting dependencies, or claiming implementation authority. |
 | 1.0.33 | 2026-09-29 | Approved | Synchronized ADR-0021 to Accepted following completed governance review, establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, future external-provider governance, downstream credential neutrality, and separate DEC-0001 dependency admission without claiming implementation. |

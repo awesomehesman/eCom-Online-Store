@@ -3,13 +3,13 @@
 - **Identifier:** DEC-0003
 - **Title:** Initial Local Customer Credential Mechanism
 - **Type:** Security Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-29
 - **Owner:** Identity
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** Not applicable — this is the first governed initial local Customer credential-mechanism decision.
-- **Superseded By:** Not applicable — this Proposed Decision Record has not been superseded.
+- **Superseded By:** Not applicable — this Accepted Decision Record has not been superseded.
 
 ## Context
 
@@ -19,11 +19,11 @@ Accepted ADR-0019 governs the initial first-party browser boundary as an authori
 
 The Approved Product and Architecture contain password-management, password-reset, and password-hashing capability language, while `SECURITY-STANDARDS.md` supplies mandatory controls conditional on passwords existing. Those statements provide repository support for considering a password-based credential but do not independently select one. Passkey/WebAuthn-style and passwordless one-time or magic-link-style credentials remain viable alternatives whose different security, compatibility, recovery, provider, and operational consequences require explicit comparison.
 
-This Proposed decision selects only the initial credential category, initial multiplicity, fallback status, and the security and lifecycle consequences inherent to that category. It does not authorize implementation.
+This Accepted decision selects only the initial credential category, initial multiplicity, fallback status, and the security and lifecycle consequences inherent to that category. It does not authorize implementation.
 
 ## Decision
 
-If Accepted, the initial local Customer credential mechanism SHALL be a **password-based local credential** owned by Identity.
+The initial local Customer credential mechanism SHALL be a **password-based local credential** owned by Identity.
 
 The initial implementation SHALL support exactly one local Customer credential category: the password-based credential. No second local credential category and no fallback credential category are selected for the initial implementation.
 
@@ -47,7 +47,7 @@ All matters listed under Downstream Non-Decisions remain separately governed. In
 
 ## Governing Authority
 
-This proposal is subordinate to and preserves:
+This decision is subordinate to and preserves:
 
 - `AGENTS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `SECURITY-STANDARDS.md`, `GLOSSARY.md`, and `DECISIONS.md`;
 - the Approved Identity Domain and BIDN;
@@ -57,7 +57,7 @@ This proposal is subordinate to and preserves:
 - Accepted DEC-0001 and DEC-0002; and
 - applicable Spring, Java, API, Database, and PostgreSQL standards.
 
-While Proposed, DEC-0003 is non-authoritative and provides no implementation or dependency-admission authority.
+DEC-0003 is authoritative only for the governed credential-category direction. It provides no implementation or dependency-admission authority.
 
 ## Security Analysis
 
@@ -130,11 +130,11 @@ Multiple initial categories could improve Customer choice and migration flexibil
 
 ## Product Impact
 
-This proposal establishes no registration eligibility, guest-versus-account policy, Customer lifecycle policy, mandatory email or phone use, or Customer MFA policy. Product Decision 5 remains unresolved. Password-management wording remains conditional until acceptance-readiness review determines whether any canonical clarification is required.
+This decision establishes no registration eligibility, guest-versus-account policy, Customer lifecycle policy, mandatory email or phone use, or Customer MFA policy. Product Decision 5 remains unresolved and independent unless a later Approved workflow establishes a direct dependency.
 
 ## Architecture Impact
 
-The selected category fits within Accepted ADR-0021 and does not change the Identity-owned Authentication authority, Customer ownership, Principal boundary, Modular Monolith, Session Architecture, Session store, provider boundary, or deployment topology. Acceptance-readiness review must determine whether password-specific shorthand in `PRODUCT.md` or `ARCHITECTURE.md` requires synchronization; this proposal modifies neither source.
+The selected category fits within Accepted ADR-0021 and does not change the Identity-owned Authentication authority, Customer ownership, Principal boundary, Modular Monolith, Session Architecture, Session store, provider boundary, or deployment topology. Acceptance review confirmed that existing password-specific wording in `PRODUCT.md` and `ARCHITECTURE.md` remains accurate and requires no synchronization.
 
 ## Identity Ownership Impact
 
@@ -146,7 +146,7 @@ Customer retains Customer and Account business truth. A password, login identifi
 
 ## Data Impact
 
-Passwords are protected security material. This proposal creates no credential representation, schema, table, column, index, constraint, migration, retention period, or Customer/Account association. Any later persistence must remain Identity-owned, follow ADR-0017 and ADR-0018, use Flyway, enforce least privilege, and avoid plaintext or reversible password storage.
+Passwords are protected security material. This decision creates no credential representation, schema, table, column, index, constraint, migration, retention period, or Customer/Account association. Any later persistence must remain Identity-owned, follow ADR-0017 and ADR-0018, use Flyway, enforce least privilege, and avoid plaintext or reversible password storage.
 
 ## Compatibility and Migration Impact
 
@@ -154,7 +154,7 @@ There is no production Customer credential population to migrate. Future additio
 
 ## Operational Impact
 
-Acceptance would assign the later implementation operational responsibility for password security, abuse detection, compromise handling, recovery, support, monitoring, auditability, maintenance, and incident response. This proposal selects no service level, capacity, rate, lockout, timeout, recovery target, support workflow, provider, or infrastructure.
+Acceptance assigns the later implementation operational responsibility for password security, abuse detection, compromise handling, recovery, support, monitoring, auditability, maintenance, and incident response. This decision selects no service level, capacity, rate, lockout, timeout, recovery target, support workflow, provider, or infrastructure.
 
 ## Reversibility
 
@@ -185,11 +185,11 @@ DEC-0003 does not select, define, admit, or authorize:
 
 ## Acceptance and Validation Criteria
 
-Before DEC-0003 may become Accepted, review must verify:
+The Accepted record and controlled synchronization verify:
 
-1. metadata remains `0.1.0 Proposed`, Type `Security Decision`, owner `Identity`, and `authoritative: false`;
-2. password-based local credential is the single proposed initial credential category;
-3. exactly one initial local credential category is proposed and no fallback category is selected;
+1. metadata is `1.0.0 Accepted`, Type `Security Decision`, owner `Identity`, and `authoritative: true`;
+2. password-based local credential is the single Accepted initial credential category;
+3. exactly one initial local credential category is Accepted and no fallback category is selected;
 4. Password selection is not interpreted as selection of a login identifier, policy, hash, representation, schema, recovery workflow, Contract, dependency, or implementation;
 5. Identity, Customer, Account, Principal, and Session authority remain separate;
 6. ADR-0019, ADR-0020, and ADR-0021 remain unchanged;
@@ -201,13 +201,13 @@ Before DEC-0003 may become Accepted, review must verify:
 12. no API Contract or persistence object is invented;
 13. dependency admission remains separate under DEC-0001;
 14. no implementation or executable validation is claimed;
-15. acceptance-readiness review determines the final canonical synchronization set without expanding the decision boundary;
-16. DEC-0003 remains indexed exactly once as Proposed in `DECISIONS.md`; and
-17. the proposal change affects exactly DEC-0003 and `DECISIONS.md`, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+15. the final canonical synchronization set is limited to DEC-0003 and `DECISIONS.md` without expanding the decision boundary;
+16. DEC-0003 is indexed exactly once as Accepted in `DECISIONS.md`; and
+17. the acceptance change affects exactly DEC-0003 and `DECISIONS.md`, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
-## Acceptance Synchronization Planning
+## Acceptance Synchronization
 
-Proposal-stage registration changes only DEC-0003 and `DECISIONS.md`. If accepted, DEC-0003 and its indexed status and history must be synchronized. Acceptance-readiness review must determine whether the selected password category directly requires narrowly bounded synchronization of `PRODUCT.md`, `ARCHITECTURE.md`, `SECURITY-STANDARDS.md`, `SPRING.md`, or the Storefront Account and Identity Frontend Specification. No such acceptance-stage synchronization is performed or presumed by this Proposed record.
+Controlled acceptance synchronizes only DEC-0003 and its indexed status and history in `DECISIONS.md`. Acceptance review confirmed that `PRODUCT.md`, `ARCHITECTURE.md`, `SECURITY-STANDARDS.md`, `GLOSSARY.md`, `SPRING.md`, `JAVA.md`, `API.md`, `DATABASE.md`, `POSTGRES.md`, Domain Specifications, Backend Specifications, and frontend Specifications require no change. Acceptance creates no implementation, dependency, API, persistence, recovery, MFA, Product-policy, or external-provider authority.
 
 ## References
 
@@ -241,4 +241,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-29 | Accepted | Accepted password-based local Customer credentials as the single initial credential category with no initial fallback and Identity ownership, while preserving unresolved login identifier, password-security configuration, persistence, recovery, MFA, Product Decisions 5 and 23, Contracts, dependency admission, and implementation. |
 | 0.1.0 | 2026-09-29 | Proposed | Proposed a password-based local credential as the single initial Customer credential category with no fallback category, preserving Identity and Customer authority, Session boundaries, Product Decisions 5 and 23, downstream mechanism details, future passkey and external-provider evolution, and separate dependency admission and implementation. |
