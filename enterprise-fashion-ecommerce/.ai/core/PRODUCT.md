@@ -1,6 +1,6 @@
 ---
 title: PRODUCT
-version: 1.2.0
+version: 1.3.0
 status: Approved
 owner: Product and Engineering
 last_updated: 2026-09-29
@@ -418,7 +418,11 @@ These exclusions prevent the initial product from carrying complexity that has n
 - Preference and consent management.
 - Password and session management.
 
-Accepted [DEC-0004 — Customer Login Identifier Semantics](../../specifications/decisions/DEC-0004-customer-login-identifier-semantics.md) establishes email address as the single initial Customer-facing login identifier for local Customer Authentication. Email is untrusted login input, not proof of Identity, Authentication, Authorization, Customer or Account ownership, mailbox control, verified-email status, or recovery authority. Phone or mobile number, username, Customer ID, Account ID, Principal ID, credential ID, and multiple identifier categories are not part of the initial Customer login model. Product Decision 5 remains unresolved, and DEC-0004 does not make verified email mandatory. Normalization, case comparison, uniqueness, persistence, API, recovery, MFA, dependency, and implementation details remain separately governed.
+Accepted [DEC-0004 — Customer Login Identifier Semantics](../../specifications/decisions/DEC-0004-customer-login-identifier-semantics.md) establishes email address as the single initial Customer-facing login identifier for local Customer Authentication. Email is untrusted login input, not proof of Identity, Authentication, Authorization, Customer or Account ownership, mailbox control, verified-email status, or recovery authority. Phone or mobile number, username, Customer ID, Account ID, Principal ID, credential ID, and multiple identifier categories are not part of the initial Customer login model. Product Decision 5 remains unresolved, and DEC-0004 does not make verified email mandatory.
+
+Accepted [DEC-0005 — Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) establishes deterministic Customer login-email equality for the initial local Authentication model. The initial local part is an ASCII-only unquoted dot-atom compared using locale-independent ASCII lowercase semantics; quoted and internationalized or other non-ASCII local parts remain outside the initial Product scope without being represented as universally invalid email forms. The domain is processed per label under the strict deterministic IDNA2008 profile governed by DEC-0005 and compared through its canonical ASCII representation. Provider-specific dot removal, plus-tag removal, alias rewriting, and mailbox-provider canonicalization do not determine login equality.
+
+At most one retained Identity-owned Customer login-identifier association may own a canonical comparison value. Duplicate, colliding, conflicting, or uncertain ownership must not establish competing login ownership or silently merge, select, or reassign Identity. A login-email change preserves stable Identity and applicable Customer/Account relationships and does not itself create a new Identity, Customer, Account, credential, Principal, or Session. Reassignment or reuse is prohibited while authoritative retained Identity state still owns the canonical representation; final post-deletion reuse remains unresolved under Product Decision 28. Email validity, canonicalization, uniqueness, or lookup does not itself prove mailbox control, Identity, Authentication, Authorization, Customer or Account ownership, verified-email status, or recovery authority. Product Decision 5 remains unresolved. Password security, Identity-to-Customer/Account association, persistence, migrations, registration/login/change Contracts, dependency admission, recovery, Customer MFA where applicable, and implementation remain separately governed.
 
 ### 12.4 Post-Purchase
 
@@ -1746,10 +1750,11 @@ Before approving a product requirement or feature scope, verify:
 | 1.0.1   | 2026-08-05 | Approved | Repository terminology audit completed to align PRODUCT.md with the canonical GLOSSARY.md without changing approved product intent.                                                                                                                                     |
 | 1.1.0   | 2026-08-12 | Approved | Aligned Product authority to the AGENTS Decision Hierarchy and DEC Decision Record governance, normalized Product Variant and Stock Reservation terminology, corrected lifecycle vocabulary, clarified Payment evidence, and applied focused core-audit consistency updates without changing approved Product scope. |
 | 1.2.0   | 2026-09-29 | Approved | Synchronized Accepted DEC-0004 by establishing email address as the single initial Customer-facing login identifier for local Customer Authentication while preserving Product Decision 5, untrusted-input and non-proof boundaries, and unresolved normalization, uniqueness, persistence, API, recovery, MFA, dependency, and implementation decisions. |
+| 1.3.0   | 2026-09-29 | Approved | Synchronized Accepted DEC-0005 by establishing deterministic Customer login-email comparison, logical uniqueness, collision and lifecycle boundaries, and strict domain canonicalization while preserving unresolved Product Decisions 5 and 28 and downstream persistence, Contract, dependency, recovery, MFA, and implementation governance. |
 
 ## Document Status
 
-- **Version:** 1.2.0
+- **Version:** 1.3.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative product baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, before major releases, and after any material product or operating-model change.

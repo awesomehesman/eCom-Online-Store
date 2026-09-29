@@ -3,13 +3,13 @@
 - **Identifier:** DEC-0005
 - **Title:** Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics
 - **Type:** Product Decision / Security Decision / Data Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-29
 - **Owner:** Identity
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** Not applicable — this is the first governed Customer login-email comparison, uniqueness, and lifecycle decision.
-- **Superseded By:** Not applicable — this Proposed Decision Record has not been superseded.
+- **Superseded By:** Not applicable — this Accepted Decision Record has not been superseded.
 
 ## Context
 
@@ -17,11 +17,11 @@ Accepted DEC-0004 establishes email address as the single initial Customer-facin
 
 Without one governed equality model, registration could accept identifiers that login cannot match, concurrent work could establish competing ownership, persistence implementations could enforce different uniqueness rules, and support or migration activity could merge or reassign Identity incorrectly. Those outcomes would conflict with the Approved Identity Domain, BIDN, Customer Domain, BCUS, DEC-0004, and repository security requirements.
 
-This proposal selects the logical semantics needed for future lookup, duplicate detection, uniqueness enforcement, identifier establishment and change, conflict handling, migration, persistence design, and API Contract design. It does not authorize an API, persistence model, migration, dependency, or implementation.
+This decision establishes the logical semantics needed for future lookup, duplicate detection, uniqueness enforcement, identifier establishment and change, conflict handling, migration, persistence design, and API Contract design. It does not authorize an API, persistence model, migration, dependency, or implementation.
 
 ## Decision
 
-If Accepted, Customer login-email equality SHALL be determined only by a deterministic canonical comparison representation produced under the rules in this record. The Customer-facing representation MAY be retained separately for permitted display and communication purposes, but it SHALL NOT determine Authentication lookup equality.
+Customer login-email equality SHALL be determined only by a deterministic canonical comparison representation produced under the rules in this record. The Customer-facing representation MAY be retained separately for permitted display and communication purposes, but it SHALL NOT determine Authentication lookup equality.
 
 For the initial Customer Authentication model, the canonical comparison representation SHALL consist of:
 
@@ -103,7 +103,7 @@ An accepted login-email change must be authorized under later governed change se
 
 A submitted change that produces the existing canonical comparison representation does not change logical identifier ownership, although any permitted Customer-facing representation update remains authorized and governed separately.
 
-A login-email change SHALL NOT create a replacement Identity, Customer, Account, Principal, Session, or password credential merely because the identifier changes. This proposal selects no change API, requester-verification workflow, mailbox-verification policy, notification behavior, Session consequence, recovery consequence, or support procedure.
+A login-email change SHALL NOT create a replacement Identity, Customer, Account, Principal, Session, or password credential merely because the identifier changes. This decision selects no change API, requester-verification workflow, mailbox-verification policy, notification behavior, Session consequence, recovery consequence, or support procedure.
 
 ## Reassignment and Reuse
 
@@ -144,7 +144,7 @@ Identity owns:
 
 Customer retains Customer and Account business identity, profile, contact information, lifecycle, and other Customer-owned truth. The same textual email appearing in Customer profile or contact data does not make that data an Identity-owned login identifier, authoritative Authentication input, or proof of association. Identity must not rewrite Customer or Account truth during identifier establishment, comparison, change, conflict handling, or reconciliation.
 
-This proposal preserves existing authority boundaries and does not select Identity-to-Customer/Account cardinality, coordination, persistence, or mapping.
+This decision preserves existing authority boundaries and does not select Identity-to-Customer/Account cardinality, coordination, persistence, or mapping.
 
 ## Compatibility with Existing Decisions
 
@@ -170,11 +170,11 @@ Email remains the single initial Customer-facing login identifier and untrusted 
 
 ### Product Decision 28
 
-Customer data export, correction, deletion, and Account-closure workflow remains unresolved. This proposal preserves that boundary and does not select deletion, anonymization, retention, closure, reactivation, or final post-deletion reuse policy.
+Customer data export, correction, deletion, and Account-closure workflow remains unresolved. This decision preserves that boundary and does not select deletion, anonymization, retention, closure, reactivation, or final post-deletion reuse policy.
 
 ## Alternatives Considered
 
-### A. Governed Canonical Comparison with ASCII Case-Insensitive Local Part and IDNA2008 Domain — Selected in This Proposal
+### A. Governed Canonical Comparison with ASCII Case-Insensitive Local Part and IDNA2008 Domain — Selected
 
 This approach gives registration, login, change, migration, and persistence one deterministic equality model independent of locale and database collation. Restricting the initial local part to ASCII avoids silently transforming internationalized mailbox identifiers without a governed SMTPUTF8 compatibility model. Its costs are rejection of otherwise deliverable quoted or internationalized local parts and future migration work if those forms are introduced.
 
@@ -188,7 +188,7 @@ Preserving local-part case follows the theoretical possibility that a mail syste
 
 ### D. Fully Case-Insensitive Comparison — Partially Selected with Constraints
 
-Case-insensitive comparison improves predictable Customer login and duplicate detection. Applying unrestricted locale-sensitive or Unicode case conversion would be unstable, so the proposal applies only locale-independent ASCII lowercase mapping to the initially supported ASCII local part and canonical ASCII domain.
+Case-insensitive comparison improves predictable Customer login and duplicate detection. Applying unrestricted locale-sensitive or Unicode case conversion would be unstable, so the decision applies only locale-independent ASCII lowercase mapping to the initially supported ASCII local part and canonical ASCII domain.
 
 ### E. Provider-Specific Canonicalization — Not Selected
 
@@ -244,7 +244,7 @@ A rollback must preserve the last accepted ownership and conflict evidence and m
 
 Later implementation must monitor canonicalization failure, collision discovery, duplicate attempts, conflict and reconciliation backlog, suspicious change or reassignment activity, and unexpected comparison drift without exposing raw PII or protected existence. Support and administrative tools require least privilege, purpose limitation, auditability, and safe disclosure.
 
-This proposal selects no alert threshold, service level, retry count, timeout, support procedure, provider, infrastructure, or production escalation policy.
+This decision selects no alert threshold, service level, retry count, timeout, support procedure, provider, infrastructure, or production escalation policy.
 
 ## Downstream Non-Decisions
 
@@ -268,11 +268,11 @@ DEC-0005 does not select, define, admit, or authorize:
 - dependency admission, implementation class, executable implementation, or completed testing; or
 - retry count, timeout, rate limit, lockout threshold, service level, or other numerical operational policy.
 
-## Acceptance and Validation Criteria
+## Accepted Governance and Validation Criteria
 
-Before DEC-0005 may become Accepted, review must verify:
+The Accepted record must continue to satisfy:
 
-1. metadata remains `0.1.0 Proposed`, Type `Product Decision / Security Decision / Data Decision`, owner `Identity`, and `authoritative: false`;
+1. metadata remains `1.0.0 Accepted`, Type `Product Decision / Security Decision / Data Decision`, owner `Identity`, and `authoritative: true`;
 2. comparison is deterministic and independent of database collation, process locale, and provider behavior;
 3. input whitespace, empty, invalid, control, Unicode, local-part, and domain boundaries are explicit without defining an API schema;
 4. local-part and domain case semantics are explicit and locale-independent;
@@ -293,15 +293,14 @@ Before DEC-0005 may become Accepted, review must verify:
 19. no persistence object, migration, API Contract, framework component, dependency, provider, infrastructure, numerical control, or implementation is authorized;
 20. downstream password-security, persistence, association, Contract, dependency, recovery, MFA, and implementation work remains separately gated;
 21. alternatives and consequences remain fair and complete;
-22. promotion to Accepted has durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority; Identity remains the single accountable owner, one accountable owner does not remove cross-authority review, and pull-request approval counts only when those authorities are represented by durable evidence;
-23. while the approval gate remains unsatisfied, DEC-0005 remains Proposed and non-authoritative; and
-24. proposal registration affects only DEC-0005 and `DECISIONS.md`, registers DEC-0005 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+22. acceptance governance requires durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority; Identity remains the single accountable owner, one accountable owner does not remove cross-authority review, and pull-request approval counts only when those authorities are represented by durable evidence; and
+23. lifecycle and canonical synchronization affect only DEC-0005, `DECISIONS.md`, and `PRODUCT.md`, pass whitespace and diff validation, and introduce no unrelated tracked changes.
 
-## Proposal Registration and Acceptance Planning
+## Acceptance Governance and Synchronization
 
-Proposal-stage registration changes only DEC-0005 and `DECISIONS.md`. If later Accepted, DEC-0005 and its existing Decision Index status and history require synchronization. Acceptance-readiness review must determine whether the selected Product, Security, and Data semantics directly require synchronization of `PRODUCT.md`, `SECURITY-STANDARDS.md`, `ARCHITECTURE.md`, backend standards, Domains, or Specifications; this proposal makes no acceptance-stage change and does not presume that final set.
+Acceptance synchronizes this record, its existing Decision Index status and history in `DECISIONS.md`, and the directly affected canonical Product truth in `PRODUCT.md`. No other canonical source requires synchronization for this decision.
 
-Promotion from Proposed to Accepted requires durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority. Identity remains the single accountable owner; that ownership does not eliminate required cross-authority review. Pull-request approval is sufficient only when the required authorities are actually represented and the evidence is durable and discoverable under `DECISIONS.md`. Until this gate is satisfied and the record is promoted through governance, DEC-0005 remains Proposed and non-authoritative.
+Acceptance governance requires durable review and approval evidence representing Product authority, Security authority, Architecture authority, Identity ownership, Customer ownership, and applicable Data/Privacy authority. Identity remains the single accountable owner; that ownership does not eliminate required cross-authority review. Pull-request approval is sufficient only when the required authorities are actually represented and the evidence is durable and discoverable under `DECISIONS.md`. This record does not identify individual reviewers or claim implementation evidence.
 
 ## References
 
@@ -345,4 +344,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-29 | Accepted | Accepted deterministic Customer login-email comparison, logical uniqueness, lifecycle, collision, concurrency, failure, and strict deterministic domain/IDNA semantics with required cross-authority acceptance governance while preserving Product Decisions 5 and 28 and excluding downstream persistence, API Contract, dependency, and implementation authority. |
 | 0.1.0 | 2026-09-29 | Proposed | Proposed deterministic Customer login-email comparison, logical uniqueness, collision, establishment, change, reuse, concurrency, failure, and migration semantics while preserving Product Decisions 5 and 28 and excluding persistence, Contracts, dependencies, and implementation. |
