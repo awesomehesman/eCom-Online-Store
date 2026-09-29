@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.24.0
+version: 1.25.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-29
@@ -1144,6 +1144,10 @@ Identity owns Authentication credentials and Sessions. Customer owns customer pr
 
 ### 30.2 Customer Authentication
 
+Accepted ADR-0021 establishes Identity-owned local Customer Authentication authority as the initial model. Identity owns verification of the subsequently governed local Customer credential and establishes the local Principal only from accepted Identity-owned Authentication evidence. Customer retains authoritative Customer and Account business truth, and Authentication outcomes MUST NOT create or rewrite that truth.
+
+An external Identity Provider is not the initial primary Customer Authentication authority. Future external Identity Provider, SSO, or federation adoption remains possible only through separate Architecture governance that preserves or safely migrates the governed Identity, Principal, Customer, Account, Session, recovery, revocation, security, privacy, and failure boundaries. ADR-0021 selects no credential mechanism, login identifier, hashing configuration, credential representation or persistence, recovery mechanism, Customer MFA mechanism, provider, protocol, API Contract, dependency, infrastructure, or numerical policy.
+
 Customer authentication must support:
 
 - Secure registration.
@@ -1184,7 +1188,9 @@ Authentication and Session possession establish trusted Principal context but do
 
 Accepted ADR-0020 selects Spring Session JDBC as the narrowly bounded Session infrastructure mechanism and the governed application PostgreSQL database as the authoritative physical store for ADR-0019 Identity Session state. Session persistence belongs to the Identity boundary and MUST use an Identity-owned schema consistent with ADR-0017. Shared PostgreSQL-backed authority MUST support multiple application instances without application-local authoritative Session state or sticky-session correctness. Spring Session JDBC does not supersede ADR-0018 or become a second business aggregate-persistence architecture.
 
-ADR-0019 continues to govern the overall browser Authentication and Session architecture, including authoritative logout, independent revocation, security-wide invalidation, renewal, fixation resistance, and failure-closed behavior. ADR-0020 introduces no Redis use; Open Architecture Decision 8 remains unresolved for unrelated Redis uses. A future Session-store replacement requires separate governance and MUST preserve Identity ownership and withdrawn-access semantics. Concrete dependencies, schema objects, an Identity Provider, service-to-service credentials, API Contracts, numerical lifetimes or thresholds, and infrastructure topology remain unresolved. Dependency admission and executable implementation remain separately governed by DEC-0001.
+Accepted ADR-0021 establishes Identity-owned local Customer Authentication authority as the initial model. Successful local Customer Authentication enters the ADR-0019 boundary only after Identity accepts the Authentication evidence and establishes the local Principal. ADR-0020 remains authoritative for physical local Session storage. An external Identity Provider is not the initial primary Customer Authentication authority; future external provider, SSO, or federation adoption remains separately governed.
+
+ADR-0019 continues to govern the overall browser Authentication and Session architecture, including authoritative logout, independent revocation, security-wide invalidation, renewal, fixation resistance, and failure-closed behavior. ADR-0020 introduces no Redis use; Open Architecture Decision 8 remains unresolved for unrelated Redis uses. A future Session-store replacement requires separate governance and MUST preserve Identity ownership and withdrawn-access semantics. Concrete dependencies, schema objects, external provider implementation and protocol details, service-to-service credentials, API Contracts, numerical lifetimes or thresholds, and infrastructure topology remain unresolved. Dependency admission and executable implementation remain separately governed by DEC-0001.
 
 ## 31. Deployment Topology
 
@@ -1929,6 +1935,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.25.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.24.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by selecting Spring Session JDBC backed by the governed application PostgreSQL database for authoritative Identity Session state, preserving ADR-0019 security semantics, Identity-owned ADR-0017 schema and Flyway authority, ADR-0018 persistence boundaries, unresolved unrelated Redis use, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.23.1 | 2026-09-28 | Approved | Clarified the canonical backend Java root package and complete Module-to-package mapping, including Java-safe Search and Discovery, Return, and Notifications package identifiers, while preserving the existing Module-first architecture, internal layer structure, and dependency direction. |
 | 1.23.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture for the initial first-party browser flow, recording mandatory privileged MFA, removing the resolved Session/token Open Architecture Decision, and preserving unresolved implementation, provider, storage, service-credential, and dependency-admission choices. |
@@ -1961,7 +1968,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 ## 49. Document Status
 
-- **Version:** 1.24.0
+- **Version:** 1.25.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative architectural baseline for the Enterprise Fashion Commerce Platform.
 - **Backend Roadmap:** The currently governed backend specification roadmap completes through Approved BADM; no post-BADM Backend Specification is authorized.

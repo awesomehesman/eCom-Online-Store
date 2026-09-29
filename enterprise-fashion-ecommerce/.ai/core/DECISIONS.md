@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.31
+version: 1.0.33
 status: Approved
 owner: Architecture
 last_updated: 2026-09-29
@@ -537,6 +537,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0018 | Persistence Technology | Architecture Decision | Accepted | Architecture | 2026-09-25 | — | [ADR-0018-persistence-technology.md](../../specifications/adr/ADR-0018-persistence-technology.md) |
 | ADR-0019 | Authentication Session and Token Strategy | Architecture Decision | Accepted | Architecture | 2026-09-28 | — | [ADR-0019-authentication-session-token-strategy.md](../../specifications/adr/ADR-0019-authentication-session-token-strategy.md) |
 | ADR-0020 | Identity Session Store Strategy | Architecture Decision | Accepted | Architecture | 2026-09-28 | — | [ADR-0020-identity-session-store-strategy.md](../../specifications/adr/ADR-0020-identity-session-store-strategy.md) |
+| ADR-0021 | Customer Authentication Authority Strategy | Architecture Decision | Accepted | Architecture | 2026-09-29 | — | [ADR-0021-customer-authentication-authority-strategy.md](../../specifications/adr/ADR-0021-customer-authentication-authority-strategy.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
 
@@ -668,6 +669,8 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.33 | 2026-09-29 | Approved | Synchronized ADR-0021 to Accepted following completed governance review, establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, future external-provider governance, downstream credential neutrality, and separate DEC-0001 dependency admission without claiming implementation. |
+| 1.0.32 | 2026-09-29 | Approved | Indexed ADR-0021, Customer Authentication Authority Strategy, as Proposed without accepting the decision, changing the Approved Architecture, selecting a credential or provider detail, resolving Product Decisions 5 or 23, admitting dependencies, defining API Contracts or persistence, or claiming implementation. |
 | 1.0.31 | 2026-09-29 | Approved | Synchronized ADR-0020 to Accepted following completed governance review, selecting Spring Session JDBC backed by the governed application PostgreSQL database for authoritative Identity Session state while preserving ADR-0019 security semantics, ADR-0017 schema and Flyway authority, ADR-0018 persistence boundaries, unresolved unrelated Redis use, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.0.30 | 2026-09-29 | Approved | Indexed ADR-0020, Identity Session Store Strategy, as Proposed without accepting the decision, admitting dependencies, creating Session persistence, introducing Redis, or changing the Approved Architecture and implementation standards. |
 | 1.0.29 | 2026-09-28 | Approved | Synchronized ADR-0019 to Accepted following completed governance review and canonical Architecture and Spring synchronization, establishing an Identity-owned authoritative server-side Session with protected browser-cookie credential custody for the initial first-party browser flow while preserving mandatory privileged MFA, unresolved Session storage, Identity Provider and MFA mechanisms, separate service credentials, and DEC-0001-governed dependency admission without claiming implementation. |
