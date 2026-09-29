@@ -1,6 +1,6 @@
 ---
 title: SPRING
-version: 1.4.0
+version: 1.5.0
 status: Approved
 owner: Engineering
 last_updated: 2026-09-29
@@ -256,7 +256,9 @@ Spring Security is an implementation mechanism, not the owner of Product Authori
 
 Security configuration MUST deny by default. Role, Permission, Claims, and Scope mapping MUST preserve the canonical model and remain qualified by the actual protocol. Request or method security MUST NOT replace object-level and domain-state Authorization where required.
 
-Frontend visibility and route behavior are not Authorization controls. Accepted ADR-0019 establishes the initial first-party browser Authentication boundary as an Identity-owned authoritative server-side Session with protected browser-cookie credential custody. Accepted ADR-0020 selects Spring Session JDBC as the narrowly bounded Spring Session infrastructure mechanism and the governed application PostgreSQL database as the authoritative physical Session store within the Identity-owned persistence boundary. This standard does not select or define an Identity Provider, service-to-service credential strategy, or bearer-token format for separately governed boundaries.
+Frontend visibility and route behavior are not Authorization controls. Accepted ADR-0019 establishes the initial first-party browser Authentication boundary as an Identity-owned authoritative server-side Session with protected browser-cookie credential custody. Accepted ADR-0020 selects Spring Session JDBC as the narrowly bounded Spring Session infrastructure mechanism and the governed application PostgreSQL database as the authoritative physical Session store within the Identity-owned persistence boundary. Accepted ADR-0021 establishes Identity-owned local Customer Authentication authority as the initial model: Identity owns verification of the subsequently governed local Customer credential and establishes the local Principal only from accepted Identity-owned Authentication evidence.
+
+An external Identity Provider is not the initial primary Customer Authentication authority. Future external Identity Provider, SSO, or federation adoption remains separately governed. This standard selects no credential mechanism, `AuthenticationProvider` implementation, `UserDetailsService` design, `PasswordEncoder`, login identifier, provider SDK or protocol configuration, credential schema, Endpoint, DTO, recovery mechanism, or Customer MFA mechanism. It also does not select or define a service-to-service credential strategy or bearer-token format for separately governed boundaries.
 
 Spring implementations of that browser boundary MUST preserve:
 
@@ -524,6 +526,7 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.5.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Spring boundaries for Identity-owned local Customer Authentication authority while preserving Customer and Account authority, ADR-0019 and ADR-0020 Session boundaries, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.4.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by establishing Spring Session JDBC with PostgreSQL as the approved Identity Session infrastructure while preserving ADR-0019 security semantics, inward-layer independence, Flyway authority, ADR-0018 persistence boundaries, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.3.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing Spring implementation boundaries for the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture while preserving contextual Authorization, mandatory privileged MFA, unresolved storage, provider, and concrete configuration choices, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.2.0 | 2026-09-26 | Approved | Synchronized Accepted ADR-0018 by establishing Spring Data JDBC as primary aggregate persistence and bounded Spring JdbcClient as the complementary persistence-Adapter mechanism while preserving separate DEC-0001-governed dependency and implementation admission. |
@@ -555,5 +558,5 @@ Before approval or implementation reliance, reviewers MUST verify:
 11. PostgreSQL-dependent behavior aligns with the PostgreSQL 18 baseline and Testcontainers guidance in `TESTING-STANDARDS.md`, without claiming implementation tests already exist or have run;
 12. no empty lower-level companion is treated as Approved;
 13. no new formal Exception type was created;
-14. changes to this standard remain limited to `SPRING.md` within the controlled ADR-0020 synchronization and introduce no unrelated changes; and
-15. the Accepted ADR-0019 browser Session boundary and Accepted ADR-0020 Spring Session JDBC and PostgreSQL store direction preserve CSRF and CORS obligations, fixation resistance, failure-closed behavior, contextual Authorization, mandatory privileged MFA authority, Flyway-only migration authority, unresolved implementation choices, and separate DEC-0001 dependency admission without claiming dependencies or implementation.
+14. changes to this standard remain limited to `SPRING.md` within the controlled ADR-0021 synchronization and introduce no unrelated changes; and
+15. the Accepted ADR-0019 browser Session boundary, Accepted ADR-0020 Spring Session JDBC and PostgreSQL store direction, and Accepted ADR-0021 Identity-owned local Customer Authentication authority preserve CSRF and CORS obligations, fixation resistance, failure-closed behavior, contextual Authorization, mandatory privileged MFA authority, Flyway-only migration authority, Customer and Account business authority, unresolved credential and external-provider implementation choices, and separate DEC-0001 dependency admission without claiming dependencies or implementation.

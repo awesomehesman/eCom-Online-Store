@@ -10,11 +10,11 @@ Customer Authentication Authority Strategy
 
 ## Version
 
-0.1.0
+1.0.0
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -30,7 +30,7 @@ Architecture
 
 ## Authoritative
 
-false
+true
 
 ## Scope
 
@@ -44,7 +44,7 @@ Accepted ADR-0019 establishes the initial first-party browser boundary as an Ide
 
 The executable backend now contains the governed Spring Security and Spring Session foundation, but it contains no Customer credential mechanism, Identity Provider integration, Customer Authentication provider, login or registration Contract, Customer/Account persistence, or credential persistence. Selecting a credential technology, schema, provider integration, or externally observable Contract before deciding the Authentication authority boundary would prematurely assume one of materially different architectures.
 
-The repository requires governed Customer registration and sign-in while deliberately leaving credential type, login identifier, email-verification policy, recovery mechanism, Customer MFA policy, provider selection, and concrete APIs unresolved. This Proposed ADR selects only the initial Customer Authentication authority model needed to order those downstream decisions.
+The repository requires governed Customer registration and sign-in while deliberately leaving credential type, login identifier, email-verification policy, recovery mechanism, Customer MFA policy, provider selection, and concrete APIs unresolved. This Accepted ADR selects only the initial Customer Authentication authority model needed to order those downstream decisions.
 
 ## Decision Drivers
 
@@ -60,21 +60,21 @@ The repository requires governed Customer registration and sign-in while deliber
 - Keep future SSO, federation, and external Identity Provider adoption possible through superseding or extending governance.
 - Preserve DEC-0001 dependency admission and executable validation as later implementation work.
 
-## Proposed Decision
+## Decision
 
-If Accepted, Identity-owned local Customer Authentication authority SHALL be the initial Customer Authentication authority model.
+Identity-owned local Customer Authentication authority SHALL be the initial Customer Authentication authority model.
 
 Identity SHALL own verification of the subsequently governed local Customer Authentication credential and SHALL establish the local Principal only from accepted Identity-owned Authentication evidence. This decision selects the authority location, not the credential type, identifier, verification algorithm, representation, or storage design.
 
 An external Identity Provider SHALL NOT be the primary Customer Authentication authority for the initial implementation. Future external Identity Provider, SSO, or federation adoption remains possible only through separate Architecture governance that preserves or safely migrates the accepted Identity, Principal, Customer, Account, Session, recovery, revocation, security, privacy, and failure boundaries.
 
-Because ADR-0021 remains Proposed, this section records a proposed Architecture direction. It does not authorize implementation, dependency admission, credential creation, persistence, or externally observable Authentication behavior before acceptance and canonical synchronization.
+This Accepted Architecture direction does not itself authorize implementation, dependency admission, credential creation, persistence, or externally observable Authentication behavior. Those remain separately governed.
 
 ## Credential Authority Boundary
 
 Identity SHALL own the security boundary for any selected local Customer credential, including accepted establishment, verification, replacement, compromise, invalidation, and recovery outcomes. Customer and Account records SHALL NOT store or become authoritative for Authentication credentials.
 
-This proposed decision does not select password, passkey, username, email address, phone number, cryptographic key, or another credential or identifier. It does not establish whether a password exists and therefore does not select password hashing technology or configuration.
+This decision does not select password, passkey, username, email address, phone number, cryptographic key, or another credential or identifier. It does not establish whether a password exists and therefore does not select password hashing technology or configuration.
 
 Credential material and Authentication evidence remain purpose-limited Sensitive Data or Secrets as applicable. They MUST remain excluded from logs, analytics, URLs, unsafe errors, frontend persistence, Customer profiles, and unrelated Domain Contracts.
 
@@ -84,7 +84,7 @@ Identity SHALL validate the selected local Authentication evidence and establish
 
 Authentication establishes trusted Principal context but SHALL NOT independently authorize every Resource, property, association, action, or Domain state. Contextual Authorization remains with the owning Domain or Use Case.
 
-No provider assertion, Claims mapping, issuer, audience, Scope, or external subject mapping is created by this proposed decision. Those concerns become applicable only if later Architecture governance introduces an external Identity Provider.
+No provider assertion, Claims mapping, issuer, audience, Scope, or external subject mapping is created by this decision. Those concerns become applicable only if later Architecture governance introduces an external Identity Provider.
 
 ## Customer and Account Boundary
 
@@ -92,7 +92,7 @@ Customer retains authoritative Customer and Account business identity, creation,
 
 Where later governed registration coordinates Customer and Identity outcomes, each owner SHALL preserve its own result, failure, uncertainty, history, and recovery semantics. A credential, Identity, Principal, Account, Customer, and Session SHALL NOT be collapsed into one record or lifecycle.
 
-This proposed decision does not establish Account representation, persistence, lifecycle states, identifier format, registration transaction design, or Customer-to-Identity association mechanism.
+This decision does not establish Account representation, persistence, lifecycle states, identifier format, registration transaction design, or Customer-to-Identity association mechanism.
 
 ## ADR-0019 Browser Session Boundary
 
@@ -106,13 +106,13 @@ ADR-0019 remains authoritative for cookie custody, CSRF, CORS, fixation resistan
 
 Spring Session JDBC backed by the governed application PostgreSQL database remains authoritative for local application Session state after successful Authentication. Local credential verification does not move credential authority into Spring Session or store credentials in Session state.
 
-ADR-0020 remains authoritative for Identity-owned Session persistence, Flyway-managed Session objects, least privilege, shared-state behavior, and the prohibition on application-local production Session authority. This proposed decision creates no Session schema or persistence change.
+ADR-0020 remains authoritative for Identity-owned Session persistence, Flyway-managed Session objects, least privilege, shared-state behavior, and the prohibition on application-local production Session authority. This decision creates no Session schema or persistence change.
 
 ## Recovery Boundary
 
 Identity SHALL own local credential-recovery security outcomes if and when a concrete local credential and recovery mechanism are separately governed. Recovery MUST require governed requester verification, preserve Identity and Customer separation, resist enumeration, distinguish failure and uncertainty, and MUST NOT silently create or substitute an Identity, Customer, Account, Principal, credential, or Session.
 
-This proposed decision does not select a recovery channel, factor, token, provider, expiry, support process, notification Contract, or Account-recovery workflow. Product and support policies remain with their governing owners.
+This decision does not select a recovery channel, factor, token, provider, expiry, support process, notification Contract, or Account-recovery workflow. Product and support policies remain with their governing owners.
 
 ## MFA Boundary
 
@@ -124,7 +124,7 @@ Local Customer Authentication MUST remain capable of later governed MFA without 
 
 Invalid, unavailable, stale, conflicting, replayed, or uncertain local Authentication evidence MUST NOT establish a Principal or Session. Dependency failure, timeout, partial completion, duplicate work, abuse controls, and uncertainty MUST remain distinguishable where handling or recovery differs and MUST fail safely without disclosing protected Customer, Account, Identity, or credential existence.
 
-Retries MUST NOT create duplicate Identity, Customer, Account, credential, Principal, or Session effects or restore withdrawn access. This proposed decision selects no retry policy, lockout rule, rate, threshold, timeout, idempotency-key design, fraud mechanism, or reconciliation implementation.
+Retries MUST NOT create duplicate Identity, Customer, Account, credential, Principal, or Session effects or restore withdrawn access. This decision selects no retry policy, lockout rule, rate, threshold, timeout, idempotency-key design, fraud mechanism, or reconciliation implementation.
 
 ## Security and Privacy Consequences
 
@@ -132,7 +132,7 @@ Local authority keeps primary Customer Authentication evidence within the reposi
 
 The selected direction therefore increases direct responsibility for credential protection, verification correctness, abuse resistance, compromise response, recovery, secure migration, monitoring, Audit Records, maintenance, and incident handling compared with delegating primary verification to an external provider.
 
-Data collection MUST remain minimized to the later Approved credential and Authentication purpose. No Customer profile field, email address, phone number, device signal, or provider attribute is made mandatory by this proposed decision.
+Data collection MUST remain minimized to the later Approved credential and Authentication purpose. No Customer profile field, email address, phone number, device signal, or provider attribute is made mandatory by this decision.
 
 ## Operational Consequences
 
@@ -140,23 +140,23 @@ Initial Customer Authentication availability will depend on repository-operated 
 
 Monitoring and Audit Records must distinguish Authentication intent, accepted success, denial, abuse, failure, uncertainty, credential change, recovery, Principal establishment, and Session establishment without exposing credentials, Secrets, protected existence, or unnecessary PII.
 
-This proposed decision does not select hosting, topology, capacity, availability, recovery objectives, on-call policy, support channel, numerical target, or production escalation process.
+This decision does not select hosting, topology, capacity, availability, recovery objectives, on-call policy, support channel, numerical target, or production escalation process.
 
 ## Dependency and Implementation Boundary
 
-This Proposed ADR admits no dependency and claims no executable Authentication implementation. DEC-0001 continues to govern admission, locking, verification, compatibility, licensing, security evidence, build validation, and maintenance of any later credential, cryptographic, security, or testing dependency.
+This Accepted ADR admits no dependency and claims no executable Authentication implementation. DEC-0001 continues to govern admission, locking, verification, compatibility, licensing, security evidence, build validation, and maintenance of any later credential, cryptographic, security, or testing dependency.
 
-Separately reviewed work after acceptance may govern and implement a credential mechanism, Authentication Port and Adapter boundaries, secure representation, Customer/Account association, recovery behavior, MFA integration, and external Contracts. Framework, cryptographic, persistence, or provider types MUST remain outside Domain and Application APIs according to existing architecture.
+Separately reviewed work may govern and implement a credential mechanism, Authentication Port and Adapter boundaries, secure representation, Customer/Account association, recovery behavior, MFA integration, and external Contracts. Framework, cryptographic, persistence, or provider types MUST remain outside Domain and Application APIs according to existing architecture.
 
 The currently admitted Spring Security and Session dependencies do not themselves select a credential mechanism or authorize Authentication behavior.
 
 ## Migration, Compatibility, and Reversibility
 
-No production Customer Authentication population or credential store currently requires migration. Acceptance would establish the initial authority direction only.
+No production Customer Authentication population or credential store currently requires migration. This Accepted ADR establishes the initial authority direction only.
 
 A future move to an external Identity Provider, federation, or multiple authority model requires separate Architecture governance. It must address Identity and Customer association, credential retirement or migration, account linking, Authentication continuity, active Sessions, recovery, MFA, evidence provenance, privacy, provider failure, rollback, and prevention of duplicate or unauthorized identities.
 
-Migration, rollback, coexistence, or reconciliation MUST NOT silently authenticate a Customer, merge identities without authority, preserve compromised access, restore revoked Sessions, or represent uncertain provider or local evidence as success. This proposed decision selects no migration date, dual-running design, account-linking algorithm, import format, or transition period.
+Migration, rollback, coexistence, or reconciliation MUST NOT silently authenticate a Customer, merge identities without authority, preserve compromised access, restore revoked Sessions, or represent uncertain provider or local evidence as success. This decision selects no migration date, dual-running design, account-linking algorithm, import format, or transition period.
 
 ## Consequences
 
@@ -222,7 +222,7 @@ ADR-0021 does not select, define, or authorize:
 
 ## Downstream Governance Enabled
 
-If ADR-0021 is Accepted and canonical synchronization completes, downstream governance may proceed in this order without being resolved here:
+With ADR-0021 Accepted and canonically synchronized, downstream governance may proceed in this order without being resolved here:
 
 1. select the initial local Customer credential mechanism;
 2. govern the login identifier and applicable uniqueness, concealment, and association semantics;
@@ -244,7 +244,7 @@ ADR-0021 is subordinate to and preserves:
 - `.ai/core/AGENTS.md`;
 - `.ai/core/GLOSSARY.md`;
 - `.ai/core/PRODUCT.md`;
-- `.ai/core/ARCHITECTURE.md` while this ADR remains Proposed;
+- `.ai/core/ARCHITECTURE.md` as synchronized with this Accepted ADR;
 - `.ai/core/SECURITY-STANDARDS.md`;
 - `.ai/core/TESTING-STANDARDS.md`;
 - `.ai/core/CODING-STANDARDS.md`;
@@ -267,11 +267,11 @@ ADR-0021 is subordinate to and preserves:
 - Accepted DEC-0001; and
 - Accepted DEC-0002.
 
-This Proposed ADR supersedes none of those sources. Until Accepted and canonically synchronized, it provides no authority to implement local Customer Authentication or treat an external Identity Provider as rejected beyond the proposal under review.
+This Accepted ADR supersedes none of those sources. It establishes the initial Customer Authentication authority location but provides no authority to implement a credential mechanism, admit dependencies, create persistence, or establish externally observable Authentication behavior.
 
-## Required Governance Reviews
+## Completed Governance Reviews
 
-Before ADR-0021 may become Accepted, governance review must confirm:
+Acceptance-readiness governance review confirmed:
 
 - Architecture approval of the Customer Authentication authority and durable trust boundary;
 - Identity ownership approval of credential authority, Authentication evidence, Principal establishment, recovery, MFA readiness, and Session handoff;
@@ -282,44 +282,42 @@ Before ADR-0021 may become Accepted, governance review must confirm:
 - Spring and Engineering review confirming compatibility with ADR-0019, ADR-0020, current executable foundations, and separate DEC-0001 dependency admission;
 - Database and persistence review confirming that no credential, Identity, Customer, Account, or association schema is invented;
 - API review confirming that no route, method, status, DTO, field, redirect, or callback Contract is established;
-- Testing review of the proposed authority, failure, uncertainty, migration, and boundary-verification obligations;
+- Testing review of the accepted authority, failure, uncertainty, migration, and boundary-verification obligations;
 - Operations review of local credential security, availability, recovery, observability, maintenance, support, and incident responsibility; and
 - Documentation review of canonical synchronization and unresolved matters.
 
-No review is represented as complete while ADR-0021 remains Proposed. Named reviewers, meetings, tickets, signatures, implementation evidence, and test execution must not be fabricated.
+The governance review completed with no unresolved acceptance blocker. This record does not fabricate named reviewers, meetings, tickets, signatures, implementation evidence, or executable test evidence.
 
-## Acceptance Conditions and Synchronization
+## Acceptance and Canonical Synchronization
 
-ADR-0021 may become Accepted only after the required governance reviews complete with no unresolved acceptance blocker and the proposed choice is confirmed consistent with governing Product, Identity, Customer, Security, Architecture, API, data, and implementation authority.
+ADR-0021 became Accepted after the required governance reviews completed with no unresolved acceptance blocker and confirmed the decision consistent with governing Product, Identity, Customer, Security, Architecture, API, data, and implementation authority.
 
-Based on the current proposal review, acceptance is expected to synchronize the following directly affected canonical sources:
+Controlled acceptance synchronized the following directly affected canonical sources:
 
 1. `specifications/adr/ADR-0021-customer-authentication-authority-strategy.md`;
 2. `.ai/core/DECISIONS.md`;
 3. `.ai/core/ARCHITECTURE.md`; and
 4. `.ai/backend/SPRING.md`.
 
-These are the currently identified acceptance synchronization targets. Acceptance-readiness review MUST verify the final affected-source set. Another governed source may be added only when acceptance-readiness review identifies a direct contradiction or synchronization requirement; the addition must be justified by existing repository authority and must not expand ADR-0021's substantive scope.
+The final audited synchronization set contained exactly those four files. Synchronization:
 
-Acceptance synchronization must:
+- promoted ADR-0021 through the governed Proposed-to-Accepted lifecycle;
+- updated ADR-0021's indexed status from Proposed to Accepted in `DECISIONS.md`;
+- established Identity-owned local Customer Authentication authority in the canonical Architecture;
+- synchronized Spring's Identity Provider neutrality with the accepted initial local authority while preserving future provider governance;
+- preserved ADR-0019 and ADR-0020 without changing their Session and browser-custody decisions;
+- preserved Customer and Account business authority;
+- preserved Product Decisions 5 and 23 and every listed implementation non-decision;
+- preserved separate DEC-0001 dependency admission and executable implementation; and
+- claimed no credential mechanism, dependency, Contract, schema, migration, configuration, implementation, deployment, or completed executable test.
 
-- promote ADR-0021 through the governed Proposed-to-Accepted lifecycle;
-- update ADR-0021's existing indexed status from Proposed to Accepted in `DECISIONS.md`;
-- establish Identity-owned local Customer Authentication authority in the canonical Architecture;
-- synchronize Spring's current Identity Provider neutrality with the accepted initial local authority while preserving future provider governance;
-- preserve ADR-0019 and ADR-0020 without changing their Session and browser-custody decisions;
-- preserve Customer and Account business authority;
-- preserve Product Decisions 5 and 23 and every listed implementation non-decision;
-- preserve separate DEC-0001 dependency admission and executable implementation; and
-- claim no credential mechanism, dependency, Contract, schema, migration, configuration, implementation, deployment, or completed executable test.
-
-No acceptance change to `PRODUCT.md`, `SECURITY-STANDARDS.md`, `GLOSSARY.md`, `JAVA.md`, `DATABASE.md`, `POSTGRES.md`, `API.md`, Domain Specifications, Backend Specifications, frontend Specifications, build files, or implementation files is authorized unless acceptance review finds a direct contradiction requiring separately governed correction.
+No acceptance change to `PRODUCT.md`, `SECURITY-STANDARDS.md`, `GLOSSARY.md`, `JAVA.md`, `DATABASE.md`, `POSTGRES.md`, `API.md`, Domain Specifications, Backend Specifications, frontend Specifications, build files, or implementation files was required or authorized.
 
 ## Validation Criteria
 
-Before acceptance, review must verify:
+The Accepted record and canonical synchronization verify:
 
-1. metadata is `0.1.0 Proposed`, owner `Architecture`, last updated `2026-09-29`, and `authoritative: false`;
+1. metadata is `1.0.0 Accepted`, owner `Architecture`, last updated `2026-09-29`, and `authoritative: true`;
 2. exactly one initial Customer Authentication authority is selected: Identity-owned local Customer Authentication authority;
 3. external Identity Provider authority is deferred rather than silently selected or permanently prohibited;
 4. Identity owns local credential verification, accepted Authentication evidence, and local Principal establishment without selecting credential details;
@@ -339,9 +337,9 @@ Before acceptance, review must verify:
 18. Session lifetimes, cookie details, service credentials, infrastructure, and numerical policies remain unresolved;
 19. downstream governance is ordered without being represented as Approved or automatic;
 20. the three alternatives are represented fairly, and hybrid authority is rejected only for the initial implementation;
-21. the proposed choice remains implementable without contradicting Accepted ADR-0017, ADR-0018, ADR-0019, ADR-0020, DEC-0001, or DEC-0002;
-22. the currently identified future acceptance synchronization targets are ADR-0021, `DECISIONS.md`, `ARCHITECTURE.md`, and `SPRING.md`; acceptance-readiness review verifies the final affected-source set and permits another source only for an authority-justified direct contradiction or synchronization requirement without expanding ADR-0021's substantive scope; and
-23. the Proposed change affects exactly `specifications/adr/ADR-0021-customer-authentication-authority-strategy.md` and `.ai/core/DECISIONS.md`, registers ADR-0021 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+21. the accepted choice remains implementable without contradicting Accepted ADR-0017, ADR-0018, ADR-0019, ADR-0020, DEC-0001, or DEC-0002;
+22. acceptance synchronization is limited to ADR-0021, `DECISIONS.md`, `ARCHITECTURE.md`, and `SPRING.md`; and
+23. ADR-0021 is registered exactly once as Accepted, the controlled synchronization passes whitespace and diff validation, and no unrelated tracked changes are introduced.
 
 ## Supersedes
 
@@ -383,4 +381,5 @@ None.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-29 | Accepted | Accepted Identity-owned local Customer Authentication authority for the initial implementation while preserving Identity and Customer boundaries, ADR-0019 and ADR-0020 Session authority, Product Decisions 5 and 23, future external-provider evolution, implementation neutrality, and separate downstream governance. |
 | 0.1.0 | 2026-09-29 | Proposed | Proposed Identity-owned local Customer Authentication authority for the initial implementation while preserving Identity and Customer boundaries, ADR-0019 and ADR-0020 Session authority, Product Decisions 5 and 23, future external-provider evolution, implementation neutrality, and separate downstream governance. |
