@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.38
+version: 1.0.39
 status: Approved
 owner: Architecture
 last_updated: 2026-09-29
@@ -542,6 +542,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
 | DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
 | DEC-0004 | Customer Login Identifier Semantics | Product Decision / Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0004-customer-login-identifier-semantics.md](../../specifications/decisions/DEC-0004-customer-login-identifier-semantics.md) |
+| DEC-0005 | Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics | Product Decision / Security Decision / Data Decision | Proposed | Identity | 2026-09-29 | — | [DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -671,6 +672,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.39 | 2026-09-29 | Approved | Indexed DEC-0005, Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics, as Proposed with deterministic comparison, logical uniqueness, collision, establishment, change, reuse, concurrency, failure, and migration semantics while preserving Product Decisions 5 and 28 and excluding persistence, Contracts, dependencies, and implementation without creating acceptance authority. |
 | 1.0.38 | 2026-09-29 | Approved | Synchronized DEC-0004 to Accepted, establishing email as the single initial Customer-facing login identifier while preserving unresolved Product Decision 5, email as lookup input rather than Authentication or recovery proof, and unresolved normalization, persistence, Contracts, recovery, MFA, dependency admission, and implementation. |
 | 1.0.37 | 2026-09-29 | Approved | Indexed DEC-0004, Customer Login Identifier Semantics, as Proposed with email only as the proposed single initial Customer-facing login identifier while preserving unresolved Product Decision 5, Product Decision 23, API Contracts, normalization and persistence design, recovery, MFA, dependency admission, and implementation without creating acceptance or implementation authority. |
 | 1.0.36 | 2026-09-29 | Approved | Synchronized DEC-0003 to Accepted, establishing an Identity-owned password-based local Customer credential as the single initial credential category with no initial fallback while preserving unresolved Product Decisions 5 and 23, login identifier, password-security configuration, persistence, recovery, MFA, API Contracts, dependency admission, implementation, and external-provider governance without claiming any such approval or completion. |
