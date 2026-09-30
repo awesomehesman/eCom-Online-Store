@@ -1,0 +1,373 @@
+openapi: 3.1.0
+info:
+  title: Initial Customer Login API
+  version: 1.0.0
+  summary: Identity-owned initial local Customer Login Contract
+  description: >-
+    Authoritative executable HTTP wire Contract for initial local Customer
+    Login. Identity owns login-identifier interpretation, credential
+    verification, Authentication, Principal establishment, authoritative
+    Session state, and the authoritative Identity-to-Customer association.
+    Customer retains Customer and Account business truth and contextual
+    Authorization. The companion initial-customer-login-contract.md governs
+    human-readable workflow, ownership, failure, uncertainty, security, and
+    non-decision semantics. This artifact governs wire behavior only and does
+    not claim that an implementation exists. Product Decision 28 and all other
+    explicit companion-Contract non-decisions remain unresolved.
+servers:
+  - url: https://{host}
+    description: HTTPS API host for the applicable environment
+    variables:
+      host:
+        default: api.example.invalid
+        description: Environment-specific API host; no provider or deployment is selected.
+tags:
+  - name: Customer Login
+    description: Identity-owned initial local Customer Authentication entry point.
+paths:
+  /api/v1/customer-login:
+    post:
+      tags:
+        - Customer Login
+      operationId: authenticateInitialCustomer
+      summary: Authenticate an initial local Customer and establish a server-side Session
+      description: >-
+        Public unauthenticated entry point for Identity-owned local Customer
+        Authentication. The operation requires no pre-existing authenticated
+        Session. A successful response means Identity accepted all required
+        current Authentication evidence, established the Principal, and
+        established an authoritative server-side Session represented only by a
+        protected browser cookie. Success does not create or rewrite Customer or
+        Account truth, prove universal Customer context, or authorize every
+        Customer or Account operation. The caller cannot supply authority,
+        association, Principal, Session, Role, Permission, or Authorization
+        claims.
+
+        This operation intentionally does not accept an Idempotency-Key. Each
+        submission is a fresh security-sensitive Authentication attempt, not a
+        request to reproduce a cached prior Authentication response or Session
+        credential. Duplicate, retried, concurrent, delayed, or reordered
+        processing remains governed by current authoritative Identity,
+        verification, Session, revocation, replay, and fixation-protection
+        semantics. Processing must not fabricate success, restore withdrawn
+        access, overwrite newer authority, or create unintended duplicate
+        authoritative effects. Multiple independently revocable Sessions remain
+        permitted by governing Architecture, but no previous Session credential
+        is reproduced through idempotency behavior.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitialCustomerLoginRequest'
+      responses:
+        '204':
+          description: >-
+            Authentication, Principal establishment, and authoritative Session
+            establishment succeeded. The response has no body and exposes no
+            Access Token, Refresh Token, Session identifier, internal Identity
+            identifier, association evidence, Customer or Account identifier,
+            Role, Permission, or Authorization claim. Protected Customer or
+            Account operations still require current association evidence and
+            owning-Domain contextual Authorization.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/ProtectedSessionCookie'
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '401':
+          $ref: '#/components/responses/LoginNotAccepted'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '429':
+          $ref: '#/components/responses/RequestNotAccepted'
+        '500':
+          $ref: '#/components/responses/InternalFailure'
+        '503':
+          $ref: '#/components/responses/AuthenticationUnavailable'
+components:
+  parameters:
+    CorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: >-
+        Optional untrusted diagnostic correlation value. A valid bounded value
+        may be propagated; otherwise the trusted boundary generates one. It is
+        not Authentication, idempotency, Identity, association, Principal,
+        Session, or Authorization evidence.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: '^[A-Za-z0-9._~-]+$'
+      example: corr_01J8XQNHN6M2B4V7K9T3P5R8WY
+  headers:
+    ProtectedSessionCookie:
+      required: true
+      description: >-
+        Establishes the protected browser credential that represents or
+        references the newly established authoritative server-side Identity
+        Session. The cookie is Secure and HttpOnly and must use the applicable
+        governed CSRF and strictest-workable SameSite protections. Its exact
+        name, Domain, Path, SameSite value, expiry attributes, and server-side
+        Session lifetime remain intentionally unresolved by governing authority
+        and are not selected here. Absence of an explicit cookie expiry in this
+        Contract does not define or alter authoritative Session expiry. The
+        opaque cookie value is a Secret and must not be exposed as application
+        data, logged, placed in examples, or treated independently of
+        authoritative server-side Session state. Session fixation protections,
+        including identifier change after successful Authentication, remain
+        mandatory.
+      schema:
+        type: string
+    CorrelationId:
+      required: true
+      description: >-
+        Bounded correlation value propagated from a valid request value or
+        generated by the trusted boundary. It is diagnostic context only.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: '^[A-Za-z0-9._~-]+$'
+      example: corr_01J8XQNHN6M2B4V7K9T3P5R8WY
+    NoStore:
+      required: true
+      description: Prevents storage of the Authentication response.
+      schema:
+        type: string
+        const: no-store
+      example: no-store
+  schemas:
+    InitialCustomerLoginRequest:
+      type: object
+      additionalProperties: false
+      description: >-
+        Minimum untrusted input for initial local Customer Login. The caller
+        supplies no Customer, Account, Principal, Session, Role, Permission,
+        verification, association, or Authorization claims. No example is
+        provided because examples must not contain credentials.
+      required:
+        - loginEmail
+        - password
+      properties:
+        loginEmail:
+          type: string
+          minLength: 3
+          maxLength: 320
+          description: >-
+            Untrusted Customer-facing Login lookup input governed by DEC-0004
+            and DEC-0005. Identity applies DEC-0005 input, strict IDNA2008,
+            canonical comparison, retained-ownership, collision, and lifecycle
+            semantics without provider-specific alias, dot, plus-address, or
+            mailbox rewriting. The transport bound is not the canonical
+            comparison algorithm. Submission, validity, canonicalization,
+            lookup, or possession is not proof of Identity, mailbox control,
+            Authentication, Customer or Account ownership, association,
+            verification, recovery authority, or Authorization.
+        password:
+          type: string
+          format: password
+          writeOnly: true
+          minLength: 1
+          maxLength: 1024
+          description: >-
+            Transient untrusted credential-verification input confined to the
+            Identity-owned credential boundary. The transport safety bound is
+            not DEC-0007 password-establishment policy and MUST NOT cause the
+            15-to-64-code-point establishment rule to be reapplied at Login.
+            The submitted value must be handled consistently with the
+            authoritative verifier's governed representation semantics and must
+            not be silently truncated, trimmed, changed in case, or otherwise
+            transformed outside those semantics. It must not be logged, returned,
+            emitted, cached, copied into Customer or Account state, or exposed in
+            examples. Verification follows DEC-0006 and the authoritative
+            supported verifier representation.
+    ProblemDetails:
+      type: object
+      additionalProperties: false
+      description: >-
+        Bounded RFC 9457 Problem Details. Every member and extension must remain
+        enumeration-resistant and free of credentials, password or verifier
+        material, Session secrets, verification secrets, protected identifiers,
+        Customer or Account existence, association internals, database details,
+        constraint names, stack traces, implementation classes, provider details,
+        and security-control internals.
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          maxLength: 2048
+          description: Stable public problem type identifier.
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+          description: Short safe summary of the problem type.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+          description: HTTP status code for this occurrence.
+        detail:
+          type: string
+          maxLength: 1024
+          description: Safe occurrence-specific explanation containing no protected state.
+        instance:
+          type: string
+          format: uri-reference
+          maxLength: 2048
+          description: Occurrence identifier containing no Sensitive Data or protected identifier.
+        code:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[A-Z][A-Z0-9_]*$'
+          description: Stable safe machine-readable Contract error code.
+  responses:
+    InvalidRequest:
+      description: >-
+        The request is syntactically invalid, has missing or unexpected content,
+        exceeds a Contracted transport bound, or contains an invalid header.
+        Safe input-shape validation is distinguishable only where it reveals no
+        protected server-side existence or state.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/invalid-login-request
+            title: Invalid Login request
+            status: 400
+            detail: The Login request could not be processed.
+            instance: urn:problem:synthetic-invalid-login-request
+            code: INVALID_LOGIN_REQUEST
+    LoginNotAccepted:
+      description: >-
+        Authentication was not accepted. This single externally safe denial
+        classification intentionally does not reveal whether the cause was
+        absent, retained, conflicting, or colliding identifier ownership;
+        Identity, Customer, or Account existence; password mismatch or
+        credential absence; malformed, unsupported, downgraded, or withdrawn
+        verifier state; current-login-email verification state; association
+        state; Session state; or protected persistence or security handling.
+        No Principal or Session is established.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/login-not-accepted
+            title: Login not accepted
+            status: 401
+            detail: The supplied Login evidence was not accepted.
+            instance: urn:problem:synthetic-login-not-accepted
+            code: LOGIN_NOT_ACCEPTED
+    UnsupportedMediaType:
+      description: The request media type is not supported.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/unsupported-media-type
+            title: Unsupported media type
+            status: 415
+            detail: Use application/json for this request.
+            instance: urn:problem:synthetic-unsupported-media-type
+            code: UNSUPPORTED_MEDIA_TYPE
+    RequestNotAccepted:
+      description: >-
+        The request is rejected by governed rate or abuse controls. The response
+        does not select or disclose a numerical threshold, algorithm, duration,
+        delay, lockout rule, or Retry-After value and must not reveal protected
+        existence or Authentication state.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/request-not-accepted
+            title: Request not accepted
+            status: 429
+            detail: The request cannot be processed at this time.
+            instance: urn:problem:synthetic-request-not-accepted
+            code: REQUEST_NOT_ACCEPTED
+    InternalFailure:
+      description: >-
+        An unexpected internal failure prevented a trustworthy Authentication
+        outcome. No Authentication, Principal, or Session success is represented,
+        and no sensitive internal reason is exposed.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/login-unavailable
+            title: Login unavailable
+            status: 500
+            detail: Login could not be completed safely.
+            instance: urn:problem:synthetic-login-internal-failure
+            code: LOGIN_UNAVAILABLE
+    AuthenticationUnavailable:
+      description: >-
+        Authoritative evidence or a required dependency is unavailable or
+        uncertain, so Authentication, Principal, and Session establishment fail
+        closed. This response may be used only when the unavailability can be
+        represented without revealing whether protected Identity, credential,
+        verification, association, Customer, Account, Session, or persistence
+        state exists. Record-dependent differences must collapse into the safe
+        enumeration-resistant denial behavior instead.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/login-unavailable
+            title: Login unavailable
+            status: 503
+            detail: Login cannot be completed at this time.
+            instance: urn:problem:synthetic-login-unavailable
+            code: LOGIN_UNAVAILABLE
