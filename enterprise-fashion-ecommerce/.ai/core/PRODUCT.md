@@ -1,9 +1,9 @@
 ---
 title: PRODUCT
-version: 1.3.0
+version: 1.4.0
 status: Approved
 owner: Product and Engineering
-last_updated: 2026-09-29
+last_updated: 2026-09-30
 applies_to:
   - Product management
   - Business analysis
@@ -423,6 +423,10 @@ Accepted [DEC-0004 — Customer Login Identifier Semantics](../../specifications
 Accepted [DEC-0005 — Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) establishes deterministic Customer login-email equality for the initial local Authentication model. The initial local part is an ASCII-only unquoted dot-atom compared using locale-independent ASCII lowercase semantics; quoted and internationalized or other non-ASCII local parts remain outside the initial Product scope without being represented as universally invalid email forms. The domain is processed per label under the strict deterministic IDNA2008 profile governed by DEC-0005 and compared through its canonical ASCII representation. Provider-specific dot removal, plus-tag removal, alias rewriting, and mailbox-provider canonicalization do not determine login equality.
 
 At most one retained Identity-owned Customer login-identifier association may own a canonical comparison value. Duplicate, colliding, conflicting, or uncertain ownership must not establish competing login ownership or silently merge, select, or reassign Identity. A login-email change preserves stable Identity and applicable Customer/Account relationships and does not itself create a new Identity, Customer, Account, credential, Principal, or Session. Reassignment or reuse is prohibited while authoritative retained Identity state still owns the canonical representation; final post-deletion reuse remains unresolved under Product Decision 28. Email validity, canonicalization, uniqueness, or lookup does not itself prove mailbox control, Identity, Authentication, Authorization, Customer or Account ownership, verified-email status, or recovery authority. Product Decision 5 remains unresolved. Password security, Identity-to-Customer/Account association, persistence, migrations, registration/login/change Contracts, dependency admission, recovery, Customer MFA where applicable, and implementation remain separately governed.
+
+Accepted [DEC-0007 — Initial Customer Password Policy](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) establishes the initial policy for Customer password establishment and change. A password must contain at least 15 and at most 64 Unicode code points after NFC normalization. Exactly 64 is the repository-selected Product/Security upper bound, not an externally mandated exact rejection threshold. The complete normalized password is evaluated without silent truncation; Unicode and whitespace are supported, whitespace and case are significant, and no mandatory character-class composition rules apply. Password-manager-generated passwords, autofill, paste, and passphrases remain supported.
+
+Every prospective establishment or change password must pass the governed complete-password check for commonly used or compromised values. A required blocklist evaluation that is unavailable, failed, stale under governed operating conditions, or uncertain fails closed without establishing or replacing a credential. The initial policy creates no password-history requirement or general prohibition on reuse beyond applicable current policy and security checks, and it requires no arbitrary periodic rotation. Password acceptance alone does not establish Authentication, a Session, Customer or Account ownership, the Identity-to-Customer/Account association, email verification, or registration completion. Product Decision 5 remains unresolved, including whether email verification gates registration, login, Session establishment, Account access, or protected functionality. Provider, dataset, API, dependency, hashing implementation, persistence, Contract, recovery, MFA, abuse-control, infrastructure, frontend, and implementation decisions remain separately governed.
 
 ### 12.4 Post-Purchase
 
@@ -1751,6 +1755,7 @@ Before approving a product requirement or feature scope, verify:
 | 1.1.0   | 2026-08-12 | Approved | Aligned Product authority to the AGENTS Decision Hierarchy and DEC Decision Record governance, normalized Product Variant and Stock Reservation terminology, corrected lifecycle vocabulary, clarified Payment evidence, and applied focused core-audit consistency updates without changing approved Product scope. |
 | 1.2.0   | 2026-09-29 | Approved | Synchronized Accepted DEC-0004 by establishing email address as the single initial Customer-facing login identifier for local Customer Authentication while preserving Product Decision 5, untrusted-input and non-proof boundaries, and unresolved normalization, uniqueness, persistence, API, recovery, MFA, dependency, and implementation decisions. |
 | 1.3.0   | 2026-09-29 | Approved | Synchronized Accepted DEC-0005 by establishing deterministic Customer login-email comparison, logical uniqueness, collision and lifecycle boundaries, and strict domain canonicalization while preserving unresolved Product Decisions 5 and 28 and downstream persistence, Contract, dependency, recovery, MFA, and implementation governance. |
+| 1.4.0   | 2026-09-30 | Approved | Synchronized Accepted DEC-0007 by establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, infrastructure, frontend, and implementation governance. |
 
 ## Document Status
 

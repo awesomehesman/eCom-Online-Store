@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.44
+version: 1.0.46
 status: Approved
 owner: Architecture
 last_updated: 2026-09-30
@@ -545,6 +545,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0004 | Customer Login Identifier Semantics | Product Decision / Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0004-customer-login-identifier-semantics.md](../../specifications/decisions/DEC-0004-customer-login-identifier-semantics.md) |
 | DEC-0005 | Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics | Product Decision / Security Decision / Data Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) |
 | DEC-0006 | Customer Password Hashing and Verification Strategy | Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0006-customer-password-hashing-verification-strategy.md](../../specifications/decisions/DEC-0006-customer-password-hashing-verification-strategy.md) |
+| DEC-0007 | Initial Customer Password Policy | Product Decision / Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0007-initial-customer-password-policy.md](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -674,6 +675,8 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.46 | 2026-09-30 | Approved | Synchronized DEC-0007 to Accepted, establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, Security-standard, Architecture, and implementation authority. |
+| 1.0.45 | 2026-09-30 | Approved | Indexed DEC-0007, Initial Customer Password Policy, as Proposed with evidence-backed length, Unicode/NFC, composition, compromised-password rejection, reuse/history, rotation, safe-disclosure, password-manager, accessibility, and compatibility boundaries without accepting the decision, synchronizing Product or Security standards, admitting a provider or dependency, defining Contracts or persistence, or claiming implementation. |
 | 1.0.44 | 2026-09-30 | Approved | Synchronized ADR-0022 to Accepted, establishing the Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer and Account business truth, Customer-coordinated registration through bounded Contracts, separate owner-local transactions, authoritative and unambiguous Customer-context resolution, default denial, reconciliation, and cardinality neutrality while preserving unresolved Product Decisions 5 and 28 and without claiming persistence, Contract implementation, dependency admission, or implementation completion. |
 | 1.0.43 | 2026-09-30 | Approved | Indexed ADR-0022, Initial Identity–Customer/Account Association Strategy, as Proposed with an Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer-to-Account truth, cardinality-neutral association boundaries, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries without accepting the decision or authorizing persistence, Contracts, policy, dependencies, or implementation. |
 | 1.0.42 | 2026-09-30 | Approved | Synchronized DEC-0006 to Accepted, establishing the Identity-owned Customer Argon2id password-hashing and verification strategy and repository-defined `identity-customer-argon2id-v1` profile while preserving unresolved Product Decisions 5 and 28 and separate production implementation, capacity, SLO, persistence, API Contract, recovery, Customer MFA, and password-policy authority. |
