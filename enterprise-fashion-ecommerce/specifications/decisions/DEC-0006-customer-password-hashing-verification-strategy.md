@@ -17,9 +17,9 @@ Accepted DEC-0003 establishes an Identity-owned password-based local Customer cr
 
 `SECURITY-STANDARDS.md` requires passwords to use an approved adaptive password-hashing facility rather than a general-purpose fast hash or encryption. Accepted ADR-0021 assigns local Customer credential verification to Identity, while ADR-0017, ADR-0018, DEC-0001, and the Approved Identity Domain and BIDN preserve separate persistence, dependency, and implementation authority.
 
-The current backend admits Spring Security cryptography transitively through the governed Spring Security starter. The admitted module exposes password-hashing integration points, but framework availability is not approval of an algorithm or configuration. Its available Argon2 adapter requires an Argon2 implementation dependency that is not currently admitted. No production Customer password verifier exists, and the repository contains no benchmark evidence from which safe initial numerical Argon2id parameters can yet be selected.
+The current backend admits Spring Security cryptography transitively through the governed Spring Security starter. Bouncy Castle `org.bouncycastle:bcprov-jdk18on:1.86` is admitted, locked, and dependency-verified under the DEC-0001-governed build baseline. Framework and provider availability are not approval of an algorithm, profile, production configuration, or credential implementation. No production Customer password verifier exists.
 
-This proposal selects the security strategy and deterministic configuration-governance model required before password verifier creation and verification. It does not admit a dependency, establish numerical parameters without evidence, define Customer-facing password policy, authorize persistence, or create an API Contract or implementation.
+This proposal selects the security strategy, the evidence-backed initial numerical profile, and the deterministic configuration-governance model required before password verifier creation and verification. It does not define Customer-facing password policy, authorize persistence, create an API Contract, or claim that production credential hashing or Authentication implementation exists.
 
 ## Decision
 
@@ -43,7 +43,20 @@ The governed Argon2id parameter profile SHALL explicitly include:
 - derived output length; and
 - a stable profile identifier or other unambiguous compatibility identity.
 
-The initial numerical profile is intentionally not selected by this proposal because the repository contains no controlled benchmark evidence for the governed Java 21, Spring Boot 3.5.16, deployment, concurrency, and resource context. DEC-0006 MUST NOT become Accepted until the initial numerical profile is either recorded in this Decision Record or linked from it to one version-controlled, Identity-owned canonical security-configuration source.
+The repository-owned initial profile is `identity-customer-argon2id-v1`:
+
+| Profile field | Governed value |
+| --- | --- |
+| Algorithm | Argon2id |
+| Argon2 version | 19 / v1.3 |
+| Memory | 65,536 KiB |
+| Iterations/passes | 3 |
+| Parallelism/lanes | 4 |
+| Salt length | 16 bytes / 128 bits |
+| Output/tag length | 32 bytes / 256 bits |
+| Representation | Self-describing Argon2id PHC representation |
+
+`identity-customer-argon2id-v1` is a repository-defined compatibility identity; it is not an OWASP, RFC, Spring Security, or Bouncy Castle profile identifier. Its numerical tuple corresponds to RFC 9106's second recommended Argon2id option. Every new Customer password verifier SHALL use the complete current profile. A framework default, Environment-selected profile, caller-selected profile, Candidate A, or another tuple is not an automatic fallback. Changing any governed tuple component creates a different profile and requires governed compatibility or supersession authority.
 
 The initial profile and every later profile change require:
 
@@ -56,13 +69,31 @@ The initial profile and every later profile change require:
 
 Application Environments MAY provision configuration through an approved delivery mechanism, but they MUST NOT silently select different logical password-hashing profiles. Environment overrides, framework defaults, library upgrades, or deployment convenience MUST NOT become implicit parameter authority.
 
+## Benchmark Evidence and Profile Selection
+
+The first authorized local benchmark execution is incomplete. Its original macOS physical-memory preflight treated immediately free physical memory as a hard gate, so it stopped after Candidate A sequential evidence and is not primary profile-selection evidence. Its preserved local output had SHA-256 `a084eec13568056197797ee71cb6a5fb3aa4d53f26a98e78102c2558996a0613`.
+
+The second execution completed on 2026-09-30 using Eclipse Temurin 21.0.6+7-LTS, Spring Security 6.5.11, governed `bcprov-jdk18on:1.86`, macOS 26.5.2 ARM64, 12 logical processors, 24 GiB physical memory, and a benchmark JVM configured with `-Xms512m -Xmx2g`. Each Candidate and suite used 10 warm-up encode/match pairs, 30 sequential encode samples, 30 sequential match samples, controlled concurrency levels 1, 2, and 4, and 30 operations per concurrent phase. Both `A then B` and `B then A` suite orders completed. All generated PHC representations and password matches passed, every bounded memory preflight passed, and the Gradle execution completed successfully. The preserved local output had SHA-256 `29f28594978fb30c16edc17da6b8a89fbd56ac430feaa0e533ceee63b93deed8`.
+
+These hashes identify the reviewed local artifacts; they do not make temporary output files durable repository artifacts.
+
+Candidate A used Argon2id v=19, `m=19456`, `t=2`, `p=1`, a 16-byte salt, and a 32-byte output. Across both suite orders, sequential encode median was 27.030–27.069 ms, sequential encode p95 was 28.066–28.720 ms, sequential match median was 26.643–26.792 ms, concurrency-four encode median was 28.476–31.701 ms, and concurrency-four encode p95 was 34.206–41.495 ms. Its parameter-derived concurrency-four working memory was 76 MiB.
+
+Candidate B used Argon2id v=19, `m=65536`, `t=3`, `p=4`, a 16-byte salt, and a 32-byte output. Across both suite orders, sequential encode median was 155.355–156.335 ms, sequential encode p95 was 158.623–163.721 ms, sequential match median was 157.973–159.189 ms, concurrency-four encode median was 173.924–175.579 ms, concurrency-four encode p95 was 188.506–196.029 ms, and concurrency-four match median was 176.377–176.445 ms. Its parameter-derived concurrency-four working memory was 256 MiB. The concurrency-four conservative required memory was 1,073,741,824 bytes, against a 2,147,483,648-byte benchmark JVM maximum heap and a 6,442,450,944-byte physical-memory 25% safety limit; the preflight passed.
+
+Reported encode-phase throughput is not treated as pure encoding throughput because phase wall time includes post-encode PHC validation and matching.
+
+Candidate B is selected because it corresponds to RFC 9106's second recommended Argon2id option, provides materially greater memory and time cost than Candidate A, was represented exactly by the governed Spring Security and Bouncy Castle path, produced sufficiently stable comparative evidence in reversed suite order, remained feasible at bounded concurrency four under the benchmark safety limits, and had no measured evidence of infeasibility. Candidate A remains a legitimate OWASP-recommended minimum configuration and is not classified as insecure, but it is not selected because Candidate B provides greater per-guess cost while remaining feasible in this bounded evidence. Candidate A MUST NOT become an automatic fallback.
+
+This is local development evidence, not production-capacity evidence, and it establishes no SLO. It covers one ARM64 macOS development machine, concurrency 1, 2, and 4, and 30 measured operations per phase as bounded comparative evidence rather than capacity modelling. No hostile-load, soak, multi-process, container-limit, or production-topology test occurred. Production capacity validation remains required before deployment, and abuse and rate controls remain separately governed. Spring Security and Bouncy Castle performance on this machine does not establish attacker-side hardware cost or parallelism equivalence.
+
 ## Salt Semantics
 
-Every verifier SHALL use a newly generated unique random salt produced inside the Identity-owned credential-establishment boundary by a cryptographically secure random-number generator.
+Every new current-profile verifier SHALL use a newly generated unique random 16-byte salt produced inside the Identity-owned credential-establishment boundary by a cryptographically secure random-number generator.
 
-The salt is non-secret and MAY be retained with the self-describing verifier representation. Callers, clients, Customer or Account data, API inputs, imported untrusted data, and unrelated Domains MUST NOT choose or reuse the salt for a newly established verifier.
+The salt is non-secret and SHALL be retained as part of the self-describing verifier representation. Callers, clients, Customer or Account data, API inputs, imported untrusted data, and unrelated Domains MUST NOT choose or reuse the salt for a newly established verifier.
 
-Salt-generation failure or uncertainty SHALL fail credential establishment without retaining a verifier or representing success. This decision selects no database field, encoding API, random-provider implementation, or numerical salt length; salt length remains a mandatory field of the evidence-backed Approved profile.
+Salt-generation failure or uncertainty SHALL fail credential establishment without retaining a verifier or representing success. This decision selects no database field, encoding API, or random-provider implementation.
 
 ## Pepper Decision
 
@@ -83,15 +114,17 @@ The retained verifier SHALL use a canonical self-describing Argon2id encoded rep
 - the derived output; and
 - the information required to determine whether the verifier is supported and whether upgrade is required.
 
+For `identity-customer-argon2id-v1`, the representation SHALL establish `$argon2id$`, `v=19`, `m=65536`, `t=3`, and `p=4`, and its encoded values SHALL decode to a 16-byte salt and a 32-byte output.
+
 The representation SHALL be treated as Identity-owned sensitive security data even though it is not plaintext and the salt is non-secret. It MUST NOT be exposed through ordinary Contracts, Customer or Account state, URLs, logs, metrics, traces, analytics, events, support evidence, fixtures, or client storage.
 
-Malformed, truncated, ambiguous, non-canonical, unsupported, unexpectedly downgraded, or unrecognized representations SHALL fail safely. Parsing MUST be bounded and MUST NOT permit representation-controlled resource use outside governed limits. No database type, field, column, table, index, ORM mapping, JDBC mapping, repository, or serialization library is selected.
+Malformed, truncated, ambiguous, non-canonical, unsupported, withdrawn, unexpectedly downgraded, resource-unsafe, or unrecognized representations SHALL fail safely. Parsing and resource bounds MUST be applied before expensive processing where the implementation permits, and representation-controlled input MUST NOT authorize resource use outside governed limits. No database type, field, column, table, index, ORM mapping, JDBC mapping, repository, or serialization library is selected.
 
 ## Verification Semantics
 
 The raw password SHALL enter only the Identity-owned credential-verification boundary over a separately governed protected Contract. It SHALL remain transient, purpose-limited, and excluded from persistence, logs, errors, telemetry, events, analytics, caches, Customer or Account records, and support tooling.
 
-Verification SHALL use the algorithm, version, parameters, salt, and derived output represented by a supported stored verifier. A successful cryptographic match is Identity-owned credential evidence, not by itself a Principal, Session, Customer, Account, or contextual Authorization decision. ADR-0021 and ADR-0019 continue to govern accepted Authentication evidence, Principal establishment, and Session establishment.
+Verification SHALL identify an explicitly supported governed profile and use the algorithm, version, parameters, salt, and derived output represented by that supported stored verifier. A successful cryptographic match is Identity-owned credential evidence, not by itself a Principal, Session, contextual Authorization decision, or Customer or Account ownership decision. ADR-0021 and ADR-0019 continue to govern accepted Authentication evidence, Principal establishment, and Session establishment.
 
 A non-match, malformed or unsupported verifier, unavailable required configuration, hashing error, parsing error, resource-bound violation, or uncertain result SHALL NOT establish successful password verification, a Principal, or a Session. External behavior must preserve existing enumeration resistance and MUST NOT disclose whether failure arose from identifier absence, password mismatch, representation state, configuration, migration, or internal security handling.
 
@@ -99,13 +132,13 @@ Verification and comparison MUST use reviewed cryptographic facilities and MUST 
 
 ## Upgrade and Rehash Semantics
 
-The current Approved profile SHALL determine whether a supported stored verifier requires upgrade. New password establishment and password change SHALL use only the current profile.
+The current Approved profile SHALL determine whether a supported stored verifier requires upgrade through comparison of the complete governed tuple, not only the algorithm name. New password establishment and password change SHALL use only the current profile and a new random 16-byte salt.
 
-After successful verification of a supported older verifier, Identity MAY derive a replacement verifier from the already accepted raw password using the current profile. Upgrade eligibility SHALL be based on explicit algorithm, version, and parameter comparison, never on string age, record order, framework default, or an untrusted caller instruction.
+An older profile MAY be verified only while it remains explicitly governed, supported, and not withdrawn. After successful verification of such a verifier, Identity MAY derive a replacement verifier from the already accepted raw password using a new random 16-byte salt and the complete current profile. Upgrade eligibility SHALL be based on explicit algorithm, version, memory, iterations, parallelism, salt policy, output length, and profile-identity comparison, never on string age, record order, framework default, Environment configuration, or an untrusted caller instruction.
 
 Successful verification against an older representation that remains explicitly supported and not withdrawn MAY establish accepted credential evidence even if the subsequent upgrade write fails. The failed or uncertain upgrade SHALL remain observable for bounded retry or reconciliation without logging credential material, falsely claiming upgrade, multiplying effects, or weakening the accepted Authentication result. A verifier classified as unsupported, unsafe, withdrawn, malformed, or ambiguously downgraded SHALL fail closed and SHALL NOT use this compatibility allowance.
 
-Concurrent verification or upgrade MUST converge without replacing a newer or stronger accepted verifier with an older or weaker representation. Persistence uncertainty MUST preserve the last confirmed verifier state and must not report an upgrade as complete. This decision selects no transaction, lock, isolation level, optimistic-concurrency mechanism, retry policy, repository design, or audit schema.
+Concurrent verification, upgrade, or rollback MUST converge without replacing a current or stronger accepted verifier with an older or weaker representation. Failed rehash persistence MUST NOT corrupt or downgrade the retained verifier. Persistence uncertainty MUST preserve the last confirmed verifier state and must not report an upgrade as complete. New writes MUST NOT use an older, weaker, framework-default, Environment-selected, or caller-selected profile. This decision selects no transaction, lock, isolation level, optimistic-concurrency mechanism, retry policy, repository design, or audit schema.
 
 ## Compatibility and Migration
 
@@ -160,11 +193,9 @@ Identity remains the single accountable owner of the credential-verification str
 
 ## Dependency Boundary
 
-The currently admitted Spring Security cryptography module provides integration surfaces for password verification but does not itself authorize a concrete `PasswordEncoder`, configuration, or algorithm use. Its available Argon2 adapter relies on an Argon2 implementation dependency that is not present in the admitted dependency graph.
+The currently admitted Spring Security 6.5.11 cryptography module provides integration surfaces for password verification but does not itself authorize production credential implementation. Bouncy Castle `org.bouncycastle:bcprov-jdk18on:1.86` is admitted, locked, and dependency-verified under the DEC-0001-governed build baseline. The benchmark exercised Spring Security 6.5.11 `Argon2PasswordEncoder` through that governed implementation path.
 
-Therefore, implementation of the selected Argon2id strategy requires a separate DEC-0001-governed dependency-admission change unless later verified repository evidence demonstrates that the governed implementation can be supplied entirely by already admitted artifacts. That change must establish exact artifact and version compatibility, licensing, security and maintenance evidence, locking, strict dependency verification, and successful build and test resolution.
-
-DEC-0006 does not admit Bouncy Castle, another cryptographic provider or library, a dependency version, or a Spring Security implementation class. Framework or provider availability MUST NOT alter the selected security semantics or parameter authority.
+This admitted dependency state does not mean that production password hashing, credential persistence, Authentication configuration, or credential-verification implementation exists. DEC-0001 remains authoritative over future dependency changes, locking, verification, compatibility, licensing, security, maintenance, and build evidence. Framework or provider availability MUST NOT alter the selected security semantics or profile authority.
 
 ## Alternatives Considered
 
@@ -209,7 +240,7 @@ These approaches conflict with `SECURITY-STANDARDS.md` and DEC-0003. They do not
 ### Costs and Maintenance Burden
 
 - Argon2id consumes deliberate CPU and memory and requires representative benchmarking and capacity analysis.
-- The current backend requires separate dependency admission for an implementation facility.
+- The admitted implementation dependency requires continued DEC-0001-governed maintenance, locking, verification, and compatibility review.
 - Identity and Security must maintain parameter profiles, compatibility support, upgrade behavior, compromise response, tests, and operational evidence.
 - Supporting older profiles during upgrades increases verification, migration, monitoring, and support complexity.
 
@@ -232,7 +263,7 @@ Verifier representations remain sensitive Identity-owned security data and must 
 
 ### Operational and Support Impact
 
-Operations must support benchmark-informed capacity, configuration integrity, dependency maintenance, upgrade visibility, malformed or downgraded verifier detection, compromise handling, and safe Customer support without exposing credential existence or material. No provider, support workflow, alert threshold, or service level is selected.
+Operations must support benchmark-informed capacity, configuration integrity, dependency maintenance, upgrade visibility, malformed or downgraded verifier detection, compromise handling, and safe Customer support without exposing credential existence or material. The bounded local evidence demonstrates feasibility for the selected profile but does not establish production capacity, concurrency, throughput, or an SLO; production capacity validation remains required before deployment. No provider, support workflow, alert threshold, or service level is selected.
 
 ### Compatibility, Migration, and Reversibility Impact
 
@@ -251,10 +282,10 @@ DEC-0006 does not select, define, admit, or authorize:
 - ordinary Customer MFA policy, mechanism, factor, provider, fallback, or recovery;
 - login, registration, password-change, recovery, or verification API route, HTTP method, status, DTO, field, error code, or Contract;
 - database schema, table, column, index, constraint, collation, SQL, ORM or JDBC mapping, repository, or Flyway migration;
-- Spring Security class, `PasswordEncoder`, Bean, configuration, or Authentication implementation;
-- dependency artifact or version, cryptographic provider, secret manager, infrastructure, or hosting;
+- production Spring Security Bean, configuration, Authentication implementation, or credential implementation;
+- additional dependency artifact or version, cryptographic provider, secret manager, infrastructure, or hosting;
 - unrelated abuse, rate, lockout, retry, timeout, Session lifetime, cookie, service-level, or operational numerical policy; or
-- executable implementation, deployment, completed benchmark, or completed test evidence.
+- executable production implementation, deployment, production-capacity evidence, SLO, or completed production test evidence.
 
 ## Required Acceptance Authorities and Evidence
 
@@ -265,7 +296,7 @@ Promotion from Proposed to Accepted requires durable evidence representing:
 - Architecture approval that existing Identity, Customer, Session, persistence, and dependency boundaries remain intact; and
 - Engineering review of Java 21 and Spring Boot 3.5.16 compatibility, representative benchmark method, resource and operational implications, dependency consequences, testability, and maintenance.
 
-Product review is required only if the decision is changed to establish Customer-facing password policy or another Product semantic; this proposal makes no such change. Identity remains the single accountable owner. Pull-request approval is sufficient only when required authorities are represented and the evidence is durable and discoverable. No reviewer, approval, benchmark, or implementation evidence is claimed by this Proposed record.
+Product review is required only if the decision is changed to establish Customer-facing password policy or another Product semantic; this proposal makes no such change. Identity remains the single accountable owner. Pull-request approval is sufficient only when required authorities are represented and the evidence is durable and discoverable. This Proposed record includes bounded local benchmark evidence but does not claim completed Identity, Security, Architecture, or Engineering acceptance, named reviewers, production-capacity validation, or production implementation evidence. Criterion 21 remains open until required acceptance evidence is durable.
 
 ## Acceptance and Validation Criteria
 
@@ -275,17 +306,17 @@ Before DEC-0006 may become Accepted, review must verify:
 2. Argon2id is the single proposed initial adaptive password-hashing strategy;
 3. plaintext, reversible encryption, unsalted hashing, general-purpose fast hashing alone, and silent weaker fallback are prohibited;
 4. the mandatory parameter set, authority, benchmark, security, resource, approval, versioning, test, and fail-closed configuration model is deterministic;
-5. the initial numerical profile is recorded in this record or one directly referenced canonical source before acceptance;
-6. every new verifier uses a unique cryptographically random non-secret salt generated within Identity, retained with the representation where needed, and never supplied or reused by callers;
+5. `identity-customer-argon2id-v1` records Argon2id v=19, `m=65536`, `t=3`, `p=4`, a 16-byte salt, a 32-byte output, a self-describing PHC representation, and attributable bounded benchmark evidence before acceptance;
+6. every new current-profile verifier uses a unique cryptographically random non-secret 16-byte salt generated within Identity, retained with the representation, and never supplied or reused by callers;
 7. no initial pepper is selected, and future adoption requires separate governed custody, rotation, compromise, migration, availability, and recovery semantics;
-8. the self-describing verifier identifies the algorithm, version, parameters, salt, output, compatibility, and upgrade state without defining persistence schema;
+8. the self-describing verifier identifies the algorithm, version, complete governed profile, 16-byte salt, 32-byte output, compatibility, and upgrade state without defining persistence schema;
 9. malformed, unsupported, non-canonical, unexpectedly downgraded, or resource-unsafe representations fail safely;
 10. password verification failure or uncertainty cannot establish accepted Authentication evidence, a Principal, or a Session;
-11. successful supported legacy verification, rehash eligibility, upgrade-write failure, concurrency, reconciliation, and stronger-state preservation are explicit without selecting persistence mechanics;
+11. complete-profile comparison, successful supported older-profile verification, rehash eligibility with a new 16-byte salt, upgrade-write failure, concurrency, reconciliation, and stronger-state preservation are explicit without inventing a legacy profile or selecting persistence mechanics;
 12. no new verifier is written under an older profile and rollback or concurrency cannot downgrade accepted state;
 13. no legacy representation is authorized without explicit algorithm, bounds, provenance, migration, withdrawal, and support governance;
 14. verifier, algorithm, configuration, implementation, and future-secret compromise boundaries preserve incident, containment, evidence, migration, and failure-closed requirements;
-15. DEC-0001 remains authoritative and no dependency, provider, version, or implementation class is admitted;
+15. DEC-0001 remains authoritative; admitted `bcprov-jdk18on:1.86` and the benchmarked Spring Security 6.5.11 path do not claim production credential implementation or authorize another dependency, provider, version, or implementation class;
 16. Customer-facing password policy and compromised-password-list Product behavior remain unresolved;
 17. Product Decisions 5 and 28 remain unresolved;
 18. Identity-to-Customer/Account association, registration coordination, recovery, and ordinary Customer MFA remain unresolved;
@@ -324,7 +355,10 @@ Proposal-stage registration changes only DEC-0006 and `DECISIONS.md`. Acceptance
 - [DEC-0003 — Initial Local Customer Credential Mechanism](./DEC-0003-initial-local-customer-credential-mechanism.md)
 - [DEC-0004 — Customer Login Identifier Semantics](./DEC-0004-customer-login-identifier-semantics.md)
 - [DEC-0005 — Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics](./DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md)
+- [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 - [RFC 9106 — Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications](https://www.rfc-editor.org/rfc/rfc9106)
+- [Spring Security 6.5 — Password Storage](https://docs.spring.io/spring-security/reference/6.5/features/authentication/password-storage.html)
+- [DEC-0006 Argon2id Benchmark Harness](../../backend/src/test/java/com/enterprise/fashion/ecommerce/identity/benchmark/Argon2Benchmark.java)
 
 ## Supersedes
 
