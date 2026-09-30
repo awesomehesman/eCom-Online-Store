@@ -3,11 +3,11 @@
 - **Identifier:** DEC-0006
 - **Title:** Customer Password Hashing and Verification Strategy
 - **Type:** Security Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-30
 - **Owner:** Identity
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -19,11 +19,11 @@ Accepted DEC-0003 establishes an Identity-owned password-based local Customer cr
 
 The current backend admits Spring Security cryptography transitively through the governed Spring Security starter. Bouncy Castle `org.bouncycastle:bcprov-jdk18on:1.86` is admitted, locked, and dependency-verified under the DEC-0001-governed build baseline. Framework and provider availability are not approval of an algorithm, profile, production configuration, or credential implementation. No production Customer password verifier exists.
 
-This proposal selects the security strategy, the evidence-backed initial numerical profile, and the deterministic configuration-governance model required before password verifier creation and verification. It does not define Customer-facing password policy, authorize persistence, create an API Contract, or claim that production credential hashing or Authentication implementation exists.
+This decision establishes the security strategy, the evidence-backed initial numerical profile, and the deterministic configuration-governance model required before password verifier creation and verification. It does not define Customer-facing password policy, authorize persistence, create an API Contract, or claim that production credential hashing or Authentication implementation exists.
 
 ## Decision
 
-If Accepted, **Argon2id** SHALL be the single initial adaptive password-hashing strategy for Identity-owned local Customer password credentials.
+**Argon2id** is the single initial adaptive password-hashing strategy for Identity-owned local Customer password credentials.
 
 Every newly established password verifier SHALL use the current Approved Argon2id parameter profile and a unique cryptographically random salt. Retained verifiers SHALL use a self-describing, version-identifiable Argon2id representation sufficient to identify the algorithm, Argon2 version, work parameters, salt, and derived output needed for verification and upgrade assessment.
 
@@ -142,7 +142,7 @@ Concurrent verification, upgrade, or rollback MUST converge without replacing a 
 
 ## Compatibility and Migration
 
-No production Customer password verifier currently exists, so this proposal authorizes no legacy algorithm or imported verifier format.
+No production Customer password verifier currently exists, so this decision authorizes no legacy algorithm or imported verifier format.
 
 Future support for an older or alternative representation requires explicit governed identification of:
 
@@ -177,7 +177,7 @@ This decision selects no retry count, timeout, circuit breaker, queue, alert thr
 
 ## Authority and Compatibility Boundaries
 
-This proposal preserves:
+This decision preserves:
 
 - DEC-0003 authority over the password credential category;
 - DEC-0004 authority over the Customer-facing email login identifier;
@@ -199,7 +199,7 @@ This admitted dependency state does not mean that production password hashing, c
 
 ## Alternatives Considered
 
-### A. Argon2id — Selected in This Proposal
+### A. Argon2id — Selected
 
 Argon2id is a modern adaptive, memory-hard password-hashing strategy designed to increase the cost of parallel password guessing while balancing resistance to side-channel and accelerator attacks. It provides explicit memory, iteration, parallelism, salt, version, and output controls and a self-describing representation suitable for versioned upgrades.
 
@@ -255,7 +255,7 @@ These approaches conflict with `SECURITY-STANDARDS.md` and DEC-0003. They do not
 
 ### Security Impact
 
-Password material remains inside the Identity boundary, plaintext and reversible storage remain prohibited, failures remain closed, and verifier upgrades cannot weaken accepted state. The strategy adds resource-exhaustion, dependency, configuration, migration, and compromise-response obligations requiring Security evidence before acceptance and implementation.
+Password material remains inside the Identity boundary, plaintext and reversible storage remain prohibited, failures remain closed, and verifier upgrades cannot weaken accepted state. The strategy adds resource-exhaustion, dependency, configuration, migration, and compromise-response obligations requiring continuing Security evidence before implementation and deployment.
 
 ### Privacy and Data Impact
 
@@ -289,24 +289,24 @@ DEC-0006 does not select, define, admit, or authorize:
 
 ## Required Acceptance Authorities and Evidence
 
-Promotion from Proposed to Accepted requires durable evidence representing:
+The `1.0.0 Accepted` lifecycle transition requires durable acceptance-PR evidence representing:
 
 - Identity ownership of credential establishment, verification, upgrade, compromise, and migration semantics;
 - Security approval of the Argon2id strategy, profile-governance model, salt and no-pepper decisions, verifier representation, failure, downgrade, and compromise boundaries;
 - Architecture approval that existing Identity, Customer, Session, persistence, and dependency boundaries remain intact; and
 - Engineering review of Java 21 and Spring Boot 3.5.16 compatibility, representative benchmark method, resource and operational implications, dependency consequences, testability, and maintenance.
 
-Product review is required only if the decision is changed to establish Customer-facing password policy or another Product semantic; this proposal makes no such change. Identity remains the single accountable owner. Pull-request approval is sufficient only when required authorities are represented and the evidence is durable and discoverable. This Proposed record includes bounded local benchmark evidence but does not claim completed Identity, Security, Architecture, or Engineering acceptance, named reviewers, production-capacity validation, or production implementation evidence. Criterion 21 remains open until required acceptance evidence is durable.
+Product review is required only if the decision is changed to establish Customer-facing password policy or another Product semantic; this decision makes no such change. Identity remains the single accountable owner. The acceptance PR is the durable review and approval vehicle and MUST NOT merge until Identity accountable ownership, Security approval, Architecture boundary confirmation, and Engineering review are genuinely represented. Merge constitutes completion of the lifecycle transition only when that durable evidence exists. This record does not fabricate reviewer identities, meetings, tickets, signatures, external organizational approval, production-capacity validation, or production implementation evidence.
 
 ## Acceptance and Validation Criteria
 
-Before DEC-0006 may become Accepted, review must verify:
+The Accepted record and its acceptance PR MUST verify:
 
-1. metadata remains `0.1.0 Proposed`, Type `Security Decision`, owner `Identity`, and `authoritative: false`;
-2. Argon2id is the single proposed initial adaptive password-hashing strategy;
+1. metadata is `1.0.0 Accepted`, Type `Security Decision`, owner `Identity`, and `authoritative: true`;
+2. Argon2id is the single accepted initial adaptive password-hashing strategy;
 3. plaintext, reversible encryption, unsalted hashing, general-purpose fast hashing alone, and silent weaker fallback are prohibited;
 4. the mandatory parameter set, authority, benchmark, security, resource, approval, versioning, test, and fail-closed configuration model is deterministic;
-5. `identity-customer-argon2id-v1` records Argon2id v=19, `m=65536`, `t=3`, `p=4`, a 16-byte salt, a 32-byte output, a self-describing PHC representation, and attributable bounded benchmark evidence before acceptance;
+5. `identity-customer-argon2id-v1` records Argon2id v=19, `m=65536`, `t=3`, `p=4`, a 16-byte salt, a 32-byte output, a self-describing PHC representation, and attributable bounded benchmark evidence;
 6. every new current-profile verifier uses a unique cryptographically random non-secret 16-byte salt generated within Identity, retained with the representation, and never supplied or reused by callers;
 7. no initial pepper is selected, and future adoption requires separate governed custody, rotation, compromise, migration, availability, and recovery semantics;
 8. the self-describing verifier identifies the algorithm, version, complete governed profile, 16-byte salt, 32-byte output, compatibility, and upgrade state without defining persistence schema;
@@ -322,12 +322,12 @@ Before DEC-0006 may become Accepted, review must verify:
 18. Identity-to-Customer/Account association, registration coordination, recovery, and ordinary Customer MFA remain unresolved;
 19. API Contracts, persistence schema, migrations, repositories, framework configuration, infrastructure, and executable implementation remain unresolved;
 20. DEC-0003, DEC-0004, DEC-0005, ADR-0017, ADR-0018, ADR-0019, ADR-0020, ADR-0021, and existing Security authority remain unchanged;
-21. required Identity, Security, Architecture, and Engineering acceptance evidence is durable without fabricated reviewers, approvals, benchmarks, or implementation claims; and
-22. proposal registration affects only DEC-0006 and `DECISIONS.md`, registers DEC-0006 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+21. the acceptance PR's durable review evidence genuinely represents Identity accountable ownership, Security approval, Architecture boundary confirmation, and Engineering review without fabricated authority, reviewers, approvals, benchmarks, production evidence, or implementation claims; and
+22. acceptance synchronization affects only DEC-0006 and `DECISIONS.md`, updates DEC-0006 exactly once to Accepted in the canonical Decision Index, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
-## Proposal Registration and Acceptance Planning
+## Acceptance Synchronization and Canonical Scope
 
-Proposal-stage registration changes only DEC-0006 and `DECISIONS.md`. Acceptance-readiness review must verify the final affected-source set after the initial parameter profile and required evidence are complete. This proposal does not presume that acceptance can occur before those gates are satisfied and does not synchronize `SECURITY-STANDARDS.md`, `ARCHITECTURE.md`, `PRODUCT.md`, Spring, Java, database, PostgreSQL, API, Domain, Backend Specification, build, or implementation sources.
+Acceptance synchronization changes only DEC-0006 and `DECISIONS.md`. The acceptance PR MUST NOT merge until the evidence required by criterion 21 exists. This decision does not require synchronization of `SECURITY-STANDARDS.md`, `ARCHITECTURE.md`, `PRODUCT.md`, Spring, Java, database, PostgreSQL, API, Domain, Backend Specification, build, or implementation sources.
 
 ## References
 
@@ -372,4 +372,5 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-30 | Accepted | Accepted Argon2id with the repository-owned `identity-customer-argon2id-v1` profile based on governed benchmark evidence, establishing deterministic verification, upgrade, downgrade-prevention, 16-byte salt, self-describing representation, compromise, and authority semantics without claiming production implementation, capacity, or SLO completion. |
 | 0.1.0 | 2026-09-30 | Proposed | Proposed Argon2id as the initial Customer password-hashing and verification strategy with evidence-backed parameter authority, unique random salts, no initial pepper, self-describing verifiers, safe verification, upgrade, compatibility, compromise, and failure semantics while preserving separate Product policy, persistence, Contract, dependency, and implementation governance. |
