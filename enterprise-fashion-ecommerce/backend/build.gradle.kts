@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
+import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.testing.Test
 
 plugins {
@@ -64,6 +65,20 @@ val integrationTest by tasks.registering(Test::class) {
 
 tasks.named("check") {
     dependsOn(integrationTest)
+}
+
+tasks.register<JavaExec>("argon2Benchmark") {
+    description = "Runs the isolated DEC-0006 Argon2id evidence benchmark."
+    group = "verification"
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass.set("com.enterprise.fashion.ecommerce.identity.benchmark.Argon2Benchmark")
+    javaLauncher.set(
+        javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    )
+    jvmArgs("-Xms512m", "-Xmx2g")
 }
 
 tasks.withType<AbstractArchiveTask>().configureEach {
