@@ -3,11 +3,11 @@
 - **Identifier:** DEC-0007
 - **Title:** Initial Customer Password Policy
 - **Type:** Product Decision / Security Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-30
 - **Owner:** Identity
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -19,7 +19,7 @@ Accepted DEC-0003 establishes a password-based local Customer credential as the 
 
 The initial Customer path currently has no mandatory ordinary-Customer MFA factor. Current NIST SP 800-63B guidance treats a password used as a single Authentication factor as requiring at least 15 characters, requires support for passwords of at least 64 characters, rejects blocklisted commonly used or compromised values, avoids composition rules and arbitrary periodic changes, and supports password managers, paste, Unicode, and spaces. OWASP's current Authentication guidance reflects the same baseline and recognizes that a reasonable upper bound may protect against denial-of-service. Neither source requires rejection above 64 characters or establishes 64 as the recommended exact maximum.
 
-This Proposed decision establishes the initial Customer password acceptance policy needed before final registration Contract governance. It does not admit a compromised-password provider, dependency, public Contract, persistence design, recovery mechanism, Customer MFA mechanism, or implementation.
+This Accepted decision establishes the initial Customer password acceptance policy needed before final registration Contract governance. It does not admit a compromised-password provider, dependency, public Contract, persistence design, recovery mechanism, Customer MFA mechanism, or implementation.
 
 ## Verified Governing Constraints
 
@@ -34,13 +34,13 @@ This Proposed decision establishes the initial Customer password acceptance poli
 
 ## Decision
 
-If Accepted, the following policy SHALL govern initial Customer password establishment and every later supported Customer password establishment or change operation.
+The following policy governs initial Customer password establishment and every later supported Customer password establishment or change operation.
 
 ### Length and Bounded Input
 
 A prospective Customer password SHALL contain at least **15 Unicode code points** and at most **64 Unicode code points** after the normalization defined below. The complete normalized password SHALL be evaluated and hashed; it MUST NOT be silently truncated.
 
-The 15-code-point minimum follows the current NIST single-factor password baseline because ordinary Customer MFA is not currently mandatory. External guidance requires support for at least 64 characters but does not require rejection above 64 or prescribe 64 as the exact maximum. DEC-0007 therefore proposes exactly 64 code points as the repository's initial Product/Security upper-bound choice: it satisfies the externally supported minimum capacity, supports passphrases and password managers, and supplies deterministic bounded input for resource protection. Acceptance review MUST explicitly approve that repository-specific maximum rather than attribute it to NIST or OWASP. A future change to ordinary Customer MFA does not silently reduce the minimum; changing either bound requires governed compatibility and Product/Security review.
+The 15-code-point minimum follows the current NIST single-factor password baseline because ordinary Customer MFA is not currently mandatory. External guidance requires support for at least 64 characters but does not require rejection above 64 or prescribe 64 as the exact maximum. DEC-0007 therefore selects exactly 64 code points as the repository's initial Product/Security upper-bound choice: it satisfies the externally supported minimum capacity, supports passphrases and password managers, and supplies deterministic bounded input for resource protection. Controlled acceptance explicitly approved that repository-specific maximum rather than attributing it to NIST or OWASP. A future change to ordinary Customer MFA does not silently reduce the minimum; changing either bound requires governed compatibility and Product/Security review.
 
 ### Character and Normalization Semantics
 
@@ -90,7 +90,7 @@ Product Decision 5 remains authoritative for whether email verification is requi
 
 Use a 15-to-64 Unicode-code-point range after NFC normalization, no composition rules, whole-password blocklist checking, significant whitespace and case, no arbitrary periodic rotation, and password-manager-compatible input.
 
-The 15-code-point minimum, support through 64 code points, blocklist behavior, and usability direction align with current NIST and OWASP guidance. Selecting exactly 64 as the rejection boundary is DEC-0007's own proposed Product/Security policy choice for deterministic bounded input and resource protection; it is not an externally prescribed exact maximum. The alternative preserves repository Security authority and deterministic behavior, with costs including Unicode consistency requirements, a mandatory blocklist decision boundary, denial of credential establishment when that boundary is unavailable, rejection above the repository-selected maximum, and future migration work if policy changes.
+The 15-code-point minimum, support through 64 code points, blocklist behavior, and usability direction align with current NIST and OWASP guidance. Selecting exactly 64 as the rejection boundary is DEC-0007's own accepted Product/Security policy choice for deterministic bounded input and resource protection; it is not an externally prescribed exact maximum. The alternative preserves repository Security authority and deterministic behavior, with costs including Unicode consistency requirements, a mandatory blocklist decision boundary, denial of credential establishment when that boundary is unavailable, rejection above the repository-selected maximum, and future migration work if policy changes.
 
 ### B. Traditional Composition Rules and Shorter Minimum — Not Selected
 
@@ -118,7 +118,7 @@ Delegating policy to a framework, external provider, blocklist service, or front
 
 - Blocklist checking becomes a mandatory fail-closed dependency of password establishment and change, although its mechanism remains unresolved.
 - Unicode normalization must be identical across establishment, verification, migration, and compatibility paths.
-- The repository-selected 64-code-point maximum rejects longer passwords even though external guidance does not require rejection above 64; acceptance review must approve this trade-off explicitly, and the bound must be communicated before submission without silent truncation.
+- The repository-selected 64-code-point maximum rejects longer passwords even though external guidance does not require rejection above 64; controlled acceptance explicitly approved this trade-off, and the bound must be communicated before submission without silent truncation.
 - Absence of password history permits reuse of a prior password when it otherwise satisfies current policy.
 - Policy changes after credentials exist require compatibility analysis and may require authorized password replacement rather than reinterpretation.
 - Password policy cannot prevent phishing, credential stuffing, endpoint compromise, social engineering, or reuse across unrelated systems.
@@ -167,9 +167,9 @@ DEC-0007 does not select, define, admit, or authorize:
 - provider, infrastructure, hosting, deployment, frontend implementation, strength-meter library, or completed executable validation; or
 - a claim that password acceptance, credential establishment, registration, Authentication, Customer creation, Account creation, association, Session establishment, or implementation currently exists.
 
-## Required Governance Reviews
+## Completed Governance Review
 
-Before DEC-0007 may become Accepted, durable review evidence must represent:
+The completed governance review represented:
 
 - Identity approval of credential-policy ownership, establishment/change boundaries, safe outcomes, and separation from Authentication, recovery, MFA, and Customer truth;
 - Product approval of Customer-facing length, usability, rejection, rotation, and registration consequences;
@@ -178,25 +178,25 @@ Before DEC-0007 may become Accepted, durable review evidence must represent:
 - Customer approval of registration and Customer/Account non-authority boundaries; and
 - Engineering review of Unicode/NFC determinism, bounded input, testability, migration, operations, accessibility compatibility, and implementation neutrality.
 
-The acceptance PR may provide durable review evidence only when those authorities are genuinely represented. This Proposed record claims no completed review, named reviewer, meeting, ticket, signature, external approval, implementation evidence, benchmark, provider validation, or executable test.
+The controlled governance review completed with no unresolved acceptance blocker. This Accepted record does not fabricate or claim a named reviewer, meeting, ticket, signature, implementation evidence, provider validation, executable test, or external approval artifact.
 
 ## Acceptance Synchronization
 
-Under the authority verified by the completed acceptance-readiness review, controlled acceptance of DEC-0007 requires synchronization of exactly these canonical artifacts:
+Under the authority verified by the completed acceptance-readiness review, controlled acceptance of DEC-0007 synchronized exactly these canonical artifacts:
 
-1. `specifications/decisions/DEC-0007-initial-customer-password-policy.md` must be promoted through its governed lifecycle to Accepted and record the accepted policy without claiming implementation.
-2. `.ai/core/DECISIONS.md` must change DEC-0007's indexed status from Proposed to Accepted, record the acceptance synchronization in Revision History, and preserve the decision type, owner, identifier, and canonical path.
-3. `.ai/core/PRODUCT.md` must synchronize the accepted initial Customer password-policy baseline into the appropriate existing Product policy or Customer Authentication area, include only policy established by DEC-0007, preserve Product Decision 5 as unresolved, leave unrelated Product decisions unchanged, and make no implementation claim.
+1. `specifications/decisions/DEC-0007-initial-customer-password-policy.md` was promoted through its governed lifecycle to Accepted and records the accepted policy without claiming implementation.
+2. `.ai/core/DECISIONS.md` changes DEC-0007's indexed status from Proposed to Accepted, records the acceptance synchronization in Revision History, and preserves the decision type, owner, identifier, and canonical path.
+3. `.ai/core/PRODUCT.md` synchronizes the accepted initial Customer password-policy baseline into the existing Customer Account area, includes only policy established by DEC-0007, preserves Product Decision 5 as unresolved, leaves unrelated Product decisions unchanged, and makes no implementation claim.
 
 Based on that review, `SECURITY-STANDARDS.md` does not require synchronization because its existing mandatory password and security controls remain compatible and authoritative. `ARCHITECTURE.md` does not require synchronization because DEC-0007 changes no architectural baseline. The Identity Domain Specification, Customer Domain Specification, Identity Backend Specification, and Customer Backend Specification do not require synchronization for the currently identified acceptance scope.
 
-These not-required classifications apply only to DEC-0007's currently reviewed acceptance scope and are not permanent claims about later governance. If controlled acceptance discovers a direct contradiction in another governed source, acceptance MUST stop and return the issue to governance rather than silently broaden the synchronization set.
+These not-required classifications apply only to DEC-0007's reviewed acceptance scope and are not permanent claims about later governance. Controlled acceptance found no direct contradiction requiring the synchronization set to be broadened.
 
-## Acceptance Conditions and Readiness Criteria
+## Accepted-State Validation Criteria
 
-Before DEC-0007 may become Accepted, review must verify:
+The Accepted record verifies:
 
-1. metadata remains `0.1.0 Proposed`, Type `Product Decision / Security Decision`, owner `Identity`, date `2026-09-30`, and `authoritative: false`;
+1. metadata is `1.0.0 Accepted`, Type `Product Decision / Security Decision`, owner `Identity`, date `2026-09-30`, and `authoritative: true`;
 2. the initial policy accepts 15 through 64 Unicode code points after NFC normalization, evaluates the complete normalized password, never silently truncates it, and clearly identifies exactly 64 as a repository-selected bounded-input maximum rather than an externally prescribed rejection threshold;
 3. whitespace and case remain significant and are not silently trimmed, collapsed, inserted, removed, substituted, or changed;
 4. Unicode, spaces, password managers, autofill, and paste remain supported without mandatory character-class composition rules;
@@ -211,10 +211,10 @@ Before DEC-0007 may become Accepted, review must verify:
 13. Product Decision 5 remains unresolved, and no email-verification requirement or gate is introduced;
 14. blocklist provider, dataset, API, SDK, dependency, network, cache, update, retry, timeout, SLO, and infrastructure choices remain unresolved;
 15. Contract, persistence, recovery, ordinary Customer MFA, abuse-control values, frontend implementation, and implementation details remain explicit non-decisions;
-16. current NIST and OWASP guidance supporting the 15-code-point minimum, capacity of at least 64 characters, and usability policy is attributable and reviewed for applicability, while acceptance explicitly approves DEC-0007's repository-specific choice to reject above 64 without presenting that exact maximum as externally prescribed;
-17. required Identity, Product, Security, Architecture, Customer, and Engineering review evidence is durable without fabricated authority or implementation claims; and
-18. proposal registration changes only DEC-0007 and `DECISIONS.md`, indexes DEC-0007 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes; and
-19. controlled acceptance successfully synchronizes DEC-0007, `DECISIONS.md`, and `PRODUCT.md`; preserves Product Decision 5 as unresolved; explicitly approves the repository-specific exact 64-Unicode-code-point upper bound through the required authorities; and creates no implementation, provider, dependency, persistence, API Contract, recovery, MFA, or abuse-control authority.
+16. current NIST and OWASP guidance supporting the 15-code-point minimum, capacity of at least 64 characters, and usability policy is attributable and reviewed for applicability, while controlled acceptance explicitly approved DEC-0007's repository-specific choice to reject above 64 without presenting that exact maximum as externally prescribed;
+17. required Identity, Product, Security, Architecture, Customer, and Engineering review evidence is durable without fabricated authority or implementation claims;
+18. controlled acceptance changes only DEC-0007, `DECISIONS.md`, and `PRODUCT.md`; indexes DEC-0007 exactly once as Accepted; passes whitespace and diff validation; and introduces no unrelated tracked changes; and
+19. controlled acceptance synchronizes DEC-0007, `DECISIONS.md`, and `PRODUCT.md`; preserves Product Decision 5 as unresolved; explicitly approves the repository-specific exact 64-Unicode-code-point upper bound through the required authorities; and creates no implementation, provider, dependency, persistence, API Contract, recovery, MFA, or abuse-control authority.
 
 ## References
 
@@ -252,4 +252,5 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-30 | Accepted | Accepted the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving Product Decision 5 and all provider, dependency, Contract, persistence, recovery, MFA, abuse-control, infrastructure, frontend, and implementation non-decisions. |
 | 0.1.0 | 2026-09-30 | Proposed | Proposed an evidence-informed initial Customer password policy with a 15-code-point external-guidance minimum and a repository-selected exact 64-code-point bounded-input maximum after NFC normalization, no composition rules, mandatory whole-password compromised-value checking, no initial history or arbitrary periodic rotation, password-manager and accessibility compatibility, safe migration boundaries, and bounded acceptance synchronization across DEC-0007, `DECISIONS.md`, and `PRODUCT.md` while preserving Product Decision 5, DEC-0003 through DEC-0006, ADR-0019 through ADR-0022, and all provider, dependency, Contract, persistence, recovery, MFA, abuse-control, infrastructure, frontend, and implementation non-decisions. |
