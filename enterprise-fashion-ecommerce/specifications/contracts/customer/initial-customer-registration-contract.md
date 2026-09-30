@@ -4,9 +4,9 @@
 
 This governed human-readable Contract defines the workflow, ownership, completion, failure, uncertainty, and reconciliation semantics for initial Customer registration.
 
-It is the workflow companion intended to be paired later with `initial-customer-registration.openapi.yaml`. The future OpenAPI 3.1 artifact will be authoritative for wire-level behavior. This document is authoritative only for the human-readable workflow and ownership semantics it defines and MUST NOT be interpreted as defining an HTTP route, method, schema, header, status mapping, field name, or RFC 9457 wire representation.
+It is the workflow companion paired with `initial-customer-registration.openapi.yaml`, which is the authoritative executable HTTP wire Contract under `API.md` section 64.2. This document is authoritative only for the human-readable workflow, ownership, lifecycle, orchestration, cross-Module, uncertainty, rationale, traceability, and non-decision semantics it defines and MUST NOT be interpreted as defining or redefining an HTTP route, method, schema, header, status mapping, field name, or RFC 9457 wire representation.
 
-This Contract does not claim that the executable OpenAPI Contract or registration implementation exists.
+The paired Markdown and OpenAPI artifacts MUST remain synchronized. Conflicting semantics constitute a Contract defect that MUST be corrected; this Contract does not claim that registration implementation exists.
 
 ## 2. Scope
 
@@ -16,7 +16,7 @@ This Contract governs the initial local Customer registration capability coordin
 - bounded coordination between Customer and Identity;
 - application of the governed login-email, credential, password, verification, Customer, Account, and association gates;
 - completion, pending, conflict, failure, uncertainty, retry, idempotency, concurrency, and reconciliation semantics; and
-- safe externally observable workflow classifications without defining their future wire representation.
+- safe externally observable workflow classifications without redefining their executable wire representation in the paired OpenAPI Contract.
 
 It does not govern Customer login, recovery, ordinary Customer MFA, external Identity Providers, frontend behavior, persistence design, provider selection, or infrastructure.
 
@@ -189,7 +189,7 @@ Registration is duplicate-sensitive. Retries MUST reuse the governed registratio
 
 For the same governed intent, repeated processing MUST be safe and MUST NOT create duplicate or competing Identities, Customers, Accounts, credentials, verification outcomes, or associations. A retry MUST re-evaluate current authority where freshness or lifecycle state matters and MUST NOT restore withdrawn, superseded, invalid, or failed state.
 
-Incompatible reuse of intent, conflicting supplied meaning, or a collision with different authoritative ownership MUST produce a safe conflict or incomplete outcome rather than arbitrary selection. This Contract does not define an Idempotency Key header, key format, storage mechanism, retention duration, or exact response mapping; those are future OpenAPI and implementation concerns constrained by these semantics.
+Incompatible reuse of intent, conflicting supplied meaning, or a collision with different authoritative ownership MUST produce a safe conflict or incomplete outcome rather than arbitrary selection. This Contract does not define an Idempotency Key header, key format, storage mechanism, retention duration, or exact response mapping; applicable wire behavior is governed by the paired OpenAPI Contract, while implementation concerns remain constrained by these semantics.
 
 ## 18. Concurrency Semantics
 
@@ -235,7 +235,7 @@ All externally observable registration outcomes MUST resist enumeration of login
 
 Safe disclosure MUST NOT reveal whether failure or delay arose from identifier absence or ownership, a canonical collision, credential state, Customer or Account existence, association state, verification state, blocklist handling, internal persistence, or reconciliation status beyond what the authorized workflow may safely disclose.
 
-Response timing, shape, wording, status selection, retry behavior, telemetry, and support evidence MUST NOT become protected-existence oracles. The future OpenAPI Contract must translate the workflow categories into safe wire behavior without weakening these requirements.
+Response timing, shape, wording, status selection, retry behavior, telemetry, and support evidence MUST NOT become protected-existence oracles. The paired OpenAPI Contract translates the workflow categories into authoritative executable wire behavior and MUST remain synchronized with these requirements without weakening them.
 
 ## 22. Authentication, Principal, Session, and Authorization Boundaries
 
@@ -279,7 +279,7 @@ The workflow MUST apply least privilege, data minimization, purpose limitation, 
 
 Login email and registration data are PII and MUST be exposed only as necessary for the authorized workflow. Internal identifiers, persistence details, constraint names, stack traces, and sensitive reason detail MUST remain concealed.
 
-Registration controls MUST preserve abuse resistance, replay resistance, injection safety, credential-stuffing protections, CSRF requirements where applicable to the future browser Contract, and current security authority without this document selecting mechanisms or numerical thresholds.
+Registration controls MUST preserve abuse resistance, replay resistance, injection safety, credential-stuffing protections, CSRF requirements where applicable to the paired browser Contract, and current security authority without this document selecting mechanisms or numerical thresholds.
 
 ## 27. Audit and Observability Requirements
 
@@ -303,7 +303,7 @@ Audit Records remain distinct from ordinary Logs and Domain or Integration Event
 | Password verifier | DEC-0006 | Identity-owned governed verifier behavior; no verifier or password material crosses the Customer boundary. |
 | Password policy | DEC-0007 | Credential establishment passes the complete governed policy and fails closed. |
 | Current-login-email verification | DEC-0008 | Verification is required before registration completion and proves only control of the current authoritative login email. |
-| API and future OpenAPI authority | `API.md` | Markdown governs workflow and ownership; the future OpenAPI 3.1 artifact governs wire behavior. |
+| API and OpenAPI authority | `API.md` | Markdown governs human-readable workflow and ownership semantics; the paired OpenAPI 3.1 artifact governs authoritative executable HTTP wire behavior. |
 | Security and privacy | `SECURITY-STANDARDS.md`; Approved backend specifications | Least privilege, safe disclosure, enumeration resistance, Sensitive Data protection, audit, and default denial. |
 | Product Decision 28 | `PRODUCT.md` | Post-deletion login-email reuse and the broader governed Customer data workflow remain unresolved. |
 
@@ -311,7 +311,7 @@ Audit Records remain distinct from ordinary Logs and Domain or Integration Event
 
 This Contract does not decide, authorize, create, or claim completion of:
 
-- the future public route, HTTP method, headers, request or response JSON schemas, field names, exact HTTP status mapping, or RFC 9457 wire schemas;
+- public route, HTTP method, headers, request or response JSON schemas, field names, exact HTTP status mapping, or RFC 9457 wire schemas beyond the authoritative paired OpenAPI Contract;
 - a physical database schema, table, column, index, constraint, sequence, or seed data;
 - ORM, entity, aggregate-persistence mapping, repository class, or Java/Spring implementation design;
 - concrete internal Java interfaces, method signatures, DTOs, or framework types;
@@ -327,7 +327,7 @@ This Contract does not decide, authorize, create, or claim completion of:
 - global Identity, Customer, or Account cardinality or shared/delegated Account semantics;
 - Product Decision 28 or unrelated post-deletion login-email reuse policy;
 - unrelated lifecycle authority belonging to another Domain; or
-- implementation, deployment, operational readiness, or existence of the paired OpenAPI artifact.
+- implementation, deployment, or operational readiness.
 
 ## 30. Acceptance and Validation Criteria
 
@@ -352,9 +352,9 @@ The governed Contract change is valid only when review confirms all of the follo
 17. External disclosure resists enumeration and does not expose protected existence, credentials, verification secrets, internal persistence, or unsafe reason detail.
 18. Security, privacy, failure-closed, audit, and observability requirements remain implementation-neutral and introduce no numerical policy.
 19. Product Decision 28 and every explicit non-decision remain unresolved.
-20. The document defines no route, method, field, schema, header, exact status mapping, or RFC 9457 wire representation and does not compete with the future OpenAPI artifact.
+20. The document defines no route, method, field, schema, header, exact status mapping, or RFC 9457 wire representation and does not compete with or redefine the paired OpenAPI artifact.
 21. Traceability covers the governing Product, Architecture, Domain, Backend, ADR, DEC, API, and Security authority used by the workflow.
 22. Review identifies no invented provider behavior, persistence design, Product policy, Domain authority, cardinality, Contract wire detail, infrastructure, or implementation claim.
-23. The paired OpenAPI 3.1 artifact remains future work and MUST later encode executable wire behavior consistent with this Contract without inventing or weakening its workflow and ownership semantics.
+23. The paired OpenAPI 3.1 artifact exists as the authoritative executable HTTP wire Contract and MUST remain synchronized with this Contract without inventing or weakening its workflow and ownership semantics; conflicting semantics constitute a Contract defect.
 24. Contract verification planning covers completion, pending, rejection, conflict, duplicate, retry, concurrency, partial failure, uncertainty, reconciliation, enumeration resistance, default denial, and authority boundaries.
 25. Changes establishing or governing this Contract affect only explicitly authorized Contract artifacts, pass whitespace validation, and introduce no unrelated repository changes.
