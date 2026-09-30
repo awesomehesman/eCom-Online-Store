@@ -45,14 +45,11 @@ Changing a login email, password verifier, Session, or Authentication evidence M
 
 ## Association Authority and Cardinality
 
-For the initial local Customer Authentication model:
+ADR-0022 establishes no global Identity-to-Customer or Customer-to-Account cardinality. Whether one Identity may associate with multiple Customers, one Customer may associate with multiple Identities or Accounts, or shared or delegated Account relationships are supported remains unresolved Product and Architecture governance.
 
-1. one Identity MAY be associated with zero or one Customer;
-2. one Customer MAY be associated with zero or one Identity, and a registered Customer using the initial local Authentication model SHALL have exactly one accepted Identity association;
-3. one registered Customer SHALL have exactly one Account, and that Account SHALL represent exactly that Customer; and
-4. no Identity, Customer, or Account may participate in a competing accepted association under the initial model.
+An authenticated Identity or Principal does not itself establish a Customer association, and a Customer or Account identifier does not establish an Identity association. An authoritative association MUST identify the applicable Identity and Customer without collapsing their ownership boundaries. It MUST NOT be silently duplicated for the same governed association intent, transferred, replaced, merged, or reassigned through login-email changes, password changes, Session changes, retries, concurrency, or uncertain outcomes. Where multiple candidate associations or conflicting evidence exist, Customer context MUST fail closed until authoritative state is resolved.
 
-Zero permits independently created or incomplete state to remain distinguishable without falsely representing completed registration or access. These cardinalities are Architecture constraints for the initial model, not physical key or database design. Supporting multiple Customer identities, shared Accounts, multiple Accounts per Customer, household access, delegated access, merged identities, or another cardinality requires separate Product and Architecture governance with migration and Authorization semantics.
+Resolution for a particular Customer context MUST be unambiguous for the operation being authorized. That contextual requirement does not establish global one-to-one cardinality. Future supported Identity-to-Customer or Customer-to-Account cardinality requires applicable Product and Architecture governance before implementation relies on it.
 
 The association itself requires stable identity independent of mutable login email, credential, Principal, Session, Customer profile, or Account content. This ADR selects no identifier format or physical representation.
 
@@ -94,7 +91,7 @@ The cross-Module registration workflow SHALL therefore preserve explicit intent,
 
 DEC-0005 remains authoritative for canonical login-email equality and retained login-identifier ownership. Canonically identical registration attempts MUST NOT create competing login ownership, Identities, Customers, Accounts, credentials, or associations.
 
-Duplicate, concurrent, retried, or reordered coordination MUST converge on at most one accepted Identity, one accepted Customer, one accepted Account, and one accepted association for the governed registration intent. An already-associated Identity, a Customer already associated with another Identity, conflicting Customer evidence, or incompatible repeated intent SHALL produce an internal conflict or incomplete outcome and MUST NOT be silently merged, reassigned, overwritten, or represented as successful registration.
+Duplicate, concurrent, retried, or reordered coordination MUST converge without creating an unintended duplicate association for the same governed association intent. Conflicting association evidence or incompatible repeated intent SHALL produce an internal conflict or incomplete outcome and MUST NOT select an arbitrary winner, silently merge, transfer, reassign, or overwrite an association, or be represented as successful registration.
 
 Externally visible duplicate and conflict semantics remain for later Contract governance and must preserve enumeration resistance. This ADR selects no HTTP status, error code, Idempotency Key representation, database constraint, or concurrency mechanism.
 
@@ -144,7 +141,7 @@ No production Identity–Customer association implementation or population curre
 
 The selected architecture supports future Module extraction by requiring project-owned Contracts, separate owner transactions, opaque references, and no cross-Module persistence access. It does not authorize extraction, external services, distributed transactions, events, or infrastructure.
 
-A future cardinality, association-owner, external Identity Provider, merged-account, delegated-access, or service-boundary change requires superseding Architecture governance, compatibility analysis, migration evidence, dual-state prevention, rollback or reconciliation, and preservation of current revocation and Customer isolation. Exit cost grows after persisted association state and Contracts depend on this direction.
+A future cardinality selection or change, association-owner change, external Identity Provider, merged-account, delegated-access, or service-boundary change requires applicable Product and Architecture governance, compatibility analysis, migration evidence, dual-state prevention, rollback or reconciliation, and preservation of current revocation and Customer isolation. Exit cost grows after persisted association state and Contracts depend on this direction.
 
 Rollback or migration MUST NOT create duplicate identities, competing Customer ownership, stale access, restored withdrawn access, lost Customer history, or ambiguous association truth. Unresolved migration state fails closed for Customer context.
 
@@ -166,7 +163,7 @@ It is not selected because Identity must resolve accepted Authentication evidenc
 
 A separate association owner or coordinator could centralize registration state, association lifecycle, idempotency, and reconciliation. This could become useful if multiple Identity authorities, shared Accounts, delegated access, or additional business actors require a distinct model.
 
-It is deferred because no separate governed Domain or Module owns that truth, and introducing one now would add authority, persistence, Contracts, lifecycle, and operational complexity before the initial one-to-one Customer model exists. Registration coordination remains Customer Application behavior using Identity and Customer Contracts, not a new authoritative Domain.
+It is deferred because no separate governed Domain or Module owns that truth, and introducing one now would add authority, persistence, Contracts, lifecycle, and operational complexity before the initial association model exists. Registration coordination remains Customer Application behavior using Identity and Customer Contracts, not a new authoritative Domain.
 
 ### D. Shared or Collapsed Identity–Customer Persistence Model — Rejected
 
@@ -198,7 +195,7 @@ Association becomes Sensitive Data and an Authorization-relevant security bounda
 
 ### Data, Concurrency, and Integrity Impact
 
-Each owner retains its Source of Truth and local transaction. Concurrency must converge on the initial cardinality without silent merge, reassignment, or overwrite. Cross-Module uncertainty remains explicit until reconciled. Physical enforcement is deferred to implementation under ADR-0017, ADR-0018, Database, and PostgreSQL governance.
+Each owner retains its Source of Truth and local transaction. Concurrency must preserve governed association intent without silent duplication, merge, transfer, reassignment, arbitrary winner selection, or overwrite. Cross-Module uncertainty remains explicit until reconciled. Physical enforcement is deferred to implementation under ADR-0017, ADR-0018, Database, and PostgreSQL governance.
 
 ### Operational and Support Impact
 
@@ -235,7 +232,7 @@ ADR-0022 does not reopen or alter DEC-0003, DEC-0004, DEC-0005, DEC-0006, ADR-00
 
 Before ADR-0022 may become Accepted, durable review evidence must represent:
 
-- Architecture approval of association ownership, cardinality, Contract direction, transaction boundaries, compatibility, migration, and reversibility;
+- Architecture approval of association ownership, cardinality neutrality, Contract direction, transaction boundaries, compatibility, migration, and reversibility;
 - Identity approval of Identity authority, Principal resolution, association evidence, credential and Session non-transfer, disablement, and reconciliation boundaries;
 - Customer approval of Customer and Account authority, registration coordination, contextual Authorization, closure non-authority, and Customer isolation;
 - Security approval of default denial, least privilege, association proof, Sensitive Data, enumeration resistance, failure, conflict, audit, and withdrawn-access semantics; and
@@ -262,7 +259,7 @@ Before ADR-0022 may become Accepted, review must verify:
 1. metadata remains `0.1.0 Proposed`, Type `Architecture Decision`, owner `Architecture`, date `2026-09-30`, and `authoritative: false`;
 2. Identity, Principal, Customer, Account, credential, Session, and login identifier remain distinct;
 3. Identity owns the authoritative Identity-to-Customer association while Customer retains Customer and Account business truth and the Customer-to-Account relationship;
-4. initial cardinality permits at most one Customer per Identity and at most one Identity per Customer, while a registered Customer has exactly one Identity association and exactly one Account representing that Customer;
+4. ADR-0022 invents no unsupported Identity-to-Customer or Customer-to-Account cardinality, cardinality remains explicitly unresolved where not already governed, unambiguous contextual resolution does not imply global one-to-one cardinality, and future cardinality selection or change requires applicable governance;
 5. changing login email, credential, Session, Authentication evidence, or profile data cannot silently replace Identity, Customer, Account, or association;
 6. Customer Application coordinates the registration outcome through project-owned Identity and Customer Contracts without gaining Identity authority;
 7. registration is complete only after accepted Identity, Customer, Account, association, and applicable Product and Security outcomes are confirmed;
@@ -321,4 +318,4 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
-| 0.1.0 | 2026-09-30 | Proposed | Proposed an Identity-owned authoritative Identity-to-Customer association with Customer-owned Customer-to-Account truth, initial one-to-one registered-Customer cardinality, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries while preserving Product Decisions 5 and 28 and all physical persistence, Contract, policy, provider, dependency, and implementation non-decisions. |
+| 0.1.0 | 2026-09-30 | Proposed | Proposed an Identity-owned authoritative Identity-to-Customer association with Customer-owned Customer-to-Account truth, cardinality-neutral association boundaries, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries while preserving Product Decisions 5 and 28 and all physical persistence, Contract, policy, provider, dependency, and implementation non-decisions. |
