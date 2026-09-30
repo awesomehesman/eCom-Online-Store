@@ -1,9 +1,9 @@
 ---
 title: API
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Engineering
-last_updated: 2026-08-12
+last_updated: 2026-09-30
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -374,13 +374,65 @@ Security-sensitive and business-critical changes MUST create governed Audit Reco
 
 OpenAPI 3.1 is the Architecture-established machine-readable format for externally consumed HTTP API Contracts. OpenAPI and implementation MUST remain synchronized; drift MUST block completion or release according to applicable quality gates.
 
-This standard does not select a generator, documentation UI, code-first tool, or Contract repository layout.
+This standard does not select a generator, documentation UI, or code-first tool. Governed Contract artifact placement and naming are defined in section 64.1.
 
 ## 64. OpenAPI Content
 
 OpenAPI Contracts MUST document applicable paths, methods, parameters, request bodies, responses, schemas, security schemes, RFC 9457 errors, safe examples, deprecations, pagination, Idempotency Key behavior, and headers.
 
 Examples MUST NOT contain Secrets, credentials, production identifiers, or real Customer data.
+
+### 64.1 Governed Contract Artifact Convention
+
+Governed externally consumed HTTP API Contract artifacts MUST live under:
+
+```text
+specifications/contracts/<owner-package>/
+```
+
+`<owner-package>` MUST identify the owning Domain, Module, or other canonical owner using lower-kebab-case. Placement identifies ownership and proximity only; it MUST NOT transfer authority for capabilities or data owned by another Domain or Module. A cross-Module orchestration Contract MUST explicitly preserve the authority boundaries of every participating owner.
+
+Contract filenames MUST use descriptive lower-kebab-case capability names. The authoritative executable OpenAPI artifact MUST use:
+
+```text
+<capability>.openapi.yaml
+```
+
+When material workflow, orchestration, ownership, lifecycle, integration, rationale, or other human-readable guidance is required beyond what should reasonably be encoded in OpenAPI, the Contract MUST also include:
+
+```text
+<capability>-contract.md
+```
+
+A Markdown companion is not required mechanically for every HTTP API Contract. It is required only when that additional human-readable guidance is material, consistent with section 79.
+
+The following is an example of placement and naming shape only:
+
+```text
+specifications/contracts/customer/
+  initial-customer-registration-contract.md
+  initial-customer-registration.openapi.yaml
+```
+
+The example establishes no Registration route, HTTP method, schema, status, DTO, error, or other Contract semantic.
+
+### 64.2 Contract Artifact Authority
+
+The checked-in OpenAPI 3.1 source is the authoritative executable HTTP Contract for wire-level behavior, including applicable paths, HTTP methods, request and response schemas, headers, security schemes and requirements, HTTP statuses, RFC 9457 Problem Details wire representation, idempotency wire requirements, compatibility and deprecation representation, and governed Contract examples.
+
+An applicable Markdown companion is authoritative only for the human-readable workflow and ownership material it defines, including purpose and scope, workflow or orchestration semantics, Domain and Module authority boundaries, lifecycle and completion semantics, cross-Module responsibilities, uncertainty and reconciliation semantics, rationale, traceability, and explicit non-decisions. It MUST NOT duplicate or compete with OpenAPI as the wire-format Source of Truth.
+
+If Markdown and OpenAPI artifacts conflict on wire-level behavior, the conflict is a Contract defect that MUST be corrected. Implementation preference MUST NOT silently resolve the conflict.
+
+Generated HTML, portals, rendered API documentation, generated clients, generated server stubs, and similar derived artifacts are non-authoritative. They MUST be reproducible from the checked-in governed sources and MUST NOT replace the authoritative OpenAPI source or an applicable Markdown companion.
+
+### 64.3 Ownership, Aggregation, and Synchronization
+
+Contracts SHOULD be placed with their canonical owner rather than aggregated into a repository-wide monolithic API document solely for convenience. Independent owner-specific Contract artifacts remain permitted. A Contract MAY coordinate capabilities owned by multiple Modules without transferring their authority to the Contract's placement owner. Unrelated capabilities, including Registration and Login, are not required to share an OpenAPI artifact.
+
+When a capability uses both OpenAPI and Markdown companion artifacts, changes affecting shared semantics MUST review them as one governed Contract change. The artifacts MUST remain semantically synchronized, and applicable traceability between workflow requirements and executable Contract behavior MUST be maintained. Existing compatibility and versioning rules continue to apply; this convention creates no independent Contract-file versioning system. Implementation MUST conform to the authoritative governed Contract rather than redefine it.
+
+Executable HTTP behavior MUST be testable against the governed OpenAPI Contract. Applicable negative, security, error, compatibility, and Authorization behavior remains part of Contract verification under sections 72 through 75. A Markdown companion does not replace executable Contract verification. This standard selects no Contract-testing product or library.
 
 ## 65. Contract-First and Code-First
 
@@ -529,6 +581,7 @@ The following are prohibited:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-09-30 | Approved | Established the canonical governed HTTP API Contract artifact placement, naming, OpenAPI and Markdown authority relationship, synchronization, generated-documentation, ownership, aggregation, and Contract-testing conventions. |
 | 1.0.0 | 2026-08-12 | Approved | Promoted the API implementation standard after final governance, REST, HTTP semantics, RFC 9457, OpenAPI, Contract, Authentication, Authorization, idempotency, Payment, Inventory, compatibility, security, testing, observability, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-12 | Draft | Established the initial API implementation standard covering REST resource design, HTTP semantics, RFC 9457 Problem Details, validation, Authentication, Authorization, idempotency, pagination, Payment, Inventory, OpenAPI, compatibility, security, testing, observability, and governance. |
 
@@ -542,7 +595,7 @@ Review evidence MUST be practical, testable, traceable, and proportionate to Ris
 
 Before this document or a governed revision is presented for approval, reviewers MUST confirm that:
 
-1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
+1. metadata accurately states version 1.1.0 Approved with `authoritative: false`;
 2. REST, `/api/v1`, OpenAPI 3.1, and RFC 9457 match Approved Architecture;
 3. RFC 7807 is not treated as the current baseline;
 4. no unsupported protocol, gateway vendor, JSON naming convention, or technology is selected;
