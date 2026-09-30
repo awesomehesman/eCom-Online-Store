@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.25.0
+version: 1.26.0
 status: Approved
-owner: Engineering
-last_updated: 2026-09-29
+owner: Architecture
+last_updated: 2026-09-30
 applies_to:
   - Frontend
   - Backend
@@ -1157,6 +1157,16 @@ Customer authentication must support:
 - Brute-force controls.
 - Future email verification and MFA readiness.
 
+### 30.2.1 Identity–Customer Association and Registration Coordination
+
+Accepted ADR-0022 establishes that Identity owns the authoritative Identity-to-Customer association used by the Authentication and security boundary, while Customer retains authoritative Customer and Account business truth, including Customer-to-Account relationships. An authenticated Identity or Principal is not itself proof of Customer or Account Authorization. Resolving Customer context requires authoritative association evidence and MUST be unambiguous for the operation being authorized; incomplete, conflicting, ambiguous, or uncertain association evidence fails closed.
+
+Customer Application MAY coordinate initial Customer registration through bounded project-owned Identity and Customer Contracts. Coordination transfers neither Identity authority to Customer nor Customer or Account business authority to Identity. Each Module retains its owner-local transaction boundary, and cross-Module registration MUST NOT assume distributed atomicity or read or write another Module's internal persistence. Registration MUST NOT be represented as complete until required authoritative Identity, Customer-domain, and association outcomes and applicable separately governed Product and Security conditions are established. Partial or uncertain outcomes remain incomplete and reconcilable, and reconciliation MUST preserve ownership, provenance, accepted history, and default denial.
+
+Changes to login email, password verifier, Session, or Authentication evidence MUST NOT silently replace Identity, Customer, Account, or association authority. Retries and concurrency MUST NOT silently duplicate an association for the same governed intent, merge, transfer, reassign, replace, or arbitrarily select association ownership.
+
+This Architecture establishes no global Identity-to-Customer, Customer-to-Identity, or Customer-to-Account cardinality and no shared or delegated Account semantics. Unambiguous contextual resolution does not imply global one-to-one cardinality. Applicable future Product and Architecture governance is required before implementation may rely on any such cardinality or Account relationship. Product Decisions 5 and 28 remain unresolved. ADR-0022 selects no physical persistence design, public API or event shape, concrete retry or reconciliation implementation, dependency, provider, infrastructure, or Product policy.
+
 ### 30.3 Administrative Authentication
 
 Administrative access requires stronger controls than ordinary storefront browsing. The architecture must support:
@@ -1935,6 +1945,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.26.0 | 2026-09-30 | Approved | Synchronized Accepted ADR-0022 by establishing the Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer and Account truth, Customer-coordinated registration through bounded Contracts, separate owner-local transactions, fail-closed Customer-context resolution, reconciliation and stability boundaries, and cardinality neutrality while preserving Product Decisions 5 and 28 and all persistence, Contract, dependency, provider, infrastructure, and implementation non-decisions. |
 | 1.25.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.24.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by selecting Spring Session JDBC backed by the governed application PostgreSQL database for authoritative Identity Session state, preserving ADR-0019 security semantics, Identity-owned ADR-0017 schema and Flyway authority, ADR-0018 persistence boundaries, unresolved unrelated Redis use, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.23.1 | 2026-09-28 | Approved | Clarified the canonical backend Java root package and complete Module-to-package mapping, including Java-safe Search and Discovery, Return, and Notifications package identifiers, while preserving the existing Module-first architecture, internal layer structure, and dependency direction. |
