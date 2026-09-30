@@ -1,6 +1,6 @@
 ---
 title: ARCHITECTURE
-version: 1.26.0
+version: 1.26.1
 status: Approved
 owner: Architecture
 last_updated: 2026-09-30
@@ -1165,7 +1165,7 @@ Customer Application MAY coordinate initial Customer registration through bounde
 
 Changes to login email, password verifier, Session, or Authentication evidence MUST NOT silently replace Identity, Customer, Account, or association authority. Retries and concurrency MUST NOT silently duplicate an association for the same governed intent, merge, transfer, reassign, replace, or arbitrarily select association ownership.
 
-This Architecture establishes no global Identity-to-Customer, Customer-to-Identity, or Customer-to-Account cardinality and no shared or delegated Account semantics. Unambiguous contextual resolution does not imply global one-to-one cardinality. Applicable future Product and Architecture governance is required before implementation may rely on any such cardinality or Account relationship. Product Decisions 5 and 28 remain unresolved. ADR-0022 selects no physical persistence design, public API or event shape, concrete retry or reconciliation implementation, dependency, provider, infrastructure, or Product policy.
+This Architecture establishes no global Identity-to-Customer, Customer-to-Identity, or Customer-to-Account cardinality and no shared or delegated Account semantics. Unambiguous contextual resolution does not imply global one-to-one cardinality. Applicable future Product and Architecture governance is required before implementation may rely on any such cardinality or Account relationship. Product Decision 28 remains unresolved. ADR-0022 selects no physical persistence design, public API or event shape, concrete retry or reconciliation implementation, dependency, provider, infrastructure, or Product policy.
 
 ### 30.3 Administrative Authentication
 
@@ -1945,6 +1945,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.26.1 | 2026-09-30 | Approved | Synchronized the narrow affected Architecture statement following acceptance of DEC-0008 by removing the stale assertion that Product Decision 5 remained unresolved while preserving unresolved Product Decision 28 and all existing Architecture authority; DEC-0008 remains the governing Product/Security decision. |
 | 1.26.0 | 2026-09-30 | Approved | Synchronized Accepted ADR-0022 by establishing the Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer and Account truth, Customer-coordinated registration through bounded Contracts, separate owner-local transactions, fail-closed Customer-context resolution, reconciliation and stability boundaries, and cardinality neutrality while preserving Product Decisions 5 and 28 and all persistence, Contract, dependency, provider, infrastructure, and implementation non-decisions. |
 | 1.25.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.24.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by selecting Spring Session JDBC backed by the governed application PostgreSQL database for authoritative Identity Session state, preserving ADR-0019 security semantics, Identity-owned ADR-0017 schema and Flyway authority, ADR-0018 persistence boundaries, unresolved unrelated Redis use, and separate DEC-0001 dependency admission without claiming implementation. |

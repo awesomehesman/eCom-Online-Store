@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.47
+version: 1.0.48
 status: Approved
 owner: Architecture
 last_updated: 2026-09-30
@@ -546,7 +546,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0005 | Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics | Product Decision / Security Decision / Data Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) |
 | DEC-0006 | Customer Password Hashing and Verification Strategy | Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0006-customer-password-hashing-verification-strategy.md](../../specifications/decisions/DEC-0006-customer-password-hashing-verification-strategy.md) |
 | DEC-0007 | Initial Customer Password Policy | Product Decision / Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0007-initial-customer-password-policy.md](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) |
-| DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Proposed | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
+| DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Accepted | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -676,6 +676,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.48 | 2026-09-30 | Approved | Synchronized DEC-0008 to Accepted with `PRODUCT.md` and the narrow affected Architecture open-decision statement, establishing mandatory verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, together with current-email binding, deterministic re-verification and supersession semantics, and default denial while preserving provider, Contract, persistence, recovery, MFA, infrastructure, frontend, and implementation neutrality without claiming implementation completion. |
 | 1.0.47 | 2026-09-30 | Approved | Indexed DEC-0008, Initial Customer Email Verification Policy, as Proposed with explicit registration, Authentication, Principal, Session, Account and protected-access gates, deterministic verification and login-email-change lifecycle boundaries, and default-denial, enumeration-resistance, privacy, compatibility, migration, and reversibility consequences without accepting the decision, resolving Product Decision 5, selecting a provider or Contract, or claiming implementation. |
 | 1.0.46 | 2026-09-30 | Approved | Synchronized DEC-0007 to Accepted, establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, Security-standard, Architecture, and implementation authority. |
 | 1.0.45 | 2026-09-30 | Approved | Indexed DEC-0007, Initial Customer Password Policy, as Proposed with evidence-backed length, Unicode/NFC, composition, compromised-password rejection, reuse/history, rotation, safe-disclosure, password-manager, accessibility, and compatibility boundaries without accepting the decision, synchronizing Product or Security standards, admitting a provider or dependency, defining Contracts or persistence, or claiming implementation. |

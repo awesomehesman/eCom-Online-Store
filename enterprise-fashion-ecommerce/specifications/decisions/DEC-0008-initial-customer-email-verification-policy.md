@@ -3,11 +3,11 @@
 - **Identifier:** DEC-0008
 - **Title:** Initial Customer Email Verification Policy
 - **Type:** Product Decision / Security Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-30
 - **Owner:** Product
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -17,7 +17,7 @@
 
 Accepted DEC-0003, DEC-0006, and DEC-0007 govern the initial password credential, password hashing and verification, and Customer password policy. Accepted ADR-0019 through ADR-0022 govern the browser Session architecture, Session store, Identity-owned local Customer Authentication authority, and Identity–Customer/Account association. Registration and login Contracts remain unable to define authoritative completion, Authentication, Session, and protected-access outcomes until the Product and Security significance of email verification is explicit.
 
-This Proposed decision selects a strict initial email-verification gate. It remains provider-neutral and implementation-neutral and does not define a delivery mechanism, verification artifact, Contract, persistence design, recovery workflow, or implementation.
+This decision establishes a strict initial email-verification gate. It remains provider-neutral and implementation-neutral and does not define a delivery mechanism, verification artifact, Contract, persistence design, recovery workflow, or implementation.
 
 ## Verified Governing Constraints
 
@@ -32,7 +32,7 @@ This Proposed decision selects a strict initial email-verification gate. It rema
 
 ## Decision
 
-If Accepted, verification of the current authoritative Customer login email SHALL be required for the initial Customer registration and login path.
+Verification of the current authoritative Customer login email SHALL be required for the initial Customer registration and login path.
 
 ### Verification Meaning and Authority
 
@@ -163,9 +163,9 @@ DEC-0008 does not select, define, admit, or authorize:
 - implementation of DEC-0003 through DEC-0007 or ADR-0019 through ADR-0022; or
 - a claim that registration, verification delivery, Authentication, Session establishment, Customer or Account creation, association, protected access, recovery, or implementation currently exists.
 
-## Required Governance Reviews
+## Completed Governance Review
 
-Before DEC-0008 may become Accepted, durable review evidence must represent:
+Acceptance required durable governance-review representation from:
 
 - Product approval of mandatory verification, registration completion, login, Session, Account and protected-access gates, Customer experience, and reversibility;
 - Identity approval of verification evidence ownership, current-email binding, Authentication and Principal gates, lifecycle integrity, and separation from Customer truth;
@@ -176,24 +176,25 @@ Before DEC-0008 may become Accepted, durable review evidence must represent:
 - Notifications approval of bounded non-authoritative delivery interaction without provider, channel implementation, or delivery-as-verification authority; and
 - Engineering review of deterministic lifecycle, idempotency, concurrency, failure, compatibility, migration, operations, testability, and implementation neutrality.
 
-This Proposed record claims no completed review, named reviewer, meeting, ticket, signature, external approval, implementation evidence, provider validation, or executable test.
+The controlled governance review completed with no unresolved acceptance blocker. This Accepted record does not fabricate or claim reviewer names, signatures, tickets, meetings, external approval artifacts, implementation evidence, provider validation, or executable tests, and acceptance does not claim implementation completion.
 
 ## Acceptance Synchronization
 
-Based on the current eligibility audit, controlled acceptance is expected to synchronize these canonical artifacts:
+Controlled acceptance synchronizes exactly these canonical artifacts:
 
-1. `specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md` from `0.1.0 Proposed` to `1.0.0 Accepted` without claiming implementation.
-2. `.ai/core/DECISIONS.md` by changing DEC-0008's indexed status from Proposed to Accepted and recording the synchronization in Revision History while preserving its identifier, type, owner, date, and canonical path.
-3. `.ai/core/PRODUCT.md` by resolving Product Decision 5 and synchronizing only the accepted initial Customer email-verification policy into the appropriate existing Product area without resolving another Open Product Decision or claiming implementation.
+1. `specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md` is promoted to `1.0.0 Accepted` and `authoritative: true` without claiming implementation.
+2. `.ai/core/DECISIONS.md` changes DEC-0008's indexed status from Proposed to Accepted and records the synchronization in Revision History while preserving its identifier, type, owner, date, and canonical path.
+3. `.ai/core/PRODUCT.md` resolves Product Decision 5 and synchronizes only the accepted initial Customer email-verification policy into the existing Customer Account area without resolving another Open Product Decision or claiming implementation.
+4. `.ai/core/ARCHITECTURE.md` removes only the stale statement that Product Decision 5 remains unresolved while preserving Product Decision 28 and all Architecture authority.
 
-This three-file set is the currently identified acceptance scope, not an irrevocable classification. If acceptance-readiness review discovers a direct contradiction requiring `SECURITY-STANDARDS.md`, `ARCHITECTURE.md`, an Identity or Customer Domain Specification, an Identity or Customer Backend Specification, or another canonical source to change, governance MUST stop and reassess the synchronization scope rather than silently broaden it.
+No additional canonical source requires modification for this acceptance. Acceptance establishes policy authority only and does not claim implementation completion.
 
-## Acceptance Conditions and Readiness Criteria
+## Accepted-State Validation Criteria
 
-Before DEC-0008 may become Accepted, review must verify:
+The Accepted record verifies:
 
-1. metadata remains `0.1.0 Proposed`, Type `Product Decision / Security Decision`, owner `Product`, date `2026-09-30`, and `authoritative: false`;
-2. Product Decision 5 is actually resolved by acceptance rather than restated as an unresolved question;
+1. metadata is `1.0.0 Accepted`, Type `Product Decision / Security Decision`, owner `Product`, date `2026-09-30`, and `authoritative: true`;
+2. Product Decision 5 is resolved by this Accepted decision and canonical Product synchronization rather than restated as an unresolved question;
 3. accepted verification for the current authoritative login email is required before registration completion;
 4. an unverified Customer cannot produce successful Customer Authentication, establish an authenticated Customer Principal, or establish a Customer Session in the initial flow;
 5. an unverified login email cannot enable Account or protected Customer access, while verification alone is not Authorization;
@@ -207,9 +208,9 @@ Before DEC-0008 may become Accepted, review must verify:
 13. ADR-0019 through ADR-0022 remain unchanged and authoritative within their scopes;
 14. Product Decision 28 and every unrelated Open Product Decision remain unresolved;
 15. no provider, API, SDK, dependency, Contract, persistence, token or code mechanism, lifetime, retry or rate value, cache, messaging technology, recovery, MFA, external IdP, infrastructure, frontend, or implementation authority is created;
-16. required Product, Identity, Security, Architecture, Customer, Privacy, Notifications, and Engineering review evidence is durable without fabricated authority or implementation claims;
-17. controlled acceptance synchronizes the final acceptance-readiness-approved canonical set, expected to comprise DEC-0008, `DECISIONS.md`, and `PRODUCT.md`, without silently broadening scope; and
-18. proposal registration changes only DEC-0008 and `DECISIONS.md`, indexes DEC-0008 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+16. completed Product, Identity, Security, Architecture, Customer, Privacy, Notifications, and Engineering governance review is represented without fabricated authority or implementation claims;
+17. controlled acceptance synchronizes exactly DEC-0008, `DECISIONS.md`, `PRODUCT.md`, and `ARCHITECTURE.md` without silently broadening scope; and
+18. DEC-0008 is `1.0.0 Accepted` and `authoritative: true`, `DECISIONS.md` indexes DEC-0008 exactly once as Accepted, `PRODUCT.md` resolves Product Decision 5, all four files are synchronized consistently, whitespace and diff validation pass, and no unrelated tracked changes are introduced.
 
 ## References
 
@@ -245,4 +246,5 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-30 | Accepted | Accepted mandatory verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, with deterministic lifecycle, login-email-change, default-denial, enumeration-resistance, privacy, security, compatibility, migration, and reversibility boundaries; synchronized DEC-0008, `DECISIONS.md`, `PRODUCT.md`, and the narrow affected `ARCHITECTURE.md` statement without claiming implementation completion. |
 | 0.1.0 | 2026-09-30 | Proposed | Proposed mandatory verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, with deterministic lifecycle, login-email-change, default-denial, enumeration-resistance, privacy, security, compatibility, migration, and reversibility boundaries while preserving DEC-0003 through DEC-0007, ADR-0019 through ADR-0022, Product Decision 28 and unrelated Open Product Decisions, and all provider, Contract, persistence, recovery, MFA, external-IdP, infrastructure, frontend, and implementation non-decisions. |
