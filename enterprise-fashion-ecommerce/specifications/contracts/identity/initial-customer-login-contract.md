@@ -6,9 +6,9 @@ This governed human-readable Contract defines the workflow, ownership, Authentic
 
 Login is an Identity-owned externally consumed capability. It is independently governed from Customer Registration. Completion of Registration does not perform Login, establish Authentication, create a Principal or Session, or transfer Login authority to Customer. Conversely, Login does not create or complete Registration.
 
-This Contract is intended to be paired later with `initial-customer-login.openapi.yaml`. The future OpenAPI 3.1 artifact will be authoritative for executable wire behavior. This Markdown Contract is authoritative only for the human-readable workflow, authority, lifecycle, failure, and security semantics it defines.
+This Contract is paired with `initial-customer-login.openapi.yaml`, which is the authoritative executable HTTP wire Contract under `API.md` section 64.2. This Markdown Contract is authoritative only for the human-readable workflow, ownership, lifecycle, orchestration, cross-Module, uncertainty, rationale, traceability, non-decision, failure, and security semantics it defines.
 
-This document MUST NOT be interpreted as defining a route, HTTP method, request or response field, HTTP status, cookie name, header, security-scheme representation, wire schema, or RFC 9457 mapping. It does not claim that the executable OpenAPI Contract or Login implementation exists.
+This document MUST NOT be interpreted as defining or redefining a route, HTTP method, request or response field, HTTP status, cookie name, header, security-scheme representation, wire schema, or RFC 9457 mapping. The paired Markdown and OpenAPI artifacts MUST remain synchronized, and conflicting semantics constitute a Contract defect that MUST be corrected. This document does not claim that Login implementation exists.
 
 ## 2. Authority and Governing Sources
 
@@ -192,7 +192,7 @@ Such processing MUST NOT:
 
 Safe observable duplicate handling MUST remain compatible with enumeration resistance. Internally distinct replay, duplicate, concurrency, and uncertainty outcomes MAY remain distinguishable for authorized handling without exposing protected state externally.
 
-The future OpenAPI artifact will decide whether and how an Idempotency Key is represented at the wire boundary under API.md. This Markdown Contract selects no Idempotency Key header, key format, scope, compatibility fingerprint, retention period, persistence mechanism, or HTTP treatment.
+The paired OpenAPI artifact governs whether and how an Idempotency Key is represented at the wire boundary under API.md. This Markdown Contract selects no Idempotency Key header, key format, scope, compatibility fingerprint, retention period, persistence mechanism, or HTTP treatment.
 
 ## 15. Failure, Uncertainty, Recovery, and Reconciliation
 
@@ -237,7 +237,7 @@ This Contract selects no telemetry schema, retention period, alert threshold, mo
 | Current-login-email verification | DEC-0008 | Accepted evidence for the current authoritative login email is mandatory before initial Customer Authentication, Principal, or Session success. |
 | Identity requirements | Identity Domain and Backend Specifications | Preserve Identity, credential, Authentication, Principal, Session, failure, concurrency, Contract, security, audit, and reconciliation authority. |
 | Customer requirements | Customer Domain and Backend Specifications | Customer retains Customer/Account truth, isolation, association consumption, contextual Authorization, failure, and privacy authority. |
-| API and future wire authority | `API.md` | Markdown governs human-readable semantics; the future OpenAPI 3.1 artifact governs executable wire behavior. |
+| API and wire authority | `API.md` | Markdown governs human-readable semantics; the paired OpenAPI 3.1 artifact governs authoritative executable HTTP wire behavior. |
 | Security and privacy | `SECURITY-STANDARDS.md` | Preserve default denial, enumeration resistance, credential protection, Session security, least privilege, safe telemetry, and security testing. |
 | Canonical terminology | `GLOSSARY.md` | Identity, Principal, Authentication, Authorization, Session, Customer, Account, and related terms remain distinct. |
 
@@ -261,8 +261,8 @@ This Contract does not select, define, authorize, or claim completion of:
 - infrastructure, hosting, deployment, networking, replication, failover, cache, queue, event technology, or provider topology;
 - global Identity-to-Customer, Customer-to-Identity, or Customer-to-Account cardinality or shared/delegated Account semantics;
 - an administrative Role or Permission matrix, Product Decision 23, or unrelated privileged-access policy;
-- Login route, HTTP method, request or response property, HTTP status, header, exact cookie wire representation, OpenAPI security scheme, RFC 9457 mapping, or example;
-- an Idempotency Key wire Contract, format, scope, retention period, persistence, or HTTP treatment;
+- Login route, HTTP method, request or response property, HTTP status, header, exact cookie wire representation, OpenAPI security scheme, RFC 9457 mapping, or example beyond the authoritative paired OpenAPI Contract;
+- Idempotency Key wire behavior beyond the paired OpenAPI Contract, or an Idempotency Key format, scope, retention period, persistence mechanism, or HTTP treatment not established there;
 - concrete Customer or Account contextual Authorization rules beyond preserving owning-Domain authority;
 - dependency admission, implementation class, executable implementation, deployment, production readiness, or completed testing; or
 - creation, modification, completion, or dependency on the separate Initial Customer Registration Contract.
@@ -292,13 +292,13 @@ The governed Login Contract change is valid only when review confirms all of the
 19. Customer retains Customer and Account contextual Authorization, and Login success does not authorize every Customer or Account operation.
 20. Externally observable behavior resists enumeration and does not expose sensitive failure causes or protected Identity, Customer, Account, credential, verifier, verification, association, Session, or persistence state.
 21. Retried, duplicated, replayed, concurrent, delayed, or reordered processing cannot fabricate success, create unintended duplicate authoritative effects, restore withdrawn access, or overwrite newer authority.
-22. The Markdown Contract defines no Idempotency Key wire behavior and leaves that decision to the future executable OpenAPI Contract under API.md.
+22. The Markdown Contract defines no Idempotency Key wire behavior; applicable wire behavior is governed by the paired executable OpenAPI Contract under API.md.
 23. Invalid, failed, unavailable, partial, conflicting, ambiguous, stale, superseded, or uncertain required evidence preserves default denial without destructive rewriting of independently accepted owner truth.
 24. Logs, Metrics, Traces, Audit Records, correlation, and support evidence remain privacy-safe, purpose-limited, and free of credential material, Session secrets, protected existence, and internal implementation detail.
 25. Applicable protected-cookie, CSRF, CORS, least-privilege, abuse-resistance, replay, fixation, and Security requirements remain in force without selecting unresolved concrete configuration.
 26. Neither Identity nor Customer accesses the other's internal persistence or framework state; cross-Module evidence remains bounded and source-owned.
 27. Traceability covers the governing Product, Architecture, Security, API, Domain, Backend, ADR, DEC, and terminology sources without inventing authority.
 28. Product Decision 28 and every other explicit non-decision remain unresolved.
-29. No route, method, request or response field, HTTP status, header, cookie name, wire schema, token format, Session identifier, RFC 9457 mapping, provider, persistence design, numerical policy, or implementation is invented.
-30. The future paired OpenAPI 3.1 artifact remains separate work and MUST encode executable wire behavior consistent with this Contract without weakening its ownership, Authentication, security, failure, uncertainty, or non-decision semantics.
+29. The Markdown Contract invents no route, method, request or response field, HTTP status, header, cookie name, wire schema, token format, Session identifier, RFC 9457 mapping, provider, persistence design, numerical policy, or implementation beyond the authoritative paired OpenAPI Contract.
+30. The paired OpenAPI 3.1 artifact exists as the authoritative executable HTTP wire Contract and MUST remain synchronized with this Contract without weakening its ownership, Authentication, security, failure, uncertainty, or non-decision semantics; conflicting semantics constitute a Contract defect.
 31. Changes establishing or governing this Contract affect only explicitly authorized Contract artifacts, pass whitespace validation, and introduce no unrelated repository changes.
