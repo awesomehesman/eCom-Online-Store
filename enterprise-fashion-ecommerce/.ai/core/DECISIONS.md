@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.40
+version: 1.0.41
 status: Approved
 owner: Architecture
-last_updated: 2026-09-29
+last_updated: 2026-09-30
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -543,6 +543,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
 | DEC-0004 | Customer Login Identifier Semantics | Product Decision / Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0004-customer-login-identifier-semantics.md](../../specifications/decisions/DEC-0004-customer-login-identifier-semantics.md) |
 | DEC-0005 | Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics | Product Decision / Security Decision / Data Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md](../../specifications/decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md) |
+| DEC-0006 | Customer Password Hashing and Verification Strategy | Security Decision | Proposed | Identity | 2026-09-30 | — | [DEC-0006-customer-password-hashing-verification-strategy.md](../../specifications/decisions/DEC-0006-customer-password-hashing-verification-strategy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -672,6 +673,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.41 | 2026-09-30 | Approved | Indexed DEC-0006, Customer Password Hashing and Verification Strategy, as Proposed with Argon2id, evidence-backed parameter authority, unique random salts, no initial pepper, self-describing verifier, upgrade, compatibility, compromise, and failure boundaries while preserving separate Product policy, persistence, Contract, dependency, and implementation governance without creating acceptance authority. |
 | 1.0.40 | 2026-09-29 | Approved | Synchronized DEC-0005 as Accepted for deterministic Customer login-email comparison, logical uniqueness, collision, lifecycle, concurrency, failure, and domain canonicalization semantics while preserving unresolved Product Decisions 5 and 28 and downstream persistence, API Contract, dependency, and implementation boundaries without claiming implementation completion. |
 | 1.0.39 | 2026-09-29 | Approved | Indexed DEC-0005, Customer Login Email Comparison, Uniqueness, and Lifecycle Semantics, as Proposed with deterministic comparison, logical uniqueness, collision, establishment, change, reuse, concurrency, failure, and migration semantics while preserving Product Decisions 5 and 28 and excluding persistence, Contracts, dependencies, and implementation without creating acceptance authority. |
 | 1.0.38 | 2026-09-29 | Approved | Synchronized DEC-0004 to Accepted, establishing email as the single initial Customer-facing login identifier while preserving unresolved Product Decision 5, email as lookup input rather than Authentication or recovery proof, and unresolved normalization, persistence, Contracts, recovery, MFA, dependency admission, and implementation. |
