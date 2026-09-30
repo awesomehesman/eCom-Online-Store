@@ -3,11 +3,11 @@
 - **Identifier:** ADR-0022
 - **Title:** Initial Identity–Customer/Account Association Strategy
 - **Type:** Architecture Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-09-30
 - **Owner:** Architecture
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -19,11 +19,11 @@ Accepted DEC-0003 through DEC-0006 govern the initial password credential catego
 
 The unresolved architecture must connect accepted Identity authority to Customer and Account context without collapsing Domain ownership, treating Authentication as business Authorization, introducing direct cross-Module persistence, or assuming one transaction spans separate Module authorities. It must also define when registration may be represented as complete and how incomplete, duplicate, concurrent, failed, or uncertain work remains safe.
 
-This Proposed ADR selects that architectural boundary. It does not establish Customer password policy, email-verification requirements, externally observable registration or login Contracts, physical persistence, Product Decision 5, Product Decision 28, recovery, MFA, or implementation.
+This Accepted ADR establishes that architectural boundary. It does not establish Customer password policy, email-verification requirements, externally observable registration or login Contracts, physical persistence, Product Decision 5, Product Decision 28, recovery, MFA, or implementation.
 
 ## Decision
 
-If Accepted, the initial architecture SHALL use an **Identity-owned authoritative association from Identity to Customer**, combined with a **Customer-owned authoritative relationship from Customer to Account**.
+The initial architecture SHALL use an **Identity-owned authoritative association from Identity to Customer**, combined with a **Customer-owned authoritative relationship from Customer to Account**.
 
 Identity SHALL own the security-side fact that a particular Identity is associated with a particular Customer for local Customer Authentication. Customer SHALL remain authoritative for whether that Customer exists, for the Customer's business state, and for the Customer-to-Account relationship and Account business state. Identity's association reference does not make Identity authoritative for Customer or Account internals. Customer MAY consume current Identity association evidence but MUST NOT reinterpret credential, Authentication, Principal, Session, or Identity security state.
 
@@ -230,7 +230,7 @@ ADR-0022 does not reopen or alter DEC-0003, DEC-0004, DEC-0005, DEC-0006, ADR-00
 
 ## Required Governance Reviews
 
-Before ADR-0022 may become Accepted, durable review evidence must represent:
+ADR-0022 completed acceptance-readiness review without an unresolved substantive blocker. Durable acceptance review evidence must represent:
 
 - Architecture approval of association ownership, cardinality neutrality, Contract direction, transaction boundaries, compatibility, migration, and reversibility;
 - Identity approval of Identity authority, Principal resolution, association evidence, credential and Session non-transfer, disablement, and reconciliation boundaries;
@@ -238,25 +238,25 @@ Before ADR-0022 may become Accepted, durable review evidence must represent:
 - Security approval of default denial, least privilege, association proof, Sensitive Data, enumeration resistance, failure, conflict, audit, and withdrawn-access semantics; and
 - Engineering review of modular-monolith dependency direction, transaction feasibility, idempotency, concurrency, failure, reconciliation, testing, maintenance, and implementation neutrality.
 
-The acceptance PR may provide durable review evidence only when those authorities are genuinely represented. No named reviewer, meeting, ticket, signature, external organizational approval, implementation evidence, or completed executable test is claimed by this Proposed record.
+The acceptance PR may provide that durable review evidence only when those authorities are genuinely represented. No named reviewer, meeting, ticket, signature, external organizational approval, implementation evidence, or completed executable test is claimed by this Accepted record.
 
 ## Acceptance Conditions and Synchronization
 
-Based on the current proposal review, acceptance is expected to synchronize:
+Acceptance synchronizes:
 
 1. `specifications/adr/ADR-0022-identity-customer-account-association-strategy.md`;
 2. `.ai/core/DECISIONS.md`; and
 3. `.ai/core/ARCHITECTURE.md`.
 
-Acceptance-readiness review MUST verify the final affected-source set. Another governed source may be added only when that review identifies a direct contradiction or synchronization requirement supported by existing repository authority; it must not expand ADR-0022's substantive scope. `PRODUCT.md`, `SECURITY-STANDARDS.md`, backend standards, Domain Specifications, Backend Specifications, Contracts, build files, dependencies, and implementation files are not currently expected to change.
+Acceptance-readiness review verified this affected-source set. Another governed source may be added only when a separately governed correction identifies a direct contradiction or synchronization requirement supported by existing repository authority; it must not expand ADR-0022's substantive scope. `PRODUCT.md`, `SECURITY-STANDARDS.md`, backend standards, Domain Specifications, Backend Specifications, Contracts, build files, dependencies, and implementation files do not require acceptance synchronization.
 
-No Customer registration or end-to-end Customer-context implementation may treat ADR-0022 as Accepted authority until the ADR is Accepted and required canonical synchronization is complete.
+Customer registration or end-to-end Customer-context implementation may rely on ADR-0022 only after this Accepted record and required canonical synchronization are durably integrated. Dependency admission and implementation remain separately governed.
 
 ## Validation Criteria
 
-Before ADR-0022 may become Accepted, review must verify:
+The Accepted record must preserve:
 
-1. metadata remains `0.1.0 Proposed`, Type `Architecture Decision`, owner `Architecture`, date `2026-09-30`, and `authoritative: false`;
+1. metadata is `1.0.0 Accepted`, Type `Architecture Decision`, owner `Architecture`, date `2026-09-30`, and `authoritative: true`;
 2. Identity, Principal, Customer, Account, credential, Session, and login identifier remain distinct;
 3. Identity owns the authoritative Identity-to-Customer association while Customer retains Customer and Account business truth and the Customer-to-Account relationship;
 4. ADR-0022 invents no unsupported Identity-to-Customer or Customer-to-Account cardinality, cardinality remains explicitly unresolved where not already governed, unambiguous contextual resolution does not imply global one-to-one cardinality, and future cardinality selection or change requires applicable governance;
@@ -276,7 +276,7 @@ Before ADR-0022 may become Accepted, review must verify:
 18. Product Decisions 5 and 28 remain unresolved and no email-verification, deletion, closure, reuse, or reactivation policy is introduced;
 19. physical persistence, public API, event, provider, dependency, infrastructure, frontend, numerical, recovery, MFA, password-policy, and implementation details remain explicit non-decisions;
 20. required Architecture, Identity, Customer, Security, and Engineering review evidence is durable without fabricated authority or implementation claims; and
-21. proposal registration changes only ADR-0022 and `DECISIONS.md`, registers ADR-0022 exactly once as Proposed, passes whitespace and diff validation, and introduces no unrelated tracked changes.
+21. acceptance synchronization changes only ADR-0022, `DECISIONS.md`, and `ARCHITECTURE.md`, registers ADR-0022 exactly once as Accepted, passes whitespace and diff validation, and introduces no unrelated tracked changes.
 
 ## Related Documents
 
@@ -318,4 +318,5 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-09-30 | Accepted | Accepted the Identity-owned authoritative Identity-to-Customer association with Customer-owned Customer-to-Account truth, cardinality-neutral association boundaries, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries while preserving Product Decisions 5 and 28 and all physical persistence, Contract, policy, provider, dependency, and implementation non-decisions. |
 | 0.1.0 | 2026-09-30 | Proposed | Proposed an Identity-owned authoritative Identity-to-Customer association with Customer-owned Customer-to-Account truth, cardinality-neutral association boundaries, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries while preserving Product Decisions 5 and 28 and all physical persistence, Contract, policy, provider, dependency, and implementation non-decisions. |
