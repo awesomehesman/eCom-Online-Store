@@ -1,0 +1,442 @@
+openapi: 3.1.0
+info:
+  title: Initial Customer Registration API
+  version: 1.0.0
+  summary: Customer-owned initial registration orchestration Contract
+  description: >-
+    Authoritative executable HTTP Contract for initial Customer registration.
+    Customer owns the externally consumed orchestration while Identity retains
+    authority over the login identifier, credential, current-login-email
+    verification, Authentication, Principal, Session, and authoritative
+    Identity-to-Customer association. This Contract defines wire behavior only;
+    it does not claim that an implementation exists. The companion
+    initial-customer-registration-contract.md governs workflow, ownership,
+    completion, uncertainty, reconciliation, security, and non-decision
+    semantics. Product Decision 28 and unrelated post-deletion login-email reuse
+    policy remain unresolved and are not changed by this Contract.
+servers:
+  - url: https://{host}
+    description: HTTPS API host for the applicable environment
+    variables:
+      host:
+        default: api.example.invalid
+        description: Environment-specific API host; no provider or deployment is selected.
+tags:
+  - name: Customer registration
+    description: Customer-owned initial registration orchestration.
+paths:
+  /api/v1/customer-registrations:
+    post:
+      tags:
+        - Customer registration
+      operationId: submitInitialCustomerRegistration
+      summary: Initiate or safely continue initial Customer registration
+      description: >-
+        Submits an initial Customer registration intent. The Endpoint is public
+        and all supplied values are untrusted. A compatible retry using the same
+        Idempotency-Key safely returns the prior or current externally observable
+        outcome without duplicating Identity, Customer, Account, credential,
+        verification, or association effects. A completed outcome confirms only
+        the registration completion criteria governed by the companion Contract;
+        it does not authenticate the caller, establish a Principal or Session,
+        or authorize Account or protected Customer access. Pending responses are
+        intentionally safe and do not disclose whether protected existing state,
+        a canonical login-email collision, partial work, verification state, or
+        another non-public condition prevents completion.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitialCustomerRegistrationRequest'
+      responses:
+        '200':
+          description: >-
+            Registration is complete under the companion Contract. This response
+            does not represent Authentication and contains no Principal, Session,
+            token, credential, Account authorization, or internal owner identifier.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompletedRegistrationOutcome'
+              examples:
+                completed:
+                  summary: Registration completed without Authentication
+                  value:
+                    status: completed
+                    message: Registration is complete. Sign in separately to establish an authenticated session.
+        '202':
+          description: >-
+            The registration intent is accepted but remains pending or incomplete.
+            This is also the safe externally observable outcome where exposing a
+            protected collision, ownership condition, verification state, partial
+            result, or reconciliation need would enable enumeration. It grants no
+            Authentication, Principal, Session, Account access, association
+            authority, or protected Customer access.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingRegistrationOutcome'
+              examples:
+                initiated:
+                  summary: Registration initiated and incomplete
+                  value:
+                    status: pending
+                    message: Registration is pending. Follow any verification instructions made available through the registration workflow.
+                continued:
+                  summary: Compatible retry remains incomplete
+                  value:
+                    status: pending
+                    message: Registration is pending. Follow any verification instructions made available through the registration workflow.
+                protectedStateConcealed:
+                  summary: Safe response that does not reveal protected state
+                  description: >-
+                    The same representation is used without disclosing whether
+                    protected existing state, collision, verification, partial
+                    work, or reconciliation affected the outcome.
+                  value:
+                    status: pending
+                    message: Registration is pending. Follow any verification instructions made available through the registration workflow.
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '409':
+          $ref: '#/components/responses/IdempotencyConflict'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '422':
+          $ref: '#/components/responses/InvalidRegistrationContent'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalFailure'
+        '503':
+          $ref: '#/components/responses/TemporarilyUnavailable'
+components:
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: >-
+        Caller-generated key scoped to this initial Customer registration Use
+        Case. The key is bound to a stable compatibility fingerprint of the
+        registration request. Concurrent or sequential compatible retries with
+        the same key converge on one protected registration intent and return the
+        prior or current safe outcome. Reuse of the key with an incompatible
+        request returns 409. The key is untrusted, is not Authentication or
+        Authorization evidence, and conveys no ownership. Retention duration and
+        persistence mechanism are intentionally unspecified.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: '^[A-Za-z0-9._~-]+$'
+      example: reg_01J8XQK6E4ZG7V5N2M9C3H1T8Y
+    CorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: >-
+        Optional untrusted diagnostic correlation value. A valid bounded value
+        may be propagated; otherwise the trusted boundary generates one. It is
+        not identity, idempotency, Authentication, or Authorization evidence.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: '^[A-Za-z0-9._~-]+$'
+      example: corr_01J8XQNHN6M2B4V7K9T3P5R8WY
+  headers:
+    CorrelationId:
+      required: true
+      description: >-
+        Bounded correlation value propagated from a valid request value or
+        generated by the trusted boundary. It is diagnostic context only.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: '^[A-Za-z0-9._~-]+$'
+      example: corr_01J8XQNHN6M2B4V7K9T3P5R8WY
+    NoStore:
+      required: true
+      description: Prevents storage of the sensitive registration response.
+      schema:
+        type: string
+        const: no-store
+      example: no-store
+  schemas:
+    InitialCustomerRegistrationRequest:
+      type: object
+      additionalProperties: false
+      description: >-
+        Initial Customer registration input. Both properties are untrusted.
+        Validation and canonical comparison follow DEC-0005, and password policy
+        follows DEC-0007. The request neither proves protected state nor grants
+        authority.
+      required:
+        - loginEmail
+        - password
+      properties:
+        loginEmail:
+          type: string
+          minLength: 3
+          maxLength: 320
+          description: >-
+            Customer-facing login email submitted as untrusted input. The initial
+            local part and domain MUST satisfy DEC-0005 input, strict IDNA2008,
+            canonical comparison, uniqueness, collision, retained-ownership, and
+            lifecycle semantics. The transport bound is not the canonical
+            comparison algorithm. Submission, validity, or lookup is not proof
+            of mailbox control, Identity, Authentication, Authorization,
+            Customer or Account ownership, association, recovery authority, or
+            verified-email state.
+          examples:
+            - customer@example.com
+        password:
+          type: string
+          format: password
+          writeOnly: true
+          description: >-
+            Prospective local Customer password. Length is measured in Unicode
+            code points after DEC-0007 NFC normalization, not UTF-8 bytes or
+            UTF-16 code units. The complete normalized value is evaluated and
+            MUST NOT be silently truncated. All DEC-0007 password-policy gates
+            apply within the Identity-owned credential boundary. This value MUST
+            NOT be logged, echoed, retained in Customer state, or returned.
+    CompletedRegistrationOutcome:
+      type: object
+      additionalProperties: false
+      description: >-
+        Safe confirmation that every registration completion criterion is
+        established. It deliberately contains no Identity, Customer, Account,
+        credential, association, Principal, Session, token, or authorization
+        identifier or evidence.
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          const: completed
+        message:
+          type: string
+          const: Registration is complete. Sign in separately to establish an authenticated session.
+    PendingRegistrationOutcome:
+      type: object
+      additionalProperties: false
+      description: >-
+        Safe bounded representation of an accepted but incomplete registration.
+        It does not identify which protected gate remains incomplete and grants
+        no Authentication, Principal, Session, Account access, association
+        authority, or protected Customer access.
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          const: pending
+        message:
+          type: string
+          const: Registration is pending. Follow any verification instructions made available through the registration workflow.
+    ProblemDetails:
+      type: object
+      additionalProperties: false
+      description: >-
+        RFC 9457 Problem Details. Detail and extensions MUST remain safe,
+        enumeration-resistant, and free of stack traces, exception classes,
+        database details, constraint names, provider internals, credentials,
+        verification secrets, password material, and protected existence.
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: Stable problem type identifier.
+        title:
+          type: string
+          description: Short safe summary of the problem type.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+          description: HTTP status code for this occurrence.
+        detail:
+          type: string
+          description: Safe occurrence-specific explanation with no protected state.
+        instance:
+          type: string
+          format: uri-reference
+          description: Occurrence identifier that contains no Sensitive Data.
+        code:
+          type: string
+          description: Stable machine-readable Contract error code.
+      examples:
+        - type: https://api.example.invalid/problems/invalid-registration-request
+          title: Invalid registration request
+          status: 400
+          detail: The registration request could not be processed.
+          instance: urn:problem:01J8XR1TNSQ8F2V6K4M9C7H3YP
+          code: INVALID_REGISTRATION_REQUEST
+  responses:
+    InvalidRequest:
+      description: >-
+        Malformed JSON, a missing required property, an unexpected property, an
+        invalid header, or another syntactically invalid request. The response
+        does not disclose protected registration state.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/invalid-registration-request
+            title: Invalid registration request
+            status: 400
+            detail: The registration request could not be processed.
+            instance: urn:problem:01J8XR1TNSQ8F2V6K4M9C7H3YP
+            code: INVALID_REGISTRATION_REQUEST
+    IdempotencyConflict:
+      description: >-
+        The supplied Idempotency-Key was previously bound to an incompatible
+        request. This response is not used to disclose login-email ownership,
+        canonical collisions, or other protected registration state.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/idempotency-conflict
+            title: Idempotency conflict
+            status: 409
+            detail: The idempotency key cannot be reused with this request.
+            instance: urn:problem:01J8XR3WN8Q2M6V4K7T9C5H1YP
+            code: IDEMPOTENCY_CONFLICT
+    UnsupportedMediaType:
+      description: The request media type is not supported.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/unsupported-media-type
+            title: Unsupported media type
+            status: 415
+            detail: Use application/json for this request.
+            instance: urn:problem:01J8XR5TNSQ2F6V4K9M7C3H1YP
+            code: UNSUPPORTED_MEDIA_TYPE
+    InvalidRegistrationContent:
+      description: >-
+        The syntactically valid input does not satisfy the governed login-email
+        or password requirements. The response MUST NOT echo submitted values or
+        disclose protected existence, ownership, verification, or association
+        state.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/invalid-registration-content
+            title: Registration input is not acceptable
+            status: 422
+            detail: One or more registration inputs do not satisfy the required policy.
+            instance: urn:problem:01J8XR7WN8Q2M6V4K9T5C3H1YP
+            code: INVALID_REGISTRATION_CONTENT
+    RateLimited:
+      description: >-
+        The request is rejected by governed abuse controls. No numerical limit,
+        algorithm, duration, or Retry-After value is selected by this Contract.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/request-not-accepted
+            title: Request not accepted
+            status: 429
+            detail: The request cannot be processed at this time.
+            instance: urn:problem:01J8XR9TNSQ2F6V4K7M5C3H1YP
+            code: REQUEST_NOT_ACCEPTED
+    InternalFailure:
+      description: >-
+        An unexpected internal failure occurred. No partial or uncertain outcome
+        is represented as completed registration.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/registration-unavailable
+            title: Registration unavailable
+            status: 500
+            detail: Registration could not be completed. Retry safely with the same idempotency key.
+            instance: urn:problem:01J8XRBWN8Q2M6V4K9T5C3H1YP
+            code: REGISTRATION_UNAVAILABLE
+    TemporarilyUnavailable:
+      description: >-
+        Required authoritative evidence is unavailable or an outcome is uncertain.
+        Registration is not complete. Retry with the same Idempotency-Key; the
+        response does not disclose which protected owner or state is affected.
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          example:
+            type: https://api.example.invalid/problems/registration-unavailable
+            title: Registration unavailable
+            status: 503
+            detail: Registration could not be completed. Retry safely with the same idempotency key.
+            instance: urn:problem:01J8XRDWN8Q2M6V4K9T5C3H1YP
+            code: REGISTRATION_UNAVAILABLE
