@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.42
+version: 1.0.43
 status: Approved
 owner: Architecture
 last_updated: 2026-09-30
@@ -538,6 +538,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0019 | Authentication Session and Token Strategy | Architecture Decision | Accepted | Architecture | 2026-09-28 | — | [ADR-0019-authentication-session-token-strategy.md](../../specifications/adr/ADR-0019-authentication-session-token-strategy.md) |
 | ADR-0020 | Identity Session Store Strategy | Architecture Decision | Accepted | Architecture | 2026-09-28 | — | [ADR-0020-identity-session-store-strategy.md](../../specifications/adr/ADR-0020-identity-session-store-strategy.md) |
 | ADR-0021 | Customer Authentication Authority Strategy | Architecture Decision | Accepted | Architecture | 2026-09-29 | — | [ADR-0021-customer-authentication-authority-strategy.md](../../specifications/adr/ADR-0021-customer-authentication-authority-strategy.md) |
+| ADR-0022 | Initial Identity–Customer/Account Association Strategy | Architecture Decision | Proposed | Architecture | 2026-09-30 | — | [ADR-0022-identity-customer-account-association-strategy.md](../../specifications/adr/ADR-0022-identity-customer-account-association-strategy.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
 | DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
@@ -673,6 +674,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.43 | 2026-09-30 | Approved | Indexed ADR-0022, Initial Identity–Customer/Account Association Strategy, as Proposed with an Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer-to-Account truth, initial registered-Customer cardinality, Customer-coordinated registration, separate owner transactions, default denial, reconciliation, and migration boundaries without accepting the decision or authorizing persistence, Contracts, policy, dependencies, or implementation. |
 | 1.0.42 | 2026-09-30 | Approved | Synchronized DEC-0006 to Accepted, establishing the Identity-owned Customer Argon2id password-hashing and verification strategy and repository-defined `identity-customer-argon2id-v1` profile while preserving unresolved Product Decisions 5 and 28 and separate production implementation, capacity, SLO, persistence, API Contract, recovery, Customer MFA, and password-policy authority. |
 | 1.0.41 | 2026-09-30 | Approved | Indexed DEC-0006, Customer Password Hashing and Verification Strategy, as Proposed with Argon2id, evidence-backed parameter authority, unique random salts, no initial pepper, self-describing verifier, upgrade, compatibility, compromise, and failure boundaries while preserving separate Product policy, persistence, Contract, dependency, and implementation governance without creating acceptance authority. |
 | 1.0.40 | 2026-09-29 | Approved | Synchronized DEC-0005 as Accepted for deterministic Customer login-email comparison, logical uniqueness, collision, lifecycle, concurrency, failure, and domain canonicalization semantics while preserving unresolved Product Decisions 5 and 28 and downstream persistence, API Contract, dependency, and implementation boundaries without claiming implementation completion. |
