@@ -16,6 +16,7 @@
          <ignored-key id="76E0008D166740A8" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="7999BEFBA1039E8B" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="7C25280EAE63EBE5" reason="Key couldn't be downloaded from any key server"/>
+         <ignored-key id="84E913A8E3A748C0" reason="Bouncy Castle Maven signing key couldn't be downloaded by Gradle; artifacts are verified against Maven Central SHA-256 sidecars"/>
          <ignored-key id="86FDC7E2A11262CB" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="9E31AB27445478DB" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="A500607F1E9C0457" reason="Key couldn't be downloaded from any key server"/>
@@ -525,6 +526,14 @@
          </artifact>
          <artifact name="assertj-core-3.27.7.pom">
             <sha256 value="95a10dcfb3ba9aad4d0b5e9c523a8d583377bee5ecd4ba37e19e55a34667f079" origin="Manually verified from Gradle cache after strict verification reported missing checksum"/>
+         </artifact>
+      </component>
+      <component group="org.bouncycastle" name="bcprov-jdk18on" version="1.86">
+         <artifact name="bcprov-jdk18on-1.86.jar">
+            <sha256 value="2af190b300cbb0b35e248ccf5f4a06b6072030aeb3da7a98ec73abe5b4cb371f" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+         <artifact name="bcprov-jdk18on-1.86.pom">
+            <sha256 value="970b70cb75a184639b6fb9ba3c465aca6a4e1a5f3fff4d65ce8574b2fd79ef38" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
       </component>
       <component group="org.eclipse.ee4j" name="project" version="1.0.9">

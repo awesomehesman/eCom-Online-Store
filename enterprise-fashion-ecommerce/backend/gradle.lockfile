@@ -44,6 +44,7 @@ org.apache.tomcat.embed:tomcat-embed-websocket:10.1.55=compileClasspath,producti
 org.apiguardian:apiguardian-api:1.1.2=testCompileClasspath
 org.assertj:assertj-core:3.27.7=testCompileClasspath,testRuntimeClasspath
 org.awaitility:awaitility:4.2.2=testCompileClasspath,testRuntimeClasspath
+org.bouncycastle:bcprov-jdk18on:1.86=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.flywaydb:flyway-core:11.7.2=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.flywaydb:flyway-database-postgresql:11.7.2=productionRuntimeClasspath,runtimeClasspath,testRuntimeClasspath
 org.hamcrest:hamcrest-core:3.0=testCompileClasspath,testRuntimeClasspath
