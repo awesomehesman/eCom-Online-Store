@@ -101,6 +101,24 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void loginEmailPreparationDependsOnlyOnBasicJavaAndItsOwnType() {
+        classes()
+                .that()
+                .haveFullyQualifiedName(ROOT_PACKAGE + ".identity.domain.model.CustomerLoginEmailInput")
+                .should()
+                .onlyDependOnClassesThat()
+                .resideInAnyPackage(
+                        "java.lang",
+                        "java.lang.invoke",
+                        "java.util",
+                        "java.util.function",
+                        "java.util.stream",
+                        ROOT_PACKAGE + ".identity.domain.model")
+                .as("Login email preparation has no infrastructure, security, web, or IDNA dependencies")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void applicationCodeDoesNotDependOnConcreteAdapters() {
         noClasses()
                 .that()
