@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.48
+version: 1.0.49
 status: Approved
 owner: Architecture
-last_updated: 2026-09-30
+last_updated: 2026-10-01
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -547,6 +547,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0006 | Customer Password Hashing and Verification Strategy | Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0006-customer-password-hashing-verification-strategy.md](../../specifications/decisions/DEC-0006-customer-password-hashing-verification-strategy.md) |
 | DEC-0007 | Initial Customer Password Policy | Product Decision / Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0007-initial-customer-password-policy.md](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) |
 | DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Accepted | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
+| DEC-0009 | Customer Login IDNA2008 Implementation Strategy | Security Decision | Proposed | Identity | 2026-10-01 | — | [DEC-0009-customer-login-idna2008-implementation-strategy.md](../../specifications/decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -676,6 +677,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.49 | 2026-10-01 | Approved | Indexed DEC-0009, Customer Login IDNA2008 Implementation Strategy, as Proposed with strict-profile evaluation criteria, alternatives, reproducible evidence requirements, and separate acceptance, dependency-admission, and implementation gates; selected no implementation, admitted no dependency, and claimed no technical evaluation or acceptance. |
 | 1.0.48 | 2026-09-30 | Approved | Synchronized DEC-0008 to Accepted with `PRODUCT.md` and the narrow affected Architecture open-decision statement, establishing mandatory verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, together with current-email binding, deterministic re-verification and supersession semantics, and default denial while preserving provider, Contract, persistence, recovery, MFA, infrastructure, frontend, and implementation neutrality without claiming implementation completion. |
 | 1.0.47 | 2026-09-30 | Approved | Indexed DEC-0008, Initial Customer Email Verification Policy, as Proposed with explicit registration, Authentication, Principal, Session, Account and protected-access gates, deterministic verification and login-email-change lifecycle boundaries, and default-denial, enumeration-resistance, privacy, compatibility, migration, and reversibility consequences without accepting the decision, resolving Product Decision 5, selecting a provider or Contract, or claiming implementation. |
 | 1.0.46 | 2026-09-30 | Approved | Synchronized DEC-0007 to Accepted, establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, Security-standard, Architecture, and implementation authority. |
