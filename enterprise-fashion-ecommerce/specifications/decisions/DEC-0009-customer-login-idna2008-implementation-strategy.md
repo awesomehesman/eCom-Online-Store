@@ -4,7 +4,7 @@
 - **Title:** Customer Login IDNA2008 Implementation Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-10-01
 - **Owner:** Identity
 - **Authoritative:** false
@@ -91,7 +91,29 @@ If no candidate demonstrates safe conformance, document the gaps and defer selec
 
 ### Prohibited Fallbacks
 
-Hand-written Punycode/IDNA, JDK availability as proof, ASCII-only domain restriction, raw/prepared-email lookup, `lower(email)`, database collation, weakening DEC-0005, and silent UTS #46 substitution are not acceptable fallback decisions in this proposal.
+Ad-hoc hand-written Punycode or IDNA used merely to bypass the absence of a demonstrated conformant implementation remains prohibited. Partial wrappers presented as complete IDNA2008, approximate IDNA behavior, raw/prepared-email lookup, `lower(email)`, database-collation equality, ASCII-only fallback, `java.net.IDN` substitution, JDK availability as proof, silent UTS #46 substitution, and semantic weakening of DEC-0005 are not acceptable fallbacks. Exploratory code MUST NOT become production authority without the required governance.
+
+### E. Future Separately Authorized Repository-Owned Validation Evaluation
+
+DEC-0009 MAY evaluate a precisely bounded repository-owned strict validation composition when no maintained complete implementation has been established, but only after explicit, separately reviewed spike authorization. This Proposed-scope clarification does not authorize that spike, select this direction, or establish that repository-owned validation is safe or preferred. Substantial repository-owned protocol validation creates security and continuing maintenance responsibilities; it must not be presented as an easy wrapper.
+
+Before execution, the future authorization MUST identify:
+
+- the exact investigation scope, Identity ownership, and Security, Architecture, and Engineering review;
+- exact third-party components and data, if any, their Unicode/property-data versions, the Punycode/codec strategy, and each validation responsibility that would be repository-owned;
+- a strict conformance evidence plan and source-attributed counterexample/regression corpus, including CONTEXTJ/CONTEXTO, RFC 5893 and applicable cross-label bidi behavior, and A-label decode/validate/re-encode evidence;
+- malformed-input and resource-exhaustion hypotheses, and privacy-preserving, enumeration-safe failure requirements;
+- implementation/data upgrade and rollback considerations, retained-identifier compatibility, and collision/reconciliation considerations;
+- isolation from production lookup, persistence, Authentication, Principal, Session, and HTTP behavior; and
+- objective stop conditions, including required semantic weakening, missing protocol behavior outside reviewed scope, unauthorized codec work, production integration, unapproved dependency adoption, or exhaustion of the authorized investigation boundary.
+
+Permission to evaluate repository-owned validation does NOT authorize repository-owned Punycode implementation. Any codec strategy requires separate explicit evaluation. Repository-owned logic MUST NOT silently implement missing protocol behavior without reviewed scope. The spike must return reproducible evidence and unresolved gaps rather than create implementation authority; failed or incomplete evidence must not be represented as conformance or permission to proceed to production.
+
+### F. Native Implementation Evaluation
+
+A maintained native implementation exposed through a governed JVM integration remains a possible evaluation direction, subject to separately reviewed investigation scope and authorization. Exact native and JVM components, profile/data configuration, provenance, Java compatibility, packaging, failure behavior, and maintenance responsibilities require evidence. Native/JNI/JNA/runtime/deployment/platform/ABI changes require Architecture assessment; an ADR is required if the selected strategy materially changes Architecture. This clarification authorizes no native strategy or spike and makes no Architecture change.
+
+Repository-owned composition, native implementation, a future maintained implementation, and deferral remain unselected directions. DEC-0009 remains Proposed until an actual implementation strategy satisfies its acceptance gates and receives the required authority.
 
 ## Security and Authority Impact
 
@@ -115,7 +137,7 @@ Reversibility depends on stable semantics and explicit compatibility evidence. R
 
 ## Dependency and Operational Impact
 
-If the accepted strategy selects a new third-party artifact, separate dependency admission under DEC-0001 is required. Admission must address exact coordinates/version, dependency-management compatibility, transitive impact, licensing and security review, dependency locks, reviewed verification metadata, and applicable build/test evidence. Acceptance of this DEC would not itself admit the dependency.
+If the accepted strategy selects a new third-party artifact, separate dependency admission under DEC-0001 is required. Admission must address exact coordinates/version, dependency-management compatibility, transitive impact, licensing and security review, dependency locks, reviewed verification metadata, and applicable build/test evidence. Acceptance of this DEC would not itself admit the dependency. Adding an artifact to repository build, test, or runtime configuration requires applicable dependency admission. Isolated external/scratch evaluation does not itself admit a production dependency and remains subject to its separately authorized investigation scope.
 
 This Proposed record adds no library and changes no build, lock, verification, runtime, or operational configuration. Evaluate maintenance and security-response responsibilities, reproducible upgrades, rollback limitations, and safe diagnosis without selecting operational thresholds, retry policy, or hosting infrastructure.
 
@@ -199,4 +221,5 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-10-01 | Proposed | Clarified Proposed scope to preserve prohibitions on improvised/approximate IDNA fallbacks while permitting future separately authorized evaluation of bounded repository-owned strict validation; required explicit ownership, review, evidence, isolation, and stop conditions before a spike; preserved separate dependency and Architecture governance; selected no implementation, admitted no dependency, authorized no spike or production implementation, and retained Proposed status. |
 | 0.1.0 | 2026-10-01 | Proposed | Created the strict Customer Login IDNA2008 implementation-strategy proposal with evaluation criteria, alternatives, reproducible evidence requirements, acceptance gates, authority boundaries, and separate dependency-admission and implementation stages; selected no implementation and claimed no technical evaluation or acceptance. |
