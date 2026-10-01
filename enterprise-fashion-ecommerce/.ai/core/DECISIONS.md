@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.50
+version: 1.0.51
 status: Approved
 owner: Architecture
 last_updated: 2026-10-01
@@ -677,6 +677,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.51 | 2026-10-01 | Approved | Synchronized DEC-0009 0.3.0 Proposed authorization for one bounded, isolated technical evidence-gathering evaluation; preserved separate acceptance, dependency, and Architecture gates without selecting a strategy, library, or Unicode version, admitting a dependency, or creating production implementation authority. |
 | 1.0.50 | 2026-10-01 | Approved | Synchronized DEC-0009 0.2.0 Proposed-scope clarification: preserved prohibited fallbacks and separate dependency/Architecture governance; bounded future separately authorized validation evaluation without selecting an implementation, admitting a dependency, or authorizing a spike or production implementation. |
 | 1.0.49 | 2026-10-01 | Approved | Indexed DEC-0009, Customer Login IDNA2008 Implementation Strategy, as Proposed with strict-profile evaluation criteria, alternatives, reproducible evidence requirements, and separate acceptance, dependency-admission, and implementation gates; selected no implementation, admitted no dependency, and claimed no technical evaluation or acceptance. |
 | 1.0.48 | 2026-09-30 | Approved | Synchronized DEC-0008 to Accepted with `PRODUCT.md` and the narrow affected Architecture open-decision statement, establishing mandatory verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, together with current-email binding, deterministic re-verification and supersession semantics, and default denial while preserving provider, Contract, persistence, recovery, MFA, infrastructure, frontend, and implementation neutrality without claiming implementation completion. |
