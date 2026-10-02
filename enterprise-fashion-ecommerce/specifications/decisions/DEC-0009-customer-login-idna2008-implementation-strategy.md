@@ -4,8 +4,8 @@
 - **Title:** Customer Login IDNA2008 Implementation Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
-- **Date:** 2026-10-01
+- **Version:** 0.4.0
+- **Date:** 2026-10-02
 - **Owner:** Identity
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -34,7 +34,7 @@ Which implementation, exact release, configuration, and Unicode-data behavior ca
 
 ## Decision — Proposed Evaluation Boundary
 
-This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** Version 0.3.0 authorizes only the bounded technical evidence gathering below. No candidate has passed evaluation through this record, and no completed spike, benchmark, conformance execution, acceptance approval, or dependency admission is claimed.
+This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** The single evaluation authorized by version 0.3.0 has completed with a stopped-path disposition, recorded below. No complete conformant implementation, acceptance approval, or dependency admission is established. This revision records evidence only and authorizes no additional evaluation.
 
 The eventual strategy must satisfy DEC-0005 exactly. It must not weaken that decision to fit a convenient API. The proposed evaluation must distinguish IDNA2008, IDNA2003, and UTS #46 compatibility processing, including transitional and non-transitional behavior. A product label such as “IDNA support” is not conformance evidence.
 
@@ -95,7 +95,7 @@ Ad-hoc hand-written Punycode or IDNA used merely to bypass the absence of a demo
 
 ### E. Future Separately Authorized Repository-Owned Validation Evaluation
 
-DEC-0009 MAY evaluate a precisely bounded repository-owned strict validation composition when no maintained complete implementation has been established, but only after explicit, separately reviewed spike authorization. The 0.2.0 Proposed-scope clarification did not authorize a spike. The bounded authorization below permits one evaluation only; it does not select this direction or establish that repository-owned validation is safe or preferred. Substantial repository-owned protocol validation creates security and continuing maintenance responsibilities; it must not be presented as an easy wrapper.
+DEC-0009 MAY evaluate a precisely bounded repository-owned strict validation composition when no maintained complete implementation has been established, but only after explicit, separately reviewed spike authorization. The 0.2.0 Proposed-scope clarification did not authorize a spike. The bounded authorization below permitted one evaluation only and is now exhausted; it does not select this direction or establish that repository-owned validation is safe or preferred. Substantial repository-owned protocol validation creates security and continuing maintenance responsibilities; it must not be presented as an easy wrapper.
 
 Before experimental execution, the evaluation scope and candidate inventory MUST identify the following for review under the bounded authorization below:
 
@@ -115,11 +115,13 @@ A maintained native implementation exposed through a governed JVM integration re
 
 Repository-owned composition, native implementation, a future maintained implementation, and deferral remain unselected directions. DEC-0009 remains Proposed until an actual implementation strategy satisfies its acceptance gates and receives the required authority.
 
-## Bounded Technical Evaluation Authorization — 0.3.0 Proposed
+## Bounded Technical Evaluation Authorization — 0.3.0 Proposed (Completed)
+
+The following scope records the completed 0.3.0 authorization. It does not grant continuing authority; any additional technical evaluation requires separate explicit authorization.
 
 ### Purpose, Ownership, and Review
 
-This revision authorizes one isolated technical evaluation to determine whether a repository-owned composition can satisfy DEC-0005's strict IDNA2008 profile. The purpose is evidence gathering on feasibility, completeness, security burden, maintenance burden, and unresolved gaps only. Successful experimentation creates no production authority. This governance change creates no spike/source/test code and claims no test results.
+Version 0.3.0 authorized one isolated technical evaluation to determine whether a repository-owned composition can satisfy DEC-0005's strict IDNA2008 profile. The purpose is evidence gathering on feasibility, completeness, security burden, maintenance burden, and unresolved gaps only. Successful experimentation creates no production authority. The authorization revision itself created no spike/source/test code and claimed no test results; the later executed observations are retained in the evidence record below.
 
 Identity owns the evaluation. Security reviews protocol correctness, hostile-input behavior, and security consequences. Architecture reviews architectural, runtime, and dependency implications. Engineering reviews feasibility, maintainability, and testability. Required reviews and their outcomes must be durable and discoverable; this record asserts no individual reviewer identity or completed review. Acceptance of DEC-0009 remains separately governed by its existing gates.
 
@@ -152,7 +154,7 @@ Repository-owned validation composition does not automatically require an ADR wh
 
 ### Required Output and Stop Conditions
 
-The evaluation MUST return a durable, reproducible evidence report identifying technical feasibility; exact repository-owned and external/component responsibilities; unresolved conformance gaps; security and operational risks; Unicode upgrade responsibilities; compatibility/collision consequences; and dependency and Architecture implications. It must explain whether evidence supports proceeding toward acceptance, another evaluation, consideration of another strategy, or continued deferral. The report MUST NOT itself change DEC-0009 status or create implementation authority. This governance change does not create that future report.
+The evaluation MUST return a durable, reproducible evidence report identifying technical feasibility; exact repository-owned and external/component responsibilities; unresolved conformance gaps; security and operational risks; Unicode upgrade responsibilities; compatibility/collision consequences; and dependency and Architecture implications. It must explain whether evidence supports proceeding toward acceptance, another evaluation, consideration of another strategy, or continued deferral. The report MUST NOT itself change DEC-0009 status or create implementation authority. The completed report is now retained in the durable evidence artifact below.
 
 Stop the evaluation and return evidence and gaps without promoting experimental work if:
 
@@ -163,6 +165,29 @@ Stop the evaluation and return evidence and gaps without promoting experimental 
 - the investigation exceeds its authorized scope.
 
 This authorization does NOT accept DEC-0009, select repository-owned validation as the final strategy, select a library or Unicode version, admit a dependency, authorize repository-owned Punycode, authorize production implementation or Login lookup integration, authorize persistence or Authentication/Principal/Session changes, authorize Contract/OpenAPI changes, or modify DEC-0005 or Architecture. DEC-0009 remains Proposed and non-authoritative for implementation until its acceptance gates and required authority are satisfied.
+
+## Completed Evaluation and Stopped-Path Disposition — 0.4.0 Proposed
+
+The single 0.3.0-authorized evaluation was executed against `ccddce97c68d25686c3d20224019e98b47759d1c` and is complete. Its authorization is exhausted. [Durable bounded-evaluation evidence](evidence/DEC-0009/bounded-evaluation-2026-10-02.md) retains the environment, exact components and hashes, procedures, original harness listings, raw observations, responsibility and counterexample matrices, limitations, and original scratch inventory without depending on temporary files remaining available.
+
+Evidence classification: **CURRENT REPOSITORY-OWNED COMPOSITION PATH STOPPED**. The two triggered stop conditions for that evaluated path were:
+
+1. Required RFC behavior was not demonstrated for the evaluated composition.
+2. Material composed security/resource behavior remains unresolved.
+
+Component probes were executed; the complete CONTEXTJ/CONTEXTO, RFC 5893, and strict A-label validation composition was **NOT EXECUTED**. Lack of demonstration is not proof of universal infeasibility: this outcome does not establish that every future repository-owned composition is infeasible.
+
+GNU Libidn 1.43's evaluated Java codec is unsuitable for the evaluated Unicode repertoire: decoding `097c` returned U+0300 instead of U+10300, and decoding `e28h` returned U+F600 instead of U+1F600. ICU4J 78.3 internal Punycode demonstrated useful raw codec behavior, but its independent production supportability remains **UNRESOLVED**, not selected or approved. Primitive conversion and round-trip success do not establish strict IDNA2008 validity.
+
+Mandatory blockers remain: a suitable scalar-correct codec with an explicit support/maintenance basis; complete strict contextual, domain-aware bidi, syntax, length and canonical A-label evidence; bounded hostile-input/resource and safe failure behavior; consistent versioned Unicode/property data and reproducible classification; upgrade/rollback, retained-identifier compatibility and collision/reconciliation evidence; applicable provenance, licensing, security and dependency review; and the required acceptance authority. No completed human acceptance approvals are asserted.
+
+The post-evaluation review recommended recording this evidence before separately considering authorization of one narrower evidence question:
+
+> Can direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 be supported as an independently maintained codec dependency, with an explicit compatibility, security-maintenance and upgrade basis, without copying/forking the codec or relying on UTS #46 processing?
+
+This is a **recommended future evidence question only**. This revision does not authorize that investigation, any continuation of the stopped path, another spike, or production implementation. Any additional technical evaluation requires separate explicit authorization. Native evaluation, future maintained implementations, and deferral remain unresolved alternatives; none is selected.
+
+DEC-0009 remains Proposed, Identity-owned and non-authoritative for implementation. DEC-0005 semantics remain unchanged. DEC-0001 admission and applicable Architecture/ADR gates remain separate. No dependency, library, Unicode version, final strategy, Architecture, Product, Contract/OpenAPI, persistence, Authentication, Principal, Session, or production implementation change is authorized by recording these findings.
 
 ## Security and Authority Impact
 
@@ -204,7 +229,7 @@ The cost is evaluation and review work before canonicalization can proceed. Cand
 4. **Dependency admission:** if a new third-party artifact is selected, perform the separate DEC-0001-governed admission with lock, verification, security, and compatibility evidence. Neither proposal nor acceptance substitutes for this stage.
 5. **Implementation:** only after the required preceding gates, separately implement and verify strict validation/canonicalization within the governed Identity boundaries. Preserve preparation tests, architecture direction, safe failures, and the canonical-key-before-lookup requirement. No Authentication or HTTP success follows from canonicalization alone.
 
-The bounded authorization permits evidence gathering within the technical-evaluation stage; it does not claim that stage complete. No stage is claimed complete beyond proposal creation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
+The single bounded evaluation is complete and stopped; the broader technical-evaluation acceptance requirements remain unsatisfied. Completion of this evidence-gathering exercise does not complete acceptance, dependency admission, or implementation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
 
 ## Explicit Non-Decisions
 
@@ -270,6 +295,7 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-10-02 | Proposed | Durably recorded the completed 0.3.0 evaluation and scope-limited stopped-path disposition, demonstrated component findings, unexecuted validation and unresolved blockers; exhausted the single authorization and retained a recommendation-only codec-supportability question; authorized no further evaluation, selection, dependency admission, or production implementation. |
 | 0.3.0 | 2026-10-01 | Proposed | Authorized one bounded, isolated repository-owned strict-IDNA2008 technical evaluation for evidence gathering with ownership/review, component/codec, conformance, isolation, dependency, Architecture, reporting, and stop-condition boundaries; selected no strategy, library, or Unicode version, admitted no dependency, and authorized no production implementation or acceptance. |
 | 0.2.0 | 2026-10-01 | Proposed | Clarified Proposed scope to preserve prohibitions on improvised/approximate IDNA fallbacks while permitting future separately authorized evaluation of bounded repository-owned strict validation; required explicit ownership, review, evidence, isolation, and stop conditions before a spike; preserved separate dependency and Architecture governance; selected no implementation, admitted no dependency, authorized no spike or production implementation, and retained Proposed status. |
 | 0.1.0 | 2026-10-01 | Proposed | Created the strict Customer Login IDNA2008 implementation-strategy proposal with evaluation criteria, alternatives, reproducible evidence requirements, acceptance gates, authority boundaries, and separate dependency-admission and implementation stages; selected no implementation and claimed no technical evaluation or acceptance. |
