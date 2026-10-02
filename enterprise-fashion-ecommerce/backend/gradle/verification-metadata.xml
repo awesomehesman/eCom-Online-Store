@@ -248,12 +248,28 @@
             <sha256 value="3c4304859697fa04a0ae7bd0af855e5e23c8daa26f622cbc3eabaa3b56f82834" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
       </component>
+      <component group="com.tngtech.archunit" name="archunit" version="1.5.1">
+         <artifact name="archunit-1.5.1.jar">
+            <sha256 value="a4dbfc51c90005ad6ac9967672a7efb43aa6928287a57238b28e60e0a75c5c6f" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="archunit-1.5.1.pom">
+            <sha256 value="9cb67cd704b6cb3be76ffa7fe2a028f3b676fa9cb489de61aa91d324f3af6933" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+      </component>
       <component group="com.tngtech.archunit" name="archunit-junit5" version="1.4.1">
          <artifact name="archunit-junit5-1.4.1.jar">
             <sha256 value="6dd27babf04eaa2bc86e8f7d32961754651643bf625ec17943ac28696b00ffdd" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
          <artifact name="archunit-junit5-1.4.1.pom">
             <sha256 value="a6c28c915e37ec302068c4a215a4330fd2ba03a21ea9e3bd8dcae26eeda9c048" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5" version="1.5.1">
+         <artifact name="archunit-junit5-1.5.1.jar">
+            <sha256 value="2cc9bf8cf19cff4400c3848216e6262a0d8565f1c33710d83d9e1680d354c637" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="archunit-junit5-1.5.1.pom">
+            <sha256 value="fcf36de0b3b81eae8db0c375fdf16a4df6a1ebbbd67c4f1cd6a3464aca262d21" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
          </artifact>
       </component>
       <component group="com.tngtech.archunit" name="archunit-junit5-api" version="1.4.1">
@@ -264,6 +280,14 @@
             <sha256 value="32a3eaba6a68bfe4d3139fe41817fdd641e121e214fae9641f1b800831648d4d" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
       </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-api" version="1.5.1">
+         <artifact name="archunit-junit5-api-1.5.1.jar">
+            <sha256 value="dc93df23e0113a82ab913a63135febe8b563a38d7e26aae12c3c7475893eeb26" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="archunit-junit5-api-1.5.1.pom">
+            <sha256 value="d7d1db2028b8d210db4bd606852f8a6c486263e89304ef5b9370239434a647c3" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+      </component>
       <component group="com.tngtech.archunit" name="archunit-junit5-engine" version="1.4.1">
          <artifact name="archunit-junit5-engine-1.4.1.jar">
             <sha256 value="e000e7113480f3d412bc2c8a258f90fe0e2b5ef005fbc3179791e391861096d7" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
@@ -272,12 +296,28 @@
             <sha256 value="9fee5d132208e03ba73f0b97a996da243f1f414fb659c2c90722b6ada1910776" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
       </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-engine" version="1.5.1">
+         <artifact name="archunit-junit5-engine-1.5.1.jar">
+            <sha256 value="a3a9db142ea31a7bfd124580839dd7ffc83b292f6b09e32d2025ac24be7bc04d" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="archunit-junit5-engine-1.5.1.pom">
+            <sha256 value="c0b53d0bfb3a995b81d48d0f592f536d7d0ed2fc6c062bff9ef0fc5f1ac2d65f" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+      </component>
       <component group="com.tngtech.archunit" name="archunit-junit5-engine-api" version="1.4.1">
          <artifact name="archunit-junit5-engine-api-1.4.1.jar">
             <sha256 value="558c090b9a29243add7d2eb07eea0323f6f0f11b38457a4837e35228be1b10f2" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
          </artifact>
          <artifact name="archunit-junit5-engine-api-1.4.1.pom">
             <sha256 value="198d5d34725512c7d39d9d1a9f6894320d9a86ae80e712ed024f992beb1a91f0" origin="Verified against Maven Central SHA-256 sidecar and local Gradle cache"/>
+         </artifact>
+      </component>
+      <component group="com.tngtech.archunit" name="archunit-junit5-engine-api" version="1.5.1">
+         <artifact name="archunit-junit5-engine-api-1.5.1.jar">
+            <sha256 value="d8a4c1e51fecf593abcf1a52925a48525c9fa0e0d93d9018e588b1211341fdf3" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="archunit-junit5-engine-api-1.5.1.pom">
+            <sha256 value="72b0f8066f21ccfa9c3a259f503e342849058b0d861a3c6f75fe37c14296af06" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
          </artifact>
       </component>
       <component group="com.vaadin.external.google" name="android-json" version="0.0.20131108.vaadin1">
@@ -658,9 +698,22 @@
             <sha256 value="6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb" origin="Generated by Gradle" reason="A key couldn't be downloaded"/>
          </artifact>
       </component>
+      <component group="org.slf4j" name="slf4j-api" version="2.0.19">
+         <artifact name="slf4j-api-2.0.19.jar">
+            <sha256 value="e91ff6d720609e7a194ffe758c3ed5c84e798617ae07b0a0f6a4fe229741b4bb" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+         <artifact name="slf4j-api-2.0.19.pom">
+            <sha256 value="b04a4843eaa29966807cc9508a9f2513fa563d0d0794cb0edd6a8d2c8f4620d0" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
+         </artifact>
+      </component>
       <component group="org.slf4j" name="slf4j-bom" version="2.0.18">
          <artifact name="slf4j-bom-2.0.18.pom">
             <sha256 value="9219aab601575126c4e66e1331eb2b0c6c17a330ac4d5a07e3cd11d580a0c12d" origin="Generated by Gradle" reason="A key couldn't be downloaded"/>
+         </artifact>
+      </component>
+      <component group="org.slf4j" name="slf4j-bom" version="2.0.19">
+         <artifact name="slf4j-bom-2.0.19.pom">
+            <sha256 value="e14a9ab180f60247f347de369b7a44ccd591d0c47f4d96bc644056c4f83b51a0" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
          </artifact>
       </component>
       <component group="org.slf4j" name="slf4j-parent" version="1.7.36">
@@ -671,6 +724,11 @@
       <component group="org.slf4j" name="slf4j-parent" version="2.0.18">
          <artifact name="slf4j-parent-2.0.18.pom">
             <sha256 value="0b3896bedad2c9ed9697edcbea1da0c54cd238a723583a81358a83bfb782e9fa" origin="Generated by Gradle" reason="A key couldn't be downloaded"/>
+         </artifact>
+      </component>
+      <component group="org.slf4j" name="slf4j-parent" version="2.0.19">
+         <artifact name="slf4j-parent-2.0.19.pom">
+            <sha256 value="452831ef96fbebe64d855dd5c98ec6086d7478a9e568422c8343c6da00b2750d" origin="Verified against Maven Central SHA-256 sidecar and independently downloaded artifact"/>
          </artifact>
       </component>
       <component group="org.sonatype.oss" name="oss-parent" version="7">
