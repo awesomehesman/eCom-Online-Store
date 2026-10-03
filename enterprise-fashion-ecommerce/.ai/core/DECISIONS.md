@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.52
+version: 1.0.53
 status: Approved
 owner: Architecture
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -547,7 +547,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0006 | Customer Password Hashing and Verification Strategy | Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0006-customer-password-hashing-verification-strategy.md](../../specifications/decisions/DEC-0006-customer-password-hashing-verification-strategy.md) |
 | DEC-0007 | Initial Customer Password Policy | Product Decision / Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0007-initial-customer-password-policy.md](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) |
 | DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Accepted | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
-| DEC-0009 | Customer Login IDNA2008 Implementation Strategy | Security Decision | Proposed | Identity | 2026-10-02 | — | [DEC-0009-customer-login-idna2008-implementation-strategy.md](../../specifications/decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md) |
+| DEC-0009 | Customer Login IDNA2008 Implementation Strategy | Security Decision | Proposed | Identity | 2026-10-03 | — | [DEC-0009-customer-login-idna2008-implementation-strategy.md](../../specifications/decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -677,6 +677,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.53 | 2026-10-03 | Approved | Synchronized DEC-0009 0.5.0 Proposed authorization for one bounded direct ICU4J 78.3 internal Punycode codec-supportability evaluation with explicit A/B/C exits; preserved the prior exhausted authorization and stopped evidence; performed no evaluation, selected no technology, admitted no dependency, and created no production implementation or acceptance authority. |
 | 1.0.52 | 2026-10-02 | Approved | Synchronized DEC-0009 0.4.0 Proposed with durable evidence of the completed, stopped bounded evaluation and exhausted authorization; retained unresolved blockers and a recommendation-only future question without authorizing further evaluation, selecting a strategy, admitting dependencies, or creating implementation authority. |
 | 1.0.51 | 2026-10-01 | Approved | Synchronized DEC-0009 0.3.0 Proposed authorization for one bounded, isolated technical evidence-gathering evaluation; preserved separate acceptance, dependency, and Architecture gates without selecting a strategy, library, or Unicode version, admitting a dependency, or creating production implementation authority. |
 | 1.0.50 | 2026-10-01 | Approved | Synchronized DEC-0009 0.2.0 Proposed-scope clarification: preserved prohibited fallbacks and separate dependency/Architecture governance; bounded future separately authorized validation evaluation without selecting an implementation, admitting a dependency, or authorizing a spike or production implementation. |
