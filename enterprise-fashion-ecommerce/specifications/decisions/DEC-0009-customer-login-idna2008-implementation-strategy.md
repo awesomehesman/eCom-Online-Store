@@ -4,8 +4,8 @@
 - **Title:** Customer Login IDNA2008 Implementation Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.5.0
-- **Date:** 2026-10-03
+- **Version:** 0.6.0
+- **Date:** 2026-10-04
 - **Owner:** Identity
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -34,7 +34,7 @@ Which implementation, exact release, configuration, and Unicode-data behavior ca
 
 ## Decision — Proposed Evaluation Boundary
 
-This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** The single evaluation authorized by version 0.3.0 has completed with a stopped-path disposition, recorded below. No complete conformant implementation, acceptance approval, or dependency admission is established. Version 0.5.0 authorizes only the separate, single codec-supportability evidence evaluation defined below; it does not reopen the stopped composition evaluation.
+This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** The single evaluation authorized by version 0.3.0 has completed with a stopped-path disposition, recorded below. No complete conformant implementation, acceptance approval, or dependency admission is established. The separate 0.5.0 codec-supportability evaluation is complete with **B. SUPPORTABILITY BASIS NOT DEMONSTRATED**; its authorization is exhausted and cannot be reused. Direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 is removed from the current candidate path. Version 0.6.0 records that result only: DEC-0009 remains unresolved/Proposed and no subsequent evaluation is authorized.
 
 The eventual strategy must satisfy DEC-0005 exactly. It must not weaken that decision to fit a convenient API. The proposed evaluation must distinguish IDNA2008, IDNA2003, and UTS #46 compatibility processing, including transitional and non-transitional behavior. A product label such as “IDNA support” is not conformance evidence.
 
@@ -177,7 +177,7 @@ Evidence classification: **CURRENT REPOSITORY-OWNED COMPOSITION PATH STOPPED**. 
 
 Component probes were executed; the complete CONTEXTJ/CONTEXTO, RFC 5893, and strict A-label validation composition was **NOT EXECUTED**. Lack of demonstration is not proof of universal infeasibility: this outcome does not establish that every future repository-owned composition is infeasible.
 
-GNU Libidn 1.43's evaluated Java codec is unsuitable for the evaluated Unicode repertoire: decoding `097c` returned U+0300 instead of U+10300, and decoding `e28h` returned U+F600 instead of U+1F600. ICU4J 78.3 internal Punycode demonstrated useful raw codec behavior, but its independent production supportability remains **UNRESOLVED**, not selected or approved. Primitive conversion and round-trip success do not establish strict IDNA2008 validity.
+GNU Libidn 1.43's evaluated Java codec is unsuitable for the evaluated Unicode repertoire: decoding `097c` returned U+0300 instead of U+10300, and decoding `e28h` returned U+F600 instead of U+1F600. ICU4J 78.3 internal Punycode demonstrated useful raw codec behavior, but at the 0.4.0 evidence-recording stage its independent production supportability remained **UNRESOLVED**, not selected or approved. The later 0.5.0 outcome is recorded separately below. Primitive conversion and round-trip success do not establish strict IDNA2008 validity.
 
 Mandatory blockers remain: a suitable scalar-correct codec with an explicit support/maintenance basis; complete strict contextual, domain-aware bidi, syntax, length and canonical A-label evidence; bounded hostile-input/resource and safe failure behavior; consistent versioned Unicode/property data and reproducible classification; upgrade/rollback, retained-identifier compatibility and collision/reconciliation evidence; applicable provenance, licensing, security and dependency review; and the required acceptance authority. No completed human acceptance approvals are asserted.
 
@@ -185,25 +185,27 @@ The post-evaluation review recommended recording this evidence before separately
 
 > Can direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 be supported as an independently maintained codec dependency, with an explicit compatibility, security-maintenance and upgrade basis, without copying/forking the codec or relying on UTS #46 processing?
 
-In version 0.4.0 this was a **recommended future evidence question only**, with no authorization to investigate it or continue the stopped path. Version 0.5.0 grants only the separate bounded authorization below. The completed evaluation and its exhausted authority remain unchanged; no continuation of the stopped composition path or production implementation is authorized. Native evaluation, future maintained implementations, and deferral remain unresolved alternatives; none is selected.
+In version 0.4.0 this was a **recommended future evidence question only**, with no authorization to investigate it or continue the stopped path. Version 0.5.0 subsequently granted the separate bounded authorization below, which is now complete and exhausted. The completed evaluation and its exhausted authority remain unchanged; no continuation of the stopped composition path or production implementation is authorized. Native evaluation, future maintained implementations, and deferral remain unresolved alternatives; none is selected.
 
 DEC-0009 remains Proposed, Identity-owned and non-authoritative for implementation. DEC-0005 semantics remain unchanged. DEC-0001 admission and applicable Architecture/ADR gates remain separate. No dependency, library, Unicode version, final strategy, Architecture, Product, Contract/OpenAPI, persistence, Authentication, Principal, Session, or production implementation change is authorized by recording these findings.
 
-## Bounded Codec-Supportability Evaluation Authorization — 0.5.0 Proposed
+## Bounded Codec-Supportability Evaluation Authorization — 0.5.0 Proposed (Completed)
+
+The following scope and exit criteria are retained as the historical terms of the executed 0.5.0 evaluation, not continuing permission or pending work. Its single authorization is exhausted and cannot be reused. The completed Outcome B and current candidate consequence are recorded in the 0.6.0 disposition below.
 
 ### Exact Question and Authority Boundary
 
-Version 0.5.0 authorizes **one** new evidence evaluation answering only:
+Version 0.5.0 authorized **one** evidence evaluation answering only:
 
 > Can direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 be supported as an independently maintained codec dependency, with an explicit compatibility, security-maintenance and upgrade basis, without copying/forking the codec or relying on UTS #46 processing?
 
-ICU4J 78.3 and this internal/non-public API are an exact raw Punycode codec **candidate for evaluation**, not a selected technology, admitted dependency, supported public API, or approved production API. This authorization establishes no Architecture acceptance, implementation authority, or strict IDNA2008 conformance. It neither repeats nor reinterprets the [completed evaluation evidence](evidence/DEC-0009/bounded-evaluation-2026-10-02.md). That evaluated composition remains stopped; the finding does not prove every future composition impossible.
+ICU4J 78.3 and this internal/non-public API were the exact raw Punycode codec **candidate for that evaluation**, not a selected technology, admitted dependency, supported public API, or approved production API. This authorization establishes no Architecture acceptance, implementation authority, or strict IDNA2008 conformance. It neither repeats nor reinterprets the [completed evaluation evidence](evidence/DEC-0009/bounded-evaluation-2026-10-02.md). That evaluated composition remains stopped; the finding does not prove every future composition impossible.
 
 Identity owns this bounded evaluation. Its report must identify Security review needs for protocol and maintenance risks, Architecture review needs for internal-API and dependency implications, and Engineering review needs for compatibility and operational burden. No completed review or acceptance approval is asserted. The existing acceptance gates remain mandatory.
 
 ### Permitted Investigation and Evidence
 
-The future evaluation MAY inspect authoritative upstream documentation, tagged source, release history, issue/security-handling records, and published artifact provenance. It MAY run minimal direct encode/decode and compatibility probes on Java 21 in an isolated external/scratch harness against unmodified published artifacts. Only synthetic inputs may be used; no production data, repository build/test/runtime dependency changes, or Login integration is permitted. Source inspection does not authorize copying implementation code into a codec, fork, vendored artifact, or repository-owned replacement.
+The completed authorization permitted inspection of authoritative upstream documentation, tagged source, release history, issue/security-handling records, and published artifact provenance. It permitted minimal direct encode/decode and compatibility probes on Java 21 in an isolated external/scratch harness against unmodified published artifacts. Only synthetic inputs may be used; no production data, repository build/test/runtime dependency changes, or Login integration is permitted. Source inspection does not authorize copying implementation code into a codec, fork, vendored artifact, or repository-owned replacement.
 
 The evaluation MUST establish or explicitly identify missing evidence for:
 
@@ -235,7 +237,27 @@ The report MUST terminate with exactly one evidence-backed outcome:
 - **B. SUPPORTABILITY BASIS NOT DEMONSTRATED** — direct internal codec use is removed from the candidate path. Explain the evidenced supportability deficiencies or incompatibility with the required boundaries; do not generalize this to all possible compositions.
 - **C. EVALUATION STOPPED** — evidence is insufficient or the bounded investigation cannot safely establish either A or B. Identify the precise missing evidence or triggered scope boundary without selecting an alternative or inventing further authority.
 
-None of A/B/C accepts DEC-0009, admits ICU4J, approves production internal-API use, selects a final strategy, or authorizes implementation. The 0.5.0 authorization is exhausted upon that report; the broader strict-profile acceptance requirements and separate dependency/Architecture gates remain unresolved.
+None of A/B/C accepts DEC-0009, admits ICU4J, approves production internal-API use, selects a final strategy, or authorizes implementation. The 0.5.0 authorization was exhausted by the completed report; the broader strict-profile acceptance requirements and separate dependency/Architecture gates remain unresolved.
+
+## Completed Codec-Supportability Evaluation — 0.6.0 Proposed Disposition
+
+The evaluation authorized by 0.5.0 was executed on 2026-10-03 against repository baseline `98964310b5ccc5aebfc9682e3d2f18605a6f9825`. Its [durable supportability evidence](evidence/DEC-0009/icu-punycode-supportability-evaluation-2026-10-03.md) records the bounded inventory, upstream policy and maintenance sources, artifact hashes, reproducible probes, actual results, limitations and reasoning. The exact terminal outcome is **B. SUPPORTABILITY BASIS NOT DEMONSTRATED**.
+
+Accordingly, direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 is **removed from the current candidate path** and is no longer an eligible current candidate under the evaluated constraints. The 0.5.0 evaluation is complete; its authorization is exhausted and cannot be reused. This synchronization authorizes no further evidence evaluation and selects no next strategy.
+
+The evidence supports this consequence for the following reasons:
+
+- Raw codec functionality was demonstrated in the sampled Java 21 evaluation of ICU4J 74.2, 77.1 and 78.3; the inspected codec source, public signatures and probe outputs were identical across those releases.
+- Direct invocation could remain isolated from UTS #46 processing. That positive result establishes neither strict IDNA2008 validation nor a supported external API contract.
+- Sampled historical compatibility does not establish forward compatibility. `com.ibm.icu.impl` is an upstream internal interface without the external compatibility/support commitment required for this path; availability and general ICU maintenance do not supply that commitment.
+- Discretionary maintenance/backports and the absence of a demonstrated external upgrade/remediation basis leave a material supportability gap. Repository-owned detection gates can identify incompatibility but cannot themselves provide a compatible remediation path when a required security upgrade breaks the internal interface, within the no-copy/no-fork constraints.
+- Therefore, the required supportability basis was not demonstrated. This is not a finding that raw conversion failed or that a break was observed in the sampled releases.
+
+Outcome B rejects only this direct ICU4J internal codec candidate under the evaluated constraints. It does not establish that ICU4J as a whole, all Punycode implementations or every external library is unsuitable, that strict IDNA2008 implementation is impossible, or that every future repository-owned composition is impossible. The prior 0.4.0 stopped-composition evidence and its narrower conclusion remain unchanged; Outcome B was not part of that earlier finding.
+
+All unresolved strict-profile obligations remain: RFC 5890/5891/5892/5893; CONTEXTJ/CONTEXTO; domain-aware Bidi; A-label/U-label validation; no-mapping semantics; Unicode property/version strategy; unassigned-code-point handling; resource bounds; canonical comparison-key construction; and retained compatibility/upgrade requirements. Raw codec supportability and complete validation remain distinct. The evidence reports are preserved unchanged.
+
+DEC-0009 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. This disposition neither accepts nor rejects DEC-0009 itself. No technology selection, dependency admission, backend or Login implementation, Contract/OpenAPI change, or unrelated policy decision follows. Any next strategy or evidence evaluation requires separate explicit authorization; the existing acceptance, dependency and applicable Architecture gates remain mandatory.
 
 ## Security and Authority Impact
 
@@ -277,7 +299,7 @@ The cost is evaluation and review work before canonicalization can proceed. Cand
 4. **Dependency admission:** if a new third-party artifact is selected, perform the separate DEC-0001-governed admission with lock, verification, security, and compatibility evidence. Neither proposal nor acceptance substitutes for this stage.
 5. **Implementation:** only after the required preceding gates, separately implement and verify strict validation/canonicalization within the governed Identity boundaries. Preserve preparation tests, architecture direction, safe failures, and the canonical-key-before-lookup requirement. No Authentication or HTTP success follows from canonicalization alone.
 
-The 0.3.0 bounded evaluation is complete and stopped. The separate 0.5.0 codec-supportability evaluation is authorized but not performed by this revision; the broader technical-evaluation acceptance requirements remain unsatisfied. Completion of this evidence-gathering exercise does not complete acceptance, dependency admission, or implementation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
+The 0.3.0 bounded evaluation is complete and stopped. The separate 0.5.0 codec-supportability evaluation is also complete, with Outcome B and exhausted authorization; direct ICU4J 78.3 internal Punycode use is removed from the current candidate path. No next evaluation is authorized, and the broader technical-evaluation acceptance requirements remain unsatisfied. Completion of this evidence-gathering exercise does not complete acceptance, dependency admission, or implementation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
 
 ## Explicit Non-Decisions
 
@@ -343,6 +365,7 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.6.0 | 2026-10-04 | Proposed | Recorded the completed 0.5.0 evaluation and B. SUPPORTABILITY BASIS NOT DEMONSTRATED; marked its authorization exhausted and removed direct ICU4J 78.3 internal Punycode use from the current candidate path; preserved both evidence records and unresolved strict-profile obligations; authorized no further evaluation, selected no technology, admitted no dependency, and neither accepted nor rejected DEC-0009. |
 | 0.5.0 | 2026-10-03 | Proposed | Authorized one isolated evidence evaluation of direct ICU4J 78.3 internal Punycode codec supportability, compatibility, security maintenance, upgrade basis and UTS #46 isolation, with explicit A/B/C exits; preserved the exhausted 0.3.0 authorization and 0.4.0 stopped evidence; selected no technology, admitted no dependency, and authorized no production implementation or acceptance. |
 | 0.4.0 | 2026-10-02 | Proposed | Durably recorded the completed 0.3.0 evaluation and scope-limited stopped-path disposition, demonstrated component findings, unexecuted validation and unresolved blockers; exhausted the single authorization and retained a recommendation-only codec-supportability question; authorized no further evaluation, selection, dependency admission, or production implementation. |
 | 0.3.0 | 2026-10-01 | Proposed | Authorized one bounded, isolated repository-owned strict-IDNA2008 technical evaluation for evidence gathering with ownership/review, component/codec, conformance, isolation, dependency, Architecture, reporting, and stop-condition boundaries; selected no strategy, library, or Unicode version, admitted no dependency, and authorized no production implementation or acceptance. |
