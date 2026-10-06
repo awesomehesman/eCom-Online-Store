@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.56
+version: 1.0.57
 status: Approved
 owner: Architecture
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -548,6 +548,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0007 | Initial Customer Password Policy | Product Decision / Security Decision | Accepted | Identity | 2026-09-30 | — | [DEC-0007-initial-customer-password-policy.md](../../specifications/decisions/DEC-0007-initial-customer-password-policy.md) |
 | DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Accepted | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
 | DEC-0009 | Customer Login IDNA2008 Implementation Strategy | Security Decision | Proposed | Identity | 2026-10-06 | — | [DEC-0009-customer-login-idna2008-implementation-strategy.md](../../specifications/decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md) |
+| DEC-0010 | Customer Password Blocklist Strategy | Security Decision | Proposed | Identity | 2026-10-07 | — | [DEC-0010-customer-password-blocklist-strategy.md](../../specifications/decisions/DEC-0010-customer-password-blocklist-strategy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -679,6 +680,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.57 | 2026-10-07 | Approved | Indexed DEC-0010, Customer Password Blocklist Strategy, as 0.1.0 Proposed with future evidence requirements and authority boundaries; selected no strategy, provider, dataset or dependency, authorized no evaluation or implementation, and preserved DEC-0007 policy, separate dependency/Architecture gates and deferred DEC-0009. |
 | 1.0.56 | 2026-10-06 | Approved | Synchronized DEC-0009 0.8.0 Proposed with completed 0.7.0 native evaluation, consumed/exhausted authorization and B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED; excluded the evaluated GNU Libidn2 2.3.8 arrangement from selection on current evidence only, without claiming universal native infeasibility; preserved prior history and separate gates; authorized no new evaluation, technology selection, dependency admission, Architecture change, acceptance or implementation. |
 | 1.0.55 | 2026-10-04 | Approved | Synchronized DEC-0009 0.7.0 Proposed authorization for exactly one bounded native strict-IDNA2008 feasibility and admission-readiness evaluation, including evidence boundaries, A/B/C outcomes, stop conditions and separate dependency/Architecture gates; preserved both exhausted authorizations and ICU internal-codec Outcome B; executed no evaluation, selected no technology, admitted no dependency and granted no acceptance or implementation authority. |
 | 1.0.54 | 2026-10-04 | Approved | Synchronized DEC-0009 0.6.0 Proposed with completion of its 0.5.0 evaluation and B. SUPPORTABILITY BASIS NOT DEMONSTRATED; recorded exhausted authorization and removal of direct ICU4J 78.3 `com.ibm.icu.impl.Punycode` use from the current candidate path; preserved evidence and unresolved strict-profile obligations; authorized no further evaluation, selected no technology, and neither accepted nor rejected DEC-0009. |
