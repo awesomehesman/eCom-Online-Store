@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.54
+version: 1.0.55
 status: Approved
 owner: Architecture
 last_updated: 2026-10-04
@@ -551,6 +551,8 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 
 The index contains only verified decision records that exist at their linked repository paths.
 
+DEC-0009 0.7.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. It authorizes exactly one bounded native strict-IDNA2008 feasibility and admission-readiness evidence evaluation, with explicit A/B/C outcomes and stop conditions. The 0.3.0 and 0.5.0 authorizations remain exhausted, and direct ICU4J 78.3 internal Punycode use remains removed following Outcome B. This synchronization executes no evaluation, selects no technology, admits no dependency and grants no DEC acceptance, Architecture approval or implementation authority; separate DEC-0001 and applicable Architecture/ADR gates remain required.
+
 ## 50. Decision Index Maintenance
 
 The owner of a new or changed decision record MUST update this index in the same change. Maintenance MUST ensure:
@@ -677,6 +679,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.55 | 2026-10-04 | Approved | Synchronized DEC-0009 0.7.0 Proposed authorization for exactly one bounded native strict-IDNA2008 feasibility and admission-readiness evaluation, including evidence boundaries, A/B/C outcomes, stop conditions and separate dependency/Architecture gates; preserved both exhausted authorizations and ICU internal-codec Outcome B; executed no evaluation, selected no technology, admitted no dependency and granted no acceptance or implementation authority. |
 | 1.0.54 | 2026-10-04 | Approved | Synchronized DEC-0009 0.6.0 Proposed with completion of its 0.5.0 evaluation and B. SUPPORTABILITY BASIS NOT DEMONSTRATED; recorded exhausted authorization and removal of direct ICU4J 78.3 `com.ibm.icu.impl.Punycode` use from the current candidate path; preserved evidence and unresolved strict-profile obligations; authorized no further evaluation, selected no technology, and neither accepted nor rejected DEC-0009. |
 | 1.0.53 | 2026-10-03 | Approved | Synchronized DEC-0009 0.5.0 Proposed authorization for one bounded direct ICU4J 78.3 internal Punycode codec-supportability evaluation with explicit A/B/C exits; preserved the prior exhausted authorization and stopped evidence; performed no evaluation, selected no technology, admitted no dependency, and created no production implementation or acceptance authority. |
 | 1.0.52 | 2026-10-02 | Approved | Synchronized DEC-0009 0.4.0 Proposed with durable evidence of the completed, stopped bounded evaluation and exhausted authorization; retained unresolved blockers and a recommendation-only future question without authorizing further evaluation, selecting a strategy, admitting dependencies, or creating implementation authority. |
