@@ -4,8 +4,8 @@
 - **Title:** Customer Login IDNA2008 Implementation Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.7.0
-- **Date:** 2026-10-04
+- **Version:** 0.8.0
+- **Date:** 2026-10-06
 - **Owner:** Identity
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -34,7 +34,7 @@ Which implementation, exact release, configuration, and Unicode-data behavior ca
 
 ## Decision — Proposed Evaluation Boundary
 
-This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** The single evaluation authorized by version 0.3.0 has completed with a stopped-path disposition, recorded below. No complete conformant implementation, acceptance approval, or dependency admission is established. The separate 0.5.0 codec-supportability evaluation is complete with **B. SUPPORTABILITY BASIS NOT DEMONSTRATED**; its authorization is exhausted and cannot be reused. Direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 is removed from the current candidate path. Version 0.6.0 recorded that result only. Version 0.7.0 authorizes exactly one bounded native strict-IDNA2008 feasibility and admission-readiness evaluation under the scope below. DEC-0009 remains unresolved/Proposed; no evaluation is executed or result claimed by this revision.
+This proposal defines the evaluation and acceptance boundary only. **No library, implementation, candidate release, configuration, or Unicode version is selected.** The single evaluation authorized by version 0.3.0 has completed with a stopped-path disposition, recorded below. No complete conformant implementation, acceptance approval, or dependency admission is established. The separate 0.5.0 codec-supportability evaluation is complete with **B. SUPPORTABILITY BASIS NOT DEMONSTRATED**; its authorization is exhausted and cannot be reused. Direct use of `com.ibm.icu.impl.Punycode` from ICU4J 78.3 is removed from the current candidate path. Version 0.6.0 recorded that result only. The separate 0.7.0 bounded native evaluation is complete with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED**; its authorization is consumed/exhausted. Version 0.8.0 synchronizes that candidate-specific result: the evaluated GNU Libidn2 2.3.8 public API arrangement MUST NOT be selected from the current evidence. DEC-0009 remains unresolved/Proposed, and no new evaluation is authorized.
 
 The eventual strategy must satisfy DEC-0005 exactly. It must not weaken that decision to fit a convenient API. The proposed evaluation must distinguish IDNA2008, IDNA2003, and UTS #46 compatibility processing, including transitional and non-transitional behavior. A product label such as “IDNA support” is not conformance evidence.
 
@@ -111,7 +111,7 @@ Permission to evaluate repository-owned validation does NOT authorize repository
 
 ### F. Native Implementation Evaluation
 
-A maintained native implementation exposed through a governed JVM integration remains a possible evaluation direction, subject to separately reviewed investigation scope and authorization. Exact native and JVM components, profile/data configuration, provenance, Java compatibility, packaging, failure behavior, and maintenance responsibilities require evidence. Native/JNI/JNA/runtime/deployment/platform/ABI changes require Architecture assessment; an ADR is required if the selected strategy materially changes Architecture. This alternatives clarification itself authorizes no native strategy or spike and makes no Architecture change. The separate 0.7.0 authorization below now bounds one native evidence evaluation; it does not select this direction.
+A maintained native implementation exposed through a governed JVM integration remains a possible evaluation direction, subject to separately reviewed investigation scope and authorization. Exact native and JVM components, profile/data configuration, provenance, Java compatibility, packaging, failure behavior, and maintenance responsibilities require evidence. Native/JNI/JNA/runtime/deployment/platform/ABI changes require Architecture assessment; an ADR is required if the selected strategy materially changes Architecture. This alternatives clarification itself authorizes no native strategy or spike and makes no Architecture change. The separate 0.7.0 authorization below bounded one native evidence evaluation and is now complete and exhausted; it did not select this direction. Its candidate-specific outcome is recorded in the 0.8.0 disposition below and does not establish universal native infeasibility.
 
 Repository-owned composition, native implementation, a future maintained implementation, and deferral remain unselected directions. DEC-0009 remains Proposed until an actual implementation strategy satisfies its acceptance gates and receives the required authority.
 
@@ -259,7 +259,9 @@ All unresolved strict-profile obligations remain: RFC 5890/5891/5892/5893; CONTE
 
 DEC-0009 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. This disposition neither accepts nor rejects DEC-0009 itself. No technology selection, dependency admission, backend or Login implementation, Contract/OpenAPI change, or unrelated policy decision follows. Any next strategy or evidence evaluation requires separate explicit authorization; the existing acceptance, dependency and applicable Architecture gates remain mandatory.
 
-## Bounded Native Feasibility and Admission-Readiness Evaluation Authorization — 0.7.0 Proposed
+## Bounded Native Feasibility and Admission-Readiness Evaluation Authorization — 0.7.0 Proposed (Completed)
+
+The following authorization and exact scope are retained as historical terms of the completed evaluation. The single authorization has been exercised and is consumed/exhausted; the historical permission below cannot be reused. The 0.8.0 disposition records its controlling Outcome B.
 
 ### Authorized Evidence Question and Ownership
 
@@ -314,6 +316,34 @@ Stop affected experimentation immediately if it requires prohibited mapping/repa
 
 Completion, a stop disposition or exhaustion of the reviewed boundary consumes this one authorization. Follow-up experiments, a materially different candidate scope or another strategy require fresh explicit authorization. No automatic renewal follows from A, B or C.
 
+## Completed Native Feasibility Evaluation — 0.8.0 Proposed Disposition
+
+The single evaluation authorized by 0.7.0 was completed on 2026-10-06 against merged baseline `53e361aee90d2192f534b565a00e0d85ab7c57b0`. Its [durable native feasibility and admission-readiness evidence](evidence/DEC-0009/native-idna2008-feasibility-evaluation-2026-10-06.md), now merged in the synchronization baseline `a0623bb91a332c2bfaa500e4ec083146167f77e5`, records the exact controlling terminal result:
+
+**B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED**
+
+The 0.7.0 authorization has been exercised and is now consumed/exhausted. GNU Libidn2 2.3.8 was the sole native candidate inspected. The evaluation reached documentary/source discovery and stopped before candidate-specific experimental execution. **GNU Libidn2 2.3.8 MUST NOT be selected as the DEC-0009 implementation strategy from the current evidence.** This consequence applies only to the evaluated public API arrangement on the present evidence, not all versions, all native libraries or all future strategies. It does not establish that GNU Libidn2 can never satisfy the requirement or that every native strict-IDNA2008 strategy is infeasible.
+
+### Evidence Basis and Limits
+
+- **Upstream/documentary and tagged-source findings:** lookup and registration have materially different validation behavior. The inspected lookup path checks for CONTEXTO rule existence, while the inspected registration path requests rule evaluation; the evidence also identifies ordinary-ASCII paths and per-label processing. These observations are not executed conformance results.
+- **Source-level inference:** the inspected public API arrangement did not demonstrate the complete governed strict-IDNA2008 validation boundary, particularly complete domain-aware RFC 5893 Bidi enforcement, including applicable ASCII labels. Completing missing behavior with custom repository protocol logic or internal APIs was outside the 0.7.0 authorization; no such workaround was implemented.
+- **Unexecuted work:** GNU Libidn2 and Java/native integration were not executed. No candidate-specific native/JNI probe, complete conformance corpus or resource/concurrency experiment was run. Downloaded artifacts were not locally verified; the report's upstream provenance and published digest references are not claims of verified local bytes.
+- **Unresolved admission/readiness evidence:** full Unicode lifecycle and retained-identifier compatibility, exact linked Unicode/runtime inventory, supported Java 21 integration, platform/support, resource/concurrency, provenance/licensing/support/reproducibility, deployment/failure isolation, dependency/native artifact admission and operational ownership were not demonstrated as a complete strategy.
+- **Network limitations:** failed downloads and unavailable upstream retrievals limited evidence gathering. They were not used as proof of technical infeasibility. Outcome B rests on the report's candidate-specific required-behavior assessment, not a claim that network failure proves the library cannot work.
+
+### Architecture Consequence and Preserved Boundaries
+
+The evidence assesses that the considered in-process native boundary would materially introduce native loading, ABI/platform packaging and process-failure responsibilities. Such an integration requires separate Architecture/ADR governance before production selection or implementation, including an Accepted ADR and canonical Architecture synchronization for the material change. This is an assessment from the evidence, not Architecture approval, and this synchronization authorizes neither creation nor acceptance of an ADR.
+
+All earlier evidence and history remain unchanged: the 0.3.0 composition authorization stays exhausted; the 0.4.0 stopped-composition finding remains limited to that evaluated path; the 0.5.0 internal-codec authorization stays exhausted; direct `com.ibm.icu.impl.Punycode` remains removed from the current candidate path; and the 0.6.0 disposition and historical 0.7.0 scope retain their original temporal meaning. No earlier revision is represented as knowing this later result.
+
+DEC-0009 remains unresolved, Proposed, Identity-owned, a Security Decision and `Authoritative: false`. Required strategy evidence remains unresolved for RFC 5890–5893 completeness; CONTEXTJ/CONTEXTO; domain-aware Bidi; A-label/U-label validity and canonical round trips; strict no-mapping semantics; exact Unicode data/version policy and unassigned-code-point handling; resource/input bounds; canonical comparison-key construction; retained-identifier compatibility and Unicode upgrades; supported Java 21 integration; provenance, licensing, support, reproducibility, deployment and failure isolation; dependency/native artifact admission; and operational ownership. Neither useful component findings nor documentary API availability resolve that complete set.
+
+This synchronization authorizes **no new evaluation** and introduces no candidate, evidence question or investigation scope. Any further candidate evaluation or materially different strategy requires fresh explicit governance authorization. DEC-0005 and strict no-mapping requirements remain unchanged. Separate DEC-0001 admission and applicable Architecture/ADR gates remain mandatory; no technology selection or DEC acceptance follows.
+
+No production or Login implementation, persistence, API Contract change, dependency/native artifact admission, deployment, Product/Security requirement change, Architecture change, ADR acceptance, repository-owned IDNA implementation, supplementary custom protocol validation, external service adoption, UTS #46 substitution, `java.net.IDN` fallback, direct ICU internal Punycode use or GNU Libidn2 production use is authorized. The merged evidence artifacts are preserved unchanged.
+
 ## Security and Authority Impact
 
 Identity remains the owner of Authentication identifier interpretation and canonical comparison. Identity is the single accountable owner of this record. Acceptance requires Security review and approval, Architecture review and approval applicable to this Security Decision, and Engineering review of implementation, dependency, reproducibility, and testing evidence. Approval evidence must be durable and discoverable; no reviewers or completed approvals are asserted here.
@@ -354,7 +384,7 @@ The cost is evaluation and review work before canonicalization can proceed. Cand
 4. **Dependency admission:** if a new third-party artifact is selected, perform the separate DEC-0001-governed admission with lock, verification, security, and compatibility evidence. Neither proposal nor acceptance substitutes for this stage.
 5. **Implementation:** only after the required preceding gates, separately implement and verify strict validation/canonicalization within the governed Identity boundaries. Preserve preparation tests, architecture direction, safe failures, and the canonical-key-before-lookup requirement. No Authentication or HTTP success follows from canonicalization alone.
 
-The 0.3.0 bounded evaluation is complete and stopped. The separate 0.5.0 codec-supportability evaluation is also complete, with Outcome B and exhausted authorization; direct ICU4J 78.3 internal Punycode use is removed from the current candidate path. Version 0.7.0 separately authorizes only the single bounded native evaluation above; it has not been executed by this revision, and the broader technical-evaluation acceptance requirements remain unsatisfied. Completion of this evidence-gathering exercise does not complete acceptance, dependency admission, or implementation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
+The 0.3.0 bounded evaluation is complete and stopped. The separate 0.5.0 codec-supportability evaluation is also complete, with Outcome B and exhausted authorization; direct ICU4J 78.3 internal Punycode use is removed from the current candidate path. The separate 0.7.0 native evaluation is complete with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED** and consumed/exhausted authorization. The evaluated GNU Libidn2 2.3.8 arrangement is not selectable from the current evidence. No further evaluation is authorized, and the broader technical-evaluation acceptance requirements remain unsatisfied. Completion of this evidence-gathering exercise does not complete acceptance, dependency admission, or implementation. These stages must not be represented as one completed selection/admission/implementation outcome. This proposal requires no synchronization into Architecture, Product, Contracts, OpenAPI, or other governing files.
 
 ## Explicit Non-Decisions
 
@@ -420,6 +450,7 @@ N/A.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.8.0 | 2026-10-06 | Proposed | Synchronized the completed 0.7.0 native evaluation and B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED; recorded consumed/exhausted authorization and exclusion of the evaluated GNU Libidn2 2.3.8 arrangement from selection on current evidence only; preserved candidate-specific limits, evidence attribution, all prior history and unresolved obligations; authorized no new evaluation, selection, admission, Architecture change, acceptance or implementation. |
 | 0.7.0 | 2026-10-04 | Proposed | Authorized exactly one isolated native strict-IDNA2008 feasibility and admission-readiness evaluation with complete evidence boundaries, explicit A/B/C outcomes and stop conditions; preserved both exhausted authorizations, stopped-composition evidence and ICU internal-codec Outcome B; selected no technology, admitted no dependency, granted no Architecture approval, and authorized no production implementation or DEC acceptance. |
 | 0.6.0 | 2026-10-04 | Proposed | Recorded the completed 0.5.0 evaluation and B. SUPPORTABILITY BASIS NOT DEMONSTRATED; marked its authorization exhausted and removed direct ICU4J 78.3 internal Punycode use from the current candidate path; preserved both evidence records and unresolved strict-profile obligations; authorized no further evaluation, selected no technology, admitted no dependency, and neither accepted nor rejected DEC-0009. |
 | 0.5.0 | 2026-10-03 | Proposed | Authorized one isolated evidence evaluation of direct ICU4J 78.3 internal Punycode codec supportability, compatibility, security maintenance, upgrade basis and UTS #46 isolation, with explicit A/B/C exits; preserved the exhausted 0.3.0 authorization and 0.4.0 stopped evidence; selected no technology, admitted no dependency, and authorized no production implementation or acceptance. |
