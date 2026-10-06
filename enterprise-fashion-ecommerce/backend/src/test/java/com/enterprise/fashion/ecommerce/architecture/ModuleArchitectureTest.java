@@ -119,6 +119,21 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void prospectivePasswordPreparationDependsOnlyOnJavaAndItsOwnType() {
+        classes()
+                .that()
+                .haveFullyQualifiedName(ROOT_PACKAGE + ".identity.domain.model.PreparedProspectiveCustomerPassword")
+                .should()
+                .onlyDependOnClassesThat()
+                .resideInAnyPackage(
+                        "java.lang",
+                        "java.text",
+                        ROOT_PACKAGE + ".identity.domain.model")
+                .as("Prospective password preparation has no framework, persistence, HTTP or external dependencies")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void applicationCodeDoesNotDependOnConcreteAdapters() {
         noClasses()
                 .that()
