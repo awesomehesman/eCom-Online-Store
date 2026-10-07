@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.57
+version: 1.0.58
 status: Approved
 owner: Architecture
 last_updated: 2026-10-07
@@ -554,6 +554,8 @@ The index contains only verified decision records that exist at their linked rep
 
 DEC-0009 0.8.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.7.0 native feasibility/admission-readiness evaluation is complete and its authorization consumed/exhausted, with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED** recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0009/native-idna2008-feasibility-evaluation-2026-10-06.md). The evaluated GNU Libidn2 2.3.8 public API arrangement MUST NOT be selected from the current evidence; this is candidate-specific, not universal native infeasibility. The 0.3.0 and 0.5.0 authorizations remain exhausted and direct ICU internal Punycode remains removed from the current candidate path. No new evaluation is authorized; further candidate evaluation or a materially different strategy requires fresh explicit governance authorization. This synchronization selects no technology, admits no dependency/native artifact and grants no DEC acceptance, Architecture approval/change or implementation authority. Separate DEC-0001 and applicable Architecture/ADR gates remain required.
 
+DEC-0010 0.2.0 remains Proposed, Identity-owned and non-authoritative. It authorizes exactly one bounded, single-use documentation/static evidence evaluation, with finite investigation limits, A/B/C terminal outcomes and exhaustion on durable outcome recording. No evaluation has been executed by this synchronization; no strategy, dependency or provider is selected/admitted, and no DEC acceptance, Architecture approval/change or implementation authority is granted.
+
 ## 50. Decision Index Maintenance
 
 The owner of a new or changed decision record MUST update this index in the same change. Maintenance MUST ensure:
@@ -680,6 +682,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.58 | 2026-10-07 | Approved | Synchronized DEC-0010 0.2.0 Proposed authorization for exactly one bounded, single-use documentation/static evidence evaluation; recorded finite limits, terminal outcomes and separate gates without evaluation execution, strategy selection, acceptance, dependency/provider admission, Architecture approval/change or implementation authority. |
 | 1.0.57 | 2026-10-07 | Approved | Indexed DEC-0010, Customer Password Blocklist Strategy, as 0.1.0 Proposed with future evidence requirements and authority boundaries; selected no strategy, provider, dataset or dependency, authorized no evaluation or implementation, and preserved DEC-0007 policy, separate dependency/Architecture gates and deferred DEC-0009. |
 | 1.0.56 | 2026-10-06 | Approved | Synchronized DEC-0009 0.8.0 Proposed with completed 0.7.0 native evaluation, consumed/exhausted authorization and B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED; excluded the evaluated GNU Libidn2 2.3.8 arrangement from selection on current evidence only, without claiming universal native infeasibility; preserved prior history and separate gates; authorized no new evaluation, technology selection, dependency admission, Architecture change, acceptance or implementation. |
 | 1.0.55 | 2026-10-04 | Approved | Synchronized DEC-0009 0.7.0 Proposed authorization for exactly one bounded native strict-IDNA2008 feasibility and admission-readiness evaluation, including evidence boundaries, A/B/C outcomes, stop conditions and separate dependency/Architecture gates; preserved both exhausted authorizations and ICU internal-codec Outcome B; executed no evaluation, selected no technology, admitted no dependency and granted no acceptance or implementation authority. |

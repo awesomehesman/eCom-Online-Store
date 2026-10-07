@@ -4,7 +4,7 @@
 - **Title:** Customer Password Blocklist Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-10-07
 - **Owner:** Identity
 - **Authoritative:** false
@@ -29,7 +29,7 @@ What Identity-owned blocklist strategy and governed operating conditions will re
 
 ## Decision — Proposed Governance and Evidence Boundary
 
-This initial proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
+This proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. Version 0.2.0 authorizes exactly one bounded documentation/static evidence evaluation under the limits below; this revision does not execute it. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
 
 A future selection must be supported by attributable evidence against the requirements below and undergo the applicable decision lifecycle and approvals. A list of candidate classes, a successful experiment, or acceptance of an evaluation scope is not strategy selection, dependency admission, provider approval, Architecture approval, or implementation authorization.
 
@@ -54,7 +54,7 @@ Evidence must distinguish verified observations, assumptions, limitations and un
 
 ## Alternatives Considered — Candidate Classes Only
 
-No candidate has been evaluated or selected. These classes identify possible future comparisons, not equal suitability or authorization to investigate particular products:
+No candidate has been evaluated or selected. These classes identify possible comparisons, not equal suitability; only the bounded 0.2.0 authorization below permits investigation:
 
 - **Repository-controlled/local blocklist data:** assess coverage, provenance, distribution integrity, resource bounds, updates and repository maintenance responsibility; locality alone does not prove adequacy or freshness.
 - **Supported third-party dataset:** assess coverage, licensing, provenance, versioning, update continuity and integrity; third-party publication alone does not establish trust.
@@ -67,7 +67,7 @@ No candidate has been evaluated or selected. These classes identify possible fut
 
 The proposed process preserves DEC-0007 rather than revising its policy. A future mechanism must not log or persist plaintext prospective passwords, expose them in diagnostics, silently skip required evaluation, weaken whole-password matching to substring matching, treat failure/unavailability/staleness/uncertainty as acceptance, or treat structural preparation as complete acceptance. The accepted NFC and 15–64 bounds remain unchanged. Submitted and normalized secrets and sensitive lookup material must remain excluded from unsafe logs, metrics, traces, events, errors and support evidence under existing Security authority.
 
-Any mechanism that could transmit password-derived or password-equivalent information outside the application/process boundary requires explicit trust-boundary, privacy and Security evaluation before selection. Transformation alone is not evidence that disclosure is safe. No such disclosure, retention, network access, or provider credential is authorized here.
+Any mechanism that could transmit password-derived or password-equivalent information outside the application/process boundary requires explicit trust-boundary, privacy and Security evaluation before selection. Transformation alone is not evidence that disclosure is safe. No such disclosure, retention, candidate-service runtime network access, or provider credential is authorized here. Read-only public-documentation access is limited to the evaluation authorization below.
 
 This decision concerns prospective establishment/change only. It does not introduce blocklist or establishment-length checks into Login-time verification, reinterpret existing accepted credentials, or modify DEC-0006 verification semantics. Policy acceptance establishes no Authentication, Principal, Session, Registration completion or Authorization proof.
 
@@ -96,11 +96,63 @@ Acceptance of DEC-0010 must not automatically approve a provider, external servi
 
 Architecture must assess any proposed change to trust boundaries, runtime/deployment topology or process boundaries. A material Architecture change requires a separate Accepted ADR and canonical Architecture synchronization before reliance on that change. No ADR is created or accepted here, and no current Architecture boundary is changed.
 
-## Evaluation Authorization
+## Bounded Evidence-Gathering Evaluation Authorization — 0.2.0
 
-Version 0.1.0 authorizes no technology search, candidate-specific evaluation, download, experiment, execution, spike, evidence artifact or implementation. It defines requirements for later review only and consumes no future evaluation authority.
+Version 0.1.0 authorized no investigation or execution. Version 0.2.0 authorizes exactly **one single-use, bounded documentation/static evidence evaluation**, owned by Identity. This limited authorization does not make the Proposed strategy decision authoritative or Accepted. No evaluation has been performed by this revision.
 
-Before candidate investigation or experimental evaluation proceeds, obtain explicit bounded governance authorization recording purpose, scope, candidate limits, permitted activities, isolation, evidence requirements, stop conditions and completion criteria. Such authorization must preserve separate selection, acceptance, admission and Architecture gates; it must not be inferred from the candidate classes in this proposal.
+### Exact Evaluation Question
+
+Can a strategy within the explicitly authorized evaluation scope satisfy DEC-0007's requirement to evaluate the complete NFC-normalized prospective Customer password against known commonly used, expected, or compromised password values while preserving governed whole-password matching, freshness, privacy, failure, fail-closed, safe-retry, supportability and operational requirements?
+
+### Finite Scope and Investigation Limits
+
+The evaluation may examine the candidate classes listed above: repository/local data, externally maintained data consumed locally, supported components and remote capabilities. Another materially supportable class may be considered only if encountered within the same limits. No class or concrete candidate is preferred or selected.
+
+The entire evaluation is limited to **one pass, at most 12 discovery search queries, 30 distinct public source documents/pages, four candidate arrangements, and eight hours of active investigation**. These are investigation caps only, not production resource or operational policy. Follow-up queries and source reads count toward the same totals; no per-class reset is permitted. Re-reading a source does not create an additional document allowance or extend the time budget. The evaluator must record cumulative usage.
+
+A candidate may enter the maximum four-candidate set only where available public/static evidence identifies a relevant whole-password checking/data capability, attributable source or maintainer, and enough coverage, representation or operating information to investigate DEC-0007 compatibility. Discovery results alone do not establish compliance. Count every arrangement subjected to substantive candidate assessment, including rejected or discontinued candidates; dropping one does not free a slot. Prefer evidence breadth across materially distinct classes where eligible evidence permits, without assuming equal suitability or filling slots merely to continue searching. Explain inclusion/exclusion and stop when the question is answered or a limit is reached. No continuing search to find a preferred result is authorized.
+
+### Permitted Evidence and Activities
+
+Only read-only inspection of authoritative public documentation, browser-readable source text, release/version information and existing repository material is permitted. The evaluator may compare provenance, maintenance/support, licensing/terms, documented coverage and limitations, integrity/authenticity mechanisms, privacy/data flows, trust boundaries, updates/freshness, determinism/reproducibility, documented resource bounds, availability/failure, safe retry/recovery, published testing/conformance evidence, operational lifecycle, Architecture/deployment and supply-chain implications. Viewing documentation is permitted; acquiring dataset archives, packages, binaries or executable source checkouts is not.
+
+Apply every obligation in Future Evaluation Requirements and record a policy-obligation matrix. Distinguish documented claims from independently demonstrated behavior, unknowns and assumptions. Documentation/static inspection must not be reported as runtime conformance or benchmark evidence. If executable evidence is needed for a material conclusion, record that limitation and stop under the applicable terminal outcome rather than silently expand permission.
+
+The evaluation must preserve complete-password comparison, the insufficiency of substring presence, the existing complete NFC representation and significant case/whitespace, appropriate commonly used/expected/compromised coverage, and fail-closed treatment of unavailable, failed, stale or uncertain checking. No credential creation/replacement may proceed without successful required evaluation. Safe retry, password secrecy and redacted diagnostics remain mandatory. Establishment/change policy must not become Login-time policy, and no candidate may justify weakening DEC-0007.
+
+### Prohibited Activities
+
+No downloads of candidate artifacts/data, installations, executable experiments, spikes, benchmarks, candidate-specific runtime tests, provider API calls, provider provisioning or service/account creation are authorized. Do not use real Customer passwords or secrets or transmit prospective passwords or derived lookup material to candidates. Do not modify production code or tests, implement a checker, create production persistence/schema, change Contracts or DEC-0007 policy, weaken Security requirements, admit dependencies, change Architecture, create deployment/infrastructure, reopen or modify DEC-0009, resolve unrelated Product decisions, or automatically accept DEC-0010. Technical promise is not implementation or Architecture authority.
+
+The only repository output permitted by this future evaluation is the single evidence artifact specified below. Governance synchronization or another evaluation requires separately authorized work.
+
+### Exactly Three Terminal Outcomes
+
+- **A. SUPPORTED BASIS:** Evidence is sufficient to prepare a concrete DEC-0010 strategy proposal for governance review. This does not select or accept a strategy or grant dependency, Architecture, provider or implementation authority. Material unknowns must not be concealed to claim this outcome.
+- **B. BASIS NOT DEMONSTRATED:** One or more material obligations cannot be demonstrated within the authorized evidence and scope after bounded assessment. Conclusions are limited to the candidates/classes actually evaluated and must not become universal infeasibility claims.
+- **C. STOPPED / INCONCLUSIVE:** Responsible completion is prevented by authorization/evidence limits, safety, incompatible terms, prerequisite governance or exhausted resource/search scope. This is not technical infeasibility. Use C when a stop condition prevents completing the assessment; use B for a completed bounded assessment that does not establish the required basis.
+
+Record exactly one terminal outcome for the evaluation, with candidate-specific observations beneath it. An outcome is not permission to begin another investigation.
+
+### Stop Conditions
+
+Stop investigation immediately if continuing would exceed any candidate, search, document, active-time or scope limit; require real Customer secrets; require unapproved download, execution, dependency or provider activity; require policy weakening; encounter incompatible licensing/terms preventing responsible evaluation; require material Architecture/provider/privacy/legal/security prerequisite approval outside this authorization; require evidence unavailable within the bounded evaluation; or require a new material governance decision. Record evidence gathered so far and the applicable terminal outcome without performing the blocked activity. Safe closure and recording of the outcome do not authorize additional investigation.
+
+### Single Durable Evidence Artifact and Traceability
+
+The future evaluation must produce exactly one durable artifact:
+
+`specifications/decisions/evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md`
+
+This path is relative to `enterprise-fashion-ecommerce/`. Do not create it as part of this authorization revision. The evaluation artifact must record DEC-0010 authorization version 0.2.0 and its commit/reference, repository baseline evaluated, evaluation date, evaluator and accountable Identity owner, exact scope and budget usage, candidates/classes actually investigated, sources and versions/access dates, permitted activities actually performed, evidence and limitations, the policy-obligation matrix, downstream gates identified, stop conditions encountered (or none), exactly one terminal outcome A/B/C, and the authorization-consumption statement. Link conclusions to sources and distinguish supplied claims from observed evidence. Do not fabricate evaluator identities, approvals or runtime results.
+
+### Single-Use Consumption and Separate Gates
+
+The authorization becomes **consumed/exhausted when its terminal outcome is durably recorded**. A stopped or inconclusive outcome also consumes it. Investigation stops on reaching a terminal outcome; delayed recording does not permit continuation. No automatic retry, candidate substitution after exhaustion, material expansion, second evaluation or continued investigation after an outcome is permitted. Each requires fresh explicit governance authorization.
+
+Strategy acceptance remains separate. DEC-0001 dependency admission remains separate for proposed executable third-party dependencies. Material Architecture changes require applicable ADR governance and canonical synchronization. Provider/external-service adoption requires applicable provider/integration approval; privacy/legal/licensing review remains conditional on actual characteristics. Operational governance must establish selected freshness/update/failure/recovery/support conditions. Implementation remains separately governed and unauthorized. A supported basis automatically satisfies none of these gates.
+
+Identity owns both decision and evaluation. Security and Architecture review are required; Engineering and Operations review evaluation and supportability implications. Product/Customer review is required only if observable Product/Registration semantics would materially change, and privacy/legal/licensing review is conditional on actual candidate characteristics. No completed human approval is asserted by this authorization.
 
 ## Required Review and Approval Responsibilities
 
@@ -139,7 +191,7 @@ No Product policy, public or internal Contract shape, Architecture change, persi
 
 ## Proposal and Future Selection Readiness
 
-Proposal readiness requires accurate Proposed/non-authoritative metadata, same-change index registration, traceability to accepted policy and current implementation, explicit evidence gaps, no implied selection or evaluation authority, and preservation of all separate gates.
+Proposal readiness requires accurate Proposed/non-authoritative metadata, same-change index registration, traceability to accepted policy and current implementation, explicit evidence gaps, no implied selection or evaluation authority beyond the explicit bounded authorization, and preservation of all separate gates.
 
 Future selection readiness requires attributable evidence against every applicable evaluation obligation, explicit unresolved limitations and residual risks, represented approval authorities, and a governed revision recording the actual proposed strategy and consequences. Approval of this initial boundary does not by itself meet those conditions or authorize production implementation.
 
@@ -168,4 +220,5 @@ Future selection readiness requires attributable evidence against every applicab
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-10-07 | Proposed | Authorized exactly one bounded, single-use documentation/static evidence evaluation with finite investigation limits, A/B/C terminal outcomes, stop conditions and one future evidence artifact; preserved separate gates without executing evaluation, selecting a strategy, accepting the decision or authorizing implementation. |
 | 0.1.0 | 2026-10-07 | Proposed | Established the Customer password blocklist decision question, future evidence requirements and authority boundaries after PR #128; selected no strategy, authorized no evaluation or implementation, preserved accepted policy and separate dependency/Architecture gates, and left DEC-0009 deferred. |
