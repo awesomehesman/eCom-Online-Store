@@ -4,7 +4,7 @@
 - **Title:** Customer Password Blocklist Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Date:** 2026-10-07
 - **Owner:** Identity
 - **Authoritative:** false
@@ -19,7 +19,7 @@ At canonical baseline `a4e59eb451b866c270f18cedf6d3a94c96d5936c`, PR #128 suppli
 
 DEC-0006 governs Argon2id credential hashing and verification mechanics. Hashing or successful verifier matching is not blocklist approval. No governed blocklist source, provider, dataset, API, library, service, or update mechanism is currently selected, and no production blocklist checker exists at this baseline. Identity owns policy enforcement; Customer retains Registration coordination and Customer/Account business truth under ADR-0022 and the Initial Customer Registration Contract.
 
-These are accepted upstream requirements and inspected repository facts, not evidence that any candidate strategy is compliant. Candidate suitability, coverage, freshness, supportability, privacy, and operational feasibility remain open evidence questions. No candidate-specific assumptions or technical findings are asserted.
+These are accepted upstream requirements and inspected repository facts, not evidence that any candidate strategy is compliant. Candidate suitability, coverage, freshness, supportability, privacy, and operational feasibility remain open evidence questions. The completed documentary investigation and its limitations are recorded in the 0.3.0 disposition below; no unrecorded candidate-specific findings are asserted.
 
 DEC-0009 remains 0.8.0 Proposed, non-authoritative and deferred pending materially new evidence and fresh explicit authorization. This separate password decision neither reopens its exhausted evaluations nor bypasses strict IDNA2008 validation, canonical comparison-key construction, or authoritative login-email lookup.
 
@@ -29,7 +29,7 @@ What Identity-owned blocklist strategy and governed operating conditions will re
 
 ## Decision — Proposed Governance and Evidence Boundary
 
-This proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. Version 0.2.0 authorizes exactly one bounded documentation/static evidence evaluation under the limits below; this revision does not execute it. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
+This proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. Version 0.2.0 authorized exactly one bounded documentation/static evidence evaluation. That evaluation is complete and its authorization is exhausted. Version 0.3.0 synchronizes the recorded outcome only and grants no renewed evaluation authority. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
 
 A future selection must be supported by attributable evidence against the requirements below and undergo the applicable decision lifecycle and approvals. A list of candidate classes, a successful experiment, or acceptance of an evaluation scope is not strategy selection, dependency admission, provider approval, Architecture approval, or implementation authorization.
 
@@ -54,7 +54,7 @@ Evidence must distinguish verified observations, assumptions, limitations and un
 
 ## Alternatives Considered — Candidate Classes Only
 
-No candidate has been evaluated or selected. These classes identify possible comparisons, not equal suitability; only the bounded 0.2.0 authorization below permits investigation:
+Two candidate arrangements were investigated under the now-exhausted 0.2.0 authorization, as recorded below; neither was selected. These historical candidate classes identify possible comparisons, not equal suitability or current permission to investigate:
 
 - **Repository-controlled/local blocklist data:** assess coverage, provenance, distribution integrity, resource bounds, updates and repository maintenance responsibility; locality alone does not prove adequacy or freshness.
 - **Supported third-party dataset:** assess coverage, licensing, provenance, versioning, update continuity and integrity; third-party publication alone does not establish trust.
@@ -67,7 +67,7 @@ No candidate has been evaluated or selected. These classes identify possible com
 
 The proposed process preserves DEC-0007 rather than revising its policy. A future mechanism must not log or persist plaintext prospective passwords, expose them in diagnostics, silently skip required evaluation, weaken whole-password matching to substring matching, treat failure/unavailability/staleness/uncertainty as acceptance, or treat structural preparation as complete acceptance. The accepted NFC and 15–64 bounds remain unchanged. Submitted and normalized secrets and sensitive lookup material must remain excluded from unsafe logs, metrics, traces, events, errors and support evidence under existing Security authority.
 
-Any mechanism that could transmit password-derived or password-equivalent information outside the application/process boundary requires explicit trust-boundary, privacy and Security evaluation before selection. Transformation alone is not evidence that disclosure is safe. No such disclosure, retention, candidate-service runtime network access, or provider credential is authorized here. Read-only public-documentation access is limited to the evaluation authorization below.
+Any mechanism that could transmit password-derived or password-equivalent information outside the application/process boundary requires explicit trust-boundary, privacy and Security evaluation before selection. Transformation alone is not evidence that disclosure is safe. No such disclosure, retention, candidate-service runtime network access, or provider credential is authorized here. The historical public-documentation permission below is exhausted; no further candidate investigation is authorized.
 
 This decision concerns prospective establishment/change only. It does not introduce blocklist or establishment-length checks into Login-time verification, reinterpret existing accepted credentials, or modify DEC-0006 verification semantics. Policy acceptance establishes no Authentication, Principal, Session, Registration completion or Authorization proof.
 
@@ -96,9 +96,26 @@ Acceptance of DEC-0010 must not automatically approve a provider, external servi
 
 Architecture must assess any proposed change to trust boundaries, runtime/deployment topology or process boundaries. A material Architecture change requires a separate Accepted ADR and canonical Architecture synchronization before reliance on that change. No ADR is created or accepted here, and no current Architecture boundary is changed.
 
-## Bounded Evidence-Gathering Evaluation Authorization — 0.2.0
+## Completed Evaluation and Current Disposition — 0.3.0
 
-Version 0.1.0 authorized no investigation or execution. Version 0.2.0 authorizes exactly **one single-use, bounded documentation/static evidence evaluation**, owned by Identity. This limited authorization does not make the Proposed strategy decision authoritative or Accepted. No evaluation has been performed by this revision.
+The 0.2.0 bounded documentation/static evaluation was executed exactly once. Its [durable evidence artifact](evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md), at `specifications/decisions/evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md`, is merged in canonical baseline `770442323ec8fe3e1da680efd59326f771086d6f` and records two investigated arrangements:
+
+- HIBP Pwned Passwords remote SHA-1 range checking;
+- HIBP Pwned Passwords externally maintained corpus consumed locally.
+
+The terminal outcome is **C — STOPPED / INCONCLUSIVE**. It does not establish technical infeasibility or a completed adverse conformance assessment. Neither arrangement is selected, accepted, universally rejected or demonstrated compliant. Material unresolved evidence includes representation/NFC compatibility, freshness/currentness, integrity, usage/licensing applicability, resource/operational bounds and repository-specific failure/recovery/conformance matters. The limitations remain bounded to the inspected evidence and investigated arrangements, not all possible strategies.
+
+The DEC-0010 0.2.0 single-use authorization is **CONSUMED / EXHAUSTED**. Unused query, source, candidate or time capacity is not reusable authority. No retry, continuation, second evaluation, candidate substitution or material expansion is authorized.
+
+DEC-0010 is **DEFERRED PENDING MATERIALLY NEW EVIDENCE**, while remaining Proposed, Identity-owned, a Security Decision and non-authoritative. The post-Outcome-C governance audit identified no justified materially different bounded investigation objective from current repository evidence. Materially new evidence may justify future governance consideration, but does not itself authorize research, evaluation or strategy selection. Any future evaluation requires fresh explicit governance authorization.
+
+This synchronization selects or admits no strategy, provider, dataset, library, service or dependency. DEC-0007 remains unchanged and authoritative. DEC-0001 dependency admission remains separate where applicable, as do Architecture/ADR, provider/integration, conditional privacy/legal/licensing and operational governance. Production implementation remains unauthorized at the unresolved blocklist-policy acceptance boundary: structural preparation cannot become complete policy acceptance without successful governed checking, and credential creation/replacement cannot bypass that requirement. DEC-0006 hashing authority is not blocklist approval. DEC-0009 remains untouched and unrelated.
+
+## Historical Bounded Evidence-Gathering Evaluation Authorization — 0.2.0 (Consumed / Exhausted)
+
+The following scope, permissions, limits and outcomes preserve the original 0.2.0 authorization as historical context only. They are not current permissions and cannot be reused. The 0.3.0 disposition above records the subsequent outcome without attributing foreknowledge to the original authorization.
+
+Version 0.1.0 authorized no investigation or execution. Version 0.2.0 authorized exactly **one single-use, bounded documentation/static evidence evaluation**, owned by Identity. That limited authorization did not make the Proposed strategy decision authoritative or Accepted. The 0.2.0 authorization revision itself performed no evaluation.
 
 ### Exact Evaluation Question
 
@@ -191,7 +208,7 @@ No Product policy, public or internal Contract shape, Architecture change, persi
 
 ## Proposal and Future Selection Readiness
 
-Proposal readiness requires accurate Proposed/non-authoritative metadata, same-change index registration, traceability to accepted policy and current implementation, explicit evidence gaps, no implied selection or evaluation authority beyond the explicit bounded authorization, and preservation of all separate gates.
+Proposal readiness requires accurate Proposed/non-authoritative metadata, same-change index registration, traceability to accepted policy and current implementation, explicit evidence gaps, no implied selection or renewed evaluation authority, and preservation of all separate gates.
 
 Future selection readiness requires attributable evidence against every applicable evaluation obligation, explicit unresolved limitations and residual risks, represented approval authorities, and a governed revision recording the actual proposed strategy and consequences. Approval of this initial boundary does not by itself meet those conditions or authorize production implementation.
 
@@ -220,5 +237,6 @@ Future selection readiness requires attributable evidence against every applicab
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-10-07 | Proposed | Synchronized the completed single 0.2.0 evaluation and durable Outcome C — STOPPED / INCONCLUSIVE; recorded CONSUMED / EXHAUSTED authorization and deferral pending materially new evidence without technical-infeasibility claims, selection, acceptance, renewed evaluation authority or implementation permission; preserved separate governance gates. |
 | 0.2.0 | 2026-10-07 | Proposed | Authorized exactly one bounded, single-use documentation/static evidence evaluation with finite investigation limits, A/B/C terminal outcomes, stop conditions and one future evidence artifact; preserved separate gates without executing evaluation, selecting a strategy, accepting the decision or authorizing implementation. |
 | 0.1.0 | 2026-10-07 | Proposed | Established the Customer password blocklist decision question, future evidence requirements and authority boundaries after PR #128; selected no strategy, authorized no evaluation or implementation, preserved accepted policy and separate dependency/Architecture gates, and left DEC-0009 deferred. |
