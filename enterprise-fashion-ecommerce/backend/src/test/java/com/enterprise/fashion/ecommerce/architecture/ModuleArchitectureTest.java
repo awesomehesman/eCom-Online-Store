@@ -256,6 +256,31 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void sourceBoundVerificationKeepsSecretsAndAuthorityInsideIdentity() {
+        noClasses().that().resideOutsideOfPackages(
+                        ROOT_PACKAGE + ".identity.application.credential..",
+                        ROOT_PACKAGE + ".identity.application.port.out..",
+                        ROOT_PACKAGE + ".identity.adapter.out.credential.source..")
+                .should().dependOnClassesThat().haveFullyQualifiedName(
+                        ROOT_PACKAGE + ".identity.application.credential.CredentialVerifierObservation")
+                .as("Verifier-bearing observations stay inside the Identity source/verification boundary")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".identity.application.credential..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        "org.springframework.security..", "org.springframework.session..",
+                        ROOT_PACKAGE + ".identity.adapter.out.session..")
+                .as("Credential verification creates no security Principal or Session")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.config..")
+                .should().callConstructor(
+                        ROOT_PACKAGE + ".identity.application.credential.VerifySourceBoundCustomerPassword",
+                        ROOT_PACKAGE + ".identity.application.credential.CredentialSource",
+                        ROOT_PACKAGE + ".identity.application.port.out.CustomerPasswordVerificationPort")
+                .as("Only configuration wires source-bound verification to trusted collaborators")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void sharedCodeDoesNotDependOnBusinessModuleInternals() {
         String[] businessModuleInternals = BUSINESS_MODULE_SEGMENTS.stream()
                 .flatMap(module -> Stream.of(

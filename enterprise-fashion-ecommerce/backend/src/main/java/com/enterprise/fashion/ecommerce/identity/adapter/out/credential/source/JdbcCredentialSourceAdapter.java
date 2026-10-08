@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.enterprise.fashion.ecommerce.identity.adapter.out.credential.GovernedArgon2VerifierProfile;
 import com.enterprise.fashion.ecommerce.identity.application.credential.AcceptedCredentialPublication;
 import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialPublicationResult;
+import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialVerifierObservation;
 import com.enterprise.fashion.ecommerce.identity.application.port.out.CredentialSourcePort;
 import com.enterprise.fashion.ecommerce.identity.domain.model.CredentialSubject;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
@@ -26,7 +27,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  */
 @Repository
 public class JdbcCredentialSourceAdapter implements CredentialSourcePort {
-    private static final String CONTEXT = "LOCAL_CUSTOMER_PASSWORD";
+    private static final String CONTEXT = CredentialVerifierObservation.LOCAL_PASSWORD_CONTEXT;
     private final JdbcClient jdbc;
     private final JdbcAggregateTemplate aggregates;
     private final CredentialPublicationRepository publications;
@@ -77,15 +78,30 @@ public class JdbcCredentialSourceAdapter implements CredentialSourcePort {
 
     @Override
     public Observation observe(CredentialSubject subject, UUID fact) {
+        return observeVerifier(subject, fact).observation();
+    }
+
+    @Override
+    public CredentialVerifierObservation observeVerifier(CredentialSubject subject, UUID fact) {
         requireTransaction();
         if (!lock(subject.value())) {
-            return Observation.INCOMPLETE;
+            return CredentialVerifierObservation.nonConfirming(Observation.INCOMPLETE);
         }
         // Separate statement AFTER lock acquisition: READ_COMMITTED sees the preceding writer's
         // committed effect even when this transaction waited for its lock. No cached snapshot.
         List<CredentialPublicationRow> rows = publications.forSubject(subject.value(), CONTEXT);
-        var requested = rows.stream().filter(row -> row.fact().equals(fact)).findFirst();
-        if (requested.isEmpty()) {
+        Observation observation = applicability(rows, fact, subject);
+        if (observation != Observation.BOUND_APPLICABLE) {
+            return CredentialVerifierObservation.nonConfirming(observation);
+        }
+        CredentialPublicationRow requested = rows.stream().filter(row -> row.fact().equals(fact))
+                .findFirst().orElseThrow();
+        return CredentialVerifierObservation.applicable(new CredentialSubject(requested.subject()),
+                requested.fact(), requested.context(), requested.verifier(), requested.supersedes());
+    }
+
+    private Observation applicability(List<CredentialPublicationRow> rows, UUID fact, CredentialSubject subject) {
+        if (rows.stream().noneMatch(row -> row.fact().equals(fact))) {
             return Observation.INCOMPLETE;
         }
         Set<UUID> facts = new HashSet<>();

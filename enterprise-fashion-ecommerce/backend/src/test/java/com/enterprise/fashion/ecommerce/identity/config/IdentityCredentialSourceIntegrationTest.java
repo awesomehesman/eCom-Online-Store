@@ -12,6 +12,7 @@ import com.enterprise.fashion.ecommerce.identity.application.credential.Accepted
 import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialEvidence;
 import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialPublicationResult;
 import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialSource;
+import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialVerifierObservation;
 import com.enterprise.fashion.ecommerce.identity.application.credential.SyntheticCredentialPublications;
 import com.enterprise.fashion.ecommerce.identity.application.port.out.CredentialSourcePort;
 import com.enterprise.fashion.ecommerce.identity.domain.model.CredentialSubject;
@@ -177,6 +178,11 @@ class IdentityCredentialSourceIntegrationTest {
             public CredentialPublicationResult publish(AcceptedCredentialPublication fact) {
                 jdbc.execute("SELECT 1 / 0");
                 return port.publish(fact);
+            }
+            @Override
+            public CredentialVerifierObservation observeVerifier(CredentialSubject subject, UUID fact) {
+                jdbc.execute("SELECT 1 / 0");
+                return port.observeVerifier(subject, fact);
             }
             @Override
             public Observation observe(CredentialSubject subject, UUID fact) {
