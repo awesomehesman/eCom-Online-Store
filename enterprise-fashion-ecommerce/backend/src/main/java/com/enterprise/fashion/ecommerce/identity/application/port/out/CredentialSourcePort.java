@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.identity.application.credential.AcceptedCredentialPublication;
 import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialPublicationResult;
+import com.enterprise.fashion.ecommerce.identity.application.credential.CredentialVerifierObservation;
 import com.enterprise.fashion.ecommerce.identity.domain.model.CredentialSubject;
 
 /**
@@ -16,9 +17,12 @@ public interface CredentialSourcePort {
 
     Observation observe(CredentialSubject subject, UUID fact);
 
+    /** Coherent, sensitive handoff for Identity verification only; never a separate verifier lookup. */
+    CredentialVerifierObservation observeVerifier(CredentialSubject subject, UUID fact);
+
     /**
      * Trusted Adapter report, not caller-supplied acceptance. The producer never accepts an
-     * Observation from its caller. No verifier leaves the source in this slice.
+     * Observation from its caller. Ordinary evidence carries no verifier.
      */
     enum Observation {
         BOUND_APPLICABLE, SUPERSEDED, INCOMPATIBLE, INCOMPLETE

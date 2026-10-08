@@ -36,6 +36,48 @@ public final class CredentialSource {
         }
     }
 
+    // Package-private: the secret handoff is unavailable through the ordinary evidence API.
+    CredentialVerifierObservation forVerification(CredentialSubject subject, UUID fact) {
+        if (subject == null || fact == null || TransactionSynchronizationManager.isActualTransactionActive()) {
+            return CredentialVerifierObservation.nonConfirming(CredentialSourcePort.Observation.INCOMPLETE);
+        }
+        try {
+            CredentialVerifierObservation observed = transactions.execute(status -> source.observeVerifier(subject, fact));
+            if (observed == null || (observed.observation() == CredentialSourcePort.Observation.BOUND_APPLICABLE
+                    && !observed.boundTo(subject, fact))) {
+                return CredentialVerifierObservation.nonConfirming(CredentialSourcePort.Observation.INCOMPLETE);
+            }
+            return observed;
+        } catch (RuntimeException unavailableSource) {
+            return CredentialVerifierObservation.nonConfirming(CredentialSourcePort.Observation.INCOMPLETE);
+        }
+    }
+
+    CredentialEvidence revalidate(CredentialVerifierObservation expected) {
+        if (expected == null || !expected.boundTo(expected.subject(), expected.fact())
+                || TransactionSynchronizationManager.isActualTransactionActive()) {
+            return CredentialEvidence.UNCERTAIN;
+        }
+        try {
+            CredentialEvidence result = transactions.execute(status -> {
+                CredentialVerifierObservation current = source.observeVerifier(expected.subject(), expected.fact());
+                if (current == null) {
+                    return CredentialEvidence.UNCERTAIN;
+                }
+                return switch (current.observation()) {
+                    case BOUND_APPLICABLE -> expected.sameBinding(current)
+                            ? CredentialEvidence.CONFIRMED_APPLICABLE : CredentialEvidence.UNCERTAIN;
+                    case SUPERSEDED -> CredentialEvidence.NON_CURRENT;
+                    case INCOMPATIBLE -> CredentialEvidence.CONFLICT;
+                    case INCOMPLETE -> CredentialEvidence.UNCERTAIN;
+                };
+            });
+            return result == null ? CredentialEvidence.UNCERTAIN : result;
+        } catch (RuntimeException unavailableSource) {
+            return CredentialEvidence.UNCERTAIN;
+        }
+    }
+
     public CredentialEvidence confirm(CredentialSubject subject, UUID fact) {
         if (subject == null || fact == null || TransactionSynchronizationManager.isActualTransactionActive()) {
             return CredentialEvidence.UNCERTAIN;
