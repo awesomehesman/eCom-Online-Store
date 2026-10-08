@@ -213,6 +213,49 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void credentialPublicationHasNoProductionIssuerOrReflectionBypass() {
+        noClasses()
+                .should().callConstructor(
+                        "com.enterprise.fashion.ecommerce.identity.application.credential.AcceptedCredentialPublication",
+                        "java.util.UUID",
+                        "com.enterprise.fashion.ecommerce.identity.domain.model.CredentialSubject",
+                        "java.lang.String", "java.util.UUID")
+                .as("No production code issues an accepted credential capability in this slice")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".identity..")
+                .should().dependOnClassesThat().resideInAnyPackage("java.lang.reflect..", "sun.misc..")
+                .as("Identity production code has no reflective capability-construction bypass")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
+    void credentialSourceAccessStaysBehindItsApplicationBoundary() {
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.config..")
+                .should().callConstructor(
+                        "com.enterprise.fashion.ecommerce.identity.application.credential.CredentialSource",
+                        "com.enterprise.fashion.ecommerce.identity.application.port.out.CredentialSourcePort",
+                        "org.springframework.transaction.support.TransactionOperations")
+                .as("Only configuration wires the evidence producer to a trusted source")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackages(
+                        ROOT_PACKAGE + ".identity.application.credential..",
+                        ROOT_PACKAGE + ".identity.application.port.out..",
+                        ROOT_PACKAGE + ".identity.adapter.out.credential.source..",
+                        ROOT_PACKAGE + ".identity.config..")
+                .should().dependOnClassesThat().haveFullyQualifiedName(
+                        ROOT_PACKAGE + ".identity.application.port.out.CredentialSourcePort")
+                .as("Ordinary application callers cannot bypass credential evidence production")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackages(
+                        ROOT_PACKAGE + ".identity.adapter.out.credential.source..",
+                        ROOT_PACKAGE + ".identity.config..")
+                .should().dependOnClassesThat().resideInAPackage(
+                        ROOT_PACKAGE + ".identity.adapter.out.credential.source..")
+                .as("Credential persistence remains behind the Identity source Adapter")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void sharedCodeDoesNotDependOnBusinessModuleInternals() {
         String[] businessModuleInternals = BUSINESS_MODULE_SEGMENTS.stream()
                 .flatMap(module -> Stream.of(
