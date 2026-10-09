@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.60
+version: 1.0.61
 status: Approved
 owner: Architecture
 last_updated: 2026-10-09
@@ -683,6 +683,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.61 | 2026-10-09 | Approved | Synchronized DEC-0011 0.2.0 Proposed authorization for exactly one bounded documentation/static-evidence evaluation with candidate and evidence limits, A/B/C outcomes, stop conditions and single-use exhaustion; performed no evaluation, selected no mechanism, provider or dependency, granted no implementation authority, changed no Contract or Architecture, and preserved DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010. |
 | 1.0.60 | 2026-10-09 | Approved | Indexed DEC-0011 0.1.0 as a Proposed, non-authoritative Identity-owned Security Decision for the initial current-email verification mechanism; recorded the decision and evidence boundary without selecting a mechanism, provider or dependency, authorizing evaluation or implementation, or changing DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010 prerequisites. |
 | 1.0.59 | 2026-10-07 | Approved | Synchronized DEC-0010 0.3.0 Proposed with completed 0.2.0 Outcome C — STOPPED / INCONCLUSIVE, consumed/exhausted authorization and deferral pending materially new evidence; preserved separate gates without strategy selection, acceptance, technical-infeasibility claims, renewed evaluation authority or implementation permission. |
 | 1.0.58 | 2026-10-07 | Approved | Synchronized DEC-0010 0.2.0 Proposed authorization for exactly one bounded, single-use documentation/static evidence evaluation; recorded finite limits, terminal outcomes and separate gates without evaluation execution, strategy selection, acceptance, dependency/provider admission, Architecture approval/change or implementation authority. |
