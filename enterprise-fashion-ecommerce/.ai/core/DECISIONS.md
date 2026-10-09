@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.59
+version: 1.0.60
 status: Approved
 owner: Architecture
-last_updated: 2026-10-07
+last_updated: 2026-10-09
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -549,6 +549,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0008 | Initial Customer Email Verification Policy | Product Decision / Security Decision | Accepted | Product | 2026-09-30 | — | [DEC-0008-initial-customer-email-verification-policy.md](../../specifications/decisions/DEC-0008-initial-customer-email-verification-policy.md) |
 | DEC-0009 | Customer Login IDNA2008 Implementation Strategy | Security Decision | Proposed | Identity | 2026-10-06 | — | [DEC-0009-customer-login-idna2008-implementation-strategy.md](../../specifications/decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md) |
 | DEC-0010 | Customer Password Blocklist Strategy | Security Decision | Proposed | Identity | 2026-10-07 | — | [DEC-0010-customer-password-blocklist-strategy.md](../../specifications/decisions/DEC-0010-customer-password-blocklist-strategy.md) |
+| DEC-0011 | Initial Customer Email Verification Mechanism | Security Decision | Proposed | Identity | 2026-10-09 | — | [DEC-0011-initial-customer-email-verification-mechanism.md](../../specifications/decisions/DEC-0011-initial-customer-email-verification-mechanism.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -682,6 +683,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.60 | 2026-10-09 | Approved | Indexed DEC-0011 0.1.0 as a Proposed, non-authoritative Identity-owned Security Decision for the initial current-email verification mechanism; recorded the decision and evidence boundary without selecting a mechanism, provider or dependency, authorizing evaluation or implementation, or changing DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010 prerequisites. |
 | 1.0.59 | 2026-10-07 | Approved | Synchronized DEC-0010 0.3.0 Proposed with completed 0.2.0 Outcome C — STOPPED / INCONCLUSIVE, consumed/exhausted authorization and deferral pending materially new evidence; preserved separate gates without strategy selection, acceptance, technical-infeasibility claims, renewed evaluation authority or implementation permission. |
 | 1.0.58 | 2026-10-07 | Approved | Synchronized DEC-0010 0.2.0 Proposed authorization for exactly one bounded, single-use documentation/static evidence evaluation; recorded finite limits, terminal outcomes and separate gates without evaluation execution, strategy selection, acceptance, dependency/provider admission, Architecture approval/change or implementation authority. |
 | 1.0.57 | 2026-10-07 | Approved | Indexed DEC-0010, Customer Password Blocklist Strategy, as 0.1.0 Proposed with future evidence requirements and authority boundaries; selected no strategy, provider, dataset or dependency, authorized no evaluation or implementation, and preserved DEC-0007 policy, separate dependency/Architecture gates and deferred DEC-0009. |
