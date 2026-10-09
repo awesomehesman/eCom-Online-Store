@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.61
+version: 1.0.62
 status: Approved
 owner: Architecture
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -557,6 +557,8 @@ DEC-0009 0.8.0 remains a Proposed, Identity-owned Security Decision with `Author
 
 DEC-0010 0.3.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.2.0 evaluation completed with **C — STOPPED / INCONCLUSIVE**, recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md), and its authorization is **CONSUMED / EXHAUSTED**. DEC-0010 is **DEFERRED PENDING MATERIALLY NEW EVIDENCE**. Neither investigated arrangement is selected, accepted, universally rejected or demonstrated compliant; technical infeasibility is not established. Unused capacity grants no reusable authority. No retry, continuation, second evaluation, candidate substitution or material expansion is authorized; materially new evidence permits governance consideration only, and future evaluation requires fresh explicit authorization. DEC-0007 remains authoritative; dependency admission, applicable Architecture/ADR, provider/integration, privacy/legal/licensing and operational gates remain separate. No strategy or dependency is selected/admitted, and implementation remains unauthorized at the unresolved blocklist-policy acceptance boundary.
 
+DEC-0011 0.3.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.2.0 bounded documentation/static-evidence evaluation completed with **A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW**, recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0011/bounded-verification-mechanism-evaluation.md); its authorization is **CONSUMED / EXHAUSTED**. Outcome A permits a separately reviewed mechanism-selection/acceptance-readiness step only. It selects no code, link/token, hybrid or state representation, fixes no production security envelope, and grants no new evaluation, DEC acceptance or implementation authority. No provider, dependency, Architecture choice or Contract is approved; applicable Security/Architecture approval, ADR, DEC-0001, provider/integration and Contract gates remain separate. DEC-0008 and Approved IEVE remain in force; the current-email source still lacks a production population issuer and is not verification evidence. DEC-0009 and DEC-0010 remain unresolved/deferred with exhausted prior authorizations; Registration and Login implementation eligibility is not established.
+
 ## 50. Decision Index Maintenance
 
 The owner of a new or changed decision record MUST update this index in the same change. Maintenance MUST ensure:
@@ -683,6 +685,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.62 | 2026-10-10 | Approved | Synchronized DEC-0011 0.3.0 Proposed after its single-use 0.2.0 bounded evaluation reached durable Outcome A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW; recorded the authorization CONSUMED / EXHAUSTED and permitted only later separately reviewed mechanism selection/acceptance consideration; selected no mechanism, production security envelope, provider, dependency, Architecture or Contract, created no implementation or renewed evaluation authority, and preserved DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |
 | 1.0.61 | 2026-10-09 | Approved | Synchronized DEC-0011 0.2.0 Proposed authorization for exactly one bounded documentation/static-evidence evaluation with candidate and evidence limits, A/B/C outcomes, stop conditions and single-use exhaustion; performed no evaluation, selected no mechanism, provider or dependency, granted no implementation authority, changed no Contract or Architecture, and preserved DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010. |
 | 1.0.60 | 2026-10-09 | Approved | Indexed DEC-0011 0.1.0 as a Proposed, non-authoritative Identity-owned Security Decision for the initial current-email verification mechanism; recorded the decision and evidence boundary without selecting a mechanism, provider or dependency, authorizing evaluation or implementation, or changing DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010 prerequisites. |
 | 1.0.59 | 2026-10-07 | Approved | Synchronized DEC-0010 0.3.0 Proposed with completed 0.2.0 Outcome C — STOPPED / INCONCLUSIVE, consumed/exhausted authorization and deferral pending materially new evidence; preserved separate gates without strategy selection, acceptance, technical-infeasibility claims, renewed evaluation authority or implementation permission. |

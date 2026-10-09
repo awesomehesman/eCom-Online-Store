@@ -4,7 +4,7 @@
 - **Title:** Initial Customer Email Verification Mechanism
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Date:** 2026-10-09
 - **Owner:** Identity
 - **Authoritative:** false
@@ -27,7 +27,7 @@ The eventual decision must make proof issuance, binding, presentation, acceptanc
 
 ## Decision — Proposed Boundary Only
 
-Version 0.1.0 defined the decision problem and acceptance evidence boundary without evaluation authority. Version 0.2.0 authorizes exactly the single bounded documentation/static-evidence evaluation specified below. **No mechanism, candidate, proof format, cryptographic construction, provider, dependency, persistence design or implementation is selected.** A later evidenced and properly reviewed decision revision is required for selection and acceptance. DEC-0008 and IEVE retain their own existing authority independently of this Proposed record.
+Version 0.1.0 defined the decision problem and acceptance evidence boundary without evaluation authority. Version 0.2.0 authorized exactly one bounded documentation/static-evidence evaluation, now completed with Outcome A and its authorization **CONSUMED / EXHAUSTED**. Version 0.3.0 records that result without renewing evaluation authority. **No mechanism, candidate, proof format, cryptographic construction, provider, dependency, persistence design or implementation is selected.** A later evidenced and separately reviewed decision revision is required for selection and acceptance. DEC-0008 and IEVE retain their own existing authority independently of this Proposed record.
 
 Identity owns the accepted verification outcome and its security evidence. The decision must preserve the approved Registration and Login Contracts and Identity/Customer ownership; a mechanism must not acquire authority to establish a Customer, Account, association, Authentication result, Principal, Session, recovery factor or Authorization grant.
 
@@ -61,7 +61,7 @@ Future selection and acceptance must demonstrate all applicable properties below
 
 ## Alternatives for the Bounded Evaluation
 
-These are categories to compare under the single 0.2.0 authorization below, **not selected candidates or permission to expand its scope**. The comparison must consider proof security and guessing resistance, replay and repeat effects, exposure, storage, concurrency, usability, delivery constraints, operational recovery, abuse controls, implementation complexity, dependency and provider implications, provider independence, and migration or replacement cost.
+These were categories for comparison under the single, now-exhausted 0.2.0 authorization below, **not selected candidates or permission to expand its scope**. That comparison considered proof security and guessing resistance, replay and repeat effects, exposure, storage, concurrency, usability, delivery constraints, operational recovery, abuse controls, implementation complexity, dependency and provider implications, provider independence, and migration or replacement cost.
 
 | Category | Distinct questions for future evidence |
 | --- | --- |
@@ -70,13 +70,27 @@ These are categories to compare under the single 0.2.0 authorization below, **no
 | Bounded hybrid or other possession-proof interaction | What additional steps and trust boundaries are introduced, what each step proves, and how is incomplete work prevented from appearing accepted? |
 | Stateful versus derived/stateless representation, where compatible | Where does authoritative acceptance and invalidation state live; how are reissue, supersession, single effect, concurrency and key/secret lifecycle enforced without assuming storage-free verification? |
 
-No category is presumed safer, more usable, cheaper or compatible merely from its name. A future evaluation must substantiate those claims against the same governed requirements.
+No category is presumed safer, more usable, cheaper or compatible merely from its name. A later selection/acceptance review must substantiate any such claim against the same governed requirements.
 
-## Single Bounded Documentation/Static-Evidence Evaluation Authorization — 0.2.0 Proposed
+## Completed Bounded Evaluation and 0.3.0 Proposed Disposition
+
+The single 0.2.0 documentation/static-evidence evaluation was executed once and is recorded in the [durable bounded-verification-mechanism evidence](evidence/DEC-0011/bounded-verification-mechanism-evaluation.md). It compared (A) a short user-entered one-time code and (B) a high-entropy verification link/token, with stateful versus derived/stateless representation as a cross-cutting dimension. It recorded **A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW**. This means only that at least one evaluated category has a sufficiently supported, repository-compatible security and lifecycle basis to justify a later DEC-0011 mechanism-selection and acceptance review. The evidence did not establish a materially distinct hybrid candidate.
+
+Both primary categories have recognizable confirmation-mechanism support in attributable guidance. Short codes depend more heavily on a bounded online guessing envelope. High-entropy links/tokens reduce random guessing exposure but add bearer/URL disclosure and unintended-opening concerns. Entropy alone cannot decide between them. Exact Identity/current-email binding, source-backed currentness, one-use/reissue/concurrency effects, fail-closed uncertainty and durable accepted evidence remain common requirements. No concrete production security envelope, provider behavior or production implementation was evaluated, and no candidate-specific construction was demonstrated production-ready.
+
+**The 0.2.0 authorization is CONSUMED / EXHAUSTED.** It permits no continuation, second evaluation, candidate substitution, material scope expansion, prototype/spike or reuse of unused capacity. This 0.3.0 synchronization grants no new evaluation authority. Outcome A selects neither code nor link/token, hybrid, stateful nor derived/stateless representation; it does not Accept DEC-0011, authorize implementation or approve a provider, dependency, Architecture choice or Contract.
+
+The next DEC-0011 activity is a separately reviewed mechanism-selection/acceptance-readiness governance step based on the recorded evidence; this revision does not perform that step. Before acceptance, that review must explicitly determine the chosen mechanism and testable security envelope; generation/unpredictability, validity/expiry, guessing/attempt/abuse, replay/single-effect, resend/reissue, stale/superseded binding, concurrency and proof-confidentiality controls; accepted producer, durable evidence, point-of-reliance currentness, failure/reconciliation and operational recovery; provider independence or separately governed requirements; Architecture, dependency and Contract implications; and deterministic acceptance evidence. Outcome A does not itself establish acceptance readiness. Required Security and applicable Architecture approval under DECISIONS.md, any material Architecture/ADR decision, DEC-0001 dependency admission, provider/integration review and external Contract governance remain separate gates.
+
+DEC-0008's verification policy and Approved IEVE's exact-binding, accepted-evidence, currentness and reliance design remain in force. The existing current-login-email source remains binding/currentness infrastructure, not verification or accepted verification evidence; it still has no production population issuer, which this revision does not create. DEC-0009 and DEC-0010 remain Proposed/deferred with exhausted earlier evaluation authority; neither is reopened, continued or resolved. Canonical submitted-email resolution, complete prospective-password acceptance, Authentication orchestration, Principal construction, Session issuance, Identity/Customer association implementation and Registration completion remain unauthorized by this revision. Dispatch, delivery, opening and provider success do not establish verification.
+
+## Historical Single Bounded Documentation/Static-Evidence Evaluation Authorization — 0.2.0 Proposed (Consumed / Exhausted)
+
+The original scope and stop rules below are retained to explain the completed evaluation. Their imperative wording records the historical authorization and grants no authority to execute it again.
 
 ### Question, ownership and finite scope
 
-Identity may execute **exactly one** finite, non-production documentation/static-evidence evaluation answering: **Which evaluated initial Customer email-verification proof category, if any, demonstrates a sufficient security, lifecycle, operational and governance basis to justify a later DEC-0011 mechanism-selection and acceptance review for proving control of the exact authoritative current Customer login-email binding?** The evaluation does not reconsider DEC-0008's mandatory policy or redefine IEVE evidence semantics. It gathers evidence only; it does not select or Accept a mechanism.
+Version 0.2.0 permitted **exactly one** finite, non-production documentation/static-evidence evaluation answering: **Which evaluated initial Customer email-verification proof category, if any, demonstrates a sufficient security, lifecycle, operational and governance basis to justify a later DEC-0011 mechanism-selection and acceptance review for proving control of the exact authoritative current Customer login-email binding?** That evaluation did not reconsider DEC-0008's mandatory policy or redefine IEVE evidence semantics. It gathered evidence only; it did not select or Accept a mechanism. Its authorization is now consumed/exhausted.
 
 The single execution must compare (A) a short user-entered one-time code and (B) a high-entropy verification link/token. A hybrid or other bounded possession-proof category may be considered only if materially distinct security or lifecycle characteristics cannot be represented by evaluating A and B separately; unused hybrid capacity creates no further authority. Stateful versus derived/stateless proof representation is a cross-cutting dimension where applicable, not automatically another mechanism category. Each viable arrangement must be assessed against existing repository trust, ownership and evidence boundaries.
 
@@ -100,7 +114,7 @@ The threat/failure analysis must explicitly address proof guessing, brute force,
 
 The execution may use attributable static/documentary evidence from repository governance and implementation, relevant security standards, standards bodies, authoritative protocol/security documentation, vendor-neutral guidance, official platform/runtime documentation, and peer-reviewed or otherwise reputable security literature. It must distinguish repository fact, attributable external fact, documented security property, already available measured evidence, assumption and unresolved question; assumptions cannot be described as measurements. The current-email source may be modeled with synthetic facts for this comparison. **Production population of that source is not required or authorized.** Its publication, observation and persisted rows remain neither verification nor accepted proof of email control.
 
-The later execution may create or update only `specifications/decisions/evidence/DEC-0011/bounded-verification-mechanism-evaluation.md` as its durable evidence artifact; a separately reviewed completion/consumption synchronization may later update this record and `DECISIONS.md`. This authorization revision does **not** create the artifact. The artifact must identify this 0.2.0 authorization, question, actual categories, sources, threat model, per-category and quantitative-envelope analysis, stateful/stateless implications, provider/dependency/Architecture/Contract implications, assumptions, unresolved questions, stop conditions encountered, exact terminal outcome, rationale and authorization-consumption state. An evidence artifact is not a Decision Record or implementation authority.
+The completed execution created only `specifications/decisions/evidence/DEC-0011/bounded-verification-mechanism-evaluation.md` as its durable evidence artifact. The 0.2.0 authorization revision did **not** create it; this 0.3.0 revision records its completion. The artifact identifies the authorization, question, actual categories, sources, threat model, per-category and quantitative-envelope analysis, stateful/stateless implications, provider/dependency/Architecture/Contract implications, assumptions, unresolved questions, stop-condition result, terminal outcome, rationale and authorization-consumption state. An evidence artifact is not a Decision Record or implementation authority.
 
 ### Prohibited expansion and stop conditions
 
@@ -120,7 +134,7 @@ Authorization permits **one execution only**. Starting and completing that execu
 
 ### Acceptance remains separate
 
-DEC-0011 remains Proposed after this revision and after evidence gathering unless a later controlled decision explicitly changes its status. No terminal outcome automatically Accepts it. A later review must decide whether evidence supports a concrete mechanism and testable security envelope, with applicable Security and Architecture authority; any material Architecture choice needs a separate ADR, any new artifact separate DEC-0001 admission, and any provider/integration or external Contract its own applicable governance. The accepted DEC-0008 policy and Approved IEVE semantics remain unchanged. DEC-0009 and DEC-0010 remain Proposed/deferred with exhausted prior authorizations; this evaluation reopens neither.
+DEC-0011 remains Proposed after this synchronization unless a later controlled decision explicitly changes its status. Outcome A does not Accept it. A later review must decide whether evidence supports a concrete mechanism and testable security envelope, with applicable Security and Architecture authority; any material Architecture choice needs a separate ADR, any new artifact separate DEC-0001 admission, and any provider/integration or external Contract its own applicable governance. The accepted DEC-0008 policy and Approved IEVE semantics remain unchanged. DEC-0009 and DEC-0010 remain Proposed/deferred with exhausted prior authorizations; the completed evaluation reopened neither.
 
 ## Threat and Failure Evidence Required Before Acceptance
 
@@ -132,7 +146,7 @@ Before DEC-0011 could become Accepted, a later revision must identify a concrete
 
 A material Architecture choice requires its own ADR and, if accepted, canonical Architecture synchronization; DEC-0011 cannot silently select a new Architecture. Any new library or dependency requires separate DEC-0001 admission. Provider selection or external integration requires its applicable provider/integration review, privacy and operational assessment, and any separately required decision. Acceptance of this Security Decision would not itself admit a dependency or provider, approve an external Contract, authorize a migration, or establish production readiness. Production implementation needs separate implementation-readiness review of the real lawful current-email population, accepted producer, source-backed consumer, applicability, failure and privacy paths.
 
-Only the single 0.2.0 documentation/static-evidence evaluation above is authorized. It is not a mechanism selection, acceptance, dependency/provider admission or production implementation. Unresolved evidence blocks selection rather than inviting an implicit experiment or fallback.
+The single 0.2.0 documentation/static-evidence evaluation above is complete and its authority exhausted. It is not a mechanism selection, acceptance, dependency/provider admission or production implementation. Unresolved evidence blocks selection rather than inviting an implicit experiment or fallback.
 
 ## Relationship to Current Flows
 
@@ -144,11 +158,11 @@ For Registration, DEC-0008 requires accepted verification of the current authori
 
 ## Consequences and Reversibility
 
-This Proposed boundary makes the missing Security choice and required evidence durable, prevents ad-hoc proof acceptance, and authorizes only the single bounded comparison above. It leaves implementation blocked and imposes evidence and review work. Premature selection could create weak guessing or replay semantics, provider coupling, authority inflation, recovery bypass, or privacy and enumeration exposure; none is accepted as a trade-off here. This proposal is readily reversible because it selects no mechanism and creates no production state. Any future accepted mechanism must assess migration, replacement and retained-evidence consequences before selection.
+This Proposed boundary makes the missing Security choice and required evidence durable, prevents ad-hoc proof acceptance, and records the completed single bounded comparison above without renewing it. It leaves implementation blocked and imposes evidence and review work. Premature selection could create weak guessing or replay semantics, provider coupling, authority inflation, recovery bypass, or privacy and enumeration exposure; none is accepted as a trade-off here. This proposal is readily reversible because it selects no mechanism and creates no production state. Any future accepted mechanism must assess migration, replacement and retained-evidence consequences before selection.
 
 ## Explicit Non-Decisions
 
-DEC-0011 0.2.0 selects no code versus link versus other proof; numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and authorizes no evaluation beyond the single bounded 0.2.0 execution or any production implementation.
+DEC-0011 0.3.0 selects no code versus link versus other proof; numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and authorizes no new evaluation or production implementation. The sole 0.2.0 evaluation authority is consumed/exhausted.
 
 ## References
 
@@ -171,5 +185,6 @@ DEC-0011 0.2.0 selects no code versus link versus other proof; numeric or alphan
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-10-10 | Proposed | Synchronized the completed single-use 0.2.0 documentation/static-evidence evaluation and its durable Outcome A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW; recorded the authorization CONSUMED / EXHAUSTED, with no new evaluation authority, mechanism or security-envelope selection, acceptance, provider/dependency/Architecture/Contract approval or implementation authority; preserved DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |
 | 0.2.0 | 2026-10-09 | Proposed | Authorized exactly one finite documentation/static-evidence comparison of initial current-email proof categories, with bounded candidates and dimensions, explicit A/B/C outcomes, stop and exhaustion rules, and separate acceptance, dependency, provider, Architecture and Contract gates; performed no evaluation, selected no mechanism, and authorized no implementation while preserving DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |
 | 0.1.0 | 2026-10-09 | Proposed | Established the Identity-owned Security decision question, alternatives, threat and acceptance-evidence boundaries for an initial current-email control-proof mechanism; selected no mechanism, provider, dependency or persistence design, authorized no evaluation or implementation, and preserved DEC-0008/IEVE authority and unresolved DEC-0009/DEC-0010 prerequisites. |
