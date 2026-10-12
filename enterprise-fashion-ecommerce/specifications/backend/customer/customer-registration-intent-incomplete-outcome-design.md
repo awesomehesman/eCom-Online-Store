@@ -1,7 +1,7 @@
 ---
 title: Customer Registration Intent and Incomplete Outcome Design
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Customer
 last_updated: 2026-10-12
 authoritative: false
@@ -11,7 +11,7 @@ authoritative: false
 
 ## 1. Purpose and authority boundary
 
-This Draft internal Specification conditionally specializes Customer-side assessment of a governed initial Customer registration intent, independently accepted owner outcomes, incomplete Registration and reconciliation. Scope code **CRIO** identifies its requirements. It is subordinate to the Approved [Initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), which governs the registration workflow; its paired [OpenAPI](../../contracts/customer/initial-customer-registration.openapi.yaml) governs executable HTTP wire behavior.
+This Approved internal Specification conditionally specializes Customer-side assessment of a governed initial Customer registration intent, independently accepted owner outcomes, incomplete Registration and reconciliation. Scope code **CRIO** identifies its requirements. It is subordinate to the Approved [Initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), which governs the registration workflow; its paired [OpenAPI](../../contracts/customer/initial-customer-registration.openapi.yaml) governs executable HTTP wire behavior.
 
 Customer Application owns registration coordination and Customer owns authoritative Customer and Account business truth, including the Customer-to-Account relationship. Identity retains login-identifier, credential, current-email verification, Authentication, Principal, Session and security-side Identity-to-Customer association authority. This design neither accepts an owner outcome nor establishes a production registration-intent issuer, completed Registration or implementation eligibility.
 
@@ -34,7 +34,7 @@ Out of scope are a new registration trigger or intent issuer; Identity, Customer
 | G7 | Approved [CLSP](../identity/current-login-email-source-population-design.md), [IEVE](../identity/current-login-email-verification-evidence-design.md) and [ICAE](../identity/identity-customer-association-evidence-design.md): conditional Identity evidence boundaries; none is a production issuer or permits Customer to manufacture Identity truth. |
 | G8 | [DEC-0009](../../decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md), [DEC-0010](../../decisions/DEC-0010-customer-password-blocklist-strategy.md) and [DEC-0011](../../decisions/DEC-0011-initial-customer-email-verification-mechanism.md): Proposed/deferred, non-authoritative strategies with exhausted evaluations. They remain implementation prerequisites where applicable, not new authority for CRIO. |
 
-REQ-CRIO-001–015 specialize G1–G6. G7 and G8 constrain assumptions and downstream readiness; they do not authorize an owner outcome. A conflict with the Contract, ADR-0022 or higher authority requires correction or separate governance, not reinterpretation by this Draft.
+REQ-CRIO-001–015 specialize G1–G6. G7 and G8 constrain assumptions and downstream readiness; they do not authorize an owner outcome. A conflict with the Contract, ADR-0022 or higher authority requires correction or separate governance, not reinterpretation by this Approved Specification.
 
 ## 4. Registration intent and owner-outcome distinctions
 
@@ -104,7 +104,7 @@ Customer-side assessment MUST limit sensitive evidence to authorized purposes, r
 
 ### REQ-CRIO-015 — Production-readiness gate
 
-A later implementation review MUST demonstrate lawful intent and owner-outcome sources, controlled consumption, currentness, negative/concurrent/failure evidence and separately governed Product, Security, Architecture and Contract prerequisites before production reliance. This Draft and later approval alone MUST NOT establish implementation eligibility. Sources: G2 §§20, 29–30; G3 BCUS-REQ-051/052; G4 AGENTS §27.1; G7–G8.
+A later implementation review MUST demonstrate lawful intent and owner-outcome sources, controlled consumption, currentness, negative/concurrent/failure evidence and separately governed Product, Security, Architecture and Contract prerequisites before production reliance. This Approved Specification alone MUST NOT establish implementation eligibility. Sources: G2 §§20, 29–30; G3 BCUS-REQ-051/052; G4 AGENTS §27.1; G7–G8.
 
 ## 6. Design-level acceptance criteria
 
@@ -124,7 +124,7 @@ A later implementation review MUST demonstrate lawful intent and owner-outcome s
 | CRIO-AC-012 | Given all but one Contract §14 outcome confirmed, the design withholds completion; with every required current outcome confirmed for the same intent and no disqualifying evidence, it may classify completion only as the Contract permits. |
 | CRIO-AC-013 | Given pending Registration or association evidence alone, the design grants no Authentication, Principal, Session or protected Customer/Account context. |
 | CRIO-AC-014 | Given unauthorized caller, ordinary telemetry or support view, the design exposes no protected owner existence or Sensitive Data and retains bounded attributable audit responsibility. |
-| CRIO-AC-015 | A production-readiness review cannot pass on this Draft alone; it must identify lawful sources, safe consumption, negative/concurrent evidence and separate approvals for unresolved material prerequisites. |
+| CRIO-AC-015 | A production-readiness review cannot pass on this Approved Specification alone; it must identify lawful sources, safe consumption, negative/concurrent evidence and separate approvals for unresolved material prerequisites. |
 
 ## 7. Requirement-to-acceptance traceability
 
@@ -156,10 +156,11 @@ A later implementation review MUST demonstrate lawful intent and owner-outcome s
 
 ## 9. Explicit non-authorizations
 
-This Draft authorizes no new registration workflow, trigger or intent issuer; no completed Registration, Authentication, Principal, Session or protected Customer/Account access; no Identity association, login-email or email-verification acceptance; no password-policy completion or canonicalization strategy. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, executable Contract or OpenAPI change, endpoint, DTO, event, response status, schema, table, migration, repository, transaction, queue, lock, retry algorithm, provider, dependency or deployment. It does not admit implementation eligibility or reopen DEC-0009, DEC-0010 or DEC-0011 evaluations. Accepted/Approved owner and Contract authority remains unchanged.
+This Approved Specification authorizes no new registration workflow, trigger or intent issuer; no completed Registration, Authentication, Principal, Session or protected Customer/Account access; no Identity association, login-email or email-verification acceptance; no password-policy completion or canonicalization strategy. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, executable Contract or OpenAPI change, endpoint, DTO, event, response status, schema, table, migration, repository, transaction, queue, lock, retry algorithm, provider, dependency or deployment. It does not admit implementation eligibility or reopen DEC-0009, DEC-0010 or DEC-0011 evaluations. Accepted/Approved owner and Contract authority remains unchanged.
 
 ## 10. Revision history
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-10-12 | Approved | Approved the bounded Customer-owned registration-intent and incomplete-outcome design following zero-finding approval-readiness revalidation; preserved distinct terminal and incomplete classifications, independently confirmed owner acceptance, unresolved production prerequisites and separate implementation authority. |
 | 0.1.0 | 2026-10-12 | Draft | Defined bounded, conditional Customer-side recognition of governed registration intent and independent owner outcomes, incomplete assessment and safe reconciliation under the Approved Contract; preserved unresolved Identity producers, strategy gates and separate implementation authority. |
