@@ -1,7 +1,7 @@
 ---
 title: Current Login Email Source Population Design
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Identity
 last_updated: 2026-10-12
 authoritative: false
@@ -11,7 +11,7 @@ authoritative: false
 
 ## 1. Purpose and authority boundary
 
-This Draft internal Specification describes the **conditional** authority and safety obligations for initial population of the Identity-owned authoritative current Customer login-email source. Scope code **CLSP** identifies its requirements. It specializes existing Accepted and Approved authority for later review; it is not a production population issuer, a new material Decision, or implementation authorization.
+This Approved internal Specification describes the **conditional** authority and safety obligations for initial population of the Identity-owned authoritative current Customer login-email source. Scope code **CLSP** identifies its requirements. It specializes existing Accepted and Approved authority for later review; it is not a production population issuer, a new material Decision, or implementation authorization.
 
 At baseline `06e7cbc82ec825663a0a526d896b85d71c9f8551`, `CurrentLoginEmailSource` has publication and observation mechanics and `AcceptedLoginEmailBinding` represents an already-authorized binding fact. The latter explicitly has no production issuer. A private constructor, stored row, source publication, test fixture, Customer profile value or submitted address cannot establish a lawful Identity-owned binding. This document does not assert that an initial establishment outcome or producer currently exists.
 
@@ -31,7 +31,7 @@ Out of scope are a registration trigger or workflow; a concrete issuer; login-em
 | G2    | [DEC-0008](../../decisions/DEC-0008-initial-customer-email-verification-policy.md), current-email verification as a separate required gate; [IEVE](current-login-email-verification-evidence-design.md), especially REQ-IEVE-001/002/008/009/016, source population, binding, currentness and review.                                                                                                                      |
 | G3    | [Product](../../../.ai/core/PRODUCT.md), Customer login-email and verification policy; [Architecture](../../../.ai/core/ARCHITECTURE.md), §30.2.1 owner-local registration coordination; [ADR-0022](../../adr/ADR-0022-identity-customer-account-association-strategy.md), Identity/Customer/Account authority separation.                                                                                                 |
 | G4    | [Identity backend](identity-backend.md) and [Customer backend](../customer/customer-backend.md), existing owner-scoped Requirements; [initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), especially §§4–14 and 17–20, conditional coordination, independent owner outcomes and incomplete registration.                                                          |
-| G5    | [AGENTS](../../../.ai/core/AGENTS.md), authority hierarchy; [Glossary](../../../.ai/core/GLOSSARY.md), canonical terms; [Security Standards](../../../.ai/core/SECURITY-STANDARDS.md), denial, privacy and review; [Decision governance](../../../.ai/core/DECISIONS.md), material-choice escalation; [Documentation Standards](../../../.ai/core/DOCUMENTATION-STANDARDS.md), Draft lifecycle.                            |
+| G5    | [AGENTS](../../../.ai/core/AGENTS.md), authority hierarchy; [Glossary](../../../.ai/core/GLOSSARY.md), canonical terms; [Security Standards](../../../.ai/core/SECURITY-STANDARDS.md), denial, privacy and review; [Decision governance](../../../.ai/core/DECISIONS.md), material-choice escalation; [Documentation Standards](../../../.ai/core/DOCUMENTATION-STANDARDS.md), Specification lifecycle.                            |
 | G6    | [Database Standards](../../../.ai/backend/DATABASE.md), owner-local source truth and cross-Module access; [API Standards](../../../.ai/backend/API.md), Contract authority.                                                                                                                                                                                                                                                |
 | G7    | [DEC-0009](../../decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md), [DEC-0010](../../decisions/DEC-0010-customer-password-blocklist-strategy.md) and [DEC-0011](../../decisions/DEC-0011-initial-customer-email-verification-mechanism.md): Proposed, non-authoritative unresolved paths with exhausted evaluations. They supply no accepted implementation strategy or renewed evaluation authority. |
 | G8    | Existing [CurrentLoginEmailSource](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/CurrentLoginEmailSource.java) and [AcceptedLoginEmailBinding](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/AcceptedLoginEmailBinding.java): inspected implementation evidence only, not governance authority or proof of a producer. |
@@ -42,7 +42,7 @@ All normative requirements below specialize G1–G6. G7 states open constraints 
 
 Identity owns login-identifier security state. The authoritative current login email is the exact accepted Identity-owned email fact applicable to a stable Identity now. Its canonical comparison representation governs equality and retained ownership under DEC-0005; the representation is not mailbox-control proof. A Customer profile/contact email, request value, comparison key, storage row, publication result or verification challenge is not independently the accepted current-email fact.
 
-Initial establishment, source publication, current observation and email-control verification are separate events with separate evidence. A later confirmed, separately authorized replacement may make a prior binding no longer current; this Draft defines only the resulting observation/currentness obligation. It does not define the requester, trigger, approval, workflow or Session effect of a change.
+Initial establishment, source publication, current observation and email-control verification are separate events with separate evidence. A later confirmed, separately authorized replacement may make a prior binding no longer current; this Specification defines only the resulting observation/currentness obligation. It does not define the requester, trigger, approval, workflow or Session effect of a change.
 
 ## 5. Conditional design requirements
 
@@ -64,7 +64,7 @@ An eligible fact MUST remain bound to the same already-authoritative stable Iden
 
 ### REQ-CLSP-005 — Governed comparison
 
-Before an establishment outcome can support population, the email MUST satisfy DEC-0005's complete deterministic validation and canonical comparison semantics. Failure or uncertainty in any required strict IDNA2008 step MUST withhold accepted ownership and positive population; preliminary input preparation is insufficient. This Draft selects no validation library, Unicode-data release, codec or canonicalization implementation and does not resolve DEC-0009. Sources: G1 DEC-0005 §§Decision–Case and Domain Semantics; G7 DEC-0009.
+Before an establishment outcome can support population, the email MUST satisfy DEC-0005's complete deterministic validation and canonical comparison semantics. Failure or uncertainty in any required strict IDNA2008 step MUST withhold accepted ownership and positive population; preliminary input preparation is insufficient. This Specification selects no validation library, Unicode-data release, codec or canonicalization implementation and does not resolve DEC-0009. Sources: G1 DEC-0005 §§Decision–Case and Domain Semantics; G7 DEC-0009.
 
 ### REQ-CLSP-006 — Retained uniqueness
 
@@ -144,7 +144,7 @@ These are deterministic **review scenarios**, not assertions that tests ran or t
 
 ## 8. Open prerequisites and implementation-readiness limits
 
-- **Initial issuer:** No production issuer of `AcceptedLoginEmailBinding` or equivalent lawfully accepted current-email fact exists. A later review must demonstrate the separately authorized Identity establishment outcome, accountable producer and controlled access path. This Draft supplies none of them.
+- **Initial issuer:** No production issuer of `AcceptedLoginEmailBinding` or equivalent lawfully accepted current-email fact exists. A later review must demonstrate the separately authorized Identity establishment outcome, accountable producer and controlled access path. This Specification supplies none of them.
 - **Canonical comparison:** DEC-0005 is Accepted, but DEC-0009 remains Proposed/deferred; no implementation of the strict IDNA2008 profile or authoritative canonical ownership may be assumed from preliminary input preparation.
 - **Registration:** DEC-0010 remains Proposed/deferred, so complete prospective-password acceptance and credential establishment cannot be inferred. The Registration Contract permits incomplete coordination but does not authorize a fabricated successful outcome.
 - **Email-control proof:** DEC-0011 remains Proposed/deferred. Source population, dispatch and publication do not provide accepted DEC-0008 verification evidence.
@@ -153,10 +153,11 @@ These are deterministic **review scenarios**, not assertions that tests ran or t
 
 ## 9. Explicit non-authorizations
 
-This Draft authorizes no initial Registration or email-change operation, producer implementation, source write, migration, verified-email state, Login lookup, Authentication, Principal, Session, Customer/Account or association establishment, recovery, MFA, provider integration, dependency admission or evaluation. It selects no proof mechanism, canonicalization technology, physical persistence, endpoint, method, DTO, status, schema, lock, cache, queue, retry, timeout, TTL or SLO. It changes no Product, Architecture, Security Standard, Decision, ADR, Contract or OpenAPI authority. It cannot reopen the exhausted DEC-0009, DEC-0010 or DEC-0011 evaluations.
+This Specification authorizes no initial Registration or email-change operation, producer implementation, source write, migration, verified-email state, Login lookup, Authentication, Principal, Session, Customer/Account or association establishment, recovery, MFA, provider integration, dependency admission or evaluation. It selects no proof mechanism, canonicalization technology, physical persistence, endpoint, method, DTO, status, schema, lock, cache, queue, retry, timeout, TTL or SLO. It changes no Product, Architecture, Security Standard, Decision, ADR, Contract or OpenAPI authority. It cannot reopen the exhausted DEC-0009, DEC-0010 or DEC-0011 evaluations.
 
 ## 10. Revision history
 
 | Version | Date       | Status | Summary                                                                                                                                                                                                                                                                                                                                     |
 | ------- | ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-10-12 | Approved | Approved the conditional Identity-owned current-login-email source-population design following approval-readiness review and clarification of CLSP-AC-012; preserved the absence of a lawful production issuer, unresolved DEC-0009/0010/0011 prerequisites, and separate implementation authority. |
 | 0.1.0   | 2026-10-12 | Draft  | Defined conditional Identity-owned initial current-login-email source-population obligations and review scenarios under existing authority; recorded the absent lawful production issuer and separate canonicalization, password-policy, verification, Contract and implementation gates without creating authority or selecting mechanics. |
