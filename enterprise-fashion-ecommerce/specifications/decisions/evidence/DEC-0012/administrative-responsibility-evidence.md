@@ -1,6 +1,6 @@
 ---
 title: DEC-0012 Administrative Responsibility Evidence
-version: 0.1.0
+version: 0.2.0
 status: Draft
 owner: Product
 last_updated: 2026-10-13
@@ -11,7 +11,7 @@ authoritative: false
 
 ## 1. Purpose and authority boundary
 
-This Draft prepares attributable evidence collection for [DEC-0012](../../DEC-0012-administrative-role-permission-matrix.md). It inventories repository-derived administrative task candidates and the questions that Product, Administration, Identity, Security, Operations, and affected Domain owners must answer. It records **no stakeholder-confirmed operational fact**. It is neither a comparison of DEC-0012 alternatives nor a permission policy, and it cannot make the Proposed decision Accepted. The current evidence-sufficiency gate in §9 is **not satisfied**.
+This Draft prepares attributable evidence collection for [DEC-0012](../../DEC-0012-administrative-role-permission-matrix.md). It inventories repository-derived administrative task candidates, Product direction supplied by the requester, separate proposals for Product review, and the questions that Administration, Identity, Security, Operations, and affected Domain owners must answer. It records **no independently confirmed stakeholder operational fact**. It is neither a comparison of DEC-0012 alternatives nor a permission policy, and it cannot make the Proposed decision Accepted. The current evidence-sufficiency gate in §9 is **not satisfied**.
 
 ## 2. Governing sources
 
@@ -31,11 +31,13 @@ The repository currently has no Administration-specific executable Contract. Exi
 | --- | --- |
 | **BR — Binding repository requirement** | An Accepted/Approved or canonical requirement constraining any later policy. Cite exact source; do not treat it as an answer to an open Product question. |
 | **RC — Repository-derived candidate or example** | A possible task or persona extracted from a cited repository source. It is not confirmed current operational practice, an assigned permission, or evidence that a supporting executable capability exists. |
-| **SC — Stakeholder-confirmed fact** | A dated, attributable statement from the accountable function, with source or review record, scope, and any limitations. None is recorded in this 0.1.0 Draft. |
+| **SC — Independently stakeholder-confirmed operational fact** | A dated, attributable statement from the accountable function, with source or review record, scope, and any limitations, independently confirming actual practice or an owner boundary. None is recorded in this 0.2.0 Draft. |
 | **UQ — Unresolved question** | A policy, actor, owner, sensitivity, or applicability question awaiting attributable evidence; no implied answer. |
-| **DS — Disputed or superseded evidence** | Conflicting or replaced claims retained with provenance, disposition, and unresolved impact. None is recorded in this 0.1.0 Draft. |
+| **DS — Disputed or superseded evidence** | Conflicting or replaced claims retained with provenance, disposition, and unresolved impact. None is recorded in this 0.2.0 Draft. |
+| **PD — User-confirmed Product direction** | A choice explicitly supplied by the requester for this 2026-10-13 Product-direction update. It records intended direction, not independently confirmed Operations practice, Security/Identity/Domain approval, an Accepted DEC-0012 policy, or executable authority. |
+| **PR — Product-review proposal** | A recommendation supplied for Product and affected-owner review in this 2026-10-13 update. It is not a confirmed choice, operational fact, Role assignment, permission grant, or approved policy. |
 
-The inventory's `RC` classification applies to **every** task row; its linked BR sources constrain interpretation but do not confirm the task's operational use. Candidate actors are illustrative Product personas, not organizational assignments. “Owning Domain” identifies the authority that would govern the underlying business fact or action; Administration may coordinate only. Review status `Open` means no confirmation or sign-off exists. A later collector must record who supplied evidence, when, the exact claim, its scope, contradictions, and the accountable confirmation function before changing a classification. An unanswered permission-boundary question cannot be converted into a permission name or grant.
+The inventory's `RC` classification applies to **every** original task row; its linked BR sources constrain interpretation but do not confirm the task's operational use. The PD and PR overlays in §4 do not overwrite those provenance rows. Candidate actors are illustrative Product personas, not organizational assignments. “Owning Domain” identifies the authority that would govern the underlying business fact or action; Administration may coordinate only. Review status `Open; no SC` means no independent operational confirmation or sign-off exists, even where PD is recorded. A later collector must record who supplied evidence, when, the exact claim, its scope, contradictions, and the accountable confirmation function before changing a classification. An unanswered permission-boundary question cannot be converted into a permission name or grant.
 
 ## 4. Administrative task inventory
 
@@ -67,13 +69,40 @@ The two tables form one record per stable ID. The first preserves provenance and
 | ARE-009 | Sensitive or bulk data disclosure. | Which report definitions, purposes, and export boundaries are approved? | Should report request and export approval be separated? | Product, Reporting and source Domain owners, Privacy/Security | Open; no SC | Product §24 item 21 requirements, data scope, recipients and purpose. |
 | ARE-010 | Privilege escalation or stale access. | Which Identity-owned access changes may be requested, approved, or executed? | Can a Staff actor grant or approve its own privilege? | Product, Identity, Security, Administration | Open; no SC | Assignment lifecycle, delegable authority, revocation and review evidence. |
 
+### 4.1 User-confirmed Product direction (PD)
+
+**Provenance:** direction explicitly supplied by the requester for this 2026-10-13 update. It is Product direction for later review, **not** an independently confirmed Operations, Administration, Identity, Security, Privacy/Legal, or owning-Domain fact. “Hybrid growth model” is the supplied operating-model description; it does **not** select DEC-0012's hybrid role-and-capability alternative or any permission model. “Risk-based approvals” and “independent review” express direction without defining a risk threshold, reviewer, approval chain, or workflow.
+
+| Reference | Confirmed Product direction | Still requiring independent confirmation or governance |
+| --- | --- | --- |
+| PD-001 | Operating model: hybrid growth model. Approval philosophy: risk-based approvals. | Operational interpretation, risk criteria, owner applicability, and any separately governed approval policy. |
+| PD-002 | Access lifecycle: periodic review with enhanced privileged-access scrutiny. | Identity and Security review of assignment, withdrawal, revocation, review responsibility, and privileged controls. No review interval is selected. |
+| PD-003 | All ten ARE capability areas are intended for initial launch. | Operations and each affected Domain must confirm actual tasks, supported capability, owner, priority, and implementation prerequisites; launch intent is not production eligibility. |
+| ARE-001 / PD-004 | Authorized Store Administrators, Merchandisers, and Product Management staff may prepare and edit Product information. Publication requires separate authorization, but not universally a different person. Ordinary changes may proceed without separate approval; sensitive changes require independent review. Product administration may coordinate Pricing and Inventory information without acquiring their authority. | Product Domain must validate preparation, edit, publication, and sellability boundaries; Pricing and Inventory must confirm any coordination. “Ordinary” and “sensitive” remain unclassified, and no individual is assigned access. |
+| ARE-002 / PD-005 | Authorized Content Editors, Merchandisers, and Store Administrators may prepare and edit CMS content. Publication requires separate authorization, but not universally a different person. Ordinary changes may proceed without separate approval; sensitive changes require independent review. CMS may coordinate Product and Pricing content without overriding their owning-Domain authority. | CMS, Product, and Pricing must validate action and content boundaries; Product §24 item 22 remains open. “Ordinary” and “sensitive” remain unclassified, and no publication workflow or individual grant is established. |
+
+### 4.2 Recommendations awaiting Product and affected-owner review (PR)
+
+**Provenance:** proposals supplied for this 2026-10-13 update, not user-confirmed choices or independently confirmed operational practice. “Material,” “high-risk,” “sensitive,” “eligible,” and “additional authorization” remain unclassified or separately governed; these statements establish no threshold, grant, approval chain, or executable policy.
+
+| Reference | Product-review proposal | Outstanding review |
+| --- | --- | --- |
+| ARE-003 / PR-001 | Store Administrators, Merchandisers, and Pricing/Finance staff could request or prepare Pricing changes; material price changes and high-risk Promotions could require independent approval. Pricing retains authoritative control. | Product, Pricing, Finance/Operations, and Security: actual tasks, materiality, eligibility, review boundary. |
+| ARE-004 / PR-002 | Inventory/Fulfilment staff could record receipts and request adjustments; material adjustments could require independent review. Inventory retains Stock authority. | Product, Inventory, Operations, and Security: action distinctions, materiality, accepted outcome. |
+| ARE-005 / PR-003 | Fulfilment staff could prepare Shipment actions; sensitive or exceptional actions could require independent review. Shipping retains Shipment-state authority. | Product, Shipping, Operations, and Security: supported actions, exception classification, owner-state checks. |
+| ARE-006 / PR-004 | Customer Support could receive purpose-limited Customer/Order information access; sensitive data would remain restricted and owning Domains would govern authoritative changes. | Product, Customer, Order, Privacy/Legal, and Security: purpose, data scope, object isolation, actual duties. |
+| ARE-007 / PR-005 | Support could initiate eligible cancellation, Return, and Refund requests; material Refunds and sensitive exceptions could require independent authorization. Order, Return, and Payment retain their authority. | Product, Order, Return, Payment, and Security: eligibility, amount sensitivity, distinct owner outcomes and still-open policy. |
+| ARE-008 / PR-006 | Finance/Operations could investigate reconciliation issues and request corrections; material corrections could require independent approval. Payment retains financial authority. | Product, Finance/Operations, Payment, and Security: repair eligibility, impact, approval need and evidence. |
+| ARE-009 / PR-007 | Authorized Staff could view purpose-appropriate reports; sensitive or bulk exports could require additional authorization, purpose limitation, and auditability. Reporting and source Domains retain their respective authority. | Product, Reporting, source Domains, Privacy/Legal, and Security: report definitions, export purpose, recipients, sensitivity. |
+| ARE-010 / PR-008 | Authorized administrators could request Staff access changes; Identity would govern assignment and revocation. Propose prohibiting self-approval for privilege increases and enhancing privileged-access review. | Product, Identity, Security, and Administration: delegable authority, assignment and revocation duties, self-approval policy, review evidence. |
+
 ## 5. Sensitive actions and separation-of-duties questions
 
-[Security Standards §§10–12 and 27](../../../../.ai/core/SECURITY-STANDARDS.md) already bind least privilege, privileged-account controls, current Authorization, and audit. PRODUCT §7.4 also bars financial, security, and Staff-administration permissions for the content-editor role by default. These are BR controls. Which ARE entries are high-Risk; which duties must be separated; who may request, approve, execute, and review; and whether temporary or exceptional access is permitted remain UQ. No row above classifies an action as high-Risk or creates an approval chain. Product and affected owners must identify the business effect before Security can review the classification.
+[Security Standards §§10–12 and 27](../../../../.ai/core/SECURITY-STANDARDS.md) already bind least privilege, privileged-account controls, current Authorization, and audit. PRODUCT §7.4 also bars financial, security, and Staff-administration permissions for the content-editor role by default. These are BR controls. PD-001, PD-004, and PD-005 express risk-based and independent-review direction; PR-001–PR-008 suggest further review boundaries. Which ARE entries are high-Risk, material, ordinary, or sensitive; which duties must be separated; who may request, approve, execute, and review; and whether temporary or exceptional access is permitted remain UQ. No row classifies an action conclusively or creates an approval chain. Product and affected owners must identify business effects before Security can review classifications.
 
 ## 6. Role lifecycle and approval evidence gaps
 
-[BIDN-REQ-024–026](../../../backend/identity/identity-backend.md) and [Security Standards §10](../../../../.ai/core/SECURITY-STANDARDS.md) are BR for trusted access evidence, explicit authorized assignment, change, withdrawal, effective revocation, historical traceability, and periodic review. Missing evidence includes who may request each assignment, who may approve it, whether self-grant is prohibited by the applicable delegable-authority rule, who verifies withdrawal, and who owns periodic business review. Approval chains, approver counts, temporary-grant duration, override policy, and workflow mechanics are unresolved; none is established here.
+[BIDN-REQ-024–026](../../../backend/identity/identity-backend.md) and [Security Standards §10](../../../../.ai/core/SECURITY-STANDARDS.md) are BR for trusted access evidence, explicit authorized assignment, change, withdrawal, effective revocation, historical traceability, and periodic review. PD-002 adds Product direction for periodic review and enhanced privileged-access scrutiny; PR-008 proposes, but does not decide, a prohibition on self-approval for privilege increases. Missing evidence includes who may request each assignment, who may approve it, whether self-grant is prohibited under the eventual policy, who verifies withdrawal, and who owns periodic business review. Approval chains, approver counts, review interval, temporary-grant duration, override policy, and workflow mechanics remain unresolved; none is established here.
 
 ## 7. Cross-domain authorization review
 
@@ -81,11 +110,11 @@ Administration may coordinate only through governed owning-Domain capabilities. 
 
 ## 8. Stakeholder confirmation register
 
-No interviews, sign-offs, operational observations, or stakeholder-confirmed facts have been supplied. The entries below are **requested confirmation functions**, not named assignees or recorded approvals.
+The requester supplied the PD direction in §4.1 and PR recommendations in §4.2. No independent Operations, Administration, Identity, Security, affected-Domain, or Privacy/Legal interviews, sign-offs, operational observations, or SC facts have been supplied. The entries below are **requested confirmation functions**, not named assignees or recorded approvals.
 
 | Function | Evidence requested | State |
 | --- | --- | --- |
-| Product and Operations | Real task inventory, business responsibilities, current actors, launch relevance, and operational usability. | Missing; no SC |
+| Product and Operations | Reconcile PD-001–PD-005 and PR-001–PR-008 with real tasks, business responsibilities, current actors, launch relevance, and operational usability. | Product direction supplied; Operations confirmation missing; no SC |
 | Administration | Coordination steps, request/outcome boundaries, and workflow evidence without owning-Domain substitution. | Missing; no SC |
 | Identity | Access evidence, assignment/withdrawal lifecycle, revocation, and delegated-authority constraints. | Missing; no SC |
 | Security | Sensitivity, privilege escalation, separation of duties, default denial, audit and reviewability. | Missing; no SC |
@@ -96,7 +125,7 @@ If evidence later conflicts, record both claims, dates, owners, affected IDs, an
 
 ## 9. Evidence sufficiency gate for later comparison
 
-A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable; this Draft meets none of the stakeholder-confirmation conditions:
+A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable. PD-001–PD-005 partially describe Product intent, but they do not replace independent Operations, Administration, Identity, Security, affected-Domain, or applicable Privacy/Legal confirmation; the gate as a whole remains unsatisfied:
 
 1. Every task retained for comparison has an attributable Product/Operations confirmation of current business need, actor/responsibility, and scope; rejected examples are marked as such.
 2. A business responsibility owner and an owning Domain are confirmed for each retained Resource/action pair, with the owner's current-state and denial boundary validated.
@@ -111,7 +140,7 @@ Passing this gate would permit only a separately reviewed **comparison** of stil
 
 ## 10. Open questions and blockers
 
-- Which listed tasks are actually required for current Product operations, and which Product personas are illustrative only?
+- For the ten capability areas intended for launch under PD-003, which specific tasks are actually performed or planned, and which Product personas are illustrative only?
 - What are the exact owner-approved action and Resource boundaries, business owners, negative cases, and current-state conditions?
 - Which tasks are sensitive or privileged; which duty combinations are prohibited or require separately governed review?
 - What Product policy governs content approval, support escalation, cancellation, returns, refunds, exports, and other dependencies still open in PRODUCT §24?
@@ -122,10 +151,11 @@ These are evidence gaps, not findings that any candidate policy is acceptable. N
 
 ## 11. Explicit non-authorizations
 
-This evidence record selects no DEC-0012 alternative, Role/Permission matrix, permission catalog, Role assignment, organizational post, separation policy, high-Risk classification, approval chain, support override, provider, dependency, endpoint, DTO, event, database schema, storage or transaction mechanism. It grants no privileged Identity authority, owning-Domain authorization bypass, Contract change, implementation eligibility, DEC acceptance, Product §24 resolution, or backend-roadmap extension. Existing Approved Specifications and Contracts remain unchanged.
+This evidence record selects no DEC-0012 alternative, Role/Permission matrix, permission catalog, Role assignment, organizational post, executable separation policy, high-Risk classification, approval workflow or threshold, support override, provider, dependency, endpoint, DTO, event, database schema, storage or transaction mechanism. PD-001's hybrid growth model does not select DEC-0012's hybrid permission-model candidate. PD-004 and PD-005 do not establish executable publication or approval rules; PR-001–PR-008 remain proposals. This record grants no privileged Identity authority, owning-Domain authorization bypass, Contract change, implementation eligibility, DEC acceptance, Product §24 item 23 closure, or backend-roadmap extension. Existing Approved Specifications and Contracts remain unchanged.
 
 ## 12. Revision history
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-10-13 | Draft | Recorded requester-confirmed Product direction for operating model, risk-based review, lifecycle scrutiny, launch-area intent, ARE-001 and ARE-002; separately recorded ARE-003–ARE-010 recommendations for Product and owner review without independent stakeholder confirmation, option comparison, policy selection, or implementation authority. Preserved the unsatisfied evidence-sufficiency gate. |
 | 0.1.0 | 2026-10-13 | Draft | Prepared a repository-derived administrative task inventory, explicit evidence classifications, stakeholder-confirmation gaps and an unsatisfied sufficiency gate for later Product-led DEC-0012 review; recorded no operational confirmations, policy comparison or implementation authority. |
