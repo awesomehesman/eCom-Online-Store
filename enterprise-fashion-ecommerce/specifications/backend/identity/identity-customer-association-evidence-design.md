@@ -1,7 +1,7 @@
 ---
 title: Identity–Customer Association Evidence Design
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Identity
 last_updated: 2026-10-12
 authoritative: false
@@ -11,7 +11,7 @@ authoritative: false
 
 ## 1. Purpose and authority boundary
 
-This Draft internal Specification describes conditional evidence obligations for the Identity-owned, authoritative Identity–Customer association selected by Accepted ADR-0022. Scope code **ICAE** identifies its requirements. It addresses how a **separately authorized and accepted** association fact could be attributed, represented, observed and relied upon safely. It neither accepts such a fact nor authorizes an association producer, operation or production implementation.
+This Approved internal Specification describes conditional evidence obligations for the Identity-owned, authoritative Identity–Customer association selected by Accepted ADR-0022. Scope code **ICAE** identifies its requirements. It addresses how a **separately authorized and accepted** association fact could be attributed, represented, observed and relied upon safely. It neither accepts such a fact nor authorizes an association producer, operation or production implementation.
 
 At the inspected repository baseline `1bb3b48d8f4658671b025a0d170d4a8a6424db2b`, the governing sources establish association ownership and required safety semantics; they do not demonstrate a lawful production association issuer, an accepted association fact or an implemented authoritative observation mechanism. An identifier, registration intent, returned success shape, stored row or fixture cannot fill that gap. Positive association reliance MUST remain withheld until a later review establishes the applicable fact and provenance under separately governed authority.
 
@@ -98,7 +98,7 @@ Production evidence handling MUST limit association disclosure to authorized pur
 
 ### REQ-ICAE-014 — Production-readiness gate
 
-A later production slice MUST demonstrate the lawful acceptance issuer and provenance, authoritative source/observation path, currentness and conflict behavior, safe bounded consumer, negative and concurrent cases, and all separately governed Product, Security, Architecture and Contract prerequisites before positive reliance. This Draft and its approval alone MUST NOT establish implementation eligibility. Sources: G1 Required Governance Reviews and Explicit Non-Decisions; G2 §27.1; G3 §§20, 29–30; G5.
+A later production slice MUST demonstrate the lawful acceptance issuer and provenance, authoritative source/observation path, currentness and conflict behavior, safe bounded consumer, negative and concurrent cases, and all separately governed Product, Security, Architecture and Contract prerequisites before positive reliance. This Approved Specification alone MUST NOT establish implementation eligibility. Sources: G1 Required Governance Reviews and Explicit Non-Decisions; G2 §27.1; G3 §§20, 29–30; G5.
 
 ## 6. Design-level acceptance criteria
 
@@ -117,7 +117,7 @@ A later production slice MUST demonstrate the lawful acceptance issuer and prove
 | ICAE-AC-011 | Given only an accepted association while any other required Registration gate is absent or uncertain, completion remains unconfirmed. |
 | ICAE-AC-012 | Given only association evidence, Authentication, Principal, Session, Account access and contextual Authorization remain unestablished; missing required association evidence denies protected Customer context. |
 | ICAE-AC-013 | Given unauthorized caller, log or support access, the design discloses neither protected association existence nor Sensitive Data and retains attributable, bounded audit responsibility. |
-| ICAE-AC-014 | A production-readiness review cannot pass on this Draft alone: it must identify a lawful issuer, source and observation path, safe consumer, negative/concurrent evidence and separately approved material prerequisites. |
+| ICAE-AC-014 | A production-readiness review cannot pass on this Approved Specification alone: it must identify a lawful issuer, source and observation path, safe consumer, negative/concurrent evidence and separately approved material prerequisites. |
 
 ## 7. Requirement-to-acceptance traceability
 
@@ -148,10 +148,11 @@ A later production slice MUST demonstrate the lawful acceptance issuer and prove
 
 ## 9. Explicit non-authorizations
 
-This Draft authorizes no association acceptance, issuer, source write, migration, production observation or protected-context reliance. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, Registration completion, Authentication, Principal, Session, Authorization, email-verification mechanism, password-policy completion or login-email canonicalization strategy. It defines no endpoint, method, DTO, response status, event, provider, dependency, schema, table, repository, transaction, lock, queue, retry count, timeout, TTL or SLO. It changes no Product, Architecture, Security Standard, Decision, ADR, Approved Specification, Contract or OpenAPI authority and cannot reopen DEC-0009, DEC-0010 or DEC-0011 evaluations.
+This Approved Specification authorizes no association acceptance, issuer, source write, migration, production observation or protected-context reliance. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, Registration completion, Authentication, Principal, Session, Authorization, email-verification mechanism, password-policy completion or login-email canonicalization strategy. It defines no endpoint, method, DTO, response status, event, provider, dependency, schema, table, repository, transaction, lock, queue, retry count, timeout, TTL or SLO. It changes no Product, Architecture, Security Standard, Decision, ADR, Approved Specification, Contract or OpenAPI authority and cannot reopen DEC-0009, DEC-0010 or DEC-0011 evaluations.
 
 ## 10. Revision history
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-10-12 | Approved | Approved the conditional Identity-owned association-evidence design following a zero-finding approval-readiness audit. Preserved unresolved issuer, accepted-fact, observation, cardinality, association-operation and implementation prerequisites without expanding authority. |
 | 0.1.0 | 2026-10-12 | Draft | Defined conditional Identity-owned association-evidence attribution, stable binding, current observation, duplicate/conflict/uncertainty safety and bounded consumption under Accepted ADR-0022; preserved unresolved issuer, cardinality, operation and implementation prerequisites. |
