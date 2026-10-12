@@ -42,7 +42,7 @@ A **governed registration intent** is a request to begin or continue the Approve
 
 An **accepted Customer-local outcome** remains Customer-owned truth. Identity-owned login-email, credential, verification and association outcomes remain Identity truth. A coordinator's record or observation of an owner outcome does not accept it on that owner's behalf. A request, dispatch, timeout, client response, fixture, row or correlated reference is not confirmation. Correlation establishes which governed intent an outcome purports to concern; source-backed acceptance and current applicability must still be established.
 
-**Incomplete Registration** means at least one required, independently accepted current outcome or applicable Product/Security condition is not confirmed. Pending, rejected, conflicting, unavailable and uncertain observations may require different internal handling, but none implies completion. **Reconciliation** compares the original intent and owner evidence to current authoritative truth; it cannot manufacture acceptance, erase accepted history or convert uncertainty into success or rejection by assumption.
+**Registration is not complete** whenever at least one required, independently accepted current outcome or applicable Product/Security condition is not confirmed. Pending or incomplete coordination, confirmed rejection, conflict, unavailability and uncertainty remain distinct classifications wherever their governing handling differs; none permits a completed-Registration claim. **Reconciliation** compares the original intent and owner evidence to current authoritative truth; it cannot manufacture acceptance, erase accepted history or convert uncertainty into success or rejection by assumption.
 
 ## 5. Conditional design requirements
 
@@ -68,7 +68,7 @@ Customer MAY consume bounded Identity evidence under governed Contracts, but MUS
 
 ### REQ-CRIO-006 — Incomplete-outcome assessment
 
-Customer MUST keep Registration incomplete whenever a required current owner outcome or applicable Product/Security condition is absent, pending, failed, conflicting, unavailable or uncertain. A partial set of accepted outcomes MUST NOT be described as completed Registration. Sources: G1 Registration Coordination and Transaction Boundary; G2 §§14–15, 19, 24; G4 §30.2.1.
+Customer MUST withhold completed Registration whenever a required current owner outcome or applicable Product/Security condition is absent, pending, failed, conflicting, unavailable or uncertain. Customer MUST preserve the applicable pending, incomplete, rejected, conflict or uncertain classification under the Approved Contract rather than treating every disqualifying outcome as pending or incomplete. A partial set of accepted outcomes MUST NOT be described as completed Registration. Sources: G1 Registration Coordination and Transaction Boundary; G2 §§14–15, 19, 24; G4 §30.2.1.
 
 ### REQ-CRIO-007 — Internal outcome distinctions
 
@@ -115,9 +115,9 @@ A later implementation review MUST demonstrate lawful intent and owner-outcome s
 | CRIO-AC-003 | Given a request acknowledgement, client claim or returned success shape without confirmed owner evidence, the design withholds acceptance for that owner outcome. |
 | CRIO-AC-004 | Given accepted Customer truth and a failed or unknown Identity step, the Customer fact remains intact while overall Registration stays incomplete. |
 | CRIO-AC-005 | Given only email, a Customer record, opaque reference or unconfirmed Identity observation, the design infers none of credential, verification, Authentication or association acceptance and does not transfer Customer authority. |
-| CRIO-AC-006 | Given any required gate that is absent, pending, failed, conflicting, unavailable or uncertain, the design classifies Registration as incomplete rather than complete. |
+| CRIO-AC-006 | Given any required gate that is absent, pending, failed, conflicting, unavailable or uncertain, the design withholds completed Registration and preserves the applicable pending, incomplete, rejected, conflict or uncertain classification according to the Approved Contract. |
 | CRIO-AC-007 | Given a confirmed rejection and a separate unknown outcome, the design keeps those internal meanings distinct; neither is presented as success and external disclosure remains Contract-governed. |
-| CRIO-AC-008 | Given duplicate observation of one confirmed intent and incompatible reuse of that intent, the first preserves one accepted effect and the second cannot inherit or merge it. |
+| CRIO-AC-008 | Given duplicate observations of one governed intent with an independently confirmed owner outcome, the design preserves that already accepted outcome without creating an additional effect; incompatible reuse of the intent cannot inherit or merge unrelated acceptance. |
 | CRIO-AC-009 | Given concurrent or conflicting owner evidence, the design withholds completion without selecting by timing, overwriting newer truth or assuming global one-to-one cardinality. |
 | CRIO-AC-010 | Given a timeout after one owner has accepted a fact, the design retains that fact under its owner and leaves the other outcome uncertain until source-backed resolution. |
 | CRIO-AC-011 | Given a reconciliation discrepancy, the design compares current attributable owner evidence, preserves accepted history and requires accountable owner behavior for repair; it cannot manufacture acceptance. |
