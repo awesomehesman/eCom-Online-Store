@@ -25,16 +25,16 @@ Out of scope are a registration trigger or workflow; a concrete issuer; login-em
 
 ## 3. Governing authority and traceability
 
-| Label | Source and applicable boundary |
-| --- | --- |
-| G1 | [DEC-0004](../../decisions/DEC-0004-customer-login-identifier-semantics.md), Identity-owned email identifier category and separation from proof; [DEC-0005](../../decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md), canonical equality, retained uniqueness, conditional establishment, conflict, currentness and change boundaries. |
-| G2 | [DEC-0008](../../decisions/DEC-0008-initial-customer-email-verification-policy.md), current-email verification as a separate required gate; [IEVE](current-login-email-verification-evidence-design.md), especially REQ-IEVE-001/002/008/009/016, source population, binding, currentness and review. |
-| G3 | [Product](../../../.ai/core/PRODUCT.md), Customer login-email and verification policy; [Architecture](../../../.ai/core/ARCHITECTURE.md), §30.2.1 owner-local registration coordination; [ADR-0022](../../adr/ADR-0022-identity-customer-account-association-strategy.md), Identity/Customer/Account authority separation. |
-| G4 | [Identity backend](identity-backend.md) and [Customer backend](../customer/customer-backend.md), existing owner-scoped Requirements; [initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), especially §§4–14 and 17–20, conditional coordination, independent owner outcomes and incomplete registration. |
-| G5 | [AGENTS](../../../.ai/core/AGENTS.md), authority hierarchy; [Glossary](../../../.ai/core/GLOSSARY.md), canonical terms; [Security Standards](../../../.ai/core/SECURITY-STANDARDS.md), denial, privacy and review; [Decision governance](../../../.ai/core/DECISIONS.md), material-choice escalation; [Documentation Standards](../../../.ai/core/DOCUMENTATION-STANDARDS.md), Draft lifecycle. |
-| G6 | [Database Standards](../../../.ai/backend/DATABASE.md), owner-local source truth and cross-Module access; [API Standards](../../../.ai/backend/API.md), Contract authority. |
-| G7 | [DEC-0009](../../decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md), [DEC-0010](../../decisions/DEC-0010-customer-password-blocklist-strategy.md) and [DEC-0011](../../decisions/DEC-0011-initial-customer-email-verification-mechanism.md): Proposed, non-authoritative unresolved paths with exhausted evaluations. They supply no accepted implementation strategy or renewed evaluation authority. |
-| G8 | Existing [CurrentLoginEmailSource](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/CurrentLoginEmailSource.java) and [AcceptedLoginEmailBinding](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/AcceptedLoginEmailBinding.java): inspected implementation evidence only, not governance authority or proof of a producer. |
+| Label | Source and applicable boundary                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G1    | [DEC-0004](../../decisions/DEC-0004-customer-login-identifier-semantics.md), Identity-owned email identifier category and separation from proof; [DEC-0005](../../decisions/DEC-0005-customer-login-email-comparison-uniqueness-lifecycle-semantics.md), canonical equality, retained uniqueness, conditional establishment, conflict, currentness and change boundaries.                                                  |
+| G2    | [DEC-0008](../../decisions/DEC-0008-initial-customer-email-verification-policy.md), current-email verification as a separate required gate; [IEVE](current-login-email-verification-evidence-design.md), especially REQ-IEVE-001/002/008/009/016, source population, binding, currentness and review.                                                                                                                      |
+| G3    | [Product](../../../.ai/core/PRODUCT.md), Customer login-email and verification policy; [Architecture](../../../.ai/core/ARCHITECTURE.md), §30.2.1 owner-local registration coordination; [ADR-0022](../../adr/ADR-0022-identity-customer-account-association-strategy.md), Identity/Customer/Account authority separation.                                                                                                 |
+| G4    | [Identity backend](identity-backend.md) and [Customer backend](../customer/customer-backend.md), existing owner-scoped Requirements; [initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), especially §§4–14 and 17–20, conditional coordination, independent owner outcomes and incomplete registration.                                                          |
+| G5    | [AGENTS](../../../.ai/core/AGENTS.md), authority hierarchy; [Glossary](../../../.ai/core/GLOSSARY.md), canonical terms; [Security Standards](../../../.ai/core/SECURITY-STANDARDS.md), denial, privacy and review; [Decision governance](../../../.ai/core/DECISIONS.md), material-choice escalation; [Documentation Standards](../../../.ai/core/DOCUMENTATION-STANDARDS.md), Draft lifecycle.                            |
+| G6    | [Database Standards](../../../.ai/backend/DATABASE.md), owner-local source truth and cross-Module access; [API Standards](../../../.ai/backend/API.md), Contract authority.                                                                                                                                                                                                                                                |
+| G7    | [DEC-0009](../../decisions/DEC-0009-customer-login-idna2008-implementation-strategy.md), [DEC-0010](../../decisions/DEC-0010-customer-password-blocklist-strategy.md) and [DEC-0011](../../decisions/DEC-0011-initial-customer-email-verification-mechanism.md): Proposed, non-authoritative unresolved paths with exhausted evaluations. They supply no accepted implementation strategy or renewed evaluation authority. |
+| G8    | Existing [CurrentLoginEmailSource](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/CurrentLoginEmailSource.java) and [AcceptedLoginEmailBinding](../../../backend/src/main/java/com/enterprise/fashion/ecommerce/identity/application/loginemail/AcceptedLoginEmailBinding.java): inspected implementation evidence only, not governance authority or proof of a producer. |
 
 All normative requirements below specialize G1–G6. G7 states open constraints and G8 records current implementation limits; neither is elevated to Accepted authority.
 
@@ -106,41 +106,41 @@ Before approving a production population slice, a later review MUST identify the
 
 These are deterministic **review scenarios**, not assertions that tests ran or the prerequisites exist.
 
-| Criterion | Scenario and expected boundary |
-| --- | --- |
-| CLSP-AC-001 | Present Customer profile email or a source Adapter as the owner: neither can issue Identity ownership. |
-| CLSP-AC-002 | Present only an intent, submitted email or pending uniqueness result: no accepted initial binding can populate the source. |
-| CLSP-AC-003 | Present a row, fixture or constructed fact without attributable accepted-outcome and producer evidence: no lawful population claim follows. |
-| CLSP-AC-004 | Substitute another Identity, Customer reference or email value between accepted outcome and observation: positive binding is withheld. |
-| CLSP-AC-005 | Use only preliminary preparation, or make a required strict comparison step fail/uncertain: no accepted owner or positive population follows. |
-| CLSP-AC-006 | Present two retained Identity owners for one canonical value, or unresolved concurrent ownership: neither becomes an arbitrary current winner. |
-| CLSP-AC-007 | Publish a shape-compatible fact without prior accepted establishment: publication and observation do not manufacture acceptance. |
-| CLSP-AC-008 | Make publication unavailable or ambiguous, then retry after a newer confirmed fact: no stale positive claim or overwrite occurs. |
-| CLSP-AC-009 | Repeat the same attributable accepted outcome: no multiplied ownership; a different outcome with matching email text is not silently merged. |
-| CLSP-AC-010 | Race competing ownership claims or return an uncertain publication result: no success or registration-completion inference follows. |
-| CLSP-AC-011 | Observe an old binding after a separately authorized replacement: the old fact is not current and cannot restore prior verification. |
-| CLSP-AC-012 | Give Customer only a pending or published email fact: Customer cannot assert Identity ownership or completed Registration. |
-| CLSP-AC-013 | Inspect ordinary diagnostics and externally visible failure for email/protected-existence leakage: sensitive values remain contained and disclosure safe. |
-| CLSP-AC-014 | Request production approval with only mechanics or fixtures, unresolved DEC-0009, or no lawful producer: readiness is denied and missing authority identified. |
+| Criterion   | Scenario and expected boundary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CLSP-AC-001 | Present Customer profile email or a source Adapter as the owner: neither can issue Identity ownership.                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| CLSP-AC-002 | Present only an intent, submitted email or pending uniqueness result: no accepted initial binding can populate the source.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| CLSP-AC-003 | Present a row, fixture or constructed fact without attributable accepted-outcome and producer evidence: no lawful population claim follows.                                                                                                                                                                                                                                                                                                                                                                                 |
+| CLSP-AC-004 | Substitute another Identity, Customer reference or email value between accepted outcome and observation: positive binding is withheld.                                                                                                                                                                                                                                                                                                                                                                                      |
+| CLSP-AC-005 | Use only preliminary preparation, or make a required strict comparison step fail/uncertain: no accepted owner or positive population follows.                                                                                                                                                                                                                                                                                                                                                                               |
+| CLSP-AC-006 | Present two retained Identity owners for one canonical value, or unresolved concurrent ownership: neither becomes an arbitrary current winner.                                                                                                                                                                                                                                                                                                                                                                              |
+| CLSP-AC-007 | Publish a shape-compatible fact without prior accepted establishment: publication and observation do not manufacture acceptance.                                                                                                                                                                                                                                                                                                                                                                                            |
+| CLSP-AC-008 | Make publication unavailable or ambiguous, then retry after a newer confirmed fact: no stale positive claim or overwrite occurs.                                                                                                                                                                                                                                                                                                                                                                                            |
+| CLSP-AC-009 | Repeat the same attributable accepted outcome: no multiplied ownership; a different outcome with matching email text is not silently merged.                                                                                                                                                                                                                                                                                                                                                                                |
+| CLSP-AC-010 | Race competing ownership claims or return an uncertain publication result: no success or registration-completion inference follows.                                                                                                                                                                                                                                                                                                                                                                                         |
+| CLSP-AC-011 | Observe an old binding after a separately authorized replacement: the old fact is not current and cannot restore prior verification.                                                                                                                                                                                                                                                                                                                                                                                        |
+| CLSP-AC-012 | Give Customer only a pending result or bare published email fact without separately confirmed Identity-owned ownership evidence: Customer MUST NOT infer confirmed Identity ownership or completed Registration. Where a bounded governed Contract supplies confirmed Identity-owned ownership evidence, Customer MAY consume it for the identifier criterion only; that evidence alone MUST NOT establish completed Registration, Customer/Account ownership, association, Authentication, Principal or Session authority. |
+| CLSP-AC-013 | Inspect ordinary diagnostics and externally visible failure for email/protected-existence leakage: sensitive values remain contained and disclosure safe.                                                                                                                                                                                                                                                                                                                                                                   |
+| CLSP-AC-014 | Request production approval with only mechanics or fixtures, unresolved DEC-0009, or no lawful producer: readiness is denied and missing authority identified.                                                                                                                                                                                                                                                                                                                                                              |
 
 ## 7. Requirement-to-acceptance traceability
 
-| Requirement | Acceptance criterion | Governing source labels |
-| --- | --- | --- |
-| REQ-CLSP-001 | CLSP-AC-001 | G1, G3, G4, G6 |
-| REQ-CLSP-002 | CLSP-AC-002 | G1, G3, G4 |
-| REQ-CLSP-003 | CLSP-AC-003 | G1, G2, G5, G8 |
-| REQ-CLSP-004 | CLSP-AC-004 | G1, G2, G3 |
-| REQ-CLSP-005 | CLSP-AC-005 | G1, G7 |
-| REQ-CLSP-006 | CLSP-AC-006 | G1, G6 |
-| REQ-CLSP-007 | CLSP-AC-007 | G1, G2, G4, G6, G8 |
-| REQ-CLSP-008 | CLSP-AC-008 | G1, G2, G4 |
-| REQ-CLSP-009 | CLSP-AC-009 | G1, G4 |
-| REQ-CLSP-010 | CLSP-AC-010 | G1, G3, G4 |
-| REQ-CLSP-011 | CLSP-AC-011 | G1, G2, G3 |
-| REQ-CLSP-012 | CLSP-AC-012 | G3, G4 |
-| REQ-CLSP-013 | CLSP-AC-013 | G1, G2, G5, G6 |
-| REQ-CLSP-014 | CLSP-AC-014 | G1, G2, G4–G7 |
+| Requirement  | Acceptance criterion | Governing source labels |
+| ------------ | -------------------- | ----------------------- |
+| REQ-CLSP-001 | CLSP-AC-001          | G1, G3, G4, G6          |
+| REQ-CLSP-002 | CLSP-AC-002          | G1, G3, G4              |
+| REQ-CLSP-003 | CLSP-AC-003          | G1, G2, G5, G8          |
+| REQ-CLSP-004 | CLSP-AC-004          | G1, G2, G3              |
+| REQ-CLSP-005 | CLSP-AC-005          | G1, G7                  |
+| REQ-CLSP-006 | CLSP-AC-006          | G1, G6                  |
+| REQ-CLSP-007 | CLSP-AC-007          | G1, G2, G4, G6, G8      |
+| REQ-CLSP-008 | CLSP-AC-008          | G1, G2, G4              |
+| REQ-CLSP-009 | CLSP-AC-009          | G1, G4                  |
+| REQ-CLSP-010 | CLSP-AC-010          | G1, G3, G4              |
+| REQ-CLSP-011 | CLSP-AC-011          | G1, G2, G3              |
+| REQ-CLSP-012 | CLSP-AC-012          | G3, G4                  |
+| REQ-CLSP-013 | CLSP-AC-013          | G1, G2, G5, G6          |
+| REQ-CLSP-014 | CLSP-AC-014          | G1, G2, G4–G7           |
 
 ## 8. Open prerequisites and implementation-readiness limits
 
@@ -157,6 +157,6 @@ This Draft authorizes no initial Registration or email-change operation, produce
 
 ## 10. Revision history
 
-| Version | Date | Status | Summary |
-| --- | --- | --- | --- |
-| 0.1.0 | 2026-10-12 | Draft | Defined conditional Identity-owned initial current-login-email source-population obligations and review scenarios under existing authority; recorded the absent lawful production issuer and separate canonicalization, password-policy, verification, Contract and implementation gates without creating authority or selecting mechanics. |
+| Version | Date       | Status | Summary                                                                                                                                                                                                                                                                                                                                     |
+| ------- | ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1.0   | 2026-10-12 | Draft  | Defined conditional Identity-owned initial current-login-email source-population obligations and review scenarios under existing authority; recorded the absent lawful production issuer and separate canonicalization, password-policy, verification, Contract and implementation gates without creating authority or selecting mechanics. |
