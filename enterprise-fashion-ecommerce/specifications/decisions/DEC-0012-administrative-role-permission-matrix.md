@@ -44,11 +44,11 @@ The eventual decision must distinguish ordinary operations, sensitive actions, c
 | Policy-level candidate | Potential benefit | Question or cost to evaluate |
 | --- | --- | --- |
 | Fixed business-role matrix | Roles may make recurring responsibilities legible to Product and Operations. | Can fixed bundles avoid excessive privilege as operations and owning-Domain rules change? |
-| Capability-oriented permission model | Granular capabilities may support least privilege across varied duties. | Can Product and Operations understand, assign, review, and maintain the resulting permission set? |
+| Capability-oriented permission granularity within RBAC | Granular Permissions grouped into mandatory Roles may support least privilege across varied duties. | Can Product and Operations understand, assign, review, and maintain the resulting permission set? |
 | Hybrid role-and-capability model | Business roles may provide a usable baseline while explicit capabilities handle exceptions. | Can exceptions be bounded, reviewed, revoked, and audited without creating hidden privilege? |
 | Defer selection and retain existing governed denials | Avoids adopting an unsupported matrix now. | Which administrative work remains unavailable until a policy is approved? |
 
-These are comparison categories only. No candidate is preferred, selected, rejected, or authorized for implementation.
+These are comparison categories only. Roles remain mandatory collections of Permissions; RBAC and current contextual Authorization remain required, and no option may bypass owning-Domain Authorization. The capability-oriented option concerns permission granularity and grouping within those existing controls; a role-free permission model is not an eligible option. No candidate is preferred, selected, rejected, or authorized for implementation.
 
 ## Evaluation Criteria and Evidence Required
 
@@ -73,7 +73,7 @@ Evidence must include positive and denied cases, cross-domain and sensitive-acti
 
 ## Consequences and Dependencies
 
-This proposal makes the Product policy gap and review inputs explicit. It does not alter the Approved Administration Domain, BADM, BIDN, Security Standards, or any Contract. A later Accepted Product decision may require synchronized Product guidance and affected Specifications or Contracts after their owners review the chosen policy; any material Architecture change requires a separate ADR. Until then, administrative implementation must preserve current default denial and contextual Authorization and must not embed an assumed matrix.
+This proposal makes the Product policy gap and review inputs explicit. It does not alter the Approved Administration Domain, BADM, BIDN, Security Standards, or any Contract. An Accepted Product decision resolving `PRODUCT.md` §24 item 23 MUST be synchronized into the canonical Product guidance. Changes to affected Specifications or Contracts remain conditional on the selected policy and their applicable governance requirements; any material Architecture change requires a separate ADR. Until then, administrative implementation must preserve current default denial and contextual Authorization and must not embed an assumed matrix.
 
 ## Security Impact
 
