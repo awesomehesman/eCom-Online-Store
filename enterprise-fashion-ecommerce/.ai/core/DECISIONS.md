@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.67
+version: 1.0.68
 status: Approved
 owner: Architecture
 last_updated: 2026-10-13
@@ -553,6 +553,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0012 | Administrative Role and Permission Matrix | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0012-administrative-role-permission-matrix.md](../../specifications/decisions/DEC-0012-administrative-role-permission-matrix.md) |
 | DEC-0013 | Guest Checkout and Account Requirements | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0013-guest-checkout-account-requirement.md](../../specifications/decisions/DEC-0013-guest-checkout-account-requirement.md) |
 | DEC-0014 | Order Cancellation Eligibility and Cutoff Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0014-order-cancellation-eligibility-cutoff-policy.md](../../specifications/decisions/DEC-0014-order-cancellation-eligibility-cutoff-policy.md) |
+| DEC-0015 | Stock Reservation Duration Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0015-stock-reservation-duration-policy.md](../../specifications/decisions/DEC-0015-stock-reservation-duration-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -567,6 +568,8 @@ DEC-0012 0.1.0 remains a Proposed, Product-owned decision on the unresolved admi
 DEC-0013 0.1.0 remains a Proposed, Product-owned decision with `Authoritative: false`. Option C is Product-preferred: guest and registered-customer Checkout are intended, without mandatory Account creation for purchase. Formal comparison, affected-owner and Security/Privacy review, and Product acceptance remain outstanding. This indexing authorizes no implementation, guest-order access mechanism, Contract change, or change to existing Identity, Customer, Checkout, Order or Payment authority. `PRODUCT.md` §24 item 4 remains open until an Accepted decision is synchronized into canonical Product guidance.
 
 DEC-0014 0.1.0 remains a Proposed, Product-owned decision with `Authoritative: false`. Option C is Product-preferred: cancellation may be requested before confirmed Dispatch, including after fulfilment begins, subject to eligibility and safe coordination. After confirmed Dispatch, the preferred policy makes customer-facing cancellation unavailable and routes the customer to the separately governed Return process, without implying Return eligibility or approval. The preference is not Accepted policy; `PRODUCT.md` §24 item 10 remains open, DEC-0013 remains Proposed, and this indexing authorizes no implementation.
+
+DEC-0015 0.1.0 remains a Proposed, Product-owned decision addressing `PRODUCT.md` §24 item 12. Stock Reservation duration and expiry remain unresolved; three policy alternatives are documented but unselected. Inventory retains authoritative reservation lifecycle, expiry, release, consumption and Available-to-Sell effects, while Checkout, Order and Payment retain their separate coordination and domain responsibilities. `PRODUCT.md` §24 item 12 remains open. This indexing authorizes no numerical duration, trigger, Contract change, policy acceptance or implementation.
 
 ## 50. Decision Index Maintenance
 
@@ -694,6 +697,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.68 | 2026-10-13 | Approved | Indexed DEC-0015 0.1.0 as a Proposed, non-authoritative Product-owned Stock Reservation duration decision; preserved three unselected alternatives, Inventory authority and separate Checkout, Order and Payment boundaries, kept Product §24 item 12 open, and granted no duration, trigger, Contract, acceptance or implementation authority. |
 | 1.0.67 | 2026-10-13 | Approved | Indexed DEC-0014 0.1.0 as a Proposed, non-authoritative Product-owned Order cancellation eligibility and cutoff decision; recorded Option C as Product-preferred before confirmed Dispatch with separately governed post-dispatch Return routing, kept Product §24 item 10 open and DEC-0013 Proposed, and granted no policy acceptance or implementation authority. |
 | 1.0.66 | 2026-10-13 | Approved | Indexed DEC-0013 0.1.0 as a Proposed, non-authoritative Product-owned guest Checkout and Account decision; recorded Option C as Product-preferred while preserving outstanding comparison, affected-owner and Security/Privacy review, Product §24 item 4 as open, and no acceptance, Contract change or implementation authority. |
 | 1.0.65 | 2026-10-13 | Approved | Indexed DEC-0012 0.1.0 as a Proposed, Product-owned administrative role and permission matrix decision; preserved mandatory RBAC, contextual Authorization, Identity and owning-Domain boundaries, left all options unselected and Product §24 item 23 unresolved, and granted no acceptance, implementation or backend-roadmap authority. |
