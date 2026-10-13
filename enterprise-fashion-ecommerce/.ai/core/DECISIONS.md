@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.87
+version: 1.0.88
 status: Approved
 owner: Architecture
 last_updated: 2026-10-14
@@ -573,6 +573,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0032 | Product-Review Support Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0032-product-review-support-policy.md](../../specifications/decisions/DEC-0032-product-review-support-policy.md) |
 | DEC-0033 | Initial Analytics Provider and Event Taxonomy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0033-initial-analytics-provider-event-taxonomy.md](../../specifications/decisions/DEC-0033-initial-analytics-provider-event-taxonomy.md) |
 | DEC-0034 | Final Brand Name and Visual Identity | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0034-final-brand-name-visual-identity.md](../../specifications/decisions/DEC-0034-final-brand-name-visual-identity.md) |
+| DEC-0035 | South African Tax, Invoice and Credit Note Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0035-south-african-tax-invoice-credit-note-policy.md](../../specifications/decisions/DEC-0035-south-african-tax-invoice-credit-note-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -627,6 +628,8 @@ DEC-0032 0.1.0 remains a Proposed, Product-owned, non-authoritative decision wit
 DEC-0033 0.1.0 remains a Proposed, Product-owned, non-authoritative decision with exactly three alternatives unselected and unranked; `PRODUCT.md` §24 item 20 remains unresolved. No initial analytics provider or event taxonomy is selected, and no customer-behaviour tracking is authorized. Product measurement obligations remain; essential operational telemetry cannot be repurposed as behavioural analytics without separately approved governance. Product capability authority remains separate from Architecture and provider selection. Customer, Identity, Reporting, Search, Cart, Checkout, Order, Payment, CMS and Notifications boundaries remain intact. Consent, lawful purpose, minimization, ownership, lineage, access, retention, deletion and third-party processing remain unresolved where applicable; Security, Privacy/Legal, Architecture and affected-owner review remain required. No Analytics Domain, event schema, SDK, Contract, instrumentation or implementation is authorized. Indexing authorizes no comparative evaluation, alternative selection, policy acceptance or implementation.
 
 DEC-0034 0.1.0 remains a Proposed, Product-owned, non-authoritative decision; its three branding approaches remain unselected and unranked, and `PRODUCT.md` §24 item 1 remains unresolved. No final brand name, visual identity, logo, colour palette, typography, imagery system or asset collection is selected or approved. No trademark clearance, ownership, licence, research or stakeholder approval is asserted. Product retains final brand-selection authority and Design/UX retains visual-system review authority; Storefront and CMS consume approved brand inputs without selecting the identity, while Product and Category Domain authority remains unchanged. Accessibility, rights, licensing, suitability and affected-owner evidence remain required, and Architecture or provider choices remain separate. No Brand Domain, Contract, platform, implementation or rollout is authorized. Indexing authorizes no comparison, selection, acceptance or implementation.
+
+DEC-0035 0.1.0 remains a Proposed, Product-owned, non-authoritative decision; `PRODUCT.md` §24 item 25 remains unresolved, while DEC-0031 and item 9 remain separately Proposed and unresolved. DEC-0035 does not supersede DEC-0031. Its three policy approaches remain unselected and unranked. No South African tax, Invoice, Credit Note, correction or Refund-document policy is selected; no tax calculation, document issuance, numbering, accounting treatment or legal interpretation is approved. Product retains commercial policy authority, qualified Finance/Tax and Legal validation remains required, and Pricing, Checkout, Order, Payment, Return and Reporting authority boundaries remain unchanged. Security and Privacy safeguards remain applicable. No Tax, Invoice or Credit Note Domain or document-issuance owner is created. Shared tax-display and Invoice terminology must be reconciled with DEC-0031 before acceptance. Evaluation, acceptance, Specification and Contract changes, and implementation remain separate gates.
 
 ## 50. Decision Index Maintenance
 
@@ -754,6 +757,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.88 | 2026-10-14 | Approved | Indexed DEC-0035 0.1.0 as a Proposed, non-authoritative Product-owned South African tax, Invoice and Credit Note policy decision, preserving DEC-0031 reconciliation, unresolved items 9 and 25, qualified Finance/Tax and Legal validation, existing domain authority and separate downstream governance gates. |
 | 1.0.87 | 2026-10-14 | Approved | Indexed DEC-0034 0.1.0 as a Proposed, non-authoritative Product-owned final-brand decision, preserving three unselected approaches, unresolved naming and visual identity, Product/Design authority, Storefront/CMS consumption boundaries, rights and accessibility requirements, and separate evaluation, acceptance and implementation gates. |
 | 1.0.86 | 2026-10-14 | Approved | Indexed DEC-0033 0.1.0 as a Proposed, non-authoritative Product-owned initial analytics provider and event-taxonomy decision, preserving three unselected alternatives, unresolved provider, event, privacy and data-ownership questions, source-Domain authority, Product measurement obligations and separate evaluation, Architecture, acceptance and implementation gates. |
 | 1.0.85 | 2026-10-14 | Approved | Indexed DEC-0032 0.1.0 as a Proposed, non-authoritative Product-owned Product-review support decision, preserving three unselected alternatives, unresolved review-content ownership and moderation, affected-domain authority boundaries, Security/Privacy/Legal dependencies, and later evaluation, acceptance and implementation gates. |
