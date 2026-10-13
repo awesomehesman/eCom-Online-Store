@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.82
+version: 1.0.83
 status: Approved
 owner: Architecture
 last_updated: 2026-10-14
@@ -568,6 +568,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0027 | Production Customer-Service and Operational Escalation Process | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0027-production-customer-service-operational-escalation-process.md](../../specifications/decisions/DEC-0027-production-customer-service-operational-escalation-process.md) |
 | DEC-0028 | Initial Payment Methods and Provider Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0028-initial-payment-methods-provider-policy.md](../../specifications/decisions/DEC-0028-initial-payment-methods-provider-policy.md) |
 | DEC-0029 | Initial Shipping Policy and Delivery Expectations | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0029-initial-shipping-policy-delivery-expectations.md](../../specifications/decisions/DEC-0029-initial-shipping-policy-delivery-expectations.md) |
+| DEC-0030 | Free-Delivery Threshold and Promotional Treatment Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0030-free-delivery-threshold-promotional-treatment-policy.md](../../specifications/decisions/DEC-0030-free-delivery-threshold-promotional-treatment-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -612,6 +613,8 @@ DEC-0027 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its
 DEC-0028 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three payment-method breadth alternatives remain unselected and unranked. `PRODUCT.md` §24 item 6 remains unresolved, and `ARCHITECTURE.md` §34 item 5 remains separately unresolved. Product owns the payment-method policy question; Architecture owns the separate provider-selection ADR. Payment retains authoritative Payment state and validated provider-evidence requirements, while Checkout and Order retain their established boundaries. Finance, Security and Operations safeguards remain applicable. No payment method, provider, commercial terms, Contract, API, schema, mechanism or implementation is selected. Indexing grants no comparative evaluation, Product policy acceptance, Architecture provider selection or implementation authority.
 
 DEC-0029 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three shipping-policy alternatives remain unselected and unranked. `PRODUCT.md` §24 item 7 remains unresolved; item 8 remains separately unresolved, as does `ARCHITECTURE.md` §34 item 6. Product owns customer-facing shipping policy. Shipping owns delivery choices, quotation evidence, Shipment lifecycle and authoritative delivery outcomes; Checkout and Order retain their established boundaries. Finance, Pricing, Operations, Security and Legal/Privacy responsibilities remain preserved. DEC-0014 and DEC-0016 remain Proposed. No carrier, delivery service, geography, guarantee, fee, threshold, Contract, API, schema, mechanism or implementation is selected. Indexing grants no comparative evaluation, Product policy acceptance, Architecture provider selection or implementation authority.
+
+DEC-0030 0.1.0 remains a Proposed, Product-owned, non-authoritative decision with exactly three alternatives unselected and unranked; `PRODUCT.md` §24 item 8 remains unresolved. DEC-0017, DEC-0029, DEC-0014 and DEC-0016 remain Proposed. Pricing retains authoritative commercial calculation and Promotion application; Shipping retains delivery choices and quotation evidence; Cart remains provisional; Checkout revalidates Pricing and Shipping; Order retains historical commercial evidence; and Payment retains financial transaction truth. Architecture provider-selection authority remains separate, with Finance, Operations, Security and Legal/Privacy reviews applicable. No free-delivery entitlement, threshold, promotion, fee, eligibility, stacking rule, calculation formula, provider, Contract, technical mechanism or implementation is selected. Indexing authorizes no comparative evaluation, policy acceptance, Specification change or implementation.
 
 ## 50. Decision Index Maintenance
 
@@ -739,6 +742,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.83 | 2026-10-14 | Approved | Indexed DEC-0030 0.1.0 as a Proposed, non-authoritative Product-owned free-delivery threshold and promotional-treatment policy, preserving unselected alternatives, Pricing and Shipping authority, related Proposed decisions and separate evaluation, acceptance and implementation gates. |
 | 1.0.82 | 2026-10-14 | Approved | Indexed DEC-0029 0.1.0 as a Proposed, non-authoritative Product-owned Initial Shipping Policy and Delivery Expectations decision, preserving unselected shipping alternatives, Shipping authority, separate Architecture provider selection, unresolved free-delivery and commerce policies, and independent evaluation, acceptance, Contract and implementation gates. |
 | 1.0.81 | 2026-10-13 | Approved | Indexed DEC-0028 0.1.0 as a Proposed, non-authoritative Product-owned Initial Payment Methods and Provider Policy decision, preserving unselected method-breadth alternatives, separate Architecture provider selection, Payment safety, and independent evaluation, acceptance, Contract and implementation gates. |
 | 1.0.80 | 2026-10-13 | Approved | Indexed DEC-0027 0.1.0 as a Proposed, non-authoritative Product-owned Production Customer-Service and Operational Escalation Process decision, preserving unselected alternatives, DEC-0026 and DEC-0012 boundaries, owning-Domain authority and separate evaluation, acceptance and implementation gates. |
