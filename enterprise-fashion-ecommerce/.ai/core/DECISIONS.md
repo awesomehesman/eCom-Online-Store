@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.73
+version: 1.0.74
 status: Approved
 owner: Architecture
 last_updated: 2026-10-13
@@ -559,6 +559,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0018 | Initial Catalogue Taxonomy Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0018-initial-catalogue-taxonomy-policy.md](../../specifications/decisions/DEC-0018-initial-catalogue-taxonomy-policy.md) |
 | DEC-0019 | Product Variant and Attribute Standards | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
 | DEC-0020 | CMS Content Approval and Scheduling Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0020-cms-content-approval-scheduling-policy.md](../../specifications/decisions/DEC-0020-cms-content-approval-scheduling-policy.md) |
+| DEC-0021 | Stock Availability Messaging Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0021-stock-availability-messaging-policy.md](../../specifications/decisions/DEC-0021-stock-availability-messaging-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -585,6 +586,8 @@ DEC-0018 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Sha
 DEC-0019 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Uniform, Product-family and hybrid Attribute-standard alternatives remain unselected. Product retains Product Variant identity and Product-owned Attribute authority; Category retains taxonomy authority, and Search remains a non-authoritative consumer. DEC-0018 remains Proposed and `PRODUCT.md` §24 item 3 remains unresolved. No size scale, fit convention, colour or material vocabulary, variant-defining set, SKU format, Contract change or implementation is selected; this indexing authorizes no standard selection, acceptance or implementation.
 
 DEC-0020 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Single-stage, risk-tiered and multi-stage CMS content-approval alternatives remain unselected. CMS retains editorial and policy presentation authority without owning source-Domain facts or underlying business policy; approval-readiness evidence is not final approval or publication authorization, and scheduling is intent rather than confirmed publication. DEC-0012 remains Proposed and `PRODUCT.md` §24 item 22 remains unresolved. No approver, Role, Permission, chain depth, publication guarantee or scheduler is selected; this indexing authorizes no policy acceptance, Contract change or implementation.
+
+DEC-0021 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Minimal, contextual and proactive Stock availability messaging alternatives remain unselected. Inventory retains authority for Stock, Available-to-Sell and availability uncertainty; CMS, Search, Cart and storefront presentation cannot override Inventory truth. Unknown, stale and conflicting evidence cannot be presented as confirmed availability. No low-stock threshold or scarcity claim is authorized, and Checkout still requires current Inventory revalidation. No channel, trigger, notification guarantee, replenishment commitment or implementation mechanism is selected. `PRODUCT.md` §24 item 17 remains unresolved; this indexing grants no Product Decision acceptance or implementation authority.
 
 ## 50. Decision Index Maintenance
 
@@ -712,6 +715,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.74 | 2026-10-13 | Approved | Indexed DEC-0021 0.1.0 as a Proposed, non-authoritative Product-owned Stock Availability Messaging Policy decision, preserving Inventory authority, uncertainty safeguards, Checkout revalidation and unresolved Product policy. |
 | 1.0.73 | 2026-10-13 | Approved | Indexed DEC-0020 0.1.0 as a Proposed, non-authoritative Product-owned CMS Content Approval and Scheduling Policy decision; preserved unselected approval alternatives, CMS versus source-Domain authority, approval-readiness and scheduling boundaries, unresolved DEC-0012 and PRODUCT.md §24 item 22, without authorizing approval-chain selection, publication guarantees, acceptance, Contract changes or implementation. |
 | 1.0.72 | 2026-10-13 | Approved | Indexed DEC-0019 0.1.0 as a Proposed, non-authoritative Product-owned Product Variant and Attribute Standards decision; preserved unselected policy alternatives, Product-owned Variant and Attribute authority, Category and Search boundaries, unresolved PRODUCT.md §24 item 3 and DEC-0018, without authorizing standard selection, acceptance, Contract changes or implementation. |
 | 1.0.71 | 2026-10-13 | Approved | Indexed DEC-0018 0.1.0 as a Proposed, non-authoritative Product-owned Initial Catalogue Taxonomy Policy decision; preserved unselected taxonomy alternatives, Category and Product ownership boundaries, Search/CMS consumer authority and unresolved PRODUCT.md §24 item 2, without authorizing policy selection, acceptance, Contract changes or implementation. |
