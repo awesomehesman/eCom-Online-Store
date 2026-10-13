@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.77
+version: 1.0.78
 status: Approved
 owner: Architecture
 last_updated: 2026-10-13
@@ -563,6 +563,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0022 | Reporting and Exports Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0022-reporting-exports-policy.md](../../specifications/decisions/DEC-0022-reporting-exports-policy.md) |
 | DEC-0023 | Wishlist Behaviour for Guest and Registered Customers | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0023-wishlist-behaviour-policy.md](../../specifications/decisions/DEC-0023-wishlist-behaviour-policy.md) |
 | DEC-0024 | Back-order and Pre-order Support Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0024-back-order-pre-order-support-policy.md](../../specifications/decisions/DEC-0024-back-order-pre-order-support-policy.md) |
+| DEC-0025 | Marketing Consent and Communication Preferences Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0025-marketing-consent-communication-preferences-policy.md](../../specifications/decisions/DEC-0025-marketing-consent-communication-preferences-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -597,6 +598,8 @@ DEC-0022 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its
 DEC-0023 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three Wishlist behaviour alternatives remain unselected. Customer ownership of saved-interest associations is conditional on Approved Product policy; guest saved-interest behaviour and guest identity are not approved. DEC-0013 remains Proposed. Wishlist associations cannot establish Product publication, Price, Stock, Stock Reservation, Cart intent, Checkout eligibility or Order authority. No guest persistence, cross-device synchronization, guest-to-account merging, retention period, sharing, alerts, notifications, Roles, Permissions or access grants are selected. `PRODUCT.md` §24 item 16 remains unresolved; this indexing grants no Product Decision acceptance or implementation authority.
 
 DEC-0024 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three initial back-order and pre-order policy alternatives remain unselected and unranked. Back-order and pre-order are distinct candidate commercial promises, not Approved Inventory Stock states or enabled purchase capabilities. Existing Inventory Stock, Available-to-Sell, Stock Reservation and Checkout revalidation safeguards remain authoritative; unavailable, stale, insufficient or uncertain Stock evidence cannot authorize unsupported progression. DEC-0015, DEC-0017 and DEC-0021 remain Proposed and confer no back-order or pre-order authority. No purchase eligibility, negative Stock, reservation behaviour, replenishment commitment, release or delivery date, Payment treatment, customer message, Contract, provider or technical mechanism is selected. `PRODUCT.md` §24 item 13 remains unresolved; indexing grants no comparative evaluation, Product policy acceptance or implementation authority.
+
+DEC-0025 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three Marketing Consent and communication-Preference alternatives remain unselected and unranked. Marketing Consent, Preferences, lawful basis, communication classification and Authorization remain distinct. Customer owns Consent and Preference truth; Notifications owns delivery orchestration and outcomes, not permission or Product policy; Identity and CMS retain their existing boundaries. Transactional and service communications remain distinct from optional marketing. No marketing Consent is inferred from purchases, Account creation, Wishlist activity, Preferences, contact details or prior delivery. Withdrawal, suppression, uncertainty, privacy and Security safeguards remain authoritative. DEC-0022 and DEC-0023 remain Proposed. No lawful basis, category, channel, default, mechanism, provider, Contract, retention period, send rule or implementation is selected. `PRODUCT.md` §24 item 19 remains unresolved; indexing grants no evaluation, Product policy acceptance or implementation authority.
 
 ## 50. Decision Index Maintenance
 
@@ -724,6 +727,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.78 | 2026-10-13 | Approved | Indexed DEC-0025 0.1.0 as a Proposed, non-authoritative Product-owned Marketing Consent and Communication Preferences Policy decision, preserving unselected alternatives, Customer and Notifications ownership, privacy and permission safeguards, unresolved Product item 19, and separate evaluation, acceptance and implementation gates. |
 | 1.0.77 | 2026-10-13 | Approved | Indexed DEC-0024 0.1.0 as a Proposed, non-authoritative Product-owned Back-order and Pre-order Support Policy decision, preserving unselected alternatives, distinct commercial promises, Inventory and Checkout safeguards, unresolved Product item 13, related Proposed decisions and separate evaluation, acceptance and implementation gates. |
 | 1.0.76 | 2026-10-13 | Approved | Indexed DEC-0023 0.1.0 as a Proposed, non-authoritative Product-owned Wishlist Behaviour decision, preserving conditional Customer ownership, guest identity boundaries, source-Domain authority, unresolved DEC-0013 and Product item 16, and separate acceptance and implementation gates. |
 | 1.0.75 | 2026-10-13 | Approved | Indexed DEC-0022 0.1.0 as a Proposed, non-authoritative Product-owned Reporting and Exports Policy decision, preserving distinct catalogues, source-Domain authority, purpose-versus-authorization separation, privacy and financial safeguards, and unresolved Product item 21. |
