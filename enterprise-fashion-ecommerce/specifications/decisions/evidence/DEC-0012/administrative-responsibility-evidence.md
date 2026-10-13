@@ -1,6 +1,6 @@
 ---
 title: DEC-0012 Administrative Responsibility Evidence
-version: 0.3.0
+version: 0.4.0
 status: Draft
 owner: Product
 last_updated: 2026-10-13
@@ -98,7 +98,7 @@ The two tables form one record per stable ID. The first preserves provenance and
 
 ### 4.3 Proposed Product/Operations task triage — pending confirmation
 
-All ten ARE capability areas remain intended for launch planning under PD-003. The retained scopes below are **proposed candidates** for a later DEC-0012 alternative comparison, subject to Product/Operations confirmation and owning-Domain validation. Deferred actions are outside this proposed comparison scope, not necessarily permanently outside Product scope. Product/Operations must still confirm each intended task, candidate actor, accountable business owner, and scope. No task is yet confirmed eligible for comparison, and no new executable operation is asserted.
+All ten ARE capability areas remain intended for launch planning under PD-003. The retained scopes below are **proposed candidates** for a later DEC-0012 alternative comparison, subject to independent Operations confirmation and owning-Domain validation. Deferred actions are outside this proposed comparison scope, not necessarily permanently outside Product scope. Product sponsor direction for these tasks, candidate actors, and deferred actions is recorded in §4.4; Operations must still confirm intended tasks, actors, accountable business owners, and scope. No task is yet confirmed eligible for comparison, and no new executable operation is asserted.
 
 | ID | Proposed retained candidate task | Deferred from proposed comparison scope |
 | --- | --- | --- |
@@ -128,7 +128,26 @@ The following are illustrative **business responsibility groupings**, not select
 
 Groupings may overlap. A small team may hold multiple responsibilities only subject to future separation-of-duties constraints; the overlap neither assigns access nor resolves those constraints. DEC-0012 alternatives remain unselected.
 
-For **each proposed retained task**, Product/Operations confirmation must establish intended business need, task scope, candidate actor/responsibility, and accountable business owner. The owning Domain must validate the Resource/action, current-state, and denial boundaries. Product/Security must review sensitivity where applicable; Identity/Security must review privilege, assignment, revocation, and separation-of-duties concerns; Administration must review its coordination-only scope. Finance/Operations and Privacy/Legal review applies only to affected tasks. Each eventual confirmation must record its function, date, source, scope, disposition, and any dispute. This requests accountable review without naming reviewers, asserting sign-off, or defining approval mechanics.
+For **each proposed retained task**, the Product sponsor direction in §4.4 must be reconciled with independent Operations confirmation of intended business need, task scope, candidate actor/responsibility, and accountable business owner. The owning Domain must validate the Resource/action, current-state, and denial boundaries. Product/Security must review sensitivity where applicable; Identity/Security must review privilege, assignment, revocation, and separation-of-duties concerns; Administration must review its coordination-only scope. Finance/Operations and Privacy/Legal review applies only to affected tasks. Each eventual confirmation must record its function, date, source, scope, disposition, and any dispute. This requests accountable review without naming reviewers, asserting sign-off, or defining approval mechanics.
+
+### 4.4 Product sponsor responsibility confirmation (PD-006)
+
+**Function:** Product sponsor/requester. **Date:** 2026-10-13. **Source:** explicit requester approval in the project conversation following presentation of the ARE-001–ARE-010 Product responsibility baseline. **Scope:** all ten ARE areas, their candidate actors, and the §4.3 deferred comparison actions. **Disposition:** approved as Product sponsor direction. This is `PD`, not `SC`: it is not independently confirmed Operations practice or Administration, Identity, Security, Finance, Privacy/Legal, or owning-Domain approval. The original `RC` inventory and `PR` recommendations retain their historical provenance. Where a PR differs from this Product-approved baseline, the PR remains an unconfirmed historical proposal rather than current Product direction.
+
+| ARE | Product-approved candidate business responsibility | Candidate actor or function |
+| --- | --- | --- |
+| ARE-001 | Product preparation, editing, and publication requests. | Store Administrator, Merchandiser, specifically authorized Product Management staff. |
+| ARE-002 | CMS preparation, editing, and publication requests. | Content Editor, Merchandiser, specifically authorized Store Administrator. |
+| ARE-003 | Pricing and Promotion preparation/change requests. | Authorized Pricing/Finance staff, Store Administrator; Merchandiser only if separately authorized. |
+| ARE-004 | Inventory receipts and adjustment requests. | Inventory/Fulfilment staff. |
+| ARE-005 | Fulfilment preparation and Shipment-action requests. | Fulfilment staff. |
+| ARE-006 | Purpose-limited Customer/Order lookup. | Customer Support staff. |
+| ARE-007 | Cancellation, Return, and Refund requests. | Customer Support staff. |
+| ARE-008 | Reconciliation investigation and correction requests. | Finance/Operations staff. |
+| ARE-009 | Authorized reporting access. | Operations, Finance, and specifically authorized staff. |
+| ARE-010 | Staff access-change requests. | Specifically authorized administrative staff. |
+
+The Product sponsor also approved the existing §4.3 deferred actions as exclusions from the **proposed comparison scope**. They are not permanently excluded from Product scope or authorized for execution. These actors and responsibilities are candidates for accountable review, not selected executable Roles, granted Permissions, organizational assignments, confirmed operational practice, or proof that an operation exists. Operations must still independently confirm intended tasks, actors, business owners, and scope; each affected owner must validate its authority and applicable policy.
 
 ## 5. Sensitive actions and separation-of-duties questions
 
@@ -144,11 +163,11 @@ Administration may coordinate only through governed owning-Domain capabilities. 
 
 ## 8. Stakeholder confirmation register
 
-The requester supplied the PD direction in §4.1 and PR recommendations in §4.2. No independent Operations, Administration, Identity, Security, affected-Domain, or Privacy/Legal interviews, sign-offs, operational observations, or SC facts have been supplied. The entries below are **requested confirmation functions**, not named assignees or recorded approvals.
+The requester supplied the PD direction in §4.1 and PR recommendations in §4.2 and, as Product sponsor, approved the §4.4 responsibility baseline and §4.3 proposed comparison exclusions. No independent Operations, Administration, Identity, Security, affected-Domain, or Privacy/Legal interviews, sign-offs, operational observations, or SC facts have been supplied. The entries below identify **requested confirmation functions**, not named assignees or independent approvals.
 
 | Function | Evidence requested | State |
 | --- | --- | --- |
-| Product and Operations | Reconcile PD-001–PD-005 and PR-001–PR-008 with real tasks, business responsibilities, current actors, launch relevance, and operational usability. | Product direction supplied; Operations confirmation missing; no SC |
+| Product and Operations | Reconcile PD-001–PD-006 and PR-001–PR-008 with intended or actual tasks, business responsibility owners, candidate actors, launch relevance, and operational usability. | Product sponsor approved §4.4 responsibility direction and §4.3 proposed exclusions on 2026-10-13; independent Operations confirmation missing; no SC |
 | Administration | Coordination steps, request/outcome boundaries, and workflow evidence without owning-Domain substitution. | Missing; no SC |
 | Identity | Access evidence, assignment/withdrawal lifecycle, revocation, and delegated-authority constraints. | Missing; no SC |
 | Security | Sensitivity, privilege escalation, separation of duties, default denial, audit and reviewability. | Missing; no SC |
@@ -159,9 +178,9 @@ If evidence later conflicts, record both claims, dates, owners, affected IDs, an
 
 ## 9. Evidence sufficiency gate for later comparison
 
-A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable. PD-001–PD-005 partially describe Product intent, but they do not replace independent Operations, Administration, Identity, Security, affected-Domain, or applicable Privacy/Legal confirmation; the gate as a whole remains unsatisfied:
+A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable. PD-001–PD-006 now include the Product sponsor's approved responsibility baseline and proposed comparison exclusions, but they do not replace independent Operations, Administration, Identity, Security, affected-Domain, or applicable Finance and Privacy/Legal confirmation; the gate as a whole remains unsatisfied:
 
-The proposed §4.3 triage does not satisfy condition 1: no proposed retained task or exclusion is an accountable Product/Operations confirmation or exclusion decision. Binding repository controls still apply, and actual attributable confirmations remain necessary. A later comparison requires separate review and authorization under DEC-0012; this triage alone establishes no comparison eligibility.
+The §4.4 Product sponsor record covers the Product direction for condition 1, including the §4.3 proposed exclusions. It does not supply independent Operations confirmation or an accountable joint disposition of which tasks will actually be retained or excluded for comparison. Owning-Domain Resource/action and denial-boundary validation, Identity/Security review, Administration coordination-scope review, and applicable Finance and Privacy/Legal review also remain outstanding. Binding repository controls still apply. A later comparison requires separate review and authorization under DEC-0012; Product direction alone establishes no comparison eligibility.
 
 1. Every task retained for comparison has an attributable Product/Operations confirmation of current business need, actor/responsibility, and scope; rejected examples are marked as such.
 2. A business responsibility owner and an owning Domain are confirmed for each retained Resource/action pair, with the owner's current-state and denial boundary validated.
@@ -193,6 +212,7 @@ This evidence record selects no DEC-0012 alternative, Role/Permission matrix, pe
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-10-13 | Draft | Recorded attributable Product sponsor approval of the ARE-001–ARE-010 responsibility baseline, candidate actors, and §4.3 deferred comparison actions; preserved outstanding independent confirmations and the unsatisfied evidence-sufficiency gate. |
 | 0.3.0 | 2026-10-13 | Draft | Proposed Product/Operations triage for all ten ARE areas, illustrative responsibility groupings, deferred comparison actions, and outstanding accountable confirmations without satisfying the evidence-sufficiency gate or selecting a policy. |
 | 0.2.0 | 2026-10-13 | Draft | Recorded requester-confirmed Product direction for operating model, risk-based review, lifecycle scrutiny, launch-area intent, ARE-001 and ARE-002; separately recorded ARE-003–ARE-010 recommendations for Product and owner review without independent stakeholder confirmation, option comparison, policy selection, or implementation authority. Preserved the unsatisfied evidence-sufficiency gate. |
 | 0.1.0 | 2026-10-13 | Draft | Prepared a repository-derived administrative task inventory, explicit evidence classifications, stakeholder-confirmation gaps and an unsatisfied sufficiency gate for later Product-led DEC-0012 review; recorded no operational confirmations, policy comparison or implementation authority. |
