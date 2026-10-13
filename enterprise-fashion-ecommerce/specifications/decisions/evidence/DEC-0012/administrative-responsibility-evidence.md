@@ -31,9 +31,9 @@ The repository currently has no Administration-specific executable Contract. Exi
 | --- | --- |
 | **BR — Binding repository requirement** | An Accepted/Approved or canonical requirement constraining any later policy. Cite exact source; do not treat it as an answer to an open Product question. |
 | **RC — Repository-derived candidate or example** | A possible task or persona extracted from a cited repository source. It is not confirmed current operational practice, an assigned permission, or evidence that a supporting executable capability exists. |
-| **SC — Independently stakeholder-confirmed operational fact** | A dated, attributable statement from the accountable function, with source or review record, scope, and any limitations, independently confirming actual practice or an owner boundary. None is recorded in this 0.2.0 Draft. |
+| **SC — Independently stakeholder-confirmed operational fact** | A dated, attributable statement from the accountable function, with source or review record, scope, and any limitations, independently confirming actual practice or an owner boundary. None is recorded in this Draft. |
 | **UQ — Unresolved question** | A policy, actor, owner, sensitivity, or applicability question awaiting attributable evidence; no implied answer. |
-| **DS — Disputed or superseded evidence** | Conflicting or replaced claims retained with provenance, disposition, and unresolved impact. None is recorded in this 0.2.0 Draft. |
+| **DS — Disputed or superseded evidence** | Conflicting or replaced claims retained with provenance, disposition, and unresolved impact. None is recorded in this Draft. |
 | **PD — User-confirmed Product direction** | A choice explicitly supplied by the requester for this 2026-10-13 Product-direction update. It records intended direction, not independently confirmed Operations practice, Security/Identity/Domain approval, an Accepted DEC-0012 policy, or executable authority. |
 | **PR — Product-review proposal** | A recommendation supplied for Product and affected-owner review in this 2026-10-13 update. It is not a confirmed choice, operational fact, Role assignment, permission grant, or approved policy. |
 
