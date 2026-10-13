@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.71
+version: 1.0.72
 status: Approved
 owner: Architecture
 last_updated: 2026-10-13
@@ -557,6 +557,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0016 | Returns, Exchanges, and Refund Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0016-returns-exchanges-refund-policy.md](../../specifications/decisions/DEC-0016-returns-exchanges-refund-policy.md) |
 | DEC-0017 | Voucher and Promotion Stacking Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0017-voucher-promotion-stacking-policy.md](../../specifications/decisions/DEC-0017-voucher-promotion-stacking-policy.md) |
 | DEC-0018 | Initial Catalogue Taxonomy Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0018-initial-catalogue-taxonomy-policy.md](../../specifications/decisions/DEC-0018-initial-catalogue-taxonomy-policy.md) |
+| DEC-0019 | Product Variant and Attribute Standards | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -579,6 +580,8 @@ DEC-0016 0.1.0 remains a Proposed, Product-owned decision with `Authoritative: f
 DEC-0017 0.1.0 remains a Proposed, non-authoritative Product-owned decision. No Voucher and Promotion stacking alternative is selected; Pricing retains authoritative commercial calculation and applicability. `PRODUCT.md` §24 item 14 remains open. This indexing authorizes no policy selection or acceptance, Contract change or implementation.
 
 DEC-0018 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Shallow, structured and flexible taxonomy alternatives remain unselected. Category retains taxonomy and classification authority; Product retains Product, Product Variant and Product-owned Attribute authority; Search and CMS remain consumers. `PRODUCT.md` §24 item 2 remains unresolved. No Category roots, hierarchy depth, naming, membership or launch assortment is selected, and this indexing authorizes no policy acceptance, Contract change or implementation.
+
+DEC-0019 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Uniform, Product-family and hybrid Attribute-standard alternatives remain unselected. Product retains Product Variant identity and Product-owned Attribute authority; Category retains taxonomy authority, and Search remains a non-authoritative consumer. DEC-0018 remains Proposed and `PRODUCT.md` §24 item 3 remains unresolved. No size scale, fit convention, colour or material vocabulary, variant-defining set, SKU format, Contract change or implementation is selected; this indexing authorizes no standard selection, acceptance or implementation.
 
 ## 50. Decision Index Maintenance
 
@@ -706,6 +709,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.72 | 2026-10-13 | Approved | Indexed DEC-0019 0.1.0 as a Proposed, non-authoritative Product-owned Product Variant and Attribute Standards decision; preserved unselected policy alternatives, Product-owned Variant and Attribute authority, Category and Search boundaries, unresolved PRODUCT.md §24 item 3 and DEC-0018, without authorizing standard selection, acceptance, Contract changes or implementation. |
 | 1.0.71 | 2026-10-13 | Approved | Indexed DEC-0018 0.1.0 as a Proposed, non-authoritative Product-owned Initial Catalogue Taxonomy Policy decision; preserved unselected taxonomy alternatives, Category and Product ownership boundaries, Search/CMS consumer authority and unresolved PRODUCT.md §24 item 2, without authorizing policy selection, acceptance, Contract changes or implementation. |
 | 1.0.70 | 2026-10-13 | Approved | Indexed DEC-0017 0.1.0 as a Proposed, non-authoritative Product-owned Voucher and Promotion Stacking Policy decision; preserved unselected policy alternatives, Pricing calculation authority and unresolved PRODUCT.md §24 item 14, without authorizing policy selection, acceptance, Contract changes or implementation. |
 | 1.0.69 | 2026-10-13 | Approved | Indexed DEC-0016 0.1.0 as a Proposed, non-authoritative Product-owned Returns, Exchanges, and Refund Policy decision; preserved unselected alternatives, Return lifecycle and Payment Refund execution authority, separate affected-domain boundaries and unresolved PRODUCT.md §24 item 11, without authorizing policy selection, acceptance, Contract changes or implementation. |
