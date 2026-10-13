@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.80
+version: 1.0.81
 status: Approved
 owner: Architecture
 last_updated: 2026-10-13
@@ -566,6 +566,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0025 | Marketing Consent and Communication Preferences Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0025-marketing-consent-communication-preferences-policy.md](../../specifications/decisions/DEC-0025-marketing-consent-communication-preferences-policy.md) |
 | DEC-0026 | Customer-Support Channels and Service Expectations Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0026-customer-support-channels-service-expectations-policy.md](../../specifications/decisions/DEC-0026-customer-support-channels-service-expectations-policy.md) |
 | DEC-0027 | Production Customer-Service and Operational Escalation Process | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0027-production-customer-service-operational-escalation-process.md](../../specifications/decisions/DEC-0027-production-customer-service-operational-escalation-process.md) |
+| DEC-0028 | Initial Payment Methods and Provider Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0028-initial-payment-methods-provider-policy.md](../../specifications/decisions/DEC-0028-initial-payment-methods-provider-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -606,6 +607,8 @@ DEC-0025 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its
 DEC-0026 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three support-channel and service-expectation alternatives remain unselected and unranked. Product owns customer-facing support policy; Administration coordinates only governed, purpose-bound support and escalation activities. Customer retains Customer-data authority, while Notifications owns governed delivery outcomes, not support policy or issue resolution. Identity, Authorization, privacy and Security safeguards remain authoritative. No support channel, operating hours, response target, resolution guarantee, staffing model, escalation route, provider, Contract, schema, Architecture mechanism or implementation is selected; no existing support channel or operational process is implied. `PRODUCT.md` §24 item 18 remains unresolved, and item 24 remains separately unresolved. Indexing grants no comparative evaluation, Product policy acceptance or implementation authority.
 
 DEC-0027 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three operational escalation alternatives remain unselected and unranked. Product owns the unresolved policy; Operations and Administration coordinate only within separately approved authority. Customer, Notifications, Identity, Security and every owning Domain retain their established authority. DEC-0012 remains Proposed and grants no Staff Role or Permission; DEC-0026 and `PRODUCT.md` §24 item 18 remain separately unresolved, while item 24 remains open. No staffing model, case owner, escalation route, approval chain, support target, Contract, schema, mechanism or implementation is selected, and no production support process is implied. Indexing grants no comparative evaluation, Product policy acceptance or implementation authority.
+
+DEC-0028 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Its three payment-method breadth alternatives remain unselected and unranked. `PRODUCT.md` §24 item 6 remains unresolved, and `ARCHITECTURE.md` §34 item 5 remains separately unresolved. Product owns the payment-method policy question; Architecture owns the separate provider-selection ADR. Payment retains authoritative Payment state and validated provider-evidence requirements, while Checkout and Order retain their established boundaries. Finance, Security and Operations safeguards remain applicable. No payment method, provider, commercial terms, Contract, API, schema, mechanism or implementation is selected. Indexing grants no comparative evaluation, Product policy acceptance, Architecture provider selection or implementation authority.
 
 ## 50. Decision Index Maintenance
 
@@ -733,6 +736,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.81 | 2026-10-13 | Approved | Indexed DEC-0028 0.1.0 as a Proposed, non-authoritative Product-owned Initial Payment Methods and Provider Policy decision, preserving unselected method-breadth alternatives, separate Architecture provider selection, Payment safety, and independent evaluation, acceptance, Contract and implementation gates. |
 | 1.0.80 | 2026-10-13 | Approved | Indexed DEC-0027 0.1.0 as a Proposed, non-authoritative Product-owned Production Customer-Service and Operational Escalation Process decision, preserving unselected alternatives, DEC-0026 and DEC-0012 boundaries, owning-Domain authority and separate evaluation, acceptance and implementation gates. |
 | 1.0.79 | 2026-10-13 | Approved | Indexed DEC-0026 0.1.0 as a Proposed, non-authoritative Product-owned Customer-Support Channels and Service Expectations Policy decision, preserving unselected alternatives, existing Domain boundaries, separately unresolved Product items 18 and 24, and independent evaluation, acceptance and implementation gates. |
 | 1.0.78 | 2026-10-13 | Approved | Indexed DEC-0025 0.1.0 as a Proposed, non-authoritative Product-owned Marketing Consent and Communication Preferences Policy decision, preserving unselected alternatives, Customer and Notifications ownership, privacy and permission safeguards, unresolved Product item 19, and separate evaluation, acceptance and implementation gates. |
