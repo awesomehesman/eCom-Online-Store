@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.85
+version: 1.0.86
 status: Approved
 owner: Architecture
 last_updated: 2026-10-14
@@ -571,6 +571,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0030 | Free-Delivery Threshold and Promotional Treatment Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0030-free-delivery-threshold-promotional-treatment-policy.md](../../specifications/decisions/DEC-0030-free-delivery-threshold-promotional-treatment-policy.md) |
 | DEC-0031 | Initial Tax Display and Invoice Requirements Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0031-initial-tax-display-invoice-requirements-policy.md](../../specifications/decisions/DEC-0031-initial-tax-display-invoice-requirements-policy.md) |
 | DEC-0032 | Product-Review Support Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0032-product-review-support-policy.md](../../specifications/decisions/DEC-0032-product-review-support-policy.md) |
+| DEC-0033 | Initial Analytics Provider and Event Taxonomy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0033-initial-analytics-provider-event-taxonomy.md](../../specifications/decisions/DEC-0033-initial-analytics-provider-event-taxonomy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -621,6 +622,8 @@ DEC-0030 0.1.0 remains a Proposed, Product-owned, non-authoritative decision wit
 DEC-0031 0.1.0 remains a Proposed, Product-owned, non-authoritative decision with exactly three alternatives unselected and unranked. `PRODUCT.md` §24 item 9 remains unresolved; item 25 remains separately unresolved. Qualified Finance/Tax and Legal validation is mandatory before policy selection; no South African tax law is interpreted or compliance established. Pricing retains governed authoritative tax-related commercial calculation; Order retains confirmed historical commercial evidence; Checkout retains current authoritative commercial revalidation; Payment retains financial transaction truth; Shipping retains delivery and quotation evidence; and Return retains Return lifecycle and assessment authority. Security and Privacy safeguards remain applicable. No Tax Inclusive or Tax Exclusive treatment, rate, formula, invoice rule, Credit Note policy, accounting treatment, Contract, technical mechanism or implementation is selected. Indexing authorizes no comparative evaluation, policy acceptance, Specification change or implementation.
 
 DEC-0032 0.1.0 remains a Proposed, Product-owned, non-authoritative decision with exactly three alternatives unselected and unranked; `PRODUCT.md` §24 item 15 remains unresolved and no Version 1 Product-review capability is committed. Product owns the capability-adoption decision but does not automatically own customer-generated review content. Review-content ownership, submission eligibility, purchase verification, moderation, publication, removal and retention remain unresolved. Product, Customer, Identity, Order, CMS, Search, Administration, Reporting and Notifications authority boundaries remain intact; Security, Privacy and Legal review remains required. No Review Domain, API, Contract, Event, Message, schema, Architecture, technical mechanism or implementation is authorized. Indexing authorizes no comparative evaluation, alternative selection, policy acceptance or implementation.
+
+DEC-0033 0.1.0 remains a Proposed, Product-owned, non-authoritative decision with exactly three alternatives unselected and unranked; `PRODUCT.md` §24 item 20 remains unresolved. No initial analytics provider or event taxonomy is selected, and no customer-behaviour tracking is authorized. Product measurement obligations remain; essential operational telemetry cannot be repurposed as behavioural analytics without separately approved governance. Product capability authority remains separate from Architecture and provider selection. Customer, Identity, Reporting, Search, Cart, Checkout, Order, Payment, CMS and Notifications boundaries remain intact. Consent, lawful purpose, minimization, ownership, lineage, access, retention, deletion and third-party processing remain unresolved where applicable; Security, Privacy/Legal, Architecture and affected-owner review remain required. No Analytics Domain, event schema, SDK, Contract, instrumentation or implementation is authorized. Indexing authorizes no comparative evaluation, alternative selection, policy acceptance or implementation.
 
 ## 50. Decision Index Maintenance
 
@@ -748,6 +751,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.86 | 2026-10-14 | Approved | Indexed DEC-0033 0.1.0 as a Proposed, non-authoritative Product-owned initial analytics provider and event-taxonomy decision, preserving three unselected alternatives, unresolved provider, event, privacy and data-ownership questions, source-Domain authority, Product measurement obligations and separate evaluation, Architecture, acceptance and implementation gates. |
 | 1.0.85 | 2026-10-14 | Approved | Indexed DEC-0032 0.1.0 as a Proposed, non-authoritative Product-owned Product-review support decision, preserving three unselected alternatives, unresolved review-content ownership and moderation, affected-domain authority boundaries, Security/Privacy/Legal dependencies, and later evaluation, acceptance and implementation gates. |
 | 1.0.84 | 2026-10-14 | Approved | Indexed DEC-0031 0.1.0 as a Proposed, non-authoritative Product-owned initial tax-display and invoice-requirements decision, preserving unselected alternatives, qualified Finance/Tax and Legal review, domain authority boundaries, separate PRODUCT.md items 9 and 25, and later evaluation, acceptance and implementation gates. |
 | 1.0.83 | 2026-10-14 | Approved | Indexed DEC-0030 0.1.0 as a Proposed, non-authoritative Product-owned free-delivery threshold and promotional-treatment policy, preserving unselected alternatives, Pricing and Shipping authority, related Proposed decisions and separate evaluation, acceptance and implementation gates. |
