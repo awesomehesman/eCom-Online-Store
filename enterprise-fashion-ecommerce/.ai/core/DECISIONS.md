@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.89
+version: 1.0.90
 status: Approved
 owner: Architecture
 last_updated: 2026-10-14
@@ -575,6 +575,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0034 | Final Brand Name and Visual Identity | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0034-final-brand-name-visual-identity.md](../../specifications/decisions/DEC-0034-final-brand-name-visual-identity.md) |
 | DEC-0035 | South African Tax, Invoice and Credit Note Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0035-south-african-tax-invoice-credit-note-policy.md](../../specifications/decisions/DEC-0035-south-african-tax-invoice-credit-note-policy.md) |
 | DEC-0036 | Fraud Screening and Manual Review Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0036-fraud-screening-manual-review-policy.md](../../specifications/decisions/DEC-0036-fraud-screening-manual-review-policy.md) |
+| DEC-0037 | Product Data Import, Export and Migration Requirements | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0037-product-data-import-export-migration-requirements.md](../../specifications/decisions/DEC-0037-product-data-import-export-migration-requirements.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -633,6 +634,8 @@ DEC-0034 0.1.0 remains a Proposed, Product-owned, non-authoritative decision; it
 DEC-0035 0.1.0 remains a Proposed, Product-owned, non-authoritative decision; `PRODUCT.md` §24 item 25 remains unresolved, while DEC-0031 and item 9 remain separately Proposed and unresolved. DEC-0035 does not supersede DEC-0031. Its three policy approaches remain unselected and unranked. No South African tax, Invoice, Credit Note, correction or Refund-document policy is selected; no tax calculation, document issuance, numbering, accounting treatment or legal interpretation is approved. Product retains commercial policy authority, qualified Finance/Tax and Legal validation remains required, and Pricing, Checkout, Order, Payment, Return and Reporting authority boundaries remain unchanged. Security and Privacy safeguards remain applicable. No Tax, Invoice or Credit Note Domain or document-issuance owner is created. Shared tax-display and Invoice terminology must be reconciled with DEC-0031 before acceptance. Evaluation, acceptance, Specification and Contract changes, and implementation remain separate gates.
 
 DEC-0036 0.1.0 remains a Proposed, Product-owned, non-authoritative decision addressing `PRODUCT.md` §24 item 26; its fraud-screening approach and manual-review workflow remain unresolved, and its three conditional policy alternatives are unselected and unranked. Existing Product and Security safeguards remain binding. Identity, Customer, Checkout, Order, Payment, Administration, Notifications, Reporting, Operations and Architecture authority boundaries remain unchanged. No Fraud Domain or fraud-scoring authority is created, no Staff Role or Permission is granted, and no Order or Payment hold or lifecycle change is introduced. No provider, customer notification rule, manual-review workflow or implementation is selected or authorized. Comparative evaluation, affected-owner review, Product acceptance, Specification and Contract changes, and implementation remain separate governance gates.
+
+DEC-0037 0.1.0 remains a Proposed, Product-owned, non-authoritative decision addressing `PRODUCT.md` §24 item 27; Product data import, export and migration requirements remain unresolved. Its three conditional policy alternatives are unselected and unranked, and import, export and migration may be considered independently. Product remains authoritative for Product identity, validation, lifecycle, publication and historical integrity; Category, Administration, Search, CMS, Reporting, Identity, Security, Architecture and Operations boundaries remain unchanged. No Data Migration Domain or import, export or migration capability is created or authorized. No source, format, mapping, provider, Staff Role, Permission, API or Event Contract, lifecycle change or migration mechanism is selected. Product data migration remains distinct from technical database-schema migration. Comparative evaluation, affected-owner review, Security and Privacy review, Product acceptance, Architecture decisions, Specification and Contract changes, and implementation remain separate governance gates.
 
 ## 50. Decision Index Maintenance
 
@@ -760,6 +763,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.90 | 2026-10-14 | Approved | Indexed DEC-0037 as a Proposed, non-authoritative Product Decision Record for Product data import, export and migration requirements; preserved unselected alternatives, Product source-of-truth authority, cross-domain boundaries and separate downstream governance gates. |
 | 1.0.89 | 2026-10-14 | Approved | Indexed DEC-0036 as a Proposed, non-authoritative Product Decision Record for fraud screening and manual review policy; preserved unselected alternatives, existing safeguards, Domain authority and separate downstream governance gates. |
 | 1.0.88 | 2026-10-14 | Approved | Indexed DEC-0035 0.1.0 as a Proposed, non-authoritative Product-owned South African tax, Invoice and Credit Note policy decision, preserving DEC-0031 reconciliation, unresolved items 9 and 25, qualified Finance/Tax and Legal validation, existing domain authority and separate downstream governance gates. |
 | 1.0.87 | 2026-10-14 | Approved | Indexed DEC-0034 0.1.0 as a Proposed, non-authoritative Product-owned final-brand decision, preserving three unselected approaches, unresolved naming and visual identity, Product/Design authority, Storefront/CMS consumption boundaries, rights and accessibility requirements, and separate evaluation, acceptance and implementation gates. |
