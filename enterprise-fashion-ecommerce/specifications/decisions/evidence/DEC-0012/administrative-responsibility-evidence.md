@@ -1,6 +1,6 @@
 ---
 title: DEC-0012 Administrative Responsibility Evidence
-version: 0.9.0
+version: 0.10.0
 status: Draft
 owner: Product
 last_updated: 2026-10-14
@@ -259,6 +259,24 @@ PD-009 remains an unresolved sensitive-action exception request subject to bindi
 
 If evidence later conflicts, record both claims, dates, owners, affected IDs, and unresolved disposition as DS; do not silently choose one or mark the gate satisfied.
 
+### 8.2 ARE-004 Inventory Resource/action boundary worksheet — repository analysis only
+
+**Assessment date:** 2026-10-14. **Evidence basis:** Approved Inventory Domain and Backend Specifications, with Approved Administration and Security boundaries. **Business direction:** PD-011 and PD-012 §§4.6–4.7. **Classification:** Repository-backed boundary analysis, not attributable Inventory-owner confirmation or an independent `SC` fact. The Founder-approved bounded comparison candidate retains Inventory receipt requests and Stock-adjustment requests only; accepted receipt outcomes, direct Stock effects and unclassified material-adjustment approvals are excluded.
+
+| Candidate action | Evidence classification | Repository-backed finding and comparison boundary |
+| --- | --- | --- |
+| A. Submit Inventory receipt request | **PARTIAL** | Administration may coordinate governed Inventory work, but no distinct request-only receipt operation is established. Approved Inventory requirements do not establish inbound receiving; no accepted receipt outcome enters the PD-012 scope. |
+| B. Submit Stock-adjustment request | **PARTIAL** | Inventory governs Stock Adjustments and Administration may coordinate through Inventory-owned capabilities, but no distinct request-only adjustment operation is established. A request cannot establish an adjustment outcome. |
+| C. Record or accept an Inventory receipt | **ABSENT** | An Approved inbound receiving workflow is not established. Receipt recording or acceptance is excluded from the PD-012 comparison scope. |
+| D. Apply a Stock Adjustment | **EXPLICIT** | Inventory governs the authorized Resource, quantity effect, outcome, history and reconciliation of an actual Stock Adjustment. Applying the adjustment is excluded from the PD-012 comparison scope. |
+| E. Approve a material Stock Adjustment | **PARTIAL** | Material adjustments require governed audit and safe outcomes, but no approval action, materiality classification or approval chain is selected. Unclassified material-adjustment approval is excluded pending policy resolution. |
+
+**Approved requirement traceability:** Inventory authority, Stock safety, concurrency, adjustments, movement, replenishment neutrality, Staff access, Authorization and audit: [REQ-INV-006–007, 016–020, 027–028, 033](../../../domains/inventory/inventory-domain.md). Backend Resource association, default-deny contextual Authorization, Stock and adjustment integrity, replenishment neutrality, Administration invocation, audit and safe failure: [BINV-REQ-008, 014–016, 025–028, 034, 038–039](../../../backend/inventory/inventory-backend.md). Administration contextual Authorization, owning-Domain invocation, direct-mutation prohibition, conditional approval coordination and Inventory boundary: [REQ-ADM-007, 010–011, 014, 026](../../../domains/admin/admin-domain.md) and [BADM-REQ-007, 010–011, 014](../../../backend/admin/admin-backend.md). [SECURITY-STANDARDS.md §§7.2–7.3 and 12](../../../../.ai/core/SECURITY-STANDARDS.md) require least privilege, default denial and server-side contextual Authorization. These references establish constraints, not a request Contract, permission, workflow or stakeholder sign-off.
+
+**Binding boundary:** Inventory alone owns Stock truth and adjustment effects. Each protected action requires current server-side Principal, Inventory Resource, action, association and state authorization. Unknown or mismatched Resources, unauthorized or cross-Resource access, stale or conflicting state, duplicate effects and unsupported negative Stock must fail safely without fabricating success. Material adjustments require appropriate historical and Audit Record evidence. Administration may coordinate only through governed Inventory-owned capabilities; it cannot accept a receipt, apply an adjustment or override Inventory denial. Separation-of-duties and sensitive-action treatment remain subject to Security and owning-Domain review, including unresolved PD-009.
+
+**Missing attributable confirmations:** **Inventory — Pending:** exact Resource/action pairs, whether either request-only operation exists, state prerequisites, denial conditions and ownership of any outcome. **Administration — Pending:** coordination-only scope for any such request. **Security — Pending:** contextual Authorization and separation-of-duties boundaries. The Founder may attest business need and intended responsibility under PD-011/PD-012 but cannot thereby provide independent Inventory technical approval. A distinct request-only mechanism is **NOT ESTABLISHED**. The §8.1 rows remain Pending; §9 condition 2 and the overall evidence gate remain **NOT SATISFIED**. No comparison, permission model, Contract or implementation is authorized.
+
 ## 9. Evidence sufficiency gate for later comparison
 
 A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable. PD-001–PD-012 include the Product sponsor's responsibility baseline, founder-led direction, attributable intended-Operations launch-planning confirmation, operational policy and administrator-first access direction, and proposed comparison exclusions. PD-011 satisfies the Founder/Operations business-planning component of condition 1 for ARE-001–ARE-010, but does not verify actual operations or replace independent Administration, Identity, Security, affected-Domain, or applicable Finance, Privacy/Legal and operational-effect review. The gate as a whole remains unsatisfied:
@@ -296,6 +314,7 @@ This evidence record selects no DEC-0012 alternative, Role/Permission matrix, pe
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.10.0 | 2026-10-14 | Draft | Recorded repository-backed ARE-004 Inventory Resource/action boundary analysis, distinguishing unestablished request-only operations from Inventory-owned effects and preserving pending owner confirmations and the unsatisfied evidence gate. |
 | 0.9.0 | 2026-10-14 | Draft | Recorded PD-012 as the Founder/Product final bounded comparison-scope disposition for ARE-001–ARE-010, narrowing ARE-002 and ARE-004 and preserving exclusions, independent reviews and the unsatisfied evidence gate. |
 | 0.8.0 | 2026-10-14 | Draft | Clarified that PD-011 satisfies attributable Founder/Operations intended launch-planning evidence for ARE-001–ARE-010 without independent operational verification; preserved pending final comparison-scope disposition, independent technical and owning-Domain review, binding controls, PD-009 and PD-010 boundaries, and the unsatisfied evidence gate. |
 | 0.7.0 | 2026-10-14 | Draft | Recorded Founder/Product sponsor confirmation, acting as intended initial Operations operator, of ARE-001–ARE-010 launch-planning responsibilities and initial account structure as Product direction; preserved pending independent confirmations, PD-009 and PD-010 boundaries, the unsatisfied evidence gate, and separate evaluation, acceptance and implementation governance. |
