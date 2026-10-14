@@ -1,6 +1,6 @@
 ---
 title: DEC-0012 Administrative Responsibility Evidence
-version: 0.10.0
+version: 0.11.0
 status: Draft
 owner: Product
 last_updated: 2026-10-14
@@ -277,6 +277,27 @@ If evidence later conflicts, record both claims, dates, owners, affected IDs, an
 
 **Missing attributable confirmations:** **Inventory — Pending:** exact Resource/action pairs, whether either request-only operation exists, state prerequisites, denial conditions and ownership of any outcome. **Administration — Pending:** coordination-only scope for any such request. **Security — Pending:** contextual Authorization and separation-of-duties boundaries. The Founder may attest business need and intended responsibility under PD-011/PD-012 but cannot thereby provide independent Inventory technical approval. A distinct request-only mechanism is **NOT ESTABLISHED**. The §8.1 rows remain Pending; §9 condition 2 and the overall evidence gate remain **NOT SATISFIED**. No comparison, permission model, Contract or implementation is authorized.
 
+### 8.3 ARE-001 Product Resource/action boundary worksheet — repository analysis only
+
+**Assessment date:** 2026-10-14. **Business direction:** PD-011 and PD-012 §§4.6–4.7. **Evidence basis:** Approved Product Domain and Backend Specifications, Administration boundaries and Security Standards. **Classification:** Repository-backed analysis only, not attributable Product-owner confirmation or an independent `SC` fact. The Founder-approved bounded comparison candidate retains Product preparation, editing and publication requests; sensitive publication approval and sellability overrides are excluded.
+
+| Candidate action | Evidence classification | Repository-backed finding and PD-012 scope |
+| --- | --- | --- |
+| A. Prepare Product information | **EXPLICIT** | Product governs creation and preparation of valid Product-owned information without accidental publication. Retained as a candidate, subject to Product authorization and validation. |
+| B. Edit Product information | **EXPLICIT** | Product governs authorized updates that preserve identity and history, validate changed information and do not silently publish. Retained as a candidate. |
+| C. Submit Product publication request | **PARTIAL** | Product publication is governed, but a distinct request-only publication operation is **NOT ESTABLISHED**. Retained as Founder business intent only; a request cannot establish publication. |
+| D. Approve Product publication | **PARTIAL** | Publication requires current authorization, but no approval action or chain is selected. Sensitive publication approval is excluded. |
+| E. Execute Product publication or lifecycle transition | **EXPLICIT** | Product alone governs valid, authorized publication and lifecycle transitions. Execution is not retained as an ARE-001 request action; preparation or a request proves no transition. |
+| F. Override Product sellability restrictions | **ABSENT** | No Approved override action exists. Product-owned structural sellability cannot bypass its own rules or establish final purchasability; overrides are excluded. |
+
+**Approved requirement traceability:** Product completeness, authorized publication, Product-only publication truth and structural sellability: [REQ-PRD-018–022](../../../domains/product/product-domain.md). Governed creation/editing, no silent lifecycle transition, safe creation and update, validation, failure and current contextual Authorization: [REQ-PRD-028–029, 034–035, 039–040, 050](../../../domains/product/product-domain.md). Pricing and Inventory non-authority: [REQ-PRD-046–047](../../../domains/product/product-domain.md). Backend Product Authorization, validation, lifecycle, publication and Administration separation: [BPRD-REQ-007, 019–022, 036–037](../../../backend/product/product-backend.md). Administration invokes the owning Product capability and cannot directly mutate Product truth: [REQ-ADM-010–011, 023](../../../domains/admin/admin-domain.md). [SECURITY-STANDARDS.md §§7.2–7.3 and 12](../../../../.ai/core/SECURITY-STANDARDS.md) require least privilege, default denial and server-side contextual Authorization. These sources constrain governed behavior; none creates a publication-request Contract, Permission or approval workflow.
+
+**Product-owned current-state and denial boundary:** Product owns Product and Product Variant identity, information validation, lifecycle, publication and structural sellability. Preparation or editing must preserve valid identity, Product-owned content and history; incomplete, invalid, unauthorized or materially duplicate creation cannot publish. A stale or conflicting update must fail safely without losing accepted changes. Publication requires current Product completeness, a valid lifecycle transition and server-side authorization for the Principal, Resource, action and Product state; an edit, request, UI state or Projection cannot silently publish. Invalid or unauthorized operations require distinguishable safe outcomes. Material publication and other governed Product changes require attributable actor, time, state-change and proportional Audit Record evidence.
+
+**Cross-Domain boundary:** Administration may coordinate only through governed Product capabilities and cannot publish or override Product state itself. Product publication establishes neither Pricing/Promotion effects nor Inventory Stock or availability; structural sellability is not final purchasability. Product and Security must still review sensitive publication and any preparation/approval separation; no approval chain or sellability override is inferred.
+
+**Missing attributable confirmations:** **Product — Pending:** exact Product/Variant Resource/action pairs, whether a distinct publication-request operation exists, lifecycle prerequisites and denial cases. **Administration — Pending:** coordination-only behavior. **Security — Pending:** sensitive-publication classification and separation-of-duties requirements. PD-011/PD-012 satisfy attributable Founder business-planning responsibility only, not independent Product technical validation. The §8.1 rows remain Pending; §9 condition 2 and the overall gate remain **NOT SATISFIED**. No comparison, permission model, Contract or implementation is authorized.
+
 ## 9. Evidence sufficiency gate for later comparison
 
 A later DEC-0012 alternative comparison may be considered only after **all** of the following are documented and reviewable. PD-001–PD-012 include the Product sponsor's responsibility baseline, founder-led direction, attributable intended-Operations launch-planning confirmation, operational policy and administrator-first access direction, and proposed comparison exclusions. PD-011 satisfies the Founder/Operations business-planning component of condition 1 for ARE-001–ARE-010, but does not verify actual operations or replace independent Administration, Identity, Security, affected-Domain, or applicable Finance, Privacy/Legal and operational-effect review. The gate as a whole remains unsatisfied:
@@ -314,6 +335,7 @@ This evidence record selects no DEC-0012 alternative, Role/Permission matrix, pe
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.11.0 | 2026-10-14 | Draft | Recorded repository-backed ARE-001 Product Resource/action and denial-boundary analysis, distinguishing governed preparation, editing and publication from an unestablished request-only operation; preserved pending Product, Administration and Security confirmations and the unsatisfied evidence gate. |
 | 0.10.0 | 2026-10-14 | Draft | Recorded repository-backed ARE-004 Inventory Resource/action boundary analysis, distinguishing unestablished request-only operations from Inventory-owned effects and preserving pending owner confirmations and the unsatisfied evidence gate. |
 | 0.9.0 | 2026-10-14 | Draft | Recorded PD-012 as the Founder/Product final bounded comparison-scope disposition for ARE-001–ARE-010, narrowing ARE-002 and ARE-004 and preserving exclusions, independent reviews and the unsatisfied evidence gate. |
 | 0.8.0 | 2026-10-14 | Draft | Clarified that PD-011 satisfies attributable Founder/Operations intended launch-planning evidence for ARE-001–ARE-010 without independent operational verification; preserved pending final comparison-scope disposition, independent technical and owning-Domain review, binding controls, PD-009 and PD-010 boundaries, and the unsatisfied evidence gate. |
