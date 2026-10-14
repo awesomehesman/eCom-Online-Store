@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.91
+version: 1.0.92
 status: Approved
 owner: Architecture
 last_updated: 2026-10-14
@@ -577,6 +577,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0036 | Fraud Screening and Manual Review Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0036-fraud-screening-manual-review-policy.md](../../specifications/decisions/DEC-0036-fraud-screening-manual-review-policy.md) |
 | DEC-0037 | Product Data Import, Export and Migration Requirements | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0037-product-data-import-export-migration-requirements.md](../../specifications/decisions/DEC-0037-product-data-import-export-migration-requirements.md) |
 | DEC-0038 | Customer Data Requests and Account Closure Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0038-customer-data-requests-account-closure-policy.md](../../specifications/decisions/DEC-0038-customer-data-requests-account-closure-policy.md) |
+| DEC-0039 | Gift Cards, Store Credit and Promotional Credit Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0039-gift-cards-store-credit-promotional-credit-policy.md](../../specifications/decisions/DEC-0039-gift-cards-store-credit-promotional-credit-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -639,6 +640,8 @@ DEC-0036 0.1.0 remains a Proposed, Product-owned, non-authoritative decision add
 DEC-0037 0.1.0 remains a Proposed, Product-owned, non-authoritative decision addressing `PRODUCT.md` §24 item 27; Product data import, export and migration requirements remain unresolved. Its three conditional policy alternatives are unselected and unranked, and import, export and migration may be considered independently. Product remains authoritative for Product identity, validation, lifecycle, publication and historical integrity; Category, Administration, Search, CMS, Reporting, Identity, Security, Architecture and Operations boundaries remain unchanged. No Data Migration Domain or import, export or migration capability is created or authorized. No source, format, mapping, provider, Staff Role, Permission, API or Event Contract, lifecycle change or migration mechanism is selected. Product data migration remains distinct from technical database-schema migration. Comparative evaluation, affected-owner review, Security and Privacy review, Product acceptance, Architecture decisions, Specification and Contract changes, and implementation remain separate governance gates.
 
 DEC-0038 0.1.0 remains a Proposed, Product-owned, non-authoritative decision addressing `PRODUCT.md` §24 item 28; Customer data export, correction, deletion and Account closure remain unresolved. Its three conditional approaches are unselected and unranked, and the four concerns may be evaluated separately. Customer retains Customer data and Account business authority; Identity retains credentials, Sessions, Authentication and trusted identity evidence; and Order, Payment and other owning Domains retain historical and transactional authority. Account closure does not automatically imply Identity deletion or historical-record erasure. Security and Privacy controls remain binding. No legal interpretation, retention period, deletion mechanism or workflow is selected; no Data Rights Domain, Staff Role, Permission, API, Event or Message Contract, or implementation is created or authorized. Evidence collection, qualified Privacy/Legal and affected-owner review, comparative evaluation, Product acceptance, Architecture, Specification, Contract and implementation governance remain separate gates.
+
+DEC-0039 0.1.0 remains a Proposed, Product-owned, non-authoritative decision addressing `PRODUCT.md` §24 item 29. Gift cards, store credit and promotional credit remain separate unresolved concerns. Its three conditional approaches are unselected and unranked. No credit instrument, monetary balance, ledger or balance-owning Domain is established or approved. Existing Pricing, Cart, Checkout, Payment, Order, Return, Customer, Administration, Reporting and Security authority boundaries remain unchanged. No issuance, redemption, adjustment, restoration, transfer, Refund-to-credit conversion, financial or tax treatment, Staff Role, Permission, provider, API, Event or Message Contract, or implementation is authorized. Evidence collection, Finance/Tax and Legal review, Security and Operations review, affected-owner review, comparative evaluation, Product acceptance, Architecture, Specification, Contract and implementation governance remain separate gates.
 
 ## 50. Decision Index Maintenance
 
@@ -766,6 +769,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.92 | 2026-10-14 | Approved | Indexed DEC-0039 as a Proposed, non-authoritative Product Decision Record for gift cards, store credit and promotional credit; preserved unresolved financial, Domain ownership and implementation authority and separate downstream governance gates. |
 | 1.0.91 | 2026-10-14 | Approved | Indexed DEC-0038 as a Proposed, non-authoritative Product Decision Record for Customer data requests and Account closure; preserved Customer/Identity and historical Domain authority, unresolved Privacy/Legal questions and separate downstream governance gates. |
 | 1.0.90 | 2026-10-14 | Approved | Indexed DEC-0037 as a Proposed, non-authoritative Product Decision Record for Product data import, export and migration requirements; preserved unselected alternatives, Product source-of-truth authority, cross-domain boundaries and separate downstream governance gates. |
 | 1.0.89 | 2026-10-14 | Approved | Indexed DEC-0036 as a Proposed, non-authoritative Product Decision Record for fraud screening and manual review policy; preserved unselected alternatives, existing safeguards, Domain authority and separate downstream governance gates. |
