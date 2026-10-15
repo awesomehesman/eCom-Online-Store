@@ -1,9 +1,9 @@
 ---
 title: DEC-0012 Administrative Responsibility Evidence
-version: 0.33.0
+version: 0.33.1
 status: Draft
 owner: Product
-last_updated: 2026-10-15
+last_updated: 2026-10-16
 authoritative: false
 ---
 
@@ -398,6 +398,52 @@ Approved [REQ-INV-017–018, 027–028 and 033](../../../domains/inventory/inven
 
 **Planning-evidence limits:** Illustrative quantities and assumptions are not verified Stock, commitment, count or production observations. No materiality threshold, non-materiality, low-Risk finding, execution entitlement, self-approval, approval-free execution or implementation authority is established.
 
+### 4.8.1 Confirmed hypothetical Inventory Resource/action category — ICB/HCV
+
+**Confirmation date:** 2026-10-15. **Confirming capacities:** Founder, Product Owner, initial accountable Inventory business owner and initial accountable Inventory technical owner. **Source:** explicit confirmation in the project conversation. **Scope:** retained ARE-004 internally held Inventory Stock / governed physical-count correction category. **Classification:** attributable accountable-owner planning evidence, not independently verified operational fact (`SC`), independent technical or Security approval, executable policy or implementation evidence. Multiple capacities held by the same Founder do not establish independent review.
+
+**Example A — confirmed hypothetical planning scenario:** 25 recorded units, 23 counted units and a proposed -2-unit correction are illustrative only. No actual Inventory Resource, Product Variant association, physical count or Stock Adjustment is asserted. The quantities establish no materiality threshold, final business materiality, Security classification or execution entitlement.
+
+**Confirmed Inventory category-boundary statements:**
+
+- **ICB-01 — Resource category:** Internally held Inventory Stock associated with a valid Product Variant. Supplier-owned Stock, procurement and inbound receiving are excluded.
+- **ICB-02 — Action category:** Governed Inventory-owned Stock Adjustment for a supported physical-count discrepancy. No separate adjustment-request operation or approval workflow is established.
+- **ICB-03 — Ownership:** Inventory exclusively owns authoritative Stock state, adjustments, outcomes, history and reconciliation. Administration coordinates only through governed capabilities; it cannot independently modify Stock or override Inventory denial.
+- **ICB-04 — State prerequisites:** Require valid Resource association, reliable correction evidence, current Stock state, applicable commitments, Inventory invariants, current contextual Authorization and mandatory controls, including applicable approval and separation-of-duties requirements.
+- **ICB-05 — Denial boundaries:** Safely deny or withhold unauthorized, invalid, stale, conflicting, duplicate, unsupported or otherwise impermissible operations. Unreliable evidence or unmet mandatory controls cannot be treated as a successful Stock Adjustment.
+- **ICB-06 — Outcomes and reconciliation:** Inventory determines authoritative outcomes and preserves applicable adjustment history, Stock Movement and protected audit evidence. Uncertain outcomes require verification or governed reconciliation before potentially duplicative continuation. Administration cannot fabricate success or blindly repeat an uncertain operation.
+
+**Confirmed hypothetical category-validation cases:** These cases validate requirements-level boundaries only; they are not executed tests, production observations, outcome enums or executable Contracts.
+
+| Case | Assumptions | Expected boundary |
+| --- | --- | --- |
+| HCV-01 | Valid Resource, reliable correction evidence, current Authorization and all applicable controls satisfied | Eligible for Inventory-owned consideration; acceptance is not guaranteed. |
+| HCV-02 | Invalid or mismatched Resource/Product Variant association | Deny the invalid adjustment. |
+| HCV-03 | Missing, stale or revoked Authorization | Deny. |
+| HCV-04 | Intervening Stock Movements or conflicting Inventory state | Revalidate; reject an unsafe or stale correction. Intervening movements alone do not establish automatic denial. |
+| HCV-05 | Correction would violate Stock or commitment invariants | Deny the impermissible effect. |
+| HCV-06 | Duplicate or replayed adjustment intent | Prevent duplicate Stock effects without selecting a response or idempotency mechanism. |
+| HCV-07 | Applicable mandatory approval or separation-of-duties control unmet | Withhold execution; no bypass. |
+| HCV-08 | Unreliable count evidence or unresolved exceptional circumstances | Withhold unsupported correction pending the applicable determination. |
+| HCV-09 | Administration receives an uncertain outcome, including loss of acknowledgement after an accepted Inventory effect | Verify Inventory's authoritative outcome or reconcile before potentially duplicative continuation. |
+
+**Approved requirement traceability:** Resource, action and ownership (ICB-01–03; HCV-01–02): [REQ-INV-002–004, 017, 020, 027–028](../../../domains/inventory/inventory-domain.md), [BINV-REQ-008, 014, 025, 028, 034](../../../backend/inventory/inventory-backend.md), [REQ-ADM-009–011, 026](../../../domains/admin/admin-domain.md), [BADM-REQ-009–011, 026](../../../backend/admin/admin-backend.md) and [ARCHITECTURE.md §§9, 30.1, 30.4](../../../../.ai/core/ARCHITECTURE.md). Current-state, Authorization and denial boundaries (ICB-04–05; HCV-03–08): [REQ-INV-007–018, 027–030](../../../domains/inventory/inventory-domain.md), [BINV-REQ-008, 013–014, 024–026, 039–040](../../../backend/inventory/inventory-backend.md), [REQ-IDN-025–028, 031](../../../domains/identity/identity-domain.md), [BIDN-REQ-004, 022, 025–026](../../../backend/identity/identity-backend.md), [REQ-ADM-014–015, 018–022](../../../domains/admin/admin-domain.md), [BADM-REQ-014–015, 018–022](../../../backend/admin/admin-backend.md) and [Security Standards §§7.3, 7.6, 7.8, 12, 43](../../../../.ai/core/SECURITY-STANDARDS.md). Authoritative outcomes, applicable history/audit and reconciliation (ICB-06; HCV-09): [REQ-INV-018–019, 030, 033](../../../domains/inventory/inventory-domain.md), [BINV-REQ-038–040](../../../backend/inventory/inventory-backend.md), [REQ-ADM-018–022, 044–045](../../../domains/admin/admin-domain.md), [BADM-REQ-018–022, 044–045](../../../backend/admin/admin-backend.md) and [Security Standards §§27, 43](../../../../.ai/core/SECURITY-STANDARDS.md).
+
+**Substantive validation outcome:** A subsequent read-only, content-only requirements assessment in the project conversation found all six ICB statements and nine HCV cases **SUFFICIENT** for the bounded category-level elements of §9 condition 2: accountable business ownership and owning Domain are identified, and current-state prerequisites and denial boundaries are validated through hypothetical cases. No substantive contradiction or missing category-level boundary preventing that bounded validation was identified. This assessment is separate from the accountable confirmations and is not independent technical/Security approval or operational verification. No actual Stock records are required merely to validate this hypothetical category. Applicable independent reviews remain required wherever binding governance triggers them; no universal four-review requirement or independent approval for every adjustment is inferred or waived.
+
+**Accepted MGE-01–MGE-06 evidence gaps remain:** These accepted findings identify later factual verification, not invented operational evidence or automatic blockers to defining category-level policy.
+
+| Finding | Preserved evidence gap |
+| --- | --- |
+| MGE-01 | Actual Inventory Resource and authoritative Product Variant association are not asserted. |
+| MGE-02 | Actual commercial/financial significance and relevant replacement facts remain undetermined; Product/Finance participation is conditional on affected consequences. |
+| MGE-03 | Actual current Stock, availability and relevant Product-owned sellability context remain unverified; illustrative 25 is not authoritative Stock. |
+| MGE-04 | Actual reservations and fulfilment commitments and their consequences remain unverified. |
+| MGE-05 | Actual related corrections, history and cumulative effects remain unverified; isolation is not an operational fact. |
+| MGE-06 | Actual count reliability, discrepancy explanation and unusual circumstances remain unknown; no exceptional, fraudulent or low-Risk finding is made. |
+
+**Explicit condition-2 disposition:** **Substantive category-level validation: SUFFICIENT. Formal condition-2 satisfaction: NOT SATISFIED pending authorized evidence synchronization review and any applicable governance checks.** Recording these statements does not itself complete that review. Category-boundary validation, scenario-specific classification and actual execution-time verification remain distinct. Business materiality remains **UNDETERMINED**, Security classification **DEFERRED**, and PD-009 **Unresolved**. No Role, Permission, workflow, API, Contract, approval-free execution, Security Exception, implemented control or implementation authority is established. ARE-004 remains **Pending**, DEC-0012 **Proposed**, the overall §9 gate **NOT SATISFIED**, and alternative comparison **NOT ELIGIBLE**. Earlier evidence and dispositions retain their historical provenance and limitations; this later bounded finding does not retrospectively promote them.
+
 ## 5. Sensitive actions and separation-of-duties questions
 
 [Security Standards §§10–12 and 27](../../../../.ai/core/SECURITY-STANDARDS.md) already bind least privilege, privileged-account controls, current Authorization, and audit. PRODUCT §7.4 also bars financial, security, and Staff-administration permissions for the content-editor role by default. These are BR controls. PD-001, PD-004, PD-005, and PD-008 express Product risk-based or independent-review direction; PR-001–PR-008 remain historical proposals. PD-009's sensitive administrator self-approval or approval-free preference is unresolved and cannot override binding separation of duties. Which ARE entries are high-Risk, material, ordinary, or sensitive; which duties must be separated; who may request, approve, execute, and review; and whether temporary or exceptional access is permitted remain UQ. No row classifies an action conclusively or creates an approval chain. Product and affected owners must identify business effects before Security can review classifications.
@@ -421,6 +467,8 @@ The requester supplied the PD direction in §4.1 and PR recommendations in §4.2
 **ARE-004 classification-direction evidence — 2026-10-15:** §4.8 now separately records Product PCD-01–PCD-06, Inventory business IMD-01–IMD-08, Security SCD-01–SCD-10 and Identity technical IAC-01–IAC-10, each with its own confirming capacity and project-conversation provenance. These are attributable assessment directions only, not final classifications, independent reviews, SC or implementation approvals. Candidate-specific classifications, incompatible duties, approval applicability, audit/privacy evidence and triggered reviews remain outstanding.
 
 **ARE-004 planning-evidence synchronization — 2026-10-15:** §4.8 separately records ICF-01–ICF-08 and CFA-01–CFA-08 in Inventory business-owner capacity. The §8.2 EEC assessment distinguishes established obligations from unverified execution-time facts and unresolved policy decisions. CFA assumptions are not operational facts; no independent review, SC, final classification or sufficiency is established.
+
+**Later ICB/HCV category-boundary evidence:** §4.8.1 records the separately confirmed hypothetical category statements and validation cases, their substantive sufficiency finding, accepted MGE evidence gaps and the separate formal condition-2 status. Earlier Pending entries retain their historical scope; the current category-level disposition does not establish independent review, actual operating practice or execution eligibility.
 
 | Function | Evidence requested | State |
 | --- | --- | --- |
@@ -736,6 +784,8 @@ For **ARE-004 only**, the dated §4.8 accountable Inventory business-owner Resou
 
 **ARE-004 ICF/CFA/EEC synchronization — 2026-10-15:** Planning evidence identifies Physical Stock Count Correction — Example A without verifying a count, actual Resource, quantities, intervening movements, commitments, isolation or business consequences. The §8.2 EEC matrix identifies requirements and missing verification; it does not demonstrate compliance or independently satisfy any condition. Inventory business materiality, Security classification, duty compatibility, approval/review applicability and audit/privacy applicability remain outstanding. All eight §9 conditions remain open; ARE-004 remains Pending, condition 2 and the overall gate remain **NOT SATISFIED**, and alternative comparison remains **NOT ELIGIBLE**.
 
+**Later ARE-004 category-level condition-2 disposition (§4.8.1):** ICB-01–ICB-06 and HCV-01–HCV-09 provide **SUFFICIENT substantive category-level validation** of accountable Inventory ownership, current-state prerequisites and denial boundaries for the retained hypothetical Resource/action category. This is narrower than actual execution verification and does not close other §9 conditions. **Formal condition-2 satisfaction: NOT SATISFIED pending authorized evidence synchronization review and any applicable governance checks.** The earlier recorded absence of formal satisfaction remains in force. Actual MGE evidence gaps, materiality, Security classification, other applicability decisions and triggered reviews remain outstanding in their proper scopes. The overall gate remains **NOT SATISFIED**, and alternative comparison remains **NOT ELIGIBLE**.
+
 Passing this gate would permit only a separately reviewed **comparison** of still-unselected DEC-0012 alternatives. It would not select a model, accept DEC-0012, resolve Product §24 item 23, or authorize implementation. Gate status: **NOT SATISFIED**.
 
 ## 10. Open questions and blockers
@@ -758,6 +808,7 @@ This evidence record selects no DEC-0012 alternative, Role/Permission matrix, pe
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.33.1 | 2026-10-16 | Draft | Synchronized confirmed hypothetical ICB-01–ICB-06 and HCV-01–HCV-09 category-boundary evidence, Approved traceability and substantive condition-2 sufficiency separately from formal NOT SATISFIED status; preserved historical provenance, accepted MGE gaps and all remaining governance restrictions. |
 | 0.33.0 | 2026-10-15 | Draft | Synchronized separate ICF-01–ICF-08 and CFA-01–CFA-08 Inventory business planning evidence and citation-verified EEC-01–EEC-15 assessment findings; preserved unverified assumptions, historical provenance, outstanding classifications and all unsatisfied governance gates without execution or implementation authority. |
 | 0.32.0 | 2026-10-15 | Draft | Synchronized four separate accountable classification-direction confirmations: PCD-01–PCD-06, IMD-01–IMD-08, SCD-01–SCD-10 and IAC-01–IAC-10; preserved distinct provenance, historical dispositions, outstanding candidate-specific assessment, all open §9 conditions and unchanged governance statuses without final classification or implementation authority. |
 | 0.31.0 | 2026-10-15 | Draft | Recorded separate initial accountable Administration technical ownership designation and explicitly confirmed ADT-01–ADT-11 disposition for ARE-004; updated stakeholder, dependency and gate commentary while preserving earlier confirmations, independent-review limits, unresolved PD-009 and the unsatisfied evidence gate. |
