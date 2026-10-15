@@ -13,9 +13,11 @@ For the controlled Kiro workflow, use the
 [governed-pr-creation skill](../../.kiro/skills/governed-pr-creation/SKILL.md).
 ChatGPT validates scope and authorizes PR creation; Kiro inspects committed,
 pushed changes and creates the PR; the user stages, commits, pushes, reviews and
-merges. Kiro must stop on failed preflight or GitHub permission errors and must
-not modify files, branches or authentication, or switch to unauthorized
-credentials. The skill's invocation example is a template, not live authorization.
+merges. Try authenticated GitHub MCP first for authorized PR creation. If MCP
+is unavailable or creation fails, fall back to GitHub REST using the existing
+`GITHUB_PAT_TOKEN`, checking for an existing PR before retrying creation. Stop
+on failed preflight or a failed PAT fallback. Do not modify files, branches or
+authentication, or switch to unauthorized credentials. The skill's invocation example is a template, not live authorization.
 
 ## Summary
 

@@ -106,8 +106,12 @@ push access does not prove that the credential can call the requested endpoint.
 When available, inspect GitHub's `X-Accepted-GitHub-Permissions` response header.
 Do not broaden unrelated permissions as a speculative fix.
 
-For authorized PR creation, use the existing `GITHUB_PAT_TOKEN` directly with
-GitHub REST when requested, including after a connected-plugin permission error.
+For authorized PR creation, try the authenticated GitHub MCP connection first.
+If MCP is unavailable or PR creation fails, fall back to GitHub REST using the
+existing `GITHUB_PAT_TOKEN`. Recheck for an existing PR for the exact source and
+target before fallback creation, especially after an ambiguous MCP outcome.
+Report which path created the PR and any MCP failure. All preflight and
+authorization requirements still apply.
 Do not substitute the saved Git credential or assume the plugin uses this PAT.
 The token must be available to the request process. If it is absent, load it
 through the user's existing authorized secret-loading setup; do not create or
