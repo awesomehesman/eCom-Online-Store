@@ -1,0 +1,17 @@
+#!/bin/zsh
+# Load the existing GitHub PAT before Codex initializes its hosted MCP server.
+set -eu
+set +x
+
+if [[ -z "${GITHUB_PAT_TOKEN:-}" ]]; then
+  if ! GITHUB_PAT_TOKEN="$(/usr/bin/security find-generic-password -a "$USER" -s codex-github-pat -w 2>/dev/null)"; then
+    print -u2 'Unable to load the existing codex-github-pat Keychain item.'
+    exit 1
+  fi
+fi
+if [[ -z "$GITHUB_PAT_TOKEN" ]]; then
+  print -u2 'GITHUB_PAT_TOKEN is empty; Codex was not started.'
+  exit 1
+fi
+export GITHUB_PAT_TOKEN
+exec codex "$@"
