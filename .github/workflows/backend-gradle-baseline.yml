@@ -51,7 +51,18 @@ jobs:
           ./gradlew --version | grep -F "Gradle 8.14.5"
 
       - name: Run checks with strict dependency verification
+        id: strict-verification
         run: ./gradlew clean check --dependency-verification=strict
+
+      - name: Upload dependency-verification diagnostics
+        if: ${{ failure() && steps.strict-verification.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: gradle-dependency-verification-report
+          path: enterprise-fashion-ecommerce/backend/build/reports/dependency-verification/
+          retention-days: 3
+          if-no-files-found: ignore
+          include-hidden-files: false
 
       - name: Verify dependency lock state
         shell: bash
