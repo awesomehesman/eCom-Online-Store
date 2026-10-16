@@ -4,7 +4,7 @@
 - **Title:** Post-Expiry OpenPGP Artifact Signature Disposition
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Date:** 2026-10-16
 - **Last Updated:** 2026-10-16
 - **Owner:** Security
@@ -143,16 +143,55 @@ Strict verification and existing CI failure behavior remain binding. Public-key 
 | Security Authority | Classification authorized 2026-10-16; final disposition PENDING | Founder / Initial Security Authority explicitly authorized provisional HIGH CI/build classification in the project conversation; no final security approval or risk acceptance. |
 | Architecture Authority | PENDING | No acceptance or rejection is recorded. |
 | Affected Engineering/component and Platform ownership review | PENDING | Review scope must follow the affected responsibilities and assessed risk. |
-| Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION | Required §7.6 practicality assessment remains outstanding; dual-role authority does not establish independent review. |
+| Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION | Operating arrangements and practical constraints are confirmed below; §7.6 compliance and the independent-review determination remain pending. |
 | Security Exception applicability | UNDETERMINED | Any mandatory waiver requires the separate §41 process. |
 
 The project conversation identifies the repository owner as the initial Security Authority and Architecture Authority. The separate 2026-10-16 Founder / Initial Security Authority authorization supplies only the provisional classification described above; neither final Security disposition nor Architecture disposition is supplied. If approval in both capacities is later permitted under applicable risk and separation-of-duties requirements, both capacities and their dated evidence must be recorded explicitly. Such approval must not be described as independent review and cannot authorize a self-approved Security Exception.
 
 Acceptance requires the applicable Security and Architecture authorities under Decisions §17, with affected-owner participation and any separately triggered review. A generic risk acceptance, ordinary PR approval or AI statement cannot replace a required Security Exception. This record remains Proposed until a separately authorized, evidence-backed lifecycle change occurs.
 
+## Case-Specific Separation-of-Duties Arrangement — §7.6
+
+**Source and confirming capacity:** Explicit project-conversation confirmation by the Founder / Initial Security Authority, recorded in this 2026-10-16 amendment. **Classification:** attributable confirmation of current operating arrangements and practical constraints only. It is not independent human review, a §7.6 compliance determination, a mandatory-review waiver, a Security Exception or final approval.
+
+The Founder confirms that they are the sole repository maintainer and hold Engineering, Platform, Security and Architecture authority. No additional qualified developer, Security reviewer or Platform engineer is currently assigned or available to independently review DEC-0041. Separating these responsibilities across multiple individuals is not currently practical. This records the confirmed constraint; it does not establish that lack of available personnel satisfies §7.6 or excuses any binding requirement.
+
+### Actual duty allocation and authority boundaries
+
+| Function | Current arrangement | Evidence and limits |
+| --- | --- | --- |
+| Request and proposal | Founder / sole maintainer directs the work and requests the decision assessment. | Functional allocation is confirmed; no final disposition is selected. |
+| Engineering and Platform implementation | Founder / sole maintainer is accountable; Codex/Kiro assists with implementation and technical analysis under the maintainer's supervision. | Assistance does not provide an independent human approval function or establish an additional maintainer. |
+| Security classification and final Security disposition | Founder / Initial Security Authority authorized the provisional HIGH CI/build classification; final Security disposition remains PENDING. | Classification authorization is separate from final approval and residual-risk acceptance. |
+| Architecture disposition | Founder also holds Architecture authority; disposition remains PENDING. | Holding both capacities does not create independent human review or establish approval. |
+| Execution and operational control | Founder / sole maintainer holds the relevant functional accountability; technical tasks may be assisted by Codex/Kiro and CI. | Complete effective GitHub permissions, bypass powers, production execution rights and evidence-administration permissions remain unverified. Functional authority must not be equated with a verified permission inventory. |
+| Technical analysis and automated checks | Codex/Kiro supplies supervised analysis and implementation assistance; CI supplies automated results. | Neither Codex/Kiro nor CI possesses independent human approval authority. These results do not substitute for required accountable review. |
+| Independent human review | No additional qualified reviewer is currently assigned or available. | No independent human review is established. The case-specific independent-review determination remains PENDING. |
+
+This arrangement concentrates request, implementation accountability and potential approval functions in one individual. The confirmation does not establish that this individual has granted final approval or completed required review. Under [Security Standards §7.6](../../.ai/core/SECURITY-STANDARDS.md), the allocation and practical constraint must be assessed alongside applicable review obligations; unavailable personnel do not by themselves produce a SATISFIED conclusion.
+
+### Available safeguards and verification limits
+
+Existing evidence includes scoped trusted-key rules, strict dependency verification, fixed versions and dependency locking, review-visible Git changes, the documented signature/key-expiry investigation and PR #219's recorded CI results. The inspected workflow declares read-only repository-token permissions and read-only action-managed Gradle caching for pull requests. These are technical or procedural evidence sources, not independent human approvals. Public-key availability, cryptographic validity and green CI do not resolve publisher provenance or post-expiry risk acceptance.
+
+The overall effectiveness of safeguards remains unverified. Actual branch-protection enforcement, approval-bypass capabilities, complete secret and credential availability, protection of evidence from alteration, and production deployment/promotion boundaries remain unverified. No additional compensating control is invented or approved by this assessment. Local or CI checks cannot establish independent separation merely because they execute separately from the maintainer's manual work.
+
+### Outstanding determination and obligations
+
+- **§7.6 compliance determination: PENDING.** Accountable review must determine what practical separation is required for this specific high-impact CI/build case, whether the current allocation can satisfy the applicable requirements, and which evidence supports that conclusion.
+- **Independent-review determination: PENDING CASE-SPECIFIC DETERMINATION.** No universal distinct-reviewer requirement or exemption is inferred; any independently required review remains outstanding despite current personnel constraints.
+- Engineering/component and Platform functions are held by the sole maintainer, but their substantive review evidence remains outstanding. Functional accountability does not establish completion of those reviews.
+- The **HIGH — PROVISIONAL (CI/build scope only)** classification and all provisionally applicable §9 obligations remain unchanged: threat modelling, Security review, negative-path testing, explicit approval, stronger monitoring and recovery evidence. None is completed by this operating-arrangement confirmation.
+- **Security disposition: PENDING. Architecture disposition: PENDING. Security Exception applicability: UNDETERMINED. PR #219 merge authorization: WITHHELD.** Production-release risk remains unclassified.
+- Any proposed mandatory security waiver requires the separate §41 process. This confirmation creates no exception authority, and a self-approved Security Exception remains prohibited. Dual-role Security/Architecture authority cannot be relabeled as independent review.
+
+The next accountable determination must identify the assessed duty combinations, evidence of practical constraints, required review functions and outstanding completion evidence. It must not convert this confirmation into residual-risk acceptance or final approval.
+
 ## Review Triggers
 
 Review is required when new authenticated expiry-extension or revocation evidence, publisher clarification, contradictory artifact evidence, compromise indicators or relevant governance changes affect this assessment. Changes to artifact versions, fingerprints, trust scope, build/release exposure or proposed compensating controls require reassessment rather than automatic extension of any future disposition.
+
+The §7.6 arrangement must be reassessed if qualified personnel become available, duties or effective permissions change, or new review obligations are identified. This is a review trigger, not a promise that a reviewer will become available.
 
 The provisional HIGH CI/build classification must be revisited following additional attributable technical evidence and accountable Security review, including evidence about control effectiveness, likelihood, duty separation or deployment/promotion boundaries. Completion or findings of the provisionally triggered §9 work may require revision; classification must not silently become final or extend to production-release scope. The eventual decision must specify its applicable review obligations and any time bounds. This proposal establishes no acceptance period or exception expiry.
 
@@ -162,7 +201,7 @@ PR #219's successful CI at `7f02a4d45ebb6fd899b1a33d6f9733b6e4d9873e` is technic
 
 **Registration completed:** DEC-0041 0.1.0 was registered in `DECISIONS.md` through [PR #220](https://github.com/awesomehesman/eCom-Online-Store/pull/220), merged into develop at `63cb544d154961603d00596ce9bbf9c7bacfca37`. Historically, the initial 0.1.0 single-file preparation preceded that registration; its pending-registration statements described that earlier stage only.
 
-This 0.2.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that this later classification was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
+This 0.3.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that the later provisional classification or this operating arrangement was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
 
 ## References
 
@@ -187,5 +226,6 @@ This 0.2.0 amendment changes only DEC-0041 under the authorized scope. `DECISION
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-10-16 | Proposed | Recorded confirmed sole-maintainer duty allocation, practical separation constraints and supervised Codex/Kiro assistance; distinguished functional authority from independent human review, preserved unverified safeguards, pending §7.6/review determinations, outstanding §9 obligations and withheld approvals. |
 | 0.2.0 | 2026-10-16 | Proposed | Recorded the Founder / Initial Security Authority’s dated authorization of provisional HIGH CI/build risk, separate artifact exposures, outstanding §9 obligations and §7.6 assessment; preserved pending final dispositions, unclassified production-release risk and withheld merge authorization; corrected current registration status while retaining its history. |
 | 0.1.0 | 2026-10-16 | Proposed | Captured the four unresolved post-expiry signing cases, evidence limits and accountable-disposition requirements without selecting an alternative, granting approval or creating an exception; index synchronization remains pending. |
