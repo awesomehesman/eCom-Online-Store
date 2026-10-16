@@ -4,9 +4,9 @@
 - **Title:** Post-Expiry OpenPGP Artifact Signature Disposition
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
+- **Version:** 0.4.0
 - **Date:** 2026-10-16
-- **Last Updated:** 2026-10-16
+- **Last Updated:** 2026-10-17
 - **Owner:** Security
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -187,11 +187,54 @@ The overall effectiveness of safeguards remains unverified. Actual branch-protec
 
 The next accountable determination must identify the assessed duty combinations, evidence of practical constraints, required review functions and outstanding completion evidence. It must not convert this confirmation into residual-risk acceptance or final approval.
 
+## Seven-Stage Functional-Separation Procedure — Accepted Planning Evidence
+
+**Confirmation date:** 2026-10-17. **Source:** the Founder's explicit project-conversation confirmation that the seven-stage procedure is operationally feasible and accepted as planning evidence. **Confirming actor and capacity:** Founder / sole maintainer holding the recorded Engineering, Platform, Security and Architecture functions. This confirms feasibility of the procedure only; it is not an approval in every held capacity, evidence that a stage has been performed, final Security or Architecture disposition, residual-risk acceptance, or execution authorization.
+
+**Operational feasibility does not establish §7.6 compliance.** The procedure separates activities and evidence checkpoints as far as currently practical; it does not create independent human review. The same individual may perform activities in separately recorded functional capacities only within applicable governance. A second pass, capacity label, AI-assisted analysis or automated CI result must not be described as independent human approval. No additional qualified human reviewer is currently available under the confirmed arrangement; any independently required review remains outstanding.
+
+### Common stage controls and traceability
+
+Each stage requires an explicit entry checkpoint identifying its scope, accountable function, performing actor, relevant prior-stage findings and fixed decision/implementation revisions. Findings must identify the actor and capacity, date, evidence references, commands and results where applicable, assumptions, unresolved questions and an explicit exit result. Human findings, Codex/Kiro analysis and CI results must remain distinguishable and attributable. Evidence must be durably linked, protected against unauthorized alteration and reproducible or explainable under Security Standards §43; acceptance of this procedure does not verify that those protections are effective.
+
+Review must address an identified candidate revision. A material change to scope, implementation, evidence or assumptions reopens affected review stages and invalidates reliance on findings that no longer cover the candidate. A checkpoint may record a blocker; it must not relabel an unresolved requirement as completed. Planning and investigation may continue while final approval and execution remain withheld. Proposed stages 6 and 7 cannot exit successfully without their separately required approvals and authorizations.
+
+### Responsibility, inputs and evidence matrix
+
+| Stage | Accountable function | Performing actor | Required inputs and entry checkpoint | Required evidence and exit criteria | Prohibited actions |
+| --- | --- | --- | --- | --- | --- |
+| 1 — Request and scope definition | Accountable Security owner; request function | Founder / sole maintainer acting as requester | Fixed DEC-0041 revision, four exact artifact cases, provisional HIGH CI/build classification, operating constraints and applicable requirements. | Attributable bounded request defining questions, relevant implementation revision, scope exclusions, duty overlaps and evidence needs; exit when the requested assessment and outstanding requirements are explicit. | Selecting a final disposition, accepting risk, claiming independence or granting execution authority through the request. |
+| 2 — Technical implementation and evidence collection | Engineering/component and Platform functions | Founder accountable; Codex/Kiro provides supervised assistance; CI performs automated checks | Stage-1 scope and evidence plan; separate authorization for any implementation or other mutating activity. This procedure itself supplies none. | Fixed candidate diff/commit, artifact and key provenance findings, verification/test results, permission evidence, known limitations and recovery information; exit with a reviewable candidate and disclosed gaps. | Broadening trust, weakening verification, exceeding authorized scope, or treating AI/CI output as human approval. |
+| 3 — Engineering/Platform technical review | Engineering/component and Platform functions | Founder acting in explicitly recorded technical-review capacities; Codex/Kiro may assist | Fixed candidate revision and Stage-2 evidence, including unverified boundaries. | Separate findings on dependency reachability, runner privileges, key handling, build/output integrity, locking, reproducibility and recovery; exit with reviewed claims, unresolved findings and their consequences recorded. | Treating implementation authorship or successful CI as review completion; silently changing the candidate without reopening affected findings. |
+| 4 — Accountable Security review | Security Authority | Founder / Initial Security Authority; AI assistance remains non-approving | Technical findings, lifecycle/provenance evidence, threat assessment, residual uncertainties and all provisionally applicable §9 obligations. | Attributable risk/control assessment, likelihood limitations, §9 obligation status, §7.6 practicality findings and case-specific independent-review applicability; exit with a bounded recommendation or explicit blockers, without automatic acceptance. | Calling same-person review independent, treating uncertainty as compromise, waiving mandatory requirements or self-approving a Security Exception. |
+| 5 — Architecture consistency review | Architecture Authority | Founder in a separately recorded Architecture capacity | Same fixed candidate, Security findings, DEC-0001, governing Architecture and affected standards. | Distinct consistency findings on trust boundaries, scope, compatibility and required synchronization; exit with concurrence, objections or conditions explicitly recorded. | Replacing Security review or a required exception with Architecture concurrence; representing dual-role review as independent review. |
+| 6 — Final decision and approval recording | Applicable Security and Architecture authorities | Founder in each capacity only where the case-specific governance determination permits; any separately required independent approver must actually be available | Exact reviewed revision, applicable review completion, resolved blocking findings, no unmet mandatory independence requirement, and any separately required formal exception. No exception is presumed necessary or authorized. | Dated capacity-specific dispositions, selected bounded outcome, conditions, review triggers and required record/index synchronization; successful exit only when required authority, evidence and approvals are established. | Automatic approval based on this planning confirmation, unsupported residual-risk acceptance, self-approved exceptions or counting one individual as independent approvers. |
+| 7 — Controlled execution and post-action verification | Engineering/Platform execution owner | Founder / sole maintainer; supervised tools and CI within separately authorized scope | Separate authorization for the exact action/revision, applicable decision conditions, required checks and approvals, and defined recovery/verification steps. Deployment remains subject to its separate gates. | Attributable execution record and resulting state, post-action checks, comparison to approved scope, deviations and any recovery outcome; exit only with results verified or failures explicitly retained. | Executing or merging merely because the procedure is feasible, using unreviewed revisions, expanding scope, bypassing controls or erasing adverse evidence. |
+
+### Safeguards and outstanding governance checkpoints
+
+Existing technical evidence and unverified safeguard boundaries remain as recorded in the §7.6 arrangement above. Fixed revisions, separate capacity findings, stage checkpoints and change-triggered reopening are accepted planning safeguards; their operation and effectiveness are not established by this confirmation. No new reviewer, verified permission boundary or approved compensating control is asserted.
+
+| Obligation or authority | Preserved state |
+| --- | --- |
+| Operational feasibility of the seven-stage procedure | Confirmed by Founder; accepted planning evidence only |
+| §7.6 compliance | PENDING |
+| Independent-review applicability | PENDING CASE-SPECIFIC DETERMINATION |
+| §9 High-risk requirements | OUTSTANDING; provisionally applicable to CI/build scope |
+| Security disposition | PENDING |
+| Architecture disposition | PENDING |
+| Security Exception applicability | UNDETERMINED |
+| PR #219 merge authorization | WITHHELD |
+
+The overall classification remains **HIGH — PROVISIONAL (CI/build scope only)**, with Hamcrest the primary risk driver and the three BOMs retaining their narrower exposure assessments. Production-release risk remains unclassified. Threat modelling, Security review, negative-path testing, explicit approval, stronger monitoring and recovery evidence are not completed by accepting the procedure as planning evidence.
+
+An accountable §7.6 determination still requires evidence of actual practical separation, effective powers and overlaps, completed applicable findings and whether any mandatory distinct-reviewer requirement remains unmet. Unavailable personnel do not establish compliance. If an eventual outcome would waive a mandatory security requirement, the separate §41 process applies; this procedure neither creates that exception nor permits self-approval. DEC-0041 remains Proposed and non-authoritative, with no selected final disposition.
+
 ## Review Triggers
 
 Review is required when new authenticated expiry-extension or revocation evidence, publisher clarification, contradictory artifact evidence, compromise indicators or relevant governance changes affect this assessment. Changes to artifact versions, fingerprints, trust scope, build/release exposure or proposed compensating controls require reassessment rather than automatic extension of any future disposition.
 
-The §7.6 arrangement must be reassessed if qualified personnel become available, duties or effective permissions change, or new review obligations are identified. This is a review trigger, not a promise that a reviewer will become available.
+The §7.6 arrangement and seven-stage planning procedure must be reassessed if qualified personnel become available, duties or effective permissions change, new review obligations are identified, or stage operation exposes a failed safeguard or an unreviewed scope/revision change. This is a review trigger, not a promise that a reviewer will become available.
 
 The provisional HIGH CI/build classification must be revisited following additional attributable technical evidence and accountable Security review, including evidence about control effectiveness, likelihood, duty separation or deployment/promotion boundaries. Completion or findings of the provisionally triggered §9 work may require revision; classification must not silently become final or extend to production-release scope. The eventual decision must specify its applicable review obligations and any time bounds. This proposal establishes no acceptance period or exception expiry.
 
@@ -201,7 +244,7 @@ PR #219's successful CI at `7f02a4d45ebb6fd899b1a33d6f9733b6e4d9873e` is technic
 
 **Registration completed:** DEC-0041 0.1.0 was registered in `DECISIONS.md` through [PR #220](https://github.com/awesomehesman/eCom-Online-Store/pull/220), merged into develop at `63cb544d154961603d00596ce9bbf9c7bacfca37`. Historically, the initial 0.1.0 single-file preparation preceded that registration; its pending-registration statements described that earlier stage only.
 
-This 0.3.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that the later provisional classification or this operating arrangement was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
+This 0.4.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that the later provisional classification, operating arrangement or accepted planning procedure was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
 
 ## References
 
@@ -226,6 +269,7 @@ This 0.3.0 amendment changes only DEC-0041 under the authorized scope. `DECISION
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-10-17 | Proposed | Recorded the Founder’s explicit confirmation of operational feasibility and planning-level acceptance of the seven-stage functional-separation procedure, with fixed revisions, attributable evidence and stage checkpoints; preserved pending compliance/review determinations, outstanding §9 obligations, unclassified production-release risk and withheld approvals. |
 | 0.3.0 | 2026-10-16 | Proposed | Recorded confirmed sole-maintainer duty allocation, practical separation constraints and supervised Codex/Kiro assistance; distinguished functional authority from independent human review, preserved unverified safeguards, pending §7.6/review determinations, outstanding §9 obligations and withheld approvals. |
 | 0.2.0 | 2026-10-16 | Proposed | Recorded the Founder / Initial Security Authority’s dated authorization of provisional HIGH CI/build risk, separate artifact exposures, outstanding §9 obligations and §7.6 assessment; preserved pending final dispositions, unclassified production-release risk and withheld merge authorization; corrected current registration status while retaining its history. |
 | 0.1.0 | 2026-10-16 | Proposed | Captured the four unresolved post-expiry signing cases, evidence limits and accountable-disposition requirements without selecting an alternative, granting approval or creating an exception; index synchronization remains pending. |
