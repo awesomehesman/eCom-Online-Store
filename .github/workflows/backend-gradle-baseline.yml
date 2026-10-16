@@ -48,7 +48,9 @@ jobs:
           set -euo pipefail
           java_major="$(java -XshowSettings:properties -version 2>&1 | sed -n 's/^[[:space:]]*java\.version = \([0-9][0-9]*\).*/\1/p')"
           test "$java_major" = "21"
-          ./gradlew --version | grep -F "Gradle 8.14.5"
+          wrapper_version="$(sed -n 's#^distributionUrl=.*\/gradle-\([0-9][0-9.]*\)-bin\.zip$#\1#p' gradle/wrapper/gradle-wrapper.properties)"
+          test -n "$wrapper_version"
+          ./gradlew --version | grep -Fx "Gradle $wrapper_version"
 
       - name: Run checks with strict dependency verification
         run: ./gradlew clean check --dependency-verification=strict
