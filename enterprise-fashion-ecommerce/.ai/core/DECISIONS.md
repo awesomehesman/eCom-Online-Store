@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.93
+version: 1.0.94
 status: Approved
 owner: Architecture
-last_updated: 2026-10-14
+last_updated: 2026-10-16
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -579,6 +579,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0038 | Customer Data Requests and Account Closure Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0038-customer-data-requests-account-closure-policy.md](../../specifications/decisions/DEC-0038-customer-data-requests-account-closure-policy.md) |
 | DEC-0039 | Gift Cards, Store Credit and Promotional Credit Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0039-gift-cards-store-credit-promotional-credit-policy.md](../../specifications/decisions/DEC-0039-gift-cards-store-credit-promotional-credit-policy.md) |
 | DEC-0040 | Product Launch Date, Release Scope and Post-Launch Support Window | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0040-product-launch-date-release-scope-post-launch-support-window.md](../../specifications/decisions/DEC-0040-product-launch-date-release-scope-post-launch-support-window.md) |
+| DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -772,6 +773,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.94 | 2026-10-16 | Approved | Registered DEC-0041 0.1.0 as a Proposed, non-authoritative Security Decision for the four unresolved post-expiry OpenPGP artifact signatures; preserved pending risk classification and Security/Architecture dispositions, undetermined exception applicability and withheld merge authorization. |
 | 1.0.93 | 2026-10-14 | Approved | Indexed DEC-0040 as a Proposed, non-authoritative Product Decision Record for launch date, release scope and post-launch support window; preserved unresolved support dependencies and separate readiness, acceptance, release and implementation gates. |
 | 1.0.92 | 2026-10-14 | Approved | Indexed DEC-0039 as a Proposed, non-authoritative Product Decision Record for gift cards, store credit and promotional credit; preserved unresolved financial, Domain ownership and implementation authority and separate downstream governance gates. |
 | 1.0.91 | 2026-10-14 | Approved | Indexed DEC-0038 as a Proposed, non-authoritative Product Decision Record for Customer data requests and Account closure; preserved Customer/Identity and historical Domain authority, unresolved Privacy/Legal questions and separate downstream governance gates. |
