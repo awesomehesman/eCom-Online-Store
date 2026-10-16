@@ -4,7 +4,7 @@
 - **Title:** Post-Expiry OpenPGP Artifact Signature Disposition
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-10-16
 - **Last Updated:** 2026-10-16
 - **Owner:** Security
@@ -18,7 +18,7 @@ PR [#219](https://github.com/awesomehesman/eCom-Online-Store/pull/219) consolida
 
 The subsequent read-only security investigation identified four artifact-signing timestamps after the available certified OpenPGP key expiries. All four artifact signatures verify cryptographically, but no authenticated expiry extensions were established. Publisher provenance remains incomplete. Existing trusted-key rules predate PR #219 and do not themselves establish acceptance of post-expiry signing.
 
-This Proposed record captures the project-conversation investigation findings supplied on 2026-10-16 and the evidence needed for an accountable disposition. It does not assert independent Security approval, a completed risk classification or a Security Exception. Temporary local audit outputs are supporting investigation material, not durable repository approval records; their relevant evidence must be retained or made reproducible for review.
+This Proposed record captures the project-conversation investigation findings supplied on 2026-10-16 and the evidence needed for an accountable disposition. It records the accountable Security Authority's provisional CI/build classification below, without asserting independent Security approval, a final risk classification or a Security Exception. Temporary local audit outputs are supporting investigation material, not durable repository approval records; their relevant evidence must be retained or made reproducible for review.
 
 ## Decision
 
@@ -28,10 +28,10 @@ This Proposed record captures the project-conversation investigation findings su
 
 | Governance item | Current state |
 | --- | --- |
-| Risk classification | PENDING |
+| Risk classification | HIGH — PROVISIONAL (CI/build scope only) |
 | Security disposition | PENDING |
 | Architecture disposition | PENDING |
-| Independent review requirement | PENDING RISK CLASSIFICATION |
+| Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION |
 | Security Exception required | UNDETERMINED |
 | Merge authorization | WITHHELD |
 
@@ -73,16 +73,33 @@ The reviewed governance does not establish an explicit blanket OpenPGP post-expi
 
 ## Risk Classification and Residual Risks
 
-**Risk classification: PENDING.** No low-risk, high-risk, compliant or compromised classification is assigned here.
+**Risk classification: HIGH — PROVISIONAL (CI/build scope only).** On 2026-10-16, the repository owner, acting as **Founder / Initial Security Authority**, explicitly authorized this overall CI/build supply-chain classification in the project conversation. This is an attributable accountable classification determination, not final Security approval, Architecture approval, residual-risk acceptance, an independent review or a finding that any artifact is compromised.
 
-The accountable assessment must consider the artifacts' build-time or runtime role, effective dependency reachability, build and release trust boundaries, potential consequences of publisher or signing-key compromise, reversibility and available objective evidence. Applicable high-risk review obligations remain conditional on that assessment; no universal independent-review requirement or exemption is inferred.
+Hamcrest 3.0 is the primary risk driver: executable test code presents potentially High CI/build-integrity impact. The overall provisional classification does not assign the same exposure or individual risk classification to the three BOMs:
+
+| Artifact | Separate exposure assessment | Classification boundary |
+| --- | --- | --- |
+| Hamcrest 3.0 | Transitive executable test dependency on test compile/runtime classpaths; potentially High CI/build-integrity impact. | Primary driver of overall provisional HIGH classification; no verified production-runtime inclusion is asserted. |
+| QueryDSL BOM 5.1.0 | Limited current build-metadata exposure through the Spring Boot platform import; no selected executable QueryDSL component in the inspected locked graph. | Separate, narrower exposure assessment; no individual HIGH classification is inferred. |
+| RSocket BOM 1.1.5 | Limited current build-metadata exposure through the Spring Boot platform import; no selected executable RSocket component in the inspected locked graph. | Separate, narrower exposure assessment; no individual HIGH classification is inferred. |
+| Selenium BOM 4.31.0 | Limited current build-metadata exposure through the Spring Boot platform import; no selected executable Selenium component in the inspected locked graph. | Separate, narrower exposure assessment; no individual HIGH classification is inferred. |
+
+The effectiveness of existing controls and the likelihood of malicious artifact acceptance remain unverified; no likelihood score is assigned. **Production-release risk remains unclassified** because deployment and promotion trust boundaries have not been verified. Limited runtime reachability does not eliminate CI/build supply-chain risk.
+
+Under the accountable authorization, [Security Standards §9](../../.ai/core/SECURITY-STANDARDS.md) High-risk obligations apply **provisionally**: threat modelling, Security review, negative-path testing, explicit approval, stronger monitoring and recovery evidence. None is marked completed by this classification; required scope, evidence and accountable completion remain outstanding. The earlier CI and technical findings do not independently establish completion of these obligations.
+
+A practical separation-of-duties assessment under [Security Standards §7.6](../../.ai/core/SECURITY-STANDARDS.md) is required. It must assess allocation of request, approval, execution and review, practical separation and applicable reviewer independence for this case. **Independent review: PENDING CASE-SPECIFIC DETERMINATION.** No universal independence requirement, completed independent review or exemption is inferred.
+
+Classification may be revised following additional attributable technical evidence and accountable Security review. Any revision must preserve the distinction between CI/build scope, the separate artifact exposures and unclassified production-release risk.
 
 Residual uncertainties include:
 
 - Whether authenticated publisher renewal certifications or a defensible publisher explanation exist but were not obtained.
 - Whether complete provenance and key-lifecycle evidence supports continued reliance on each artifact.
 - Whether inspected key material reflects current revocation state.
-- How reliance on these existing trust rules affects build inputs and release confidence.
+- How reliance on these existing trust rules affects build inputs and release confidence, including unverified deployment and promotion trust boundaries.
+- The effectiveness of existing controls, likelihood of malicious artifact acceptance and completion evidence for provisionally triggered §9 obligations.
+- Practical duty allocation, separation and the case-specific independent-review determination under §7.6.
 - Whether a proposed disposition would remain within existing requirements or require a specified mandatory requirement to be waived.
 
 Existing trust configuration and successful cryptographic checks do not close these uncertainties. A later disposition must distinguish technical verification from independent publisher authentication and record the limits of both.
@@ -123,13 +140,13 @@ Strict verification and existing CI failure behavior remain binding. Public-key 
 | Required function or determination | State | Evidence boundary |
 | --- | --- | --- |
 | Accountable Security owner | Security ownership identified; disposition PENDING | Functional ownership is not approval. |
-| Security Authority | PENDING | No acceptance or rejection is recorded. |
+| Security Authority | Classification authorized 2026-10-16; final disposition PENDING | Founder / Initial Security Authority explicitly authorized provisional HIGH CI/build classification in the project conversation; no final security approval or risk acceptance. |
 | Architecture Authority | PENDING | No acceptance or rejection is recorded. |
 | Affected Engineering/component and Platform ownership review | PENDING | Review scope must follow the affected responsibilities and assessed risk. |
-| Independent review requirement | PENDING RISK CLASSIFICATION | Do not infer either a universal requirement or a waiver. |
+| Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION | Required §7.6 practicality assessment remains outstanding; dual-role authority does not establish independent review. |
 | Security Exception applicability | UNDETERMINED | Any mandatory waiver requires the separate §41 process. |
 
-The project conversation identifies the repository owner as the initial Security Authority and Architecture Authority. This is attributable role context only; it supplies neither disposition. If approval in both capacities is later permitted under applicable risk and separation-of-duties requirements, both capacities and their dated evidence must be recorded explicitly. Such approval must not be described as independent review and cannot authorize a self-approved Security Exception.
+The project conversation identifies the repository owner as the initial Security Authority and Architecture Authority. The separate 2026-10-16 Founder / Initial Security Authority authorization supplies only the provisional classification described above; neither final Security disposition nor Architecture disposition is supplied. If approval in both capacities is later permitted under applicable risk and separation-of-duties requirements, both capacities and their dated evidence must be recorded explicitly. Such approval must not be described as independent review and cannot authorize a self-approved Security Exception.
 
 Acceptance requires the applicable Security and Architecture authorities under Decisions §17, with affected-owner participation and any separately triggered review. A generic risk acceptance, ordinary PR approval or AI statement cannot replace a required Security Exception. This record remains Proposed until a separately authorized, evidence-backed lifecycle change occurs.
 
@@ -137,13 +154,15 @@ Acceptance requires the applicable Security and Architecture authorities under D
 
 Review is required when new authenticated expiry-extension or revocation evidence, publisher clarification, contradictory artifact evidence, compromise indicators or relevant governance changes affect this assessment. Changes to artifact versions, fingerprints, trust scope, build/release exposure or proposed compensating controls require reassessment rather than automatic extension of any future disposition.
 
-The eventual decision must specify its applicable review obligations and any time bounds. This proposal establishes no acceptance period or exception expiry.
+The provisional HIGH CI/build classification must be revisited following additional attributable technical evidence and accountable Security review, including evidence about control effectiveness, likelihood, duty separation or deployment/promotion boundaries. Completion or findings of the provisionally triggered §9 work may require revision; classification must not silently become final or extend to production-release scope. The eventual decision must specify its applicable review obligations and any time bounds. This proposal establishes no acceptance period or exception expiry.
 
 ## PR #219 Relationship and Registration Status
 
 PR #219's successful CI at `7f02a4d45ebb6fd899b1a33d6f9733b6e4d9873e` is technical evidence only. **Merge authorization: WITHHELD.** This Proposed record neither approves that PR nor establishes that all merge or release gates are satisfied. It does not modify PR #219 or the other related PRs.
 
-This initial single-file preparation intentionally leaves `DECISIONS.md` unchanged under the task's explicit scope. Index registration, metadata/history synchronization and validation of matching owner, date, title, status and canonical path remain outstanding under Decisions §§10 and 49–50. The record is not represented as registration-complete. No identifier is reserved by an index placeholder, and no governing baseline is changed by this preparation.
+**Registration completed:** DEC-0041 0.1.0 was registered in `DECISIONS.md` through [PR #220](https://github.com/awesomehesman/eCom-Online-Store/pull/220), merged into develop at `63cb544d154961603d00596ce9bbf9c7bacfca37`. Historically, the initial 0.1.0 single-file preparation preceded that registration; its pending-registration statements described that earlier stage only.
+
+This 0.2.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that this later classification was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
 
 ## References
 
@@ -168,4 +187,5 @@ This initial single-file preparation intentionally leaves `DECISIONS.md` unchang
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-10-16 | Proposed | Recorded the Founder / Initial Security Authority’s dated authorization of provisional HIGH CI/build risk, separate artifact exposures, outstanding §9 obligations and §7.6 assessment; preserved pending final dispositions, unclassified production-release risk and withheld merge authorization; corrected current registration status while retaining its history. |
 | 0.1.0 | 2026-10-16 | Proposed | Captured the four unresolved post-expiry signing cases, evidence limits and accountable-disposition requirements without selecting an alternative, granting approval or creating an exception; index synchronization remains pending. |
