@@ -2,6 +2,9 @@ package com.enterprise.fashion.ecommerce.identity.config;
 
 import java.time.Clock;
 
+import com.enterprise.fashion.ecommerce.identity.application.usecase.RevokeIdentitySession;
+import com.enterprise.fashion.ecommerce.identity.application.port.out.IdentitySessionRevocationPort;
+
 import com.enterprise.fashion.ecommerce.identity.adapter.out.session.SpringSessionJdbcObservationAdapter;
 import com.enterprise.fashion.ecommerce.identity.application.port.out.IdentitySessionObservationPort;
 import com.enterprise.fashion.ecommerce.identity.application.usecase.ObserveIdentitySession;
@@ -16,6 +19,12 @@ public class IdentitySessionObservationConfiguration {
     IdentitySessionObservationPort identitySessionObservationPort(JdbcClient jdbc,
             @Value("${spring.session.jdbc.table-name:SPRING_SESSION}") String tableName) {
         return new SpringSessionJdbcObservationAdapter(jdbc, tableName, Clock.systemUTC());
+    }
+
+    @Bean
+    RevokeIdentitySession revokeIdentitySession(IdentitySessionRevocationPort revocations,
+            IdentitySessionObservationPort observations) {
+        return new RevokeIdentitySession(revocations, observations);
     }
 
     @Bean

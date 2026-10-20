@@ -13,12 +13,7 @@ public final class ObserveIdentitySession {
     }
 
     public SessionObservation observe(String sessionIdentifier) {
-        // V1 stores opaque Session identifiers in CHAR(36). Do not normalize credentials.
-        if (sessionIdentifier == null || sessionIdentifier.isBlank() || sessionIdentifier.length() > 36
-                || sessionIdentifier.codePoints().anyMatch(c -> Character.isWhitespace(c)
-                        || Character.isSpaceChar(c) || Character.isISOControl(c))) {
-            throw new IllegalArgumentException("Invalid Session reference");
-        }
+        SessionReferences.validate(sessionIdentifier);
         return observations.observe(sessionIdentifier);
     }
 }

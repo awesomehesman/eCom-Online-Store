@@ -1,69 +1,62 @@
 package com.enterprise.fashion.ecommerce.identity.adapter.out.session;
 
-import com.enterprise.fashion.ecommerce.identity.application.SessionRevocationOutcome;
 import org.junit.jupiter.api.Test;
-import org.springframework.session.Session;
+import com.enterprise.fashion.ecommerce.identity.application.SessionRevocationOutcome;
+import com.enterprise.fashion.ecommerce.identity.application.port.out.IdentitySessionObservationPort;
+import com.enterprise.fashion.ecommerce.identity.application.usecase.RevokeIdentitySession;
+import org.springframework.transaction.CannotCreateTransactionException;
+import static org.mockito.Mockito.verifyNoInteractions;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.session.SessionRepository;
-
+import org.springframework.session.Session;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.inOrder;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class SpringSessionJdbcRevocationAdapterTest {
-
     @Test
-    void confirmsAbsenceOnlyAfterDeletionAndAuthoritativeLookup() {
-        SessionRepository<Session> repository = repository();
-        when(repository.findById("known-session")).thenReturn(null);
-        SpringSessionJdbcRevocationAdapter adapter = new SpringSessionJdbcRevocationAdapter(repository);
-
-        SessionRevocationOutcome outcome = adapter.revoke("known-session");
-
-        assertThat(outcome).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
-        var ordered = inOrder(repository);
-        ordered.verify(repository).deleteById("known-session");
-        ordered.verify(repository).findById("known-session");
-        ordered.verifyNoMoreInteractions();
+    void deletesOnlyTheSuppliedSessionWithoutConfirmationReads() {
+        @SuppressWarnings("unchecked")
+        SessionRepository<Session> repository = mock(SessionRepository.class);
+        assertThat(new SpringSessionJdbcRevocationAdapter(repository).revoke("known-session")).isTrue();
+        verify(repository).deleteById("known-session");
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void reportsUncertaintyWhenConfirmationStillObservesTheSession() {
-        SessionRepository<Session> repository = repository();
-        when(repository.findById("known-session")).thenReturn(mock(Session.class));
-        SpringSessionJdbcRevocationAdapter adapter = new SpringSessionJdbcRevocationAdapter(repository);
-
-        SessionRevocationOutcome outcome = adapter.revoke("known-session");
-
-        assertThat(outcome).isEqualTo(SessionRevocationOutcome.UNCERTAIN);
+    void infrastructureFailureIsUncertain() {
+        @SuppressWarnings("unchecked")
+        SessionRepository<Session> repository = mock(SessionRepository.class);
+        doThrow(new DataAccessResourceFailureException("unavailable")).when(repository).deleteById("known-session");
+        assertThat(new SpringSessionJdbcRevocationAdapter(repository).revoke("known-session")).isFalse();
+        verify(repository).deleteById("known-session");
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void reportsUncertaintyWhenDeletionFails() {
-        SessionRepository<Session> repository = repository();
-        org.mockito.Mockito.doThrow(new IllegalStateException("repository unavailable"))
+    void transactionStartFailureReturnsUncertaintyWithoutObservation() {
+        @SuppressWarnings("unchecked")
+        SessionRepository<Session> repository = mock(SessionRepository.class);
+        var observations = mock(IdentitySessionObservationPort.class);
+        doThrow(new CannotCreateTransactionException("connection unavailable"))
                 .when(repository).deleteById("known-session");
-        SpringSessionJdbcRevocationAdapter adapter = new SpringSessionJdbcRevocationAdapter(repository);
+        var command = new RevokeIdentitySession(new SpringSessionJdbcRevocationAdapter(repository), observations);
 
-        SessionRevocationOutcome outcome = adapter.revoke("known-session");
-
-        assertThat(outcome).isEqualTo(SessionRevocationOutcome.UNCERTAIN);
+        assertThat(command.revoke("known-session")).isEqualTo(SessionRevocationOutcome.UNCERTAIN);
+        verify(repository).deleteById("known-session");
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(observations);
     }
 
     @Test
-    void reportsUncertaintyWhenConfirmationFails() {
-        SessionRepository<Session> repository = repository();
-        when(repository.findById("known-session"))
-                .thenThrow(new IllegalStateException("confirmation unavailable"));
-        SpringSessionJdbcRevocationAdapter adapter = new SpringSessionJdbcRevocationAdapter(repository);
-
-        SessionRevocationOutcome outcome = adapter.revoke("known-session");
-
-        assertThat(outcome).isEqualTo(SessionRevocationOutcome.UNCERTAIN);
-    }
-
-    @SuppressWarnings("unchecked")
-    private SessionRepository<Session> repository() {
-        return mock(SessionRepository.class);
+    void programmingErrorsAreNotReportedAsInfrastructureUncertainty() {
+        @SuppressWarnings("unchecked")
+        SessionRepository<Session> repository = mock(SessionRepository.class);
+        doThrow(new IllegalArgumentException("bug")).when(repository).deleteById("known-session");
+        assertThatIllegalArgumentException().isThrownBy(() ->
+                new SpringSessionJdbcRevocationAdapter(repository).revoke("known-session"));
     }
 }

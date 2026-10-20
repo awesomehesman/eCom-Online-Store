@@ -1,6 +1,7 @@
 package com.enterprise.fashion.ecommerce.identity.adapter.out.session;
 
-import com.enterprise.fashion.ecommerce.identity.application.SessionRevocationOutcome;
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.CannotCreateTransactionException;
 import com.enterprise.fashion.ecommerce.identity.application.port.out.IdentitySessionRevocationPort;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
@@ -16,18 +17,14 @@ public final class SpringSessionJdbcRevocationAdapter implements IdentitySession
     }
 
     @Override
-    public SessionRevocationOutcome revoke(String sessionIdentifier) {
+    public boolean revoke(String sessionIdentifier) {
         try {
             sessionRepository.deleteById(sessionIdentifier);
 
-            // This is a point-in-time authoritative observation, not proof that this
-            // invocation deleted an existing Session or that the identifier cannot reappear.
-            return sessionRepository.findById(sessionIdentifier) == null
-                    ? SessionRevocationOutcome.CONFIRMED_ABSENT
-                    : SessionRevocationOutcome.UNCERTAIN;
+            return true;
         }
-        catch (RuntimeException exception) {
-            return SessionRevocationOutcome.UNCERTAIN;
+        catch (DataAccessException | CannotCreateTransactionException exception) {
+            return false;
         }
     }
 }
