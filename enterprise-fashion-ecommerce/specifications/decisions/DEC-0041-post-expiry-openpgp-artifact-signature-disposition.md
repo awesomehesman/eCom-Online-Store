@@ -4,9 +4,9 @@
 - **Title:** Post-Expiry OpenPGP Artifact Signature Disposition
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.4.0
+- **Version:** 0.5.0
 - **Date:** 2026-10-16
-- **Last Updated:** 2026-10-17
+- **Last Updated:** 2026-10-20
 - **Owner:** Security
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -29,11 +29,17 @@ This Proposed record captures the project-conversation investigation findings su
 | Governance item | Current state |
 | --- | --- |
 | Risk classification | HIGH — PROVISIONAL (CI/build scope only) |
-| Security disposition | PENDING |
+| Security disposition | DEFERRED — confirmed 2026-10-20; final substantive disposition outstanding |
 | Architecture disposition | PENDING |
 | Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION |
 | Security Exception required | UNDETERMINED |
 | Merge authorization | WITHHELD |
+
+### Confirmed Security Authority Deferral — 2026-10-20
+
+**Determining actor and capacity:** Founder / Initial Security Authority. **Date:** 2026-10-20. **Source:** explicit confirmation in the project conversation authorizing this documentation synchronization. **Confirmed determination:** DEC-0041’s Security disposition is **DEFERRED** because mandatory key-lifecycle, publisher-provenance and applicable HIGH-risk assurance evidence remains insufficient. This records the accountable human determination; Codex’s preparation of this amendment is not independent human review or approval.
+
+The deferral is confirmed; a final substantive Security disposition permitting continued reliance or selecting remediation remains outstanding. Architecture disposition remains **PENDING**, Security Exception applicability remains **UNDETERMINED**, and merge authorization remains **WITHHELD**. DEC-0041 remains **Proposed** and **non-authoritative**. No continued-reliance approval, residual-risk acceptance, Security Exception or final approval is granted. Hamcrest 3.0, QueryDSL BOM 5.1.0, RSocket BOM 1.1.5 and Selenium BOM 4.31.0 remain unresolved within the existing four-case scope. No evidence or HIGH-risk obligation is marked complete by deferral.
 
 An ordinary Security Decision must remain within existing authority. If the eventual disposition would waive a mandatory security requirement, a separately compliant Security Exception is required; this record cannot replace or create one. This proposal authorizes no dependency, keyring, trust-rule, verification-setting, workflow or implementation change.
 
@@ -139,14 +145,14 @@ Strict verification and existing CI failure behavior remain binding. Public-key 
 
 | Required function or determination | State | Evidence boundary |
 | --- | --- | --- |
-| Accountable Security owner | Security ownership identified; disposition PENDING | Functional ownership is not approval. |
-| Security Authority | Classification authorized 2026-10-16; final disposition PENDING | Founder / Initial Security Authority explicitly authorized provisional HIGH CI/build classification in the project conversation; no final security approval or risk acceptance. |
+| Accountable Security owner | Security ownership identified; deferral confirmed 2026-10-20 | Functional ownership and deferral are not approval of continued reliance. |
+| Security Authority | Classification authorized 2026-10-16; DEFERRED confirmed 2026-10-20; final substantive disposition outstanding | Founder / Initial Security Authority explicitly confirmed deferral for insufficient mandatory lifecycle, provenance and applicable HIGH-risk assurance evidence; no continued-reliance approval, final Security approval or risk acceptance. |
 | Architecture Authority | PENDING | No acceptance or rejection is recorded. |
 | Affected Engineering/component and Platform ownership review | PENDING | Review scope must follow the affected responsibilities and assessed risk. |
 | Independent review requirement | PENDING CASE-SPECIFIC DETERMINATION | Operating arrangements and practical constraints are confirmed below; §7.6 compliance and the independent-review determination remain pending. |
 | Security Exception applicability | UNDETERMINED | Any mandatory waiver requires the separate §41 process. |
 
-The project conversation identifies the repository owner as the initial Security Authority and Architecture Authority. The separate 2026-10-16 Founder / Initial Security Authority authorization supplies only the provisional classification described above; neither final Security disposition nor Architecture disposition is supplied. If approval in both capacities is later permitted under applicable risk and separation-of-duties requirements, both capacities and their dated evidence must be recorded explicitly. Such approval must not be described as independent review and cannot authorize a self-approved Security Exception.
+The project conversation identifies the repository owner as the initial Security Authority and Architecture Authority. The separate 2026-10-16 Founder / Initial Security Authority authorization supplies only the provisional classification described above. The 2026-10-20 Security Authority determination confirms deferral, not a final substantive Security approval; Architecture disposition remains pending. If approval in both capacities is later permitted under applicable risk and separation-of-duties requirements, both capacities and their dated evidence must be recorded explicitly. Such approval must not be described as independent review and cannot authorize a self-approved Security Exception.
 
 Acceptance requires the applicable Security and Architecture authorities under Decisions §17, with affected-owner participation and any separately triggered review. A generic risk acceptance, ordinary PR approval or AI statement cannot replace a required Security Exception. This record remains Proposed until a separately authorized, evidence-backed lifecycle change occurs.
 
@@ -182,7 +188,7 @@ The overall effectiveness of safeguards remains unverified. Actual branch-protec
 - **Independent-review determination: PENDING CASE-SPECIFIC DETERMINATION.** No universal distinct-reviewer requirement or exemption is inferred; any independently required review remains outstanding despite current personnel constraints.
 - Engineering/component and Platform functions are held by the sole maintainer, but their substantive review evidence remains outstanding. Functional accountability does not establish completion of those reviews.
 - The **HIGH — PROVISIONAL (CI/build scope only)** classification and all provisionally applicable §9 obligations remain unchanged: threat modelling, Security review, negative-path testing, explicit approval, stronger monitoring and recovery evidence. None is completed by this operating-arrangement confirmation.
-- **Security disposition: PENDING. Architecture disposition: PENDING. Security Exception applicability: UNDETERMINED. PR #219 merge authorization: WITHHELD.** Production-release risk remains unclassified.
+- **Security disposition: DEFERRED — confirmed 2026-10-20; final substantive disposition outstanding. Architecture disposition: PENDING. Security Exception applicability: UNDETERMINED. PR #219 merge authorization: WITHHELD.** Production-release risk remains unclassified.
 - Any proposed mandatory security waiver requires the separate §41 process. This confirmation creates no exception authority, and a self-approved Security Exception remains prohibited. Dual-role Security/Architecture authority cannot be relabeled as independent review.
 
 The next accountable determination must identify the assessed duty combinations, evidence of practical constraints, required review functions and outstanding completion evidence. It must not convert this confirmation into residual-risk acceptance or final approval.
@@ -221,7 +227,7 @@ Existing technical evidence and unverified safeguard boundaries remain as record
 | §7.6 compliance | PENDING |
 | Independent-review applicability | PENDING CASE-SPECIFIC DETERMINATION |
 | §9 High-risk requirements | OUTSTANDING; provisionally applicable to CI/build scope |
-| Security disposition | PENDING |
+| Security disposition | DEFERRED — confirmed 2026-10-20; final substantive disposition outstanding |
 | Architecture disposition | PENDING |
 | Security Exception applicability | UNDETERMINED |
 | PR #219 merge authorization | WITHHELD |
@@ -238,13 +244,19 @@ The §7.6 arrangement and seven-stage planning procedure must be reassessed if q
 
 The provisional HIGH CI/build classification must be revisited following additional attributable technical evidence and accountable Security review, including evidence about control effectiveness, likelihood, duty separation or deployment/promotion boundaries. Completion or findings of the provisionally triggered §9 work may require revision; classification must not silently become final or extend to production-release scope. The eventual decision must specify its applicable review obligations and any time bounds. This proposal establishes no acceptance period or exception expiry.
 
+## PR #226 Applicability Boundary
+
+The Founder / Initial Security Authority’s 2026-10-20 determination records that [PR #226](https://github.com/awesomehesman/eCom-Online-Store/pull/226) at `27f2bca6173cc2f321e439be7a057601bb8d0a83` does not introduce or expand these four existing post-expiry signing arrangements. It has **not been established that DEC-0041 independently requires rejection of that PR**. This limited applicability finding does not establish full compliance, resolve the four cases, waive any mandatory requirement or authorize merging PR #226. Its applicable review, evidence-retention, operational and final-approval gates remain separate.
+
+The separate OSS-parent DSA-1024 and ANTLR/JSR-305 SHA-1 findings remain outside DEC-0041’s four-case decision scope. This record neither resolves those findings nor expands its scope to include them.
+
 ## PR #219 Relationship and Registration Status
 
 PR #219's successful CI at `7f02a4d45ebb6fd899b1a33d6f9733b6e4d9873e` is technical evidence only. **Merge authorization: WITHHELD.** This Proposed record neither approves that PR nor establishes that all merge or release gates are satisfied. It does not modify PR #219 or the other related PRs.
 
 **Registration completed:** DEC-0041 0.1.0 was registered in `DECISIONS.md` through [PR #220](https://github.com/awesomehesman/eCom-Online-Store/pull/220), merged into develop at `63cb544d154961603d00596ce9bbf9c7bacfca37`. Historically, the initial 0.1.0 single-file preparation preceded that registration; its pending-registration statements described that earlier stage only.
 
-This 0.4.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that the later provisional classification, operating arrangement or accepted planning procedure was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
+This 0.5.0 amendment changes only DEC-0041 under the authorized scope. `DECISIONS.md` remains unchanged; its historical 0.1.0 registration and pending-classification commentary must not be treated as evidence that the later provisional classification, operating arrangement, accepted planning procedure or confirmed Security deferral was already recorded there. Any required index commentary/history synchronization for this amendment remains a separate follow-up under Decisions §50. Registration does not establish Security acceptance, Architecture acceptance or merge authorization.
 
 ## References
 
@@ -269,6 +281,7 @@ This 0.4.0 amendment changes only DEC-0041 under the authorized scope. `DECISION
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-10-20 | Proposed | Recorded the Founder / Initial Security Authority’s confirmed Security deferral for insufficient mandatory lifecycle, provenance and applicable HIGH-risk assurance evidence; preserved the four-case scope, pending final substantive Security and Architecture dispositions, undetermined exception applicability and withheld merge authorization; recorded the bounded PR #226 applicability finding without approving that PR or including separate DSA-1024/SHA-1 findings. |
 | 0.4.0 | 2026-10-17 | Proposed | Recorded the Founder’s explicit confirmation of operational feasibility and planning-level acceptance of the seven-stage functional-separation procedure, with fixed revisions, attributable evidence and stage checkpoints; preserved pending compliance/review determinations, outstanding §9 obligations, unclassified production-release risk and withheld approvals. |
 | 0.3.0 | 2026-10-16 | Proposed | Recorded confirmed sole-maintainer duty allocation, practical separation constraints and supervised Codex/Kiro assistance; distinguished functional authority from independent human review, preserved unverified safeguards, pending §7.6/review determinations, outstanding §9 obligations and withheld approvals. |
 | 0.2.0 | 2026-10-16 | Proposed | Recorded the Founder / Initial Security Authority’s dated authorization of provisional HIGH CI/build risk, separate artifact exposures, outstanding §9 obligations and §7.6 assessment; preserved pending final dispositions, unclassified production-release risk and withheld merge authorization; corrected current registration status while retaining its history. |
