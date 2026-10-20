@@ -1,12 +1,10 @@
 package com.enterprise.fashion.ecommerce.identity.application.port.out;
 
-import com.enterprise.fashion.ecommerce.identity.application.SessionRevocationOutcome;
-
 public interface IdentitySessionRevocationPort {
-
     /**
-     * Attempts revocation and reports the authoritative post-operation observation.
-     * Confirmed absence does not attribute deletion or guarantee permanent absence.
+     * Attempts deletion of only the supplied Session. True means the persistence call
+     * completed, not that a record existed or absence was confirmed. False means
+     * infrastructure uncertainty. Programming errors are not infrastructure outcomes.
      */
-    SessionRevocationOutcome revoke(String sessionIdentifier);
+    boolean revoke(String sessionIdentifier);
 }

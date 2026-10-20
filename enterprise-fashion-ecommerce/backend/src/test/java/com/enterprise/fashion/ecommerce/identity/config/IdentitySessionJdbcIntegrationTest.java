@@ -74,6 +74,9 @@ class IdentitySessionJdbcIntegrationTest {
     @Autowired
     private ObserveIdentitySession observations;
 
+    @Autowired
+    private RevokeIdentitySession revocations;
+
     @Test
     void observesActiveAndRevokedSessionsWithoutChangingStoredStateOrSecurityContext() {
         SessionRepository<Session> repository = sessionRepository(sessionRepository);
@@ -100,7 +103,7 @@ class IdentitySessionJdbcIntegrationTest {
         assertThat(observations.observe(external.getId()))
                 .isEqualTo(SessionObservation.PRESENT);
 
-        revocationAdapter.revoke(created.getId());
+        revocations.revoke(created.getId());
         assertThat(observations.observe(created.getId()))
                 .isEqualTo(SessionObservation.ABSENT);
     }
@@ -157,6 +160,30 @@ class IdentitySessionJdbcIntegrationTest {
                 .isEqualTo(SessionObservation.UNCERTAIN);
     }
 
+    @Test
+    void revocationConfirmationUsesReadOnlyObservationAndPreservesInfrastructureUncertainty() {
+        SessionRepository<Session> repository = sessionRepository(sessionRepository);
+        Session created = repository.createSession();
+        repository.save(created);
+        var tracked = org.mockito.Mockito.spy(sessionRepository);
+        var deleteOnly = new SpringSessionJdbcRevocationAdapter(tracked);
+        var readOnly = new SpringSessionJdbcObservationAdapter(JdbcClient.create(dataSource), TABLE_NAME,
+                Clock.systemUTC());
+        assertThat(new RevokeIdentitySession(deleteOnly, readOnly).revoke(created.getId()))
+                .isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
+        org.mockito.Mockito.verify(tracked, org.mockito.Mockito.never()).findById(org.mockito.Mockito.anyString());
+
+        var unavailableObservation = new SpringSessionJdbcObservationAdapter(JdbcClient.create(dataSource),
+                "identity.missing_session_table", Clock.systemUTC());
+        assertThat(new RevokeIdentitySession(deleteOnly, unavailableObservation).revoke(created.getId()))
+                .isEqualTo(SessionRevocationOutcome.UNCERTAIN);
+        var unavailableRepository = new JdbcIndexedSessionRepository(jdbcTemplate,
+                new TransactionTemplate(transactionManager));
+        unavailableRepository.setTableName("identity.missing_session_table");
+        assertThat(new RevokeIdentitySession(new SpringSessionJdbcRevocationAdapter(unavailableRepository), readOnly)
+                .revoke(created.getId())).isEqualTo(SessionRevocationOutcome.UNCERTAIN);
+    }
+
     private Map<String, Object> storedSession(String identifier) {
         return jdbcTemplate.queryForMap("SELECT * FROM identity.spring_session WHERE session_id = ?", identifier);
     }
@@ -209,8 +236,23 @@ class IdentitySessionJdbcIntegrationTest {
         assertThat(rowCount("identity.spring_session", "session_id", created.getId())).isOne();
         assertThat(attributeRowCount(created.getId())).isOne();
 
-        SessionRevocationOutcome outcome = new RevokeIdentitySession(revocationAdapter)
-                .revoke(created.getId());
+        Session other = repository.createSession();
+        other.setAttribute("untouched", "other-session");
+        repository.save(other);
+        var otherBefore = storedSession(other.getId());
+        var otherAttributes = storedAttributes(other.getId());
+        long rowCountBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM identity.spring_session", Long.class);
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        SessionRevocationOutcome outcome = revocations.revoke(created.getId());
+        assertThat(observations.observe(created.getId())).isEqualTo(SessionObservation.ABSENT);
+        assertThat(revocations.revoke(created.getId())).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
+        assertThat(storedSession(other.getId())).isEqualTo(otherBefore);
+        assertThat(storedAttributes(other.getId())).isEqualTo(otherAttributes);
+        assertThat(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM identity.spring_session", Long.class))
+                .isEqualTo(rowCountBefore - 1);
+        assertThat(SecurityContextHolder.getContext().getAuthentication()).isSameAs(authentication);
+
 
         assertThat(outcome).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
         assertThat(repository.findById(created.getId())).isNull();
@@ -224,8 +266,7 @@ class IdentitySessionJdbcIntegrationTest {
         SessionRepository<Session> repository = sessionRepository(sessionRepository);
         assertThat(repository.findById(absentSessionIdentifier)).isNull();
 
-        SessionRevocationOutcome outcome = new RevokeIdentitySession(revocationAdapter)
-                .revoke(absentSessionIdentifier);
+        SessionRevocationOutcome outcome = revocations.revoke(absentSessionIdentifier);
 
         assertThat(outcome).isEqualTo(SessionRevocationOutcome.CONFIRMED_ABSENT);
         assertThat(repository.findById(absentSessionIdentifier)).isNull();
