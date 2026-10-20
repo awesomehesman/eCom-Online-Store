@@ -1,0 +1,296 @@
+---
+openapi: 3.1.0
+info:
+  title: Current-Session Logout API
+  version: 1.0.0
+  summary: Identity-owned browser current-session logout Contract
+  description: Approved executable HTTP wire Contract. The repository owner confirmed
+    Identity Owner / Engineering and Accountable Security approval on 2026-10-21 in
+    separately recorded capacities. The same sole maintainer performs both capacities;
+    this is not independent human review. The companion current-session-logout-contract.md
+    governs workflow and authority guidance. This Contract authorizes the bounded
+    implementation direction, not claims of completed runtime integration tests, verified
+    deployment compatibility, production or release readiness. Implementation verification
+    and deployment obligations remain outstanding.
+  x-status: Approved
+  x-owner: Identity
+  x-last-updated: '2026-10-21'
+  x-authoritative: false
+  x-approvals:
+  - capacity: Identity Owner / Engineering
+    approver: Repository owner / sole maintainer
+    decision: APPROVED
+    date: '2026-10-21'
+  - capacity: Accountable Security
+    approver: Repository owner / sole maintainer
+    decision: APPROVED
+    date: '2026-10-21'
+servers:
+- url: https://{host}
+  variables:
+    host:
+      default: api.example.invalid
+      description: Environment-specific HTTPS API host; no deployment is selected.
+tags:
+- name: Current Session Logout
+paths:
+  "/api/v1/identity/logout":
+    post:
+      tags:
+      - Current Session Logout
+      operationId: logoutCurrentIdentitySession
+      summary: Terminate only the current server-side Session
+      description: |-
+        Public with respect to Principal Authentication only. Apply the document-level x-origin-validation and x-request-validation rules in full. Mandatory CSRF validation uses the XOR-masked acquisition token in X-XSRF-TOKEN with its __Host-XSRF-TOKEN cookie; never submit the raw cookie token. No body, query parameters or arbitrary Session/Account target are accepted. Resolve only the current browser credential through the HttpSessionIdResolver shared with Spring Session. No HTTP Session creation, framework lookup, renewal or persistence. Authoritative SELECT-only Identity observation remains permitted. One valid credential invokes RevokeIdentitySession; reliable no-credential resolution returns 204. Malformed or ambiguous credentials return 400 without selecting any target. Session-resolution uncertainty, failed deletion, continued presence or uncertain confirmation returns 503. Clear the local request security context during logout handling without persisting an empty context; cleanup never proves termination. Preserve unrelated Sessions. Optional cookie expiry uses the configured Session cookie identity/scope and never changes uncertainty into success. Retries use current authority. Point-in-time absence does not solve every cross-request stale-session resurrection.
+        Deterministic precedence: origin validation (403), CSRF validation (403), request-shape validation (400), credential resolution (400 malformed/ambiguous; 503 Session infrastructure uncertainty), revocation and authoritative confirmation (204 only confirmed absent; otherwise 503). Rejections invoke no revocation. Origin rejection cannot reach CSRF/token generation. Mandatory CSRF is retained for every logout request passing origin validation; no lower-priority condition bypasses it.
+      security: []
+      x-csrf-required: true
+      parameters:
+      - "$ref": "#/components/parameters/CorrelationId"
+      - "$ref": "#/components/parameters/MaskedCsrfToken"
+      responses:
+        '204':
+          description: Authoritative post-revocation observation confirms absence,
+            or absence of an existing current Session is reliably established. No
+            body. A null local Session alone is insufficient when lookup failed or
+            uncertainty was hidden upstream. This is point-in-time evidence, not a
+            guarantee against every concurrent stale-session resurrection.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+        '403':
+          description: Origin validation or mandatory CSRF validation rejected the
+            request, in that order. No Session revocation. Safe Problem Details reveals
+            no origin configuration, submitted credentials or internal security details.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/ProblemDetails"
+                - properties:
+                    status:
+                      const: 403
+        '503':
+          description: 'Authoritative termination cannot be confirmed: Session lookup
+            is uncertain, deletion fails, confirmation is uncertain, or the target
+            remains present. Return this outcome even if local context cleanup succeeds.
+            Do not fabricate success. No retry delay is selected.'
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/ProblemDetails"
+                - properties:
+                    status:
+                      const: 503
+              example:
+                type: about:blank
+                title: Service Unavailable
+                status: 503
+                detail: Logout could not be confirmed.
+        '400':
+          description: Forbidden non-empty body, any query/target parameters, or malformed/ambiguous
+            Session credentials. Applied after origin and CSRF validation. Non-empty
+            content is 400 regardless of Content-Type; an empty body ignores unused
+            Content-Type. Session infrastructure uncertainty is not 400.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/ProblemDetails"
+                - type: object
+                  properties:
+                    status:
+                      const: 400
+  "/api/v1/identity/csrf":
+    get:
+      tags:
+      - Current Session Logout
+      operationId: acquireCurrentSessionLogoutCsrfToken
+      summary: Acquire a masked CSRF request token without using an HTTP Session
+      description: |-
+        Anonymous same-origin CSRF acquisition, subject to the document-level x-origin-validation and x-request-validation rules. Use CookieCsrfTokenRepository and return only the XOR-masked request token supplied by XorCsrfTokenRequestAttributeHandler, never the raw CSRF cookie token. No HTTP Session creation, lookup, renewal, persistence or authentication Session credential resolution. CSRF cookie issuance is not Authentication. No pre-existing CSRF token is required for this safe GET. No CORS relaxation; origin enforcement does not rely on CORS or SameSite alone. HTTPS, trusted-proxy handling, host-only __Host- cookie prefix enforcement and the explicit cookie attributes require deployment verification and Security approval.
+        Deterministic precedence: origin validation (403), request-shape validation (400), then token acquisition (200). Reject origins before generating or loading a token for issuance. No query parameters or request body; unused Content-Type on a truly empty request is ignored. No supported request representation and no 415 response.
+      security: []
+      x-csrf-required: false
+      parameters:
+      - "$ref": "#/components/parameters/CorrelationId"
+      responses:
+        '200':
+          description: Masked CSRF token and CSRF cookie issued without HTTP Session
+            access. No Session identifiers or Authentication credentials.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+            Set-Cookie:
+              "$ref": "#/components/headers/CsrfCookie"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MaskedCsrfToken"
+        '400':
+          description: Any non-empty body or query/target parameter, after origin
+            validation. Non-empty content is 400 regardless of media type; a truly
+            empty request ignores unused Content-Type.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/ProblemDetails"
+                - type: object
+                  properties:
+                    status:
+                      const: 400
+        '403':
+          description: The common fail-closed origin policy rejected acquisition,
+            including unavailable trusted-origin configuration. No token issuance.
+            This does not require a previously acquired CSRF token. Return only safe
+            generic Problem Details.
+          headers:
+            Cache-Control:
+              "$ref": "#/components/headers/NoStore"
+            X-Correlation-ID:
+              "$ref": "#/components/headers/CorrelationId"
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/ProblemDetails"
+                - type: object
+                  properties:
+                    status:
+                      const: 403
+components:
+  parameters:
+    CorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: Diagnostic correlation only; never a Session reference or authority.
+        Propagate a valid value or generate one at the trusted boundary.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: "^[A-Za-z0-9._~-]+$"
+    MaskedCsrfToken:
+      name: X-XSRF-TOKEN
+      in: header
+      required: false
+      description: Mandatory for successful POST processing. Missing/invalid/mismatched
+        CSRF evidence produces 403 before content or credential processing. Declared
+        optional structurally so missing evidence is classified by the CSRF control
+        rather than generic required-header validation. Value is the XOR-masked request
+        token from acquisition, not the raw cookie token.
+      schema:
+        type: string
+        minLength: 1
+  headers:
+    CorrelationId:
+      required: true
+      description: Safe diagnostic correlation, containing no credentials or Session
+        identifiers.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: "^[A-Za-z0-9._~-]+$"
+    NoStore:
+      required: true
+      description: Prevent storage of logout and security outcome responses.
+      schema:
+        type: string
+        const: no-store
+    CsrfCookie:
+      required: true
+      description: CookieCsrfTokenRepository supplies __Host-XSRF-TOKEN. Secure=true;
+        HttpOnly=true; Path=/; Domain omitted; SameSite=Strict. Never expose its raw
+        value in JSON or examples. No persistent cookie lifetime is selected. Settings
+        require Security approval and HTTPS deployment verification, including browser
+        __Host- enforcement and trusted same-origin frontend compatibility.
+      schema:
+        type: string
+  schemas:
+    ProblemDetails:
+      type: object
+      additionalProperties: false
+      description: RFC 9457 Problem Details. Every member must exclude Session identifiers,
+        credentials, protected existence, database details, stack traces and internal
+        infrastructure errors. Public instance references must not contain sensitive
+        request URLs or identifiers.
+      required:
+      - type
+      - title
+      - status
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          maxLength: 2048
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        status:
+          type: integer
+          enum:
+          - 400
+          - 403
+          - 503
+        detail:
+          type: string
+          maxLength: 1024
+        instance:
+          type: string
+          format: uri-reference
+          maxLength: 2048
+    MaskedCsrfToken:
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      properties:
+        token:
+          type: string
+          minLength: 1
+          description: XOR-masked request token supplied by the configured Spring
+            Security request handler. Not the raw CSRF cookie token; not an Authentication
+            credential.
+x-origin-validation: |-
+  Apply this fail-closed origin policy identically to acquisition and logout before token issuance or revocation. Trusted origin comes from an explicitly configured canonical public HTTPS application origin, not arbitrary Host, Forwarded or X-Forwarded-* request headers. Configuration must be a valid origin without userinfo, path, query or fragment. Any proxy metadata used must be validated from configured trusted proxies; it cannot independently establish trust. If trusted-origin configuration or its reliable interpretation is unavailable, reject with safe 403, not success, and expose no configuration details. This origin-policy rejection is distinct from Session infrastructure uncertainty, which remains 503.
+  Require exact scheme, host and effective-port equality after standards-based case/default-port normalization; no wildcard, suffix or same-site substitution. Reject duplicate, multiple, ambiguous, malformed, opaque or cross-origin Origin/Referer signals. Origin, when present, must be one valid non-null origin matching the trusted origin. Referer, when present, must be one valid absolute HTTP(S) URL without userinfo or fragment whose origin matches; its path/query is not used for trust and is never echoed. A conflicting or malformed Referer rejects even when Origin matches. If Origin is absent, a valid matching Referer is mandatory. If both are absent, reject. Origin: null always rejects and cannot fall back to Referer.
+  Sec-Fetch-Site, if present, must be a single recognized value. Reject cross-site and same-site because neither proves the required same origin; reject malformed, duplicate or unrecognized values. same-origin corroborates but never replaces the Origin/Referer requirement. none is neutral and is accepted only with otherwise valid matching Origin or Referer; it never grants trust alone. Missing Sec-Fetch-Site is allowed only when the Origin/Referer rules succeed. Reject conflicting signals. CORS, SameSite cookies, anonymous Authentication and a valid CSRF token do not replace these checks. A rejected origin produces safe 403 Problem Details with no trusted-origin configuration, raw origin values or internal validation details.
+x-request-validation: Both operations accept no request body or query parameters.
+  A genuinely zero-byte body is valid with no Content-Type, application/json, or any
+  other otherwise unused Content-Type. Any non-empty body is forbidden (400), regardless
+  of media type, including whitespace or JSON null. Any query parameter is forbidden
+  (400), including target Session/Account parameters. No alternate target parameters
+  are accepted. No request representation is supported, so 415 is not emitted. Do
+  not infer emptiness solely from Content-Length; check actual content safely under
+  existing request-size controls without Session access. Body/read infrastructure
+  failure must not be mislabeled as invalid content; unexpected infrastructure failures
+  remain governed safe API failures, not this Contract's content-rejection branch.
