@@ -3,6 +3,10 @@
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>true</verify-signatures>
+      <key-servers>
+         <key-server uri="https://keyserver.ubuntu.com"/>
+         <key-server uri="https://keys.openpgp.org"/>
+      </key-servers>
       <ignored-keys>
          <ignored-key id="0CC0B712FEE75827" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="1CF0293FA53CA458" reason="Key couldn't be downloaded from any key server"/>
@@ -1015,6 +1019,19 @@
          </artifact>
          <artifact name="tomlj-1.0.0.pom">
             <sha256 value="ad8192007f73450c51c880305f14dd22ac551449b721b585fc51231422cb0913" origin="Independently downloaded from Maven Central, matched Maven Central's published SHA-1 sidecar, and independently calculated SHA-256"/>
+         </artifact>
+      </component>
+      <component group="org.xmlunit" name="xmlunit-core" version="2.10.4">
+         <artifact name="xmlunit-core-2.10.4.jar">
+            <sha256 value="208e0cee82aedd9183937e4b9ae44b83884179f724a706bef5795477acfcca91" origin="Independently matched against Maven Central SHA-256 sidecar"/>
+         </artifact>
+         <artifact name="xmlunit-core-2.10.4.pom">
+            <sha256 value="40c5517103cf152f087a3b6dcaaa530ece61f03d7f294491ff882d936bad065f" origin="Independently matched against Maven Central SHA-256 sidecar"/>
+         </artifact>
+      </component>
+      <component group="org.xmlunit" name="xmlunit-parent" version="2.10.4">
+         <artifact name="xmlunit-parent-2.10.4.pom">
+            <sha256 value="83d83392b253c5bc07a512a08d8b794623e7d4c5bbbba0c4db91f4ce378091e2" origin="Independently matched against Maven Central SHA-256 sidecar"/>
          </artifact>
       </component>
    </components>
