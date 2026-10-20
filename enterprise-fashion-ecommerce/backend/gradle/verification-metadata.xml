@@ -3,6 +3,10 @@
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>true</verify-signatures>
+      <key-servers>
+         <key-server uri="https://keyserver.ubuntu.com"/>
+         <key-server uri="https://keys.openpgp.org"/>
+      </key-servers>
       <ignored-keys>
          <ignored-key id="0CC0B712FEE75827" reason="Key couldn't be downloaded from any key server"/>
          <ignored-key id="1CF0293FA53CA458" reason="Key couldn't be downloaded from any key server"/>
