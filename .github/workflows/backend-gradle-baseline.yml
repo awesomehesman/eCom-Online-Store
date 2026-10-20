@@ -2,10 +2,8 @@ name: Backend Gradle baseline
 
 on:
   pull_request:
-    paths:
-      - "enterprise-fashion-ecommerce/backend/**"
-      - ".github/workflows/backend-gradle-baseline.yml"
-      - ".github/dependabot.yml"
+    branches:
+      - develop
   push:
     branches:
       - develop
