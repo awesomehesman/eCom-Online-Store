@@ -1,7 +1,7 @@
 # DEC-0009 — Fresh bounded strict-IDNA2008 evaluation authorization record
 
-- Version: 0.2.0.
-- Status: Approved bounded evaluation authorization; pre-execution gates incomplete; execution withheld.
+- Version: 0.3.0.
+- Status: Approved bounded evaluation authorization; platform direction and maintenance assignments recorded; technical gates incomplete; execution withheld.
 - Decision date: 2026-10-26.
 - Accountable decision-maker: repository owner, acting separately in Identity, Security, Architecture and Engineering capacities.
 - Date: 2026-10-26 (Africa/Johannesburg).
@@ -16,7 +16,7 @@
 
 Can this exact composition demonstrate the complete DEC-0005 strict IDNA2008 profile with a supportable public codec, coherent Unicode data, safe resource behavior and explicit maintenance ownership?
 
-This record documents the repository owner’s explicit approval on 2026-10-26 of one new, separately bounded evidence-gathering evaluation in four distinct accountable capacities, as recorded in §9. The approval provenance is the repository owner’s explicit instruction in this task; no signature or independent reviewer is invented. This is evaluation authorization only, not Decision Record acceptance, dependency admission or implementation selection. All §6 pre-execution gates remain incomplete: candidate artifact acquisition, compilation and executable probes must not begin yet. Reviewing or merging this record does not complete those gates. DEC-0009 remains version 0.8.0 Proposed and non-authoritative; this record changes neither it nor the Decision Index.
+This record documents the repository owner’s explicit approval on 2026-10-26 of one new, separately bounded evidence-gathering evaluation in four distinct accountable capacities, as recorded in §9. The approval provenance is the repository owner’s explicit instruction in this task; no signature or independent reviewer is invented. This is evaluation authorization only, not Decision Record acceptance, dependency admission or implementation selection. The remaining §6 technical pre-execution gates are incomplete; Decisions A and B in §10 record platform direction and accepted maintenance ownership: candidate artifact acquisition, compilation and executable probes must not begin yet. Reviewing or merging this record does not complete those gates. DEC-0009 remains version 0.8.0 Proposed and non-authoritative; this record changes neither it nor the Decision Index.
 
 ## 2. Governing sources and evidence traceability
 
@@ -65,7 +65,7 @@ ICU/Unicode licensing includes Unicode-3.0 and applicable bundled notices; Libid
 | 0.5.0 ICU internal codec; E2 Outcome B | Uses no `com.ibm.icu.impl.Punycode`; ICU supplies public Unicode facilities, Libidn2 supplies public raw codec calls. | Public accessibility alone does not establish defensible support/remediation. Verify stability, security handling and upgrade options. |
 | 0.7.0 native arrangement; E3 Outcome B | Does not ask native lookup/registration to provide the complete profile. A new, explicit scope would cover repository-owned contextual, ASCII and domain-aware bidi validation, previously prohibited. | Native packaging/process-failure risks persist, and custom validator maintenance must be accepted for investigation. |
 
-The previous authorizations remain consumed/exhausted. This new authorization neither reopens them nor reclassifies their outcomes. Earlier negative findings remain specific to the evaluated arrangements. The owner approved investigation of this new responsibility allocation; pre-execution inventory and assignment review remains incomplete. Approval is not evidence that the previous blockers have been solved.
+The previous authorizations remain consumed/exhausted. This new authorization neither reopens them nor reclassifies their outcomes. Earlier negative findings remain specific to the evaluated arrangements. The owner approved investigation of this new responsibility allocation; pre-execution technical inventory review remains incomplete. Approval is not evidence that the previous blockers have been solved.
 
 ## 5. Approved finite evaluation boundary
 
@@ -83,14 +83,14 @@ The following pre-execution gates remain incomplete and are not assumed facts. B
 
 | Precondition | Required evidence before probes | Current disposition |
 | --- | --- | --- |
-| Development platform | Exact OS/release, CPU, native ABI, libc where applicable and execution containment. | Pending |
-| Deployment-representative platform | Exact OS/CPU/ABI/libc and why it represents the intended deployment; no deployment topology selected by default. | Pending |
+| Development platform | Exact OS/release, CPU, native ABI, libc where applicable and execution containment. | Partially established by §11; technical approval pending |
+| Deployment-representative platform | Exact OS/CPU/ABI/libc and why it represents the intended deployment. | Linux AMD64/Java 21/container direction approved in Decision A; exact image/runtime/ABI pending |
 | Toolchains | Exact Java 21 vendor/patch/build, JNI headers, C compiler/linker versions, flags, build utilities and any platform SDK. | Pending |
 | Native dependency closure | Exact Libidn2 source revision, configuration, system/transitive library versions and hashes; allocation, loading and ABI contracts. Auxiliary components cannot introduce a second candidate or change the nominated versions. | Pending |
 | Provenance and integrity | Source/binary URLs, immutable revisions, locally calculated cryptographic hashes and comparison basis, signatures where available, build-input/output manifest and reproducible acquisition/build commands. Distinguish publisher claims from verified bytes. | Pending |
 | Unicode/API inventory | Exact Unicode 17.0.0 files, ICU source/API inventory, runtime/data version checks and raw-codec exported symbols. | Pending |
 | Licensing and security | Exact licenses/notices, linking/redistribution implications, current vulnerability/support review, trust boundaries, resource hypotheses and safe native execution plan. | Pending |
-| Scope and ownership | Reviewed corpus, run limits, failure injection plan and accountable maintenance responsibilities from §9. | Pending |
+| Scope and ownership | Reviewed corpus, run limits, failure injection plan and accountable maintenance responsibilities from §9. | Ownership accepted in Decision B; technical plan review pending |
 
 Missing preconditions withhold candidate artifact acquisition, compilation and probes. If they cannot be established within the finite scope, report outcome C; an evidenced incompatible requirement may instead support B. No speculative platform, JDK patch, compiler, ABI or artifact hash is fabricated here.
 
@@ -133,7 +133,7 @@ Return exactly one terminal outcome:
 
 Any terminal outcome consumes this new single-use authorization. No outcome automatically selects the implementation, accepts DEC-0009, admits dependencies, approves Architecture or authorizes further execution. Safe reporting is included in the budget; reserve time for it and report partial evidence if limits prevent completeness.
 
-## 9. Accountable review and proposed ongoing ownership
+## 9. Accountable review and accepted ongoing ownership
 
 The repository owner explicitly confirmed the following four separate approval decisions on 2026-10-26. The same maintainer performs all four capacities; these are separate accountable dispositions, not four independent reviewers. This record transcribes the owner’s decisions and does not grant approval on the owner’s behalf. No independent human review, external organizational approval or signature is claimed.
 
@@ -146,21 +146,63 @@ The repository owner explicitly confirmed the following four separate approval d
 
 | Ongoing responsibility | Proposed accountable owner and participation | Acceptance |
 | --- | --- | --- |
-| Protocol validation | Identity, with Security correctness review and Engineering implementation/testing responsibility. | Pending |
-| Unicode data upgrades | Identity, with Engineering reproducible data/version verification and Security compatibility review. | Pending |
-| Native bridge maintenance | Engineering, with Identity boundary ownership and Security native-safety review. | Pending |
-| Vulnerability remediation | Engineering for component triage/patch delivery, with Security risk/remediation review and Identity decisions on identifier effects. | Pending |
-| Deployment compatibility | Engineering for native build/platform compatibility, with Architecture review and Identity identifier-compatibility confirmation. | Pending |
+| Protocol validation | Identity accountable; Engineering implements/tests; Security reviews correctness. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
+| Unicode data upgrades | Identity accountable; Engineering verifies data/build reproducibility; Security reviews semantic/security effects. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
+| Native bridge maintenance | Engineering accountable; Identity preserves semantic boundaries; Security reviews native safety; Architecture reviews boundary changes. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
+| Vulnerability monitoring and remediation | Security accountable; Engineering delivers verified fixes; Identity reviews identifier effects; Architecture reviews material runtime changes. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
+| Deployment/ABI compatibility | Engineering accountable; Architecture reviews deployment/failure boundaries; Security reviews loading/supply chain. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
+| Identifier compatibility and rollback | Identity accountable; Engineering supplies comparison/rollback evidence; Security reviews collision/withdrawn-access safety; Architecture reviews material changes. | ACCEPTED — Decision B, repository owner, 2026-10-26 |
 
-These ongoing assignments remain proposed and pending confirmation, distinct from the four approved evaluation dispositions. Before acquisition, compilation or probes, record attributable acceptance of protocol and native maintenance ownership and the other §6 gate reviews. The owner’s scope approvals do not establish available staff, completed inventory review or accepted ongoing assignments. Lack of an accountable protocol/native maintenance basis continues to withhold execution.
+Decision B accepts these capacity-level assignments. No independent human review or additional staffing is inferred. Remaining technical inventories, resource/failure plans and integrity/licensing reviews must still be recorded and approved before acquisition, compilation or probes.
 
 ## 10. Separate governance and next review step
 
-The next step is to review and record the incomplete §6 inventories, integrity plan, report destination and maintenance assignments. This task records authorization decisions only and executes no evaluation. No amendment of DEC-0009, DECISIONS.md, Approved Specifications or ADRs occurs in this step.
+The next step is to review and record the incomplete §6 inventories, integrity plan, report destination and accepted maintenance responsibilities. This task records authorization decisions only and executes no evaluation. No amendment of DEC-0009, DECISIONS.md, Approved Specifications or ADRs occurs in this step.
 
 DEC-0009 remains v0.8.0 Proposed. Previous authorizations remain exhausted; this is a new, separately bounded evaluation authorization. No implementation strategy is selected. No dependency admission, production implementation, login capability, production Architecture change, release readiness or independent human review is granted or claimed. DEC-0001 admission, including native/system artifacts, remains separate. Material native Architecture adoption requires applicable Architecture approval, an Accepted ADR and canonical Architecture synchronization before affected production implementation. A scratch evaluation does not establish that adoption.
 
 Even outcome A would require separate DEC-0009 acceptance with Identity ownership confirmation, Security and Architecture approval and Engineering review, followed by applicable dependency admission and separately authorized implementation. Canonicalization alone supplies no lookup ownership, verified email, credential validity, Authentication, Principal, Session or Authorization truth.
+
+## 10A. Repository-owner platform and maintenance decisions
+
+The repository owner explicitly approved Decisions A and B on 2026-10-26 through the instruction to record them. The same maintainer acts in separate accountable capacities; no independent human review, signature or production approval is claimed. These decisions supplement, rather than replace, the four §9 investigation approvals.
+
+| Decision | Disposition and attribution | Approved boundary |
+| --- | --- | --- |
+| A — Evaluation platform | APPROVED — repository owner in Architecture capacity, with Engineering platform and Security boundary responsibilities; 2026-10-26. | Linux AMD64, Java 21, containerized deployment-representative evaluation, with Azure Container Apps as the working hosting assumption. Evaluation only: not production hosting selection or an Accepted production Architecture ADR. Exact Linux distribution, image, JVM patch, libc/ABI and native loading configuration remain subject to technical verification and review. |
+| B — Maintenance ownership | APPROVED — repository owner separately in Identity, Engineering and Security accountable capacities, with Architecture supporting review; 2026-10-26. | All six accepted assignments and supporting responsibilities in §9. Acceptance of ownership does not approve an unverified toolchain, dependency configuration or executable plan. |
+
+## 10B. Consolidated technical assessment — 2026-10-26
+
+The following observations use read-only inspection in the original workspace. Recommendations are explicitly unapproved. No candidate acquisition, installation, compilation, conformance probe or experimental code creation occurred.
+
+| Prerequisite | Evidence, proposed configuration and remaining gap | Gate |
+| --- | --- | --- |
+| Development OS/JDK | macOS 26.5.2 build 25F84, arm64; Temurin 21.0.6+7-LTS at `/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home`, with `javac 21.0.6` and Darwin JNI headers. Default Java is 23; later experiments must explicitly select Java 21. Installed patch is an observation, not current security/support approval. | PARTIALLY SATISFIED |
+| Compiler/linker/build | Apple Clang 17.0.0 (`clang-1700.4.4.1`), arm64 Darwin target; Apple linker `ld-1230.1`; GNU Make 3.81; application Wrapper pins Gradle 8.14.5 but is not needed to admit scratch components. No build was run. | PARTIALLY SATISFIED |
+| SDK configuration | `xcode-select` points to `/Applications/Xcode.app/Contents/Developer`; its SDKSettings.plist reports macOS SDK 26.1. CommandLineTools `MacOSX.sdk` resolves to `MacOSX26.5.sdk`, version 26.5. Earlier automatic SDK lookup failed despite these files existing. Proposed: explicitly pair Xcode Clang with the Xcode SDK 26.1; exact sysroot, linker/header paths and suitability require review, not an assumed successful build. | PARTIALLY SATISFIED |
+| Deployment-representative container | Decision A establishes Linux AMD64/Java 21 and the ACA working assumption. Proposed unapproved base: official `eclipse-temurin:21-jdk-noble`, Ubuntu 24.04 family, requested as `linux/amd64`. This mutable tag is a discovery reference only: resolve immutable image/index and AMD64 manifest digests, exact JDK vendor/patch, OS packages and libc before approval. No image was pulled or inspected. | PARTIALLY SATISFIED |
+| Container execution platform | An AMD64 host or explicitly reviewed emulation is needed on the arm64 development machine. Exact engine/host versions, CPU mode, availability, containment and fidelity are not established. No cloud deployment or container runtime changes are authorized. | BLOCKED |
+| ABI/JNI loading | Proposed Linux ELF x86-64/glibc shared library, compiled against that image's reviewed headers/toolchain and loaded by the same Java 21 ABI. Darwin dylibs are not Linux artifacts. Pin compiler, linker, glibc/libstdc++ if used, and all transitive symbols; use a controlled absolute load path, no ambient search-path dependency, non-root/read-only runtime and bounded writable scratch. Verify missing/incorrect-architecture library failures in the later harness. Exact libc, SONAMEs, loader paths and flags remain pending. | BLOCKED |
+| Candidate dependency configuration | Fixed ICU4J 78.3 public APIs, Unicode 17.0.0, Libidn2 2.3.8 raw codec, owned minimal JNI and strict validator remain unchanged. Proposed native configuration uses the release tarball's bundled libunistring subset (`--with-included-libunistring`), with optional locale/message features disabled where supported. Exact configure flags and whether iconv/gettext/system libraries remain linked must be verified from tagged build sources before approval. No guessed dependency closure or implicit system package is admitted. | PARTIALLY SATISFIED |
+| Artifact inventory/integrity | Require ICU binary/source JARs and POM from Maven Central; Unicode IDNA/UCD files from versioned unicode.org sources; Libidn2 release archive/signature from GNU and tagged source provenance; container digests and a package/toolchain manifest. Before acquisition, review immutable identities, expected SHA-256/signatures and trusted signer basis; after separately permitted acquisition, compute local hashes/verify signatures before building. Historical checksums do not verify newly acquired bytes. Exact manifest/hashes still pending. | PARTIALLY SATISFIED |
+| Licensing/maintenance | Review ICU/Unicode notices, Libidn2 library LGPLv3-or-later/GPLv2-or-later alternatives, distinct tool/test licenses, bundled libunistring and container/JDK/system package terms. Proposed LGPL use and dynamic linking are recommendations only; record redistribution, notices, source/relinking implications as applicable. Security owns current vulnerability/support assessment; no clearance or guarantee is claimed. | PARTIALLY SATISFIED |
+| Maintenance ownership | Six capacity-level accountable assignments accepted by Decision B; named additional reviewers or independent review are not claimed. | SATISFIED |
+| Resource plan | Proposed, not approved: 1 CPU and 2 GiB total container memory; child JVM heap 512 MiB; maximum 60 seconds per probe process and 30 minutes per suite; 64 KiB hostile input cap, 100,000 generated cases with fixed seeds and at most four concurrent callers. Include scalar-wide data verification separately, in bounded batches within suite limits. Native allocations share the container limit. These are harness limits, not identifier acceptance rules or production policy; report cases beyond the envelope unexecuted. Overall five engineering days/40 aggregate person-hours remains unchanged, including reporting. | PARTIALLY SATISFIED |
+| Synthetic corpus/failures | Proposed: source-attributed vectors for all §7 clauses, contextual rules, RTL/ASCII domains, fake A-labels, supplementary/unassigned scalars, no-mapping distinctions, encoded boundaries and malformed UTF-16. Fixed-seed mutations and repeated/concurrent runs; explicit expected outcomes independent of candidate output. Disposable child processes for native faults; test load/ABI, allocation/error and cleanup failures without production data. Final vector manifest, iteration allocation and safe fault injection need review. | PARTIALLY SATISFIED |
+| Report destination | Proposed future durable destination: `specifications/decisions/evidence/DEC-0009/strict-idna-composition-evaluation-2026-10-26.md`, with actual execution dates inside the report; this is a reserved proposed name, not an assertion of execution date. No file created. Destination acceptance and report-writing scope remain pending. | PARTIALLY SATISFIED |
+
+Documentary anchors for recommendations: [official Temurin image manifest](https://github.com/docker-library/official-images/blob/master/library/eclipse-temurin), [Adoptium containers](https://adoptium.net/installation/containers/), [ACA container requirements](https://learn.microsoft.com/en-us/azure/container-apps/containers) and [Libidn2 2.3.8 dependency inventory](https://gitlab.com/libidn/libidn2/-/raw/v2.3.8/DEPENDENCIES.md). These identify candidate platform/build directions, not verified local image contents, current support clearance or approved configurations.
+
+### Remaining explicit owner dispositions
+
+1. Engineering/Architecture: approve the exact development SDK/sysroot/toolchain pairing and AMD64 execution host or emulation arrangement after technical verification.
+2. Architecture/Engineering/Security: approve the immutable Linux AMD64 image, exact JVM patch, libc/ABI, native load configuration and containment. Decision A already approves the broad platform direction and must not be requested again.
+3. Engineering/Security: approve the complete build dependency/configuration manifest, expected artifact integrity/signature plan, current support/security and licensing/redistribution assessment. Exact unresolved versions and hashes must be established before this approval; no blanket approval is inferred.
+4. Identity/Security/Engineering, with Architecture for containment: approve the finite resource limits, reviewed corpus, failure injection and compatibility/rollback test plan.
+5. Identity/Engineering: approve the report destination and durable evidence-writing scope.
+
+Decision B already accepts maintenance ownership; remaining review concerns technical plans rather than reapproval of those assignments. All remaining dispositions are pending. NO-GO for acquisition, compilation and executable probes until they and the §6 technical gates are completed and recorded. No automatic execution authorization, implementation selection, production dependency admission, production Architecture adoption or Authentication change follows from Decisions A or B. Previous authorizations remain exhausted, DEC-0009 remains v0.8.0 Proposed and terminal outcomes A/B/C and all stop conditions remain intact.
 
 ## 11. Revision history
 
@@ -168,3 +210,4 @@ Even outcome A would require separate DEC-0009 acceptance with Identity ownershi
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-10-26 | Draft authorization proposal | Proposed one fresh bounded composition evaluation with pending review, explicit preconditions, finite evidence scope and no execution authority. |
 | 0.2.0 | 2026-10-26 | Approved bounded evaluation authorization; execution withheld | Recorded the repository owner’s four separate capacity approvals; retained incomplete pre-execution gates, pending ongoing assignments and every candidate, time, stop and adoption boundary. |
+| 0.3.0 | 2026-10-26 | Approved bounded evaluation authorization; technical gates incomplete | Recorded owner Decisions A and B, six accepted maintenance assignments and a consolidated technical assessment; recommendations remain unapproved and execution withheld. |
