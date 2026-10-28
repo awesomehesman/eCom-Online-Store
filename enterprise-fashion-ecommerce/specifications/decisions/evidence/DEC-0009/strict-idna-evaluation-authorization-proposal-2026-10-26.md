@@ -1,7 +1,7 @@
 # DEC-0009 — Fresh bounded strict-IDNA2008 evaluation authorization record
 
-- Version: 0.3.0.
-- Status: Approved bounded evaluation authorization; platform direction and maintenance assignments recorded; technical gates incomplete; execution withheld.
+- Version: 0.4.0.
+- Status: Technical plan approved; bounded environment verification authorized; candidate evaluation withheld.
 - Decision date: 2026-10-26.
 - Accountable decision-maker: repository owner, acting separately in Identity, Security, Architecture and Engineering capacities.
 - Date: 2026-10-26 (Africa/Johannesburg).
@@ -16,7 +16,7 @@
 
 Can this exact composition demonstrate the complete DEC-0005 strict IDNA2008 profile with a supportable public codec, coherent Unicode data, safe resource behavior and explicit maintenance ownership?
 
-This record documents the repository owner’s explicit approval on 2026-10-26 of one new, separately bounded evidence-gathering evaluation in four distinct accountable capacities, as recorded in §9. The approval provenance is the repository owner’s explicit instruction in this task; no signature or independent reviewer is invented. This is evaluation authorization only, not Decision Record acceptance, dependency admission or implementation selection. The remaining §6 technical pre-execution gates are incomplete; Decisions A and B in §10 record platform direction and accepted maintenance ownership: candidate artifact acquisition, compilation and executable probes must not begin yet. Reviewing or merging this record does not complete those gates. DEC-0009 remains version 0.8.0 Proposed and non-authoritative; this record changes neither it nor the Decision Index.
+This record documents the repository owner’s explicit approval on 2026-10-26 of one new, separately bounded evidence-gathering evaluation in four distinct accountable capacities, as recorded in §9. The approval provenance is the repository owner’s explicit instruction in this task; no signature or independent reviewer is invented. This is evaluation authorization only, not Decision Record acceptance, dependency admission or implementation selection. The remaining §6 technical pre-execution gates are incomplete; Decisions A and B in §10 record platform direction and accepted maintenance ownership: candidate evaluation must not begin yet. The separately authorized environment-verification exception in §10C permits only its specified activities subject to integrity, licensing and containment gates. Reviewing or merging this record does not complete those gates. DEC-0009 remains version 0.8.0 Proposed and non-authoritative; this record changes neither it nor the Decision Index.
 
 ## 2. Governing sources and evidence traceability
 
@@ -73,13 +73,13 @@ The owner authorizes, subject to completion of all §6 gates, one execution, one
 
 Conditional permitted work consists only of reviewed static/source inspection, verified acquisition into temporary scratch, a minimal experimental JNI bridge and strict-validator harness, synthetic conformance/resource tests, and a reproducible evidence report. No such work is executed by recording these approvals. The report destination must be recorded before execution; this record creates no evaluation report.
 
-Use the original workspace for read-only source context and temporary scratch for the harness. No additional Git worktree, clone, checkout or project directory is permitted. Scratch must not become a production adapter or repository dependency. Candidate artifact acquisition, compilation and executable probes remain prohibited until all §6 preconditions and the report destination are reviewed and recorded. The fresh bounded authorization is recorded here; it does not satisfy those prerequisites.
+Use the original workspace for read-only source context and temporary scratch for the harness. No additional Git worktree, clone, checkout or project directory is permitted. Scratch must not become a production adapter or repository dependency. Candidate evaluation remains prohibited until all §6 preconditions and the report destination are reviewed and recorded. Section 10C separately permits bounded environment verification and conditional acquisition/dependency builds, not candidate implementation or evaluation. The fresh bounded authorization is recorded here; it does not satisfy those prerequisites.
 
 There must be no production integration, application dependency/build/lock/verification changes, database/schema/data changes, authoritative lookup, Authentication, login, Principal or Session implementation, API/Contract changes, deployment changes, external service adoption or real Customer input. Synthetic canonical keys in the harness establish no ownership or authentication authority. Preserve existing local changes, including `verification-keyring.keys`.
 
 ## 6. Platform and supply-chain preconditions
 
-The following pre-execution gates remain incomplete and are not assumed facts. Before candidate artifact acquisition, compilation or executable probes, Identity must record the inventory and obtain attributable Security, Architecture and Engineering review of it, including assigned protocol and native maintenance ownership. Static documentation review may prepare the inventory, but this task authorizes recording only. Where local-byte integrity evidence cannot exist before acquisition, record the exact source, expected hashes/signatures and verification procedure for approval before acquisition; verify acquired bytes before any build or execution. This sequence does not waive provenance or integrity requirements.
+The following pre-execution gates remain incomplete and are not assumed facts. Before candidate artifact acquisition, compilation or executable probes, Identity must record the inventory and obtain attributable Security, Architecture and Engineering review of it, including assigned protocol and native maintenance ownership. The later owner decision in §10C authorizes bounded environment verification to establish this evidence, subject to pre-acquisition provenance/licensing review and pre-execution integrity/containment review. Where local-byte integrity evidence cannot exist before acquisition, record the exact source, expected hashes/signatures and verification procedure for approval before acquisition; verify acquired bytes before any build or execution. This sequence does not waive provenance or integrity requirements.
 
 | Precondition | Required evidence before probes | Current disposition |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ The following pre-execution gates remain incomplete and are not assumed facts. B
 | Licensing and security | Exact licenses/notices, linking/redistribution implications, current vulnerability/support review, trust boundaries, resource hypotheses and safe native execution plan. | Pending |
 | Scope and ownership | Reviewed corpus, run limits, failure injection plan and accountable maintenance responsibilities from §9. | Ownership accepted in Decision B; technical plan review pending |
 
-Missing preconditions withhold candidate artifact acquisition, compilation and probes. If they cannot be established within the finite scope, report outcome C; an evidenced incompatible requirement may instead support B. No speculative platform, JDK patch, compiler, ABI or artifact hash is fabricated here.
+Missing preconditions withhold candidate evaluation; environment verification may proceed only under the narrower §10C authorization and its artifact-specific gates. If they cannot be established within the finite scope, report outcome C; an evidenced incompatible requirement may instead support B. No speculative platform, JDK patch, compiler, ABI or artifact hash is fabricated here.
 
 ## 7. Required evidence and falsifiable checks
 
@@ -202,7 +202,37 @@ Documentary anchors for recommendations: [official Temurin image manifest](https
 4. Identity/Security/Engineering, with Architecture for containment: approve the finite resource limits, reviewed corpus, failure injection and compatibility/rollback test plan.
 5. Identity/Engineering: approve the report destination and durable evidence-writing scope.
 
-Decision B already accepts maintenance ownership; remaining review concerns technical plans rather than reapproval of those assignments. All remaining dispositions are pending. NO-GO for acquisition, compilation and executable probes until they and the §6 technical gates are completed and recorded. No automatic execution authorization, implementation selection, production dependency admission, production Architecture adoption or Authentication change follows from Decisions A or B. Previous authorizations remain exhausted, DEC-0009 remains v0.8.0 Proposed and terminal outcomes A/B/C and all stop conditions remain intact.
+Decision B already accepts maintenance ownership; remaining review concerns technical plans rather than reapproval of those assignments. All remaining dispositions are pending. NO-GO for candidate evaluation until they and the §6 technical gates are completed and recorded. The subsequent §10C authorization permits only bounded environment verification under its distinct gates. No automatic execution authorization, implementation selection, production dependency admission, production Architecture adoption or Authentication change follows from Decisions A or B. Previous authorizations remain exhausted, DEC-0009 remains v0.8.0 Proposed and terminal outcomes A/B/C and all stop conditions remain intact.
+
+## 10C. Technical-plan approval and bounded environment verification
+
+- Decision date: 2026-10-26.
+- Decision-maker: repository owner, acting separately in Identity, Security, Architecture and Engineering capacities; same maintainer, no independent human review claimed.
+- Technical plan: APPROVED — the consolidated technical configuration and finite safety plan supplied in the preceding readiness assessment, including the limits below.
+- Bounded environment verification: AUTHORIZED — development toolchain verification, Docker/AMD64 verification, approved artifact acquisition and integrity verification, native dependency/licensing inspection, disposable environment construction and environment/native-loading smoke checks only.
+- Recording/execution branch: `chore/dec-0009-environment-verification`; baseline `88b9168bce003a4040921a20fe9846789a5f63b2` in the original workspace.
+
+This decision supersedes earlier blanket withholding of acquisition/environment compilation only to the extent expressly described here. It does not complete the technical gates by assertion. Before each acquisition, record official exact identity, provenance/trust basis, expected integrity evidence, licensing implications and procedure. Before executing acquired binaries or building dependencies, verify required integrity and licensing. Before pulling a container, establish its official identity, immutable index/AMD64 manifest digests and source revision. Do not bypass unavailable Docker access or environment restrictions.
+
+Disposable dependency builds may use only the reviewed Linux AMD64 environment after these gates pass. A minimal disposable native loader may test availability without calling Punycode or IDNA APIs. No JNI bridge implementation, repository-owned validator, RFC conformance probes, hostile-input evaluation, synthetic corpus execution, production dependency admission, Authentication/database changes, strategy selection or DEC-0009 acceptance is authorized. No additional repository files, worktree or checkout is authorized. Concise environment evidence belongs in this record; propose detailed evidence paths before creating any additional repository evidence.
+
+The approved environment target is Ubuntu 24.04 Noble, Temurin Java 21, Linux AMD64/glibc, using the proposed `eclipse-temurin:21.0.12.1_1-jdk-noble` only after immutable identity review. It remains evaluation-only, not production hosting or Architecture adoption. The fixed candidate versions, Decisions A/B and all six maintenance assignments remain unchanged.
+
+Approved experimental ceilings: 65,536 UTF-16 code units per hostile input; 128 generated labels; 4,096 scalars per hostile label; 100,000 corpus cases plus bounded classification pass; 60 seconds per process; 30 minutes per suite; four hours total executable workload; 1 CPU, 2 GiB container RAM, 512 MiB JVM heap, 64 PIDs, four callers and 512 MiB writable scratch. These limits are not exercised as candidate tests here and do not change identifier semantics. Use read-only root, controlled scratch, no smoke-execution network, dropped capabilities and no-new-privileges; no credentials, production/repository content or Docker-socket mounts.
+
+Stop immediately on integrity failure, untrusted provenance/signer, unreviewed substitution or material dependency changes, licensing incompatibility, unexpected credential/network access, unsafe loading, inability to enforce containment, scope expansion or effort exhaustion. The existing five-day/40-aggregate-person-hour ceiling includes this work and is not reset. Previous authorizations remain exhausted. Candidate evaluation remains NO-GO until the remaining technical gates are evidenced and recorded; this authorization does not select a strategy or grant production readiness.
+
+### Environment-verification result — BLOCKED, 2026-10-26
+
+Checkpoint 1 passed: only this record changed; scope/attribution and continuing candidate-evaluation prohibition verified; Git whitespace passed. No commit or push occurred.
+
+Checkpoint 2 observations: explicit Temurin home `/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home` returned Java `21.0.6+7-LTS`; compiler returned `javac 21.0.6`. Java invocation explicitly supplied the approved JAVA_HOME, DEVELOPER_DIR and SDKROOT as per-command environment only. Apple Clang returned `17.0.0 (clang-1700.4.4.1)`, target `arm64-apple-darwin25.5.0`. These are verified version observations, not compiler/SDK or JNI linkage smoke results. Previously recorded SDK/header inventory is retained; this run did not reverify it by compilation. No global shell configuration changed.
+
+Checkpoint 3 BLOCKED: Docker client `28.0.4`, API `1.48`, Darwin arm64, context `desktop-linux` was observed using `docker version --format '{{json .Client}} {{json .Server}}'`. Server information was null; connection to `unix:///Users/staytru/.docker/run/docker.sock` failed with `connect: operation not permitted`. This establishes lack of access from this task, not that the daemon is stopped or that AMD64 execution is impossible. No permission escalation, alternate socket or bypass was attempted.
+
+Verification stopped at this access/containment boundary. Linux runtime, AMD64 capability, exact image/index/manifest digests, image source revision, container permissions/resource enforcement and native loading: NOT VERIFIED / BLOCKED. No image metadata resolution or pull followed the stop. Checkpoints 4–6: NOT EXECUTED; no candidate artifact acquisition, calculated artifact hashes, signature verification, dependency build/closure verification, licensing clearance or safety-limit enforcement is claimed. Existing documentary licensing/dependency findings remain provisional. No validator, JNI bridge, conformance test, hostile-input test or evaluation report was created.
+
+Final recommendation: NO-GO for beginning candidate evaluation. First establish permitted Docker/AMD64 environment access and resume only within the recorded verification scope; do not infer a new candidate-evaluation permission. This blocked environment check is not a terminal A/B/C candidate-evaluation result and does not claim consumption of the candidate evaluation through execution. All effort remains chargeable to the existing ceiling. This verification segment began at 2026-10-26 21:12:32 UTC and consumed approximately one minute, as reported in the task response. Earlier cumulative engineering effort is not established here, so the remaining 40-person-hour balance must be reconciled before further work.
 
 ## 11. Revision history
 
@@ -211,3 +241,4 @@ Decision B already accepts maintenance ownership; remaining review concerns tech
 | 0.1.0 | 2026-10-26 | Draft authorization proposal | Proposed one fresh bounded composition evaluation with pending review, explicit preconditions, finite evidence scope and no execution authority. |
 | 0.2.0 | 2026-10-26 | Approved bounded evaluation authorization; execution withheld | Recorded the repository owner’s four separate capacity approvals; retained incomplete pre-execution gates, pending ongoing assignments and every candidate, time, stop and adoption boundary. |
 | 0.3.0 | 2026-10-26 | Approved bounded evaluation authorization; technical gates incomplete | Recorded owner Decisions A and B, six accepted maintenance assignments and a consolidated technical assessment; recommendations remain unapproved and execution withheld. |
+| 0.4.0 | 2026-10-26 | Technical plan approved; bounded environment verification authorized | Recorded owner approval in four capacities; permits narrowly gated environment verification only, preserves candidate-evaluation prohibition and existing effort ceiling. |
