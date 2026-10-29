@@ -1,9 +1,9 @@
 ---
 title: PRODUCT
-version: 1.5.0
+version: 1.6.0
 status: Approved
 owner: Product and Engineering
-last_updated: 2026-09-30
+last_updated: 2026-10-29
 applies_to:
   - Product management
   - Business analysis
@@ -733,6 +733,28 @@ Critical journeys must be operable through keyboard and compatible assistive tec
 - High-risk actions may require additional verification, review, rate limiting, or operational approval.
 - Fraud signals and decisions must follow privacy, security, audit, and explainability requirements.
 
+### 16.13 Product Variant and Attribute Standards
+
+Accepted [DEC-0019 1.0.0 — Product Variant and Attribute Standards](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) establishes **Option C — Hybrid Attribute Standards**, resolving Product Decision 3. The initial standard version is 1.0.0. Initial families **Apparel**, **Footwear** and **Accessories** are Product-owned Attribute contexts, not Category taxonomy or a selected launch assortment.
+
+**Size** and **Colour** are variant-defining concepts where applicable under the Product-family standard. Product must explicitly establish coherent applicability and supported configurations across its Variants before publication; both concepts are not universally required. Missing applicable data is invalid and must not be treated as confirmed non-applicability.
+
+| Product family | Initial Size standard |
+| --- | --- |
+| Apparel | XS, S, M, L, XL, XXL, XXXL; size tokens resolve case-insensitively to these canonical tokens. |
+| Footwear | UK 3 through UK 13 inclusive, with half sizes UK 3.5 through UK 12.5 where applicable to the Product. Equivalent UK numeric representations share one meaning; no rounding or silent conversion from other systems. |
+| Accessories | One Size or other explicitly governed applicable configurations. Size-only, Colour-only, both or neither may apply where Product confirms the configuration; unknown sizes are not One Size. |
+
+Colour uses Product-governed canonical codes and customer-facing display labels. The initial minimum vocabulary is **BLACK / Black**: `Black`, `black` and `BLACK` resolve to the same canonical Colour value, BLACK. Equivalent approved representations must normalize deterministically before uniqueness evaluation, independent of locale, database collation or presentation. Unsupported values must be rejected; fuzzy matching, implicit aliases and nearest-colour substitutions are not permitted. No comprehensive Colour catalogue is established. New colours, accessory configurations or equivalences require explicit Product approval through DEC-0019's versioned extension process before acceptance.
+
+**Fit** and **Material** remain descriptive initially and must not independently create distinct Product Variants. Two Variants within the same owning Product must not have the same canonical combination of applicable variant-defining values. Neither different display labels nor omitted required values may bypass semantic uniqueness. Where neither defining concept applies, descriptive differences alone cannot establish distinct configurations. Equal configurations across separate Products do not imply shared Variant identity.
+
+Stable Product and Product Variant identities must remain independent of Attribute labels and values. Corrections must not silently replace identity, reassign accepted membership, merge Variants or rewrite historical meaning. Validation must reject unsupported or ambiguous configurations and semantic duplicates before publication; valid Attributes alone do not satisfy the existing content, media, lifecycle or contextual Authorization requirements for publication.
+
+Attribute standards must evolve through explicitly versioned, attributable Product approval with compatibility and collision analysis, preserving stable identities, accepted membership and unambiguous customer meaning. Retain the meaning applicable to accepted data. Changes to canonical meaning, applicability or equivalence require a governed compatibility/migration plan before affecting existing Variants; they must not silently reinterpret or automatically rewrite confirmed Order or other commercial snapshots. Where compatibility cannot be established, withhold the affected mutation/publication pending governed resolution.
+
+Product retains identity, Variant membership, Attribute and applicable-standard authority. Category retains taxonomy and classification; Search consumes Product evidence non-authoritatively. Pricing retains Price and Discount authority, and Inventory retains Stock and availability authority. These standards select no SKU format, Category hierarchy, Search indexing policy, Pricing/Inventory behavior, database schema, API endpoint, frontend implementation or launch assortment. Product Decision 2 and DEC-0018 remain unresolved.
+
 ## 17. Product State Principles
 
 ### 17.1 Explicit Lifecycle State
@@ -920,7 +942,6 @@ The following Decisions require a detailed business Specification or approved Pr
 
 1. Final brand name and visual identity.
 2. Initial product categories and catalogue taxonomy.
-3. Size, fit, colour, material, and other Product Variant or Attribute standards.
 4. Guest checkout versus mandatory account rules.
 6. Initial payment methods and provider.
 7. Shipping provider, service levels, delivery areas, and fee policy.
@@ -947,6 +968,8 @@ The following Decisions require a detailed business Specification or approved Pr
 28. Customer data export, correction, deletion, and account-closure workflow.
 29. Gift cards, store credit, and promotional credit policy.
 30. Product launch date, release scope, and post-launch support window.
+
+Product Decision 3 is resolved by Accepted [DEC-0019 1.0.0](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md); its canonical policy is in §16.13. Remaining decision identifiers are preserved.
 
 An open decision must not be resolved differently by separate features. Until approved, implementation must remain reversible and avoid embedding assumptions as permanent business rules.
 
@@ -1762,10 +1785,11 @@ Before approving a product requirement or feature scope, verify:
 | 1.3.0   | 2026-09-29 | Approved | Synchronized Accepted DEC-0005 by establishing deterministic Customer login-email comparison, logical uniqueness, collision and lifecycle boundaries, and strict domain canonicalization while preserving unresolved Product Decisions 5 and 28 and downstream persistence, Contract, dependency, recovery, MFA, and implementation governance. |
 | 1.4.0   | 2026-09-30 | Approved | Synchronized Accepted DEC-0007 by establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, infrastructure, frontend, and implementation governance. |
 | 1.5.0   | 2026-09-30 | Approved | Synchronized Accepted DEC-0008 and resolved Product Decision 5 by requiring verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, with current-email binding, deterministic re-verification and supersession semantics, and default denial while preserving all unrelated Open Product Decisions and separate provider, Contract, persistence, recovery, MFA, infrastructure, frontend, and implementation governance without claiming implementation completion. |
+| 1.6.0   | 2026-10-29 | Approved | Synchronized Accepted DEC-0019 1.0.0 and resolved Product Decision 3 through Option C hybrid Product-family Attribute standards, canonical Size/Colour uniqueness, descriptive Fit/Material and versioned identity/history safeguards; preserved Category/Search/Pricing/Inventory boundaries, unresolved Product Decision 2 and DEC-0018, all other decision identifiers and unrelated Product scope. |
 
 ## Document Status
 
-- **Version:** 1.3.0
+- **Version:** 1.6.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative product baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, before major releases, and after any material product or operating-model change.
