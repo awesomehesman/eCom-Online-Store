@@ -3,86 +3,103 @@
 - **Identifier:** DEC-0019
 - **Title:** Product Variant and Attribute Standards
 - **Type:** Product Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-10-13
-- **Last Updated:** 2026-10-13
+- **Acceptance Date:** 2026-10-29
+- **Last Updated:** 2026-10-29
 - **Owner:** Product
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
-## Context and Current Approved Baseline
+## Context and Approved Baseline
 
-[`PRODUCT.md` §24 item 3](../../.ai/core/PRODUCT.md) leaves initial size, fit, colour, material and other Product Variant and Attribute standards open. The [Approved Product Domain Specification](../domains/product/product-domain.md) REQ-PRD-007–013 requires stable Product Variant identity, uniqueness under governed variant-defining Attributes, a distinction from descriptive Attributes, valid meanings and values, and historical integrity as Attributes evolve. The [Product Backend Specification](../backend/product/product-backend.md) BPRD-REQ-014–017 preserves those obligations without choosing a launch vocabulary or SKU format.
+The Approved Product Domain REQ-PRD-007–013 requires stable Variant identity, correct Product membership, semantic uniqueness under governed Attributes, descriptive/variant-defining distinctions and historical integrity. BPRD-REQ-014–019 and 020–030 specialize membership, validation, lifecycle, publication, content and media without transferring other Domains' authority.
 
-Category owns Category taxonomy and classification, not Product Variant identity or Product-owned Attributes. Search may consume governed Product and Category evidence for discovery, but a filter, index or storefront label cannot define authoritative Attribute meaning. [DEC-0018](DEC-0018-initial-catalogue-taxonomy-policy.md) remains Proposed and selects no Category structure or launch assortment. Those boundaries do not prevent Product from framing its separate Attribute-policy question.
+This record resolves the initial Attribute-policy direction previously left open by `PRODUCT.md` §24 item 3. The task explicitly limits edits to this file: canonical Product and Decision Index synchronization is outstanding and is not claimed complete. This Accepted decision must not be represented as an already synchronized repository-wide baseline; required governing-source updates remain subject to their approved process. No other document is changed here.
 
-## Decision Question and Product Policy Boundary
+## Decision — Option C: Hybrid Attribute Standards
 
-Which initial size, fit, colour, material and other Attribute standards should govern Product Variants, including which Attributes define Variant uniqueness and how allowed meanings evolve without changing historical Product identity?
+The Product owner explicitly approves Option C: a shared core of Product-owned Attribute concepts with governed Product-family applicability and extensions. Initial families are **Apparel**, **Footwear** and **Accessories**. These are Product Attribute contexts, not Category taxonomy or a complete launch assortment.
 
-Product and its accountable merchandising authority own this policy. Product-domain requirements already govern identity, distinction, validation and history; the actual Attribute vocabulary, allowed values, normalization and variant-defining set remain unresolved. **NO OPTION SELECTED.** `PRODUCT.md` §24 item 3 remains open.
+The initial standard is version **1.0.0**. **Size** and **Colour** are shared variant-defining concepts where applicable. **Fit** and **Material** are initially descriptive and must not independently create distinct Variants. No fit/material value catalogue or SKU format is selected.
 
-## Alternatives Considered — Not Formally Compared
+### Family applicability and Size vocabulary
 
-| Option | Policy-level candidate | Potential benefit | Limitation or trade-off requiring evidence |
-| --- | --- | --- | --- |
-| A — Uniform standards | A centrally governed Attribute vocabulary applied consistently across the initial assortment. | May simplify comparison, naming and duplicate detection across Product families. | A common vocabulary may misrepresent materially different size, fit, colour or material meanings; no values or Variant keys are selected. |
-| B — Product-family standards | Governed Attribute standards differentiated by Product family where justified. | May better reflect distinct merchandising and customer-selection needs. | Can fragment discovery, increase maintenance and create ambiguous cross-family comparison; no families, standards or Category linkage are selected. |
-| C — Hybrid standards | A shared core Attribute vocabulary with controlled Product-family extensions. | May preserve common comparison while allowing justified variation. | Requires clear ownership, compatibility and evolution rules; the core, extensions and uniqueness treatment remain unspecified. |
+| Family | Governed initial Size values | Applicability |
+| --- | --- | --- |
+| Apparel | XS, S, M, L, XL, XXL, XXXL | Size defines size-dependent configurations. A Product's applicable defining concepts must be explicit and consistent across its Variants. |
+| Footwear | UK 3 through UK 13 inclusive; half sizes UK 3.5 through UK 12.5 where applicable | Values retain the UK system; other sizing systems are not silently converted or equated. Half-size applicability must be confirmed for the Product. |
+| Accessories | One Size; other applicable size configurations only when explicitly governed | Neither Size nor Colour is universally mandatory for Accessories. A Product must explicitly identify applicable concepts; missing data must not be mistaken for non-applicability. |
 
-These are unselected policy approaches, not definitions of a launch assortment, size scale, fit convention, colour or material vocabulary, normalization algorithm or SKU format. None assumes Category taxonomy determines Product-family membership or Product-owned Attribute truth.
+Product must establish the applicable defining concepts and supported configurations before publication. An accessory may be size-only, colour-only, both, or neither where that accurately represents its governed configuration. When neither applies, descriptive differences alone cannot create multiple semantically distinct configurations. Unsupported accessory sizes require the extension process below; arbitrary strings do not become approved values by storage or submission.
 
-## Affected Requirements and Domain Ownership
+### Colour vocabulary and canonicalization
 
-| Authority | Approved boundary preserved |
-| --- | --- |
-| Product | Owns Product and Product Variant identity, Product-owned Attributes, Variant membership, structural sellability and historical Product meaning under REQ-PRD-001–013. |
-| Category | Owns Category identity, hierarchy, classification and Category-side association under [REQ-CAT-010–014](../domains/category/category-domain.md); Category membership cannot redefine Product identity or Attributes. |
-| Search and Discovery | Consumes governed Product and Category evidence; result ranking, filters and index state cannot establish a Product Variant or Attribute value. |
-| Storefront presentation | May show governed Attribute meaning accessibly; filtering, navigation and labels are representations, not Attribute authority. |
+The minimum initial governed colour vocabulary is canonical code **BLACK**, customer-facing display label **Black**. This deliberately small vocabulary supplies the approved example without inventing a comprehensive colour catalogue. Other colours must be added through explicit Product approval before acceptance.
 
-Product Variant uniqueness must remain based on a separately approved variant-defining Attribute model; semantically duplicate combinations must be rejected. Descriptive Attributes must remain distinguishable from variant-defining Attributes, and changes cannot silently replace stable Variant identity or rewrite confirmed historical commercial snapshots. [Category Backend](../backend/category/category-backend.md) and the [Search Domain](../domains/search/search-domain.md) and [Search Backend](../backend/search/search-backend.md) retain their existing boundaries.
+`Black`, `black`, `BLACK` and case-equivalent representations of the approved code/label resolve to the same canonical value, BLACK. Canonical codes and their approved label/alias mappings determine equality; display labels are not Variant identity. Comparison must be deterministic and independent of process locale, database collation or storefront rendering. No fuzzy matching, nearest-colour substitution, unknown-value acceptance or implicit alias creation is permitted. Unsupported values must be rejected. Whitespace, punctuation and other aliases are not implicitly approved; any additional equivalence must be explicitly governed and tested.
 
-## Comparative Evaluation Criteria
+Apparel size tokens resolve case-insensitively to the listed uppercase tokens. Footwear values use exact UK numeric meaning: equivalent approved representations such as UK 3 and UK 3.0 refer to the same size, without rounding to a supported size. One Size is a governed meaning, not a substitute for an unknown or missing size. Transport encodings and accepted input spellings must be documented in the later Contract; they must preserve these meanings rather than invent new equivalences.
 
-Product-led comparison must assess stable Product Variant identity; the distinction between variant-defining and descriptive Attributes; size and fit consistency; colour and material meaning; allowed values and normalization; duplicate or ambiguous configurations; customer discovery and comparison; merchandising usability; Search and filtering effects; accessibility and comprehensibility; historical integrity; standard evolution and reversibility; operational maintenance; and compatibility or migration costs. A common label must not be assumed to mean the same customer-facing property across materially different Product contexts without evidence.
+### Semantic uniqueness and stable identity
 
-## Security and Administration Impact
+Within an owning Product, Variant uniqueness must use the canonical values of all applicable variant-defining concepts under the applicable family standard. Equivalent configurations must be rejected, including when their display labels or casing differ. Product membership scopes this comparison; equal configurations in different Products do not imply shared Variant identity.
 
-Attribute creation, correction and Product Variant changes remain subject to trusted, contextual Authorization, default denial and proportional Audit Records under [SECURITY-STANDARDS.md](../../.ai/core/SECURITY-STANDARDS.md). Administration coordinates only authorized Product operations. This record establishes no Role, Permission, approval chain or staff assignment; [DEC-0012](DEC-0012-administrative-role-permission-matrix.md) remains Proposed. Customer-facing Attribute content must be understandable and safe without exposing protected operational details.
+Fit, Material, mutable descriptions and customer-facing labels must not independently distinguish Variants. Missing applicable values are invalid; an explicitly non-applicable concept is not an unknown value or a wildcard. All Variants of a Product must be evaluated under a coherent applicability definition so omission cannot evade duplicate detection.
 
-## Product Data Ownership and Attribute Integrity
+Stable Product and Variant identity must remain independent of Attribute labels and values. Changing a label or canonical value must not derive a replacement identity, reassign membership, merge Variants or rewrite confirmed commercial history. Concurrent creation/correction must preserve semantic uniqueness and explicit conflict outcomes; this decision selects no persistence or locking mechanism.
 
-Product remains the authoritative owner of Product Variant and Product-owned Attribute facts. A Category label, Search filter, navigation path, imported value or UI state cannot establish accepted Attribute meaning. Governed values must preserve identity, semantic uniqueness and valid Product context; conflicting or unsupported values must be resolved before publication under Approved Product requirements. This record selects no Attribute field set, allowed-value list, normalization mechanism, identifier format, schema, API or Event Contract.
+## Validation and Publication Implications
 
-## Compatibility, Migration and Historical Impact
+Product-owned validation must reject unsupported families, sizes, colours, incompatible values, ambiguous applicability and semantically duplicate configurations. A Product or Variant must not become Published while required defining values, governed meanings or applicable validation remain missing, conflicting or unsupported.
 
-A later standard could affect existing Product and Product Variant representations, Search Projections, storefront filters, Category associations and historical Order references. Review must distinguish current corrections from historical meaning and avoid silent reassignment of stable Variant identity. No existing record, Contract, migration, redirect or publication state changes through this proposal.
+Attribute validation is necessary but not sufficient for publication. Existing Product requirements for identity, descriptive completeness, media accuracy/rights/accessibility, lifecycle and server-side contextual Authorization remain applicable under REQ-PRD-014–023 and BPRD-REQ-019–030. A Published flag, Search index or Category placement cannot substitute for those checks. No new lifecycle transition graph, media mechanism or publication approval workflow is selected.
 
-## Operational and Merchandising Consequences
+## Extension, Versioning and Evolution
 
-Uniform standards may ease governance but fail to express legitimate differences; Product-family standards may improve specificity while increasing review and support work; a hybrid may require more careful extension controls. These are hypotheses, not measured outcomes. Product and merchandising must assess real assortment and maintenance capacity before selection. No launch assortment, staffing model, service level or content workflow is approved.
+Product owns a versioned record of approved concepts, canonical codes, display labels/aliases, family applicability and allowed configurations. An extension must identify its accountable Product approval, exact proposed meanings and equivalences, affected family/Products, duplicate/ambiguity examples, effective standard version and compatibility impact before use. Adding a colour or accessory size must not silently select a new variant-defining concept or change Fit/Material into defining Attributes.
 
-## Evidence Required Before Selection
+Extensions require explicit Product approval. Engineering reviews deterministic validation and uniqueness; Category confirms taxonomy separation, Search and UX/accessibility review consumer meaning where affected, and Security/Operations review administration and correction impacts where material. No completed independent reviews are invented here.
 
-Product and accountable merchandising owners must provide attributable representative launch Product and Product Variant examples, customer choice and comparison needs, candidate Attribute meanings, known ambiguity cases and intended evolution needs. Product-domain reviewers must assess uniqueness, validity, lifecycle and historical integrity. Category reviewers must confirm taxonomy separation; Search and UX/accessibility reviewers must assess discovery and comprehension without taking Attribute authority. Operations and Security must review administration, correction, audit and abuse implications. Evidence must distinguish Approved requirements, proposed policy, actual catalogue facts and stakeholder approvals; none is claimed complete here.
+Every change must explicitly version the standard and preserve stable Product/Variant identity, accepted membership, historical Order and other confirmed commercial snapshots, and unambiguous customer-facing meaning. Label corrections must not change canonical meaning. A change to canonical meaning, applicability or equivalence requires explicit impact and collision analysis, attributable approval and a governed compatibility/migration plan before application to accepted Variants.
 
-## Open Questions and Acceptance Prerequisites
+Retain the meaning/version applicable to accepted data. Do not silently revalidate historical snapshots under new semantics, merge conflicting Variants, choose an arbitrary winner or reinterpret existing values. Where compatibility cannot be established, withhold the affected mutation/publication and expose a governed conflict pending resolution. No storage schema, migration algorithm or retention period is selected.
 
-1. Which Attribute concepts should be shared across the launch assortment, and which, if any, need Product-family-specific meaning? No concept or family is selected.
-2. Which Attributes should define Product Variant uniqueness versus describe a Product or Variant? No defining set is selected.
-3. What Product-governed allowed values and normalization, if any, are necessary to reject duplicates and incompatible meanings without inventing a technical algorithm?
-4. How should a later approved standard evolve while retaining stable Product Variant identity, historical Order meaning and understandable customer comparison?
-5. How should [DEC-0018](DEC-0018-initial-catalogue-taxonomy-policy.md) taxonomy decisions inform presentation without making Category authoritative for Product-owned Attributes?
-6. Which Product, Category, Search, storefront, Contract and migration changes would follow an Accepted standard? None is authorized here.
+## Alternatives Considered
 
-Formal comparison requires separately governed scope and attributable Product evidence. Product and accountable merchandising authority lead selection and acceptance, with Product, Category, Search, UX/accessibility, Operations and Security review; affected commercial owners participate where material. Acceptance follows [`PRODUCT.md` §§25 and 38](../../.ai/core/PRODUCT.md) and [`DECISIONS.md` §§8–17 and 29](../../.ai/core/DECISIONS.md), followed by canonical Product synchronization. Implementation remains subject to separate applicable Domain, Contract, Architecture, Security and Engineering gates.
+| Option | Disposition | Rationale/trade-off |
+| --- | --- | --- |
+| A — Uniform standards | Not selected | A single undifferentiated standard does not capture the approved family-specific sizing and accessory applicability. |
+| B — Product-family standards | Not selected | Fully separate standards would omit the approved shared Size/Colour concepts. |
+| C — Hybrid standards | Selected and approved | Shared canonical concepts with family-specific allowed values/applicability preserve customer meaning and Product-owned uniqueness; costs include explicit extension, versioning and compatibility management. |
+
+These dispositions record the owner's decision, not a claim of measured comparative experiments or a complete launch assortment.
+
+## Authority, Security and Data Boundaries
+
+Product owns Product/Variant identities, membership, Attribute meanings and Product-owned eligibility. Category retains taxonomy, classification and Category-side associations. Search retains filters, facets, ranking and non-authoritative representations. Neither can establish Attribute meaning. Pricing and Inventory retain Price, commercial calculations, Stock and availability; Attribute validity is not final purchasability. Customer, Cart, Checkout and historical commercial owners retain their authority.
+
+Attribute administration and corrections require trusted server-side contextual Authorization, input safety and proportional Audit Records under Security Standards. No Role/Permission matrix, staff assignment or new workflow is selected. Descriptive content and labels must remain accurate, accessible and safely presented. Imports, UI labels and stored rows cannot self-authorize new meanings.
+
+## Compatibility, Migration and Operational Consequences
+
+The accepted hybrid standard enables deterministic validation and semantic duplicate detection while requiring owned vocabulary maintenance. The minimal colour vocabulary intentionally rejects other colours until extension approval. Accessory applicability must be explicit rather than inferred from missing fields.
+
+Later implementation must test canonical equivalence, family boundaries, unsupported values, descriptive-only differences, membership, concurrency and version compatibility. Changes to live representations or downstream projections must preserve existing accepted state and historical snapshots. This record performs no data migration, publication, implementation, deployment or operational adoption.
+
+## Approval and Remaining Implementation Questions
+
+The Product owner's explicit instruction in this task is the approval provenance for Option C and the policy recorded here, dated 2026-10-29. Product is the accountable decision owner. No signatures, independent reviewers, completed cross-domain reviews or approvals in other capacities are claimed.
+
+Remaining implementation questions are the Contracted representation of canonical values and standard versions; persistence/integrity/concurrency enforcement; exact identifier representations; and consumer error/pagination/security Contracts. Additional accessory configurations and colours require the explicit extension process rather than guessed values. These questions do not reopen the approved hybrid direction, initial families, defining/descriptive distinction or uniqueness invariants.
+
+Canonical Product and Decision Index synchronization remains outstanding because this task prohibits editing those files. Implementation remains subject to applicable governing-source synchronization, Domain, Contract, Architecture, Security and Engineering gates. No claim is made that this single-file acceptance closes every M1 implementation prerequisite.
 
 ## Explicit Non-Authorizations and Supersession
 
-DEC-0019 supersedes nothing and is superseded by nothing. It does not select Option A, B or C; establish a launch size scale, fit convention, colour or material vocabulary, allowed-value taxonomy, Product-family grouping, normalization algorithm, variant-defining Attribute set, SKU format, Category policy, Search filter, navigation structure, launch assortment, schema, API, event or Contract. It does not accept Product policy, close `PRODUCT.md` §24 item 3, resolve DEC-0018 or DEC-0012, claim stakeholder evidence or authorize implementation.
+DEC-0019 supersedes no separate decision and is superseded by none. It selects no SKU format, database schema, API route/DTO, event Contract, Category taxonomy, Search filter policy, Pricing/Inventory rule, full colour/fit/material catalogue, launch assortment or production release policy. It does not resolve DEC-0018 or DEC-0012 and authorizes no source-code or database change by itself.
 
 ## References
 
@@ -97,3 +114,4 @@ DEC-0019 supersedes nothing and is superseded by nothing. It does not select Opt
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-10-13 | Proposed | Framed unselected uniform, Product-family and hybrid Attribute-standard alternatives while preserving Product-owned Variant and Attribute authority, Category and Search boundaries, historical integrity, unresolved Product item 3, and separate evidence, acceptance and implementation gates. |
+| 1.0.0 | 2026-10-29 | Accepted | Recorded Product-owner approval of Option C, initial families and sizing, minimal canonical colour vocabulary, applicability, semantic uniqueness, descriptive Attributes and versioned evolution; governing-source synchronization remains outstanding outside this single-file task. |
