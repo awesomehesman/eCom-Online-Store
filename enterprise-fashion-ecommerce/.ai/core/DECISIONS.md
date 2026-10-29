@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.94
+version: 1.0.95
 status: Approved
 owner: Architecture
-last_updated: 2026-10-16
+last_updated: 2026-10-29
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -557,7 +557,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0016 | Returns, Exchanges, and Refund Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0016-returns-exchanges-refund-policy.md](../../specifications/decisions/DEC-0016-returns-exchanges-refund-policy.md) |
 | DEC-0017 | Voucher and Promotion Stacking Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0017-voucher-promotion-stacking-policy.md](../../specifications/decisions/DEC-0017-voucher-promotion-stacking-policy.md) |
 | DEC-0018 | Initial Catalogue Taxonomy Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0018-initial-catalogue-taxonomy-policy.md](../../specifications/decisions/DEC-0018-initial-catalogue-taxonomy-policy.md) |
-| DEC-0019 | Product Variant and Attribute Standards | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
+| DEC-0019 | Product Variant and Attribute Standards | Product Decision | Accepted | Product | 2026-10-29 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
 | DEC-0020 | CMS Content Approval and Scheduling Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0020-cms-content-approval-scheduling-policy.md](../../specifications/decisions/DEC-0020-cms-content-approval-scheduling-policy.md) |
 | DEC-0021 | Stock Availability Messaging Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0021-stock-availability-messaging-policy.md](../../specifications/decisions/DEC-0021-stock-availability-messaging-policy.md) |
 | DEC-0022 | Reporting and Exports Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0022-reporting-exports-policy.md](../../specifications/decisions/DEC-0022-reporting-exports-policy.md) |
@@ -603,7 +603,7 @@ DEC-0017 0.1.0 remains a Proposed, non-authoritative Product-owned decision. No 
 
 DEC-0018 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Shallow, structured and flexible taxonomy alternatives remain unselected. Category retains taxonomy and classification authority; Product retains Product, Product Variant and Product-owned Attribute authority; Search and CMS remain consumers. `PRODUCT.md` §24 item 2 remains unresolved. No Category roots, hierarchy depth, naming, membership or launch assortment is selected, and this indexing authorizes no policy acceptance, Contract change or implementation.
 
-DEC-0019 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Uniform, Product-family and hybrid Attribute-standard alternatives remain unselected. Product retains Product Variant identity and Product-owned Attribute authority; Category retains taxonomy authority, and Search remains a non-authoritative consumer. DEC-0018 remains Proposed and `PRODUCT.md` §24 item 3 remains unresolved. No size scale, fit convention, colour or material vocabulary, variant-defining set, SKU format, Contract change or implementation is selected; this indexing authorizes no standard selection, acceptance or implementation.
+DEC-0019 1.0.0 is Accepted, Product-owned and authoritative within its decision scope, with Product-owner acceptance dated 2026-10-29. Option C — Hybrid Attribute Standards selects Apparel, Footwear and Accessories as initial Product-family contexts, with Product-owned Size and Colour as variant-defining concepts under explicit family-specific applicability. Apparel sizes are XS through XXXL; Footwear uses UK 3 through 13 with half sizes where applicable; Accessories support One Size and separately governed applicable configurations without universally requiring both Size and Colour. Canonical Colour normalization resolves Black, black and BLACK to BLACK (display label Black); unsupported values require explicit Product extension approval. Canonical applicable defining values establish Product-scoped Variant combination uniqueness; Fit and Material remain descriptive and cannot independently distinguish Variants. Stable Product and Variant identity, accepted membership and historical Order and other confirmed commercial meaning must survive versioned Attribute-standard evolution without silent reinterpretation. Category retains taxonomy/classification authority and Search remains a non-authoritative consumer; these Product families do not select Category taxonomy or Search policy. DEC-0018 remains Proposed. This change synchronizes the Decision Index only: `PRODUCT.md` synchronization remains outstanding and no completed canonical Product update, SKU format, database schema, API Contract, implementation or release readiness is claimed.
 
 DEC-0020 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Single-stage, risk-tiered and multi-stage CMS content-approval alternatives remain unselected. CMS retains editorial and policy presentation authority without owning source-Domain facts or underlying business policy; approval-readiness evidence is not final approval or publication authorization, and scheduling is intent rather than confirmed publication. DEC-0012 remains Proposed and `PRODUCT.md` §24 item 22 remains unresolved. No approver, Role, Permission, chain depth, publication guarantee or scheduler is selected; this indexing authorizes no policy acceptance, Contract change or implementation.
 
@@ -773,6 +773,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.95 | 2026-10-29 | Approved | Synchronized DEC-0019 1.0.0 to Accepted with Product-owner acceptance dated 2026-10-29; summarized Option C hybrid family applicability, canonical Size/Colour uniqueness, descriptive Fit/Material, stable identity and historical/versioned evolution safeguards; preserved Category/Search boundaries and DEC-0018 Proposed, with PRODUCT.md synchronization explicitly outstanding and no implementation claim. |
 | 1.0.94 | 2026-10-16 | Approved | Registered DEC-0041 0.1.0 as a Proposed, non-authoritative Security Decision for the four unresolved post-expiry OpenPGP artifact signatures; preserved pending risk classification and Security/Architecture dispositions, undetermined exception applicability and withheld merge authorization. |
 | 1.0.93 | 2026-10-14 | Approved | Indexed DEC-0040 as a Proposed, non-authoritative Product Decision Record for launch date, release scope and post-launch support window; preserved unresolved support dependencies and separate readiness, acceptance, release and implementation gates. |
 | 1.0.92 | 2026-10-14 | Approved | Indexed DEC-0039 as a Proposed, non-authoritative Product Decision Record for gift cards, store credit and promotional credit; preserved unresolved financial, Domain ownership and implementation authority and separate downstream governance gates. |
