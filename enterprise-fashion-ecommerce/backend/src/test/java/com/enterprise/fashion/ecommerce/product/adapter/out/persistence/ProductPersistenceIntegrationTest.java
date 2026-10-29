@@ -1,6 +1,11 @@
 package com.enterprise.fashion.ecommerce.product.adapter.out.persistence;
 
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
@@ -22,6 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,6 +40,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -43,7 +53,9 @@ class ProductPersistenceIntegrationTest {
     @ServiceConnection
     static final PostgreSQLContainer<?> POSTGRESQL = new PostgreSQLContainer<>("postgres:18");
 
-    @Autowired private ProductPersistencePort persistence;
+    @Autowired private ProductPersistenceService persistence;
+    @Autowired private ProductPersistencePort adapter;
+    @MockitoSpyBean private JdbcAggregateTemplate aggregates;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private PlatformTransactionManager manager;
 
@@ -177,12 +189,12 @@ class ProductPersistenceIntegrationTest {
             status.setRollbackOnly();
             Product original = product(ProductFamily.APPAREL, true, true);
             original = original.withVariant(variant(original, id(), "M"));
-            persistence.create(original);
+            adapter.create(original);
             // Privileged corruption fixture only; DDL and data are rolled back together.
             jdbc.execute("ALTER TABLE product.product_variant DROP CONSTRAINT " + constraint);
             jdbc.update("UPDATE product.product_variant SET " + column + " = ? WHERE product_id = ?", value, original.id().value());
             ProductId owner = original.id();
-            assertThatThrownBy(() -> persistence.load(owner)).isInstanceOf(DataIntegrityViolationException.class)
+            assertThatThrownBy(() -> adapter.load(owner)).isInstanceOf(DataIntegrityViolationException.class)
                     .hasMessage("Invalid stored Product aggregate");
         });
     }
@@ -196,10 +208,88 @@ class ProductPersistenceIntegrationTest {
         transaction.executeWithoutResult(status -> {
             status.setRollbackOnly();
             Product original = product(ProductFamily.APPAREL, true, true);
-            persistence.create(original);
+            adapter.create(original);
             jdbc.execute("ALTER TABLE product.product DROP CONSTRAINT " + constraint);
             jdbc.update("UPDATE product.product SET " + column + " = ? WHERE product_id = ?", value, original.id().value());
-            assertThatThrownBy(() -> persistence.load(original.id())).isInstanceOf(DataIntegrityViolationException.class);
+            assertThatThrownBy(() -> adapter.load(original.id())).isInstanceOf(DataIntegrityViolationException.class);
+        });
+    }
+
+    @Test
+    void directAdapterCallsRequireTransactionsAndDoNotCreatePartialState() {
+        Product original = product(ProductFamily.APPAREL, true, true);
+        assertThatThrownBy(() -> adapter.create(original)).isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(() -> adapter.load(original.id())).isInstanceOf(IllegalStateException.class);
+        assertThat(persistence.load(original.id())).isEmpty();
+    }
+
+    @Test
+    void adapterRejectsReadCommittedAndChecksEffectiveDatabaseIsolation() {
+        TransactionTemplate transaction = new TransactionTemplate(manager);
+        transaction.executeWithoutResult(status -> assertThatThrownBy(() -> adapter.load(new ProductId(id())))
+                .isInstanceOf(IllegalStateException.class));
+        transaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        transaction.executeWithoutResult(status -> {
+            // Spring metadata still says repeatable read; the database setting is authoritative.
+            jdbc.execute("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
+            assertThatThrownBy(() -> adapter.load(new ProductId(id()))).isInstanceOf(IllegalStateException.class);
+        });
+    }
+
+    @Test
+    void directCreateRejectsReadOnlyTransaction() {
+        TransactionTemplate transaction = new TransactionTemplate(manager);
+        transaction.setReadOnly(true);
+        Product original = product(ProductFamily.APPAREL, true, true);
+        transaction.executeWithoutResult(status -> assertThatThrownBy(() -> adapter.create(original))
+                .isInstanceOf(IllegalStateException.class));
+        assertThat(persistence.load(original.id())).isEmpty();
+    }
+
+    @Test
+    void serviceRejectsAmbientCreateWithoutPartialCommit() {
+        Product original = product(ProductFamily.APPAREL, true, true);
+        new TransactionTemplate(manager).executeWithoutResult(status ->
+                assertThatThrownBy(() -> persistence.create(original)).isInstanceOf(IllegalStateException.class));
+        assertThat(persistence.load(original.id())).isEmpty();
+    }
+
+    @Test
+    void consistentSnapshotSurvivesCommittedChangesBetweenParentAndVariantQueries() {
+        Product original = product(ProductFamily.APPAREL, true, true);
+        Product accepted = original.withVariant(variant(original, id(), "M"));
+        persistence.create(accepted);
+        AtomicBoolean changed = new AtomicBoolean();
+        doAnswer(invocation -> {
+            Object parent = invocation.callRealMethod();
+            if (changed.compareAndSet(false, true)) {
+                assertThat(jdbc.queryForObject("SHOW transaction_isolation", String.class)).isEqualTo("repeatable read");
+                try (var executor = Executors.newSingleThreadExecutor()) {
+                    executor.submit(() -> new TransactionTemplate(manager).executeWithoutResult(status -> {
+                        // Synthetic concurrent maintenance fixture, not an application transition API.
+                        jdbc.update("UPDATE product.product SET lifecycle = 'ARCHIVED' WHERE product_id = ?", accepted.id().value());
+                        jdbc.update("UPDATE product.product_variant SET size_code = 'L' WHERE product_id = ?", accepted.id().value());
+                    })).get(10, TimeUnit.SECONDS);
+                }
+            }
+            return parent;
+        }).when(aggregates).findById(eq(accepted.id().value()), eq(ProductRow.class));
+        Product snapshot = persistence.load(accepted.id()).orElseThrow();
+        assertThat(snapshot.lifecycle()).isEqualTo(ProductLifecycle.DRAFT);
+        assertThat(snapshot.variants().getFirst().configuration().size().code()).isEqualTo("M");
+        Product current = persistence.load(accepted.id()).orElseThrow();
+        assertThat(current.lifecycle()).isEqualTo(ProductLifecycle.ARCHIVED);
+        assertThat(current.variants().getFirst().configuration().size().code()).isEqualTo("L");
+    }
+
+    @Test
+    void databaseFailureIsNotReportedAsAbsence() {
+        TransactionTemplate transaction = new TransactionTemplate(manager);
+        transaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        transaction.executeWithoutResult(status -> {
+            status.setRollbackOnly();
+            jdbc.execute("ALTER TABLE product.product RENAME TO unavailable_product");
+            assertThatThrownBy(() -> adapter.load(new ProductId(id()))).isInstanceOf(DataAccessException.class);
         });
     }
 
