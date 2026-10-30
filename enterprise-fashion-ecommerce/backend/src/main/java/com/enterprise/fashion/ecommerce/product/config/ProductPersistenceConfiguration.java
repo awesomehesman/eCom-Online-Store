@@ -2,6 +2,8 @@ package com.enterprise.fashion.ecommerce.product.config;
 
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.application.usecase.CreateDraftProduct;
+import com.enterprise.fashion.ecommerce.product.application.administration.GetProductForAdministration;
+import com.enterprise.fashion.ecommerce.product.application.administration.ListProductsForAdministration;
 import com.enterprise.fashion.ecommerce.product.application.usecase.UpdateDraftProduct;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,16 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration(proxyBeanMethods = false)
 public class ProductPersistenceConfiguration {
+    @Bean
+    GetProductForAdministration getProductForAdministration(ProductPersistenceService persistence) {
+        return new GetProductForAdministration(persistence);
+    }
+
+    @Bean
+    ListProductsForAdministration listProductsForAdministration(ProductPersistenceService persistence) {
+        return new ListProductsForAdministration(persistence);
+    }
+
     @Bean
     CreateDraftProduct createDraftProduct(ProductPersistenceService persistence) {
         return new CreateDraftProduct(persistence);

@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
+import com.enterprise.fashion.ecommerce.product.application.administration.ProductAdministrationPage;
+import com.enterprise.fashion.ecommerce.product.application.administration.ProductAdministrationView;
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductIdPage;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
@@ -38,6 +40,26 @@ public final class ProductPersistenceService {
         requireOwnBoundary();
         return Objects.requireNonNull(reads.execute(status -> persistence.load(id)),
                 "Product persistence returned no observation");
+    }
+
+    /** One read-only repeatable-read observation for IDs and all aggregate components. */
+    public ProductAdministrationPage pageForAdministration(int size, ProductIdPage.Cursor cursor) {
+        ProductIdPage.validateSize(size);
+        if (cursor != null && cursor.pageSize() != size) {
+            throw new IllegalArgumentException("Product continuation page size mismatch");
+        }
+        requireOwnBoundary();
+        return Objects.requireNonNull(reads.execute(status -> {
+            var ids = persistence.findProductIdsAfter(cursor == null ? null : cursor.afterExclusive(), size + 1);
+            boolean more = ids.size() > size;
+            var selected = ids.subList(0, Math.min(size, ids.size()));
+            var products = persistence.loadAll(selected);
+            if (!products.stream().map(Product::id).toList().equals(selected)) {
+                throw new IllegalStateException("Incomplete Product administration observation");
+            }
+            return new ProductAdministrationPage(products.stream().map(ProductAdministrationView::from).toList(), size,
+                    more ? new ProductIdPage.Cursor(selected.getLast(), size) : null);
+        }), "Product persistence returned no administration page");
     }
 
     /**

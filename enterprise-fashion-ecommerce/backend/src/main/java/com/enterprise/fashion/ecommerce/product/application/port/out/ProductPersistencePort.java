@@ -29,6 +29,12 @@ public interface ProductPersistencePort {
     Optional<Product> load(ProductId id);
 
     /**
+     * Bounded aggregate batch (at most 100 distinct IDs), returned in requested order, omitting
+     * confirmed absent IDs only. Requires a repeatable-read snapshot; corruption/failures propagate.
+     */
+    List<Product> loadAll(List<ProductId> ids);
+
+    /**
      * Internal IDs in ascending unsigned UTF-8 byte order, strictly after the optional boundary.
      * Requires a consistent snapshot transaction. Limit is 1–101 (one lookahead beyond a
      * maximum-size page). Includes non-visible Products; failures must propagate.

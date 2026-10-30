@@ -131,18 +131,57 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
         if (row == null) {
             return Optional.empty();
         }
+        return Optional.of(restoreProduct(id, row,
+                aggregates.findAll(Query.query(Criteria.where("product_id").is(id.value())), ProductVariantRow.class),
+                aggregates.findAll(Query.query(Criteria.where("product_id").is(id.value()))
+                        .sort(Sort.by("presentationOrder")), ProductMediaRow.class)));
+    }
+
+    @Override
+    public List<Product> loadAll(List<ProductId> ids) {
+        Objects.requireNonNull(ids);
+        ids = List.copyOf(ids);
+        if (ids.size() > 100 || new java.util.HashSet<>(ids).size() != ids.size()) {
+            throw new IllegalArgumentException("Invalid Product batch");
+        }
+        requireTransaction(true);
+        if (ids.isEmpty()) { return List.of(); }
+        var keys = ids.stream().map(ProductId::value).toList();
+        var parents = new java.util.HashMap<String, ProductRow>();
+        for (ProductRow row : aggregates.findAll(Query.query(Criteria.where("product_id").in(keys)), ProductRow.class)) {
+            parents.put(row.productId(), row);
+        }
+        var variants = new java.util.HashMap<String, List<ProductVariantRow>>();
+        for (ProductVariantRow row : aggregates.findAll(Query.query(Criteria.where("product_id").in(keys)), ProductVariantRow.class)) {
+            variants.computeIfAbsent(row.productId(), key -> new ArrayList<>()).add(row);
+        }
+        var media = new java.util.HashMap<String, List<ProductMediaRow>>();
+        for (ProductMediaRow row : aggregates.findAll(Query.query(Criteria.where("product_id").in(keys))
+                .sort(Sort.by("presentationOrder")), ProductMediaRow.class)) {
+            media.computeIfAbsent(row.productId(), key -> new ArrayList<>()).add(row);
+        }
+        var result = new ArrayList<Product>();
+        for (ProductId id : ids) {
+            ProductRow row = parents.get(id.value());
+            if (row != null) {
+                result.add(restoreProduct(id, row, variants.getOrDefault(id.value(), List.of()), media.getOrDefault(id.value(), List.of())));
+            }
+        }
+        return List.copyOf(result);
+    }
+
+    /** Same strict reconstruction for individual reads and bounded batches; no partial results. */
+    private Product restoreProduct(ProductId id, ProductRow row, Iterable<ProductVariantRow> variantRows, Iterable<ProductMediaRow> mediaRows) {
         try {
             var variants = new ArrayList<ProductVariant>();
-            for (ProductVariantRow variant : aggregates.findAll(
-                    Query.query(Criteria.where("product_id").is(id.value())), ProductVariantRow.class)) {
+            for (ProductVariantRow variant : variantRows) {
                 variants.add(restoreVariant(variant));
             }
             Product restored = Product.reconstruct(new ProductId(row.productId()), new ProductFamily(row.family()),
                     new ProductAttributeStandard(row.attributeStandardVersion()), required(row.sizeApplicable()),
                     required(row.colourApplicable()), ProductLifecycle.valueOf(row.lifecycle()), variants);
             var media = new ArrayList<ProductMedia>();
-            for (ProductMediaRow item : aggregates.findAll(Query.query(Criteria.where("product_id").is(id.value()))
-                    .sort(Sort.by("presentationOrder")), ProductMediaRow.class)) {
+            for (ProductMediaRow item : mediaRows) {
                 if (item.presentationOrder() == null || item.presentationOrder() != media.size()) {
                     throw new IllegalArgumentException("Invalid stored media order");
                 }
@@ -167,7 +206,7 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
             if (!id.equals(restored.id())) {
                 throw new IllegalArgumentException("Stored Product identity mismatch");
             }
-            return Optional.of(restored);
+            return restored;
         } catch (IllegalArgumentException | NullPointerException invalid) {
             // No invalid raw values or descriptive content in the outward diagnostic.
             throw new DataIntegrityViolationException("Invalid stored Product aggregate");

@@ -44,6 +44,15 @@ class ModuleArchitectureTest {
             .importPackages(ROOT_PACKAGE);
 
     @Test
+    void publicProductCatalogueDoesNotDependOnInternalAdministrationQueriesOrViews() {
+        noClasses()
+                .that().resideInAnyPackage(ROOT_PACKAGE + ".product.adapter.in.web..",
+                        ROOT_PACKAGE + ".product.application.catalogue..")
+                .should().dependOnClassesThat().resideInAPackage(ROOT_PACKAGE + ".product.application.administration..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void productionCodeExistsForArchitectureValidation() {
         assertFalse(PRODUCTION_CLASSES.isEmpty(), "Architecture checks require production classes");
     }
