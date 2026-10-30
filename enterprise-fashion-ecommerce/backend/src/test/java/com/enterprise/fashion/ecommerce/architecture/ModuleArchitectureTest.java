@@ -281,6 +281,14 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void productEvidenceStorageCannotBecomeAnApplicationAcceptanceWriter() {
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
+                .should().dependOnClassesThat().resideInAPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
+                .as("Product evidence storage remains behind a read-only application Port")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void sharedCodeDoesNotDependOnBusinessModuleInternals() {
         String[] businessModuleInternals = BUSINESS_MODULE_SEGMENTS.stream()
                 .flatMap(module -> Stream.of(
