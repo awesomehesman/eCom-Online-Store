@@ -17,6 +17,8 @@ import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -58,7 +60,11 @@ class ProductEvidenceIntegrationTest {
     }
 
     private EvidenceEventRow record(Product product) {
-        return new EvidenceEventRow(UUID.randomUUID(), product.id().value(), product.revision().value(), "CONTENT", "RECORD",
+        return record(product, ProductEvidenceEvent.Purpose.CONTENT);
+    }
+
+    private EvidenceEventRow record(Product product, ProductEvidenceEvent.Purpose purpose) {
+        return new EvidenceEventRow(UUID.randomUUID(), product.id().value(), product.revision().value(), purpose.name(), "RECORD",
                 "synthetic-source", "source-asserted-actor", new String[]{"synthetic-support-1", "synthetic-support-2"},
                 "audit-correlation-1", Instant.EPOCH, "caller-cannot-set-recorder", null, null);
     }
@@ -208,6 +214,74 @@ class ProductEvidenceIntegrationTest {
         } finally {
             jdbc.execute("ALTER TABLE product.unavailable_evidence RENAME TO evidence_event");
         }
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = ProductEvidenceObservation.State.class,
+            names = {"MISSING", "STALE", "CONFLICTING", "INVALIDATED", "CURRENT_UNCONFIRMED"})
+    void publishedReadinessRemainsUnconfirmedIndependentlyOfMediaDiagnostics(ProductEvidenceObservation.State expected) {
+        Product product = product();
+        // Synthetic historical lifecycle fixture, not a publication operation or authorization.
+        jdbc.update("UPDATE product.product SET lifecycle = 'PUBLISHED' WHERE product_id = ?", product.id().value());
+        if (expected != ProductEvidenceObservation.State.MISSING) {
+            var media = record(product, ProductEvidenceEvent.Purpose.MEDIA);
+            append(media);
+            switch (expected) {
+                case STALE -> changedRepresentation(product);
+                case CONFLICTING -> append(record(product, ProductEvidenceEvent.Purpose.MEDIA));
+                case INVALIDATED -> append(change(media, "INVALIDATE", null));
+                case CURRENT_UNCONFIRMED -> { }
+                default -> throw new AssertionError("Unsupported fixture state");
+            }
+        }
+        var before = jdbc.queryForMap("SELECT * FROM product.product WHERE product_id = ?", product.id().value());
+        var mediaObservation = evidence.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA);
+        assertThat(mediaObservation.state()).isEqualTo(expected);
+        assertThat(mediaObservation.history()).allSatisfy(event -> {
+            assertThat(event.purpose()).isEqualTo(ProductEvidenceEvent.Purpose.MEDIA);
+            assertThat(event.sourceActorClaim()).startsWith("source-asserted-");
+            // Recording attribution is not a Staff identity, checking authority or acceptance.
+            assertThat(event.recordedBy()).isEqualTo("PRODUCT_DATABASE");
+        });
+        assertThat(observe(product).state()).isEqualTo(ProductEvidenceObservation.State.MISSING);
+        assertThat(observe(product).history()).isEmpty();
+
+        // The current readiness evaluator does NOT consume MEDIA observations. This verifies
+        // its independent fail-closed boundary, not media-specific eligibility evaluation.
+        assertThat(new AssessProductVisibilityReadiness(products).assess(product.id()))
+                .isEqualTo(ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED);
+        Product loaded = products.load(product.id()).orElseThrow();
+        assertThat(loaded.lifecycle()).isEqualTo(com.enterprise.fashion.ecommerce.product.domain.model.ProductLifecycle.PUBLISHED);
+        assertThat(loaded.isCustomerVisible()).isFalse();
+        assertThat(loaded.variants()).isEmpty();
+        assertThat(jdbc.queryForMap("SELECT * FROM product.product WHERE product_id = ?", product.id().value())).isEqualTo(before);
+        assertThat(evidence.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA).history())
+                .containsExactlyElementsOf(mediaObservation.history());
+    }
+
+    @Test
+    void unavailableMediaHistoryFailsWithoutFabricatingAnObservationOrUpgradingReadiness() {
+        Product product = product();
+        append(record(product, ProductEvidenceEvent.Purpose.MEDIA));
+        jdbc.update("UPDATE product.product SET lifecycle = 'PUBLISHED' WHERE product_id = ?", product.id().value());
+        var before = jdbc.queryForMap("SELECT * FROM product.product WHERE product_id = ?", product.id().value());
+        var historyBefore = evidence.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA).history();
+        jdbc.execute("ALTER TABLE product.evidence_event RENAME TO unavailable_media_evidence");
+        try {
+            // The evidence service propagates this database failure. It has no unavailable
+            // enum result and must not fabricate MISSING, acceptance or a successful observation.
+            assertThatThrownBy(() -> evidence.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA))
+                    .isInstanceOf(DataAccessException.class);
+            // Readiness does not query this store: it still withholds positive visibility.
+            assertThat(new AssessProductVisibilityReadiness(products).assess(product.id()))
+                    .isEqualTo(ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED);
+            assertThat(products.load(product.id()).orElseThrow().isCustomerVisible()).isFalse();
+        } finally {
+            jdbc.execute("ALTER TABLE product.unavailable_media_evidence RENAME TO evidence_event");
+        }
+        assertThat(jdbc.queryForMap("SELECT * FROM product.product WHERE product_id = ?", product.id().value())).isEqualTo(before);
+        assertThat(evidence.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA).history())
+                .containsExactlyElementsOf(historyBefore);
     }
 
     @Test
