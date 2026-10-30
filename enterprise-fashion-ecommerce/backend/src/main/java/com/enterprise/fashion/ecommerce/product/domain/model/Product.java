@@ -90,7 +90,8 @@ public final class Product {
 
     /**
      * Builds an immutable representation snapshot, not an authorized update/publication command.
-     * Persistence remains insert-only; no acceptance or Draft-editing workflow is implemented.
+     * This snapshot grants no acceptance or authorization. Application commands own Draft-only
+     * editing and persistence concurrency checks.
      */
     public Product withRepresentation(ProductContent content, List<ProductMedia> media) {
         if (media == null) {

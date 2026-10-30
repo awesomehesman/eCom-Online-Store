@@ -30,7 +30,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Insert-only persistence mechanics within application-owned transactions. Guards check the
+ * Create/load and conditional Draft replacement mechanics within application-owned transactions. Guards check the
  * effective PostgreSQL transaction settings, not merely requested Spring isolation metadata.
  * Stored lifecycle is restored state, never publication evidence.
  */
@@ -65,6 +65,62 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
                     media.variantId() == null ? null : media.variantId().value(), media.assetRevision(),
                     media.url(), media.alternativeText(), order++));
         }
+    }
+
+    @Override
+    public boolean replaceDraft(Product replacement, ProductRevision expectedRevision) {
+        Objects.requireNonNull(replacement);
+        Objects.requireNonNull(expectedRevision);
+        requireTransaction(false);
+        requireTransaction(true);
+        if (replacement.lifecycle() != ProductLifecycle.DRAFT) {
+            throw new IllegalArgumentException("Only Draft representations may be replaced");
+        }
+        // Validate independently at the port boundary, including pre-V5 NULL stored revisions.
+        Product current = load(replacement.id()).orElse(null);
+        if (current == null || current.lifecycle() != ProductLifecycle.DRAFT
+                || !current.revision().equals(expectedRevision)) { return false; }
+        var existingIds = current.variants().stream().map(ProductVariant::id).collect(java.util.stream.Collectors.toSet());
+        var replacementIds = replacement.variants().stream().map(ProductVariant::id).collect(java.util.stream.Collectors.toSet());
+        if (!replacementIds.containsAll(existingIds) || !current.family().equals(replacement.family())
+                || !current.standard().equals(replacement.standard())
+                || current.sizeApplicable() != replacement.sizeApplicable()
+                || current.colourApplicable() != replacement.colourApplicable()) {
+            throw new IllegalArgumentException("Draft replacement must preserve identity and Attribute context");
+        }
+        int changed = jdbc.sql("""
+                UPDATE product.product SET content_name = :name, content_description = :description,
+                    representation_revision = :revision
+                WHERE product_id = :id AND lifecycle = 'DRAFT'
+                    AND (representation_revision = :expected OR representation_revision IS NULL)
+                """)
+                .param("name", replacement.content() == null ? null : replacement.content().name())
+                .param("description", replacement.content() == null ? null : replacement.content().description())
+                .param("revision", replacement.revision().value()).param("id", replacement.id().value())
+                .param("expected", expectedRevision.value()).update();
+        if (changed != 1) { return false; }
+        // The parent CAS locks this aggregate through commit. Child changes cannot race another
+        // supported writer. NULL revision is supported only after validated legacy reconstruction.
+        jdbc.sql("SET CONSTRAINTS product.product_variant_configuration_unique DEFERRED").update();
+        for (ProductVariant variant : replacement.variants()) {
+            var config = variant.configuration();
+            var row = new ProductVariantRow(variant.id().value(), variant.productId().value(),
+                    config.family().value(), config.standard().version(), config.sizeApplicable(), config.colourApplicable(),
+                    config.size() == null ? null : config.size().code(), config.colour() == null ? null : config.colour().code(),
+                    variant.fit(), variant.material());
+            if (existingIds.contains(variant.id())) { aggregates.update(row); }
+            else { aggregates.insert(row); }
+        }
+        // Association metadata is replaced in supplied order; Variant rows are never deleted.
+        jdbc.sql("DELETE FROM product.product_media WHERE product_id = :id").param("id", replacement.id().value()).update();
+        int order = 0;
+        for (ProductMedia media : replacement.media()) {
+            aggregates.insert(new ProductMediaRow(media.id(), media.productId().value(),
+                    media.variantId() == null ? null : media.variantId().value(), media.assetRevision(),
+                    media.url(), media.alternativeText(), order++));
+        }
+        jdbc.sql("SET CONSTRAINTS product.product_variant_configuration_unique IMMEDIATE").update();
+        return true;
     }
 
     @Override
