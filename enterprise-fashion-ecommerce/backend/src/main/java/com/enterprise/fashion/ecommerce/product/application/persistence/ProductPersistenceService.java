@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
+import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductIdPage;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
 import org.springframework.transaction.support.TransactionOperations;
@@ -37,6 +38,27 @@ public final class ProductPersistenceService {
         requireOwnBoundary();
         return Objects.requireNonNull(reads.execute(status -> persistence.load(id)),
                 "Product persistence returned no observation");
+    }
+
+    /**
+     * Live internal keyset traversal, not customer-visible listing. Each call observes its own
+     * snapshot; later insertions at/before the boundary may be missed, never replayed.
+     * Omitted size means 20 even on continuation and must match the bound size.
+     */
+    public ProductIdPage pageProductIds(Integer requestedSize, ProductIdPage.Cursor cursor) {
+        int size = requestedSize == null ? ProductIdPage.DEFAULT_SIZE : requestedSize;
+        ProductIdPage.validateSize(size);
+        if (cursor != null && cursor.pageSize() != size) {
+            throw new IllegalArgumentException("Product continuation page size mismatch");
+        }
+        requireOwnBoundary();
+        return Objects.requireNonNull(reads.execute(status -> {
+            var ids = Objects.requireNonNull(persistence.findProductIdsAfter(
+                    cursor == null ? null : cursor.afterExclusive(), size + 1));
+            boolean more = ids.size() > size;
+            var page = ids.subList(0, Math.min(size, ids.size()));
+            return new ProductIdPage(page, size, more ? new ProductIdPage.Cursor(page.getLast(), size) : null);
+        }), "Product persistence returned no ID page");
     }
 
     private void requireOwnBoundary() {

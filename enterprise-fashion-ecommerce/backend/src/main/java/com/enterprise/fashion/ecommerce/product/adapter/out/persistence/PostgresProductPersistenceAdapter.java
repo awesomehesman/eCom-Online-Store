@@ -3,6 +3,7 @@ package com.enterprise.fashion.ecommerce.product.adapter.out.persistence;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.List;
 
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
@@ -78,6 +79,24 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
             // No invalid raw values or descriptive content in the outward diagnostic.
             throw new DataIntegrityViolationException("Invalid stored Product aggregate");
         }
+    }
+
+    @Override
+    public List<ProductId> findProductIdsAfter(ProductId afterExclusive, int limit) {
+        if (limit < 1 || limit > 101) {
+            throw new IllegalArgumentException("Product ID query limit must be between 1 and 101");
+        }
+        requireTransaction(true);
+        // PostgreSQL bytea ordering implements the Contract's unsigned UTF-8 comparison;
+        // neither the database default nor a linguistic collation defines continuation.
+        String query = "SELECT product_id FROM product.product "
+                + (afterExclusive == null ? "" : "WHERE convert_to(product_id, 'UTF8') > convert_to(:after, 'UTF8') ")
+                + "ORDER BY convert_to(product_id, 'UTF8') ASC LIMIT :limit";
+        var statement = jdbc.sql(query).param("limit", limit);
+        if (afterExclusive != null) {
+            statement = statement.param("after", afterExclusive.value());
+        }
+        return statement.query((row, number) -> new ProductId(row.getString("product_id"))).list();
     }
 
     private void requireTransaction(boolean snapshot) {

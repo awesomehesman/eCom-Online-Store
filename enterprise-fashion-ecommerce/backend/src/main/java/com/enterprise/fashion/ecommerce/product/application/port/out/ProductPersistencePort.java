@@ -1,6 +1,7 @@
 package com.enterprise.fashion.ecommerce.product.application.port.out;
 
 import java.util.Optional;
+import java.util.List;
 
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
@@ -17,4 +18,11 @@ public interface ProductPersistencePort {
 
     /** Returns absence only when the Product does not exist; invalid stored state fails. */
     Optional<Product> load(ProductId id);
+
+    /**
+     * Internal IDs in ascending unsigned UTF-8 byte order, strictly after the optional boundary.
+     * Requires a consistent snapshot transaction. Limit is 1–101 (one lookahead beyond a
+     * maximum-size page). Includes non-visible Products; failures must propagate.
+     */
+    List<ProductId> findProductIdsAfter(ProductId afterExclusive, int limit);
 }
