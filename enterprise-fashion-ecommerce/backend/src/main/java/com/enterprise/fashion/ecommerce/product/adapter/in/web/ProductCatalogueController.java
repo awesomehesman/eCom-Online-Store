@@ -21,17 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 public final class ProductCatalogueController {
     private final ProductCatalogueQueryService queries;
 
-    public ProductCatalogueController(ProductCatalogueQueryService queries) { this.queries = queries; }
+    private final ProductCatalogueCursorCodec cursors;
+
+    public ProductCatalogueController(ProductCatalogueQueryService queries, ProductCatalogueCursorCodec cursors) {
+        this.queries = queries;
+        this.cursors = cursors;
+    }
 
     @GetMapping("/api/v1/products")
     public ResponseEntity<?> list(HttpServletRequest request) {
         String correlation = correlation(request);
         final int size;
+        final ProductIdPage.Cursor cursor;
         try {
             Map<String, String[]> params = request.getParameterMap();
-            if (params.keySet().stream().anyMatch(key -> !"limit".equals(key))) {
-                // No public continuation can be issued without eligible results. All supplied
-                // cursors are unsupported in this phase, including internal IDs and forged tokens.
+            if (params.keySet().stream().anyMatch(key -> !"limit".equals(key) && !"cursor".equals(key))) {
                 return problem(400, correlation);
             }
             String[] limits = params.get("limit");
@@ -48,13 +52,21 @@ public final class ProductCatalogueController {
                 size = Integer.parseInt(digits);
                 ProductIdPage.validateSize(size);
             }
+            String[] tokens = params.get("cursor");
+            if (tokens != null && tokens.length != 1) {
+                return problem(400, correlation);
+            }
+            cursor = tokens == null ? null : cursors.decode(tokens[0], size);
+            cursors.requireAvailable();
+        } catch (ProductCatalogueCursorCodec.Unavailable unavailable) {
+            return problem(503, correlation);
         } catch (IllegalArgumentException malformed) {
             return problem(400, correlation);
         } catch (RuntimeException unexpected) {
             return problem(500, correlation);
         }
         try {
-            return switch (queries.list(size)) {
+            return switch (queries.list(size, cursor)) {
                 case CONFIRMED_EMPTY -> ResponseEntity.ok().headers(headers(correlation))
                         .contentType(MediaType.APPLICATION_JSON).body(new EmptyPage(List.of(), size, null));
                 case AUTHORITY_UNAVAILABLE -> problem(503, correlation);

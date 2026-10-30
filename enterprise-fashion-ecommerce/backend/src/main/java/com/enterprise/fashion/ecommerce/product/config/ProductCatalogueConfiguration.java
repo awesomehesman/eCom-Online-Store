@@ -2,6 +2,8 @@ package com.enterprise.fashion.ecommerce.product.config;
 
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueQueryService;
 import com.enterprise.fashion.ecommerce.product.adapter.in.web.ProductCatalogueSessionIsolationFilter;
+import com.enterprise.fashion.ecommerce.product.adapter.in.web.ProductCatalogueCursorCodec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.application.usecase.AssessProductVisibilityReadiness;
@@ -20,6 +22,12 @@ import org.springframework.security.web.savedrequest.NullRequestCache;
 
 @Configuration(proxyBeanMethods = false)
 public class ProductCatalogueConfiguration {
+    @Bean
+    ProductCatalogueCursorCodec productCatalogueCursorCodec(
+            @Value("${product.catalogue.cursor-secret:}") String secret) {
+        return new ProductCatalogueCursorCodec(secret);
+    }
+
     @Bean
     ProductCatalogueQueryService productCatalogueQueryService(ProductPersistenceService products) {
         return new ProductCatalogueQueryService(products, new AssessProductVisibilityReadiness(products));

@@ -60,6 +60,23 @@ class ProductCatalogueQueryServiceTest {
     }
 
     @Test
+    void continuationUsesValidatedExclusiveBoundaryAndStillRevalidatesVisibility() {
+        var cursor = new ProductIdPage.Cursor(new ProductId("before"), 20);
+        when(products.pageCatalogueCandidateIds(20, cursor)).thenReturn(new ProductIdPage(List.of(id), 20, null));
+        when(readiness.assess(id)).thenReturn(ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED);
+        assertThat(queries.list(20, cursor)).isEqualTo(ProductCatalogueQueryService.ListingOutcome.AUTHORITY_UNAVAILABLE);
+        verify(products).pageCatalogueCandidateIds(20, cursor);
+        verify(readiness).assess(id);
+    }
+
+    @Test
+    void incompatibleContinuationIsRejectedBeforePersistence() {
+        org.assertj.core.api.Assertions.assertThatIllegalArgumentException().isThrownBy(
+                () -> queries.list(20, new ProductIdPage.Cursor(id, 1)));
+        verifyNoInteractions(products, readiness);
+    }
+
+    @Test
     void detailDelegatesToExistingReadinessWithoutSecondProductLoad() {
         when(readiness.assess(id)).thenReturn(ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED);
         assertThat(queries.detail(id)).isEqualTo(ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED);

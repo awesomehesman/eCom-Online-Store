@@ -32,9 +32,16 @@ public final class ProductCatalogueQueryService {
     }
 
     public ListingOutcome list(int size) {
+        return list(size, null);
+    }
+
+    public ListingOutcome list(int size, ProductIdPage.Cursor cursor) {
         ProductIdPage.validateSize(size);
+        if (cursor != null && cursor.pageSize() != size) {
+            throw new IllegalArgumentException("Incompatible continuation");
+        }
         try {
-            ProductIdPage candidates = products.pageCatalogueCandidateIds(size, null);
+            ProductIdPage candidates = products.pageCatalogueCandidateIds(size, cursor);
             for (ProductId id : candidates.ids()) {
                 switch (readiness.assess(id)) {
                     case NOT_FOUND, NOT_VISIBLE -> { }

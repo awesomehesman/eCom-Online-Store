@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Tag("integration")
-@SpringBootTest
+@SpringBootTest(properties = "product.catalogue.cursor-secret=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
 @AutoConfigureMockMvc
 @Testcontainers
 class ProductCatalogueHttpIntegrationTest {
@@ -52,11 +52,57 @@ class ProductCatalogueHttpIntegrationTest {
     @ServiceConnection
     static final PostgreSQLContainer<?> POSTGRESQL = new PostgreSQLContainer<>("postgres:18");
 
+    @Autowired private ProductCatalogueCursorCodec cursors;
     @Autowired private MockMvc http;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private ObjectMapper json;
     @Autowired private JdbcIndexedSessionRepository sessions;
     @MockitoSpyBean private ProductPersistenceService products;
+
+    @Test
+    void authenticatedContinuationRevalidatesRatherThanReturningUnconfirmedProducts() throws Exception {
+        // Synthetic protocol boundary only, not a production-issued eligible page.
+        fixture("A", "DRAFT");
+        fixture("B", "ARCHIVED");
+        fixture("C", "PUBLISHED");
+        String token = cursors.encode(new ProductIdPage.Cursor(new ProductId("A"), 1));
+        problem(http.perform(get("/api/v1/products").param("limit", "1").param("cursor", token)).andReturn(), 503);
+        verify(products).pageCatalogueCandidateIds(1, new ProductIdPage.Cursor(new ProductId("A"), 1));
+        problem(http.perform(get("/api/v1/products").param("cursor", token)).andReturn(), 400);
+        problem(http.perform(get("/api/v1/products").param("limit", "2").param("cursor", token)).andReturn(), 400);
+        problem(http.perform(get("/api/v1/products").param("cursor", token, token)).andReturn(), 400);
+    }
+
+    @Test
+    void continuationAtConfirmedEndReturnsNoCandidateCursor() throws Exception {
+        fixture("B", "DRAFT");
+        fixture("C", "ARCHIVED");
+        String token = cursors.encode(new ProductIdPage.Cursor(new ProductId("A"), 20));
+        var result = http.perform(get("/api/v1/products").param("cursor", token)).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+        assertThat(json.readTree(result.getResponse().getContentAsString()).get("nextCursor").isNull()).isTrue();
+        assertThat(result.getResponse().getHeader("Cache-Control")).isEqualTo("no-store");
+        assertThat(result.getResponse().getHeaders("Set-Cookie")).isEmpty();
+        assertThat(result.getRequest().getSession(false)).isNull();
+    }
+
+    @Test
+    void opaqueProtocolPreservesLiveExclusiveOrderingWithoutDuplicateCandidates() {
+        fixture("A", "PUBLISHED");
+        fixture("a", "PUBLISHED");
+        fixture("z", "PUBLISHED");
+        ProductIdPage first = products.pageCatalogueCandidateIds(1, null);
+        assertThat(first.ids()).containsExactly(new ProductId("A"));
+        String token = cursors.encode(first.nextCursor()); // Isolated protocol exercise, never HTTP issuance.
+        fixture("0", "PUBLISHED"); // Earlier insertion must not replay the boundary.
+        fixture("B", "PUBLISHED"); // Later insertion is eligible for live candidate traversal, not visibility.
+        var second = products.pageCatalogueCandidateIds(1, cursors.decode(token, 1));
+        var third = products.pageCatalogueCandidateIds(1, cursors.decode(cursors.encode(second.nextCursor()), 1));
+        assertThat(second.ids()).containsExactly(new ProductId("B"));
+        assertThat(third.ids()).containsExactly(new ProductId("a"));
+        assertThat(java.util.stream.Stream.of(first, second, third).flatMap(page -> page.ids().stream()).toList())
+                .doesNotHaveDuplicates();
+    }
 
     @BeforeEach
     void clearSyntheticCatalogue() {
