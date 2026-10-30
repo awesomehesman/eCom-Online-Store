@@ -46,6 +46,15 @@ public final class ProductPersistenceService {
      * Omitted size means 20 even on continuation and must match the bound size.
      */
     public ProductIdPage pageProductIds(Integer requestedSize, ProductIdPage.Cursor cursor) {
+        return pageProductIds(requestedSize, cursor, false);
+    }
+
+    /** Ordered candidates only; negative lifecycle exclusion grants no publication or visibility. */
+    public ProductIdPage pageCatalogueCandidateIds(Integer requestedSize, ProductIdPage.Cursor cursor) {
+        return pageProductIds(requestedSize, cursor, true);
+    }
+
+    private ProductIdPage pageProductIds(Integer requestedSize, ProductIdPage.Cursor cursor, boolean catalogueCandidates) {
         int size = requestedSize == null ? ProductIdPage.DEFAULT_SIZE : requestedSize;
         ProductIdPage.validateSize(size);
         if (cursor != null && cursor.pageSize() != size) {
@@ -53,8 +62,10 @@ public final class ProductPersistenceService {
         }
         requireOwnBoundary();
         return Objects.requireNonNull(reads.execute(status -> {
-            var ids = Objects.requireNonNull(persistence.findProductIdsAfter(
-                    cursor == null ? null : cursor.afterExclusive(), size + 1));
+            ProductId after = cursor == null ? null : cursor.afterExclusive();
+            var ids = Objects.requireNonNull(catalogueCandidates
+                    ? persistence.findCatalogueCandidateIdsAfter(after, size + 1)
+                    : persistence.findProductIdsAfter(after, size + 1));
             boolean more = ids.size() > size;
             var page = ids.subList(0, Math.min(size, ids.size()));
             return new ProductIdPage(page, size, more ? new ProductIdPage.Cursor(page.getLast(), size) : null);

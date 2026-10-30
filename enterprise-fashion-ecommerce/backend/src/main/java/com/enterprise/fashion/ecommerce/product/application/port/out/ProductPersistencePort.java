@@ -25,4 +25,10 @@ public interface ProductPersistencePort {
      * maximum-size page). Includes non-visible Products; failures must propagate.
      */
     List<ProductId> findProductIdsAfter(ProductId afterExclusive, int limit);
+    /**
+     * Same ordered keyset traversal, excluding only DRAFT/ARCHIVED parents. Candidates are
+     * NOT eligible Products: publication evidence and current readiness remain unconfirmed.
+     * Protected non-visible rows must not influence public page positions or scan budgets.
+     */
+    List<ProductId> findCatalogueCandidateIdsAfter(ProductId afterExclusive, int limit);
 }

@@ -120,14 +120,31 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
 
     @Override
     public List<ProductId> findProductIdsAfter(ProductId afterExclusive, int limit) {
+        return findIdsAfter(afterExclusive, limit, "");
+    }
+
+    @Override
+    public List<ProductId> findCatalogueCandidateIdsAfter(ProductId afterExclusive, int limit) {
+        // Negative lifecycle filtering only. Unknown/corrupt states remain candidates so
+        // reconstruction fails closed rather than presenting fabricated empty success.
+        return findIdsAfter(afterExclusive, limit, "(lifecycle IS NULL OR lifecycle NOT IN ('DRAFT', 'ARCHIVED'))");
+    }
+
+    private List<ProductId> findIdsAfter(ProductId afterExclusive, int limit, String candidateRestriction) {
         if (limit < 1 || limit > 101) {
             throw new IllegalArgumentException("Product ID query limit must be between 1 and 101");
         }
         requireTransaction(true);
-        // PostgreSQL bytea ordering implements the Contract's unsigned UTF-8 comparison;
-        // neither the database default nor a linguistic collation defines continuation.
+        var conditions = new ArrayList<String>();
+        if (!candidateRestriction.isEmpty()) {
+            conditions.add(candidateRestriction);
+        }
+        if (afterExclusive != null) {
+            conditions.add("convert_to(product_id, 'UTF8') > convert_to(:after, 'UTF8')");
+        }
+        // Shared byte ordering; no offset or database-default linguistic collation.
         String query = "SELECT product_id FROM product.product "
-                + (afterExclusive == null ? "" : "WHERE convert_to(product_id, 'UTF8') > convert_to(:after, 'UTF8') ")
+                + (conditions.isEmpty() ? "" : "WHERE " + String.join(" AND ", conditions) + " ")
                 + "ORDER BY convert_to(product_id, 'UTF8') ASC LIMIT :limit";
         var statement = jdbc.sql(query).param("limit", limit);
         if (afterExclusive != null) {
