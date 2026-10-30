@@ -11,6 +11,8 @@ import java.util.List;
  */
 public final class Product {
     private final ProductId id;
+    private final ProductContent content;
+    private final List<ProductMedia> media;
     private final ProductLifecycle lifecycle;
     private final ProductFamily family;
     private final ProductAttributeStandard standard;
@@ -25,6 +27,12 @@ public final class Product {
 
     private Product(ProductId id, ProductFamily family, ProductAttributeStandard standard,
             boolean sizeApplicable, boolean colourApplicable, ProductLifecycle lifecycle, List<ProductVariant> variants) {
+        this(id, family, standard, sizeApplicable, colourApplicable, lifecycle, variants, null, List.of());
+    }
+
+    private Product(ProductId id, ProductFamily family, ProductAttributeStandard standard,
+            boolean sizeApplicable, boolean colourApplicable, ProductLifecycle lifecycle,
+            List<ProductVariant> variants, ProductContent content, List<ProductMedia> media) {
         if (id == null || family == null || standard == null || lifecycle == null) {
             throw new IllegalArgumentException("Product identity, family, Attribute standard and lifecycle are required");
         }
@@ -35,6 +43,15 @@ public final class Product {
         this.sizeApplicable = sizeApplicable;
         this.colourApplicable = colourApplicable;
         this.variants = List.copyOf(variants);
+        this.content = content;
+        this.media = List.copyOf(media);
+        var mediaIds = new java.util.HashSet<String>();
+        for (ProductMedia item : this.media) {
+            if (!id.equals(item.productId()) || !mediaIds.add(item.id())
+                    || (item.variantId() != null && this.variants.stream().noneMatch(v -> v.id().equals(item.variantId())))) {
+                throw new IllegalArgumentException("Invalid Product media association");
+            }
+        }
     }
 
     /**
@@ -54,6 +71,32 @@ public final class Product {
             restored = restored.withVariant(variant);
         }
         return restored;
+    }
+
+    /** Restores structural metadata; a matching revision proves no acceptance or publication. */
+    public static Product reconstruct(ProductId id, ProductFamily family, ProductAttributeStandard standard,
+            boolean sizeApplicable, boolean colourApplicable, ProductLifecycle lifecycle,
+            List<ProductVariant> variants, ProductContent content, List<ProductMedia> media, ProductRevision revision) {
+        if (revision == null) {
+            throw new IllegalArgumentException("Product revision is required");
+        }
+        Product restored = reconstruct(id, family, standard, sizeApplicable, colourApplicable, lifecycle, variants)
+                .withRepresentation(content, media);
+        if (!revision.equals(restored.revision())) {
+            throw new IllegalArgumentException("Product revision does not match stored representation");
+        }
+        return restored;
+    }
+
+    /**
+     * Builds an immutable representation snapshot, not an authorized update/publication command.
+     * Persistence remains insert-only; no acceptance or Draft-editing workflow is implemented.
+     */
+    public Product withRepresentation(ProductContent content, List<ProductMedia> media) {
+        if (media == null) {
+            throw new IllegalArgumentException("Product media collection is required");
+        }
+        return new Product(id, family, standard, sizeApplicable, colourApplicable, lifecycle, variants, content, media);
     }
 
     /** Accepts one Variant only after checking all membership invariants; never replaces prior state. */
@@ -77,9 +120,12 @@ public final class Product {
         }
         List<ProductVariant> accepted = new ArrayList<>(variants);
         accepted.add(variant);
-        return new Product(id, family, standard, sizeApplicable, colourApplicable, lifecycle, accepted);
+        return new Product(id, family, standard, sizeApplicable, colourApplicable, lifecycle, accepted, content, media);
     }
 
+    public ProductContent content() { return content; }
+    public List<ProductMedia> media() { return media; }
+    public ProductRevision revision() { return ProductRevision.of(this); }
     public ProductId id() { return id; }
     public ProductFamily family() { return family; }
     public ProductAttributeStandard standard() { return standard; }

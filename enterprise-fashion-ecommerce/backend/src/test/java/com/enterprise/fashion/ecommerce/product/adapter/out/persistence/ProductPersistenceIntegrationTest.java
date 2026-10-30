@@ -269,6 +269,10 @@ class ProductPersistenceIntegrationTest {
                         // Synthetic concurrent maintenance fixture, not an application transition API.
                         jdbc.update("UPDATE product.product SET lifecycle = 'ARCHIVED' WHERE product_id = ?", accepted.id().value());
                         jdbc.update("UPDATE product.product_variant SET size_code = 'L' WHERE product_id = ?", accepted.id().value());
+                        Product changedRepresentation = new Product(accepted.id(), accepted.family(), accepted.standard(), true, true)
+                                .withVariant(variant(accepted, accepted.variants().getFirst().id().value(), "L"));
+                        jdbc.update("UPDATE product.product SET representation_revision = ? WHERE product_id = ?",
+                                changedRepresentation.revision().value(), accepted.id().value());
                     })).get(10, TimeUnit.SECONDS);
                 }
             }

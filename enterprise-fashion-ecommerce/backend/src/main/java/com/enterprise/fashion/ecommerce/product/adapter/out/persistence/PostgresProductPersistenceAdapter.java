@@ -5,6 +5,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
 
+import com.enterprise.fashion.ecommerce.product.domain.model.ProductContent;
+import com.enterprise.fashion.ecommerce.product.domain.model.ProductMedia;
+import com.enterprise.fashion.ecommerce.product.domain.model.ProductRevision;
+import org.springframework.data.domain.Sort;
+
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductAttributeStandard;
@@ -44,13 +49,21 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
         Objects.requireNonNull(product);
         requireTransaction(false);
         aggregates.insert(new ProductRow(product.id().value(), product.lifecycle().name(), product.family().value(),
-                product.standard().version(), product.sizeApplicable(), product.colourApplicable()));
+                product.standard().version(), product.sizeApplicable(), product.colourApplicable(),
+                product.content() == null ? null : product.content().name(),
+                product.content() == null ? null : product.content().description(), product.revision().value()));
         for (ProductVariant variant : product.variants()) {
             VariantConfiguration config = variant.configuration();
             aggregates.insert(new ProductVariantRow(variant.id().value(), variant.productId().value(),
                     config.family().value(), config.standard().version(), config.sizeApplicable(),
                     config.colourApplicable(), config.size() == null ? null : config.size().code(),
                     config.colour() == null ? null : config.colour().code(), variant.fit(), variant.material()));
+        }
+        int order = 0;
+        for (ProductMedia media : product.media()) {
+            aggregates.insert(new ProductMediaRow(media.id(), media.productId().value(),
+                    media.variantId() == null ? null : media.variantId().value(), media.assetRevision(),
+                    media.url(), media.alternativeText(), order++));
         }
     }
 
@@ -71,6 +84,30 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
             Product restored = Product.reconstruct(new ProductId(row.productId()), new ProductFamily(row.family()),
                     new ProductAttributeStandard(row.attributeStandardVersion()), required(row.sizeApplicable()),
                     required(row.colourApplicable()), ProductLifecycle.valueOf(row.lifecycle()), variants);
+            var media = new ArrayList<ProductMedia>();
+            for (ProductMediaRow item : aggregates.findAll(Query.query(Criteria.where("product_id").is(id.value()))
+                    .sort(Sort.by("presentationOrder")), ProductMediaRow.class)) {
+                if (item.presentationOrder() == null || item.presentationOrder() != media.size()) {
+                    throw new IllegalArgumentException("Invalid stored media order");
+                }
+                media.add(new ProductMedia(item.mediaId(), new ProductId(item.productId()),
+                        item.variantId() == null ? null : new ProductVariantId(item.variantId()),
+                        item.assetRevision(), item.url(), item.alternativeText()));
+            }
+            ProductContent content = null;
+            if (row.contentName() != null || row.contentDescription() != null) {
+                content = new ProductContent(row.contentName(), row.contentDescription());
+            }
+            if (row.representationRevision() == null) {
+                if (content != null || !media.isEmpty()) {
+                    throw new IllegalArgumentException("Missing stored representation revision");
+                }
+                // Unbackfilled pre-V5 structural rows remain loadable, never accepted or public.
+            } else {
+                restored = Product.reconstruct(restored.id(), restored.family(), restored.standard(),
+                        restored.sizeApplicable(), restored.colourApplicable(), restored.lifecycle(), restored.variants(),
+                        content, media, new ProductRevision(row.representationRevision()));
+            }
             if (!id.equals(restored.id())) {
                 throw new IllegalArgumentException("Stored Product identity mismatch");
             }
