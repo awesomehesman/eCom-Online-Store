@@ -44,8 +44,13 @@ public final class ProductCatalogueQueryService {
             ProductIdPage candidates = products.pageCatalogueCandidateIds(size, cursor);
             for (ProductId id : candidates.ids()) {
                 switch (readiness.assess(id)) {
-                    case NOT_FOUND, NOT_VISIBLE -> { }
-                    case EVIDENCE_UNCONFIRMED, AUTHORITY_UNAVAILABLE -> { return ListingOutcome.AUTHORITY_UNAVAILABLE; }
+                    // The candidate snapshot already excluded Draft/Archived Products. A later
+                    // negative observation means the snapshots changed; it cannot confirm that
+                    // other, previously excluded Products are still hidden. Fail closed instead
+                    // of combining stale candidate membership with new negative readiness.
+                    case NOT_FOUND, NOT_VISIBLE, EVIDENCE_UNCONFIRMED, AUTHORITY_UNAVAILABLE -> {
+                        return ListingOutcome.AUTHORITY_UNAVAILABLE;
+                    }
                     case ERROR -> { return ListingOutcome.ERROR; }
                 }
             }

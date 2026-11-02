@@ -33,9 +33,9 @@ class ProductCatalogueQueryServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"NOT_FOUND,CONFIRMED_EMPTY", "NOT_VISIBLE,CONFIRMED_EMPTY",
+    @CsvSource({"NOT_FOUND,AUTHORITY_UNAVAILABLE", "NOT_VISIBLE,AUTHORITY_UNAVAILABLE",
             "EVIDENCE_UNCONFIRMED,AUTHORITY_UNAVAILABLE", "AUTHORITY_UNAVAILABLE,AUTHORITY_UNAVAILABLE", "ERROR,ERROR"})
-    void eachCandidateMustHaveConfirmingNegativeReadinessBeforeEmptySuccess(ProductVisibilityReadiness state,
+    void laterCandidateReadinessCannotManufactureCoherentEmptySuccess(ProductVisibilityReadiness state,
             ProductCatalogueQueryService.ListingOutcome expected) {
         when(products.pageCatalogueCandidateIds(1, null)).thenReturn(new ProductIdPage(List.of(id), 1, null));
         when(readiness.assess(id)).thenReturn(state);

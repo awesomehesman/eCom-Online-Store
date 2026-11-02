@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductIdPage;
@@ -26,6 +28,8 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -35,6 +39,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -55,9 +60,37 @@ class ProductCatalogueHttpIntegrationTest {
     @Autowired private ProductCatalogueCursorCodec cursors;
     @Autowired private MockMvc http;
     @Autowired private JdbcTemplate jdbc;
+    @Autowired private PlatformTransactionManager transactions;
     @Autowired private ObjectMapper json;
     @Autowired private JdbcIndexedSessionRepository sessions;
     @MockitoSpyBean private ProductPersistenceService products;
+
+    @ParameterizedTest
+    @ValueSource(strings = {"DRAFT", "ABSENT"})
+    void changedCandidateSnapshotCannotFabricateEmptySuccess(String replacementState) throws Exception {
+        fixture("A", "PUBLISHED");
+        fixture("B", "DRAFT");
+        doAnswer(invocation -> {
+            Object candidates = invocation.callRealMethod();
+            // Commit a competing observation after candidate selection but before reassessment.
+            // At every committed snapshot a Published Product remains unconfirmed; empty
+            // success cannot be justified by mixing the two snapshots.
+            try (var writer = Executors.newSingleThreadExecutor()) {
+                writer.submit(() -> new TransactionTemplate(transactions).executeWithoutResult(status -> {
+                    if ("ABSENT".equals(replacementState)) {
+                        jdbc.update("DELETE FROM product.product WHERE product_id = 'A'");
+                    } else {
+                        jdbc.update("UPDATE product.product SET lifecycle = 'DRAFT' WHERE product_id = 'A'");
+                    }
+                    jdbc.update("UPDATE product.product SET lifecycle = 'PUBLISHED' WHERE product_id = 'B'");
+                })).get(10, TimeUnit.SECONDS);
+            }
+            return candidates;
+        }).when(products).pageCatalogueCandidateIds(eq(20), isNull());
+        problem(http.perform(get("/api/v1/products")).andReturn(), 503);
+        assertThat(jdbc.queryForObject("SELECT lifecycle FROM product.product WHERE product_id = 'B'", String.class))
+                .isEqualTo("PUBLISHED");
+    }
 
     @Test
     void authenticatedContinuationRevalidatesRatherThanReturningUnconfirmedProducts() throws Exception {
