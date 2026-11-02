@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.96
+version: 1.0.97
 status: Approved
 owner: Architecture
-last_updated: 2026-10-30
+last_updated: 2026-11-03
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -581,6 +581,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0040 | Product Launch Date, Release Scope and Post-Launch Support Window | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0040-product-launch-date-release-scope-post-launch-support-window.md](../../specifications/decisions/DEC-0040-product-launch-date-release-scope-post-launch-support-window.md) |
 | DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
+| DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Proposed | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -774,6 +775,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.97 | 2026-11-03 | Approved | Indexed DEC-0043 0.1.0 Proposed for initial Variant-level V1 base-price assignment; Product/business-owner acceptance remains pending, with no Pricing specification change or implementation authority granted. |
 | 1.0.96 | 2026-10-30 | Approved | Indexed DEC-0042 0.1.0 Proposed, recording confirmed Product-owner publication/content/media/lifecycle policy separately from existing Security requirements and pending accountable Security controls; granted no overall decision acceptance, canonical Product synchronization or implementation authority. |
 | 1.0.95 | 2026-10-29 | Approved | Synchronized DEC-0019 1.0.0 to Accepted with Product-owner acceptance dated 2026-10-29; summarized Option C hybrid family applicability, canonical Size/Colour uniqueness, descriptive Fit/Material, stable identity and historical/versioned evolution safeguards; preserved Category/Search boundaries and DEC-0018 Proposed, with PRODUCT.md synchronization explicitly outstanding and no implementation claim. |
 | 1.0.94 | 2026-10-16 | Approved | Registered DEC-0041 0.1.0 as a Proposed, non-authoritative Security Decision for the four unresolved post-expiry OpenPGP artifact signatures; preserved pending risk classification and Security/Architecture dispositions, undetermined exception applicability and withheld merge authorization. |
