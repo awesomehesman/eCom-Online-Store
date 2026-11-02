@@ -26,9 +26,18 @@ public record Money(BigDecimal amount, Currency currency) {
         return new Money(amount.subtract(other.amount), currency);
     }
 
+    /**
+     * Numeric ordering within one currency under BPRC-REQ-018.
+     * Does not round, convert, or establish Price applicability.
+     */
+    public int compareTo(Money other) {
+        requireSameCurrency(other);
+        return amount.compareTo(other.amount);
+    }
+
     private void requireSameCurrency(Money other) {
         if (other == null || !currency.equals(other.currency)) {
-            throw new IllegalArgumentException("Money arithmetic requires the same currency");
+            throw new IllegalArgumentException("Money operations require the same currency");
         }
     }
 

@@ -84,4 +84,33 @@ class MoneyTest {
     void equivalentCurrencyInstancesAreCompatible() {
         assertThat(zar("1").add(new Money(BigDecimal.ONE, new Currency("ZAR")))).isEqualTo(zar("2"));
     }
+
+    @Test
+    void comparisonOrdersExactValuesWithoutRoundingOrMutatingOperands() {
+        Money lower = zar("12345678901234567890.12345678901234567890");
+        Money higher = zar("12345678901234567890.12345678901234567891");
+        assertThat(lower.compareTo(higher)).isNegative();
+        assertThat(higher.compareTo(lower)).isPositive();
+        assertThat(zar("-1").compareTo(zar("0"))).isNegative();
+        assertThat(lower.amount()).isEqualTo(new BigDecimal("12345678901234567890.12345678901234567890"));
+        assertThat(higher.amount()).isEqualTo(new BigDecimal("12345678901234567890.12345678901234567891"));
+    }
+
+    @Test
+    void comparisonIsConsistentWithNumericEqualityAndEquivalentCurrencies() {
+        Money first = zar("1.0");
+        Money second = new Money(new BigDecimal("1.00"), new Currency("ZAR"));
+        assertThat(first.compareTo(second)).isZero();
+        assertThat(first).isEqualTo(second);
+        assertThat(zar("-0.00").compareTo(zar("0"))).isZero();
+        assertThat(zar("1E+10").compareTo(zar("10000000000.00"))).isZero();
+    }
+
+    @Test
+    void comparisonRejectsMissingOperandAndUnsupportedCurrency() {
+        assertThatIllegalArgumentException().isThrownBy(() -> zar("1").compareTo(null));
+        // Unsupported currencies fail at construction; no invalid Currency is fabricated.
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> zar("1").compareTo(new Money(BigDecimal.ONE, new Currency("USD"))));
+    }
 }
