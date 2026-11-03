@@ -1,6 +1,8 @@
 package com.enterprise.fashion.ecommerce.product.config;
 
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
+import com.enterprise.fashion.ecommerce.product.application.api.ProductVariantEvidence;
+import com.enterprise.fashion.ecommerce.product.application.usecase.ObserveProductVariantEvidence;
 import com.enterprise.fashion.ecommerce.product.application.usecase.CreateDraftProduct;
 import com.enterprise.fashion.ecommerce.product.application.administration.GetProductForAdministration;
 import com.enterprise.fashion.ecommerce.product.application.administration.ListProductsForAdministration;
@@ -14,6 +16,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration(proxyBeanMethods = false)
 public class ProductPersistenceConfiguration {
+    @Bean
+    ProductVariantEvidence productVariantEvidence(ProductPersistenceService persistence) {
+        return new ObserveProductVariantEvidence(persistence);
+    }
+
     @Bean
     GetProductForAdministration getProductForAdministration(ProductPersistenceService persistence) {
         return new GetProductForAdministration(persistence);

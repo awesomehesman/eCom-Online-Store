@@ -44,6 +44,15 @@ class ModuleArchitectureTest {
             .importPackages(ROOT_PACKAGE);
 
     @Test
+    void exportedProductEvidenceContractContainsNoDomainPersistenceFrameworkOrPricingTypes() {
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".product.application.api..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        ROOT_PACKAGE + ".product.domain..", ROOT_PACKAGE + ".product.adapter..",
+                        ROOT_PACKAGE + ".pricing..", "org.springframework..", "java.sql..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void publicProductCatalogueDoesNotDependOnInternalAdministrationQueriesOrViews() {
         noClasses()
                 .that().resideInAnyPackage(ROOT_PACKAGE + ".product.adapter.in.web..",
