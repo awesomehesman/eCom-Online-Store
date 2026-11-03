@@ -39,6 +39,7 @@ class BasePricePersistenceIntegrationTest {
     @Container @ServiceConnection
     static final PostgreSQLContainer<?> POSTGRESQL = new PostgreSQLContainer<>("postgres:18");
     @Autowired BasePricePersistenceService service;
+    @Autowired com.enterprise.fashion.ecommerce.pricing.application.query.ObserveVariantBasePrice query;
     @Autowired PostgresBasePricePersistenceAdapter adapter;
     @Autowired JdbcTemplate jdbc;
     @Autowired PlatformTransactionManager manager;
@@ -291,6 +292,30 @@ class BasePricePersistenceIntegrationTest {
         });
         assertTerminalHead(s, "r3");
         assertThat(service.load(s)).hasSize(3).noneMatch(a -> a.state() == State.CURRENT);
+    }
+
+    @Test
+    void conditionalQueryObservesMissingSelectedReplacedAndWithdrawnHistory() {
+        var s = subject();
+        assertThat(query.observe(s)).isEqualTo(new SelectVariantBasePrice.Missing());
+        service.initialize(s, "z-old", money("1.123456789"));
+        var initial = (SelectVariantBasePrice.Selected) query.observe(s);
+        assertThat(initial.assignment().money().amount()).isEqualTo(new BigDecimal("1.123456789"));
+        service.replace(s, "z-old", "a-current", money("2.987654321"));
+        assertThat(((SelectVariantBasePrice.Selected) query.observe(s)).assignment().revision()).isEqualTo("a-current");
+        service.withdraw(s, "a-current", "withdrawn");
+        assertThat(query.observe(s)).isEqualTo(new SelectVariantBasePrice.Historical(java.util.Set.of(State.OBSOLETE, State.WITHDRAWN)));
+        assertThat(service.load(s)).hasSize(3).noneMatch(a -> a.state() == State.CURRENT);
+    }
+
+    @Test
+    void conditionalQueryPropagatesOwnerMismatchAndTransactionBoundaryFailure() {
+        var s = subject();
+        service.initialize(s, "r", money("1"));
+        assertThatThrownBy(() -> query.observe(new Subject("other-owner", s.variantReference())))
+                .isInstanceOf(IllegalStateException.class);
+        transaction(true).executeWithoutResult(status ->
+                assertThatThrownBy(() -> query.observe(s)).isInstanceOf(IllegalStateException.class));
     }
 
     private void assertTerminalHead(Subject subject, String expected) {
