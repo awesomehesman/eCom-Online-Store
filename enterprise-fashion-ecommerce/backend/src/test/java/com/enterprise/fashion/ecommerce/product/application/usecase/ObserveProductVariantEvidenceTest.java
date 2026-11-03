@@ -105,6 +105,74 @@ class ObserveProductVariantEvidenceTest {
     }
 
     @Test
+    void recoverableConnectionFailureIsUnavailableWithoutLeakingDetails() {
+        doThrow(new org.springframework.dao.RecoverableDataAccessException("private connection details"))
+                .when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Unavailable());
+    }
+
+    @Test
+    void transactionWrapperWithRecognizedResourceFailureIsUnavailable() {
+        var failure = new org.springframework.transaction.TransactionSystemException("private transaction",
+                new org.springframework.dao.DataAccessResourceFailureException("private connection"));
+        doThrow(failure).when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Unavailable());
+    }
+
+    @Test
+    void nestedAvailabilityFailureInsideTransactionWrapperIsUnavailable() {
+        var failure = new org.springframework.transaction.TransactionSystemException("private transaction",
+                new IllegalStateException("internal wrapper", new org.springframework.transaction.TransactionSystemException(
+                        "nested transaction", new org.springframework.dao.RecoverableDataAccessException("private connection"))));
+        doThrow(failure).when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Unavailable());
+    }
+
+    @Test
+    void unrelatedWrappedFailureRemainsInvalid() {
+        doThrow(new org.springframework.transaction.TransactionSystemException("private transaction",
+                new IllegalStateException("private internal failure"))).when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE));
+    }
+
+    @Test
+    void nonAvailabilityDataAccessFailureDoesNotBecomeUnavailable() {
+        doThrow(new org.springframework.dao.InvalidDataAccessResourceUsageException("private invalid SQL"))
+                .when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE));
+        doThrow(new org.springframework.transaction.TransactionSystemException("private transaction",
+                new org.springframework.dao.InvalidDataAccessResourceUsageException("private invalid SQL")))
+                .when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE));
+    }
+
+    @Test
+    void arbitraryInternalWrapperIsNotAssumedToBeATransactionAvailabilityFailure() {
+        doThrow(new IllegalStateException("internal failure",
+                new org.springframework.dao.DataAccessResourceFailureException("private resource")))
+                .when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE));
+    }
+
+    @Test
+    void cyclicTransactionCauseChainTerminatesWithoutGrantingAvailability() {
+        var first = new IllegalStateException("first");
+        var second = new IllegalStateException("second", first);
+        first.initCause(second);
+        doThrow(new org.springframework.transaction.TransactionSystemException("cycle", first)).when(persistence).load(id);
+        org.junit.jupiter.api.Assertions.assertTimeoutPreemptively(java.time.Duration.ofSeconds(2), () ->
+                assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE)));
+    }
+
+    @Test
+    void causeInspectionIsBoundedEvenForVeryDeepChains() {
+        RuntimeException chain = new org.springframework.dao.DataAccessResourceFailureException("deep resource");
+        for (int index = 0; index < 40; index++) { chain = new IllegalStateException("wrapper", chain); }
+        doThrow(new org.springframework.transaction.TransactionSystemException("deep transaction", chain)).when(persistence).load(id);
+        assertThat(provider.observe(id.value(), "variant-1")).isEqualTo(new Invalid(InvalidReason.INTERNAL_FAILURE));
+    }
+
+    @Test
     void unexpectedFailureAndMissingProducerObservationAreSafeInternalFailures() {
         doThrow(new IllegalStateException("sensitive implementation details")).when(persistence).load(id);
         var result = provider.observe(id.value(), "variant-1");
