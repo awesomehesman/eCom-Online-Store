@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.97
+version: 1.0.98
 status: Approved
 owner: Architecture
 last_updated: 2026-11-03
@@ -581,9 +581,11 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0040 | Product Launch Date, Release Scope and Post-Launch Support Window | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0040-product-launch-date-release-scope-post-launch-support-window.md](../../specifications/decisions/DEC-0040-product-launch-date-release-scope-post-launch-support-window.md) |
 | DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
-| DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Proposed | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
+| DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
+
+DEC-0043 1.0.0 is Accepted and authoritative within its bounded commercial scope, following explicit Product/business-owner acceptance without amendments on 2026-11-03, effective the same day. PRODUCT.md and the Pricing domain/backend specifications are synchronized with Variant-level positive ZAR base pricing, single-current assignment, no Product fallback, immediate committed applicability and revision-preserving replacement/withdrawal. Product identity, Order history and unresolved tax, promotion, authorization and implementation boundaries remain preserved; acceptance is not operational authorization or release readiness.
 
 DEC-0009 0.8.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.7.0 native feasibility/admission-readiness evaluation is complete and its authorization consumed/exhausted, with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED** recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0009/native-idna2008-feasibility-evaluation-2026-10-06.md). The evaluated GNU Libidn2 2.3.8 public API arrangement MUST NOT be selected from the current evidence; this is candidate-specific, not universal native infeasibility. The 0.3.0 and 0.5.0 authorizations remain exhausted and direct ICU internal Punycode remains removed from the current candidate path. No new evaluation is authorized; further candidate evaluation or a materially different strategy requires fresh explicit governance authorization. This synchronization selects no technology, admits no dependency/native artifact and grants no DEC acceptance, Architecture approval/change or implementation authority. Separate DEC-0001 and applicable Architecture/ADR gates remain required.
 
@@ -775,6 +777,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.98 | 2026-11-03 | Approved | Synchronized DEC-0043 1.0.0 Accepted with explicit Product/business-owner acceptance and effective date 2026-11-03; recorded Product and Pricing specification synchronization without changing unrelated decisions or operational authorization. |
 | 1.0.97 | 2026-11-03 | Approved | Indexed DEC-0043 0.1.0 Proposed for initial Variant-level V1 base-price assignment; Product/business-owner acceptance remains pending, with no Pricing specification change or implementation authority granted. |
 | 1.0.96 | 2026-10-30 | Approved | Indexed DEC-0042 0.1.0 Proposed, recording confirmed Product-owner publication/content/media/lifecycle policy separately from existing Security requirements and pending accountable Security controls; granted no overall decision acceptance, canonical Product synchronization or implementation authority. |
 | 1.0.95 | 2026-10-29 | Approved | Synchronized DEC-0019 1.0.0 to Accepted with Product-owner acceptance dated 2026-10-29; summarized Option C hybrid family applicability, canonical Size/Colour uniqueness, descriptive Fit/Material, stable identity and historical/versioned evolution safeguards; preserved Category/Search boundaries and DEC-0018 Proposed, with PRODUCT.md synchronization explicitly outstanding and no implementation claim. |

@@ -1,9 +1,9 @@
 ---
 title: PRODUCT
-version: 1.6.0
+version: 1.7.0
 status: Approved
 owner: Product and Engineering
-last_updated: 2026-10-29
+last_updated: 2026-11-03
 applies_to:
   - Product management
   - Business analysis
@@ -641,6 +641,10 @@ A content user prepares and schedules campaigns, homepage content, banners, and 
 - Order items must retain immutable price and discount snapshots.
 - Sale and promotion information must not be misleading.
 - Client-provided totals must never be trusted.
+
+Accepted [DEC-0043 1.0.0](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md), effective 2026-11-03, establishes the initial V1 base-price policy: explicit owning Product and Variant references, Variant-level strictly positive ZAR amounts, at most one current explicit assignment per Variant and no Product-level fallback. Applicability starts immediately after an authorized, committed operation and continues until explicit replacement or withdrawal, preserving historical assignment revisions. Missing, invalid, conflicting, obsolete or withdrawn assignments cannot supply a current valid base price; arbitrary precedence and latest-wins selection are prohibited.
+
+Pricing retains Price authority; Product retains identity and Variant membership. A valid base price does not establish Product visibility, sellability, tax-inclusive display amounts or Checkout totals, and later changes must not rewrite confirmed Order snapshots. This bounded policy selects no tax, Discount, Promotion, scheduled or customer/channel pricing, currency conversion, rounding, scale, Staff authorization mechanism, schema or endpoint. Unrelated Open Product Decisions remain unresolved.
 
 ### 16.2 Inventory Policy
 
@@ -1786,10 +1790,11 @@ Before approving a product requirement or feature scope, verify:
 | 1.4.0   | 2026-09-30 | Approved | Synchronized Accepted DEC-0007 by establishing the initial Customer password policy with a 15-code-point minimum, repository-selected exact 64-code-point maximum after NFC normalization, complete-password compromised-value checking, fail-closed establishment and change behavior, no initial history or arbitrary periodic rotation, and password-manager and accessibility compatibility while preserving unresolved Product Decision 5 and separate provider, dependency, Contract, persistence, recovery, MFA, abuse-control, infrastructure, frontend, and implementation governance. |
 | 1.5.0   | 2026-09-30 | Approved | Synchronized Accepted DEC-0008 and resolved Product Decision 5 by requiring verification of the current authoritative Customer login email before registration completion, Customer Authentication, Principal and Session establishment, Account access, or protected Customer functionality, with current-email binding, deterministic re-verification and supersession semantics, and default denial while preserving all unrelated Open Product Decisions and separate provider, Contract, persistence, recovery, MFA, infrastructure, frontend, and implementation governance without claiming implementation completion. |
 | 1.6.0   | 2026-10-29 | Approved | Synchronized Accepted DEC-0019 1.0.0 and resolved Product Decision 3 through Option C hybrid Product-family Attribute standards, canonical Size/Colour uniqueness, descriptive Fit/Material and versioned identity/history safeguards; preserved Category/Search/Pricing/Inventory boundaries, unresolved Product Decision 2 and DEC-0018, all other decision identifiers and unrelated Product scope. |
+| 1.7.0 | 2026-11-03 | Approved | Synchronized Accepted DEC-0043 1.0.0 initial Variant-level V1 base pricing; preserved Product identity, Pricing authority, Order history and all unrelated policy and implementation boundaries. |
 
 ## Document Status
 
-- **Version:** 1.6.0
+- **Version:** 1.7.0
 - **Status:** Approved
 - **Authority:** This document is the authoritative product baseline for the Enterprise Fashion Commerce Platform.
 - **Review Cycle:** Monthly, before major releases, and after any material product or operating-model change.

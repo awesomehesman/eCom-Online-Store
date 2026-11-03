@@ -3,12 +3,14 @@
 - **Identifier:** DEC-0043
 - **Title:** Initial V1 Base-Price Assignment Policy
 - **Type:** Product Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-11-03
+- **Acceptance Date:** 2026-11-03
+- **Effective Date:** 2026-11-03
 - **Last Updated:** 2026-11-03
 - **Owner:** Product
-- **Authoritative:** false
+- **Authoritative:** true, within its accepted decision scope and subordinate to higher-authority governing requirements
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -16,32 +18,34 @@
 
 Approved Pricing requirements assign current authoritative Price determination to
 Pricing, require governed Product or Variant association and explicit Currency, and
-protect confirmed Order history. They do not select initial assignment granularity
+protect confirmed Order history. Before this decision, they did not select initial assignment granularity
 or the applicable initial Pricing Rule. Existing immutable Money and Currency value
 objects support exact ZAR arithmetic and comparison but do not establish a Price.
 No Pricing API Contract currently selects these business choices.
 
-This proposal records the bounded M2.2B policy for Product/business-owner review.
+This record preserves the bounded M2.2B proposal and records its acceptance without
+amendments by the accountable Product/business owner on 2026-11-03.
 Accepted ADR-0006 selects the Pricing backend specification, not a commercial rule.
 Accepted DEC-0019 governs Product/Variant identity and Attribute semantics, not
 Price assignment. No approval or implementation authority is inferred from either.
 Affected consumers include future Product price presentation, Cart, Checkout and
-Order; none acquires Pricing authority through this proposal.
+Order; none acquires Pricing authority through this decision.
 
 ## Decision Scope and Status
 
-Propose a single initial V1 base-price assignment rule. The policy below is subject
-to accountable Product/business-owner acceptance. **No policy is Accepted by this
-record.** It changes neither Approved specifications nor existing implementation.
-It is not a complete selling-price, publication, tax or Checkout policy.
+The accountable Product/business owner accepted the initial V1 base-price assignment
+policy without amendments on 2026-11-03, effective the same day. It is authoritative
+only within that commercial scope, subordinate to higher-authority governing sources.
+It is not a complete selling-price, publication, tax or Checkout policy. Acceptance
+selects business policy; it does not establish operational authorization or release readiness.
 
-## Proposed Policy
+## Accepted Policy
 
 1. Base prices are assigned at Variant level.
 2. Each assignment references the owning Product and Variant. References must
    identify valid governed membership; identifiers alone do not prove it.
 3. V1 base prices use explicit ZAR Currency.
-4. Exactly one current explicit base-price assignment is permitted per Variant.
+4. At most one current explicit base-price assignment is permitted per Variant.
    This is a uniqueness limit, not a requirement that every Variant already has a
    price: absence remains an explicit missing-price outcome.
 5. No Product-level fallback is permitted.
@@ -66,19 +70,19 @@ It is not a complete selling-price, publication, tax or Checkout policy.
 
 ## Alternatives Considered
 
-| Alternative | Proposed disposition and consequence |
+| Alternative | Disposition and consequence |
 | --- | --- |
-| Variant-level explicit assignment | Recommended: matches purchasable Variant identity and supports distinct Variant amounts; requires explicit assignment for each priced Variant. |
-| Product-level price inherited by Variants | Not recommended initially: simplifies shared pricing but requires inheritance and exception semantics not established here. |
+| Variant-level explicit assignment | Selected: matches purchasable Variant identity and supports distinct Variant amounts; requires explicit assignment for each priced Variant. |
+| Product-level price inherited by Variants | Not selected initially: simplifies shared pricing but requires inheritance and exception semantics not established here. |
 | Product default with Variant overrides | Deferred: adds fallback and precedence rules and complicates missing/conflicting outcome handling. |
 | Scheduled or multiple contextual assignments | Deferred: adds temporal, customer/channel and selection policy beyond the initial scope. |
-| Retain the status quo | Feasible: Money remains usable, but deterministic business base-price assignment remains blocked pending a policy choice. |
+| Retain the status quo | Not selected: retaining only Money would leave the initial assignment policy unresolved. |
 
-These are proposal assessments, not accepted rejections or measured evaluation results.
+These dispositions record the accepted business choice; no measured comparative evaluation is claimed.
 
 ## Consequences
 
-If accepted and synchronized through governance, the policy enables deterministic
+The accepted policy enables deterministic
 Variant base-price construction and selection without a Price List or formula.
 Explicit absence and conflict prevent fabricated valid amounts. Costs include more
 assignments where Variants share a price, revision-history maintenance and atomic
@@ -90,7 +94,7 @@ existing assignments or historical commercial snapshots.
 ## Security Impact
 
 An authorized operation requires existing trusted server-side contextual authorization;
-this proposal selects no Staff assignment, Permission, Role, actor provenance, endpoint
+this decision selects no Staff assignment, Permission, Role, actor provenance, endpoint
 or audit mechanism. Applicable security and audit requirements remain binding. Price
 input, a stored row, an identifier or successful Money construction cannot establish
 operation authorization, governed Product validity or current Price applicability.
@@ -112,30 +116,31 @@ Future operations must distinguish missing, invalid, conflicting, obsolete and w
 assignments, dependency failure and uncertain outcomes. A failed or uncommitted mutation
 must not publish a current assignment. Technical transaction/concurrency mechanisms and
 observability remain implementation responsibilities under existing Architecture and
-Pricing requirements; this proposal selects no infrastructure, lock or retry policy.
+Pricing requirements; this decision selects no infrastructure, lock or retry policy.
 
-## Required Acceptance Authority
+## Acceptance Authority and Provenance
 
 | Accountable capacity | Disposition | Required scope |
 | --- | --- | --- |
-| Product / business owner | PENDING | Explicit acceptance, rejection or amendment of this bounded commercial policy, including Variant-only assignment, positivity and immediate applicability. |
+| Product / business owner | ACCEPTED — 2026-11-03 | Accepted the proposed policy without amendments, including Variant-only assignment, positivity and immediate applicability. |
 
-Engineering must verify implementability, consistency and compatibility under existing
-review conventions. Any affected-owner review required by DECISIONS.md remains applicable.
-No independent reviewer, signature, acceptance date or completed review is claimed.
-The creation date records proposal preparation, not business acceptance.
+Approval provenance is the explicit M2.2C instruction confirming accountable
+Product/business-owner acceptance on 2026-11-03. No personal name, signature, review
+meeting, independent reviewer or separate evidence artifact is claimed. The original
+proposal date and revision history are preserved. Engineering and affected-owner review
+remain subject to existing conventions; no completed independent review is invented.
 
 ## Implementation Dependencies and Verification
 
-Before policy-dependent implementation, obtain attributable accountable acceptance and
-complete applicable governing-source synchronization and review. Do not treat indexing
-or Proposed status as authority. The smallest subsequent increment is a pure Pricing
+Accountable acceptance is recorded above. M2.2C synchronizes PRODUCT.md, the Decision
+Index and the Pricing domain/backend specifications. Applicable implementation, Contract,
+Architecture and Security requirements remain binding; indexing alone grants no authority. The smallest subsequent increment is a pure Pricing
 base-price assignment and deterministic selection model using Money and governed
 Product/Variant references, without Product persistence integration or HTTP.
 
 Implementation must verify exact Product/Variant membership at the appropriate trusted
 boundary, preserve rule/revision context and enforce one current assignment atomically
-when persistence is introduced. Proposed tests cover positive ZAR construction, zero
+when persistence is introduced. Required implementation tests cover positive ZAR construction, zero
 and negative rejection, missing assignments, competing current assignments, obsolete
 and withdrawn revisions, ownership mismatch, replacement/withdrawal history, and no
 fallback or implicit conversion. Missing or unsafe Product evidence must not produce
@@ -148,16 +153,17 @@ No tax treatment or tax-inclusive display claim, Discount, Promotion, Voucher, s
 pricing, customer/channel variation, currency conversion, rounding or scale rule, total
 calculation, Order implementation, Product persistence integration, database migration,
 public/Staff endpoint, Staff authorization policy, publication or positive visibility is
-authorized. This record changes no Product code, Accepted DEC-0019, Pricing specification
-or public Contract. Unresolved tax and promotion decisions remain unresolved. Acceptance
-of this policy would not by itself establish operational authorization or release readiness.
+authorized by this policy. The accompanying synchronization changes only governing
+documentation, not Product code, Accepted DEC-0019 or public Contracts. Unresolved tax
+and promotion decisions remain unresolved. Acceptance does not by itself establish
+operational authorization or release readiness.
 
 ## Traceability and References
 
-| Governing requirement | Proposed specialization |
+| Governing requirement | Accepted specialization |
 | --- | --- |
 | REQ-PRC-004 | Explicit owning Product and Variant references; Variant-level granularity, no Product fallback. |
-| REQ-PRC-007 | One current explicit base-price assignment under this proposed initial rule; missing/invalid/conflicting assignments cannot supply a valid result. |
+| REQ-PRC-007 | One current explicit base-price assignment under this accepted initial rule; missing/invalid/conflicting assignments cannot supply a valid result. |
 | REQ-PRC-008 | Explicit changed/obsolete/withdrawn outcomes and retained revisions; no arbitrary winner or historical rewrite. |
 | BPRC-REQ-019 | Deterministic authoritative selection under approved rules and current governed inputs; no client or projection authority. |
 | REQ-PRC-006 / BPRC-REQ-018 | Exact Money with explicit ZAR; no implicit conversion, scale or rounding rule. |
@@ -177,3 +183,4 @@ of this policy would not by itself establish operational authorization or releas
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-11-03 | Proposed | Proposed bounded Variant-level V1 ZAR base-price assignment, strict positivity, single-current selection and revision-preserving replacement/withdrawal; left accountable Product/business-owner acceptance pending and granted no implementation authority. |
+| 1.0.0 | 2026-11-03 | Accepted | Recorded explicit Product/business-owner acceptance without amendments, effective 2026-11-03; synchronized Product, Pricing domain/backend and Decision Index documentation while preserving the original proposal history and operational/security boundaries. |
