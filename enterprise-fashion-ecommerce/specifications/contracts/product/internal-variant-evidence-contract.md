@@ -1,10 +1,11 @@
 ---
 title: Product-Owned Internal Variant Evidence Contract
-version: 0.1.0
-status: Draft
+version: 1.0.0
+status: Approved
 owner: Product
 last_updated: 2026-11-04
-authoritative: false
+authoritative: true
+approval_date: 2026-11-04
 ---
 
 # Product-Owned Internal Variant Evidence Contract
@@ -13,10 +14,12 @@ authoritative: false
 
 This Contract is identified by its canonical path,
 `specifications/contracts/product/internal-variant-evidence-contract.md`, title and
-version. No new sequential Contract identifier is introduced. Version 0.1.0 is Draft:
-its proposed obligations are for review, not an Approved implementation baseline.
-Accountable Product approval remains pending. Existing governing requirements remain
-binding independently of this Draft.
+version. No new sequential Contract identifier is introduced. Version 1.0.0 is
+Approved following the accountable owner's explicit approval on 2026-11-04 in the
+Product, Pricing and Engineering/Architecture capacities recorded in §8. It is
+authoritative only for this internal evidence Contract's semantics, subordinate to
+higher-authority governing sources; it is not a repository-wide Source of Truth.
+Existing governing requirements remain binding.
 
 Producer: **Product**. Initial consumer: **Pricing**. Purpose: a bounded, internal,
 read-only observation of Product existence, Variant existence within the requested
@@ -145,22 +148,29 @@ This narrow evidence Contract neither resolves nor bypasses those other dependen
 
 ## 8. Review, Compatibility and Approval Boundary
 
-| Capacity | Pending disposition | Review responsibility |
+| Capacity | Recorded disposition | Approved scope |
 | --- | --- | --- |
-| Product, accountable producer owner | PENDING | Approve the evidence meanings, lifecycle/revision scope, outcomes and disclosure boundary before this Contract becomes an Approved baseline. |
-| Pricing, initial consumer | PENDING | Confirm safe consumption, failure handling and revalidation semantics without commercial-authority inference. |
-| Engineering / Architecture review under existing conventions | PENDING | Verify exported-type encapsulation, coherent read implementation, compatibility and failure integrity; no new architecture choice or completed approval is claimed. |
+| Product, accountable producer owner | APPROVED — 2026-11-04 | Evidence meanings, lifecycle/revision scope, outcomes and disclosure boundary. |
+| Pricing, initial consumer | APPROVED — 2026-11-04 | Consumer semantics, safe consumption, failure handling and revalidation without commercial-authority inference. |
+| Engineering/Architecture, technical boundary | APPROVED — 2026-11-04 | Exported-type encapsulation, coherent read boundary, compatibility and failure integrity; no new architecture choice is introduced. |
 
-No approval, independent reviewer, signature or completed review is recorded. Approval
-must follow existing governed documentation and Contract review conventions; this Draft
-alone does not authorize implementation or operational access. No new ADR or DEC is
-created or required by this document's existence.
+The accountable owner's explicit M2.4B promotion instruction records approval on
+2026-11-04 in all three capacities above. The same accountable owner acts in these
+separate capacities; no personal name, signature, independent reviewer or independent
+approval is claimed. The preceding committed-state governance and technical review
+returned PASS — Approval-ready with no findings; it is distinct from these explicit
+owner dispositions. No separate meeting or evidence artifact is invented.
+
+Approval establishes the internal Contract baseline. Implementation must conform to
+this Contract and existing governing requirements; no implementation completion,
+operational access, Staff authority or commercial Pricing eligibility is established
+by approval. No new ADR or DEC is created or required by this document's existence.
 
 Preserve stable reference meaning and outcome distinctions across versions. A change
 to evidence meaning, required data, consumer reliance or failure semantics requires
-explicit compatibility review and a versioned revision before adoption. Draft 0.1.0
+explicit compatibility review and a versioned revision before adoption. Approved 1.0.0
 selects no Java interface, service, transport, schema, provider or deployment mechanism.
-No Approved Product/Pricing Specification is changed at this Draft stage.
+This promotion changes no Approved Product/Pricing Specification.
 
 ## 9. Acceptance Examples for Later Verification
 
@@ -211,3 +221,4 @@ These are Contract verification expectations, not results of executed tests.
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-11-04 | Draft | Defined Product-owned internal identity/membership, observed lifecycle and revision evidence for Pricing, explicit typed outcomes, coherent observation and bounded freshness; left approval pending and granted no commercial, Staff or implementation authority. |
+| 1.0.0 | 2026-11-04 | Approved | Recorded explicit accountable-owner approval in Product producer, Pricing consumer and Engineering/Architecture technical-boundary capacities; promoted the unchanged substantive evidence semantics to an authoritative internal Contract baseline without claiming independent approval, implementation completion or operational/commercial authority. |
