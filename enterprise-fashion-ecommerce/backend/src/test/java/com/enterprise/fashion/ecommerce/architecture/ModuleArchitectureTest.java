@@ -44,6 +44,18 @@ class ModuleArchitectureTest {
             .importPackages(ROOT_PACKAGE);
 
     @Test
+    void pricingConsumesOnlyTheExportedProductEvidenceContract() {
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".pricing..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        ROOT_PACKAGE + ".product.domain..", ROOT_PACKAGE + ".product.adapter..",
+                        ROOT_PACKAGE + ".product.config..", ROOT_PACKAGE + ".product.application.persistence..",
+                        ROOT_PACKAGE + ".product.application.port..", ROOT_PACKAGE + ".product.application.usecase..",
+                        ROOT_PACKAGE + ".product.application.administration..", ROOT_PACKAGE + ".product.application.evidence..",
+                        ROOT_PACKAGE + ".product.application.catalogue..", ROOT_PACKAGE + ".product.application.visibility..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void exportedProductEvidenceContractContainsNoDomainPersistenceFrameworkOrPricingTypes() {
         noClasses().that().resideInAPackage(ROOT_PACKAGE + ".product.application.api..")
                 .should().dependOnClassesThat().resideInAnyPackage(

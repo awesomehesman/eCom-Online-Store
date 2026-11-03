@@ -2,6 +2,8 @@ package com.enterprise.fashion.ecommerce.pricing.config;
 
 import com.enterprise.fashion.ecommerce.pricing.application.persistence.BasePricePersistenceService;
 import com.enterprise.fashion.ecommerce.pricing.application.query.ObserveVariantBasePrice;
+import com.enterprise.fashion.ecommerce.pricing.application.query.ObserveProductAssociatedBasePrice;
+import com.enterprise.fashion.ecommerce.product.application.api.ProductVariantEvidence;
 import com.enterprise.fashion.ecommerce.pricing.application.port.out.BasePricePersistencePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration(proxyBeanMethods = false)
 public class PricingPersistenceConfiguration {
+    @Bean
+    ObserveProductAssociatedBasePrice observeProductAssociatedBasePrice(ProductVariantEvidence products, ObserveVariantBasePrice pricing) {
+        return new ObserveProductAssociatedBasePrice(products, pricing);
+    }
+
     @Bean
     ObserveVariantBasePrice observeVariantBasePrice(BasePricePersistenceService persistence) {
         return new ObserveVariantBasePrice(persistence);
