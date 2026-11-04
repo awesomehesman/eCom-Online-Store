@@ -1,34 +1,33 @@
 ---
 title: Product-Owned Internal Variant Evidence Contract
 version: 1.1.0
-status: Draft
+status: Approved
 owner: Product
 last_updated: 2026-11-04
-authoritative: false
+authoritative: true
+approval_date: 2026-11-04
 ---
 
 # Product-Owned Internal Variant Evidence Contract
 
-**Working revision 1.1.0 — proposed Inventory consumer amendment, not approved.**
-Sections 1–10 retain the Approved 1.0.0 baseline for Pricing consumption; its approval
-record and history remain intact. Section 12 proposes a compatible consumer extension
-and grants no Inventory consumption permission until the required approvals are recorded.
-The Draft metadata describes this working revision, not withdrawal or supersession of
-the Approved 1.0.0 baseline. `Draft` follows Documentation Standards §8; “proposed”
-describes the amendment rather than introducing an unsupported Contract status.
+**Version 1.1.0 Approved — Inventory consumer extension.**
+The project owner explicitly approved this extension on 2026-11-04 in the Product,
+Inventory and Engineering/Architecture capacities recorded in §12.5. Existing Pricing
+permissions, provider semantics and Product ownership remain unchanged. The 1.0.0
+approval record is preserved as history; 1.1.0 adds the bounded Inventory consumer scope.
 
 ## 1. Identity, Lifecycle and Scope
 
 This Contract is identified by its canonical path,
 `specifications/contracts/product/internal-variant-evidence-contract.md`, title and
-version. No new sequential Contract identifier is introduced. Version 1.0.0 is
-Approved following the accountable owner's explicit approval on 2026-11-04 in the
-Product, Pricing and Engineering/Architecture capacities recorded in §8. It is
+version. No new sequential Contract identifier is introduced. Version 1.1.0 is
+Approved following the explicit accountable-capacity dispositions on 2026-11-04
+recorded in §§8 and 12.5. It is
 authoritative only for this internal evidence Contract's semantics, subordinate to
 higher-authority governing sources; it is not a repository-wide Source of Truth.
 Existing governing requirements remain binding.
 
-Producer: **Product**. Initial consumer: **Pricing**. Purpose: a bounded, internal,
+Producer: **Product**. Authorized internal consumers: **Pricing** and **Inventory**. Purpose: a bounded, internal,
 read-only observation of Product existence, Variant existence within the requested
 Product, membership, stable references, lifecycle and representation revision.
 This is an application-facing module Contract under Architecture §35.5, not an HTTP,
@@ -38,15 +37,15 @@ It introduces no write capability, new business policy or publication authority.
 ## 2. Ownership and Consumer Boundary
 
 Product owns identity, Variant membership, Product lifecycle and the meaning of the
-returned representation revision. Pricing consumes those facts without redefining
+returned representation revision. Pricing and Inventory consume those facts without redefining
 them or accessing Product Domain objects, Repositories, tables, persistence records,
 Adapters or framework types. Public Contract types must be intentional exported
 application-facing types; Java signatures and package design are not selected here.
 
 Pricing remains authoritative for governed commercial calculation and its assignment
 history. Pricing data, assignment rows and identifiers cannot establish Product truth.
-Only Pricing is an initial consumer of this internal capability; this declaration
-creates no public access or permission for another consumer. It grants no Staff or
+Pricing and Inventory are authorized internal consumers within this Contract's bounded
+scope. This declaration creates no public access or permission for any other consumer. It grants no Staff or
 customer access and selects no authentication or authorization mechanism. Existing
 security requirements and domain boundaries continue to apply.
 
@@ -77,7 +76,7 @@ statuses or JSON fields. A response represents exactly one alternative.
 | Confirmed Association | One coherent Product-owned observation confirms the requested Product exists, the requested Variant exists within it, and membership is valid. Returned Product and Variant references exactly match the requested pair. Explicit observed Product lifecycle and its representation revision are required. | Identity and membership facts in that observation only; no commercial eligibility grant. |
 | Product Absent | A successful, coherent Product-owned read confirms the requested Product is absent. Variant existence elsewhere is neither asserted nor disclosed. | Confirmed absence of that Product in the observation only. |
 | Variant Absent or Not Associated | The Product exists in the observation, but the requested Variant is not a member of it. This includes a Variant absent from that Product; it does not distinguish global nonexistence from membership in another Product. | The requested association is not confirmed. No other owning Product or protected representation is disclosed. |
-| Product Evidence Unavailable | Product cannot complete a trustworthy observation because its required authority or dependency is unavailable, times out or cannot supply the required coherent read. | No existence, absence or membership conclusion. Pricing must withhold positive reliance. |
+| Product Evidence Unavailable | Product cannot complete a trustworthy observation because its required authority or dependency is unavailable, times out or cannot supply the required coherent read. | No existence, absence or membership conclusion. Pricing and Inventory must withhold positive reliance. |
 | Invalid or Inconsistent Evidence | Input is invalid, or the observation is malformed, contradictory, corrupt, mismatched, incomplete or otherwise cannot satisfy this Contract. Invalid input must remain distinguishable from invalid producer evidence through a safe reason classification. Unexpected internal failures belong to this failure alternative with internal-failure meaning, never confirmed absence. | No positive association or commercial reliance. |
 
 Unavailable authority and invalid/inconsistent evidence remain distinguishable. Failure
@@ -110,9 +109,9 @@ read-only REPEATABLE READ infrastructure is an available implementation mechanis
 this Contract requires coherent evidence without mandating an additional transaction
 technology. An invalid reconstructed aggregate must not be downgraded to absence.
 
-The evidence exchange does not create atomic consistency across Product and Pricing
-transactions, databases or observations. Product does not expose its transaction handle
-or persistence context. Pricing must not hold a Product database lock or directly read
+The evidence exchange does not create atomic consistency across Product and either
+Pricing or Inventory transactions, databases or observations. Product does not expose its transaction handle
+or persistence context. Neither Pricing nor Inventory may hold a Product database lock or directly read
 Product tables through this Contract. No distributed lock, cross-module transaction,
 reservation, lease or shared snapshot is introduced.
 
@@ -124,7 +123,7 @@ revision semantics, not proof that the Product has remained unchanged since the 
 It is not a timestamp, sequence order, expiration, freshness duration or eligibility flag.
 No TTL or numerical observation-age limit is selected.
 
-Pricing must obtain a new Product-owned observation for each future authorized operation
+Pricing and Inventory must each obtain a new Product-owned observation for each future authorized operation
 that relies on identity, membership or relevant Product state, before deciding to rely
 on those facts. A prior query result, cache or historical revision cannot substitute
 for this revalidation. Material Product change, mismatched revision, uncertainty or an
@@ -134,7 +133,8 @@ re-evaluation; unavailable or inconsistent revalidation cannot grant positive re
 This rule does not authorize the operation itself and does not remove the interval in
 which Product can change after an observation. Any future operation requiring stronger
 commit-time coordination must establish that guarantee separately before relying on it.
-This Contract does not claim atomic Product/Pricing commitment or uninterrupted freshness.
+This Contract does not claim atomic Product/Pricing or Product/Inventory commitment,
+uninterrupted freshness or permanent membership guarantees.
 
 ## 7. Explicit Exclusions
 
@@ -142,7 +142,9 @@ This evidence does not establish:
 
 - Product publication acceptance or positive customer visibility; Published alone is insufficient.
 - Product structural sellability or final purchasability.
-- Inventory availability, Stock or reservation.
+- Stock initialization, Stock existence, Stock quantity or Stock Location modeling.
+- Available-to-Sell calculations, Inventory availability, reservations or reservation eligibility.
+- Inventory adjustments or adjustment authorization.
 - Customer purchase eligibility.
 - Staff authorization, trusted actor attribution or administrative access.
 - Pricing assignment authorization or proof of an authorized committed Pricing operation.
@@ -161,23 +163,24 @@ This narrow evidence Contract neither resolves nor bypasses those other dependen
 | Pricing, initial consumer | APPROVED — 2026-11-04 | Consumer semantics, safe consumption, failure handling and revalidation without commercial-authority inference. |
 | Engineering/Architecture, technical boundary | APPROVED — 2026-11-04 | Exported-type encapsulation, coherent read boundary, compatibility and failure integrity; no new architecture choice is introduced. |
 
-The accountable owner's explicit M2.4B promotion instruction records approval on
+The accountable owner's explicit M2.4B promotion instruction recorded 1.0.0 approval on
 2026-11-04 in all three capacities above. The same accountable owner acts in these
 separate capacities; no personal name, signature, independent reviewer or independent
 approval is claimed. The preceding committed-state governance and technical review
 returned PASS — Approval-ready with no findings; it is distinct from these explicit
 owner dispositions. No separate meeting or evidence artifact is invented.
 
-Approval establishes the internal Contract baseline. Implementation must conform to
+The additional 1.1.0 Inventory consumer approvals are recorded separately in §12.5.
+Together these records establish the current internal Contract baseline. Implementation must conform to
 this Contract and existing governing requirements; no implementation completion,
 operational access, Staff authority or commercial Pricing eligibility is established
 by approval. No new ADR or DEC is created or required by this document's existence.
 
 Preserve stable reference meaning and outcome distinctions across versions. A change
 to evidence meaning, required data, consumer reliance or failure semantics requires
-explicit compatibility review and a versioned revision before adoption. Approved 1.0.0
+explicit compatibility review and a versioned revision before adoption. Approved 1.1.0
 selects no Java interface, service, transport, schema, provider or deployment mechanism.
-This promotion changes no Approved Product/Pricing Specification.
+This promotion changes no Approved Product, Pricing or Inventory Specification.
 
 ## 9. Acceptance Examples for Later Verification
 
@@ -229,27 +232,27 @@ These are Contract verification expectations, not results of executed tests.
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-11-04 | Draft | Defined Product-owned internal identity/membership, observed lifecycle and revision evidence for Pricing, explicit typed outcomes, coherent observation and bounded freshness; left approval pending and granted no commercial, Staff or implementation authority. |
 | 1.0.0 | 2026-11-04 | Approved | Recorded explicit accountable-owner approval in Product producer, Pricing consumer and Engineering/Architecture technical-boundary capacities; promoted the unchanged substantive evidence semantics to an authoritative internal Contract baseline without claiming independent approval, implementation completion or operational/commercial authority. |
-| 1.1.0 | 2026-11-04 | Draft | Proposed Inventory as an additional internal association-evidence consumer in §12, preserving the Approved 1.0.0 Pricing baseline and unchanged provider outcomes; recorded pending Product, Inventory and Engineering/Architecture review without granting consumption or operational authority. |
+| 1.1.0 | 2026-11-04 | Approved | Authorized Inventory as an additional internal association-evidence consumer following explicit Product producer, Inventory consumer and Engineering/Architecture dispositions; preserved existing Pricing permissions, provider semantics and the 1.0.0 approval history without granting operational Inventory authority. |
 
-## 12. Proposed Inventory Consumer Amendment — Approval Pending
+## 12. Approved Inventory Consumer Extension
 
-### 12.1 Scope and Ownership — Proposed Additions to §§1–2
+### 12.1 Scope and Ownership — Extension of §§1–2
 
-Propose Inventory as an additional internal consumer solely for Product existence,
+Inventory is authorized as an additional internal consumer solely for Product existence,
 Variant existence within the requested Product and Product-to-Variant association
 observations, with the existing observed lifecycle and representation revision context.
 Pricing's Approved 1.0.0 permissions, behavior and obligations remain unchanged.
-The approved statement that only Pricing may consume the capability remains effective
-until this extension is approved. No other consumer is proposed.
+This extension authorizes only Inventory in addition to Pricing; no other consumer
+is authorized.
 
 Product remains authoritative for Product identity, Variant identity, membership,
-lifecycle and representation revisions. Inventory would consume only the Product-owned
+lifecycle and representation revisions. Inventory must consume only the Product-owned
 exported application Contract under Architecture §35.5. It must not directly access
 Product tables, internal Domain objects, Repositories, mappings or transaction state.
 
-### 12.2 Inputs, Outcomes and Coherence — Proposed Application of §§3–5
+### 12.2 Inputs, Outcomes and Coherence — Application of §§3–5
 
-Inventory would supply both explicit references using the unchanged §3 rules. The
+Inventory must supply both explicit references using the unchanged §3 rules. The
 existing provider outcomes remain unchanged: Confirmed Association, Product Absent,
 Variant Absent or Not Associated, Product Evidence Unavailable, and Invalid or
 Inconsistent Evidence. Inventory must preserve these distinctions. Unknown, unavailable,
@@ -257,11 +260,11 @@ invalid or inconsistent evidence cannot establish confirmed membership; failures
 be converted into confirmed absence or a successful empty observation.
 
 Membership, lifecycle and representation revision must come from the same coherent
-Product-owned read under §5. No new outcome, response field or Java API is proposed.
+Product-owned read under §5. No new outcome, response field or Java API is introduced.
 Product and Inventory observations do not establish a shared transaction, cross-domain
 locking, a shared snapshot, continuous freshness or permanent membership guarantees.
 
-### 12.3 Freshness and Reliance — Proposed Addition to §6
+### 12.3 Freshness and Reliance — Extension of §6
 
 For each future governed Inventory operation relying on Product association or state,
 Inventory must obtain a new Product-owned observation before deciding to rely on it.
@@ -274,7 +277,7 @@ TTL is introduced. Product can change after observation; this extension grants n
 atomic Product/Inventory commitment nor stronger commit-time coordination. An operation
 requiring a stronger guarantee must establish it separately before implementation.
 
-### 12.4 Inventory Exclusions — Proposed Addition to §7
+### 12.4 Inventory Exclusions — Extension of §7
 
 Product association evidence does not establish Stock existence, Stock Location, Stock
 quantity, Available-to-Sell, reservation eligibility, adjustment authorization or Product
@@ -282,22 +285,25 @@ sellability. Observed lifecycle is context, not permission to initialize, adjust
 or otherwise mutate Inventory. All existing §7 exclusions remain effective. No operational
 Inventory permissions, quantity model, location model or availability formula is selected.
 
-### 12.5 Required Dispositions — Proposed Addition to §8
+### 12.5 Accountable Approval Dispositions — Extension of §8
 
-| Capacity | Amendment disposition | Required review scope |
+| Capacity | Recorded disposition | Approved scope |
 | --- | --- | --- |
-| Product producer / Contract owner | Pending | Explicit Inventory consumer scope, unchanged Product evidence meaning and disclosure boundary. |
-| Inventory consumer owner | Pending | Association-only reliance, failure distinctions, revalidation and Inventory non-authority exclusions. |
-| Engineering/Architecture | Pending | Compatibility with Pricing, exported boundary, coherent reads and independent observation limitations. |
+| Product producer / Contract owner | APPROVED — 2026-11-04 | Inventory as an additional internal Product/Variant association-evidence consumer; existing Pricing permissions, provider semantics and Product ownership unchanged. |
+| Inventory consumer owner | APPROVED — 2026-11-04 | Association-only reliance, distinct failure outcomes, revalidation obligations and no operational Inventory authority. |
+| Engineering/Architecture | APPROVED — 2026-11-04 | Governed Product-owned exported Contract boundary, Pricing compatibility, coherent Product observations and independent Product/Inventory consistency limitations. |
 
-Existing §8 approvals apply to 1.0.0 only and do not approve this amendment. The amendment
-remains proposed in this Draft revision until the required dispositions are recorded
-and promotion follows the governed approval process. No completed review is asserted.
+The project owner's explicit final-approval instruction confirmed all three dispositions
+on 2026-11-04 in these accountable capacities. No additional reviewer, personal name,
+signature or independent approval is asserted. The preserved §8 record documents the
+original 1.0.0 approvals; this record approves the 1.1.0 Inventory consumer extension.
+Approval authorizes bounded evidence consumption, not operational Inventory actions,
+implementation completion or any excluded authority in §§7 and 12.4.
 
-### 12.6 Proposed Acceptance Examples — Addition to §9
+### 12.6 Acceptance Examples — Extension of §9
 
 - Confirmed Product and member Variant: Inventory may rely on the matching identity and
-  membership in that observation after extension approval, without inferring Stock.
+  membership in that observation, without inferring Stock.
 - Product evidence unavailable: preserve Unavailable; do not infer membership, absence,
   zero Stock or availability, and withhold any operation requiring confirmed association.
 - Draft, Published or Archived Product with a member Variant: preserve observed lifecycle
@@ -305,11 +311,12 @@ and promotion follows the governed approval process. No completed review is asse
 
 Later verification must retain Pricing regression coverage and verify Inventory reference
 matching, unchanged outcome meanings, unavailable handling and lack of operational grants.
-These examples are proposed expectations, not executed tests or permission to implement.
+These examples are Contract verification expectations, not results of executed tests
+or authorization for operational Inventory behavior.
 
-### 12.7 Proposed Inventory Traceability — Addition to §10
+### 12.7 Inventory Traceability — Extension of §10
 
-| Source | Proposed extension traceability |
+| Source | Extension traceability |
 | --- | --- |
 | REQ-INV-004–005 | Correct governed Variant association; Product publication and Inventory availability remain separate authorities. |
 | BINV-REQ-007 | Inventory consumes governed Product evidence without redefining Product identity, lifecycle or sellability. |
@@ -319,5 +326,5 @@ These examples are proposed expectations, not executed tests or permission to im
 - [Inventory Domain](../../domains/inventory/inventory-domain.md), §6.
 - [Inventory Backend](../../backend/inventory/inventory-backend.md), §§2 and 4.
 
-Existing Pricing traceability in §10 is unchanged. This proposal introduces no adapter,
+Existing Pricing traceability in §10 is unchanged. This extension introduces no adapter,
 Stock aggregate, location, quantity, reservation, adjustment, HTTP or migration capability.
