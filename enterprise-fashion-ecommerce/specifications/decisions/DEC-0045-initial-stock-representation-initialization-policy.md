@@ -4,9 +4,9 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-11-04
-- **Last Updated:** 2026-11-04
+- **Last Updated:** 2026-11-05
 - **Owner:** Inventory
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -44,8 +44,10 @@ Security and Administration; downstream commerce consumers retain their own auth
 
 ## Proposed Decision — Awaiting Accountable Approval
 
-The following are recommended selections only. None is Accepted, authoritative or
-approved for implementation by this record.
+The Inventory business owner approved the business dispositions IBD-01 through IBD-08
+on 2026-11-05 as recorded below. Technical recommendations remain pending technical and
+Architecture review. The overall decision remains Proposed, non-authoritative and not
+approved for implementation.
 
 ### 1. Stock Identity and Association
 
@@ -179,7 +181,8 @@ transaction mechanism, deployment, production seed data or operational rollout i
 
 ## Open Decisions
 
-- Accountable acceptance of the business and technical recommendations separately.
+- Inventory technical and Architecture dispositions remain pending; the business-owner
+  disposition below does not satisfy those separate gates.
 - Governed logical location identity, registration and lifecycle before operational use.
 - Authorized actor/system provenance, Resource/action scope and audit guarantees for
   initialization; no Staff mapping or trusted actor source is assumed.
@@ -187,15 +190,41 @@ transaction mechanism, deployment, production seed data or operational rollout i
 - Separate reservation, availability, replenishment and commercial-policy decisions where
   future capabilities require them; DEC-0015 and DEC-0024 remain Proposed.
 
+## Inventory Business-Owner Disposition — 2026-11-05
+
+The accountable Inventory business owner explicitly confirmed acceptance of IBD-01 through
+IBD-08 on 2026-11-05. This records approval in the Inventory business-owner capacity only,
+not overall DEC-0045 acceptance or completed technical or Architecture review. No personal
+name, signature, independent approval or additional reviewer is asserted.
+
+| ID | Approved business disposition |
+| --- | --- |
+| IBD-01 | One logical Stock record per governed Product Variant and logical Stock Location combination. |
+| IBD-02 | One governed logical Stock Location initially; physical warehouse topology deferred. |
+| IBD-03 | Non-negative whole-unit recorded on-hand quantities; fractional quantities unsupported initially. |
+| IBD-04 | Explicit Inventory-owned initialization with a supplied initial quantity. |
+| IBD-05 | Missing Stock remains unknown; no automatic zero initialization. |
+| IBD-06 | Negative recorded on-hand Stock prohibited initially. |
+| IBD-07 | Duplicate initialization must not overwrite accepted Stock state. |
+| IBD-08 | Reservations, Available-to-Sell, replenishment, transfers and warehouse operations remain outside this decision. |
+
+Java `long` remains a technical recommendation, not an approved representation. Database
+schemas, keys and uniqueness mechanisms; location registration and lifecycle mechanisms;
+initialization actor eligibility and Staff permissions; authorization Contracts; retry,
+concurrency and reconciliation mechanisms; and reservation or availability formulas remain
+unselected. Business approval establishes no operational initialization authority and does
+not remove any existing exclusion or affected-owner review requirement.
+
 ## Acceptance Conditions
 
 | Accountable capacity | Disposition | Required determination |
 | --- | --- | --- |
-| Inventory business owner | Pending — accept / reject / request changes | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
+| Inventory business owner | Approved — 2026-11-05 (Inventory business-owner capacity only) | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
 | Inventory technical owner | Pending — accept / reject / request changes | Java `long` suitability, range/overflow safety, implementable invariants and deferred technical mechanisms. |
 | Architecture owner | Pending — accept / reject / request changes | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
 
-No approval is pre-recorded. Product business authority must review quantity/assortment and
+Only the Inventory business-owner approval above is recorded. Product business authority
+must review quantity/assortment and
 location-scope effects where this specializes canonical Product policy. Security and Identity
 review is required where initialization affects trusted actor/access, revocation or audit
 controls; Administration reviews affected coordination. Shipping/Fulfilment and Operations
@@ -259,4 +288,5 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-05 | Proposed | Recorded explicit Inventory business-owner approval of IBD-01 through IBD-08; preserved pending Inventory technical and Architecture dispositions, affected-owner reviews and all remaining implementation and operational governance gates. |
 | 0.1.0 | 2026-11-04 | Proposed | Proposed Variant/location Stock association, one governed logical location, whole-unit non-negative quantities, separately reviewed Java `long` representation and explicit Inventory initialization; retained pending accountable dispositions and all operational, policy, Contract and implementation gates. |
