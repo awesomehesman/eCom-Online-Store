@@ -1,9 +1,9 @@
 ---
 title: Pricing Backend Specification
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Pricing
-last_updated: 2026-09-17
+last_updated: 2026-11-03
 authoritative: false
 scope: BPRC
 ---
@@ -20,7 +20,7 @@ This Approved Specification is normative only within the governed Pricing backen
 
 ### BPRC-REQ-001 — Lifecycle, Scope, and Authority
 
-BPRC MUST retain scope `BPRC`, `authoritative: false`, and `1.0.0 Approved` lifecycle metadata, remain normative only within the Pricing backend scope, and remain subordinate to governing sources.
+BPRC MUST retain scope `BPRC`, `authoritative: false`, and `1.1.0 Approved` lifecycle metadata, remain normative only within the Pricing backend scope, and remain subordinate to governing sources.
 
 ### BPRC-REQ-002 — Pricing Domain Specialization
 
@@ -98,7 +98,9 @@ Every Pricing monetary input, intermediate value exposed across a boundary, comp
 
 ### BPRC-REQ-019 — Authoritative Price and Change Safety
 
-BPRC MUST determine the applicable authoritative Price for the correct governed Product or Product Variant under current Approved Pricing Rules and inputs, distinguish applicable Base Price, Sale Price, and governed components, and reject client, Cart, analytics, cache, or Projection values as authority. Missing, invalid, stale, or changed Price MUST produce an explicit explainable outcome and governed recalculation before commercial commitment without rewriting confirmed Order history or selecting a Price List or effective-date mechanism.
+BPRC MUST determine the applicable authoritative Price for the correct governed Product or Product Variant under current Approved Pricing Rules and inputs, distinguish applicable Base Price, Sale Price, and governed components, and reject client, Cart, analytics, cache, or Projection values as authority. Missing, invalid, stale, or changed Price MUST produce an explicit explainable outcome and governed recalculation before commercial commitment without rewriting confirmed Order history or selecting a Price List or scheduled effective-date mechanism.
+
+Under Accepted DEC-0043 1.0.0, effective 2026-11-03, initial V1 base prices MUST reference the owning Product and Variant, use strictly positive ZAR Money, and permit at most one current explicit assignment per Variant with no Product-level fallback. Applicability MUST begin immediately after an authorized, committed operation and continue until explicit replacement or withdrawal; both MUST preserve historical assignment revisions. Missing, invalid, conflicting, obsolete or withdrawn assignments MUST NOT produce a current valid base-price result. Selection MUST NOT use arbitrary precedence or latest-wins resolution. A valid base price MUST NOT establish Product visibility, sellability, tax-inclusive display amounts or Checkout totals. This policy selects no tax, Discount, Promotion, scheduled or customer/channel pricing, currency conversion, rounding or decimal scale. Product input safety, contextual Authorization and confirmed Order history safeguards remain binding.
 
 ### BPRC-REQ-020 — Discount Calculation Boundary
 
@@ -208,7 +210,7 @@ BPRC MUST preserve all 8 materially applicable Open Product Decisions and all 11
 
 | Acceptance Criterion | Requirement | Observable evidence |
 | --- | --- | --- |
-| BPRC-AC-001 | BPRC-REQ-001 | Metadata shows `1.0.0 Approved`, owner `Pricing`, `authoritative: false`, and scope `BPRC`; text states bounded normativity only within the governed Pricing backend scope. |
+| BPRC-AC-001 | BPRC-REQ-001 | Metadata shows `1.1.0 Approved`, owner `Pricing`, `authoritative: false`, and scope `BPRC`; text states bounded normativity only within the governed Pricing backend scope. |
 | BPRC-AC-002 | BPRC-REQ-002 | Coverage review maps REQ-PRC-001–035 completely to BPRC Requirements without authority transfer. |
 | BPRC-AC-003 | BPRC-REQ-003 | Boundary review finds no non-Pricing truth assigned to BPRC. |
 | BPRC-AC-004 | BPRC-REQ-004 | The BEB matrix accounts for BEB-REQ-001–056 exactly once with applicability, rationale, and BPRC trace. |
@@ -226,7 +228,7 @@ BPRC MUST preserve all 8 materially applicable Open Product Decisions and all 11
 | BPRC-AC-016 | BPRC-REQ-016 | No Pricing result creates, redefines, or proves another Domain's truth, lifecycle, policy, or success. |
 | BPRC-AC-017 | BPRC-REQ-017 | Correct Product or Product Variant evidence is required and every governed invalid state blocks silent trusted Pricing. |
 | BPRC-AC-018 | BPRC-REQ-018 | Monetary values preserve explicit Currency and precision-safe semantics; unsafe mixing, conversion, or floating-point behavior is rejected without invented policy. |
-| BPRC-AC-019 | BPRC-REQ-019 | Authoritative Price uses current governed context; missing, invalid, stale, and changed states are explicit and Order history is unchanged. |
+| BPRC-AC-019 | BPRC-REQ-019 | Authoritative Price uses current governed context; missing, invalid, stale, and changed states are explicit and Order history is unchanged. Accepted DEC-0043 V1 positive ZAR Variant-only single-current selection, immediate committed applicability, retained revisions and explicit missing/invalid/conflicting/obsolete/withdrawn outcomes are enforced without fallback or arbitrary precedence. |
 | BPRC-AC-020 | BPRC-REQ-020 | Discount evaluation is governed, separate, reproducible, and safe without an invented formula or policy value. |
 | BPRC-AC-021 | BPRC-REQ-021 | Promotions and Vouchers use only governed applicability and usage evidence, with safe explicit unusable outcomes and no invented policy. |
 | BPRC-AC-022 | BPRC-REQ-022 | No unresolved stacking or combination rule is selected, and unresolved conflict fails safely. |
@@ -419,11 +421,11 @@ The following **11 materially applicable Open Architecture Decisions** from `ARC
 | PostgreSQL schema strategy | Pricing ownership is preserved without selecting schema layout. |
 | Repository-wide feature-flag implementation and lifecycle management | Flag safety is inherited without selecting a mechanism. |
 
-Price List structures, Pricing algorithms, formulas, effective-date policy, rounding, monetary precision policy, exchange-rate behavior, Customer segmentation, scarcity Pricing, and other numerical Pricing rules remain unresolved scope boundaries or Explicit Exclusions; they are not represented as additional `PRODUCT.md` §24 decisions.
+Beyond the bounded initial rule and immediate applicability established by Accepted DEC-0043, Price List structures, Pricing algorithms, formulas, scheduled effective-date policy, rounding, monetary precision policy, exchange-rate behavior, Customer segmentation, scarcity Pricing, and other numerical Pricing rules remain unresolved scope boundaries or Explicit Exclusions; they are not represented as additional `PRODUCT.md` §24 decisions.
 
 ## 14. Explicit Exclusions
 
-BPRC selects no Pricing algorithm, formula, Price List structure, effective-date mechanism, rounding rule, scale, precision, Minor Unit rule, exchange-rate behavior, Discount, Promotion, Voucher, stacking, tax, shipping-fee, fraud, gift-card, store-credit, promotional-credit, Customer-segmentation, personalization, scarcity, or availability-based Pricing policy; identifier design; Role or Permission matrix; API route, method, status, DTO, or payload; database schema, table, SQL, ORM mapping, index, lock, isolation level, cache, or Redis use; event name, schema, payload, topic, queue, broker, delivery technology, or choreography; provider; infrastructure or deployment topology; numerical limit, threshold, timeout, retry count, retention, performance target, SLA, SLO, or recovery objective; or Backend Specification title, path, scope code, decomposition, or ordering after BPRC.
+Except for the synchronized Accepted DEC-0043 initial assignment/selection rule and immediate applicability policy, BPRC selects no Pricing algorithm, formula, Price List structure, scheduled effective-date mechanism, rounding rule, scale, precision, Minor Unit rule, exchange-rate behavior, Discount, Promotion, Voucher, stacking, tax, shipping-fee, fraud, gift-card, store-credit, promotional-credit, Customer-segmentation, personalization, scarcity, or availability-based Pricing policy; identifier design; Role or Permission matrix; API route, method, status, DTO, or payload; database schema, table, SQL, ORM mapping, index, lock, isolation level, cache, or Redis use; event name, schema, payload, topic, queue, broker, delivery technology, or choreography; provider; infrastructure or deployment topology; numerical limit, threshold, timeout, retry count, retention, performance target, SLA, SLO, or recovery objective; or Backend Specification title, path, scope code, decomposition, or ordering after BPRC.
 
 ## 15. Risks and Controls
 
@@ -443,6 +445,8 @@ BPRC selects no Pricing algorithm, formula, Price List structure, effective-date
 | Later roadmap ordering is inferred from BPRC | Preserve every position after BPRC as unresolved. |
 
 ## 16. Related Documents
+
+- [Accepted DEC-0043 — Initial V1 Base-Price Assignment Policy](../../decisions/DEC-0043-initial-v1-base-price-assignment-policy.md).
 
 - `.ai/core/AGENTS.md`
 - `.ai/core/GLOSSARY.md`
@@ -496,6 +500,7 @@ The completed governance review for this promotion confirmed complete Pricing Do
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-03 | Approved | Synchronized Accepted DEC-0043 initial Variant-level positive ZAR base-price assignments, immediate committed applicability, deterministic selection and retained revisions; preserved Product ownership, Order history, existing requirement identifiers and unrelated policy/implementation boundaries. |
 | 1.0.0 | 2026-09-17 | Approved | Promoted BPRC following completed governance review, preserving Pricing-only authority, complete Pricing Domain and BEB coverage, bounded upstream consumption, Open Product and Architecture Decisions, and the unresolved downstream backend roadmap. |
 | 0.1.0 | 2026-09-17 | Draft | Established the initial Pricing Backend Specification with Pricing-only authority, complete Pricing Domain coverage, complete BEB applicability, bounded BIDN/BCUS/BPRD/BINV consumption, open decisions, Acceptance Criteria, and traceability. |
 
@@ -503,7 +508,7 @@ The completed governance review for this promotion confirmed complete Pricing Do
 
 For Approved lifecycle validation, verify that:
 
-1. metadata remains `1.0.0 Approved`, `authoritative: false`, owner `Pricing`, and scope `BPRC`;
+1. metadata remains `1.1.0 Approved`, `authoritative: false`, owner `Pricing`, and scope `BPRC`;
 2. all BPRC Requirements remain subordinate to governing sources and specialize only the Approved Pricing Domain;
 3. the canonical sequence is `BEB → BIDN → BCUS → BPRD → BINV → BPRC`, with every later title, path, scope code, decomposition, and order unresolved;
 4. Product, Category, Inventory, Search, Customer, Identity, Cart, Checkout, Order, Payment, Shipping, Return, Administration, Reporting, and every other Domain authority remains intact;
@@ -512,6 +517,6 @@ For Approved lifecycle validation, verify that:
 7. every BPRC Requirement has exactly one corresponding Acceptance Criterion and traceability row;
 8. all 35 Approved Pricing Domain Requirements are covered exactly once in the Pricing Domain Coverage Matrix;
 9. all 8 Product and 11 Architecture decisions listed here remain unresolved;
-10. no Pricing formula, Price List, effective-date, rounding, exchange-rate, Discount, Promotion, Voucher, tax, shipping-fee, fraud, credit, segmentation, scarcity, API, DTO, schema, persistence, event, provider, cache, infrastructure, numerical, authorization-matrix, or later-roadmap decision is invented;
+10. beyond Accepted DEC-0043 initial assignment/selection and immediate applicability, no Pricing formula, Price List, scheduled effective-date, rounding, exchange-rate, Discount, Promotion, Voucher, tax, shipping-fee, fraud, credit, segmentation, scarcity, API, DTO, schema, persistence, event, provider, cache, infrastructure, numerical, authorization-matrix, or later-roadmap decision is invented;
 11. security, observability, audit, failure, recovery, reconciliation, compatibility, boundedness, accessibility, and verification remain complete and mechanism-neutral; and
 12. the BPRC lifecycle change affects only `specifications/backend/pricing/pricing-backend.md` and introduces no unrelated repository changes.

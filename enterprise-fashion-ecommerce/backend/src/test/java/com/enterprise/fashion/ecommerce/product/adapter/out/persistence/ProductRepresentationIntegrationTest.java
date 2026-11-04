@@ -144,7 +144,7 @@ class ProductRepresentationIntegrationTest {
                     .isInstanceOf(DataIntegrityViolationException.class);
         }
         flyway.validate();
-        assertThat(flyway.info().current().getVersion().getVersion()).isEqualTo("7");
+        assertThat(flyway.info().current().getVersion().getVersion()).isEqualTo("8");
     }
 
     @Test

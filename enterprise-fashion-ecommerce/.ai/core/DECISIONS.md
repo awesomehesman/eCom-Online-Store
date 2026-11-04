@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.96
+version: 1.0.100
 status: Approved
 owner: Architecture
-last_updated: 2026-10-30
+last_updated: 2026-11-04
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -581,8 +581,14 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0040 | Product Launch Date, Release Scope and Post-Launch Support Window | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0040-product-launch-date-release-scope-post-launch-support-window.md](../../specifications/decisions/DEC-0040-product-launch-date-release-scope-post-launch-support-window.md) |
 | DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
+| DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
+| DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
+
+DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
+
+DEC-0043 1.0.0 is Accepted and authoritative within its bounded commercial scope, following explicit Product/business-owner acceptance without amendments on 2026-11-03, effective the same day. PRODUCT.md and the Pricing domain/backend specifications are synchronized with Variant-level positive ZAR base pricing, single-current assignment, no Product fallback, immediate committed applicability and revision-preserving replacement/withdrawal. Product identity, Order history and unresolved tax, promotion, authorization and implementation boundaries remain preserved; acceptance is not operational authorization or release readiness.
 
 DEC-0009 0.8.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.7.0 native feasibility/admission-readiness evaluation is complete and its authorization consumed/exhausted, with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED** recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0009/native-idna2008-feasibility-evaluation-2026-10-06.md). The evaluated GNU Libidn2 2.3.8 public API arrangement MUST NOT be selected from the current evidence; this is candidate-specific, not universal native infeasibility. The 0.3.0 and 0.5.0 authorizations remain exhausted and direct ICU internal Punycode remains removed from the current candidate path. No new evaluation is authorized; further candidate evaluation or a materially different strategy requires fresh explicit governance authorization. This synchronization selects no technology, admits no dependency/native artifact and grants no DEC acceptance, Architecture approval/change or implementation authority. Separate DEC-0001 and applicable Architecture/ADR gates remain required.
 
@@ -774,6 +780,10 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.100 | 2026-11-04 | Approved | Recorded DEC-0044 0.2.0 Proposed with Product/business-only approval of A2, B1, C1 and D1 on 2026-11-04; preserved all other pending dispositions, DEC-0012 Proposed, DEC-0043 Accepted and blocked operational Pricing writes. |
+| 1.0.99 | 2026-11-04 | Approved | Indexed DEC-0044 0.1.0 Proposed with bounded Variant base-price operational authorization options and pending accountable dispositions; preserved DEC-0012 Proposed, DEC-0043 Accepted and all implementation/authority boundaries. |
+| 1.0.98 | 2026-11-03 | Approved | Synchronized DEC-0043 1.0.0 Accepted with explicit Product/business-owner acceptance and effective date 2026-11-03; recorded Product and Pricing specification synchronization without changing unrelated decisions or operational authorization. |
+| 1.0.97 | 2026-11-03 | Approved | Indexed DEC-0043 0.1.0 Proposed for initial Variant-level V1 base-price assignment; Product/business-owner acceptance remains pending, with no Pricing specification change or implementation authority granted. |
 | 1.0.96 | 2026-10-30 | Approved | Indexed DEC-0042 0.1.0 Proposed, recording confirmed Product-owner publication/content/media/lifecycle policy separately from existing Security requirements and pending accountable Security controls; granted no overall decision acceptance, canonical Product synchronization or implementation authority. |
 | 1.0.95 | 2026-10-29 | Approved | Synchronized DEC-0019 1.0.0 to Accepted with Product-owner acceptance dated 2026-10-29; summarized Option C hybrid family applicability, canonical Size/Colour uniqueness, descriptive Fit/Material, stable identity and historical/versioned evolution safeguards; preserved Category/Search boundaries and DEC-0018 Proposed, with PRODUCT.md synchronization explicitly outstanding and no implementation claim. |
 | 1.0.94 | 2026-10-16 | Approved | Registered DEC-0041 0.1.0 as a Proposed, non-authoritative Security Decision for the four unresolved post-expiry OpenPGP artifact signatures; preserved pending risk classification and Security/Architecture dispositions, undetermined exception applicability and withheld merge authorization. |
