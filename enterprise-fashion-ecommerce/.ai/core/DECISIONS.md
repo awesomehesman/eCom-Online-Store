@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.102
+version: 1.0.103
 status: Approved
 owner: Architecture
 last_updated: 2026-11-05
@@ -587,7 +587,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 
 The index contains only verified decision records that exist at their linked repository paths.
 
-DEC-0045 v0.2.0 remains Proposed and non-authoritative. The accountable Inventory business owner explicitly approved IBD-01–IBD-08 on 2026-11-05 in the Inventory business-owner capacity only. Inventory technical and Architecture dispositions and applicable affected-owner reviews remain pending; Java `long` remains a technical recommendation. Product identity and Variant association remain Product-owned, and Inventory retains Stock authority without acquiring other Domain authority. Location identity, registration and lifecycle, initialization authorization and actor eligibility, audit, concurrency, retry and reconciliation mechanisms remain unresolved. DEC-0015 and DEC-0024 remain Proposed. No Stock aggregate, persistence, initialization operation, reservation, availability formula, warehouse topology, Contract, API, operational initialization authority or Stock implementation is approved or granted.
+DEC-0045 v0.3.0 remains Proposed and non-authoritative. The accountable Inventory business owner approved IBD-01–IBD-08 on 2026-11-05 in the business-owner capacity, and the Inventory technical owner approved ITD-01–ITD-08 on 2026-11-05 in the technical-owner capacity. Java `long` is confirmed as Inventory technical direction, not Architecture approval. Architecture disposition and applicable affected-owner reviews remain pending. Product-owned Variant identity and association and Inventory-owned Stock authority remain unchanged; no other Domain authority is transferred. Location identity, registration and lifecycle, database representation and uniqueness, concurrency, retry, reconciliation, initialization authorization and actor eligibility, audit and operational mechanisms remain unresolved. DEC-0015 and DEC-0024 remain Proposed. No Stock aggregate, persistence, initialization operation, reservation, availability formula, warehouse topology, Contract, API, Stock implementation or operational initialization authority is granted.
 
 DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
 
@@ -783,6 +783,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.103 | 2026-11-05 | Approved | Recorded DEC-0045 v0.3.0 Inventory technical-owner approval of ITD-01–ITD-08, preserved IBD-01–IBD-08 business approval, pending Architecture and affected-owner reviews, unresolved mechanisms and all implementation/operational restrictions. |
 | 1.0.102 | 2026-11-05 | Approved | Recorded DEC-0045 v0.2.0 Inventory business-owner approval of IBD-01–IBD-08, preserving pending technical/Architecture dispositions, affected-owner reviews and implementation/operational restrictions. |
 | 1.0.101 | 2026-11-04 | Approved | Indexed DEC-0045 0.1.0 as Proposed and non-authoritative, preserving pending accountable dispositions and all implementation and operational authorization gates. |
 | 1.0.100 | 2026-11-04 | Approved | Recorded DEC-0044 0.2.0 Proposed with Product/business-only approval of A2, B1, C1 and D1 on 2026-11-04; preserved all other pending dispositions, DEC-0012 Proposed, DEC-0043 Accepted and blocked operational Pricing writes. |
