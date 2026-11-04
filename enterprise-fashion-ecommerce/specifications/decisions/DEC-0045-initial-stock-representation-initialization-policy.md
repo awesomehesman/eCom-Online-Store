@@ -186,9 +186,6 @@ transaction mechanism, deployment, production seed data or operational rollout i
 - Concrete initialization failure, retry and reconciliation Contract and persistence design.
 - Separate reservation, availability, replenishment and commercial-policy decisions where
   future capabilities require them; DEC-0015 and DEC-0024 remain Proposed.
-- Decision Index synchronization is outstanding: DECISIONS.md §10 requires discoverability,
-  but this single-file drafting increment explicitly excludes index modification. No
-  repository-wide indexing completion is claimed.
 
 ## Acceptance Conditions
 
