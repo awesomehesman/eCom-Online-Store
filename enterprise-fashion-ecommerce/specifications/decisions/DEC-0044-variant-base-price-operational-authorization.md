@@ -4,7 +4,7 @@
 - **Title:** Variant Base-Price Operational Authorization
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-04
 - **Owner:** Product
@@ -29,9 +29,12 @@ lifecycle and independent Pricing state. Neither supplies actor authority, a tru
 mutation audit guarantee or an atomic Product/Pricing snapshot. Internal persistence
 is not an operational authorization API.
 
-This package presents bounded choices for accountable review. **NO OPTION IS SELECTED
-OR APPROVED.** Recommendations below are not dispositions. This record is not
-implementation authority. It changes no DEC-0012, DEC-0043, Approved Specification,
+The Product/business owner explicitly approved A2, B1, C1 and D1 on 2026-11-04,
+solely in the Product/business capacity. This records the selected business direction,
+not Security, Identity, Administration, Pricing or Engineering/Architecture approval.
+The overall decision remains **Proposed and non-authoritative** pending the remaining
+reviews and prerequisites below. **Operational Pricing writes remain blocked.**
+Unconfirmed recommendations are not dispositions. This record is not implementation authority. It changes no DEC-0012, DEC-0043, Approved Specification,
 Contract, code or infrastructure. A required Decision Index entry accompanies it.
 
 ## 2. Existing Obligations — Not New Policy Choices
@@ -73,12 +76,13 @@ infer the owning Product from a Variant reference or accept a caller's ownership
 Governing sources: DEC-0012; BIDN-REQ-024–026; REQ-ADM-005–010; REQ-PRC-026;
 BPRC-REQ-009; Security Standards §12.
 
-| Option | Trade-off | Recommendation |
+| Option | Trade-off | Product/business disposition and remaining review |
 | --- | --- | --- |
-| A1 — Wait for the complete DEC-0012 matrix | Ensures one comprehensive administrative policy but couples three Pricing operations to unrelated capability decisions. | Viable if owners require whole-matrix acceptance. |
-| A2 — Establish the bounded Pricing portion through DEC-0012 governance | Resolve only the three action-to-eligible-assignment mappings with attributable Product, Security, Identity, Administration and Pricing review. Broader matrix remains unresolved. Requires explicit agreement on how the accepted bounded portion is recorded and synchronized. | Recommended for bounded progress; not a bypass or implied acceptance of DEC-0012. |
+| A1 — Wait for the complete DEC-0012 matrix | Ensures one comprehensive administrative policy but couples three Pricing operations to unrelated capability decisions. | Not selected by Product/business; retained alternative. |
+| A2 — Establish the bounded Pricing portion through DEC-0012 governance | Resolve only the three action-to-eligible-assignment mappings with attributable Product, Security, Identity, Administration and Pricing review. Broader matrix remains unresolved. Requires explicit agreement on how the accepted bounded portion is recorded and synchronized. | A2 approved by Product/business on 2026-11-04 as the resolution path only. Concrete mappings and cross-functional review remain pending; no bypass or acceptance of DEC-0012. |
 
-For A2, owners must explicitly record the actual eligible governed assignments for
+Product/business selected A2 to pursue bounded Pricing action mappings through
+DEC-0012 governance. Owners must still explicitly record the actual eligible governed assignments for
 initialize, replace and withdraw, including scope and withdrawal effects. This package
 invents none. A Role name, proposed label, session presence or an empty mapping cannot
 substitute for approved assignments. No ad hoc maintainer allowlist, hardcoded user,
@@ -143,7 +147,7 @@ BPRD-REQ-020). Active, Suspended, Unpublished and Retired are not additional lif
 values. Lack of publication evidence is not a new state. Published alone does not
 establish customer visibility, structural sellability or commercial Price applicability.
 
-The table proposes state eligibility only. Every permitted cell remains conditional
+The following alternatives distinguish state eligibility only. Every permitted cell remains conditional
 on separate current action authorization, matching Product evidence, Pricing consistency
 and audit requirements. No cell authorizes a Product lifecycle transition.
 
@@ -153,13 +157,23 @@ and audit requirements. No cell authorizes a Product lifecycle transition.
 | B2 — Draft-only price establishment | Permit / Permit / Permit | Reject / Reject / Permit | Reject / Reject / Permit |
 | B3 — Published-only price establishment | Reject / Reject / Permit | Permit / Permit / Permit | Reject / Reject / Permit |
 
-Recommend **B1**: supports Draft preparation and live price maintenance while preventing
+**B1 is Product/business-approved on 2026-11-04.** It supports Draft preparation and live price maintenance while preventing
 new/replacement prices for Archived Products; withdrawal remains possible for historical
 cleanup or risk reduction. Cost: Published price changes need appropriate action-specific
 controls and audit. B2 restricts live changes and may require an independently authorized
 Product workflow; this package does not create one. B3 prevents Draft pre-pricing and
-may leave newly Published Variants unpriced. All are unselected options, not claims that
-existing Product lifecycle policy already governs Price administration.
+may leave newly Published Variants unpriced. B2 and B3 were not selected by Product/business;
+they remain recorded alternatives, not approved policies. The selected business matrix is:
+
+| Product state | Initialize | Replace | Withdraw |
+| --- | --- | --- | --- |
+| DRAFT | Lifecycle-eligible | Lifecycle-eligible | Lifecycle-eligible |
+| PUBLISHED | Lifecycle-eligible | Lifecycle-eligible | Lifecycle-eligible |
+| ARCHIVED | Lifecycle-ineligible | Lifecycle-ineligible | Lifecycle-eligible |
+
+Lifecycle eligibility does not grant authorization. This Product/business disposition
+does not replace pending Security concurrence, Pricing enforcement review, trusted
+actor/access evidence, audit guarantees or applicable governing-source synchronization.
 
 Sources: DEC-0043; REQ-PRC-004–005, 007–008; BPRC-REQ-017, 019; REQ-PRD-005,
 007–010, 052; BPRD-REQ-014–016, 020. Accountable decision: Product/business owner and
@@ -176,12 +190,16 @@ Product and Variant references and the observed lifecycle/revision. A representa
 revision is a comparison token, not a timestamp or proof of continuing freshness;
 lifecycle can change without a representation-revision change.
 
-| Option | Trade-off | Recommendation |
+| Option | Trade-off | Product/business disposition and remaining review |
 | --- | --- | --- |
-| C1 — Explicit bounded-observation reliance | Obtain Product evidence for each operation outside unsafe Pricing transaction scope; authorize against the exact observed pair/state and current access evidence, then enforce the expected Pricing revision atomically. Known material Product change, invalidation or uncertainty before reliance requires renewed observation/re-evaluation or a safe stop. An unobserved intervening Product change remains a stated race limitation. | Recommended only with explicit owner acceptance of this limitation for the selected operations. |
-| C2 — Require stronger commit-time Product validity | Do not enable affected operations until Product/Pricing owners establish an approved stronger guarantee and Contract; assess any material Architecture implications separately. | Appropriate if the business cannot accept C1; this package selects no mechanism. |
+| C1 — Explicit bounded-observation reliance | Obtain Product evidence for each operation outside unsafe Pricing transaction scope; authorize against the exact observed pair/state and current access evidence, then enforce the expected Pricing revision atomically. Known material Product change, invalidation or uncertainty before reliance requires renewed observation/re-evaluation or a safe stop. An unobserved intervening Product change remains a stated race limitation. | C1 approved by Product/business on 2026-11-04, including the documented unobserved-change race limitation. Security, Pricing and Engineering/Architecture review remain pending. |
+| C2 — Require stronger commit-time Product validity | Do not enable affected operations until Product/Pricing owners establish an approved stronger guarantee and Contract; assess any material Architecture implications separately. | Not selected by Product/business; retained alternative. This package selects no stronger mechanism. |
 
-Neither option permits a known failed membership/state check to be ignored. No TTL,
+The Product/business owner accepts C1: an unobserved Product change may occur between
+the per-operation observation and Pricing persistence. Known material change, invalidation
+or uncertainty requires renewed observation and evaluation or a safe stop before reliance.
+No known failed membership/state check may be ignored. This business acceptance does not
+claim a completed technical or Security review. No TTL,
 distributed lock, cross-module transaction, Product database lock, reservation or shared
 snapshot is introduced. Product and Pricing retain independent coherent observations.
 Authorization and Product revalidation are separate obligations; one cannot replace the
@@ -189,9 +207,9 @@ other. Do not hold external authority calls inside unsafe Pricing transactions o
 that the Pricing head lock freezes Product or Staff access.
 
 Sources: internal Variant evidence Contract §§5–7; REQ-PRC-004–005, 024–026;
-BPRC-REQ-007, 011–014, 017, 033; BPRD-REQ-011. Product/Pricing owners must decide the
-acceptable validation point and race tolerance; Security confirms access-withdrawal
-reliance, Engineering/Architecture confirms technical limits. No stronger consistency
+BPRC-REQ-007, 011–014, 017, 033; BPRD-REQ-011. The Product/business C1 disposition records acceptance of the bounded observation
+and race limitation. Pricing enforcement review, Security access-withdrawal controls
+and Engineering/Architecture confirmation of technical limits remain pending. No stronger consistency
 guarantee is inferred from current PostgreSQL co-location.
 
 ## 8. Mutation Audit and Failure Policy Choice
@@ -213,29 +231,47 @@ authorization, recording time or audit persistence. No retention duration is sel
 Options: D1 — treat all three initial operational actions as requiring mutation audit
 and block writes when the required recording guarantee is unavailable; D2 — apply an
 explicit owner-approved per-action/risk classification, with required evidence and safe
-failure behavior for each category. Recommend D1 for the bounded initial operational
-scope, without inventing a storage technology or claiming a write happened before commit.
+failure behavior for each category. **D1 is Product/business-approved on 2026-11-04:**
+trusted mutation audit is required for initialize, replace and withdraw. D2 is not the
+selected business direction. No audit technology or completed guarantee is selected,
+and no mutation may be reported successful before its committed outcome is known.
 D2 may reduce overhead but must not exempt an action already requiring audit under
 higher authority. The required durable outcome-recording guarantee and handling of uncertain commit or
 audit outcomes require a technical Contract before operational enablement; no generic
 logger or history row may stand in for that guarantee. Security and Pricing approve
 classification and failure policy; Engineering reviews achievable durability semantics.
+Those reviews remain pending. Operational writes remain blocked until the required audit
+recording and durability semantics are approved and available.
 
-## 9. Required Accountable Dispositions — All Pending
+## 9. Accountable Dispositions and Product/Business Approval Provenance
 
 | Capacity | Disposition | Required decision/review |
 | --- | --- | --- |
-| Product / business owner | PENDING | Eligible business assignments and DEC-0012 resolution path; lifecycle option B; operation impact and bounded-observation acceptance. |
+| Product / business owner | APPROVED — 2026-11-04, Product/business capacity only | A2 bounded DEC-0012 resolution path; B1 lifecycle matrix; C1 per-operation observation and explicit race limitation; D1 trusted mutation audit for all three operations. No concrete Staff mapping or other capacity approval is recorded. |
 | Security | PENDING | Assignment scope, four authorization outcomes, assurance/separation, access withdrawal, race reliance and audit classification/failure controls. |
 | Pricing | PENDING | Action-specific contextual enforcement, lifecycle/revalidation implications, revision conflicts, outcomes and audit requirements. |
 | Identity | PENDING | Feasibility and provenance of current actor/Staff/access evidence and effective withdrawal; no central business authorization. |
 | Administration | PENDING | Bounded DEC-0012 mapping and coordination responsibilities; no assignment or commercial authority inferred. |
 | Engineering/Architecture | PENDING | Exported Contracts, consistency limitations, audit guarantees and implementation feasibility; separate ADR only if a material new architecture choice is needed. |
 
-No owner disposition, independent reviewer, signature or completed review is claimed.
-Approval must explicitly select/amend the options, record concrete assignment mappings
-and resolve their DEC-0012 relationship. Recommendations or approval of a principle
-without the necessary mappings and operational Contracts do not unblock writes.
+Approval provenance is the accountable Product/business owner’s explicit M2.5C
+instruction confirming approval of A2, B1, C1 and D1 on 2026-11-04. It is attributable
+to that capacity only; no personal name, signature, independent reviewer, independent
+sign-off or approval in any other capacity is invented. The proposal history is retained.
+
+The following remain pending:
+
+- Security concurrence, assurance and effective access-withdrawal controls.
+- Concrete eligible Staff mappings through DEC-0012 governance; A2 selects a path, not assignments.
+- Identity evidence provenance and effective withdrawal.
+- Administration coordination and assignment boundaries.
+- Pricing technical enforcement review.
+- Engineering/Architecture feasibility and audit recording/durability guarantees.
+- Authorization outcome Contract and operational implementation authority.
+
+Other accountable dispositions must be recorded and the DEC-0012 relationship resolved
+through its governance. Product/business approval alone does not approve the overall
+decision or unblock writes without the necessary mappings and operational Contracts.
 
 ## 10. Consequences, Compatibility and Implementation Gates
 
@@ -246,7 +282,7 @@ operations pending a stronger guarantee. Lifecycle restrictions can interrupt or
 price maintenance. Later policy changes must preserve stable Product/Variant identity,
 accepted assignment history and confirmed Order snapshots.
 
-Before operational implementation, record accountable acceptance, synchronize applicable
+Before operational implementation, record the remaining accountable dispositions, synchronize applicable
 governing sources/Contracts, establish trusted actor/access and audit capability, and
 verify denial/unavailability, scope substitution, state eligibility, revoked access,
 concurrent revision conflict, rollback and uncertain outcomes. Existing internal storage
@@ -274,3 +310,4 @@ This Proposed record authorizes no code change, rollout or write orchestration.
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-11-04 | Proposed | Presented bounded unselected Staff/action, lifecycle, Product revalidation/race, authorization-outcome and trusted audit options for Variant base-price operations; recorded all accountable dispositions pending and preserved DEC-0012, DEC-0043 and existing authority boundaries. |
+| 0.2.0 | 2026-11-04 | Proposed | Recorded explicit Product/business-only approval of A2, B1, C1 and D1, including lifecycle eligibility, per-operation Product observation with the documented race limitation and trusted audit for all three operations; preserved pending cross-functional reviews, concrete mappings, audit/authorization Contracts and blocked operational writes. |
