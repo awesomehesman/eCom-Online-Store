@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.100
+version: 1.0.101
 status: Approved
 owner: Architecture
 last_updated: 2026-11-04
@@ -583,8 +583,11 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
 | DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
 | DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
+| DEC-0045 | Initial Stock Representation and Initialization Policy | Inventory Business / Technical Decision | Proposed | Inventory | 2026-11-04 | N/A | [DEC-0045-initial-stock-representation-initialization-policy.md](../../specifications/decisions/DEC-0045-initial-stock-representation-initialization-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
+
+DEC-0045 0.1.0 is Proposed and non-authoritative. It proposes Variant/location Stock association, one governed logical Stock Location, non-negative whole-unit quantities, separately reviewed Java `long` representation and explicit Inventory-owned initialization. Inventory business, Inventory technical and Architecture dispositions remain pending; Product identity and Variant association remain Product-owned. Location identity, registration and lifecycle, initialization authorization and actor eligibility, audit, failure/retry and reconciliation details remain unresolved. DEC-0015 and DEC-0024 remain Proposed. No Stock aggregate, persistence, initialization operation, reservation, availability formula, warehouse topology, Contract, API, operational authorization or implementation is approved.
 
 DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
 
@@ -780,6 +783,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.101 | 2026-11-04 | Approved | Indexed DEC-0045 0.1.0 as Proposed and non-authoritative, preserving pending accountable dispositions and all implementation and operational authorization gates. |
 | 1.0.100 | 2026-11-04 | Approved | Recorded DEC-0044 0.2.0 Proposed with Product/business-only approval of A2, B1, C1 and D1 on 2026-11-04; preserved all other pending dispositions, DEC-0012 Proposed, DEC-0043 Accepted and blocked operational Pricing writes. |
 | 1.0.99 | 2026-11-04 | Approved | Indexed DEC-0044 0.1.0 Proposed with bounded Variant base-price operational authorization options and pending accountable dispositions; preserved DEC-0012 Proposed, DEC-0043 Accepted and all implementation/authority boundaries. |
 | 1.0.98 | 2026-11-03 | Approved | Synchronized DEC-0043 1.0.0 Accepted with explicit Product/business-owner acceptance and effective date 2026-11-03; recorded Product and Pricing specification synchronization without changing unrelated decisions or operational authorization. |
