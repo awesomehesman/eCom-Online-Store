@@ -1,0 +1,419 @@
+openapi: 3.1.0
+info:
+  title: Initial Product Catalogue API
+  version: 1.0.0
+  description: >-
+    Product-owned public read Contract. The companion Markdown governs ownership,
+    lifecycle and eligibility. No implementation or completed approval is claimed.
+    Published state alone never establishes customer visibility. Every response
+    requires coherent current Product-owned publication, content, Attribute,
+    Variant and media eligibility evidence. No Price, Stock or purchasability truth.
+servers:
+  - url: https://api.example.invalid
+    description: Placeholder HTTPS host; no deployment selection.
+security: []
+tags:
+  - name: Product catalogue
+paths:
+  /api/v1/products:
+    get:
+      tags: [Product catalogue]
+      operationId: listVisibleProducts
+      summary: List currently eligible customer-visible Products
+      security: []
+      description: >-
+        Anonymous, safe read; no Session creation or renewal. Reject unknown,
+        repeated or malformed query parameters; no filtering, sorting or Search
+        query language. Select eligible Products in ascending unsigned UTF-8 byte
+        order of productId with exact case-sensitive comparison. IDs are stable;
+        no database collation or mutable labels determine ordering. A cursor
+        continues strictly after the last returned ID and binds the page size.
+        It is opaque, bounded, carries no protected-record data and confers no
+        visibility authority. Revalidate every request. This is live pagination,
+        not a snapshot; earlier insertions may be missed. Emit no cursor when
+        there is no further eligible result at the observation. Unavailable
+        authority is 503, never a fabricated empty page or stale fallback.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - $ref: '#/components/parameters/Correlation'
+      responses:
+        '200':
+          description: Eligible page; an empty catalogue returns items empty and nextCursor null.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+            X-Correlation-ID:
+              $ref: '#/components/headers/Correlation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPage'
+              examples:
+                empty:
+                  value:
+                    items: []
+                    pageSize: 20
+                    nextCursor: null
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/InternalFailure'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/products/{productId}:
+    get:
+      tags: [Product catalogue]
+      operationId: getVisibleProduct
+      summary: Retrieve one currently eligible customer-visible Product
+      security: []
+      description: >-
+        Anonymous safe read without Session creation or renewal. Reject query
+        parameters. Treat unknown and authoritatively non-visible Products
+        identically as 404. Return only eligible children; if their exclusion
+        violates Product completeness, conceal the Product. Uncertain or
+        unavailable authority returns 503 without revealing protected existence.
+        No conditional requests or 304 responses; every read revalidates visibility.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: Opaque stable public reference, never a persistence primary key or authority.
+          schema:
+            $ref: '#/components/schemas/PublicId'
+        - $ref: '#/components/parameters/Correlation'
+      responses:
+        '200':
+          description: Coherent currently eligible Product representation.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+            X-Correlation-ID:
+              $ref: '#/components/headers/Correlation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                productId: product-example-1
+                name: Example shirt
+                description: Synthetic example of a customer-visible shirt.
+                family: Apparel
+                attributeStandardVersion: 1.0.0
+                variantDefiningAttributes: [Size, Colour]
+                variants:
+                  - variantId: variant-example-1
+                    attributes:
+                      size:
+                        kind: APPAREL
+                        code: M
+                        label: M
+                      colour:
+                        code: BLACK
+                        label: Black
+                media:
+                  - mediaId: media-example-1
+                    url: https://media.example.invalid/shirt-front
+                    alternativeText: Front view of the black example shirt.
+                    variantId: variant-example-1
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotVisible'
+        '500':
+          $ref: '#/components/responses/InternalFailure'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: >-
+        Decimal integer page size, default 20, maximum 100. Continuation requests
+        must use the cursor-bound size; omission uses the default and is invalid
+        if it differs from that size. No signs, fractions, exponent notation or duplicates.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      example: 20
+    Cursor:
+      name: cursor
+      in: query
+      description: >-
+        Opaque continuation returned by this API, not caller-selected resource
+        authority. Invalid, unsupported or context-mismatched values yield 400.
+        No cursor format, cryptographic mechanism or retention duration is selected.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 2048
+        pattern: '^[A-Za-z0-9_-]+$'
+    Correlation:
+      name: X-Correlation-ID
+      in: header
+      description: >-
+        Optional untrusted diagnostic context. Preserve one valid value; otherwise
+        generate a safe value, including for absent, repeated, overlong or malformed
+        input. Never echo invalid input or use this as authorization/idempotency evidence.
+      schema:
+        $ref: '#/components/schemas/CorrelationId'
+  headers:
+    NoStore:
+      required: true
+      description: Required on all Contract responses; no shared or private response storage.
+      schema:
+        type: string
+        const: no-store
+    Correlation:
+      required: true
+      description: Safe propagated or generated diagnostic correlation.
+      schema:
+        $ref: '#/components/schemas/CorrelationId'
+  schemas:
+    PublicId:
+      type: string
+      minLength: 1
+      maxLength: 128
+      pattern: '^[A-Za-z0-9_-]+$'
+      description: Stable opaque public reference; syntax selects no database or generation format.
+    CorrelationId:
+      type: string
+      minLength: 1
+      maxLength: 128
+      pattern: '^[A-Za-z0-9._-]+$'
+    ProductPage:
+      type: object
+      additionalProperties: false
+      required: [items, pageSize, nextCursor]
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Product'
+          description: At most pageSize distinct eligible Products, ordered as the operation specifies.
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        nextCursor:
+          type: [string, 'null']
+          minLength: 1
+          maxLength: 2048
+          pattern: '^[A-Za-z0-9_-]+$'
+          description: Null at end; otherwise continuation bound to ordering and pageSize.
+    Product:
+      type: object
+      additionalProperties: false
+      required: [productId, name, description, family, attributeStandardVersion, variantDefiningAttributes, variants, media]
+      description: >-
+        Product-level public content only. Arrays may be empty only when applicable
+        Product completeness rules permit it. No hidden lifecycle/audit/database
+        fields. Entire response withheld when eligibility cannot be established.
+      properties:
+        productId:
+          $ref: '#/components/schemas/PublicId'
+        name:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        family:
+          type: string
+          enum: [Apparel, Footwear, Accessories]
+        attributeStandardVersion:
+          type: string
+          pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
+          description: Governing DEC-0019 standard version, initially 1.0.0; changes require its approval process.
+        variantDefiningAttributes:
+          type: array
+          uniqueItems: true
+          maxItems: 2
+          items:
+            type: string
+            enum: [Size, Colour]
+          description: >-
+            Confirmed applicability for this Product; all emitted Variants must
+            supply exactly these attributes. Accessories may have either, both or
+            neither. No omitted applicable value may be treated as non-applicable.
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variant'
+          description: Unique Variant IDs and semantically unique canonical configurations within this Product.
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          description: Unique media IDs in governed presentation order; eligible public associations only.
+    Variant:
+      type: object
+      additionalProperties: false
+      required: [variantId, attributes]
+      properties:
+        variantId:
+          $ref: '#/components/schemas/PublicId'
+        attributes:
+          type: object
+          additionalProperties: false
+          description: >-
+            Present exactly the defining concepts declared by the owning Product.
+            Absence is confirmed non-applicability, not unknown state. No null values.
+            Fit and Material are descriptive and omitted from this minimal representation.
+          properties:
+            size:
+              $ref: '#/components/schemas/Size'
+            colour:
+              $ref: '#/components/schemas/Colour'
+    Size:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [kind, code, label]
+          properties:
+            kind:
+              const: APPAREL
+            code:
+              type: string
+              enum: [XS, S, M, L, XL, XXL, XXXL]
+            label:
+              type: string
+              minLength: 1
+        - type: object
+          additionalProperties: false
+          required: [kind, system, value, label]
+          properties:
+            kind:
+              const: FOOTWEAR
+            system:
+              const: UK
+            value:
+              type: number
+              minimum: 3
+              maximum: 13
+              multipleOf: 0.5
+            label:
+              type: string
+              minLength: 1
+        - type: object
+          additionalProperties: false
+          required: [kind, code, label]
+          properties:
+            kind:
+              const: ACCESSORY
+            code:
+              type: string
+              minLength: 1
+              description: Initially ONE_SIZE; any additional canonical code requires explicit DEC-0019 extension approval.
+            label:
+              type: string
+              minLength: 1
+              examples: [One Size]
+      description: Kind must match Product family; labels must accurately express canonical meaning. Half sizes require applicable Product support.
+    Colour:
+      type: object
+      additionalProperties: false
+      required: [code, label]
+      properties:
+        code:
+          type: string
+          minLength: 1
+          description: Initially BLACK only; additional codes require governed extension, never arbitrary acceptance.
+          examples: [BLACK]
+        label:
+          type: string
+          minLength: 1
+          description: Approved customer-facing label for the canonical code; initially Black.
+          examples: [Black]
+    Media:
+      type: object
+      additionalProperties: false
+      required: [mediaId, url, alternativeText]
+      properties:
+        mediaId:
+          $ref: '#/components/schemas/PublicId'
+        url:
+          type: string
+          format: uri
+          pattern: '^https://'
+          description: Public eligible media reference without userinfo, credentials or private storage metadata; no provider selected.
+        alternativeText:
+          type: string
+          minLength: 1
+          description: Meaningful Product-owned accessible text, not a filename or empty placeholder.
+        variantId:
+          $ref: '#/components/schemas/PublicId'
+          description: If present, identifies an eligible Variant in this same Product; otherwise Product-level media.
+    Problem:
+      type: object
+      additionalProperties: false
+      required: [type, title, status, correlationId]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          const: about:blank
+        title:
+          type: string
+        status:
+          type: integer
+          enum: [400, 404, 500, 503]
+        detail:
+          type: string
+          description: Optional safe generic explanation; never echo identifiers, query values or dependency details.
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+      description: RFC 9457 Problem Details with one bounded diagnostic extension; status matches HTTP status and correlation matches the response header.
+  responses:
+    InvalidRequest:
+      description: Invalid path/query request, pagination or unsupported parameters; no protected state disclosed.
+      headers:
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+        X-Correlation-ID:
+          $ref: '#/components/headers/Correlation'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example: {type: 'about:blank', title: Bad Request, status: 400, correlationId: example-correlation-1}
+    NotVisible:
+      description: Unknown or authoritatively non-visible Product, with indistinguishable safe disclosure.
+      headers:
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+        X-Correlation-ID:
+          $ref: '#/components/headers/Correlation'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example: {type: 'about:blank', title: Not Found, status: 404, correlationId: example-correlation-1}
+    InternalFailure:
+      description: Unexpected internal failure; no stack trace, SQL or private operational details.
+      headers:
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+        X-Correlation-ID:
+          $ref: '#/components/headers/Correlation'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example: {type: 'about:blank', title: Internal Server Error, status: 500, correlationId: example-correlation-1}
+    Unavailable:
+      description: Authoritative Product evidence temporarily unavailable, conflicting, stale or uncertain; no representation or protected existence disclosed.
+      headers:
+        Cache-Control:
+          $ref: '#/components/headers/NoStore'
+        X-Correlation-ID:
+          $ref: '#/components/headers/Correlation'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example: {type: 'about:blank', title: Service Unavailable, status: 503, correlationId: example-correlation-1}
