@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.98
+version: 1.0.99
 status: Approved
 owner: Architecture
-last_updated: 2026-11-03
+last_updated: 2026-11-04
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -582,6 +582,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
 | DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
+| DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
@@ -777,6 +778,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.99 | 2026-11-04 | Approved | Indexed DEC-0044 0.1.0 Proposed with bounded Variant base-price operational authorization options and pending accountable dispositions; preserved DEC-0012 Proposed, DEC-0043 Accepted and all implementation/authority boundaries. |
 | 1.0.98 | 2026-11-03 | Approved | Synchronized DEC-0043 1.0.0 Accepted with explicit Product/business-owner acceptance and effective date 2026-11-03; recorded Product and Pricing specification synchronization without changing unrelated decisions or operational authorization. |
 | 1.0.97 | 2026-11-03 | Approved | Indexed DEC-0043 0.1.0 Proposed for initial Variant-level V1 base-price assignment; Product/business-owner acceptance remains pending, with no Pricing specification change or implementation authority granted. |
 | 1.0.96 | 2026-10-30 | Approved | Indexed DEC-0042 0.1.0 Proposed, recording confirmed Product-owner publication/content/media/lifecycle policy separately from existing Security requirements and pending accountable Security controls; granted no overall decision acceptance, canonical Product synchronization or implementation authority. |
