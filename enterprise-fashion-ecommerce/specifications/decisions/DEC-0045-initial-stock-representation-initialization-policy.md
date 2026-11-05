@@ -4,7 +4,7 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
+- **Version:** 0.4.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-05
 - **Owner:** Inventory
@@ -245,6 +245,34 @@ Architecture and applicable affected-owner reviews remain pending. DEC-0015 and 
 remain Proposed. No additional reviewer, signature, independent approval or executed
 verification evidence is asserted.
 
+## Architecture Assessment — 2026-11-05
+
+**PASS WITH CONDITIONS — technical/governance assessment only.** The completed bounded
+assessment records the findings below. It is not an Architecture-owner approval or
+independent review. No reviewer name, signature, approval or executed verification
+evidence is asserted.
+
+| ID | Assessment | Finding |
+| --- | --- | --- |
+| ARD-01 | Inventory ownership of Stock | PASS — Inventory owns Stock state; Product retains Product/Variant authority. |
+| ARD-02 | Product Variant association | PASS — Product-owned evidence supports association without granting Stock mutation authority. |
+| ARD-03 | Initial logical Stock Location | CONDITIONAL PASS — One logical location is compatible with current architecture; identity, registration and lifecycle remain unresolved. |
+| ARD-04 | Consistency and concurrency | PASS — Existing architecture requires safe concurrent mutations and preservation of accepted state; implementation mechanisms remain separately governed. |
+| ARD-05 | Separate ADR requirement | No additional ADR currently required for the bounded representation policy; reassess if later design introduces a new architectural choice. |
+
+The following conditions remain unresolved:
+
+- Logical Stock Location identity, registration and lifecycle.
+- Initialization authorization, eligible actors and audit provenance.
+- Persistence, uniqueness, concurrency, retry and reconciliation mechanisms.
+- Applicable Product, Security, Identity and Administration reviews.
+- Any stronger Product/Inventory consistency guarantee required by future operations.
+
+The existing IBD-01 through IBD-08 business approval and ITD-01 through ITD-08 technical
+approval remain unchanged. The accountable Architecture-owner disposition is Pending.
+This assessment grants no Stock implementation, initialization, API, schema, operational
+permission or deployment authority. Overall DEC-0045 remains Proposed and non-authoritative.
+
 ## Acceptance Conditions
 
 | Accountable capacity | Disposition | Required determination |
@@ -252,6 +280,12 @@ verification evidence is asserted.
 | Inventory business owner | Approved — 2026-11-05 (Inventory business-owner capacity only) | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
 | Inventory technical owner | Approved — 2026-11-05 (Inventory technical-owner capacity only) | Java `long` suitability, range/overflow safety, implementable invariants and deferred technical mechanisms. |
 | Architecture owner | Pending — accept / reject / request changes | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
+
+The bounded Architecture assessment is complete with conditions; the accountable
+Architecture-owner accept/reject/request-changes disposition remains pending and must
+consider ARD-01 through ARD-05 and their unresolved dependencies. Applicable affected-owner
+reviews remain pending. Assessment completion does not satisfy those approval gates or
+separate implementation and operational readiness gates.
 
 Inventory business and technical-owner dispositions above are recorded in their respective
 capacities only. Architecture disposition remains pending. Product business authority
@@ -319,6 +353,7 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-11-05 | Proposed | Recorded bounded Architecture assessment PASS with conditions across ARD-01–ARD-05; preserved pending Architecture-owner disposition, affected-owner reviews and implementation/operational restrictions. |
 | 0.3.0 | 2026-11-05 | Proposed | Recorded confirmed Inventory technical-owner directions ITD-01 through ITD-08; preserved IBD-01 through IBD-08 business approval, pending Architecture and affected-owner reviews, unselected mechanisms and all implementation and operational authorization gates. |
 | 0.2.0 | 2026-11-05 | Proposed | Recorded explicit Inventory business-owner approval of IBD-01 through IBD-08; preserved pending Inventory technical and Architecture dispositions, affected-owner reviews and all remaining implementation and operational governance gates. |
 | 0.1.0 | 2026-11-04 | Proposed | Proposed Variant/location Stock association, one governed logical location, whole-unit non-negative quantities, separately reviewed Java `long` representation and explicit Inventory initialization; retained pending accountable dispositions and all operational, policy, Contract and implementation gates. |
