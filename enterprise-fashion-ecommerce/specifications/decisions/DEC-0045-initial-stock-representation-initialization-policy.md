@@ -4,7 +4,7 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.5.0
+- **Version:** 0.6.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-05
 - **Owner:** Inventory
@@ -304,6 +304,58 @@ selected. DEC-0015 and DEC-0024 remain Proposed. Overall DEC-0045 acceptance and
 affected-owner reviews remain pending; no implementation or operational authorization
 is granted. Existing business and technical-owner approvals remain unchanged.
 
+## Product Governance Assessment — 2026-11-05
+
+**PASS WITH CONDITIONS — bounded Product governance evidence assessment only.**
+This assessment establishes compatibility findings. It is not Product-owner approval
+or an independent review, does not accept DEC-0045 overall and does not authorize
+implementation. It does not constitute executed verification or assert additional
+reviewers, signatures or evidence artifacts.
+
+| ID | Assessment | Finding |
+| --- | --- | --- |
+| PRD-01 | Variant identity — PASS | Product retains stable Product/Variant identity and membership authority. Inventory must not create competing Variant identities or derive replacement identities from mutable attributes. |
+| PRD-02 | Variant membership — PASS | Product-owned association evidence establishes observed, coherent membership only. It does not create Stock or grant Inventory Product mutation authority. |
+| PRD-03 | Variant lifecycle — PASS for authority preservation | Product retains Draft, Published and Archived lifecycle authority. No lifecycle-specific Stock initialization eligibility is selected. |
+| PRD-04 | Whole-unit quantities — CONDITIONAL PASS | Non-negative whole-unit Stock is consistent with the bounded Inventory proposal, but Product must confirm applicability across the intended initial assortment, including Clothing, Footwear and Accessories. Clothing corresponds here to the governed Apparel family; no new Product family is introduced. |
+| PRD-05 | Logical location — CONDITIONAL PASS | One governed logical Stock Location must not redefine Product assortment, Category structure, publication eligibility or fulfilment geography. Location identity, registration and lifecycle remain unresolved. |
+| PRD-06 | Cross-domain consistency — PASS | Product evidence supports bounded observations and revalidation. It does not establish continuous freshness, shared transactions, permanent membership, availability, sellability or Stock mutation authority. |
+
+### Approved Evidence and Traceability
+
+| Source | Relevant assessment evidence |
+| --- | --- |
+| [PRODUCT.md](../../.ai/core/PRODUCT.md), §§16.2, 16.13 | Inventory authority and Product-owned Variant standards; Attribute families do not select launch assortment or Stock quantity units. |
+| [ARCHITECTURE.md](../../.ai/core/ARCHITECTURE.md), §§9, 35.5 | Domain ownership and intentional exported Module Contracts without internal persistence access. |
+| [Product Domain](../domains/product/product-domain.md), REQ-PRD-001–003, 005, 007–008, 010 | Product/Variant identity, membership and lifecycle authority, with downstream authority separation. |
+| [Inventory Domain](../domains/inventory/inventory-domain.md), REQ-INV-003–008 | Association integrity, Stock authority and separation of Product publication, raw Stock and Available-to-Sell. |
+| [Product Backend](../backend/product/product-backend.md), BPRD-REQ-008–016 | Governed exported evidence, coherent Product-owned orchestration and stable identity/membership/lifecycle boundaries. |
+| [Inventory Backend](../backend/inventory/inventory-backend.md), BINV-REQ-015–017 | Inventory-owned Stock, safe unknown/stale/negative outcomes and separate Available-to-Sell authority. |
+| [Approved Product internal Variant evidence Contract 1.1.0](../contracts/product/internal-variant-evidence-contract.md), §§3–7, 12 | Bounded association, explicit failures, lifecycle/revision context, revalidation and no operational authority or cross-domain atomicity. |
+| [Accepted DEC-0019](DEC-0019-product-variant-attribute-standards.md) | Stable Product/Variant identity, Product-owned applicability and versioned Attribute meaning. |
+
+[DEC-0042](DEC-0042-product-publication-acceptance-and-visibility.md) remains Proposed
+and must not be used as Accepted authority. Existing Approved evidence supports the
+compatibility findings; it does not itself supply the missing Product-owner disposition
+or establish whole-unit applicability across the intended assortment.
+
+### Remaining Product Conditions
+
+The Product-owner disposition remains Pending and must explicitly address:
+
+- Product identity, membership and lifecycle authority.
+- Whole-unit applicability to the intended assortment.
+- Logical-location neutrality toward assortment and publication.
+- Bounded association evidence and consistency limitations.
+
+Security, Identity and Administration reviews remain pending. DEC-0015, DEC-0024 and
+DEC-0042 remain Proposed. No Stock implementation, initialization, API, schema, operational
+permission or deployment is authorized. No location identifiers or registration mechanisms,
+initialization actors or Staff mappings, database/concurrency mechanisms, retry or
+reconciliation Contracts, availability/reservation policies or Product lifecycle-specific
+initialization eligibility rules are selected. Existing Inventory and conditional
+Architecture-owner approvals remain unchanged; overall decision acceptance is pending.
+
 ## Acceptance Conditions
 
 | Accountable capacity | Disposition | Required determination |
@@ -311,6 +363,7 @@ is granted. Existing business and technical-owner approvals remain unchanged.
 | Inventory business owner | Approved — 2026-11-05 (Inventory business-owner capacity only) | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
 | Inventory technical owner | Approved — 2026-11-05 (Inventory technical-owner capacity only) | Java `long` suitability, range/overflow safety, implementable invariants and deferred technical mechanisms. |
 | Architecture owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Architecture-owner capacity only) | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
+| Product affected owner | Pending — Product affected-owner approval | Product identity, membership and lifecycle preservation; whole-unit applicability; logical-location neutrality; bounded evidence and consistency limits. |
 
 The bounded Architecture assessment is complete. The accountable Architecture-owner
 disposition is ACCEPT WITH CONDITIONS — completed 2026-11-05 across ARD-01 through ARD-05
@@ -385,6 +438,7 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.6.0 | 2026-11-05 | Proposed | Recorded bounded Product governance evidence assessment PRD-01–PRD-06 PASS WITH CONDITIONS; preserved pending Product-owner disposition, remaining affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 0.5.0 | 2026-11-05 | Proposed | Recorded accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 0.4.0 | 2026-11-05 | Proposed | Recorded bounded Architecture assessment PASS with conditions across ARD-01–ARD-05; preserved pending Architecture-owner disposition, affected-owner reviews and implementation/operational restrictions. |
 | 0.3.0 | 2026-11-05 | Proposed | Recorded confirmed Inventory technical-owner directions ITD-01 through ITD-08; preserved IBD-01 through IBD-08 business approval, pending Architecture and affected-owner reviews, unselected mechanisms and all implementation and operational authorization gates. |
