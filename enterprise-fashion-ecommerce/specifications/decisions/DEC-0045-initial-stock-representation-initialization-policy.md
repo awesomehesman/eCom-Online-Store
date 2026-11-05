@@ -4,7 +4,7 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.12.0
+- **Version:** 0.13.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-06
 - **Owner:** Inventory
@@ -54,14 +54,15 @@ ACCEPT WITH CONDITIONS subject to POC-01 through POC-06.
 The bounded Security governance assessment SAD-01 through
 SAD-06 is complete with PASS WITH CONDITIONS; it is not
 accountable Security-owner approval. Separately, the accountable Security owner explicitly
-approved ACCEPT WITH CONDITIONS — SOC-01 through SOC-06 on 2026-11-05. Administration
-accountable disposition and overall DEC-0045 acceptance remain pending.
+approved ACCEPT WITH CONDITIONS — SOC-01 through SOC-06 on 2026-11-05. Administration-owner acceptance is recorded separately below; overall DEC-0045
+acceptance remains pending.
 The bounded Identity governance assessment IAD-01 through IAD-08 is complete with
 PASS WITH CONDITIONS as evidence only. Separately, the accountable Identity owner
-approved ACCEPT WITH CONDITIONS — IOC-01 through IOC-08 on 2026-11-06. This does not
-complete Administration review or overall DEC-0045 acceptance. The bounded Administration
-assessment AAD-01 through AAD-08 is complete with PASS WITH CONDITIONS as governance
-evidence only; accountable Administration-owner approval remains Pending.
+approved ACCEPT WITH CONDITIONS — IOC-01 through IOC-08 on 2026-11-06. The bounded
+Administration assessment AAD-01 through AAD-08 is complete with PASS WITH CONDITIONS as governance
+evidence only. Separately, the accountable Administration owner explicitly approved
+ACCEPT WITH CONDITIONS — AOC-ADM-01 through AOC-ADM-08 on 2026-11-06. Overall
+DEC-0045 acceptance remains pending.
 
 DEC-0045 remains Proposed, non-authoritative and not approved
 for implementation or operational initialization.
@@ -201,15 +202,14 @@ transaction mechanism, deployment, production seed data or operational rollout i
 
 ## Open Decisions
 
-- The bounded Administration assessment AAD-01 through AAD-08 is complete; the
-  accountable Administration-owner disposition remains Pending. Assessment completion
-  grants neither overall acceptance nor operational authorization.
+- The bounded Administration assessment is complete. Accountable Administration-owner
+  ACCEPT WITH CONDITIONS was separately completed on 2026-11-06, subject to AOC-ADM-01 through AOC-ADM-08. Overall acceptance and operational readiness remain pending.
 - The bounded Identity assessment is complete. Accountable Identity-owner ACCEPT WITH
   CONDITIONS was separately completed on 2026-11-06, subject to IOC-01 through IOC-08.
-  Administration affected-owner review and overall DEC-0045 acceptance remain pending.
+  Administration-owner ACCEPT WITH CONDITIONS is complete; overall DEC-0045 acceptance remains pending.
 - Accountable Security-owner ACCEPT WITH CONDITIONS is complete on 2026-11-05,
-  subject to SOC-01 through SOC-06. Administration affected-owner
-  dispositions and overall DEC-0045 acceptance remain pending. The completed bounded
+  subject to SOC-01 through SOC-06. Administration-owner acceptance is recorded separately;
+  overall DEC-0045 acceptance remains pending. The completed bounded
   Security assessment is distinct from the separately recorded Security-owner approval.
 - Governed logical location identity, registration and lifecycle before operational use.
 - Authorized actor/system provenance, Resource/action scope and audit guarantees for
@@ -293,7 +293,8 @@ The following conditions remain unresolved:
 - Product affected-owner review was subsequently completed on
   2026-11-05 with ACCEPT WITH CONDITIONS (POC-01–POC-06);
   Security-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-05;
-  Administration reviews remain pending.
+  Administration-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06
+  (AOC-ADM-01–AOC-ADM-08); overall acceptance remains pending.
 - Any stronger Product/Inventory consistency guarantee required by future operations.
 
 The existing IBD-01 through IBD-08 business approval and ITD-01 through ITD-08 technical
@@ -328,8 +329,8 @@ locking or transaction strategies, retry/idempotency/reconciliation mechanisms, 
 events, operational Contracts, deployment or production initialization procedures are
 selected. DEC-0015 and DEC-0024 remain Proposed. Product affected-owner ACCEPT WITH CONDITIONS was
 subsequently completed on 2026-11-05; Security-owner ACCEPT WITH CONDITIONS is also
-recorded separately. Administration reviews and overall
-DEC-0045 acceptance remain pending; no implementation or operational authorization
+recorded separately. Administration-owner acceptance is complete; overall
+DEC-0045 acceptance remains pending; no implementation or operational authorization
 is granted. Existing business and technical-owner approvals remain unchanged.
 
 ## Product Governance Assessment — 2026-11-05
@@ -377,8 +378,8 @@ The separate completed Product-owner disposition below addresses:
 - Logical-location neutrality toward assortment and publication.
 - Bounded association evidence and consistency limitations.
 
-Security-owner ACCEPT WITH CONDITIONS is recorded separately; Administration
-reviews remain pending. DEC-0015, DEC-0024 and
+Security-owner ACCEPT WITH CONDITIONS is recorded separately; Administration-owner acceptance is complete; overall
+acceptance remains pending. DEC-0015, DEC-0024 and
 DEC-0042 remain Proposed. No Stock implementation, initialization, API, schema, operational
 permission or deployment is authorized. No location identifiers or registration mechanisms,
 initialization actors or Staff mappings, database/concurrency mechanisms, retry or
@@ -406,9 +407,8 @@ verification evidence is asserted.
 | POC-06 — Consistency limitations | Product evidence does not guarantee continuous freshness, permanent membership or atomic Product/Inventory consistency. Stronger coordination requirements must be governed separately. |
 
 The Product governance assessment and accountable Product-owner disposition are complete
-and distinct. Security-owner ACCEPT WITH CONDITIONS is recorded separately; Identity
-and Administration affected-owner reviews and overall
-DEC-0045 acceptance remain pending. Existing Inventory and Architecture-owner dispositions
+and distinct. Security-owner ACCEPT WITH CONDITIONS is recorded separately; Identity-owner and Administration-owner acceptances are recorded separately; overall
+DEC-0045 acceptance remains pending. Existing Inventory and Architecture-owner dispositions
 are unchanged. All unresolved location, authorization, audit, persistence, uniqueness,
 concurrency, retry and reconciliation dependencies remain open.
 
@@ -436,7 +436,7 @@ separately below. The SAD findings retain their assessment-stage evidence meanin
 | SAD-03 — Trusted identity and provenance | CONDITIONAL PASS | Security Standards §§10–13; BIDN-REQ-004, 024–027; REQ-ADM-005–009 distinguish authenticated Principal, Staff association, current assignments and business authorization; Identity owns trusted human/system evidence and effective withdrawal. Applicable privileged-session/MFA/reauthentication requirements remain mandatory. | Identity provenance and current-access integration, eligible system context and action-specific assurance must be governed. No issuer, Role, Staff assignment, authentication mechanism or evidence producer is selected or claimed operational. |
 | SAD-04 — Audit and traceability | CONDITIONAL PASS | Security Standards §27; PRODUCT.md §16.2; REQ-INV-018, 030, 033; BINV-REQ-026, 038 require proportional audit and historical integrity. Applicable evidence includes trusted time, actor/system context, action, Resource, correlation, authorization context, outcome and safe reason; trails require access control and tamper protection. Ordinary reads are not automatically high-Risk. | Initialization audit applicability/classification, trusted provenance, durable truthful recording, audit-unavailable behavior and uncertain commit/outcome reconciliation need explicit governed contracts. Quantity history alone does not establish trusted actor attribution or audit integrity. No audit infrastructure, retention period or blanket dual-approval rule is selected. |
 | SAD-05 — Failure and concurrency safeguards | CONDITIONAL PASS | REQ-INV-007, 014, 016, 030, 036; BINV-REQ-013, 016, 022, 024, 039–040; Security Standards §12 require preservation of accepted state, safe duplicate/replay/concurrent effects, explicit uncertainty and authorized reconciliation. Uncertain effects must not become success or be blindly repeated; protected failure details must not leak. | Persistence uniqueness, concurrency, retry/idempotency, reconciliation and failure Contracts remain unselected. Known stale access cannot justify mutation. No locking, isolation, distributed transaction or retry strategy is chosen or verified. |
-| SAD-06 — Security authority boundaries | PASS | PRODUCT.md §25.1; Architecture §§9, 35.2, 35.5; BIDN-REQ-004; REQ-ADM-006–011; BINV-REQ-008–010 and Product evidence Contract §§5–7, 12 preserve Security control ownership, Identity evidence ownership, Inventory contextual authorization and Administration coordination. Cross-domain evidence grants no shared transaction or security override. | At assessment time, Security, Identity and Administration affected-owner dispositions and overall acceptance were separate outstanding gates. The accountable Security-owner disposition was subsequently completed on 2026-11-05 with ACCEPT WITH CONDITIONS (SOC-01–SOC-06), and Identity-owner ACCEPT WITH CONDITIONS followed on 2026-11-06 (IOC-01–IOC-08); Administration disposition and overall acceptance remain pending. Inventory, Architecture and Product approvals cannot substitute for those remaining gates. |
+| SAD-06 — Security authority boundaries | PASS | PRODUCT.md §25.1; Architecture §§9, 35.2, 35.5; BIDN-REQ-004; REQ-ADM-006–011; BINV-REQ-008–010 and Product evidence Contract §§5–7, 12 preserve Security control ownership, Identity evidence ownership, Inventory contextual authorization and Administration coordination. Cross-domain evidence grants no shared transaction or security override. | At assessment time, Security, Identity and Administration affected-owner dispositions and overall acceptance were separate outstanding gates. The accountable Security-owner disposition was subsequently completed on 2026-11-05 with ACCEPT WITH CONDITIONS (SOC-01–SOC-06), and Identity-owner ACCEPT WITH CONDITIONS followed on 2026-11-06 (IOC-01–IOC-08); Administration-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06 (AOC-ADM-01–AOC-ADM-08); overall acceptance remains pending. Inventory, Architecture and Product approvals cannot substitute for those remaining gates. |
 
 ### Evidence Sources and Limits
 
@@ -462,8 +462,8 @@ database schema, concurrency/retry/reconciliation strategy, operational procedur
 deployment is selected. Existing implementation restrictions remain unchanged.
 
 The Security-owner disposition was subsequently completed separately as ACCEPT WITH
-CONDITIONS on 2026-11-05. Administration affected-owner reviews and overall
-DEC-0045 acceptance remain Pending. Assessment completion alone satisfies none of those
+CONDITIONS on 2026-11-05. Administration-owner acceptance is recorded separately; overall
+DEC-0045 acceptance remains Pending. Assessment completion alone satisfies none of those
 approvals and claims no production security assurance.
 
 ## Security-Owner Disposition — 2026-11-05
@@ -487,8 +487,8 @@ name, signature, meeting or executed verification evidence.
 These are binding limitations, not selections of initialization actors, Staff mappings,
 Roles, Permissions, trust issuers, API/authorization Contracts, schemas, concurrency,
 retry or reconciliation mechanisms, or operational/deployment procedures. Previously
-recorded approvals and conditions remain unchanged. Administration
-affected-owner reviews and overall acceptance remain pending. DEC-0045 remains Proposed
+recorded approvals and conditions remain unchanged. Administration-owner acceptance is complete;
+overall acceptance remains pending. DEC-0045 remains Proposed
 and non-authoritative; all existing implementation and operational restrictions remain.
 
 ## Identity Governance Assessment — 2026-11-05
@@ -512,7 +512,7 @@ No production implementation or availability of a trusted evidence producer is a
 | IAD-05 — Action-specific authentication assurance | CONDITIONAL PASS | Security Standards §§10–13 require applicable privileged-identity/MFA controls and privileged-session reauthentication for high-impact actions. REQ-IDN-027, 030, 034 and BIDN-REQ-024–026 preserve trusted assurance evidence and defer unselected mechanisms. | Action classification, applicable assurance and its trusted evidence binding need accountable governance. No new MFA factor, threshold, blanket independent approval or authentication mechanism is selected; existing mandatory controls remain binding. |
 | IAD-06 — Actor attribution and audit provenance | CONDITIONAL PASS | BIDN-REQ-041–043; REQ-INV-018, 033; BINV-REQ-025–026, 038; Security Standards §27 require protected, attributable evidence and proportional audit distinct from ordinary logs. Applicable actor/system, source, action, Resource, time, correlation, result and authorization context must be trustworthy. | Initialization audit applicability, provenance, durable integrity, audit-unavailable behavior and uncertain-outcome handling remain unresolved. Neither stored quantity history nor caller-supplied actor fields prove trusted attribution. No audit implementation is selected. |
 | IAD-07 — Stale evidence, Identity unavailability and safe failure | CONDITIONAL PASS | BIDN-REQ-013–014, 022, 038–040; REQ-IDN-027, 031; REQ-INV-030, 036; BINV-REQ-039–040 require distinguishable invalid, stale, unavailable, conflicting and uncertain evidence and safe recovery without represented success or restored revoked authority. | The future Identity/Inventory reliance and failure Contract must preserve these distinctions and withhold positive mutation reliance when required evidence is untrustworthy or unavailable. No retry/reconciliation strategy or fallback authority is selected. |
-| IAD-08 — Identity ownership boundaries and unresolved Contracts | PASS | Architecture §§9, 35.5; REQ-IDN-027–028; BIDN-REQ-004, 024–027; REQ-ADM-006–011; Product evidence Contract §§5–7, 12 preserve Identity evidence ownership, Inventory contextual authorization and Administration coordination. Product evidence establishes neither Staff authority nor cross-domain atomicity. | Intentional actor/access and authorization Contracts remain unresolved. No issuer, API, Staff assignment, persistence mechanism or competing access model is established. At assessment time, accountable Identity and Administration dispositions and overall acceptance remained pending. Accountable Identity-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06 (IOC-01–IOC-08); Administration disposition and overall acceptance remain pending. |
+| IAD-08 — Identity ownership boundaries and unresolved Contracts | PASS | Architecture §§9, 35.5; REQ-IDN-027–028; BIDN-REQ-004, 024–027; REQ-ADM-006–011; Product evidence Contract §§5–7, 12 preserve Identity evidence ownership, Inventory contextual authorization and Administration coordination. Product evidence establishes neither Staff authority nor cross-domain atomicity. | Intentional actor/access and authorization Contracts remain unresolved. No issuer, API, Staff assignment, persistence mechanism or competing access model is established. At assessment time, accountable Identity and Administration dispositions and overall acceptance remained pending. Accountable Identity-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06 (IOC-01–IOC-08); Administration-owner ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06 (AOC-ADM-01–AOC-ADM-08); overall acceptance remains pending. |
 
 ### Approved Evidence Sources
 
@@ -540,7 +540,7 @@ assurance, attribution and failure Contracts still require governance and execut
 support before operational reliance.
 
 The Identity assessment is complete. Accountable Identity-owner ACCEPT WITH CONDITIONS
-was separately completed on 2026-11-06; Administration affected-owner review remains Pending. Overall DEC-0045 acceptance remains
+was separately completed on 2026-11-06; Administration-owner acceptance is complete, subject to AOC-ADM-01 through AOC-ADM-08. Overall DEC-0045 acceptance remains
 pending. Existing Inventory, Architecture, Product and Security approvals and binding
 conditions remain unchanged. No Identity issuer, authentication mechanism, Role, Permission,
 Staff assignment, initialization actor, API/authorization Contract, MFA policy beyond
@@ -573,8 +573,8 @@ These conditions select no Identity issuer or authentication mechanism, Role, Pe
 Staff assignment, initialization actor, API/authorization Contract, database schema or
 persistence mechanism, concurrency/reconciliation strategy or operational procedure.
 Existing Inventory, Architecture, Product and Security approvals and binding conditions
-remain unchanged. Administration affected-owner review and overall DEC-0045 acceptance
-remain pending. DEC-0045 remains Proposed and non-authoritative; no implementation,
+remain unchanged. Administration-owner acceptance is complete; overall DEC-0045 acceptance
+remains pending. DEC-0045 remains Proposed and non-authoritative; no implementation,
 operational Stock initialization or deployment is authorized.
 
 ## Administration Governance Assessment — 2026-11-06
@@ -584,8 +584,9 @@ assessment only.** No substantive contradiction with the reviewed Approved bound
 was identified. Conditional compatibility follows from preserving those requirements
 and withholding operations whose actor, assignment and control dependencies remain
 unresolved. It is not accountable Administration-owner approval, an independent review,
-executed verification or operational readiness. The Administration-owner disposition
-and overall DEC-0045 acceptance remain Pending.
+executed verification or operational readiness. At assessment time the Administration-owner
+disposition remained Pending; accountable acceptance was subsequently completed separately
+on 2026-11-06. Overall DEC-0045 acceptance remains Pending.
 
 | Identifier | Finding / assessment result | Approved evidence and applicable requirements | Remaining governance dependency |
 | --- | --- | --- | --- |
@@ -596,7 +597,7 @@ and overall DEC-0045 acceptance remain Pending.
 | AAD-05 — Inventory Resource/action authorization boundaries | PASS | REQ-ADM-007–011; REQ-INV-028; BINV-REQ-008, 034; BIDN-REQ-004; Security Standards §12 retain Inventory authorization for the exact Resource, action, association and state with default denial. Administration coordination cannot override domain invariants or Identity evidence limitations. | Future authorization Contracts must retain these boundaries; no administrative override, action permission or operational initializer is approved here. |
 | AAD-06 — Administrative audit attribution and accountability | CONDITIONAL PASS | REQ-ADM-002, 004, 037–038, 044–045; REQ-INV-018, 033; BINV-REQ-038; Security Standards §27 require appropriate trusted attribution, action/Resource correlation, truthful outcomes and protected proportional audit. Administration coordination evidence and Inventory mutation history remain distinct; neither row existence nor ordinary logs prove audit integrity. | Initialization audit classification, actor/system provenance, durability, protection and audit-unavailable behavior remain governed dependencies. No audit infrastructure, retention period or universal high-Risk classification is chosen. |
 | AAD-07 — Failure handling and uncertain operational outcomes | CONDITIONAL PASS | REQ-ADM-018–022; REQ-INV-030, 036; BINV-REQ-039–040; Security Standards §12 require distinguishable failures, safe recovery, preserved accepted state and no duplicate harmful effects. Stale or unavailable coordination/authorization evidence cannot justify mutation or fabricated success. | Retry, reconciliation, uncertainty correlation and recovery Contracts remain unresolved; no implementation strategy, blind replay or cross-domain rollback is selected. |
-| AAD-08 — Cross-domain Contracts and unresolved dependencies | CONDITIONAL PASS | REQ-ADM-003, 006, 010–011, 046, 051–052; REQ-IDN-027–028; BINV-REQ-009–010, 034; Architecture §§35.2, 35.5 require intentional owning-domain Contracts and application boundaries. Administration neither issues Identity truth nor accesses Inventory internals as business authority. | Administration/Identity/Inventory Contracts, actor evidence, assignment and authorization integration, operational eligibility and accountable Administration disposition remain unresolved. Approved Specifications do not demonstrate those implementations exist. No API, persistence or cross-domain transaction mechanism is selected. |
+| AAD-08 — Cross-domain Contracts and unresolved dependencies | CONDITIONAL PASS | REQ-ADM-003, 006, 010–011, 046, 051–052; REQ-IDN-027–028; BINV-REQ-009–010, 034; Architecture §§35.2, 35.5 require intentional owning-domain Contracts and application boundaries. Administration neither issues Identity truth nor accesses Inventory internals as business authority. | Administration/Identity/Inventory Contracts, actor evidence, assignment and authorization integration, operational eligibility remain unresolved. At assessment time Administration disposition was pending; accountable ACCEPT WITH CONDITIONS was subsequently completed on 2026-11-06 (AOC-ADM-01–AOC-ADM-08). Approved Specifications do not demonstrate those implementations exist. No API, persistence or cross-domain transaction mechanism is selected. |
 
 ### Approved Evidence Sources
 
@@ -616,7 +617,7 @@ implemented operational capabilities or permission to execute initialization.
 ### Outcome and Remaining Dependencies
 
 The governance compatibility assessment is complete; accountable Administration-owner
-review remains Pending. Actor eligibility, trusted provenance, current assignment/access
+ACCEPT WITH CONDITIONS was subsequently completed separately on 2026-11-06. Actor eligibility, trusted provenance, current assignment/access
 and revocation integration, Resource/action authorization, audit integrity and safe failure,
 retry/reconciliation and operational Contracts remain unresolved. The completed Inventory,
 Architecture, Product, Security and Identity approvals and all binding conditions remain
@@ -626,6 +627,34 @@ This assessment creates no Role, Permission, Staff mapping, service actor, acces
 operational initializer, procedure, API Contract, persistence strategy, authorization
 mechanism or cross-domain transaction model. It does not accept DEC-0045 overall or
 provide implementation, operational initialization or deployment authorization.
+
+## Administration-Owner Disposition — 2026-11-06
+
+**ACCEPT WITH CONDITIONS — AOC-ADM-01 through AOC-ADM-08.**
+
+The accountable Administration affected-owner disposition was explicitly confirmed by
+the user on 2026-11-06 in the Administration-owner capacity only. This is accountable
+Administration-owner approval, not merely completion of the bounded AAD-01 through
+AAD-08 governance assessment. No independent verification, personal name, signature,
+meeting or additional sign-off evidence is asserted.
+
+| Condition | Binding limitation |
+| --- | --- |
+| AOC-ADM-01 — Administration ownership | Administration coordinates governed operational workflows. Inventory retains Stock mutation ownership, authorization and enforcement of domain invariants. |
+| AOC-ADM-02 — Staff/Principal separation | Staff associations must not substitute for trusted Principal authentication or independently grant Stock mutation authority. |
+| AOC-ADM-03 — Operational eligibility | Eligible human/system actors, governed assignments and applicable administrative access requirements must be explicitly established before operational initialization. |
+| AOC-ADM-04 — Current access and revocation | Current access, effective withdrawal, revocation and applicable revalidation must prevent stale assignments or revoked authority from enabling Stock mutations. |
+| AOC-ADM-05 — Inventory authorization | Inventory must enforce contextual authorization for the specific Stock Resource, action, association and state. Administration coordination cannot override Inventory authorization or domain invariants. |
+| AOC-ADM-06 — Audit accountability | Trusted human/system provenance, administrative coordination evidence and Inventory mutation history must preserve appropriate attribution, integrity and truthful outcomes. |
+| AOC-ADM-07 — Safe failure | Invalid, stale, unavailable, conflicting or uncertain evidence must not enable unauthorized mutations, fabricated success or unsafe retries. Failure and recovery behavior must remain governed. |
+| AOC-ADM-08 — Cross-domain boundaries | Administration, Identity and Inventory Contracts must be explicitly governed before operational reliance. This approval selects no Role, Permission, Staff mapping, API Contract, persistence mechanism, authorization mechanism, operational initializer or implementation strategy. |
+
+All eight conditions are binding limitations, not evidence that their unresolved operational
+requirements have been satisfied. Prior Inventory, Architecture, Product, Security and
+Identity approvals and conditions remain unchanged. Overall DEC-0045 acceptance remains
+Pending. DEC-0045 remains Proposed and non-authoritative; no implementation, operational
+Stock initialization or deployment is authorized. No technical mechanism or operational
+procedure is selected, and no Approved domain requirement is altered.
 
 ## Acceptance Conditions
 
@@ -637,25 +666,24 @@ provide implementation, operational initialization or deployment authorization.
 | Product affected owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Product affected-owner capacity only) | Product identity, membership and lifecycle preservation; whole-unit applicability; logical-location neutrality; bounded evidence and consistency limits. |
 | Security affected owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Security-owner capacity only; SOC-01–SOC-06) | Stock mutation authorization boundaries; default denial and contextual Resource/action scope; trusted human/system provenance; audit integrity; replay, uncertainty and failure safeguards. |
 | Identity affected owner | ACCEPT WITH CONDITIONS — completed 2026-11-06 (IOC-01 through IOC-08) | Trusted human/system Principal evidence, current access and revocation, Staff association where applicable, service-origin provenance and action-specific assurance boundaries; no issuer, Role, Permission or evidence producer selected. |
-| Administration affected owner | Pending — accountable Administration-owner review required. | Staff/Principal separation, governed operational coordination, current assignment and Resource/action scope, owning-Domain authorization and audit boundaries; no Staff mapping or operational permission selected. |
+| Administration affected owner | ACCEPT WITH CONDITIONS — completed 2026-11-06 (AOC-ADM-01 through AOC-ADM-08) | Staff/Principal separation, governed operational coordination, current assignment and Resource/action scope, owning-Domain authorization and audit boundaries; no Staff mapping or operational permission selected. |
 
 The Administration assessment AAD-01 through AAD-08 is complete with PASS WITH CONDITIONS;
-accountable Administration-owner approval remains Pending as shown above. Assessment
-completion is separate from overall acceptance and implementation/operational readiness.
+accountable Administration-owner ACCEPT WITH CONDITIONS is separately complete on
+2026-11-06, subject to AOC-ADM-01 through AOC-ADM-08. Assessment completion alone did not
+supply this approval and remains separate from overall acceptance and operational readiness.
 
 The bounded Identity assessment is complete with PASS WITH CONDITIONS. The separate
 accountable Identity-owner ACCEPT WITH CONDITIONS is complete on 2026-11-06, subject to
-IOC-01 through IOC-08; assessment completion alone did not supply that approval. Administration
-review, overall acceptance and separate implementation/operational readiness gates remain
-open. No assessment finding grants operational authorization.
+IOC-01 through IOC-08; assessment completion alone did not supply that approval. Administration-owner approval is also complete, while overall acceptance and
+separate implementation/operational readiness gates remain open. No assessment finding grants operational authorization.
 
 The bounded Architecture assessment is complete. The accountable Architecture-owner
 disposition is ACCEPT WITH CONDITIONS — completed 2026-11-05 across ARD-01 through ARD-05
 and subject to AOC-01 through AOC-06. The Product affected-owner disposition is complete with
 ACCEPT WITH CONDITIONS (POC-01–POC-06). The Security-owner disposition is complete
-with ACCEPT WITH CONDITIONS (SOC-01–SOC-06). Administration affected-owner
-reviews and
-overall DEC-0045 acceptance remain pending. These completed dispositions do not satisfy separate
+with ACCEPT WITH CONDITIONS (SOC-01–SOC-06). Administration-owner acceptance is complete subject to AOC-ADM-01 through AOC-ADM-08;
+overall DEC-0045 acceptance remains pending. These completed dispositions do not satisfy separate
 implementation and operational readiness gates.
 
 Inventory business and technical-owner dispositions above are recorded in their respective
@@ -724,6 +752,7 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.13.0 | 2026-11-06 | Proposed | Recorded accountable Administration-owner ACCEPT WITH CONDITIONS AOC-ADM-01–AOC-ADM-08 separately from the bounded Administration assessment; preserved prior approvals, pending overall acceptance and implementation/operational restrictions. |
 | 0.12.0 | 2026-11-06 | Proposed | Recorded bounded Administration governance assessment AAD-01–AAD-08; preserved pending accountable Administration-owner disposition, overall acceptance, prior approvals and implementation/operational restrictions. |
 | 0.11.0 | 2026-11-06 | Proposed | Recorded accountable Identity-owner ACCEPT WITH CONDITIONS IOC-01–IOC-08 separately from the bounded Identity assessment; preserved completed approvals, pending Administration review, overall acceptance and implementation/operational restrictions. |
 | 0.10.0 | 2026-11-05 | Proposed | Recorded bounded Identity governance assessment IAD-01–IAD-08 PASS WITH CONDITIONS; preserved pending accountable Identity-owner disposition, Administration review, overall acceptance and all prior approvals, conditions and implementation/operational restrictions. |
