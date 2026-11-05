@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.104
+version: 1.0.105
 status: Approved
 owner: Architecture
 last_updated: 2026-11-05
@@ -587,7 +587,29 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 
 The index contains only verified decision records that exist at their linked repository paths.
 
-DEC-0045 v0.4.0 remains Proposed and non-authoritative. Inventory business-owner approval of IBD-01–IBD-08 and Inventory technical-owner approval of ITD-01–ITD-08 remain recorded, each dated 2026-11-05 in its respective accountable capacity. The bounded Architecture assessment ARD-01–ARD-05 completed with **PASS WITH CONDITIONS** as technical/governance evidence only, not Architecture-owner approval or independent review. Architecture-owner disposition and applicable affected-owner reviews remain pending. No separate ADR is currently required for the bounded Stock representation policy; reassess if later design introduces a new architectural choice. Logical Stock Location identity, registration and lifecycle, initialization authorization and actor eligibility, audit provenance, persistence, uniqueness, concurrency, retry and reconciliation mechanisms, and any stronger Product/Inventory consistency guarantee required by future operations remain unresolved. Product retains Variant identity and membership authority; Inventory retains Stock authority. DEC-0015 and DEC-0024 remain Proposed. No Stock implementation, initialization operation, API, schema, operational permission or deployment is authorized.
+DEC-0045 v0.5.0 remains Proposed and non-authoritative.
+Inventory business-owner approval of IBD-01–IBD-08 and Inventory
+technical-owner approval of ITD-01–ITD-08 remain recorded, each dated
+2026-11-05 in its respective accountable capacity. The bounded
+Architecture assessment ARD-01–ARD-05 completed with PASS WITH
+CONDITIONS as technical/governance evidence. The accountable
+Architecture owner subsequently recorded ACCEPT WITH CONDITIONS
+on 2026-11-05, subject to AOC-01–AOC-06. This Architecture-owner
+approval does not constitute overall DEC-0045 acceptance or
+independent affected-owner approval. Applicable Product, Security,
+Identity and Administration reviews remain pending. No separate
+ADR is currently required for the bounded representation policy;
+a new ADR is required if subsequent design introduces a material
+Architecture Decision outside the current Approved baseline.
+Logical Stock Location identity, registration and lifecycle,
+initialization authorization and actor eligibility, audit provenance,
+persistence, uniqueness, concurrency, retry and reconciliation
+mechanisms remain unresolved. Product retains Product/Variant
+identity, membership and lifecycle authority; Inventory retains
+Stock identity, quantity and history authority. DEC-0015 and
+DEC-0024 remain Proposed. No Stock implementation, initialization
+operation, API, schema, operational permission or deployment
+is authorized.
 
 DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
 
@@ -783,6 +805,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.105 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.5.0 accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 1.0.104 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.4.0 bounded Architecture assessment ARD-01–ARD-05 PASS with conditions; preserved pending Architecture-owner disposition, affected-owner reviews and all implementation/operational restrictions. |
 | 1.0.103 | 2026-11-05 | Approved | Recorded DEC-0045 v0.3.0 Inventory technical-owner approval of ITD-01–ITD-08, preserved IBD-01–IBD-08 business approval, pending Architecture and affected-owner reviews, unresolved mechanisms and all implementation/operational restrictions. |
 | 1.0.102 | 2026-11-05 | Approved | Recorded DEC-0045 v0.2.0 Inventory business-owner approval of IBD-01–IBD-08, preserving pending technical/Architecture dispositions, affected-owner reviews and implementation/operational restrictions. |
