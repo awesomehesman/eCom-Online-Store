@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.106
+version: 1.0.107
 status: Approved
 owner: Architecture
 last_updated: 2026-11-05
@@ -587,27 +587,32 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 
 The index contains only verified decision records that exist at their linked repository paths.
 
-DEC-0045 v0.6.0 remains Proposed and non-authoritative.
-Inventory business-owner approval of IBD-01–IBD-08 and Inventory technical-owner
-approval of ITD-01–ITD-08 remain recorded, each dated 2026-11-05 in its respective
-accountable capacity. Architecture assessment ARD-01–ARD-05 remains completed with
-PASS WITH CONDITIONS; Architecture-owner ACCEPT WITH CONDITIONS remains recorded,
-subject to AOC-01–AOC-06. The bounded Product governance assessment PRD-01–PRD-06
-completed with PASS WITH CONDITIONS as evidence only, not Product-owner approval.
-PRD-04 requires Product confirmation of whole-unit applicability across the intended
-assortment, including Apparel, Footwear and Accessories. PRD-05 requires logical-location
-neutrality toward Product assortment, Category structure, publication and fulfilment
-geography. Product retains Product/Variant identity, membership and lifecycle authority;
-Inventory retains Stock identity, quantity and history authority. Product-owned evidence
-does not establish continuous freshness, shared transactions, permanent membership,
-Stock mutation authority, availability or sellability. Product-owner disposition,
-Security, Identity and Administration reviews, and overall DEC-0045 acceptance remain
-Pending. Logical Stock Location identity, registration and lifecycle, initialization
-authorization and actor eligibility, audit provenance, persistence, uniqueness,
-concurrency, retry and reconciliation mechanisms remain unresolved. No separate ADR
-is currently required for the bounded representation policy; a new ADR is required if
-subsequent design introduces a material Architecture Decision outside the current
-Approved baseline. DEC-0015, DEC-0024 and DEC-0042 remain Proposed. No Stock implementation,
+DEC-0045 v0.7.0 remains Proposed and non-authoritative.
+Inventory business-owner IBD-01–IBD-08 and technical-owner ITD-01–ITD-08 approvals
+are complete. Architecture assessment ARD-01–ARD-05 and Architecture-owner ACCEPT
+WITH CONDITIONS are complete, the latter subject to AOC-01–AOC-06. The Product
+governance assessment PRD-01–PRD-06 completed with PASS WITH CONDITIONS. Separately,
+the accountable Product affected owner completed ACCEPT WITH CONDITIONS on 2026-11-05,
+subject to POC-01–POC-06; this approval is distinct from the earlier evidence assessment.
+POC-01 preserves Product authority over Product/Variant identity, membership, lifecycle
+and representation revision. POC-02 accepts non-negative whole-unit on-hand Stock for
+the initial Apparel, Footwear and Accessories assortment, with fractional quantities
+unsupported; it does not select assortment, Category taxonomy, SKU policy or future
+Product-family expansion. POC-03 prevents one logical Stock Location from determining
+Product assortment, Category classification, publication eligibility or fulfilment geography.
+POC-04 limits Product-owned evidence to bounded membership observations, not Stock
+initialization, mutation authority or transferred ownership. POC-05 states that Product
+lifecycle states do not independently authorize or prohibit initialization; lifecycle-specific
+eligibility requires separate governance. POC-06 preserves the absence of continuous
+freshness, permanent membership or atomic Product/Inventory consistency guarantees;
+stronger coordination requires separate governance. Inventory retains Stock identity,
+quantity and history authority. Logical Stock Location identity, registration and lifecycle;
+initialization actor eligibility, trusted provenance, contextual authorization and audit;
+and persistence, uniqueness, concurrency, retry and reconciliation mechanisms remain
+unresolved. Security, Identity and Administration affected-owner reviews and overall
+DEC-0045 acceptance remain pending. No separate ADR is currently required for the bounded
+representation policy; a later material Architecture Decision outside the Approved baseline
+requires a new ADR. DEC-0015, DEC-0024 and DEC-0042 remain Proposed. No Stock implementation,
 initialization operation, API, schema, operational permission or deployment is authorized.
 
 DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
@@ -804,6 +809,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.107 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.7.0 accountable Product affected-owner ACCEPT WITH CONDITIONS disposition POC-01–POC-06; preserved completed Inventory and Architecture dispositions, pending Security/Identity/Administration reviews, overall acceptance and implementation/operational restrictions. |
 | 1.0.106 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.6.0 bounded Product governance assessment PRD-01–PRD-06 PASS WITH CONDITIONS; preserved pending Product-owner disposition, remaining affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 1.0.105 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.5.0 accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 1.0.104 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.4.0 bounded Architecture assessment ARD-01–ARD-05 PASS with conditions; preserved pending Architecture-owner disposition, affected-owner reviews and all implementation/operational restrictions. |

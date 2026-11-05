@@ -4,7 +4,7 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.6.0
+- **Version:** 0.7.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-05
 - **Owner:** Inventory
@@ -267,7 +267,9 @@ The following conditions remain unresolved:
 - Logical Stock Location identity, registration and lifecycle.
 - Initialization authorization, eligible actors and audit provenance.
 - Persistence, uniqueness, concurrency, retry and reconciliation mechanisms.
-- Applicable Product, Security, Identity and Administration reviews.
+- Product affected-owner review was subsequently completed on
+  2026-11-05 with ACCEPT WITH CONDITIONS (POC-01–POC-06);
+  Security, Identity and Administration reviews remain pending.
 - Any stronger Product/Inventory consistency guarantee required by future operations.
 
 The existing IBD-01 through IBD-08 business approval and ITD-01 through ITD-08 technical
@@ -300,8 +302,10 @@ unresolved mechanisms have been selected. No location identifiers or lifecycle m
 initialization actors or Staff permissions, database schemas/columns/uniqueness constraints,
 locking or transaction strategies, retry/idempotency/reconciliation mechanisms, APIs,
 events, operational Contracts, deployment or production initialization procedures are
-selected. DEC-0015 and DEC-0024 remain Proposed. Overall DEC-0045 acceptance and applicable
-affected-owner reviews remain pending; no implementation or operational authorization
+selected. DEC-0015 and DEC-0024 remain Proposed. Product affected-owner ACCEPT WITH CONDITIONS was
+subsequently completed on 2026-11-05; Security,
+Identity and Administration reviews and overall
+DEC-0045 acceptance remain pending; no implementation or operational authorization
 is granted. Existing business and technical-owner approvals remain unchanged.
 
 ## Product Governance Assessment — 2026-11-05
@@ -336,12 +340,13 @@ reviewers, signatures or evidence artifacts.
 
 [DEC-0042](DEC-0042-product-publication-acceptance-and-visibility.md) remains Proposed
 and must not be used as Accepted authority. Existing Approved evidence supports the
-compatibility findings; it does not itself supply the missing Product-owner disposition
-or establish whole-unit applicability across the intended assortment.
+compatibility findings; that evidence alone is not Product-owner approval. The separate
+accountable disposition below confirms whole-unit applicability subject to POC-01 through
+POC-06.
 
-### Remaining Product Conditions
+### Product Conditions Addressed by the Accountable Disposition
 
-The Product-owner disposition remains Pending and must explicitly address:
+The separate completed Product-owner disposition below addresses:
 
 - Product identity, membership and lifecycle authority.
 - Whole-unit applicability to the intended assortment.
@@ -356,6 +361,37 @@ reconciliation Contracts, availability/reservation policies or Product lifecycle
 initialization eligibility rules are selected. Existing Inventory and conditional
 Architecture-owner approvals remain unchanged; overall decision acceptance is pending.
 
+## Product-Owner Disposition — 2026-11-05
+
+**ACCEPT WITH CONDITIONS — POC-01 through POC-06.**
+
+The accountable Product affected owner explicitly approved POC-01 through POC-06 on
+2026-11-05. The user's explicit “Approved” confirmation establishes this disposition
+in the Product affected-owner capacity only. This is an accountable approval, not another
+assessment. No independent review, personal name, signature, meeting or executed
+verification evidence is asserted.
+
+| Condition | Binding limitation |
+| --- | --- |
+| POC-01 — Product authority | Product retains exclusive authority over Product/Variant identity, membership, lifecycle and representation revision. Inventory must not establish competing Product identities, membership rules or lifecycle authority. |
+| POC-02 — Whole-unit applicability | Non-negative whole-unit recorded on-hand Stock quantities are acceptable for the initial Apparel, Footwear and Accessories assortment. Fractional Stock quantities remain unsupported initially. This does not select Product assortment, Category taxonomy, SKU policy or future Product-family expansion. |
+| POC-03 — Logical-location neutrality | One governed logical Stock Location must not determine Product assortment, Category classification, publication eligibility or fulfilment geography. Location identity, registration and lifecycle remain separately governed. |
+| POC-04 — Product association evidence | Product-owned Variant association evidence establishes bounded membership observations only. It does not initialize Stock, grant Stock mutation authority or transfer Product ownership to Inventory. |
+| POC-05 — Lifecycle eligibility | Product lifecycle states do not independently authorize or prohibit Stock initialization. Any lifecycle-specific initialization eligibility rule requires separate governance. No Draft/Published/Archived eligibility matrix is established. |
+| POC-06 — Consistency limitations | Product evidence does not guarantee continuous freshness, permanent membership or atomic Product/Inventory consistency. Stronger coordination requirements must be governed separately. |
+
+The Product governance assessment and accountable Product-owner disposition are complete
+and distinct. Security, Identity and Administration affected-owner reviews and overall
+DEC-0045 acceptance remain pending. Existing Inventory and Architecture-owner dispositions
+are unchanged. All unresolved location, authorization, audit, persistence, uniqueness,
+concurrency, retry and reconciliation dependencies remain open.
+
+This approval neither accepts DEC-0045 overall nor authorizes Stock implementation,
+operational initialization or deployment. It establishes no initialization actors or
+Staff permissions, API or database schemas, persistence or concurrency mechanisms,
+reservation or availability policies. DEC-0045 remains Proposed and non-authoritative;
+DEC-0015, DEC-0024 and DEC-0042 remain Proposed.
+
 ## Acceptance Conditions
 
 | Accountable capacity | Disposition | Required determination |
@@ -363,19 +399,20 @@ Architecture-owner approvals remain unchanged; overall decision acceptance is pe
 | Inventory business owner | Approved — 2026-11-05 (Inventory business-owner capacity only) | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
 | Inventory technical owner | Approved — 2026-11-05 (Inventory technical-owner capacity only) | Java `long` suitability, range/overflow safety, implementable invariants and deferred technical mechanisms. |
 | Architecture owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Architecture-owner capacity only) | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
-| Product affected owner | Pending — Product affected-owner approval | Product identity, membership and lifecycle preservation; whole-unit applicability; logical-location neutrality; bounded evidence and consistency limits. |
+| Product affected owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Product affected-owner capacity only) | Product identity, membership and lifecycle preservation; whole-unit applicability; logical-location neutrality; bounded evidence and consistency limits. |
 
 The bounded Architecture assessment is complete. The accountable Architecture-owner
 disposition is ACCEPT WITH CONDITIONS — completed 2026-11-05 across ARD-01 through ARD-05
-and subject to AOC-01 through AOC-06. Applicable affected-owner reviews and overall
-DEC-0045 acceptance remain pending. These completed dispositions do not satisfy separate
+and subject to AOC-01 through AOC-06. The Product affected-owner disposition is complete with
+ACCEPT WITH CONDITIONS (POC-01–POC-06). Security,
+Identity and Administration affected-owner reviews and
+overall DEC-0045 acceptance remain pending. These completed dispositions do not satisfy separate
 implementation and operational readiness gates.
 
 Inventory business and technical-owner dispositions above are recorded in their respective
 capacities only. Architecture-owner approval is recorded separately with binding conditions.
-Product business authority
-must review quantity/assortment and
-location-scope effects where this specializes canonical Product policy. Security and Identity
+Product affected-owner approval is recorded separately below the assessment and is
+subject to POC-01 through POC-06. Security and Identity
 review is required where initialization affects trusted actor/access, revocation or audit
 controls; Administration reviews affected coordination. Shipping/Fulfilment and Operations
 must review any later location/receiving implications before those scopes are introduced.
@@ -438,6 +475,7 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.7.0 | 2026-11-05 | Proposed | Recorded accountable Product affected-owner ACCEPT WITH CONDITIONS disposition POC-01–POC-06; preserved completed Inventory and Architecture dispositions, pending Security/Identity/Administration reviews, overall acceptance and implementation/operational restrictions. |
 | 0.6.0 | 2026-11-05 | Proposed | Recorded bounded Product governance evidence assessment PRD-01–PRD-06 PASS WITH CONDITIONS; preserved pending Product-owner disposition, remaining affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 0.5.0 | 2026-11-05 | Proposed | Recorded accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 0.4.0 | 2026-11-05 | Proposed | Recorded bounded Architecture assessment PASS with conditions across ARD-01–ARD-05; preserved pending Architecture-owner disposition, affected-owner reviews and implementation/operational restrictions. |
