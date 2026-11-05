@@ -4,7 +4,7 @@
 - **Title:** Initial Stock Representation and Initialization Policy
 - **Type:** Inventory Business / Technical Decision
 - **Status:** Proposed
-- **Version:** 0.4.0
+- **Version:** 0.5.0
 - **Date:** 2026-11-04
 - **Last Updated:** 2026-11-05
 - **Owner:** Inventory
@@ -46,8 +46,8 @@ Security and Administration; downstream commerce consumers retain their own auth
 
 The Inventory business owner approved the business dispositions IBD-01 through IBD-08
 on 2026-11-05 as recorded below. The Inventory technical owner confirmed ITD-01 through
-ITD-08 on the same date. Architecture disposition and applicable affected-owner reviews
-remain pending. The overall decision remains Proposed, non-authoritative and not
+ITD-08 on the same date. The Architecture owner completed ACCEPT WITH CONDITIONS on
+2026-11-05; applicable affected-owner reviews and overall acceptance remain pending. The overall decision remains Proposed, non-authoritative and not
 approved for implementation.
 
 ### 1. Stock Identity and Association
@@ -80,7 +80,7 @@ fractional garment quantities are unsupported initially. This is a proposed rest
 not an inference that Approved requirements already mandate integer quantities.
 
 **Technical direction confirmed by the Inventory technical owner:** use Java `long`
-for recorded on-hand Stock quantities (ITD-01). Architecture disposition remains pending;
+for recorded on-hand Stock quantities (ITD-01). Architecture-owner acceptance is subject to AOC-01 through AOC-06;
 this confirmation does not select a database
 column type or storage mechanism. Values outside the representable non-negative range
 must fail safely; future arithmetic must not wrap, truncate, round or silently coerce
@@ -185,8 +185,9 @@ transaction mechanism, deployment, production seed data or operational rollout i
 
 ## Open Decisions
 
-- Architecture disposition and applicable affected-owner reviews remain pending; the
-  business and technical-owner dispositions below do not satisfy those separate gates.
+- Applicable affected-owner reviews and overall decision acceptance remain pending;
+  completed business, technical and conditional Architecture dispositions do not satisfy
+  those separate gates.
 - Governed logical location identity, registration and lifecycle before operational use.
 - Authorized actor/system provenance, Resource/action scope and audit guarantees for
   initialization; no Staff mapping or trusted actor source is assumed.
@@ -213,7 +214,7 @@ name, signature, independent approval or additional reviewer is asserted.
 | IBD-08 | Reservations, Available-to-Sell, replenishment, transfers and warehouse operations remain outside this decision. |
 
 Business approval alone did not select Java `long`; the separate technical-owner
-confirmation is recorded below, with Architecture disposition still pending. Database
+confirmation and conditional Architecture-owner acceptance are recorded below. Database
 schemas, keys and uniqueness mechanisms; location registration and lifecycle mechanisms;
 initialization actor eligibility and Staff permissions; authorization Contracts; retry,
 concurrency and reconciliation mechanisms; and reservation or availability formulas remain
@@ -241,7 +242,8 @@ IBD-08 business-owner approval remains unchanged.
 
 These directions establish no database schema, key, constraint or concurrency mechanism,
 API or authorization Contract, eligible actor, Staff permission or operational capability.
-Architecture and applicable affected-owner reviews remain pending. DEC-0015 and DEC-0024
+Conditional Architecture-owner acceptance is recorded separately below; applicable
+affected-owner reviews remain pending. DEC-0015 and DEC-0024
 remain Proposed. No additional reviewer, signature, independent approval or executed
 verification evidence is asserted.
 
@@ -269,9 +271,38 @@ The following conditions remain unresolved:
 - Any stronger Product/Inventory consistency guarantee required by future operations.
 
 The existing IBD-01 through IBD-08 business approval and ITD-01 through ITD-08 technical
-approval remain unchanged. The accountable Architecture-owner disposition is Pending.
+approval remain unchanged. The accountable Architecture-owner ACCEPT WITH CONDITIONS
+disposition is recorded separately below.
 This assessment grants no Stock implementation, initialization, API, schema, operational
 permission or deployment authority. Overall DEC-0045 remains Proposed and non-authoritative.
+
+## Architecture-Owner Disposition — 2026-11-05
+
+**ACCEPT WITH CONDITIONS — ARD-01 through ARD-05.**
+
+The accountable Architecture owner explicitly accepted the bounded Architecture direction
+on 2026-11-05 in the Architecture-owner capacity only. The user's explicit “Approved”
+confirmation records this accountable approval, not merely another technical assessment.
+It is distinct from the completed assessment above and does not assert an independent
+review, personal name, signature, meeting or executed verification evidence.
+
+| Condition | Binding limitation |
+| --- | --- |
+| AOC-01 — Logical Stock Location governance | Logical Stock Location identity, registration and lifecycle must be governed before operational initialization. |
+| AOC-02 — Domain authority | Product retains Product/Variant identity, membership and lifecycle authority. Inventory retains Stock identity, quantity and history authority. Product-owned association evidence must not grant Stock mutation authority. |
+| AOC-03 — Initialization authorization | Initialization actor eligibility, trusted identity/system provenance, contextual authorization and audit requirements remain subject to separate governance. |
+| AOC-04 — Technical mechanisms | Persistence, uniqueness, concurrency, retry and reconciliation mechanisms must be selected within the Approved Architecture baseline and applicable Specifications and Contracts. |
+| AOC-05 — Affected-owner reviews | Applicable Product, Security, Identity and Administration reviews remain required before overall decision acceptance. |
+| AOC-06 — Future Architecture changes | A new ADR is required if subsequent design introduces a material Architecture Decision not already covered by the current Approved Architecture baseline. |
+
+AOC-01 through AOC-06 are binding limitations on this disposition, not evidence that
+unresolved mechanisms have been selected. No location identifiers or lifecycle mechanisms,
+initialization actors or Staff permissions, database schemas/columns/uniqueness constraints,
+locking or transaction strategies, retry/idempotency/reconciliation mechanisms, APIs,
+events, operational Contracts, deployment or production initialization procedures are
+selected. DEC-0015 and DEC-0024 remain Proposed. Overall DEC-0045 acceptance and applicable
+affected-owner reviews remain pending; no implementation or operational authorization
+is granted. Existing business and technical-owner approvals remain unchanged.
 
 ## Acceptance Conditions
 
@@ -279,16 +310,17 @@ permission or deployment authority. Overall DEC-0045 remains Proposed and non-au
 | --- | --- | --- |
 | Inventory business owner | Approved — 2026-11-05 (Inventory business-owner capacity only) | Whole-unit non-negative on-hand semantics, one logical location, explicit initialization and operational scope. |
 | Inventory technical owner | Approved — 2026-11-05 (Inventory technical-owner capacity only) | Java `long` suitability, range/overflow safety, implementable invariants and deferred technical mechanisms. |
-| Architecture owner | Pending — accept / reject / request changes | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
+| Architecture owner | ACCEPT WITH CONDITIONS — completed 2026-11-05 (Architecture-owner capacity only) | Domain boundaries, Variant/location association, Product evidence consumption and whether separate ADR governance is triggered. |
 
-The bounded Architecture assessment is complete with conditions; the accountable
-Architecture-owner accept/reject/request-changes disposition remains pending and must
-consider ARD-01 through ARD-05 and their unresolved dependencies. Applicable affected-owner
-reviews remain pending. Assessment completion does not satisfy those approval gates or
-separate implementation and operational readiness gates.
+The bounded Architecture assessment is complete. The accountable Architecture-owner
+disposition is ACCEPT WITH CONDITIONS — completed 2026-11-05 across ARD-01 through ARD-05
+and subject to AOC-01 through AOC-06. Applicable affected-owner reviews and overall
+DEC-0045 acceptance remain pending. These completed dispositions do not satisfy separate
+implementation and operational readiness gates.
 
 Inventory business and technical-owner dispositions above are recorded in their respective
-capacities only. Architecture disposition remains pending. Product business authority
+capacities only. Architecture-owner approval is recorded separately with binding conditions.
+Product business authority
 must review quantity/assortment and
 location-scope effects where this specializes canonical Product policy. Security and Identity
 review is required where initialization affects trusted actor/access, revocation or audit
@@ -353,6 +385,7 @@ Contract is superseded or modified. Future supersession must preserve this propo
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-11-05 | Proposed | Recorded accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
 | 0.4.0 | 2026-11-05 | Proposed | Recorded bounded Architecture assessment PASS with conditions across ARD-01–ARD-05; preserved pending Architecture-owner disposition, affected-owner reviews and implementation/operational restrictions. |
 | 0.3.0 | 2026-11-05 | Proposed | Recorded confirmed Inventory technical-owner directions ITD-01 through ITD-08; preserved IBD-01 through IBD-08 business approval, pending Architecture and affected-owner reviews, unselected mechanisms and all implementation and operational authorization gates. |
 | 0.2.0 | 2026-11-05 | Proposed | Recorded explicit Inventory business-owner approval of IBD-01 through IBD-08; preserved pending Inventory technical and Architecture dispositions, affected-owner reviews and all remaining implementation and operational governance gates. |
