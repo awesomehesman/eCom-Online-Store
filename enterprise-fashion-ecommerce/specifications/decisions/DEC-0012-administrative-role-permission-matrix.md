@@ -4,9 +4,9 @@
 - **Title:** Administrative Role and Permission Matrix
 - **Type:** Product Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-10-13
-- **Last Updated:** 2026-10-13
+- **Last Updated:** 2026-11-06
 - **Owner:** Product
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -38,6 +38,83 @@ The eventual decision must distinguish ordinary operations, sensitive actions, c
 | Domain-owned contextual Authorization | The owning Domain retains the server-side decision for the current Principal, Resource, action, purpose where applicable, and authoritative state. A matrix cannot override an owning-Domain denial or invariant. |
 | Cross-domain operations | An administrative workflow may coordinate multiple owners only through their governed capabilities and applicable Contracts. Permission for one step does not grant permission for another. |
 | Sensitive actions | High-risk, privileged, financial, customer-data, export, access-management, repair, and other sensitive actions require explicit policy review, least privilege, appropriate separation of duties, and auditability. This proposal does not classify specific actions or set a confirmation, approval, or override rule. |
+
+## Bounded Product Authorization Proposal — Awaiting Accountable Disposition
+
+**RECOMMENDED FOR REVIEW / NOT APPROVED.** Evaluate a bounded Product-specific
+policy for the five actions below without selecting an overall matrix candidate.
+This proposal supplies review scope, not Roles, Permission identifiers, Staff
+assignments, an approval workflow or implementation authority. It does not approve
+the full Administration matrix or resolve `PRODUCT.md` §24 item 23.
+
+### Existing Mandatory Requirements — Referenced, Not Newly Selected
+
+[Security Standards §§10–13 and 27](../../.ai/core/SECURITY-STANDARDS.md),
+BIDN-REQ-011–014, 021–026, BADM-REQ-005, 007, 014, 045 and BPRD-REQ-007,
+019–023, 030, 037 already govern trusted actor/access evidence, current contextual
+Authorization, applicable assurance, withdrawal and audit. Those obligations remain
+binding independently of this proposal; their applicability is not awaiting approval.
+In particular, mandatory MFA for privileged Staff and applicable privileged-session
+reauthentication must not be recast as optional new controls. Product-specific
+classification and operational application remain unresolved below.
+
+### Recommended Product Action Scope
+
+| Action for separate evaluation | Proposed Resource/context binding |
+| --- | --- |
+| Content acceptance | Exact Product and relevant content/configuration revision. |
+| Media acceptance | Exact Product, media asset and association, applicable revisions and governed supporting evidence. |
+| Publication | Exact Product, applicable current acceptance, revision and lifecycle state. |
+| Withdrawal/unpublication | Exact Product, current publication/lifecycle context and applicable revision; do not presume publication permission grants withdrawal permission. |
+| Archival | Exact Product, current lifecycle/revision and historical-reference obligations. |
+
+Recommend separate contextual decisions for these actions; evaluation of one grants
+no other action. This selects neither five concrete Permissions nor their grouping.
+The bounded policy should identify trustworthy Identity-owned Principal evidence,
+separately confirmed current Staff association, current access-assignment provenance
+and scope, effective withdrawal, and evidence of applicable Session/authentication
+assurance. Caller identifiers, labels or acceptance/authorization booleans cannot
+supply that authority. No evidence issuer, producer, representation or authentication
+mechanism is selected here; Customer Authentication must not be presumed to prove
+Staff association or authority.
+
+Product retains the server-side contextual decision for the exact Principal,
+Product Resource, action and applicable revisions/state. Identity supplies trusted
+identity/access evidence; Administration coordinates only governed workflows and
+cannot publish Product truth or introduce a parallel access model. Permission or
+assignment evidence cannot override Product denial, current invariants or missing
+media-security evidence. Media-security checking authority and invalidation remain
+within [DEC-0042 S1](DEC-0042-product-publication-acceptance-and-visibility.md), not
+implicitly settled by media-acceptance eligibility.
+
+### Outstanding Accountable Product Decisions
+
+All questions below remain **unresolved**. Accountable capacities identify required
+review concerns, not completed dispositions or new organizational assignments.
+
+| Question requiring explicit disposition | Accountable review concerns |
+| --- | --- |
+| Which governed assignments are eligible for each action, with what Product/revision scope and trusted Staff/access provenance? | Product business responsibility; Administration coordination; Identity assignment evidence; Security least privilege. |
+| May the same actor accept content or media and publish the Product, and under which combinations or limitations? | Product and Administration operational responsibility; Security separation of duties. |
+| Which actions are privileged or high-impact, and what action-specific risk classification applies? | Security classification with Product and Administration context. |
+| What MFA, privileged-session and reauthentication evidence is required for each classified action under existing mandatory controls? | Security assurance and Identity evidence; no new mechanism or lifetime selected. |
+| Is independent approval required for any action or action combination, and what governed evidence establishes it? | Security with Product and Administration; no approver count, chain or same-actor permission assumed. |
+| Who may grant, change or withdraw the applicable assignments, and how are provenance, traceability and effective revocation established? | Identity assignment integrity, Administration coordination, Product scope and Security review. |
+| When is current Authorization revalidated, and what prevents known withdrawal, stale evidence or changed Product state from enabling an in-flight operation? | Product mutation boundary, Identity current access and Security safeguards; no lock, TTL or transaction strategy selected. |
+| What trusted audit guarantee applies, what happens when required audit cannot be recorded, and how are uncertain commit outcomes investigated and reconciled without duplicate or falsely successful mutation? | Security audit integrity, Product outcome truth and Administration recovery coordination; no audit infrastructure or retry mechanism selected. |
+
+Existing evidence requirements also apply to invalidation and access provisioning;
+those authorities are not implicitly granted by the five action evaluations.
+Resolving this subset requires explicit accountable dispositions and applicable
+acceptance/synchronization before operational reliance. A recommendation, partial
+approval note or recorded assignment inside this Proposed record is not an
+Accepted authorization policy. Broader administrative capabilities remain unresolved.
+
+[DEC-0042](DEC-0042-product-publication-acceptance-and-visibility.md) remains Proposed.
+Its recorded Product-owner P1, P2 and P4 approvals are preserved; this proposal does
+not reopen them, satisfy pending S1 or P3/S2, approve publication or authorize
+positive customer visibility. Existing Accepted decisions and default-deny Product
+administration boundaries remain unchanged.
 
 ## Alternatives Considered — Unselected Candidates
 
@@ -112,4 +189,5 @@ This Proposed decision does not select a final Role/Permission matrix or policy 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-06 | Proposed | Added a bounded Product authorization proposal and outstanding accountable questions for five acceptance/publication actions; preserved unselected matrix alternatives, existing Product approvals, Proposed status and all implementation restrictions. |
 | 0.1.0 | 2026-10-13 | Proposed | Framed the open Product decision on administrative Roles and Permissions, candidate policy models, required evidence, authority boundaries, and review questions without selecting a matrix or authorizing implementation. |
