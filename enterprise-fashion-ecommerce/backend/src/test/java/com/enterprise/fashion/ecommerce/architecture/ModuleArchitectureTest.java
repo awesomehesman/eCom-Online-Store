@@ -44,6 +44,36 @@ class ModuleArchitectureTest {
             .importPackages(ROOT_PACKAGE);
 
     @Test
+    void pricingConsumesOnlyTheExportedProductEvidenceContract() {
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".pricing..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        ROOT_PACKAGE + ".product.domain..", ROOT_PACKAGE + ".product.adapter..",
+                        ROOT_PACKAGE + ".product.config..", ROOT_PACKAGE + ".product.application.persistence..",
+                        ROOT_PACKAGE + ".product.application.port..", ROOT_PACKAGE + ".product.application.usecase..",
+                        ROOT_PACKAGE + ".product.application.administration..", ROOT_PACKAGE + ".product.application.evidence..",
+                        ROOT_PACKAGE + ".product.application.catalogue..", ROOT_PACKAGE + ".product.application.visibility..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
+    void exportedProductEvidenceContractContainsNoDomainPersistenceFrameworkOrPricingTypes() {
+        noClasses().that().resideInAPackage(ROOT_PACKAGE + ".product.application.api..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        ROOT_PACKAGE + ".product.domain..", ROOT_PACKAGE + ".product.adapter..",
+                        ROOT_PACKAGE + ".pricing..", "org.springframework..", "java.sql..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
+    void publicProductCatalogueDoesNotDependOnInternalAdministrationQueriesOrViews() {
+        noClasses()
+                .that().resideInAnyPackage(ROOT_PACKAGE + ".product.adapter.in.web..",
+                        ROOT_PACKAGE + ".product.application.catalogue..")
+                .should().dependOnClassesThat().resideInAPackage(ROOT_PACKAGE + ".product.application.administration..")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void productionCodeExistsForArchitectureValidation() {
         assertFalse(PRODUCTION_CLASSES.isEmpty(), "Architecture checks require production classes");
     }
@@ -277,6 +307,14 @@ class ModuleArchitectureTest {
                         ROOT_PACKAGE + ".identity.application.credential.CredentialSource",
                         ROOT_PACKAGE + ".identity.application.port.out.CustomerPasswordVerificationPort")
                 .as("Only configuration wires source-bound verification to trusted collaborators")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
+    void productEvidenceStorageCannotBecomeAnApplicationAcceptanceWriter() {
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
+                .should().dependOnClassesThat().resideInAPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
+                .as("Product evidence storage remains behind a read-only application Port")
                 .check(PRODUCTION_CLASSES);
     }
 

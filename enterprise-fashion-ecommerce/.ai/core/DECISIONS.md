@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.94
+version: 1.0.109
 status: Approved
 owner: Architecture
-last_updated: 2026-10-16
+last_updated: 2026-11-06
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -557,7 +557,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0016 | Returns, Exchanges, and Refund Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0016-returns-exchanges-refund-policy.md](../../specifications/decisions/DEC-0016-returns-exchanges-refund-policy.md) |
 | DEC-0017 | Voucher and Promotion Stacking Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0017-voucher-promotion-stacking-policy.md](../../specifications/decisions/DEC-0017-voucher-promotion-stacking-policy.md) |
 | DEC-0018 | Initial Catalogue Taxonomy Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0018-initial-catalogue-taxonomy-policy.md](../../specifications/decisions/DEC-0018-initial-catalogue-taxonomy-policy.md) |
-| DEC-0019 | Product Variant and Attribute Standards | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
+| DEC-0019 | Product Variant and Attribute Standards | Product Decision | Accepted | Product | 2026-10-29 | — | [DEC-0019-product-variant-attribute-standards.md](../../specifications/decisions/DEC-0019-product-variant-attribute-standards.md) |
 | DEC-0020 | CMS Content Approval and Scheduling Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0020-cms-content-approval-scheduling-policy.md](../../specifications/decisions/DEC-0020-cms-content-approval-scheduling-policy.md) |
 | DEC-0021 | Stock Availability Messaging Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0021-stock-availability-messaging-policy.md](../../specifications/decisions/DEC-0021-stock-availability-messaging-policy.md) |
 | DEC-0022 | Reporting and Exports Policy | Product Decision | Proposed | Product | 2026-10-13 | — | [DEC-0022-reporting-exports-policy.md](../../specifications/decisions/DEC-0022-reporting-exports-policy.md) |
@@ -580,8 +580,76 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0039 | Gift Cards, Store Credit and Promotional Credit Policy | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0039-gift-cards-store-credit-promotional-credit-policy.md](../../specifications/decisions/DEC-0039-gift-cards-store-credit-promotional-credit-policy.md) |
 | DEC-0040 | Product Launch Date, Release Scope and Post-Launch Support Window | Product Decision | Proposed | Product | 2026-10-14 | — | [DEC-0040-product-launch-date-release-scope-post-launch-support-window.md](../../specifications/decisions/DEC-0040-product-launch-date-release-scope-post-launch-support-window.md) |
 | DEC-0041 | Post-Expiry OpenPGP Artifact Signature Disposition | Security Decision | Proposed | Security | 2026-10-16 | N/A | [DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md](../../specifications/decisions/DEC-0041-post-expiry-openpgp-artifact-signature-disposition.md) |
+| DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
+| DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
+| DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
+| DEC-0045 | Initial Stock Representation and Initialization Policy | Inventory Business / Technical Decision | Proposed | Inventory | 2026-11-04 | N/A | [DEC-0045-initial-stock-representation-initialization-policy.md](../../specifications/decisions/DEC-0045-initial-stock-representation-initialization-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
+
+DEC-0045 v0.13.0 remains Proposed and non-authoritative.
+Inventory business-owner IBD-01–IBD-08 and technical-owner ITD-01–ITD-08 approvals
+are complete. Architecture assessment ARD-01–ARD-05 and Architecture-owner ACCEPT
+WITH CONDITIONS are complete, the latter subject to AOC-01–AOC-06. The Product
+governance assessment PRD-01–PRD-06 completed with PASS WITH CONDITIONS. Separately,
+the accountable Product affected owner completed ACCEPT WITH CONDITIONS on 2026-11-05,
+subject to POC-01–POC-06; this approval is distinct from the earlier evidence assessment.
+POC-01 preserves Product authority over Product/Variant identity, membership, lifecycle
+and representation revision. POC-02 accepts non-negative whole-unit on-hand Stock for
+the initial Apparel, Footwear and Accessories assortment, with fractional quantities
+unsupported; it does not select assortment, Category taxonomy, SKU policy or future
+Product-family expansion. POC-03 prevents one logical Stock Location from determining
+Product assortment, Category classification, publication eligibility or fulfilment geography.
+POC-04 limits Product-owned evidence to bounded membership observations, not Stock
+initialization, mutation authority or transferred ownership. POC-05 states that Product
+lifecycle states do not independently authorize or prohibit initialization; lifecycle-specific
+eligibility requires separate governance. POC-06 preserves the absence of continuous
+freshness, permanent membership or atomic Product/Inventory consistency guarantees;
+stronger coordination requires separate governance. Inventory retains Stock identity,
+quantity and history authority. Logical Stock Location identity, registration and lifecycle;
+initialization actor eligibility, trusted provenance, contextual authorization and audit;
+and persistence, uniqueness, concurrency, retry and reconciliation mechanisms remain
+unresolved. The completed Security governance assessment SAD-01–SAD-06 reached PASS WITH CONDITIONS —
+bounded Security governance compatibility assessment only, not accountable Security-owner
+approval. SAD-01 PASS preserves Inventory Stock mutation authority; Product association
+evidence grants no mutation permission. SAD-02 CONDITIONAL PASS requires server-side
+default denial and contextual initialization authorization; eligible actors and operational
+authorization remain unresolved. SAD-03 CONDITIONAL PASS requires trusted human/system
+identity, current access, revocation and provenance; no issuer, Role or Staff mapping is
+selected. SAD-04 CONDITIONAL PASS preserves audit and historical integrity requirements;
+initialization audit classification, durable attribution and uncertain-outcome handling
+remain unresolved. SAD-05 CONDITIONAL PASS requires duplicate, replay, concurrent and
+uncertain effects to preserve accepted state; persistence, retry and reconciliation
+mechanisms remain unselected. SAD-06 PASS preserves Security, Identity, Inventory and
+Administration authority boundaries. Separately from the SAD assessment, the accountable
+Security owner completed ACCEPT WITH CONDITIONS — SOC-01–SOC-06 on 2026-11-05.
+The bounded Identity governance assessment IAD-01–IAD-08 is complete with PASS WITH
+CONDITIONS; the accountable Identity owner separately completed ACCEPT WITH CONDITIONS —
+IOC-01–IOC-08 on 2026-11-06. The bounded Administration governance assessment AAD-01–AAD-08
+is complete with PASS WITH CONDITIONS; the accountable Administration owner separately
+completed ACCEPT WITH CONDITIONS — AOC-ADM-01–AOC-ADM-08 on 2026-11-06. These assessments
+are evidence, not substitutes for the separately recorded accountable approvals. All
+binding conditions remain in force: contextual server-side authorization; governed human/
+system eligibility, trusted provenance, current access, revocation and applicable assurance;
+protected attributable audit and truthful outcomes; safe duplicate, replayed, concurrent
+and uncertain effects; governed failure/reconciliation and cross-domain Contracts;
+Administration coordination without overriding Inventory authorization or domain invariants.
+Identity retains trusted identity/access evidence authority, Security retains its control
+ownership, and Administration retains coordination boundaries without a parallel access
+model. No operational actor, Role, Permission, Staff mapping, issuer or authorization
+mechanism is selected. Overall DEC-0045 acceptance remains Pending; the decision remains
+Proposed with Authoritative false. Completed capacity-specific approvals do not satisfy
+overall acceptance or operational readiness. Logical Stock Location governance,
+initialization actor eligibility and trusted provenance, contextual authorization and audit,
+and API, persistence, uniqueness, concurrency, retry and reconciliation mechanisms remain
+unresolved or unselected. No separate ADR is currently required for the bounded
+representation policy; a later material Architecture Decision outside the Approved baseline
+requires a new ADR. DEC-0015, DEC-0024 and DEC-0042 remain Proposed. No Stock implementation,
+initialization operation, API, schema, operational permission or deployment is authorized.
+
+DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
+
+DEC-0043 1.0.0 is Accepted and authoritative within its bounded commercial scope, following explicit Product/business-owner acceptance without amendments on 2026-11-03, effective the same day. PRODUCT.md and the Pricing domain/backend specifications are synchronized with Variant-level positive ZAR base pricing, single-current assignment, no Product fallback, immediate committed applicability and revision-preserving replacement/withdrawal. Product identity, Order history and unresolved tax, promotion, authorization and implementation boundaries remain preserved; acceptance is not operational authorization or release readiness.
 
 DEC-0009 0.8.0 remains a Proposed, Identity-owned Security Decision with `Authoritative: false`. Its single 0.7.0 native feasibility/admission-readiness evaluation is complete and its authorization consumed/exhausted, with **B. FEASIBILITY OR ADMISSION-READINESS BASIS NOT DEMONSTRATED** recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0009/native-idna2008-feasibility-evaluation-2026-10-06.md). The evaluated GNU Libidn2 2.3.8 public API arrangement MUST NOT be selected from the current evidence; this is candidate-specific, not universal native infeasibility. The 0.3.0 and 0.5.0 authorizations remain exhausted and direct ICU internal Punycode remains removed from the current candidate path. No new evaluation is authorized; further candidate evaluation or a materially different strategy requires fresh explicit governance authorization. This synchronization selects no technology, admits no dependency/native artifact and grants no DEC acceptance, Architecture approval/change or implementation authority. Separate DEC-0001 and applicable Architecture/ADR gates remain required.
 
@@ -603,7 +671,7 @@ DEC-0017 0.1.0 remains a Proposed, non-authoritative Product-owned decision. No 
 
 DEC-0018 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Shallow, structured and flexible taxonomy alternatives remain unselected. Category retains taxonomy and classification authority; Product retains Product, Product Variant and Product-owned Attribute authority; Search and CMS remain consumers. `PRODUCT.md` §24 item 2 remains unresolved. No Category roots, hierarchy depth, naming, membership or launch assortment is selected, and this indexing authorizes no policy acceptance, Contract change or implementation.
 
-DEC-0019 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Uniform, Product-family and hybrid Attribute-standard alternatives remain unselected. Product retains Product Variant identity and Product-owned Attribute authority; Category retains taxonomy authority, and Search remains a non-authoritative consumer. DEC-0018 remains Proposed and `PRODUCT.md` §24 item 3 remains unresolved. No size scale, fit convention, colour or material vocabulary, variant-defining set, SKU format, Contract change or implementation is selected; this indexing authorizes no standard selection, acceptance or implementation.
+DEC-0019 1.0.0 is Accepted, Product-owned and authoritative within its decision scope, with Product-owner acceptance dated 2026-10-29. Option C — Hybrid Attribute Standards selects Apparel, Footwear and Accessories as initial Product-family contexts, with Product-owned Size and Colour as variant-defining concepts under explicit family-specific applicability. Apparel sizes are XS through XXXL; Footwear uses UK 3 through 13 with half sizes where applicable; Accessories support One Size and separately governed applicable configurations without universally requiring both Size and Colour. Canonical Colour normalization resolves Black, black and BLACK to BLACK (display label Black); unsupported values require explicit Product extension approval. Canonical applicable defining values establish Product-scoped Variant combination uniqueness; Fit and Material remain descriptive and cannot independently distinguish Variants. Stable Product and Variant identity, accepted membership and historical Order and other confirmed commercial meaning must survive versioned Attribute-standard evolution without silent reinterpretation. Category retains taxonomy/classification authority and Search remains a non-authoritative consumer; these Product families do not select Category taxonomy or Search policy. DEC-0018 remains Proposed. This change synchronizes the Decision Index only: `PRODUCT.md` synchronization remains outstanding and no completed canonical Product update, SKU format, database schema, API Contract, implementation or release readiness is claimed.
 
 DEC-0020 0.1.0 remains a Proposed, non-authoritative Product-owned decision. Single-stage, risk-tiered and multi-stage CMS content-approval alternatives remain unselected. CMS retains editorial and policy presentation authority without owning source-Domain facts or underlying business policy; approval-readiness evidence is not final approval or publication authorization, and scheduling is intent rather than confirmed publication. DEC-0012 remains Proposed and `PRODUCT.md` §24 item 22 remains unresolved. No approver, Role, Permission, chain depth, publication guarantee or scheduler is selected; this indexing authorizes no policy acceptance, Contract change or implementation.
 
@@ -773,6 +841,21 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.109 | 2026-11-06 | Approved | Synchronized DEC-0045 v0.13.0 completed accountable Security, Identity and Administration ACCEPT WITH CONDITIONS dispositions; preserved all prior approvals and binding conditions, pending overall acceptance and implementation/operational restrictions. |
+| 1.0.108 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.8.0 bounded Security governance assessment SAD-01–SAD-06 PASS WITH CONDITIONS; preserved pending accountable Security-owner, Identity and Administration dispositions, overall acceptance and implementation/operational restrictions.                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.0.107 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.7.0 accountable Product affected-owner ACCEPT WITH CONDITIONS disposition POC-01–POC-06; preserved completed Inventory and Architecture dispositions, pending Security/Identity/Administration reviews, overall acceptance and implementation/operational restrictions. |
+| 1.0.106 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.6.0 bounded Product governance assessment PRD-01–PRD-06 PASS WITH CONDITIONS; preserved pending Product-owner disposition, remaining affected-owner reviews, overall acceptance and implementation/operational restrictions. |
+| 1.0.105 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.5.0 accountable Architecture-owner ACCEPT WITH CONDITIONS disposition across ARD-01–ARD-05 and AOC-01–AOC-06; preserved pending affected-owner reviews, overall acceptance and implementation/operational restrictions. |
+| 1.0.104 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.4.0 bounded Architecture assessment ARD-01–ARD-05 PASS with conditions; preserved pending Architecture-owner disposition, affected-owner reviews and all implementation/operational restrictions. |
+| 1.0.103 | 2026-11-05 | Approved | Recorded DEC-0045 v0.3.0 Inventory technical-owner approval of ITD-01–ITD-08, preserved IBD-01–IBD-08 business approval, pending Architecture and affected-owner reviews, unresolved mechanisms and all implementation/operational restrictions. |
+| 1.0.102 | 2026-11-05 | Approved | Recorded DEC-0045 v0.2.0 Inventory business-owner approval of IBD-01–IBD-08, preserving pending technical/Architecture dispositions, affected-owner reviews and implementation/operational restrictions. |
+| 1.0.101 | 2026-11-04 | Approved | Indexed DEC-0045 0.1.0 as Proposed and non-authoritative, preserving pending accountable dispositions and all implementation and operational authorization gates. |
+| 1.0.100 | 2026-11-04 | Approved | Recorded DEC-0044 0.2.0 Proposed with Product/business-only approval of A2, B1, C1 and D1 on 2026-11-04; preserved all other pending dispositions, DEC-0012 Proposed, DEC-0043 Accepted and blocked operational Pricing writes. |
+| 1.0.99 | 2026-11-04 | Approved | Indexed DEC-0044 0.1.0 Proposed with bounded Variant base-price operational authorization options and pending accountable dispositions; preserved DEC-0012 Proposed, DEC-0043 Accepted and all implementation/authority boundaries. |
+| 1.0.98 | 2026-11-03 | Approved | Synchronized DEC-0043 1.0.0 Accepted with explicit Product/business-owner acceptance and effective date 2026-11-03; recorded Product and Pricing specification synchronization without changing unrelated decisions or operational authorization. |
+| 1.0.97 | 2026-11-03 | Approved | Indexed DEC-0043 0.1.0 Proposed for initial Variant-level V1 base-price assignment; Product/business-owner acceptance remains pending, with no Pricing specification change or implementation authority granted. |
+| 1.0.96 | 2026-10-30 | Approved | Indexed DEC-0042 0.1.0 Proposed, recording confirmed Product-owner publication/content/media/lifecycle policy separately from existing Security requirements and pending accountable Security controls; granted no overall decision acceptance, canonical Product synchronization or implementation authority. |
+| 1.0.95 | 2026-10-29 | Approved | Synchronized DEC-0019 1.0.0 to Accepted with Product-owner acceptance dated 2026-10-29; summarized Option C hybrid family applicability, canonical Size/Colour uniqueness, descriptive Fit/Material, stable identity and historical/versioned evolution safeguards; preserved Category/Search boundaries and DEC-0018 Proposed, with PRODUCT.md synchronization explicitly outstanding and no implementation claim. |
 | 1.0.94 | 2026-10-16 | Approved | Registered DEC-0041 0.1.0 as a Proposed, non-authoritative Security Decision for the four unresolved post-expiry OpenPGP artifact signatures; preserved pending risk classification and Security/Architecture dispositions, undetermined exception applicability and withheld merge authorization. |
 | 1.0.93 | 2026-10-14 | Approved | Indexed DEC-0040 as a Proposed, non-authoritative Product Decision Record for launch date, release scope and post-launch support window; preserved unresolved support dependencies and separate readiness, acceptance, release and implementation gates. |
 | 1.0.92 | 2026-10-14 | Approved | Indexed DEC-0039 as a Proposed, non-authoritative Product Decision Record for gift cards, store credit and promotional credit; preserved unresolved financial, Domain ownership and implementation authority and separate downstream governance gates. |

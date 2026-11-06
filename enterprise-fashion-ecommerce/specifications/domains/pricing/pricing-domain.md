@@ -1,9 +1,9 @@
 ---
 title: Pricing Domain
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Product and Engineering
-last_updated: 2026-09-01
+last_updated: 2026-11-03
 authoritative: false
 ---
 
@@ -65,9 +65,11 @@ Every Pricing monetary input, intermediate commercial value exposed across a bou
 
 Pricing MUST determine the applicable authoritative Price for the correct governed Product or Product Variant under current Approved Pricing Rules and inputs. The outcome MUST distinguish applicable Base Price, Sale Price, and other governed components without treating a client value, Cart presentation, analytics value, or Projection as authoritative. A missing or invalid Price MUST NOT produce a trusted total.
 
+Under Accepted DEC-0043 1.0.0, effective 2026-11-03, initial V1 base prices MUST reference the owning Product and Variant, use strictly positive ZAR Money, and permit at most one current explicit assignment per Variant with no Product-level fallback. Applicability MUST begin immediately after an authorized, committed operation and continue until explicit replacement or withdrawal; both MUST preserve historical assignment revisions. Missing, invalid, conflicting, obsolete or withdrawn assignments MUST NOT produce a current valid base-price result. Selection MUST NOT use arbitrary precedence or latest-wins resolution. A valid base price MUST NOT establish Product visibility, sellability, tax-inclusive display amounts or Checkout totals. This policy selects no tax, Discount, Promotion, scheduled or customer/channel pricing, currency conversion, rounding or decimal scale. Product input safety, contextual Authorization and confirmed Order history safeguards remain binding.
+
 ### REQ-PRC-008 — Price Change Safety
 
-A stale, changed, missing, or invalid Price MUST produce an explicit explainable outcome and require governed recalculation before commercial commitment. Equivalent governed inputs and rule state MUST produce a consistent result, while a later Price change MUST NOT silently rewrite confirmed Order commercial history. This Specification defines no Price List structure, effective-date mechanism, historical persistence mechanism, or caching policy.
+A stale, changed, missing, or invalid Price MUST produce an explicit explainable outcome and require governed recalculation before commercial commitment. Equivalent governed inputs and rule state MUST produce a consistent result, while a later Price change MUST NOT silently rewrite confirmed Order commercial history. DEC-0043 governs initial immediate applicability and revision-preserving replacement/withdrawal; this Specification selects no scheduled effective periods, Price List structure, historical persistence mechanism or caching policy.
 
 ## 9. Discounts
 
@@ -235,13 +237,13 @@ Verification MUST cover applicable positive and negative Pricing behavior, Produ
 
 | Requirement | Observable Acceptance Criteria |
 | --- | --- |
-| REQ-PRC-001 | Metadata states `1.0.0`, `Approved`, and `authoritative: false`; scope code is `PRC`; the text preserves core-source precedence and limits normative effect to the Pricing Domain. |
+| REQ-PRC-001 | Metadata states `1.1.0`, `Approved`, and `authoritative: false`; scope code is `PRC`; the text preserves core-source precedence and limits normative effect to the Pricing Domain. |
 | REQ-PRC-002 | Trusted server-side Pricing output owns only policy-permitted current Price, Discount, Promotion, Voucher, line-value, total, savings, eligibility, Tax, and delivery-related calculations; each output uses valid governed inputs and remains distinct from Order history. |
 | REQ-PRC-003 | Pricing cannot create, redefine, or establish success for any listed external Domain truth or policy. |
 | REQ-PRC-004 | Each outcome uses the correct governed Product or Product Variant and only permitted Product attributes without altering any listed Product-owned concept. |
 | REQ-PRC-005 | Each applicable unknown, removed, unpublished, stale, changed, or structurally unsellable Product condition prevents silent trusted Pricing, produces a safe distinguishable outcome and permitted recovery, and remains separate from Inventory availability. |
 | REQ-PRC-006 | All boundary monetary values, comparisons, and results carry Currency and use precision-safe non-floating-point Money semantics; Currency mixing and implicit conversion are rejected; Version 1 Customer-visible outcomes use ZAR; unsupported Currency fails safely; no prohibited monetary implementation or policy is selected. |
-| REQ-PRC-007 | The correct Product or Product Variant receives an authoritative Price under current governed rules; Base Price, Sale Price, and applicable components are distinguishable; no client, Cart, analytics, or Projection value is authoritative; missing or invalid Price cannot produce a trusted total. |
+| REQ-PRC-007 | The correct Product or Product Variant receives an authoritative Price under current governed rules; Base Price, Sale Price, and applicable components are distinguishable; no client, Cart, analytics, or Projection value is authoritative; missing or invalid Price cannot produce a trusted total. Initial V1 base-price selection follows Accepted DEC-0043: positive ZAR, Variant-only, at most one current assignment, no fallback or arbitrary precedence, and explicit missing/invalid/conflicting/obsolete/withdrawn outcomes. |
 | REQ-PRC-008 | Stale, changed, missing, and invalid Price each triggers an explicit outcome and recalculation before commitment; equivalent inputs are consistent; later change cannot rewrite Order history; no prohibited structure or mechanism is selected. |
 | REQ-PRC-009 | A Discount applies only under Approved rules, remains separate from all listed commercial components, is explainable and reproducible, and invalid, stale, changed, or inapplicable state is distinguishable and revalidated without invented values. |
 | REQ-PRC-010 | A Promotion applies only when every required governed input establishes eligibility; application and non-application are explicit; invalid, inactive, stale, changed, and conflicting state each fails or revalidates safely without invented policy. |
@@ -345,6 +347,8 @@ The current Approved `.ai/core/PRODUCT.md` §24 contains **30 Open Product Decis
 
 ## 39. Related Documents
 
+- [Accepted DEC-0043 — Initial V1 Base-Price Assignment Policy](../../decisions/DEC-0043-initial-v1-base-price-assignment-policy.md).
+
 - `.ai/core/AGENTS.md`
 - `.ai/core/GLOSSARY.md`
 - `.ai/core/PRODUCT.md`
@@ -373,12 +377,13 @@ The current Approved `.ai/core/PRODUCT.md` §24 contains **30 Open Product Decis
 | --- | --- | --- | --- |
 | 0.1.0 | 2026-09-01 | Draft | Established initial Pricing authority, Money and Currency integrity, Price, Discount, Promotion, Voucher, tax and shipping-commercial boundaries, cross-domain separation, revalidation, failure, recovery, quality, Acceptance Criteria, and traceability. |
 | 1.0.0 | 2026-09-01 | Approved | Promoted the Pricing Domain Specification to Approved status after comprehensive governance, authority, terminology, Acceptance Criteria, traceability, structure, implementation-neutrality, and whitespace validation. |
+| 1.1.0 | 2026-11-03 | Approved | Synchronized Accepted DEC-0043 initial Variant-level positive ZAR base pricing, immediate committed applicability, single-current selection and historical revisions; preserved scope, existing requirement identifiers and all unrelated policy/implementation boundaries. |
 
 ## 41. Final Validation
 
 Before material revision, approval, or implementation reliance, reviewers MUST validate:
 
-1. metadata states version `1.0.0`, status Approved, and `authoritative: false`, and Requirements are normative only within the Pricing Domain;
+1. metadata states version `1.1.0`, status Approved, and `authoritative: false`, and Requirements are normative only within the Pricing Domain;
 2. scope code `PRC` and stable sequential `REQ-PRC-NNN` identifiers are used without a SPEC identifier;
 3. canonical terminology and Pricing authority remain aligned with `GLOSSARY.md` and governing sources;
 4. Product and Product Variant, Customer, Inventory, Cart, Checkout, Order, Payment, Shipping, Return and Refund, fraud, and Administration boundaries remain explicit;
@@ -387,7 +392,7 @@ Before material revision, approval, or implementation reliance, reviewers MUST v
 7. security, Authorization, Sensitive Data, failure, recovery, accessibility, performance, audit, events, Contracts, and testing remain traceable and testable;
 8. Acceptance Criteria and Requirement Traceability contain exactly one materially complete row per Pricing Requirement and every citation exists;
 9. Related Documents exist, remain relevant, and do not self-reference this Specification;
-10. no Product policy, Architecture, technology, persistence design, Contract shape, provider, algorithm, threshold, numerical target, or implementation mechanism has been selected;
+10. only the bounded Accepted DEC-0043 base-price policy is specialized; no additional Product policy, Architecture, technology, persistence design, Contract shape, provider, calculation formula, threshold, numerical target or implementation mechanism is selected;
 11. headings are sequential, sections are non-empty, Markdown tables are valid, and no unfinished marker or merge-conflict marker remains;
 12. canonical-term review determines whether a coordinated `GLOSSARY.md` amendment is genuinely required and otherwise leaves it unchanged;
 13. whitespace validation passes and the exact change scope contains only this Specification and any necessary coordinated Glossary amendment; and
