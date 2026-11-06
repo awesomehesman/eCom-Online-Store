@@ -4,9 +4,9 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-10-30
-- **Last Updated:** 2026-10-30
+- **Last Updated:** 2026-11-06
 - **Owner:** Product
 - **Required Accountable Security Review:** Security
 - **Authoritative:** false
@@ -154,6 +154,98 @@ Security confirmation remains required for:
 
 DEC-0012 remains Proposed; this record neither resolves its matrix nor invents assignments.
 
+## Consolidated Disposition Package — Awaiting Accountable Review
+
+**ALL OPTIONS AND RECOMMENDATIONS BELOW ARE NOT APPROVED.** This package makes
+S1 and P3/S2 reviewable together; it records no accountable disposition. P1, P2 and
+P4 remain approved only in their previously recorded Product-owner capacity and
+are not reopened. DEC-0042 remains Proposed and non-authoritative. No option below
+selects an evidence producer, Staff assignment, operational permission or implementation.
+
+### A. Already Mandatory Controls
+
+The preceding Existing Authoritative Security and Ownership Requirements section
+continues to apply. [Security Standards §§7.6, 10–13 and 27](../../.ai/core/SECURITY-STANDARDS.md)
+also govern separation of duties, trusted identity, RBAC, privileged assurance,
+revocation and audit. MFA for privileged Staff and applicable high-impact
+reauthentication are existing obligations, not optional controls created here.
+BIDN-REQ-011–014, 021–026, BADM-REQ-005, 007, 014, 045 and BPRD-REQ-007,
+019–023, 030, 037 preserve their respective ownership boundaries. This package
+identifies unresolved application of those controls rather than reproducing or
+weakening the authoritative requirements.
+
+### B. S1 Options and Outstanding Accountable Choices
+
+Every row is **RECOMMENDED / NOT APPROVED**. Security must resolve the checking
+boundary with affected Product and rights-evidence ownership; Product retains the
+final acceptance and publication decision.
+
+| Outstanding choice | Concrete bounded options and trade-off | Recommended initial direction for disposition |
+| --- | --- | --- |
+| Media-security checking authority | Governed human assessment, governed automated checking, or a combination; human review supports judgment but cannot substitute for required technical checks, while automation cannot establish rights or content accuracy by itself. | Security-designated checking authority, using appropriate technical evidence and accountable review for judgment-dependent checks; confirm permitted producers and check coverage without selecting a scanner, service or provider. |
+| Acceptable evidence provenance | Direct trusted producer evidence or a governed attributable assessment of supporting evidence; copied claims and database recording alone provide no checking authority. | Require trustworthy origin, applicable checking authority, result and supporting-evidence provenance; resolve how authenticity/current applicability are established before reliance. No signature scheme or evidence schema selected. |
+| Asset/association/revision binding | Exact immutable asset and association revision binding versus reliance on mutable URLs or labels; mutable references cannot identify the checked subject reliably. | Exact Product, asset, association and relevant representation revisions, with Variant membership where applicable; replacement or changed association meaning requires new evaluation. Preserve P2 rather than adding a new completeness threshold. |
+| Check compatibility and versioning | Re-evaluate when a check changes, or permit explicitly reviewed version compatibility; blanket rechecking costs more, while implicit compatibility risks stale assurance. | Only expressly supported check definitions/versions may support reliance; unsupported, retired or uncertain compatibility withholds acceptance pending governed re-evaluation. Security must define compatibility and retirement authority. |
+| Media-security invalidation | Explicit revocation, changed asset/association, superseded checks, new findings or compromised provenance may invalidate reliance; the exact triggers and authoritative sources are unresolved. | Govern explicit invalidation sources and affected-subject propagation; preserve history and fail closed for missing, failed, stale, conflicting or invalidated evidence. No event transport or invalidation mechanism selected. |
+| Rights/security withdrawal | Stop relying on an affected association and withhold the Product if required completeness fails, versus allowing continued visibility until later review; continued unsupported reliance conflicts with existing requirements. | Apply authoritative withdrawal to every affected association and withhold positive visibility when the last required accepted image is lost; no silent lifecycle transition or revival. Identify rights/security sources and final-reliance coordination before implementation. |
+
+**Recommended S1 disposition for consideration — NOT APPROVED:** accept the bounded
+direction of trustworthy, version-compatible, exact-subject security evidence and
+explicit invalidation, with Product-owned publication and rights/security withdrawal
+preserved. Accountable review must identify permitted checking sources, acceptable
+provenance, check coverage/compatibility, invalidation authority and failure handling.
+Restating these as future conditions does not close an unresolved producer or trust
+choice. No operational reliance follows until those choices are expressly resolved.
+
+### C. P3/S2 Options and Bounded DEC-0012 Dependency
+
+[DEC-0012 v0.2.0](DEC-0012-administrative-role-permission-matrix.md), Bounded Product
+Authorization Proposal, supplies the five-action review scope and eight unresolved
+accountable questions. It remains Proposed with no overall matrix option selected.
+The action descriptions below are not Permission identifiers. Each option and
+recommendation is **NOT APPROVED**.
+
+| Outstanding choice | Concrete bounded options and trade-off | Recommended initial direction for disposition |
+| --- | --- | --- |
+| Product action assignments | Fixed, capability-granular or hybrid RBAC-compatible grouping; broad bundles simplify administration but may grant excessive authority. | Review eligibility separately for content acceptance, media acceptance, publication, withdrawal/unpublication and archival, bound to exact Product and applicable revisions/state. Resolve only the necessary Product subset; invent no Roles, identifiers or assignments. |
+| Same-actor acceptance/publication | Permit with explicit safeguards, prohibit, or apply risk-tiered separation; same-actor work is simpler but concentrates acceptance and release authority. | Prefer an initial separation between acceptance and publication where practical, subject to explicit Product/Administration/Security disposition and operational feasibility. No same-actor permission or binding two-person rule is established. |
+| Privileged-action classification | Classify each action separately or apply a common conservative privileged baseline; the latter simplifies safeguards but may overclassify routine work. | Treat publication, withdrawal and archival as candidates for high-impact classification and evaluate content/media acceptance by their effect on visibility. Security must explicitly classify every action and resolve any difference. |
+| MFA and reauthentication applicability | Apply the existing privileged baseline plus action-specific assurance, or stronger assurance where justified; extra challenges can burden urgent safe withdrawal. | Require trustworthy evidence of all applicable mandatory controls; Security must settle action-specific privileged-session, MFA and reauthentication applicability with Identity. No mechanism, lifetime or exception selected. |
+| Independent approval | Separate acceptance from publication, add distinct action approval where risk requires it, or explicitly permit execution without another approval where governing controls allow. | Evaluate acceptance/publication separation first; add separate independent approval only on explicit risk evidence and accountable disposition. Settle action combinations, evidence and any urgent-withdrawal treatment; no approver count, chain or override invented. |
+| Assignment withdrawal | Govern grant/change/withdrawal through Identity-owned assignments and Administration coordination, or defer operational eligibility; a parallel Product assignment store would create competing authority. | Preserve one governed access model, attributable assignment lifecycle and effective revocation. Identify eligible provisioning/withdrawal authority through DEC-0012 review; no new actor selected. |
+| In-flight authorization revalidation | Re-observe authority at the final governed mutation boundary with conflict rejection, or adopt stronger coordination if separately justified; revalidation alone does not prove cross-system atomicity. | Check current authority for every operation and prevent known withdrawal, stale/conflicting evidence or changed Product state from enabling mutation. Explicitly settle final reliance, residual race and recovery semantics; select no TTL, lock or transaction strategy. |
+| Audit failure and uncertain outcomes | Prevent initiation when required durable audit cannot be guaranteed; for an uncertain commit, verify/reconcile instead of assuming failure or automatically repeating. Alternative guarantees require equivalent governed integrity. | Prefer fail-closed initiation when mandatory audit assurance is unavailable and truthful uncertain-outcome handling with governed reconciliation. Security/Product/Administration must settle attributable evidence, durability, failure and recovery obligations; no audit infrastructure, outbox or retry mechanism selected. |
+
+**Recommended P3/S2 disposition for consideration — NOT APPROVED:** accept separate
+Product-owned contextual evaluations using trusted Principal evidence, separately
+confirmed Staff association, current Identity-owned assignment provenance/scope and
+applicable assurance. Authentication, a Role label or an assignment alone cannot
+authorize a Product action. Administration coordinates only governed workflows;
+Product decides against the current Resource, action, revision and lifecycle.
+All eight choices above require explicit accountable treatment. Evidence invalidation
+and access provisioning authority are not automatically granted by these five actions.
+
+The bounded subset does not approve the full Administration matrix or resolve all
+of `PRODUCT.md` §24 item 23. Required Product, Administration, Identity and Security
+review must establish an authoritative bounded policy through the applicable
+acceptance and synchronization process before reliance. A recommendation or partial
+approval note within either Proposed record is not operational authority. S1 media
+checking authority is not resolved merely by assigning media-acceptance eligibility.
+
+### D. Implementation Prerequisites and Disposition Readiness
+
+This package is ready for accountable consideration, not implementation. Remaining
+gates are explicit S1 and P3/S2 dispositions, the bounded DEC-0012 policy dependency,
+overall acceptance, applicable canonical/Contract synchronization, and separately
+reviewed trusted evidence, contextual Authorization and audit boundaries. The existing
+catalogue Contract governs public reads, not an operational publication command API.
+
+Acceptance of recommendations must not be recorded as executed verification or
+trusted production evidence. Missing or uncertain authority remains non-confirming.
+No existing PUBLISHED row, retained claim, Customer authentication mechanism or
+synthetic fixture becomes a publication producer. Positive visibility, source-code
+changes, migrations, endpoints, deployment and operational rollout remain unauthorized.
+
 ## Implementation Boundary and Acceptance Prerequisites
 
 After remaining accountable review and required governing-source synchronization, implementation
@@ -227,4 +319,5 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-06 | Proposed | Prepared consolidated S1 and P3/S2 options and recommended directions linked to DEC-0012 v0.2.0; preserved Product P1/P2/P4 approvals, pending accountable choices, Proposed/non-authoritative lifecycle and all implementation restrictions. |
 | 0.1.0 | 2026-10-30 | Proposed | Recorded confirmed Product-owner P1/P2/P4 policy separately from inherited Security requirements and pending S1/P3 controls; preserved fail-closed visibility, lifecycle/history boundaries and separate acceptance, synchronization and implementation gates. |
