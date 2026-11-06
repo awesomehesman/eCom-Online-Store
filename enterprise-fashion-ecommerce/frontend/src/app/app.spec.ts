@@ -48,7 +48,7 @@ describe('Storefront foundation', () => {
     expect(root.querySelectorAll('main').length).toBe(1);
     expect(root.querySelectorAll('h1').length).toBe(1);
     const skip = root.querySelector<HTMLAnchorElement>('.skip-link');
-    expect(skip?.getAttribute('href')).toBe('#main-content');
+    expect(skip?.getAttribute('href')).toBe('/#main-content');
     expect(skip?.textContent).toBe('Skip to main content');
     expect(root.querySelector('#main-content')?.getAttribute('tabindex')).toBe('-1');
     expect(root.querySelector('[tabindex="1"]')).toBeNull();
@@ -117,6 +117,8 @@ describe('Storefront foundation', () => {
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
     const router = TestBed.inject(Router);
+    const focusedLink = root.querySelector<HTMLAnchorElement>('nav a')!;
+    focusedLink.focus();
     let release!: () => void;
     let started!: () => void;
     const pending = new Promise<void>(resolve => { release = resolve; });
@@ -134,6 +136,9 @@ describe('Storefront foundation', () => {
     fixture.detectChanges();
     const status = root.querySelector('[role="status"]');
     expect(status?.textContent).toBe('Opening page…');
+    expect(document.activeElement).toBe(focusedLink);
+    expect(root.querySelectorAll('[role="status"]').length).toBe(1);
+    expect(root.querySelectorAll('[role="alert"]').length).toBe(1);
     expect(status?.getAttribute('aria-atomic')).toBe('true');
     expect(root.querySelector('[role="alert"]')?.textContent).toBe('');
     expect(root.textContent).not.toMatch(/empty catalogue|no products found|unknown outcome/i);
@@ -162,6 +167,8 @@ describe('Storefront foundation', () => {
     expect(root.querySelector('[role="status"]')?.textContent).toBe('');
     expect(root.textContent).not.toContain('sensitive internal detail');
     expect(root.querySelector('router-outlet')?.parentElement?.hidden).toBeTrue();
+    expect(Array.from(root.querySelectorAll('h1')).filter(el => !el.closest('[hidden]')).length).toBe(1);
+    expect(Array.from(root.querySelectorAll('[role="status"], [role="alert"]')).filter(el => el.textContent?.trim()).length).toBe(1);
     expect(root.querySelector('nav')).toBe(nav);
     expect(document.activeElement).toBe(root.querySelector('main'));
     expect(root.querySelector('button')).toBeNull();
@@ -320,6 +327,28 @@ describe('Storefront foundation', () => {
     expect(fixture.nativeElement.querySelector('h1').textContent).toBe('Page not available');
     expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toBe('');
     expect(fixture.nativeElement.querySelector('router-outlet').parentElement.hidden).toBeFalse();
+  });
+
+  it('keeps native bypass navigation on the current unsupported route and preserves its query', async () => {
+    const fixture = await open('/missing?context=preserved');
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('a.skip-link')?.getAttribute('href')).toBe('/missing?context=preserved#main-content');
+    expect(root.querySelector('main')?.id).toBe('main-content');
+    expect(root.querySelector('h1')?.textContent).toBe('Page not available');
+  });
+
+  it('does not refocus main for a fragment-only change on the settled page', async () => {
+    const fixture = await open('/missing');
+    const root: HTMLElement = fixture.nativeElement;
+    const link = root.querySelector<HTMLAnchorElement>('nav a')!;
+    link.focus();
+    const focus = spyOn(root.querySelector<HTMLElement>('main')!, 'focus').and.callThrough();
+    await TestBed.inject(Router).navigateByUrl('/missing#main-content');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(focus).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(link);
+    expect(root.querySelector('a.skip-link')?.getAttribute('href')).toBe('/missing#main-content');
   });
 
 });

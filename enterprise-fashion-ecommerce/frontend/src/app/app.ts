@@ -30,6 +30,7 @@ export class App {
   protected readonly navigation = signal<'ready' | 'loading' | 'failed'>('ready');
   protected readonly pageFailed = signal(false);
   private focusPending = false;
+  private settledPageUrl?: string;
   @ViewChild(StorefrontShell) private shell?: StorefrontShell;
 
   constructor(router: Router, title: Title, titles: TitleStrategy) {
@@ -51,9 +52,13 @@ export class App {
         this.pageFailed.set(true);
         this.focusPending = true;
       } else if (event instanceof NavigationEnd) {
+        const pageUrl = event.urlAfterRedirects.split('#')[0];
+        const meaningfulChange = this.pageFailed() || pageUrl !== this.settledPageUrl;
+        this.settledPageUrl = pageUrl;
         this.navigation.set('ready');
         this.pageFailed.set(false);
-        this.focusPending = true;
+        // Native fragment links already manage their target focus; do not steal the next Tab.
+        this.focusPending = meaningfulChange;
       } else if (event instanceof NavigationSkipped) {
         const recovering = this.pageFailed();
         this.navigation.set('ready');

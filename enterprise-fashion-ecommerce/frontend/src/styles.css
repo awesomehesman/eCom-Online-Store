@@ -21,7 +21,7 @@ main:focus { outline: 3px solid currentColor; outline-offset: -3px; }
   overflow-wrap: anywhere;
   transform: translateY(-150%);
 }
-.skip-link:focus { transform: translateY(0); }
+.skip-link:focus { transform: translateY(0); outline-offset: -3px; }
 app-storefront-page-state { display: block; }
 /* Keep live regions mounted for updates, without empty paragraph spacing. */
 p[role="status"]:empty, p[role="alert"]:empty { margin: 0; }

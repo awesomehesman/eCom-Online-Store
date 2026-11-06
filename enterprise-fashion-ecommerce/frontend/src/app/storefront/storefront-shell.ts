@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, ElementRef, Signal, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-storefront-shell',
@@ -7,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" [href]="skipDestination()">Skip to main content</a>
     <header>
       <nav aria-label="Storefront">
         <a routerLink="/" routerLinkActive="current-location"
@@ -20,6 +22,17 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   `,
 })
 export class StorefrontShell {
+  protected readonly skipDestination: Signal<string>;
+
+  constructor(router: Router) {
+    // A fragment-only href resolves against <base href="/">, not a nested page.
+    // Observe settled URLs so this OnPush shell updates without custom key handlers.
+    this.skipDestination = toSignal(router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(event => event.urlAfterRedirects.split('#')[0] + '#main-content'),
+    ), { initialValue: router.url.split('#')[0] + '#main-content' });
+  }
+
   @ViewChild('mainContent', { static: true })
   private mainContent!: ElementRef<HTMLElement>;
 
