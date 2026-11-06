@@ -1,4 +1,4 @@
-# Storefront foundation (FE-M1 / FE-M2 / FE-M3 / FE-M4)
+# Storefront foundation (FE-M1 / FE-M2 / FE-M3 / FE-M4 / FE-M5)
 
 Angular 20, strict TypeScript and standalone components. Run these commands from
 `enterprise-fashion-ecommerce/frontend/`.
@@ -238,3 +238,71 @@ Final FE-M4 results: **17 Angular tests passed**, strict typecheck passed,
 production build passed, and all nine bounded browser verification groups passed
 (including Back/Forward and both refresh scenarios). `git diff --check` passed.
 No manual accessibility tests were executed.
+
+## FE-M5 accessibility and responsive hardening — 2026-11-06
+
+Bounded browser checks reproduced three defects and drove minimal corrections:
+
+- The skip-link box was visible at the viewport edge while its external focus
+  outline was clipped. Its existing outline is now inset inside its padded box.
+- A literal fragment-only link resolved against `<base href="/">`, sending an
+  unsupported address to home instead of bypassing within that page. The native
+  anchor now uses the settled Router URL (including query context) and target
+  fragment. A Router-to-Signal binding updates the OnPush shell; no key handler,
+  additional route, custom history or business authority is introduced.
+- A fragment-only Router completion could refocus main after native bypass had
+  already focused it, stealing a subsequent Tab. Main focus now follows meaningful
+  page changes and recovery; native fragment focus remains browser-owned.
+
+| Applicable requirements | Bounded implementation/verification evidence |
+| --- | --- |
+| REQ-FEB-031, 033; REQ-FSC-032 | Both routes tested at 1280x900, 320x256, portrait 320x640 and landscape 640x320 CSS pixels, including orientation changes. No horizontal page overflow or out-of-width ordinary text/controls under spacing, enlarged text, long headings and wrapped navigation stress. |
+| REQ-FEB-032, 035–036; REQ-FSC-033, 035 | Real Tab/Shift+Tab/Enter checks, native bypass and recovery, visible outlines, viewport containment and link hit-testing at the sampled text rectangles. Existing cancellation, supersession and settled-focus regressions remain. |
+| REQ-FEB-034, 051; REQ-FSC-043 | Reproducible automated evidence only; no universal WCAG or manual review claim. |
+| REQ-FEB-037; REQ-FSC-034, 036 | Chrome accessibility-tree checks for one exposed main, one level-one heading and nonempty exposed link names; document language, titles, target fragments and current-location semantics are also checked. |
+| REQ-FEB-038; REQ-FSC-035–036 | Loading/failure live-region markup is mutually exclusive; loading does not steal focus. Hidden obsolete headings are not exposed. Actual static-asset failure and keyboard recovery are tested without inventing backend outcomes. |
+| REQ-FEB-039–040 | Existing neutral styles and dependencies retained; no branding, token scale, UI framework or canonical breakpoint selected. |
+
+The browser script holds and fails the real not-found JavaScript asset once in its
+loopback test server. It observes actual route loading, releases a controlled 503,
+checks safe failure markup/title/semantics and returns home using the keyboard.
+This is frontend asset-failure injection, not a commerce API, operational response
+or hosting decision. Long test headings and navigation labels are injected only
+into browser fixtures and never enter application content. Each viewport reloads
+its fixture, preventing accumulated styles/text from distorting later cases.
+Keyboard assertions wait for fragment/popstate delivery and the next render before
+sending the next action; they do not manually focus the expected target.
+
+The 320x256 case is the **equivalent reflow viewport** for a 1280x1024 viewport at
+400% zoom. It does not operate or verify Chrome's browser zoom control. Tests also
+apply 200% root text size and WCAG 1.4.12 spacing conditions: line-height 1.5,
+paragraph spacing 2em, letter spacing .12em and word spacing .16em. These are test
+conditions, not Design System values. Emulated orientation is not physical-device
+or sensor verification.
+
+Final automated results (Chrome Headless 157, Node 20.19.4):
+
+- `npm run typecheck`: PASS.
+- `CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm test`:
+  **19/19 PASS**, including new nested bypass/query and fragment-focus regressions,
+  plus strengthened loading-focus, live-region exclusivity and exposed-heading assertions.
+- `npm run build`: PASS.
+- `CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node scripts/verify-accessibility.mjs`:
+  **14 browser verification groups PASS**, retaining history/refresh checks and
+  adding real asset failure, accessibility-tree checks and eight responsive cases.
+- Root `git diff --check`: PASS.
+
+**Manual accessibility checks performed: none.** Automated geometry, hit-testing
+and accessibility-tree assertions do not establish complete WCAG 2.2 AA conformance.
+Manual screen-reader reading order, language/title/current-location announcements,
+live-region timing/duplication (1.3.1, 2.4.2–2.4.3, 4.1.2–4.1.3), visual focus and
+non-obscuration (2.4.7, 2.4.11), contrast/forced-colors (1.4.3, 1.4.11), actual browser
+zoom/text-spacing visual review (1.4.4, 1.4.10, 1.4.12), physical orientation and
+pointer/touch target review (1.3.4, 2.5.8), and other applicable manual checks remain
+outstanding. Hit-testing samples link text rectangles; it is not pixel-level
+validation of every outline or possible overlay.
+
+No Product, Category, Search, Cart, Checkout, Identity or CMS capability is added.
+Commerce evidence, backend Contracts, SSR, hosting/deployment, analytics, production
+deep-link serving and canonical branding remain deferred. Existing development
+advisories are not resolved by this increment. Dependencies and lockfile are unchanged.
