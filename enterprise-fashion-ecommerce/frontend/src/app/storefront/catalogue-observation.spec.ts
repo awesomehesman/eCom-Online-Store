@@ -6,6 +6,10 @@ describe('Anonymous catalogue observation', () => {
   const response = (body: unknown = page) => new Response(JSON.stringify(body), {
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
   });
+  const product = { productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product evidence, never rendered',
+    family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
+    variants: [{ variantId: 'fixture-variant', attributes: {} }],
+    media: [{ mediaId: 'fixture-media', url: 'https://example.invalid/fixture.jpg', alternativeText: 'Synthetic accessory illustration' }] };
   const observe = () => observeCatalogue(new AbortController().signal);
   beforeEach(() => { request = spyOn(window, 'fetch'); });
 
@@ -24,6 +28,14 @@ describe('Anonymous catalogue observation', () => {
       expect(await observe()).toBe('unavailable');
     });
   }
+  it('maps the documented Problem Details 503 to unavailable', async () => {
+    request.and.resolveTo(new Response(JSON.stringify({
+      type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'test',
+    }), { status: 503, headers: {
+      'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+    } }));
+    expect(await observe()).toBe('unavailable');
+  });
   it('handles network failure and abort without success', async () => {
     request.and.rejectWith(new TypeError('private transport detail'));
     expect(await observe()).toBe('unavailable');
@@ -31,8 +43,9 @@ describe('Anonymous catalogue observation', () => {
     expect(await observe()).toBe('unavailable');
   });
   it('rejects invalid JSON', async () => {
-    const broken = response();
-    spyOn(broken, 'json').and.rejectWith(new SyntaxError('invalid'));
+    const broken = new Response('{"items": [', {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
+    });
     request.and.resolveTo(broken);
     expect(await observe()).toBe('unavailable');
   });
@@ -45,7 +58,7 @@ describe('Anonymous catalogue observation', () => {
     });
   }
   it('withholds all non-empty content instead of claiming empty or rendering items', async () => {
-    request.and.resolveTo(response({ ...page, items: [{ productId: 'not-rendered' }] }));
+    request.and.resolveTo(response({ ...page, items: [product] }));
     expect(await observe()).toBe('unsupported');
   });
   it('requires contract response headers', async () => {

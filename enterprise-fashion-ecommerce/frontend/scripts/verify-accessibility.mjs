@@ -19,7 +19,7 @@ const server = createServer(async (req, res) => {
       catalogueRequestCount++;
       const fixture = catalogueFixture;
       if (catalogueRelease) await catalogueRelease;
-      res.writeHead(fixture.status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'browser-fixture' });
+      res.writeHead(fixture.status, { 'Content-Type': fixture.status === 503 && fixture.body !== null ? 'application/problem+json' : 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'browser-fixture' });
       res.end(JSON.stringify(fixture.body));
       return;
     }
@@ -314,18 +314,77 @@ try {
   await evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))');
   await evaluate(`document.querySelector('section button').focus()`);
   const beforeRecheck = catalogueRequestCount;
-  catalogueFixture = { status: 503, body: null };
+  catalogueFixture = { status: 503, body: { type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'browser-fixture' } };
   await key('Enter', 'Enter', 13);
   await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('could not be confirmed')`);
   assert.equal(catalogueRequestCount, beforeRecheck + 1);
+  assert.equal(await evaluate(`document.body.textContent.includes('No products are currently available')`), false);
+  assert.equal(await evaluate(`document.body.textContent.includes('browser-fixture')`), false);
   assert.equal(await evaluate(`document.activeElement === document.querySelector('section button')`), true);
   assert.equal(await evaluate(`getComputedStyle(document.activeElement).outlineStyle !== 'none'`), true);
-  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-not-rendered' }], pageSize: 20, nextCursor: null } };
+  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product evidence, never rendered',
+    family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
+    variants: [{ variantId: 'fixture-variant', attributes: {} }],
+    media: [{ mediaId: 'fixture-media', url: 'https://example.invalid/fixture.jpg', alternativeText: 'Synthetic accessory illustration' }] }], pageSize: 20, nextCursor: null } };
   await key('Enter', 'Enter', 13);
   await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('not supported')`);
-  assert.equal(await evaluate(`document.body.textContent.includes('fixture-not-rendered')`), false);
+  assert.equal(await evaluate(`['fixture-product', 'Synthetic accessory', 'fixture-variant', 'fixture-media'].some(value => document.body.textContent.includes(value))`), false);
+  assert.equal(await evaluate(`document.querySelectorAll('section img, section article').length`), 0);
+  assert.equal(await evaluate(`document.body.textContent.includes('No products are currently available')`), false);
   await checkSemantics();
   console.log('PASS: synthetic catalogue loading, empty, unavailable, unsupported, keyboard recheck and focus preservation');
+  }
+  {
+    catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };
+    await command('Page.navigate', { url: base }, session);
+    await checkContext('Welcome to the storefront', 'Storefront', 'page');
+    await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('No products are currently available')`);
+    await evaluate(`window.competingAnnouncements = false;
+      window.announcementObserver = new MutationObserver(() => {
+        const active = [...document.querySelectorAll('[role=status], [role=alert]')].filter(el => el.textContent.trim());
+        if (active.length > 1) window.competingAnnouncements = true;
+      });
+      window.announcementObserver.observe(document.body, { subtree: true, childList: true, characterData: true });`);
+    let started;
+    let releaseAsset;
+    const requested = new Promise(resolve => { started = resolve; });
+    assetFailure = { file: failedChunk, started, release: new Promise(resolve => { releaseAsset = resolve; }) };
+    // Existing wildcard destination only. Delay its real lazy asset; add no application routes.
+    await evaluate(`history.pushState(null, '', '/pending-first'); dispatchEvent(new PopStateEvent('popstate'));`);
+    await requested;
+    await waitFor(`document.querySelector('[role=status]')?.textContent === 'Opening page…'`);
+    assert.equal(await evaluate(`document.querySelector('section [role=status]').textContent`), '');
+    await evaluate(`history.pushState(null, '', '/pending-second'); dispatchEvent(new PopStateEvent('popstate'));`);
+    await waitFor(`document.querySelector('[role=status]')?.textContent === 'Opening page…'`);
+    await evaluate(`document.querySelector('nav a').focus()`);
+    await key('Enter', 'Enter', 13);
+    await waitFor(`location.pathname === '/' && document.querySelector('section [role=status]')?.textContent.includes('No products are currently available')`);
+    releaseAsset();
+    await evaluate('new Promise(resolve => setTimeout(resolve, 100))');
+    assert.equal(await evaluate(`document.querySelector('h1').textContent`), 'Welcome to the storefront');
+    assert.equal(await evaluate(`document.activeElement.closest('nav') !== null`), true);
+
+    let releaseOld;
+    catalogueFixture = { status: 503, body: null }; // Retain malformed error coverage.
+    catalogueRelease = new Promise(resolve => { releaseOld = resolve; });
+    const before = catalogueRequestCount;
+    await evaluate(`document.querySelector('section button').focus()`);
+    await key('Enter', 'Enter', 13);
+    // Ensure the old server fixture has been captured before issuing the newer intent.
+    const deadline = Date.now() + 10000;
+    while (catalogueRequestCount === before && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.equal(catalogueRequestCount, before + 1);
+    catalogueRelease = undefined;
+    catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };
+    await key('Enter', 'Enter', 13);
+    await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('No products are currently available')`);
+    releaseOld();
+    await evaluate('new Promise(resolve => setTimeout(resolve, 100))');
+    assert.equal(await evaluate(`document.querySelector('section [role=status]').textContent`), 'No products are currently available to browse.');
+    assert.equal(await evaluate('window.competingAnnouncements'), false);
+    await evaluate('window.announcementObserver.disconnect()');
+    await checkSemantics();
+    console.log('PASS: overlapping wildcard navigation cancellation, exclusive announcements and obsolete catalogue suppression');
   }
   console.log('These bounded checks do not certify WCAG conformance or replace manual assistive-technology/zoom review.');
 } finally {

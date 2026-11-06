@@ -85,6 +85,52 @@ describe('Storefront foundation', () => {
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('No products are currently available');
   });
 
+  it('keeps catalogue announcements exclusive during overlapping cancelled navigation', async () => {
+    (window.fetch as jasmine.Spy).and.resolveTo(emptyResponse());
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const router = TestBed.inject(Router);
+    const activeAnnouncements = () => Array.from(root.querySelectorAll('[role=status], [role=alert]'))
+      .filter(element => element.textContent?.trim());
+    expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
+    const focused = root.querySelector<HTMLAnchorElement>('nav a')!;
+    focused.focus();
+    const releases: Array<(allowed: boolean) => void> = [];
+    const started: Array<() => void> = [];
+    const guards = [0, 1].map(index => new Promise<void>(resolve => { started[index] = resolve; }));
+    router.resetConfig(routes.map(route => route.path === '**'
+      ? { ...route, canActivate: [() => new Promise<boolean>(resolve => { releases.push(resolve); started[releases.length - 1](); })] } : route));
+    const subscription = router.events.subscribe(() => {
+      fixture.detectChanges();
+      expect(activeAnnouncements().length).toBeLessThanOrEqual(1);
+    });
+    try {
+      const first = router.navigateByUrl('/pending-first');
+      await guards[0];
+      fixture.detectChanges();
+      expect(root.querySelector('section [role=status]')?.textContent).toBe('');
+      expect(activeAnnouncements().length).toBe(1);
+      const second = router.navigateByUrl('/pending-second');
+      await guards[1];
+      expect(await first).toBeFalse();
+      expect(releases.length).toBe(2);
+      fixture.detectChanges();
+      expect(root.querySelector('section [role=status]')?.textContent).toBe('');
+      releases[1](false);
+      expect(await second).toBeFalse();
+      releases[0](true);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(router.url).toBe('/');
+      expect(activeAnnouncements().length).toBe(1);
+      expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
+      expect(document.activeElement).toBe(focused);
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+    } finally {
+      subscription.unsubscribe();
+    }
+  });
+
   it('bootstraps the standalone application shell with the actual route configuration', async () => {
     const host = document.createElement('app-root');
     document.body.append(host);
