@@ -1,9 +1,24 @@
 /* Local neutral usability styles; these are not canonical design tokens. */
 html { color: #1a1a1a; background: #fff; font-family: sans-serif; line-height: 1.5; }
 body { margin: 0; }
-header, main { padding: 1rem; }
-main { max-width: 65ch; overflow-wrap: anywhere; }
-a { color: #003b80; }
+*, *::before, *::after { box-sizing: border-box; }
+app-root, app-storefront-shell { display: block; min-inline-size: 0; }
+header, main { padding: 1rem; overflow-wrap: anywhere; }
+main { max-inline-size: 65ch; }
+h1 { line-height: 1.3; }
+a { color: #003b80; text-underline-offset: 0.15em; }
+nav a { display: inline-block; padding-block: 0.5rem; }
+a[aria-current="page"] { font-weight: bold; }
 :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
-.skip-link { position: absolute; top: 0; left: 1rem; padding: 0.75rem; background: #fff; transform: translateY(-150%); }
+main:focus { outline: 3px solid currentColor; outline-offset: -3px; }
+.skip-link {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0.5rem;
+  max-inline-size: calc(100% - 1rem);
+  padding: 0.75rem;
+  background: #fff;
+  overflow-wrap: anywhere;
+  transform: translateY(-150%);
+}
 .skip-link:focus { transform: translateY(0); }

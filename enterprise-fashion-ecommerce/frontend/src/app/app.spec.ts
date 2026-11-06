@@ -63,6 +63,36 @@ describe('Storefront foundation', () => {
     expect(document.activeElement).toBe(root.querySelector('main'));
   });
 
+  it('marks only the established entry as current and preserves the shell across navigation', async () => {
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const main = root.querySelector('main');
+    const nav = root.querySelector('nav');
+    expect(nav?.getAttribute('aria-label')).toBe('Storefront');
+    expect(nav?.querySelector('a')?.getAttribute('aria-current')).toBe('page');
+    await TestBed.inject(Router).navigateByUrl('/missing');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(root.querySelector('main')).toBe(main);
+    expect(root.querySelector('nav')).toBe(nav);
+    expect(nav?.querySelector('[aria-current]')).toBeNull();
+    expect(root.querySelectorAll('h1').length).toBe(1);
+    expect(root.querySelectorAll('main').length).toBe(1);
+  });
+
+  it('uses native links and no positive tab stops or keyboard interception', async () => {
+    const fixture = await open('/missing');
+    const root: HTMLElement = fixture.nativeElement;
+    for (const link of Array.from(root.querySelectorAll('a'))) {
+      expect(link.getAttribute('href')).toBeTruthy();
+      expect(link.getAttribute('role')).toBeNull();
+      const key = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+      link.dispatchEvent(key);
+      expect(key.defaultPrevented).toBeFalse();
+    }
+    expect(Array.from(root.querySelectorAll('[tabindex]')).some(el => Number(el.getAttribute('tabindex')) > 0)).toBeFalse();
+  });
+
   it('states unavailability without fabricating commerce or customer evidence', async () => {
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
@@ -71,7 +101,7 @@ describe('Storefront foundation', () => {
     );
     expect(root.querySelector('button, form, img, input, [itemscope]')).toBeNull();
     expect(root.textContent).not.toMatch(/R\s*\d|ZAR|in stock|sale|discount|signed in|cart \(0\)/i);
-    expect(root.querySelectorAll('a').length).toBe(1);
+    expect(root.querySelectorAll('a').length).toBe(2);
   });
 
   it('distinguishes unsupported addresses and offers a working return destination', async () => {

@@ -1,4 +1,4 @@
-# Storefront foundation (FE-M1)
+# Storefront foundation (FE-M1 / FE-M2)
 
 Angular 20, strict TypeScript and standalone components. Run these commands from
 `enterprise-fashion-ecommerce/frontend/`.
@@ -30,8 +30,10 @@ CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm te
 
 ## Implementation scope
 
-The root shell provides semantic header/main regions and a keyboard-visible skip
-link. The root route lazily loads a truthful storefront introduction. Unsupported
+The standalone StorefrontShell owns semantic header/navigation/main regions and a
+keyboard-visible skip link. App owns route composition; route components own page
+content. The sole navigation destination is the established storefront entry, with
+`aria-current="page"` only when that entry is active. The root route lazily loads a truthful storefront introduction. Unsupported
 addresses receive a distinct page with a return link. Route titles and main-region
 focus communicate navigation context. There are no fabricated catalogue, Price,
 Stock, Category, promotional, customer or CMS representations. No backend requests
@@ -67,11 +69,66 @@ npm audit --omit=dev --registry=https://registry.npmjs.org/
 The initial audit reports moderate advisories in transitive CLI tooling (glob and
 minimatch); npm's suggested automatic fix changes the Angular major version and is
 not applied. These are an unresolved tooling dependency issue, not a production
-bundle dependency. The production-only audit reports zero vulnerabilities. Do not use `npm audit fix --force` to bypass the Angular 20
-baseline. No runtime secret or environment configuration is required.
+bundle dependency. The production-only audit reports zero vulnerabilities. Do not
+use `npm audit fix --force` to bypass the Angular 20 baseline. No runtime secret or environment configuration is required.
 
 Governing references: `../.ai/core/ARCHITECTURE.md`,
 `../.ai/core/DESIGN-SYSTEM.md`, `../.ai/frontend/ANGULAR.md`,
 `../.ai/frontend/ACCESSIBILITY.md`,
 `../specifications/frontend/shared/frontend-baseline.md` and
 `../specifications/frontend/storefront/storefront-shell-content.md`.
+
+## FE-M2 bounded accessibility verification — 2026-11-06
+
+Automated verification used Chrome Headless 157 on macOS, Node 20.19.4 and the
+unchanged Karma/Jasmine setup. Eight Angular tests passed. Strict compilation and
+the production build passed. No dependency or lockfile changes were required.
+
+Run the additional checks from this directory after building:
+
+```sh
+npm run build
+CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node scripts/verify-accessibility.mjs
+```
+
+The script uses Node built-ins and Chrome's DevTools pipe, starts an ephemeral
+loopback-only static server with local SPA fallback, and cleans up its temporary
+browser profile. Set `CHROME_BIN` on other platforms; otherwise it tries
+`google-chrome`. This local test server is not a hosting configuration. Missing
+Chrome, failed assertions or browser timeouts make the command fail.
+
+| Automated evidence | Result and boundary |
+| --- | --- |
+| Landmarks and headings | One main region and one page h1; named storefront navigation; same shell survives route changes. Supports bounded review of 1.3.1 and 2.4.6. |
+| Current location | Home link has `aria-current="page"` on the entry, absent on not-found. No unsupported destination added. |
+| Keyboard and bypass | Real browser Tab/Enter activates the visible skip link and focuses main. Tab/Shift+Tab preserves link order; Enter returns from not-found. Supports bounded review of 2.1.1, 2.1.2 and 2.4.1. |
+| Navigation context | Both route titles are checked; recovery puts focus on main and restores the storefront title. Supports bounded review of 2.4.2 and 2.4.3. |
+| Focus appearance | Focused skip link has an outline and lies within the viewport. This is partial evidence for 2.4.7 and 2.4.11, not visual validation of every state. |
+| Responsive stress | Both routes at 320 and 1280 CSS pixels retain main/h1 structure with no horizontal page overflow or out-of-width content bounds, including 200% root text size, long unbroken headings, line-height 1.5, paragraph spacing 2em, letter spacing .12em and word spacing .16em. These are test conditions, not canonical breakpoints or design tokens. |
+| Truthfulness | Tests preserve unavailable browsing/purchasing text and absence of products, prices, stock, customer state and commerce controls. |
+
+The long text is injected only into the test browser; it is not application
+content. Width/text-size stress provides partial evidence for 1.4.4, 1.4.10 and
+1.4.12. It does not simulate or prove actual browser zoom at 200%/400%, all text
+spacing combinations, absence of every overlap, or every device/orientation.
+
+**Manual verification performed: none.** No screen-reader or visual accessibility
+sign-off is claimed. The following applicable WCAG 2.2 AA checks remain unverified
+or only partially covered and require human review before customer release:
+
+- 1.3.1, 1.3.2 and 4.1.2: screen-reader landmarks, reading order, link names,
+  current-page announcement and semantics across supported browser/AT combinations.
+- 1.4.3 and 1.4.11: measured text/non-text contrast and focus appearance, including
+  forced-colors/high-contrast settings.
+- 1.4.4, 1.4.10 and 1.4.12: actual browser zoom, reflow, full user text-spacing
+  overrides and visual clipping/overlap checks.
+- 1.3.4 and 2.5.8: physical orientation and target-size review on supported devices.
+- 2.1.1, 2.1.2, 2.4.1–2.4.3, 2.4.6, 2.4.7 and 2.4.11: complete manual keyboard,
+  focus visibility/non-obscuration, bypass and announcement review on both routes.
+- 3.1.1, 3.2.1 and 3.2.3: language announcement and predictable focus/navigation
+  behavior with assistive technology. The document declares English, but AT output
+  has not been reviewed.
+
+This is a scoped verification record, not an exhaustive WCAG applicability audit
+or certification. Media, forms, authentication, payments and other commerce
+journeys are absent; their criteria must be assessed if those capabilities arrive.
