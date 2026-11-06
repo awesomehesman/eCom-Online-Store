@@ -559,3 +559,68 @@ component. Blob interception does not establish real HTTPS delivery, provider
 availability, rights or media-security acceptance. Manual screen-reader, actual
 zoom and visual accessibility checks remain outstanding; no complete WCAG
 conformance is claimed.
+
+## Isolated catalogue page validation and collection — 2026-11-07
+
+`validateCataloguePage(unknown)` is a pure, dependency-free JSON representation
+boundary. It returns `null` for an unsupported/invalid page as a whole, or a
+branded, detached and deeply frozen page. It preserves complete validated Product,
+Variant and media fields; the existing summary consumes only its supported
+presentation projection. No input is repaired, silently dropped or reordered.
+
+Validation covers exact required/optional properties, field types, public IDs,
+family, supported standard `1.0.0`, defining Size/Colour applicability, matching
+Variant Attribute structures, family-compatible canonical sizes, initial BLACK
+colour/Black label, unique Product/Variant/media identities and canonical Variant
+configurations. Product IDs must follow the Contract's ascending ASCII/UTF-8 order;
+media order is retained. Media must have nonblank alternatives, credential-free
+HTTPS URLs and, when Variant-associated, membership in the same Product.
+Nonblank names/descriptions/labels are required; size labels are retained, not
+translated or inferred. Unknown governed extensions are rejected rather than
+accepted as defaults.
+
+Page sizes 1–100 and item-count bounds are validated. Empty pages require a null
+cursor. Non-null cursors are syntax/length checked and preserved unchanged: no
+cursor decoding, generation, requests, pagination controls or cross-page merging
+are implemented. The isolated collection qualifies non-terminal pages without
+claiming an exact total or complete catalogue. No HTTP headers or response status
+are validated here: the existing anonymous observation boundary retains that
+responsibility and remains unchanged.
+
+`ProductSummaryListComponent` accepts only the branded validated page type. It
+renders a semantic Products list under a caller-owned catalogue `h2`, reuses
+summary `h3` headings and media failure containment, and tracks stable Product IDs.
+It adds no focus movement, live regions, navigation, purchase controls or API calls.
+No production entry/route imports, enablement flags or production fixtures were
+introduced. Live non-empty responses remain unsupported in `StorefrontEntry`.
+
+Contract structure cannot establish Product completeness, publication eligibility,
+rights, meaningful alternative text or size-label accuracy, half-size applicability,
+media-security acceptance, current visibility or freshness. These remain governed
+producer obligations. Local URL checks cannot prove public availability or absence
+of private storage metadata. Validation is not publication or release authority.
+
+Synthetic tests cover valid families/pages/associations, malformed fields and
+whole-page rejection, canonical uniqueness, preserved order, immutable snapshots,
+collection semantics, literal text, narrow text-spaced layouts and focus. Native
+Chrome image decoding uses deterministic Blob interception, not external media
+hosts. A production-entry regression verifies that a valid positive response still
+renders no Product content. Existing empty/unavailable, cancellation and stale
+response tests remain in place. Applicable requirements include REQ-FCD-014–020,
+023–024, 030–035 and 044, and REQ-FEB-031–038 and 051.
+
+Live positive rendering, backend publication, pagination interaction, Product
+links/details, Search, prices, Stock, Cart and Checkout remain deferred. Before live
+integration, producer/consumer conformity, current eligibility/withdrawal evidence,
+release review and real backend verification remain necessary. Manual screen-reader,
+actual browser zoom and visual accessibility verification remain outstanding.
+
+Verification for this increment: `npm run typecheck` passed; configured Chrome
+`npm test` passed 168/168 tests (89 added); `npm run build` passed; the unchanged
+`scripts/verify-accessibility.mjs` passed all 16 existing browser groups using
+`CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'`.
+`git diff --check` passed. The isolated files are compiled by the test build;
+application typecheck/build verify the unchanged live application. Production
+JavaScript inspection found neither the new collection selector/validator marker
+nor the synthetic Product name. These checks establish no live positive backend
+integration or complete WCAG conformance.
