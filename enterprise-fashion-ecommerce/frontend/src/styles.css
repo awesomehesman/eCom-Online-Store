@@ -1,0 +1,9 @@
+/* Local neutral usability styles; these are not canonical design tokens. */
+html { color: #1a1a1a; background: #fff; font-family: sans-serif; line-height: 1.5; }
+body { margin: 0; }
+header, main { padding: 1rem; }
+main { max-width: 65ch; overflow-wrap: anywhere; }
+a { color: #003b80; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.skip-link { position: absolute; top: 0; left: 1rem; padding: 0.75rem; background: #fff; transform: translateY(-150%); }
+.skip-link:focus { transform: translateY(0); }
