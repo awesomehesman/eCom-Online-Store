@@ -1,14 +1,25 @@
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { StorefrontEntry } from './storefront/storefront-entry';
 import { Title } from '@angular/platform-browser';
 import { App } from './app';
 import { routes } from './app.routes';
 
 describe('Storefront foundation', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [App], providers: [provideRouter(routes)],
-  }));
+  beforeEach(() => {
+    spyOn(window, 'fetch').and.resolveTo(new Response('', { status: 503 }));
+    TestBed.configureTestingModule({ imports: [App], providers: [provideRouter(routes)] });
+  });
+
+  function emptyResponse(): Response {
+    const response = new Response(null, {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
+    });
+    spyOn(response, 'json').and.resolveTo({ items: [], pageSize: 20, nextCursor: null });
+    return response;
+  }
 
   async function open(url = '/') {
     const fixture = TestBed.createComponent(App);
@@ -18,6 +29,107 @@ describe('Storefront foundation', () => {
     fixture.detectChanges();
     return fixture;
   }
+
+
+  it('announces a confirmed empty observation and rechecks without moving focus', async () => {
+    (window.fetch as jasmine.Spy).and.callFake(async () => emptyResponse());
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
+    const button = root.querySelector<HTMLButtonElement>('button')!;
+    button.focus();
+    button.click();
+    fixture.detectChanges();
+    expect(root.querySelector('section [role=status]')?.textContent).toBe('Checking catalogue…');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(button);
+    expect(window.fetch).toHaveBeenCalledTimes(2);
+    expect(root.querySelectorAll('h1').length).toBe(1);
+  });
+
+  it('aborts entry requests on departure and disregards late results', async () => {
+    let finish!: (response: Response) => void;
+    (window.fetch as jasmine.Spy).and.returnValue(new Promise<Response>(resolve => { finish = resolve; }));
+    const fixture = await open();
+    const options = (window.fetch as jasmine.Spy).calls.mostRecent().args[1] as RequestInit;
+    await TestBed.inject(Router).navigateByUrl('/missing');
+    await fixture.whenStable();
+    expect(options.signal?.aborted).toBeTrue();
+    finish(new Response('', { status: 503 }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('h1').textContent).toBe('Page not available');
+    expect(fixture.nativeElement.querySelector('#catalogue-heading')).toBeNull();
+  });
+
+  it('preserves the newer recheck when an aborted request completes late', async () => {
+    let obsolete!: (response: Response) => void;
+    (window.fetch as jasmine.Spy).and.returnValue(new Promise<Response>(resolve => { obsolete = resolve; }));
+    const fixture = await open();
+    const previous = (window.fetch as jasmine.Spy).calls.mostRecent().args[1] as RequestInit;
+    (window.fetch as jasmine.Spy).and.resolveTo(emptyResponse());
+    (fixture.debugElement.query(By.directive(StorefrontEntry)).componentInstance as StorefrontEntry).recheck();
+    expect(previous.signal?.aborted).toBeTrue();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await fixture.whenStable();
+    obsolete(new Response('', { status: 503 }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('No products are currently available');
+  });
+
+  it('keeps catalogue announcements exclusive during overlapping cancelled navigation', async () => {
+    (window.fetch as jasmine.Spy).and.resolveTo(emptyResponse());
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const router = TestBed.inject(Router);
+    const activeAnnouncements = () => Array.from(root.querySelectorAll('[role=status], [role=alert]'))
+      .filter(element => element.textContent?.trim());
+    expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
+    const focused = root.querySelector<HTMLAnchorElement>('nav a')!;
+    focused.focus();
+    const releases: Array<(allowed: boolean) => void> = [];
+    const started: Array<() => void> = [];
+    const guards = [0, 1].map(index => new Promise<void>(resolve => { started[index] = resolve; }));
+    router.resetConfig(routes.map(route => route.path === '**'
+      ? { ...route, canActivate: [() => new Promise<boolean>(resolve => { releases.push(resolve); started[releases.length - 1](); })] } : route));
+    const subscription = router.events.subscribe(() => {
+      fixture.detectChanges();
+      expect(activeAnnouncements().length).toBeLessThanOrEqual(1);
+    });
+    try {
+      const first = router.navigateByUrl('/pending-first');
+      await guards[0];
+      fixture.detectChanges();
+      expect(root.querySelector('section [role=status]')?.textContent).toBe('');
+      expect(activeAnnouncements().length).toBe(1);
+      const second = router.navigateByUrl('/pending-second');
+      await guards[1];
+      expect(await first).toBeFalse();
+      expect(releases.length).toBe(2);
+      fixture.detectChanges();
+      expect(root.querySelector('section [role=status]')?.textContent).toBe('');
+      releases[1](false);
+      expect(await second).toBeFalse();
+      releases[0](true);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(router.url).toBe('/');
+      expect(activeAnnouncements().length).toBe(1);
+      expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
+      expect(document.activeElement).toBe(focused);
+      expect(window.fetch).toHaveBeenCalledTimes(1);
+    } finally {
+      subscription.unsubscribe();
+    }
+  });
 
   it('bootstraps the standalone application shell with the actual route configuration', async () => {
     const host = document.createElement('app-root');
@@ -96,10 +208,10 @@ describe('Storefront foundation', () => {
   it('states unavailability without fabricating commerce or customer evidence', async () => {
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
-    expect(root.querySelector('main')?.textContent?.trim()).toBe(
+    expect(root.querySelector('main')?.textContent?.trim()).toContain(
       'Welcome to the storefrontProduct browsing and purchasing are not available here yet.',
     );
-    expect(root.querySelector('button, form, img, input, [itemscope]')).toBeNull();
+    expect(root.querySelector('form, img, input, [itemscope]')).toBeNull();
     expect(root.textContent).not.toMatch(/R\s*\d|ZAR|in stock|sale|discount|signed in|cart \(0\)/i);
     expect(root.querySelectorAll('a').length).toBe(2);
   });
@@ -137,7 +249,7 @@ describe('Storefront foundation', () => {
     const status = root.querySelector('[role="status"]');
     expect(status?.textContent).toBe('Opening page…');
     expect(document.activeElement).toBe(focusedLink);
-    expect(root.querySelectorAll('[role="status"]').length).toBe(1);
+    expect(Array.from(root.querySelectorAll('[role="status"]')).filter(el => el.textContent?.trim()).length).toBe(1);
     expect(root.querySelectorAll('[role="alert"]').length).toBe(1);
     expect(status?.getAttribute('aria-atomic')).toBe('true');
     expect(root.querySelector('[role="alert"]')?.textContent).toBe('');
@@ -171,7 +283,7 @@ describe('Storefront foundation', () => {
     expect(Array.from(root.querySelectorAll('[role="status"], [role="alert"]')).filter(el => el.textContent?.trim()).length).toBe(1);
     expect(root.querySelector('nav')).toBe(nav);
     expect(document.activeElement).toBe(root.querySelector('main'));
-    expect(root.querySelector('button')).toBeNull();
+    expect(root.querySelector('button')?.closest('[hidden]')).not.toBeNull();
     root.querySelector<HTMLAnchorElement>('nav a')!.click();
     await fixture.whenStable();
     fixture.detectChanges();

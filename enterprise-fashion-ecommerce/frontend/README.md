@@ -414,3 +414,48 @@ FE-M6 regression verification executed on 2026-11-06:
 
 These results confirm the existing frontend regressions only, not CMS eligibility,
 CMS Contract conformance, independent review or manual accessibility completion.
+
+## Anonymous catalogue observation — 2026-11-06
+
+The existing entry now requests `GET /api/v1/products` once on creation and on
+an explicit **Check catalogue again** action. Native fetch uses `credentials:
+'omit'`, `cache: 'no-store'` and rejects redirects. No response is persisted.
+Only HTTP 200 JSON with the expected headers, exact page envelope, default page
+size 20, empty items and null continuation confirms an empty eligible catalogue.
+Failures, invalid JSON/metadata and unavailable authority never become empty
+success. Non-empty envelopes are unsupported: Product bodies are neither
+interpreted nor rendered, and no positive Product-schema compatibility is claimed.
+
+Rechecks supersede/abort earlier requests; late responses and responses after
+entry destruction cannot update the view. Catalogue status uses a mounted polite
+live region, suppressed during route loading/failure to avoid competing shell
+announcements. Rechecking preserves focus; shell landmarks, headings, bypass,
+routes and history remain unchanged. Purchasing remains unavailable.
+
+Applicable requirements: FEB-004–007, 014–021, 035–038, 049 and 051;
+FCD-004/007 and source-Domain non-authority; FSC-019, 029–031, 035 and 043.
+The Product catalogue companion §§4–5, 10–13 and its paired OpenAPI define the
+consumed wire semantics. Contract eligibility for development does not establish
+release approval.
+
+`npm start` uses `proxy.conf.json` to reach a separately running local backend at
+`http://127.0.0.1:8080`. This is development-only plumbing; it selects no production
+host, CORS policy, deployment or reverse proxy. A missing/unconfigured backend
+produces safe unavailability. No backend service, database or cursor secret is
+started/configured by the frontend. Production needs a separately reviewed API
+connection arrangement.
+
+Verification: strict typecheck, 41 Angular tests and production build passed.
+The Chrome production-build verifier passes 15 bounded groups. Its local HTTP
+server supplies explicitly synthetic catalogue fixtures for loading, empty,
+unavailable and unsupported responses; native keyboard recheck and focus are
+verified. Request-option, malformed-response, navigation destruction and late
+superseded-response checks run in the Angular suite. Fixtures prove consumer
+handling, not Product publication, server correctness or live deployment.
+
+**No real local backend smoke test was run.** Manual screen-reader announcement
+review, visual accessibility review, actual browser zoom and physical-device
+checks remain outstanding. Automated checks do not establish complete WCAG 2.2 AA
+conformance. Product rendering/details, Search, Pricing, Inventory, Cart,
+Checkout, Staff authorization and publication remain deferred. Producer/consumer
+release review and operational connection verification remain required.
