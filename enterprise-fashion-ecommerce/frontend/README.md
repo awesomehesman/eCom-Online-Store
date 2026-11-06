@@ -459,3 +459,44 @@ checks remain outstanding. Automated checks do not establish complete WCAG 2.2 A
 conformance. Product rendering/details, Search, Pricing, Inventory, Cart,
 Checkout, Staff authorization and publication remain deferred. Producer/consumer
 release review and operational connection verification remain required.
+
+## Isolated Product summary — 2026-11-06
+
+`ProductSummaryComponent` is a standalone OnPush presentation component with one
+required signal input. Its narrow projection uses the catalogue Contract's `name`,
+`description` and optional presentation of `family` (Apparel, Footwear, Accessories).
+Family remains required in the complete OpenAPI Product; omitting it here only
+omits summary context. This type is not a complete wire schema or runtime validator.
+A future caller must supply separately validated, eligible Product evidence.
+
+The component uses an article, an h3 intended beneath the catalogue h2, plain
+Angular text interpolation and optional family text. HTML-like descriptions are
+literal text. Local host styling provides block layout, minimum-size resilience
+and wrapping without introducing branding, tokens or responsive breakpoints.
+It adds no focus changes, live announcements, requests or persistence.
+
+The component is deliberately not imported into production entry/routing or the
+catalogue observation flow. Existing non-empty responses remain unsupported.
+Live positive catalogue rendering is prohibited until separately authorized and
+its validation, visibility, freshness and release-review prerequisites are met.
+Prices, stock, purchasing eligibility, detail links, controls, Variant selection
+and media are excluded.
+
+Thirteen new Chrome-run unit tests use synthetic contract-shaped Product evidence
+and presentation projections. They cover text/family, omitted family, long content,
+literal HTML-like text, absence of interactive/media/commercial output, no fetch
+or XMLHttpRequest calls, focus preservation, and real layout at 320/640 CSS pixels
+with enlarged text and increased spacing. Enlarged text is not actual browser zoom
+or physical-device orientation verification. Fixtures are test-only: no live Product
+is created or published. The isolated component is not reachable by the existing
+production browser verifier; adding a fixture route/build solely for it was avoided.
+
+Verification: `npm run typecheck` passed; `npm test` with the configured Chrome
+passed 56/56 tests; `npm run build` passed; the unchanged
+`scripts/verify-accessibility.mjs` passed all 16 existing browser groups with
+`CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'`.
+The test compilation includes the isolated component; the application typecheck
+and production build validate the existing application and do not imply live
+component integration. Manual screen-reader, actual zoom and visual accessibility
+review remain outstanding. No full WCAG conformance or production readiness is
+claimed.
