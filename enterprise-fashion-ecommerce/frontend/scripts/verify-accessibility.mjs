@@ -8,9 +8,21 @@ import assert from 'node:assert/strict';
 
 const root = resolve('dist/storefront/browser');
 let assetFailure;
+// Synthetic catalogue responses only: these checks do not contact a real backend.
+let catalogueFixture = { status: 503, body: null };
+let catalogueRelease;
+let catalogueRequestCount = 0;
 const server = createServer(async (req, res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    if (pathname === '/api/v1/products') {
+      catalogueRequestCount++;
+      const fixture = catalogueFixture;
+      if (catalogueRelease) await catalogueRelease;
+      res.writeHead(fixture.status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'browser-fixture' });
+      res.end(JSON.stringify(fixture.body));
+      return;
+    }
     const path = resolve(root, '.' + pathname);
     if (!path.startsWith(root + '/') && path !== root) { res.writeHead(403).end(); return; }
     // Local SPA fallback only; this does not select a hosting configuration.
@@ -97,7 +109,7 @@ async function checkContext(heading, title, current) {
 }
 async function key(key, code, virtualKey, modifiers = 0) {
   for (const type of ['keyDown', 'keyUp']) {
-    await command('Input.dispatchKeyEvent', { type, key, code, windowsVirtualKeyCode: virtualKey, modifiers }, session);
+    await command('Input.dispatchKeyEvent', { type, key, code, windowsVirtualKeyCode: virtualKey, modifiers, ...(type === 'keyDown' && key === 'Enter' ? { text: '\r' } : {}) }, session);
   }
 }
 async function waitFor(condition) {
@@ -285,6 +297,35 @@ try {
       }
       console.log(`PASS: ${path} ${viewport.label} ${viewport.width}x${viewport.height}, text spacing, long content, wrapped navigation, unobscured focus and keyboard bypass/recovery`);
     }
+  }
+  {
+  catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };
+  let release;
+  catalogueRelease = new Promise(resolve => { release = resolve; });
+  await command('Page.navigate', { url: base }, session);
+  await ready('Welcome to the storefront');
+  await waitFor(`document.querySelector('section [role=status]')?.textContent === 'Checking catalogue…'`);
+  assert.equal(await evaluate(`document.querySelector('section button').disabled`), false);
+  release();
+  catalogueRelease = undefined;
+  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('No products are currently available')`);
+  await checkSemantics();
+  await waitFor(`document.activeElement.id === 'main-content'`);
+  await evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))');
+  await evaluate(`document.querySelector('section button').focus()`);
+  const beforeRecheck = catalogueRequestCount;
+  catalogueFixture = { status: 503, body: null };
+  await key('Enter', 'Enter', 13);
+  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('could not be confirmed')`);
+  assert.equal(catalogueRequestCount, beforeRecheck + 1);
+  assert.equal(await evaluate(`document.activeElement === document.querySelector('section button')`), true);
+  assert.equal(await evaluate(`getComputedStyle(document.activeElement).outlineStyle !== 'none'`), true);
+  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-not-rendered' }], pageSize: 20, nextCursor: null } };
+  await key('Enter', 'Enter', 13);
+  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('not supported')`);
+  assert.equal(await evaluate(`document.body.textContent.includes('fixture-not-rendered')`), false);
+  await checkSemantics();
+  console.log('PASS: synthetic catalogue loading, empty, unavailable, unsupported, keyboard recheck and focus preservation');
   }
   console.log('These bounded checks do not certify WCAG conformance or replace manual assistive-technology/zoom review.');
 } finally {
