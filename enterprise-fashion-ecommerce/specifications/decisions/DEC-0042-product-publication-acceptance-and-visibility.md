@@ -4,7 +4,7 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Date:** 2026-10-30
 - **Last Updated:** 2026-11-06
 - **Owner:** Product
@@ -35,6 +35,7 @@ of this record's status.
 | P1 — Content Acceptance Checklist 1.0 | Product Business Owner | APPROVED | Business acceptance policy below |
 | P2 — Media acceptance and minimum image requirement | Product Business Owner | APPROVED, subject to Security controls | Product policy does not approve the security-check authority or operational controls |
 | P4 — Lifecycle and acceptance reuse | Product Business Owner | APPROVED | Only the four specified transitions and reuse boundaries below |
+| Initial Product operating model and additional business policy | Product Business Owner | APPROVED in Product-owner capacity only; recorded 2026-11-06 | Business responsibility and conditional eligibility only; no Staff assignment, Security/Identity approval or operational authority |
 | S1 — Media security controls | Security Owner | PENDING | Checking authority, evidence and invalidation controls require accountable confirmation |
 | P3 / S2 — Contextual Staff authorization implementation | Security Owner | PENDING | Assignments, separation, authentication strength and revalidation choices remain unresolved |
 
@@ -44,6 +45,47 @@ confirmed decisions. Recorded on 2026-10-30; a separate original approval date w
 supplied. No Security approval, independent reviewer, signature or independent human
 review is claimed. A recommendation or an unselected ACCEPT / REJECT / AMEND field is
 not an accountable disposition.
+
+## Product-Owner Business Disposition — Recorded 2026-11-06
+
+The Product owner explicitly confirmed the following operating model and additional
+business policy in the instruction authorizing this record. This is attributable
+Product-owner business disposition only, recorded on 2026-11-06. No personal name,
+independent reviewer, signature, Security or Identity approval is inferred. Existing
+P1, P2 and P4 approvals retain their original scope and provenance.
+
+| Confirmed direction | Approved Product business disposition and limitation |
+| --- | --- |
+| 1A — Initial operator | The founder is the only initial operator. This identifies intended business responsibility, not authenticated Staff identity or an access assignment. |
+| 2B — Publication eligibility | The founder and future explicitly designated Product publishers may be eligible to publish only after required content and media acceptance. Designation alone grants no operational permission; assignments and contextual authorization remain governed separately. |
+| 3C — Acceptance/publication separation | Separation is risk-based, subject to Security-approved restrictions. This permits neither blanket same-actor publication nor an assumed independent approval chain. |
+| 4A — Media usage rights | The founder/Product owner initially owns media usage rights confirmation. Required evidence must be attributable, bound to the relevant revisions and withdrawable; responsibility alone is not evidence that rights have been verified. |
+| Additional policy — Higher-risk Products | Candidate categories include disputed/uncertain media rights, unresolved security findings, sensitive/restricted content, invalidated acceptance evidence and exceptional publication handling. These are business candidates for Security assessment, not a completed Security classification or a closed taxonomy. |
+| Additional policy — Mandatory evidence | Missing mandatory evidence always blocks publication. Risk classification does not override mandatory controls or permit publication with unresolved required acceptance. |
+| Additional policy — Withdrawal | The founder initially handles Product withdrawal as business responsibility. Future operators require explicitly governed assignments; applicable Security controls remain mandatory for every operator. This grants no withdrawal permission and does not change P4's lifecycle boundaries. |
+
+These confirmations reduce business ambiguity; they do not establish Staff identity,
+Staff association, Role/Permission assignments, privileged assurance or operational
+permissions. Customer Authentication, founder status and publisher designation do
+not substitute for trusted Identity evidence or Product contextual authorization.
+Media-rights confirmation does not establish media-security acceptance.
+
+S1 checking authority, trustworthy evidence/compatibility and invalidation remain
+unresolved. P3/S2 still requires accountable decisions on eligible assignments,
+action classification, same-actor restrictions, applicable MFA/reauthentication,
+independent approval, assignment withdrawal, in-flight revalidation, audit failure
+and uncertain outcomes. The approved risk-based business direction does not choose
+those Security or Identity controls. Administration coordination and required review
+also remain unresolved; no parallel authorization model is introduced.
+
+[DEC-0012 v0.2.0](DEC-0012-administrative-role-permission-matrix.md) remains Proposed
+and unchanged. Neither its full matrix nor its bounded operational policy is
+approved by this disposition. DEC-0042 remains Proposed and non-authoritative;
+overall acceptance and applicable synchronization remain separate gates.
+**Operational publication remains NO-GO until required controls are implemented
+and verified under the applicable governance and implementation authorization.**
+Default-deny boundaries remain unchanged. No scanner, Identity Provider, audit
+mechanism, Role, Permission identifier, code change or deployment is selected.
 
 ## Product-Owner-Approved Business Policy
 
@@ -319,5 +361,6 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-11-06 | Proposed | Recorded explicit Product-owner initial operating model 1A/2B/3C/4A and additional publishing, risk-candidate, rights-evidence and withdrawal business policy; preserved P1/P2/P4, pending S1/P3 controls, Proposed/non-authoritative lifecycle and operational publication NO-GO. |
 | 0.2.0 | 2026-11-06 | Proposed | Prepared consolidated S1 and P3/S2 options and recommended directions linked to DEC-0012 v0.2.0; preserved Product P1/P2/P4 approvals, pending accountable choices, Proposed/non-authoritative lifecycle and all implementation restrictions. |
 | 0.1.0 | 2026-10-30 | Proposed | Recorded confirmed Product-owner P1/P2/P4 policy separately from inherited Security requirements and pending S1/P3 controls; preserved fail-closed visibility, lifecycle/history boundaries and separate acceptance, synchronization and implementation gates. |
