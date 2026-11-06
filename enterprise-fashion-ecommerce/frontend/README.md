@@ -1,4 +1,4 @@
-# Storefront foundation (FE-M1 / FE-M2)
+# Storefront foundation (FE-M1 / FE-M2 / FE-M3)
 
 Angular 20, strict TypeScript and standalone components. Run these commands from
 `enterprise-fashion-ecommerce/frontend/`.
@@ -132,3 +132,55 @@ or only partially covered and require human review before customer release:
 This is a scoped verification record, not an exhaustive WCAG applicability audit
 or certification. Media, forms, authentication, payments and other commerce
 journeys are absent; their criteria must be assessed if those capabilities arrive.
+
+## FE-M3 presentation states — 2026-11-06
+
+This increment implements REQ-FEB-014–018, 020–021, 036–038 and the applicable
+REQ-FSC-012, 028–031 boundaries without introducing business state or a store.
+`StorefrontPageStateComponent` reuses heading/description presentation for three
+existing page outcomes; it accepts only their typed presentation names. Recovery
+links remain owned by their route or the persistent shell.
+
+| Applicable state | Evidence and presentation |
+| --- | --- |
+| Commerce unavailable | Static implementation scope, not an empty catalogue query. Existing welcome and unavailable browsing/purchasing wording is preserved. |
+| Invalid destination | The wildcard route reports an unsupported address and provides the established return link. It does not establish protected-resource existence. |
+| Navigation loading | Actual Angular NavigationStart/termination events drive a local signal. A mounted polite `role="status"` region announces opening a page without moving focus for loading alone. |
+| Navigation failed | NavigationError produces a safe message and `role="alert"`; exception details are never rendered. Previous route content is hidden, focus returns to main, and persistent home navigation remains operable. |
+| Bootstrap failed | The existing plain bootstrap-failure alert remains separate from route recovery; application bootstrap cannot be repaired by a component that did not start. |
+
+The local navigation signal has only ready/loading/failed values; ready means no
+pending navigation, not a confirmed business success. Cancellation clears loading
+without inventing failure or backend denial. Angular Router owns cancellation and
+supersession; no custom task scheduler, retry mechanism or state library is added.
+A failed route is not converted into the wildcard page or unavailable commerce.
+The home link performs normal Angular navigation (or reveals the previous home
+page when navigation to the same current URL is skipped); there is no fake retry,
+automatic retry or simulated backend response. If the entry's own assets cannot
+load, successful recovery cannot be promised.
+
+There is no optional CMS/media/content loader in the current application. None is
+introduced just to demonstrate degradation. Shared navigation remains outside the
+route failure presentation, so a failed route cannot remove the established entry.
+A failure of the entire runtime is outside this local containment boundary.
+
+**Deferred, not represented as successful or empty:** confirmed catalogue emptiness,
+filtered results, backend failures/denials, stale/partial Domain evidence, mutation
+pending/unknown outcomes, commerce success and governed backend retry/reconciliation.
+These require real capabilities and owning-Domain Contracts first. The absence of
+commerce evidence establishes none of them. No new governance policy is selected.
+
+Verification uses the commands above: `npm run typecheck`, `npm test`,
+`npm run build`, and the existing `scripts/verify-accessibility.mjs` Chrome check.
+Final results: 12 Angular tests passed, strict compilation and production build
+passed, and all existing bounded Chrome accessibility checks passed.
+The Angular suite now includes controlled client-side lazy loaders (not mock
+commerce APIs) to verify pending, failure, cancellation, supersession, safe error
+text and home recovery, alongside FE-M1/FE-M2 regressions. The browser check still
+covers native keyboard navigation, route focus, recovery and responsive stress.
+
+Live-region markup and update behavior are automated evidence only. Actual
+screen-reader timing, interruption/duplicate-announcement behavior, failure-state
+visual review and the previously listed manual WCAG checks remain unverified.
+The existing tooling advisories remain unresolved; dependencies and lockfile are
+unchanged. No operational, commercial, Identity or publication authority is added.

@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { StorefrontPageStateComponent } from './storefront-page-state';
+
 @Component({
   selector: 'app-storefront-entry',
   standalone: true,
+  imports: [StorefrontPageStateComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h1>Welcome to the storefront</h1>
-    <p>Product browsing and purchasing are not available here yet.</p>
+    <app-storefront-page-state state="commerce-unavailable" />
   `,
 })
 export class StorefrontEntry {}
