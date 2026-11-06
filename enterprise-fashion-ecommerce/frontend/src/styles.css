@@ -22,3 +22,7 @@ main:focus { outline: 3px solid currentColor; outline-offset: -3px; }
   transform: translateY(-150%);
 }
 .skip-link:focus { transform: translateY(0); }
+app-storefront-page-state { display: block; }
+/* Keep live regions mounted for updates, without empty paragraph spacing. */
+p[role="status"]:empty, p[role="alert"]:empty { margin: 0; }
+[hidden] { display: none !important; }
