@@ -500,3 +500,62 @@ and production build validate the existing application and do not imply live
 component integration. Manual screen-reader, actual zoom and visual accessibility
 review remain outstanding. No full WCAG conformance or production readiness is
 claimed.
+
+## Isolated Product media — 2026-11-07
+
+The isolated summary now optionally accepts the wire-supported `mediaId`, `url`,
+`alternativeText` and `variantId` fields. A valid parent `productId` is required
+before media is rendered. Variant-associated media must identify exactly one
+Variant in the supplied Product's `variants`; missing/foreign/ambiguous membership
+is omitted. Product-level media has no `variantId`. Array order is retained; no
+sorting, primary-image designation or Variant selection is invented. Duplicate
+media identities are omitted rather than ambiguously re-associated.
+
+Only absolute `https://` URLs with a parsed hostname and no userinfo, raw whitespace,
+control characters or backslashes are rendered. Missing/blank alternative text
+is omitted, not fabricated; valid supplied alternative text is preserved exactly
+in `alt`. These defensive presentation checks cannot establish public accessibility,
+usage rights, media-security acceptance, meaningfulness of source copy or absence
+of private/sensitive URL content. Those remain upstream Contract obligations.
+The narrow projection is still not a complete wire validator or publication grant.
+
+Native images use no-referrer and asynchronous decoding. There are no new API,
+fetch or XMLHttpRequest calls; browser image loading necessarily requests the
+supplied media URL. The view reserves a local square frame with `object-fit:
+contain`, without cropping or asserting intrinsic asset dimensions. This is local
+layout containment, not a canonical Design System ratio or placeholder Product
+image. Images stay hidden until loaded and are removed after error, leaving a
+neutral “Product image unavailable.” caption in the reserved frame. Name,
+description and other media remain intact. No automatic retry, focus change,
+additional live region, link or control is introduced. Immutable replacement media
+references create fresh loading state; obsolete image events do not affect them.
+
+This extends the preceding text-only component increment, not the live catalogue
+flow. Prices, Stock, purchasability, Product links, Cart and publication remain
+excluded. The component is still unimported by production routes/entry; non-empty
+live catalogue responses remain unsupported until separately authorized.
+
+Verification uses contract-shaped synthetic Product/Variant/media fixtures plus
+explicit malformed-input variations. Most component tests suppress image URL
+assignments and dispatch events. Two additional Chrome tests intercept synthetic
+HTTPS source assignments with deterministic local Blob URLs, preserving native
+image decoding and load/error events without contacting external image hosts.
+They verify successful decoding and visibility, failed-image removal and neutral
+fallback, retained Product text and other imagery, unchanged frame height, narrow
+text-spaced layout and unchanged keyboard focus. The failed image is hidden before
+its error and absent afterward, avoiding a visible broken-image element.
+Tests also cover association, input order, missing media, unsafe and credential-bearing
+URLs, absent alternative text and replacement state. No production fixture route
+or live catalogue integration was added.
+
+Verification on 2026-11-07: `npm run typecheck` passed; `npm test` with
+`CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'`
+passed 79/79 tests; `npm run build` passed; the unchanged production
+`scripts/verify-accessibility.mjs` passed all 16 browser groups; `git diff --check`
+passed. Angular emits its collection-recreation warning in the immutable media
+replacement test; replacement intentionally resets image loading state.
+The production browser verifier covers storefront regressions, not this isolated
+component. Blob interception does not establish real HTTPS delivery, provider
+availability, rights or media-security acceptance. Manual screen-reader, actual
+zoom and visual accessibility checks remain outstanding; no complete WCAG
+conformance is claimed.
