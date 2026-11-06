@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.109
+version: 1.0.110
 status: Approved
 owner: Architecture
 last_updated: 2026-11-06
@@ -583,69 +583,35 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0042 | Product Publication Acceptance and Visibility | Product Decision / Security Decision | Proposed | Product | 2026-10-30 | N/A | [DEC-0042-product-publication-acceptance-and-visibility.md](../../specifications/decisions/DEC-0042-product-publication-acceptance-and-visibility.md) |
 | DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
 | DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
-| DEC-0045 | Initial Stock Representation and Initialization Policy | Inventory Business / Technical Decision | Proposed | Inventory | 2026-11-04 | N/A | [DEC-0045-initial-stock-representation-initialization-policy.md](../../specifications/decisions/DEC-0045-initial-stock-representation-initialization-policy.md) |
+| DEC-0045 | Initial Stock Representation and Initialization Policy | Inventory Business / Technical Decision | Accepted | Inventory | 2026-11-04 | N/A | [DEC-0045-initial-stock-representation-initialization-policy.md](../../specifications/decisions/DEC-0045-initial-stock-representation-initialization-policy.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
 
-DEC-0045 v0.13.0 remains Proposed and non-authoritative.
-Inventory business-owner IBD-01–IBD-08 and technical-owner ITD-01–ITD-08 approvals
-are complete. Architecture assessment ARD-01–ARD-05 and Architecture-owner ACCEPT
-WITH CONDITIONS are complete, the latter subject to AOC-01–AOC-06. The Product
-governance assessment PRD-01–PRD-06 completed with PASS WITH CONDITIONS. Separately,
-the accountable Product affected owner completed ACCEPT WITH CONDITIONS on 2026-11-05,
-subject to POC-01–POC-06; this approval is distinct from the earlier evidence assessment.
-POC-01 preserves Product authority over Product/Variant identity, membership, lifecycle
-and representation revision. POC-02 accepts non-negative whole-unit on-hand Stock for
-the initial Apparel, Footwear and Accessories assortment, with fractional quantities
-unsupported; it does not select assortment, Category taxonomy, SKU policy or future
-Product-family expansion. POC-03 prevents one logical Stock Location from determining
-Product assortment, Category classification, publication eligibility or fulfilment geography.
-POC-04 limits Product-owned evidence to bounded membership observations, not Stock
-initialization, mutation authority or transferred ownership. POC-05 states that Product
-lifecycle states do not independently authorize or prohibit initialization; lifecycle-specific
-eligibility requires separate governance. POC-06 preserves the absence of continuous
-freshness, permanent membership or atomic Product/Inventory consistency guarantees;
-stronger coordination requires separate governance. Inventory retains Stock identity,
-quantity and history authority. Logical Stock Location identity, registration and lifecycle;
-initialization actor eligibility, trusted provenance, contextual authorization and audit;
-and persistence, uniqueness, concurrency, retry and reconciliation mechanisms remain
-unresolved. The completed Security governance assessment SAD-01–SAD-06 reached PASS WITH CONDITIONS —
-bounded Security governance compatibility assessment only, not accountable Security-owner
-approval. SAD-01 PASS preserves Inventory Stock mutation authority; Product association
-evidence grants no mutation permission. SAD-02 CONDITIONAL PASS requires server-side
-default denial and contextual initialization authorization; eligible actors and operational
-authorization remain unresolved. SAD-03 CONDITIONAL PASS requires trusted human/system
-identity, current access, revocation and provenance; no issuer, Role or Staff mapping is
-selected. SAD-04 CONDITIONAL PASS preserves audit and historical integrity requirements;
-initialization audit classification, durable attribution and uncertain-outcome handling
-remain unresolved. SAD-05 CONDITIONAL PASS requires duplicate, replay, concurrent and
-uncertain effects to preserve accepted state; persistence, retry and reconciliation
-mechanisms remain unselected. SAD-06 PASS preserves Security, Identity, Inventory and
-Administration authority boundaries. Separately from the SAD assessment, the accountable
-Security owner completed ACCEPT WITH CONDITIONS — SOC-01–SOC-06 on 2026-11-05.
-The bounded Identity governance assessment IAD-01–IAD-08 is complete with PASS WITH
-CONDITIONS; the accountable Identity owner separately completed ACCEPT WITH CONDITIONS —
-IOC-01–IOC-08 on 2026-11-06. The bounded Administration governance assessment AAD-01–AAD-08
-is complete with PASS WITH CONDITIONS; the accountable Administration owner separately
-completed ACCEPT WITH CONDITIONS — AOC-ADM-01–AOC-ADM-08 on 2026-11-06. These assessments
-are evidence, not substitutes for the separately recorded accountable approvals. All
-binding conditions remain in force: contextual server-side authorization; governed human/
-system eligibility, trusted provenance, current access, revocation and applicable assurance;
-protected attributable audit and truthful outcomes; safe duplicate, replayed, concurrent
-and uncertain effects; governed failure/reconciliation and cross-domain Contracts;
-Administration coordination without overriding Inventory authorization or domain invariants.
-Identity retains trusted identity/access evidence authority, Security retains its control
-ownership, and Administration retains coordination boundaries without a parallel access
-model. No operational actor, Role, Permission, Staff mapping, issuer or authorization
-mechanism is selected. Overall DEC-0045 acceptance remains Pending; the decision remains
-Proposed with Authoritative false. Completed capacity-specific approvals do not satisfy
-overall acceptance or operational readiness. Logical Stock Location governance,
-initialization actor eligibility and trusted provenance, contextual authorization and audit,
-and API, persistence, uniqueness, concurrency, retry and reconciliation mechanisms remain
-unresolved or unselected. No separate ADR is currently required for the bounded
-representation policy; a later material Architecture Decision outside the Approved baseline
-requires a new ADR. DEC-0015, DEC-0024 and DEC-0042 remain Proposed. No Stock implementation,
-initialization operation, API, schema, operational permission or deployment is authorized.
+DEC-0045 v1.0.0 is Accepted and authoritative within its bounded initial Stock
+representation and initialization policy scope, following explicit overall acceptance
+by the project owner on 2026-11-06. This overall decision is separate from the seven
+completed accountable dispositions: Inventory business IBD-01–IBD-08, Inventory technical
+ITD-01–ITD-08, Architecture AOC-01–AOC-06, Product POC-01–POC-06, Security SOC-01–SOC-06,
+Identity IOC-01–IOC-08 and Administration AOC-ADM-01–AOC-ADM-08. All binding conditions
+remain applicable. The bounded ARD-01–ARD-05, PRD-01–PRD-06, SAD-01–SAD-06, IAD-01–IAD-08
+and AAD-01–AAD-08 assessments remain distinct from accountable approvals and overall
+acceptance; no independent verification is inferred. Accepted policy establishes one
+governed logical Stock Location initially, non-negative whole-unit recorded on-hand Stock,
+Java `long` as the initial technical representation, explicit Inventory-owned initialization
+and unknown Stock distinct from confirmed zero. Product retains Product/Variant identity,
+membership, lifecycle and representation-revision authority; Inventory retains Stock
+identity, quantity, mutation and history authority. Identity, Security and Administration
+retain their respective evidence, control and coordination boundaries. Product association
+evidence grants no Stock mutation authority, continuous freshness, permanent membership
+or atomic Product/Inventory consistency. Logical Stock Location identity, registration and
+lifecycle; initialization actor eligibility and trusted provenance; contextual authorization
+and audit; persistence and uniqueness; concurrency; retry and reconciliation; and cross-domain
+Contracts remain unresolved implementation/operational dependencies. No separate ADR is
+currently required for the bounded representation policy; later material Architecture
+Decisions outside the Approved baseline require applicable ADR governance. DEC-0015,
+DEC-0024 and DEC-0042 remain Proposed. Policy acceptance is not implementation or operational
+authorization: no Stock implementation, operational initialization, production seeding,
+API/schema implementation, operational permissions, Staff mappings or deployment is authorized.
 
 DEC-0044 0.2.0 remains Proposed and non-authoritative. The Product/business owner approved A2, B1, C1 and D1 on 2026-11-04 in that capacity only. Security, Identity, Administration, Pricing and Engineering/Architecture dispositions, concrete Staff mappings through DEC-0012 governance, authorization outcome Contracts and audit guarantees remain pending; no operational Pricing write authority is granted. DEC-0012 remains Proposed and DEC-0043 remains Accepted.
 
@@ -841,6 +807,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.110 | 2026-11-06 | Approved | Synchronized DEC-0045 v1.0.0 Accepted following project-owner overall acceptance on 2026-11-06; recorded all seven completed accountable dispositions while preserving binding conditions, unresolved dependencies and separate implementation/operational authorization gates. |
 | 1.0.109 | 2026-11-06 | Approved | Synchronized DEC-0045 v0.13.0 completed accountable Security, Identity and Administration ACCEPT WITH CONDITIONS dispositions; preserved all prior approvals and binding conditions, pending overall acceptance and implementation/operational restrictions. |
 | 1.0.108 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.8.0 bounded Security governance assessment SAD-01–SAD-06 PASS WITH CONDITIONS; preserved pending accountable Security-owner, Identity and Administration dispositions, overall acceptance and implementation/operational restrictions.                                                                                                                                                                                                                                                                                                                                                                                   |
 | 1.0.107 | 2026-11-05 | Approved | Synchronized DEC-0045 v0.7.0 accountable Product affected-owner ACCEPT WITH CONDITIONS disposition POC-01–POC-06; preserved completed Inventory and Architecture dispositions, pending Security/Identity/Administration reviews, overall acceptance and implementation/operational restrictions. |
