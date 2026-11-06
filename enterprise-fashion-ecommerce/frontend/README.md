@@ -306,3 +306,111 @@ No Product, Category, Search, Cart, Checkout, Identity or CMS capability is adde
 Commerce evidence, backend Contracts, SSR, hosting/deployment, analytics, production
 deep-link serving and canonical branding remain deferred. Existing development
 advisories are not resolved by this increment. Dependencies and lockfile are unchanged.
+
+## FE-M6 content integration readiness — 2026-11-06
+
+**Outcome: existing local presentation is reusable; concrete CMS integration is
+blocked pending a governed producer/consumer Contract.** This milestone adds this
+readiness record only. It adds no runtime content boundary, API client, evidence
+model, injection token, provider, cache, polling, background work, retry or new UI.
+Creating those now would invent semantics not supplied by a concrete Contract.
+
+### Implemented behavior reused
+
+- `StorefrontShell` owns native navigation, bypass, current location and main focus.
+  `App` contains real Router loading/failure and recovery while preserving the shell.
+- `StorefrontPageStateComponent` presents only commerce-unavailable,
+  invalid-destination and navigation-failed messages. It does not accept CMS content
+  or establish a general CMS state model. Existing text is application-owned scope
+  information, not a CMS-managed publication or notice.
+- The entry does not query a catalogue or CMS. Its unavailable message establishes
+  neither an empty catalogue nor absence of published CMS content.
+- The current composition has no optional content work capable of delaying entry
+  or navigation. That absence is not evidence that a future content adapter has
+  fault isolation; future integration must verify that boundary explicitly.
+- No route, query, local configuration or client state is interpreted as CMS
+  publication, placement, destination visibility or access evidence.
+
+### Governing evidence and ownership
+
+The reviewed CMS Domain Specification is `1.0.0 Approved`, `authoritative: false`,
+normative within its own scope. FEB and FSC are likewise Approved scoped sources;
+none supplies a concrete CMS transport Contract. A bounded inspection of
+`../specifications/contracts/` found no CMS-to-storefront Contract. This is not a
+repository-wide implementation audit or an independent governance approval.
+
+| Source | Readiness obligation; not a newly selected Contract |
+| --- | --- |
+| REQ-FEB-003–007; REQ-CMS-002–004, 035 | CMS retains source ownership; presentation/configuration/rendering never creates publication, placement or external Domain truth. |
+| REQ-FSC-009–012, 014–018, 026–028; REQ-CMS-011, 013–014, 017–018, 049 | Future content needs explicit eligible publication and placement evidence. Draft, withdrawn or superseded content cannot become current through an existing reference, region or destination. Destination references do not prove existence, access or visibility. |
+| REQ-FEB-014–018, 020–021; REQ-FSC-029–031; REQ-CMS-036, 040, 042–044 | Loading, unavailable, invalid, stale, partial, failed, recovery and confirmed outcomes apply only when a real source can establish them. Freshness, supersession and recovery cannot be guessed or collapsed into empty/success. |
+| REQ-FEB-027–030, 034–038, 041–044; REQ-FSC-035–038; REQ-CMS-030–034 | Future content/link rendering needs safe interpretation, disclosure controls, accessible meaning and bounded workload isolation. The present app has no rich-content renderer or external destination consumer. |
+| REQ-FEB-049–051; REQ-FSC-041–043; REQ-CMS-045, 051 | Abstract requirements justify necessary semantic questions, not invented endpoints, DTOs, wire formats, providers or conformance claims. |
+| ARCHITECTURE.md §§36.5–36.6; ANGULAR.md §§32–34, 37–38 | Use governed application/API boundaries and keep authoritative server evidence separate from local presentation. No speculative client is introduced. |
+
+### Missing concrete integration dependencies
+
+Before a meaningful consumer can be implemented, the producer/consumer Contract
+must settle the following within existing governance. These are unresolved
+semantic questions, not a proposed schema, interface, endpoint or approval policy:
+
+1. What versioned, bounded CMS-owned evidence identifies content, its relevant
+   version, publication outcome and applicability to the requested presentation?
+2. What CMS-owned placement evidence ties that eligible version and publication
+   to the applicable context, without the consumer inventing placement taxonomy,
+   ordering, targeting, merchandising or publication workflow?
+3. How are current, stale, withdrawn, superseded, missing, invalid, conflicting,
+   partial, unavailable and failed evidence distinguished where applicable? What
+   source/freshness and revalidation evidence prevents stale copies being treated
+   as current? No TTL, cache policy or timing guarantee is selected here.
+4. What content/media/link forms may be safely interpreted, and how are source
+   meaning, accessibility, provenance, bounded results and correlation preserved?
+   No rich-text format, sanitization library or media provider is selected.
+5. What governed destination and eligibility evidence permits a navigation entry,
+   including safe handling of invalid, inaccessible or withdrawn destinations
+   without disclosing protected Resources? A path or reference is insufficient.
+6. What producer capability, version compatibility and safe recovery behavior can
+   the consumer actually rely on? Optional-content work must remain independent
+   of critical entry/navigation and obsolete asynchronous work must not overwrite
+   newer intent. No retries, background calls or failure-result mapping are chosen.
+
+CMS publication/placement ownership remains intact; Product, Category, Pricing,
+Inventory, Identity and other Domains retain their own authority. CMS content
+cannot provide commercial Price, availability, sellability or purchase authority.
+This record selects no Open Product Decision or owner approval. The next bounded
+step is to define and review the concrete producer/consumer Contract through
+repository governance before implementing or testing a CMS consumer.
+
+### Tested behavior versus documented readiness
+
+The existing Angular and production-browser suites verify actual implemented
+entry messaging, unsupported destinations, Router loading/failure/cancellation,
+supersession, shell recovery, keyboard/focus behavior, semantics and responsive
+stress. Their lazy-asset failure injection is not a CMS failure response or CMS
+Contract test. No new tests are added for nonexistent content behavior.
+
+**Not implemented or verified:** CMS publication/placement validation, cached CMS
+freshness, withdrawn/stale/partial evidence handling, managed-content safety,
+CMS request races, eligible external destinations, or optional CMS failure
+containment. There are no CMS fixtures rendered as published content. Passing
+existing regressions must not be described as CMS Contract conformance or live
+integration readiness.
+
+Manual screen-reader, visual accessibility, actual browser zoom and physical-device
+checks remain outstanding as recorded in FE-M5. Future dynamic content will need
+its own status/focus and accessibility evidence. Commerce journeys, managed banners,
+campaigns, policy/support content, publication workflow, analytics, branding,
+SSR and hosting remain deferred. No dependencies or runtime files are changed.
+
+FE-M6 regression verification executed on 2026-11-06:
+
+| Command | Actual result |
+| --- | --- |
+| `npm run typecheck` | PASS |
+| `CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm test` | 19/19 PASS |
+| `npm run build` | PASS |
+| `CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node scripts/verify-accessibility.mjs` | All 14 bounded browser groups PASS |
+| Repository-root `git diff --check` | PASS |
+
+These results confirm the existing frontend regressions only, not CMS eligibility,
+CMS Contract conformance, independent review or manual accessibility completion.
