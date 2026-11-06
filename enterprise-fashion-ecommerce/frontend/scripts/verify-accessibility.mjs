@@ -29,12 +29,18 @@ const chrome = spawn(process.env.CHROME_BIN || 'google-chrome', [
 let sequence = 0;
 let buffer = '';
 const pending = new Map();
+const eventWaiters = new Map();
 chrome.on('error', error => { for (const p of pending.values()) p.reject(error); });
 chrome.stdio[4].on('data', chunk => {
   buffer += chunk.toString();
   let end;
   while ((end = buffer.indexOf('\0')) >= 0) {
     const message = JSON.parse(buffer.slice(0, end)); buffer = buffer.slice(end + 1);
+    const waiter = eventWaiters.get(message.method);
+    if (waiter && message.sessionId === session) {
+      eventWaiters.delete(message.method);
+      waiter();
+    }
     const request = pending.get(message.id);
     if (request) {
       pending.delete(message.id);
@@ -64,6 +70,21 @@ async function ready(heading) {
     const timer = setTimeout(() => { observer.disconnect(); reject(new Error('Route did not render')); }, 10000);
     observer.observe(document, { subtree: true, childList: true, characterData: true });
   })`);
+}
+function nextEvent(method) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => { eventWaiters.delete(method); reject(new Error(`Timed out: ${method}`)); }, 15000);
+    eventWaiters.set(method, () => { clearTimeout(timer); resolve(); });
+  });
+}
+async function checkContext(heading, title, current) {
+  await ready(heading);
+  assert.equal(await evaluate('document.title'), title);
+  assert.equal(await evaluate('document.activeElement.id'), 'main-content');
+  assert.equal(await evaluate('document.querySelectorAll("main").length'), 1);
+  assert.equal(await evaluate('document.querySelector("nav a").getAttribute("aria-current")'), current);
+  assert.equal(await evaluate('document.querySelector("[role=status]").textContent'), '');
+  assert.equal(await evaluate('document.querySelector("[role=alert]").textContent'), '');
 }
 async function key(key, code, virtualKey, modifiers = 0) {
   for (const type of ['keyDown', 'keyUp']) {
@@ -102,6 +123,26 @@ try {
   assert.equal(await evaluate('document.activeElement.id'), 'main-content');
   assert.equal(await evaluate('document.title'), 'Storefront');
   console.log('PASS: not-found context, forward/reverse keyboard order, Enter recovery and route focus');
+
+  // Real browser history, not a mocked Location or Router event stream.
+  await evaluate('history.back()');
+  await checkContext('Page not available', 'Page not available', null);
+  await evaluate('history.forward()');
+  await checkContext('Welcome to the storefront', 'Storefront', 'page');
+  console.log('PASS: browser Back/Forward restore route, title, main focus and current location');
+
+  for (const path of ['/', '/missing']) {
+    await command('Page.navigate', { url: base + path }, session);
+    const heading = path === '/' ? 'Welcome to the storefront' : 'Page not available';
+    const title = path === '/' ? 'Storefront' : 'Page not available';
+    const current = path === '/' ? 'page' : null;
+    await checkContext(heading, title, current);
+    const loaded = nextEvent('Page.loadEventFired');
+    await command('Page.reload', { ignoreCache: true }, session);
+    await loaded;
+    await checkContext(heading, title, current);
+    console.log(`PASS: direct navigation and browser refresh at ${path}`);
+  }
 
   for (const path of ['/', '/missing']) {
     await command('Page.navigate', { url: base + path }, session);

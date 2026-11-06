@@ -1,4 +1,4 @@
-# Storefront foundation (FE-M1 / FE-M2 / FE-M3)
+# Storefront foundation (FE-M1 / FE-M2 / FE-M3 / FE-M4)
 
 Angular 20, strict TypeScript and standalone components. Run these commands from
 `enterprise-fashion-ecommerce/frontend/`.
@@ -184,3 +184,57 @@ screen-reader timing, interruption/duplicate-announcement behavior, failure-stat
 visual review and the previously listed manual WCAG checks remain unverified.
 The existing tooling advisories remain unresolved; dependencies and lockfile are
 unchanged. No operational, commercial, Identity or publication authority is added.
+
+## FE-M4 navigation resilience — 2026-11-06
+
+FE-M4 preserves the existing two routes and Angular Router history ownership.
+Focus now runs once after a successful navigation has settled and Angular has
+rendered its page context/title, including reuse of the wildcard component.
+Outlet activation no longer moves focus early. Cancellation preserves user focus;
+redirects do not introduce intermediate focus changes. Failures receive a truthful
+page title and retain the failure presentation during recovery loading or
+cancellation. Successful same-URL home recovery restores the route's normal title
+and main focus. No additional live regions were added; the existing polite loading
+and alert messages are not populated concurrently.
+
+| Applicable requirement | Implementation and evidence |
+| --- | --- |
+| REQ-FEB-009–010; REQ-FSC-005, 011 | Angular Router and real browser history restore route context; no custom history store or replacement navigation framework. |
+| REQ-FEB-014–017; REQ-FSC-012, 029–031 | Loading, failed and unsupported states remain distinct; cancelled recovery never reveals obsolete content. Late superseded results cannot override the newer page. |
+| REQ-FEB-020–021 | Safe failure text and established home recovery; internal exceptions are not rendered, and no backend retry or response is invented. |
+| REQ-FEB-035–038; REQ-FSC-033–035 | Settled main focus, route titles, one main landmark, page heading, current-location semantics, native keyboard links and existing status/alert regions. |
+
+Verification commands remain:
+
+```sh
+npm run typecheck
+CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm test
+npm run build
+CHROME_BIN='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node scripts/verify-accessibility.mjs
+```
+
+Actual Chrome Headless 157 checks exercise native browser Back and Forward after
+client-side not-found recovery. They assert heading, title, main focus,
+`aria-current` and cleared status messages. Direct loads and real browser refresh
+are checked at both `/` and `/missing`; existing Tab/Shift+Tab/Enter, skip-link,
+recovery and responsive stress checks also run. The test server's SPA fallback is
+local verification infrastructure only. Production deep-link serving remains a
+future hosting responsibility, not a selected hosting configuration.
+
+Angular component tests exercise initial/unsupported routes, loading, failed
+navigation, normal and cancelled recovery, cancellation without focus theft,
+settled wildcard reuse, one focus change across redirects, supersession and late
+rejection of obsolete work. Extra routes/guards/loaders are isolated test fixtures;
+they add no production destinations, authorization capability or commerce APIs.
+
+Manual accessibility limitations from FE-M2/FE-M3 remain: browser tests do not prove
+screen-reader title/focus announcements, all AT/browser combinations, visual focus
+contrast/non-obscuration, actual zoom, touch targets or universal WCAG 2.2 AA
+conformance. No manual accessibility sign-off is claimed. Commerce, Identity, CMS,
+SSR, deployment, hosting and other deferred capabilities remain unimplemented.
+No dependency, lockfile, branding or governance change is required for FE-M4.
+
+Final FE-M4 results: **17 Angular tests passed**, strict typecheck passed,
+production build passed, and all nine bounded browser verification groups passed
+(including Back/Forward and both refresh scenarios). `git diff --check` passed.
+No manual accessibility tests were executed.
