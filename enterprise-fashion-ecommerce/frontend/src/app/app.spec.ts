@@ -216,4 +216,110 @@ describe('Storefront foundation', () => {
     expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toBe('');
   });
 
+  it('focuses settled content and title when Angular reuses the wildcard component', async () => {
+    const fixture = await open('/missing');
+    const root: HTMLElement = fixture.nativeElement;
+    root.querySelector<HTMLAnchorElement>('nav a')!.focus();
+    const observed: string[] = [];
+    root.querySelector('main')!.addEventListener('focus', () => {
+      observed.push(root.querySelector('h1')!.textContent + ':' + TestBed.inject(Title).getTitle());
+    });
+    await TestBed.inject(Router).navigateByUrl('/another-unsupported-address');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(observed).toEqual(['Page not available:Page not available']);
+  });
+
+  it('focuses once after a redirect settles rather than during outlet activation', async () => {
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    root.querySelector<HTMLAnchorElement>('nav a')!.focus();
+    const router = TestBed.inject(Router);
+    router.resetConfig([{ path: 'redirect', redirectTo: '/missing', pathMatch: 'full' }, ...routes]);
+    const focus = spyOn(root.querySelector<HTMLElement>('main')!, 'focus').and.callThrough();
+    await router.navigateByUrl('/redirect');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/missing');
+    expect(focus).toHaveBeenCalledTimes(1);
+    expect(root.querySelector('h1')?.textContent).toBe('Page not available');
+    expect(TestBed.inject(Title).getTitle()).toBe('Page not available');
+  });
+
+  it('preserves keyboard focus when navigation is cancelled', async () => {
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const link = root.querySelector<HTMLAnchorElement>('nav a')!;
+    link.focus();
+    const focus = spyOn(root.querySelector<HTMLElement>('main')!, 'focus').and.callThrough();
+    const router = TestBed.inject(Router);
+    router.resetConfig([{ path: 'cancel', canActivate: [() => false], loadComponent: routes[0]!.loadComponent }, ...routes]);
+    await router.navigateByUrl('/cancel');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(link);
+    expect(focus).not.toHaveBeenCalled();
+  });
+
+  it('keeps obsolete content hidden during cancelled recovery and restores the failure state', async () => {
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const router = TestBed.inject(Router);
+    let decide!: (allowed: boolean) => void;
+    let started!: () => void;
+    const gate = new Promise<boolean>(resolve => { decide = resolve; });
+    const pending = new Promise<void>(resolve => { started = resolve; });
+    router.resetConfig([
+      { path: 'broken', loadComponent: () => Promise.reject(new Error('private detail')) },
+      { path: 'cancel-recovery', canActivate: [() => { started(); return gate; }], loadComponent: routes[0]!.loadComponent },
+      ...routes,
+    ]);
+    await expectAsync(router.navigateByUrl('/broken')).toBeRejected();
+    fixture.detectChanges();
+    expect(TestBed.inject(Title).getTitle()).toBe('Page could not open');
+    const next = router.navigateByUrl('/cancel-recovery');
+    await pending;
+    fixture.detectChanges();
+    expect(root.querySelector('router-outlet')?.parentElement?.hidden).toBeTrue();
+    expect(root.querySelector('h1')?.textContent).toBe('Page could not open');
+    expect(root.querySelector('[role="status"]')?.textContent).toBe('Opening page…');
+    expect(root.querySelector('[role="alert"]')?.textContent).toBe('');
+    decide(false);
+    await next;
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(root.querySelector('router-outlet')?.parentElement?.hidden).toBeTrue();
+    expect(root.querySelector('[role="alert"]')?.textContent).toBe('The requested page could not open.');
+    root.querySelector<HTMLAnchorElement>('nav a')!.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(TestBed.inject(Title).getTitle()).toBe('Storefront');
+    expect(document.activeElement).toBe(root.querySelector('main'));
+  });
+
+  it('ignores a rejected lazy load after a newer navigation has succeeded', async () => {
+    const fixture = await open();
+    const router = TestBed.inject(Router);
+    let reject!: (reason: Error) => void;
+    let started!: () => void;
+    const obsolete = new Promise<never>((_, fail) => { reject = fail; });
+    const loading = new Promise<void>(resolve => { started = resolve; });
+    router.resetConfig([
+      { path: 'late-failure', loadComponent: () => { started(); return obsolete; } },
+      ...routes,
+    ]);
+    const oldNavigation = router.navigateByUrl('/late-failure');
+    await loading;
+    await router.navigateByUrl('/missing');
+    reject(new Error('obsolete sensitive failure'));
+    expect(await oldNavigation).toBeFalse();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/missing');
+    expect(TestBed.inject(Title).getTitle()).toBe('Page not available');
+    expect(fixture.nativeElement.querySelector('h1').textContent).toBe('Page not available');
+    expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toBe('');
+    expect(fixture.nativeElement.querySelector('router-outlet').parentElement.hidden).toBeFalse();
+  });
+
 });
