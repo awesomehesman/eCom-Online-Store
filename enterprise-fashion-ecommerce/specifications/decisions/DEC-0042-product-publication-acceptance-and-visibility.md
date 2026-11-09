@@ -4,9 +4,9 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
+- **Version:** 0.4.0
 - **Date:** 2026-10-30
-- **Last Updated:** 2026-11-06
+- **Last Updated:** 2026-11-09
 - **Owner:** Product
 - **Required Accountable Security Review:** Security
 - **Authoritative:** false
@@ -78,8 +78,8 @@ and uncertain outcomes. The approved risk-based business direction does not choo
 those Security or Identity controls. Administration coordination and required review
 also remain unresolved; no parallel authorization model is introduced.
 
-[DEC-0012 v0.2.0](DEC-0012-administrative-role-permission-matrix.md) remains Proposed
-and unchanged. Neither its full matrix nor its bounded operational policy is
+At the time of this Product-owner disposition, [DEC-0012 v0.2.0](DEC-0012-administrative-role-permission-matrix.md) remained Proposed
+and unchanged by that disposition. Neither its full matrix nor its bounded operational policy is
 approved by this disposition. DEC-0042 remains Proposed and non-authoritative;
 overall acceptance and applicable synchronization remain separate gates.
 **Operational publication remains NO-GO until required controls are implemented
@@ -241,9 +241,12 @@ choice. No operational reliance follows until those choices are expressly resolv
 
 ### C. P3/S2 Options and Bounded DEC-0012 Dependency
 
-[DEC-0012 v0.2.0](DEC-0012-administrative-role-permission-matrix.md), Bounded Product
-Authorization Proposal, supplies the five-action review scope and eight unresolved
-accountable questions. It remains Proposed with no overall matrix option selected.
+[DEC-0012 v0.3.0 Proposed](DEC-0012-administrative-role-permission-matrix.md), Product-Specific
+Accountable Disposition Package A–H, supplies the five-action review scope and
+eight pending Product-specific confirmations. It remains non-authoritative, with
+no overall matrix option selected and all eight confirmations pending accountable
+approval. P3/S2 depends on explicit disposition of that bounded authorization
+package; its existence does not establish accepted policy or operational authority.
 The action descriptions below are not Permission identifiers. Each option and
 recommendation is **NOT APPROVED**.
 
@@ -287,6 +290,113 @@ trusted production evidence. Missing or uncertain authority remains non-confirmi
 No existing PUBLISHED row, retained claim, Customer authentication mechanism or
 synthetic fixture becomes a publication producer. Positive visibility, source-code
 changes, migrations, endpoints, deployment and operational rollout remain unauthorized.
+
+## S1 Accountable Disposition Package — Prepared 2026-11-09
+
+**PROPOSED DISPOSITION — NOT APPROVED.** S1-01–S1-06 are local review labels for
+the six S1 questions above, not accepted check definitions, evidence sources or
+new decision identifiers. All six remain **PENDING ACCOUNTABLE APPROVAL**.
+Accountable owners below are review capacities, not named reviewers or recorded
+concurrence. Confirmation must identify capacity, date, exact scope and conditions;
+no such confirmation is recorded by this package.
+
+**ESTABLISHED REQUIREMENT** refers to the Existing Authoritative Security and
+Ownership Requirements and Consolidated Disposition Package A above, including
+Security Standards §§10–13 and 27, REQ-PRD-014–020, BPRD-REQ-019–023 and 030.
+**CONFIRMED BUSINESS DIRECTION** refers only to the recorded Product-owner
+operating model and P1/P2/P4, with their existing provenance and limitations.
+Neither those approvals nor the recommendations below establish Security approval.
+
+### S1-01 — Media-Security Checking Authority
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Public media requires applicable security acceptance; upload, processing success, URL availability and Product acceptance alone cannot establish trusted checking authority. Product retains publication authority. |
+| CONFIRMED BUSINESS DIRECTION | P2 requires accepted media, including at least one accepted Product-level image initially. The founder/Product owner confirms usage rights, not media-security authority. |
+| PROPOSED DISPOSITION | Require Security-designated checking producers using appropriate technical checks and attributable human judgment where required. Human judgment cannot substitute for mandatory technical coverage; automation cannot establish rights or accuracy. No actual producer, scanner, service or provider is designated here. |
+| Accountable owners | Security: permitted checking authority and coverage; Product: acceptance and publication boundary, with affected rights-evidence ownership. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify the actual permitted producer(s), authority scope, required technical/judgment coverage and evidence that the producer can perform it. Explicitly identify unsupported coverage and the resulting denial. |
+| Consequence if unresolved | No producer or founder assertion may be presumed authoritative; required media-security acceptance and positive publication remain blocked. |
+| Implementation dependency | Separately reviewed producer integration and applicable evidence Contract after authority/coverage confirmation; no pipeline or deployment selected. |
+
+### S1-02 — Evidence Provenance and Authenticity
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Missing, uncertain, contradictory or untrusted evidence cannot support acceptance or visibility. Caller claims, copied findings and database storage alone establish no authority. |
+| CONFIRMED BUSINESS DIRECTION | P1/P2 require attributable, revision-bound acceptance; the founder's rights confirmation must be attributable and withdrawable. This does not approve a security evidence source. |
+| PROPOSED DISPOSITION | Require trustworthy origin, checking authority, result and supporting-evidence provenance, with authenticity and current applicability established before reliance. Rights confirmation and security-check evidence remain distinct. |
+| Accountable owners | Security: accepted provenance and authenticity boundary; Product: accepted evidence association and reliance; Identity where producer identity evidence is needed. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify accepted evidence sources and the trust basis for authenticating their origin, authority, result and current applicability, including missing/conflicting/unavailable evidence treatment. No evidence source or signature scheme is approved by this package. |
+| Consequence if unresolved | An asserted result cannot become trusted media acceptance; no positive reliance is permitted. |
+| Implementation dependency | Reviewed evidence producer/consumer boundary, source validation and safe failure handling; no issuer, schema, credential or cryptographic mechanism selected. |
+
+### S1-03 — Subject and Revision Binding
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Product/Variant association and immutable subject identity must be preserved; unrelated or stale checks cannot establish current acceptance. |
+| CONFIRMED BUSINESS DIRECTION | P2 already requires exact asset and association revisions and same-Product Variant membership. P1/P4 restrict acceptance reuse to unchanged subjects with still-valid criteria and no invalidation. |
+| PROPOSED DISPOSITION | Bind checking evidence to the exact Product, immutable asset, association and relevant representation revisions, including Variant membership where applicable. Changed asset content or association meaning requires new evaluation; mutable URLs and labels alone are insufficient. |
+| Accountable owners | Product: subject identity, membership, revision and reuse semantics; Security: adequacy of checking-subject binding. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm which relevant subject/revision changes invalidate security reliance, how the producer identifies the checked subject and which evidence demonstrates an exact match at final reliance. Preserve P2's already approved binding obligation. |
+| Consequence if unresolved | No mutable-reference or previous-revision evidence may be substituted for current acceptance. |
+| Implementation dependency | Reviewed immutable revision references and subject matching at producer/consumer boundaries; no hash, storage identifier or persistence schema selected. |
+
+### S1-04 — Check-Definition/Version Compatibility
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Stale, unsupported or uncertain evidence cannot grant visibility; current evidence must satisfy applicable requirements. |
+| CONFIRMED BUSINESS DIRECTION | P4 allows reuse only while applicable criteria remain valid and no relevant invalidation exists. No Product disposition selects check definitions, versions or compatibility rules. |
+| PROPOSED DISPOSITION | Permit reliance only on explicitly supported check definitions/versions. Reject unknown, retired or uncertain compatibility and require re-evaluation unless compatibility has been expressly approved. |
+| Accountable owners | Security: check coverage, supported versions, compatibility and retirement authority; Product: acceptance-reuse and visibility consequences. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify the initial accepted check definitions and versions, required coverage, who may approve compatibility/retirement and how changes affect existing acceptance. No accepted definition, version or compatibility mapping is invented here. |
+| Consequence if unresolved | Neither a version label nor an old success result establishes acceptable current security coverage. |
+| Implementation dependency | Reviewed version/coverage evidence and governed compatibility evaluation before reuse; no registry, update transport or scanner selected. |
+
+### S1-05 — Evidence Invalidation and Withdrawal
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Missing, failed, stale, conflicting, withdrawn or invalidated evidence cannot support positive visibility. Historical evidence must not silently restore withdrawn authority. |
+| CONFIRMED BUSINESS DIRECTION | P1/P2 invalidate affected acceptance after relevant changes or withdrawal; P4 requires valid criteria and no invalidation for reuse and forbids silent lifecycle changes. |
+| PROPOSED DISPOSITION | Govern explicit invalidation sources and affected-subject propagation for revocation, changed asset/association, superseded checks, adverse findings or compromised provenance. Preserve history and withhold reliance when validity is uncertain. |
+| Accountable owners | Security: authoritative security findings, revocation and invalidation scope; Product: affected acceptance, associations, history and current visibility. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify actual authoritative invalidation sources, exact triggers, affected-subject scope, propagation/freshness guarantees and outage or conflicting-notification treatment. Distinguish security evidence withdrawal from an operational Product withdrawal action. |
+| Consequence if unresolved | Continued validity cannot be assumed after relevant uncertainty or withdrawal; positive reliance remains unavailable. |
+| Implementation dependency | Reviewed invalidation observation and final-reliance coordination; no event, polling, TTL, locking or reconciliation mechanism selected. |
+
+### S1-06 — Rights/Security Withdrawal Coordination
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Media must retain current rights/security eligibility; incomplete or uncertain evidence cannot be represented as accepted public content. Product owns visibility and lifecycle. |
+| CONFIRMED BUSINESS DIRECTION | The founder/Product owner initially confirms attributable, revision-bound, withdrawable usage rights. P2 immediately prevents positive visibility when the last required accepted Product-level image is lost. P4 separates evidence invalidation from explicit lifecycle transitions and preserves history. |
+| PROPOSED DISPOSITION | Apply authoritative rights/security withdrawal to every affected association and withhold Product visibility whenever required completeness fails. Do not continue unsupported reliance, silently change lifecycle or revive a withdrawn publication grant. |
+| Accountable owners | Product: rights confirmation, affected associations, completeness and visibility; Security: security withdrawal and final-reliance safeguards; Administration/Identity for separately governed operational action/access dependencies. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm rights/security withdrawal sources and scope, coordination at final publication/read reliance, treatment of in-flight work and uncertainty, and the boundary between immediate visibility withholding and an authorized Product withdrawal action. |
+| Consequence if unresolved | No delayed review, cached success or founder responsibility may substitute for current required rights/security evidence; publication remains blocked. |
+| Implementation dependency | Reviewed current evidence coordination and withdrawal/recovery boundaries, plus P3/S2 authorization for any operational mutation; no concurrency, audit, retry or transport mechanism selected. |
+
+### P3/S2 Dependency and Package Limitations
+
+[DEC-0012 v0.3.0 Proposed](DEC-0012-administrative-role-permission-matrix.md)
+remains **non-authoritative**. Its eight Product-specific confirmations A–H all
+remain **PENDING ACCOUNTABLE APPROVAL**: eligible assignments, risk-based same-actor
+restrictions, privileged-action classification, action-specific MFA/reauthentication,
+independent approval, Identity-owned assignment evidence, current authority/revision
+revalidation, and protected audit/uncertain outcomes. P3/S2 remains unresolved and
+cannot be closed by this S1 package, founder designation or authenticated Sessions.
+Conversely, assignment eligibility cannot designate an S1 checking authority.
+
+No actual checking producer, accepted check definition/version, evidence source,
+Staff Role/Permission or operational assignment is selected. All S1-01–S1-06 and
+P3/S2 confirmations remain pending; no Security approval, overall acceptance or
+publication authority is recorded. Accountable disposition, applicable canonical
+and Contract synchronization, implementation authorization and executed verification
+remain separate gates. Operational publication remains **NO-GO**; default-deny
+administration and fail-closed visibility are preserved.
 
 ## Implementation Boundary and Acceptance Prerequisites
 
@@ -361,6 +471,7 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-11-09 | Proposed | Prepared S1-01–S1-06 accountable disposition package and synchronized the P3/S2 dependency with DEC-0012 v0.3.0 Proposed; preserved Product approvals/provenance, pending Security and authorization confirmations, non-authoritative lifecycle and all implementation/publication restrictions. |
 | 0.3.0 | 2026-11-06 | Proposed | Recorded explicit Product-owner initial operating model 1A/2B/3C/4A and additional publishing, risk-candidate, rights-evidence and withdrawal business policy; preserved P1/P2/P4, pending S1/P3 controls, Proposed/non-authoritative lifecycle and operational publication NO-GO. |
 | 0.2.0 | 2026-11-06 | Proposed | Prepared consolidated S1 and P3/S2 options and recommended directions linked to DEC-0012 v0.2.0; preserved Product P1/P2/P4 approvals, pending accountable choices, Proposed/non-authoritative lifecycle and all implementation restrictions. |
 | 0.1.0 | 2026-10-30 | Proposed | Recorded confirmed Product-owner P1/P2/P4 policy separately from inherited Security requirements and pending S1/P3 controls; preserved fail-closed visibility, lifecycle/history boundaries and separate acceptance, synchronization and implementation gates. |

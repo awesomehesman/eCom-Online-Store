@@ -4,9 +4,9 @@
 - **Title:** Administrative Role and Permission Matrix
 - **Type:** Product Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Date:** 2026-10-13
-- **Last Updated:** 2026-11-06
+- **Last Updated:** 2026-11-09
 - **Owner:** Product
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -116,6 +116,136 @@ not reopen them, satisfy pending S1 or P3/S2, approve publication or authorize
 positive customer visibility. Existing Accepted decisions and default-deny Product
 administration boundaries remain unchanged.
 
+## Product-Specific Accountable Disposition Package — Prepared 2026-11-09
+
+**PROPOSED DISPOSITION — NOT APPROVED. PENDING ACCOUNTABLE APPROVAL for all eight items.**
+This package maps A–H to the eight outstanding questions above; these are local
+review labels, not Roles, Permission identifiers, assignments or new decisions.
+It prepares accountable choices without selecting an overall matrix, closing any
+question, recording Security concurrence or granting implementation authority.
+Accountable owners below denote review capacities, not personal identities or
+completed approvals. Explicit confirmation must record the accepting capacity,
+date, scope and any conditions; no confirmation is supplied by this package.
+
+**ESTABLISHED REQUIREMENT** identifies obligations already binding under the
+Existing Mandatory Requirements section. **CONFIRMED BUSINESS DIRECTION** refers
+only to the Product-owner dispositions recorded in [DEC-0042, Product-Owner Business
+Disposition and P1/P2/P4](DEC-0042-product-publication-acceptance-and-visibility.md).
+Those approvals retain their original provenance and limits; this document does
+not reproduce them as Security, Identity or Administration approvals. Absence of
+an item-specific business choice is identified explicitly.
+
+### A — Product-Scoped Eligible Assignments
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Least privilege, separately trusted Principal/Staff/access evidence, and Product-owned current Resource/action Authorization apply; Authentication or an assignment alone grants no Product action. See BIDN-REQ-011–014, 021–026 and BPRD-REQ-007, 037. |
+| CONFIRMED BUSINESS DIRECTION | DEC-0042 records the founder as the only initial operator, conditional eligibility for the founder and future designated publishers after required acceptance, and founder responsibility for initial withdrawal. None establishes an assignment. |
+| PROPOSED DISPOSITION | Evaluate eligibility separately for the five actions and exact Product/revision scope. Initially provision only the founder's capabilities expressly approved through governance; future designation alone grants nothing. Preserve mandatory RBAC and Product contextual denial without choosing concrete Roles, Permissions or assignment mechanisms. |
+| Responsible accountable owners | Product: business eligibility and Product scope; Administration: operational coordination; Identity: trusted Staff association and access evidence; Security: least privilege and prohibited combinations. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm eligibility for each action, Product/revision limits, required Staff/access provenance and any prohibited combinations. Confirm that founder status and publisher designation cannot establish access. |
+| Consequence if unresolved | No operational action may rely on assumed eligibility; existing default denial remains. |
+| Implementation dependency | Governed Staff authentication/association, current assignment evidence, contextual Product evaluation and applicable reviewed Contracts; no source, representation or provisioning mechanism is selected here. |
+
+### B — Risk-Based Same-Actor Restrictions
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Applicable separation of duties and mandatory acceptance/security evidence cannot be bypassed. See Security Standards §§7.6, 12 and DEC-0042 Existing Authoritative Security and Ownership Requirements. |
+| CONFIRMED BUSINESS DIRECTION | DEC-0042 approves risk-based separation subject to Security restrictions. The founder is the only initial operator; higher-risk categories are candidates for assessment, not a completed Security classification. Missing mandatory evidence always blocks publication. |
+| PROPOSED DISPOSITION | Consider same-actor acceptance/publication only for a Security-defined ordinary-risk class after every mandatory check. Higher-risk or unclassified cases remain blocked until their applicable separation requirements are satisfied. This is neither blanket same-actor permission nor a universal two-person rule. |
+| Responsible accountable owners | Security: risk classes and separation restrictions; Product: business applicability; Administration: operational feasibility and coordination. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Define the permitted ordinary-risk class, prohibited action combinations and higher-risk treatment, including how classification is established and who may resolve uncertainty. Explicitly accept or amend any same-actor permission. |
+| Consequence if unresolved | No same-actor acceptance/publication permission may be inferred; operations requiring that permission remain unavailable. |
+| Implementation dependency | Trusted actor attribution, revision-bound acceptance, governed risk evidence and enforcement of accepted separation rules; no risk engine or workflow is selected. |
+
+### C — Security-Classified Privileged Actions
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Privileged and high-impact actions require applicable stronger controls, least privilege and audit. See Security Standards §§10–13 and 27. |
+| CONFIRMED BUSINESS DIRECTION | DEC-0042 identifies higher-risk Product candidates and approved business responsibilities, but does not classify the five actions for Security purposes. |
+| PROPOSED DISPOSITION | Conservatively classify publication, withdrawal and archival as high-impact; classify content/media acceptance by their ability to establish publication prerequisites. This proposed classification is not effective until accountable disposition. |
+| Responsible accountable owners | Security: action classification; Product and Administration: impact and operational context. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Classify each of the five actions explicitly, identify any distinctions or additional restrictions and confirm treatment of exceptional/urgent withdrawal without assuming an exemption. |
+| Consequence if unresolved | No lower-risk classification or assurance exception may be assumed to enable an action. |
+| Implementation dependency | Accepted action classification and its assurance/approval mapping before operational enforcement; no numerical thresholds or classifier mechanism selected. |
+
+### D — Action-Specific MFA and Reauthentication
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Mandatory privileged Staff MFA, applicable privileged-session controls and high-impact reauthentication already apply. Trusted Identity evidence must support reliance; see Security Standards §§11–13 and BIDN-REQ-012–014, 020–026. |
+| CONFIRMED BUSINESS DIRECTION | Founder operation and designated-publisher eligibility confer no assurance exception. No Product-owner disposition selects a factor, provider, freshness interval or action-specific assurance rule. |
+| PROPOSED DISPOSITION | Require Identity-verifiable evidence of the controls applicable to each classified action. Generic MFA evidence must not be interpreted as proof of a particular phishing-resistant factor. Preserve accepted server-side Sessions and Customer/Staff separation. |
+| Responsible accountable owners | Security: required assurance and action-specific freshness; Identity: trustworthy evidence and integration capability; Product and Administration: action context. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm each action's MFA, privileged-session, reauthentication and freshness requirements, acceptable assurance evidence and handling of missing/unsupported evidence; identify any further mechanism decision needed. |
+| Consequence if unresolved | Mandatory controls remain binding, but no unconfirmed assurance mapping may activate an operational action. |
+| Implementation dependency | Separately governed Staff authentication authority, assurance provenance and current Session/access evidence; no issuer, factor, provider, protocol or lifetime selected. |
+
+### E — Risk-Based Independent Approval
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Applicable separation and stronger authorization/approval requirements remain binding; one action's permission cannot grant another. See Security Standards §12 and the Recommended Product Action Scope above. |
+| CONFIRMED BUSINESS DIRECTION | DEC-0042 confirms risk-based separation, not a universal independent approval chain or unrestricted same-actor execution. |
+| PROPOSED DISPOSITION | Specify independent approval only where accepted risk policy requires it, without inventing a universal chain. Block affected actions when the required independent actor or evidence is unavailable; no single-operator override is presumed. |
+| Responsible accountable owners | Security: required independence and control adequacy; Product and Administration: affected actions, business impact and operational feasibility. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify action/risk combinations requiring independent approval, eligibility and independence constraints, revision binding and invalidation, and any urgent-withdrawal treatment. Reconcile explicitly with B; do not infer an approver count or chain. |
+| Consequence if unresolved | No exemption from applicable approval requirements may be inferred; actions needing unresolved approval treatment remain blocked. |
+| Implementation dependency | Governed approval evidence and current actor/revision checks after policy acceptance; no approval API, workflow or override mechanism selected. |
+
+### F — Identity-Owned Assignment Evidence
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Identity owns trusted access assignments and effective withdrawal; Administration coordinates within its boundary and Product retains contextual Authorization. See BIDN-REQ-024–026 and BADM-REQ-005, 007, 014. |
+| CONFIRMED BUSINESS DIRECTION | The founder's initial operating/withdrawal responsibility and future publisher designation do not grant assignment-management authority. No eligible grant/change/withdrawal actor has been approved here. |
+| PROPOSED DISPOSITION | Use one governed Identity-owned access-evidence model with attributable assignment lifecycle, effective revocation and Administration coordination. Do not introduce a competing Product assignment authority. |
+| Responsible accountable owners | Identity: assignment integrity and revocation; Administration: coordination; Product: business scope; Security: provisioning authority and least privilege. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify who may grant, change and withdraw each applicable assignment, the trusted provenance and scope, and the guarantee by which withdrawal becomes effective before further reliance. |
+| Consequence if unresolved | Founder status, stored labels or stale assignment evidence cannot authorize actions; operational provisioning remains unavailable. |
+| Implementation dependency | Governed assignment/Staff association sources, access observation and withdrawal integration; no schema, event, issuer or assignment mechanism selected. |
+
+### G — Current Authority and Revision Revalidation
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Current contextual Authorization, effective withdrawal, concurrency integrity and Product invariants must hold at the owning mutation boundary. See BIDN-REQ-021–025, BPRD-REQ-007 and DEC-0042 Implementation Boundary and Acceptance Prerequisites. |
+| CONFIRMED BUSINESS DIRECTION | P1/P2 acceptance is revision-bound; P4 permits reuse only for unchanged, still-valid evidence and requires current authority for a new publication. No residual-race policy or concurrency mechanism was approved. |
+| PROPOSED DISPOSITION | Revalidate current authority and relevant Product revision/state at final mutation reliance. Known withdrawal and stale/conflicting evidence prevent execution. Revalidation alone is not proof of atomic cross-system consistency. |
+| Responsible accountable owners | Product: final contextual evaluation and revision integrity; Identity: current access and withdrawal; Security: acceptable reliance/failure boundary. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm final-reliance and in-flight withdrawal semantics, residual race treatment, changed-state rejection and recovery obligations. Identify whether stronger coordination needs separate governance. |
+| Consequence if unresolved | No cached authorization or historical snapshot may be treated as sufficient current mutation authority. |
+| Implementation dependency | Trusted current evidence, revision checks and separately reviewed concurrency/recovery design; no TTL, locking, transaction or coordination strategy selected. |
+
+### H — Protected Audit and Uncertain Outcomes
+
+| Review element | Disposition preparation |
+| --- | --- |
+| ESTABLISHED REQUIREMENT | Applicable material mutations need attributable, protected audit evidence and truthful outcomes; uncertainty cannot become successful authorization or silent replay. See Security Standards §§7.6 and 27, BPRD-REQ-044 and DEC-0042 Existing Authoritative Security and Ownership Requirements. |
+| CONFIRMED BUSINESS DIRECTION | P1/P2 acceptance and P4 publication/withdrawal/archival preserve attribution, relevant revisions and history. No audit implementation, durability or uncertain-commit recovery policy has been approved. |
+| PROPOSED DISPOSITION | Prevent initiation when required audit integrity cannot be assured. Preserve an uncertain commit as uncertain, and investigate/reconcile before repeating the action or reporting success. A client error alone must not be treated as proof that mutation did not occur. |
+| Responsible accountable owners | Security: integrity, access control and audit guarantee; Product: mutation/outcome truth; Administration: governed investigation and recovery coordination. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm required attribution and audit durability, audit-unavailable behavior, uncertain-commit investigation/reconciliation responsibility and evidence required before retry or success confirmation. |
+| Consequence if unresolved | No operational mutation may rely on an assumed audit guarantee or blind retry/recovery policy. |
+| Implementation dependency | Separately reviewed protected audit and mutation-outcome/reconciliation boundaries; no audit store, outbox, transport, retry or reconciliation implementation selected. |
+
+### Package Acceptance Boundary
+
+A–H all remain **PENDING ACCOUNTABLE APPROVAL**. They do not resolve DEC-0042 S1
+media-security producer, provenance, check coverage/version compatibility or
+invalidation authority. Founder rights responsibility does not establish those
+Security authorities. DEC-0042 P1/P2/P4 and the recorded operating model retain
+their original approval scope; DEC-0042 remains Proposed and unchanged.
+
+Accountable acceptance, applicable canonical/Contract synchronization, dependency
+admission where needed, implementation authorization and executed verification
+are separate gates. This package authorizes no Staff authentication, assignment,
+Product mutation, positive publication or deployment. Existing default-deny
+administration and fail-closed customer visibility remain required. The broader
+Administration matrix remains unselected.
+
 ## Alternatives Considered — Unselected Candidates
 
 | Policy-level candidate | Potential benefit | Question or cost to evaluate |
@@ -189,5 +319,6 @@ This Proposed decision does not select a final Role/Permission matrix or policy 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.3.0 | 2026-11-09 | Proposed | Prepared the eight-item Product-specific accountable disposition package separating established requirements, confirmed business direction, proposed dispositions and pending owner confirmations; preserved unresolved questions, existing approval provenance, unselected matrix and all implementation restrictions. |
 | 0.2.0 | 2026-11-06 | Proposed | Added a bounded Product authorization proposal and outstanding accountable questions for five acceptance/publication actions; preserved unselected matrix alternatives, existing Product approvals, Proposed status and all implementation restrictions. |
 | 0.1.0 | 2026-10-13 | Proposed | Framed the open Product decision on administrative Roles and Permissions, candidate policy models, required evidence, authority boundaries, and review questions without selecting a matrix or authorizing implementation. |
