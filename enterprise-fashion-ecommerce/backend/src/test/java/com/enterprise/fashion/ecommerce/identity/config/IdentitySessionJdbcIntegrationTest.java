@@ -297,7 +297,7 @@ class IdentitySessionJdbcIntegrationTest {
                 String.class));
         assertThat(tables).containsExactlyInAnyOrder("spring_session", "spring_session_attributes",
                 "credential_source_scope", "credential_publication", "login_email_binding_scope",
-                "login_email_binding");
+                "login_email_binding", "staff_association", "staff_association_event");
 
         Set<String> indexes = Set.copyOf(jdbcTemplate.queryForList(
                 "SELECT indexname FROM pg_indexes WHERE schemaname = 'identity'",

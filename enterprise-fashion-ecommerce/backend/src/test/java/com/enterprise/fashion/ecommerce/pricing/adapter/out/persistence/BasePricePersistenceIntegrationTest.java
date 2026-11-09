@@ -56,7 +56,9 @@ class BasePricePersistenceIntegrationTest {
     @Test
     void allMigrationsValidateAndExactMoneyRoundTripsWithoutProductIntegration() {
         flyway.validate();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("8");
+        assertThat(flyway.info().applied()).extracting(migration -> migration.getVersion().getVersion())
+                .containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9");
+        assertThat(flyway.info().pending()).isEmpty();
         var s = subject();
         var amount = money("123456789012345678901234567890.123456789012345678901234567890");
         service.initialize(s, "first", amount);
