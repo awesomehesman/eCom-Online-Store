@@ -16,10 +16,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
@@ -37,6 +44,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 
 @Tag("integration")
 @SpringBootTest(properties = "product.catalogue.cursor-secret=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
@@ -159,6 +167,88 @@ class ProductAdministrationSecurityIntegrationTest {
         String cookie = java.util.Base64.getEncoder().encodeToString(session.getId().getBytes(java.nio.charset.StandardCharsets.UTF_8));
         denied(http.perform(get("/api/v1/admin/products").cookie(new jakarta.servlet.http.Cookie("SESSION", cookie))).andReturn(), 401);
         assertThat(repository.findById(session.getId()).getLastAccessedTime()).isEqualTo(stored);
+    }
+
+    private record PersistedAuthentication(String id, String cookie, Instant lastAccess) { }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private PersistedAuthentication persistAuthenticatedSession(String authority) {
+        // Adversarial labels only: no operational Staff Role/Permission is selected.
+        SessionRepository<Session> repository = (SessionRepository) sessions;
+        Session session = repository.createSession();
+        session.setMaxInactiveInterval(Duration.ofHours(2));
+        session.setLastAccessedTime(Instant.now().minusSeconds(60));
+        var authentication = UsernamePasswordAuthenticationToken.authenticated(
+                "synthetic-principal", null, List.of(new SimpleGrantedAuthority(authority)));
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                new SecurityContextImpl(authentication));
+        repository.save(session);
+        // Read back through JDBC: prove serialized authentication exists, not just request state.
+        Session stored = repository.findById(session.getId());
+        assertThat(stored).isNotNull();
+        SecurityContext context = stored.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        assertThat(context.getAuthentication().isAuthenticated()).isTrue();
+        assertThat(context.getAuthentication().getName()).isEqualTo("synthetic-principal");
+        assertThat(context.getAuthentication().getAuthorities()).extracting("authority").containsExactly(authority);
+        String cookie = java.util.Base64.getEncoder().encodeToString(
+                session.getId().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        return new PersistedAuthentication(session.getId(), cookie, stored.getLastAccessedTime());
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void assertPersistedAuthenticationUnchanged(PersistedAuthentication persisted, String authority) {
+        SessionRepository<Session> repository = (SessionRepository) sessions;
+        Session stored = repository.findById(persisted.id());
+        assertThat(stored).isNotNull();
+        assertThat(stored.getLastAccessedTime()).isEqualTo(persisted.lastAccess());
+        SecurityContext context = stored.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        assertThat(context.getAuthentication().isAuthenticated()).isTrue();
+        assertThat(context.getAuthentication().getAuthorities()).extracting("authority").containsExactly(authority);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"})
+    void persistedAuthenticationCannotActivateAdministrationForAnyMethod(String method) throws Exception {
+        for (String authority : List.of("PRODUCT_ADMIN", "STAFF_ADMIN")) {
+            var persisted = persistAuthenticatedSession(authority);
+            try {
+                for (String path : List.of("/api/v1/admin/products", "/api/v1/admin/products/PRIVATE-id")) {
+                    // Only a real persisted Session cookie: no user()/securityContext() postprocessor.
+                    var result = http.perform(request(HttpMethod.valueOf(method), path)
+                            .cookie(new jakarta.servlet.http.Cookie("SESSION", persisted.cookie()))
+                            .header("X-Correlation-ID", "persisted-context-test")).andReturn();
+                    // The stateless perimeter deliberately does not restore authentication from Session.
+                    denied(result, 401);
+                    assertThat(result.getResponse().getHeader("X-Correlation-ID")).isEqualTo("persisted-context-test");
+                    assertPersistedAuthenticationUnchanged(persisted, authority);
+                }
+            } finally {
+                sessions.deleteById(persisted.id());
+            }
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"ERROR,jakarta.servlet.error.request_uri", "FORWARD,jakarta.servlet.forward.request_uri",
+            "INCLUDE,jakarta.servlet.include.request_uri"})
+    void persistedAuthenticationCannotBypassAlternateDispatch(String dispatcher, String attribute) throws Exception {
+        for (String authority : List.of("PRODUCT_ADMIN", "STAFF_ADMIN")) {
+            var persisted = persistAuthenticatedSession(authority);
+            try {
+                var result = http.perform(get("/api/v1/products").with(request -> {
+                    request.setDispatcherType(DispatcherType.valueOf(dispatcher)); return request;
+                }).requestAttr(attribute, "/api/v1/admin/products/PRIVATE-id")
+                        .cookie(new jakarta.servlet.http.Cookie("SESSION", persisted.cookie()))
+                        .header("X-Correlation-ID", "invalid~correlation")
+                        .requestAttr(RequestDispatcher.ERROR_EXCEPTION, new IllegalStateException("PRIVATE diagnostic")))
+                        .andReturn();
+                denied(result, 401);
+                assertThat(result.getResponse().getHeader("X-Correlation-ID")).isNotEqualTo("invalid~correlation");
+                assertPersistedAuthenticationUnchanged(persisted, authority);
+            } finally {
+                sessions.deleteById(persisted.id());
+            }
+        }
     }
 
     @Test
