@@ -4,6 +4,7 @@ import java.time.Clock;
 import com.enterprise.fashion.ecommerce.identity.adapter.out.staff.JdbcStaffAssociationAdapter;
 import com.enterprise.fashion.ecommerce.identity.application.port.out.StaffAssociationPort;
 import com.enterprise.fashion.ecommerce.identity.application.staff.StaffAssociations;
+import com.enterprise.fashion.ecommerce.identity.application.staff.ResolveAuthenticatedStaff;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -13,6 +14,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration(proxyBeanMethods = false)
 public class IdentityStaffAssociationConfiguration {
+    @Bean ResolveAuthenticatedStaff resolveAuthenticatedStaff(StaffAssociations associations) {
+        return new ResolveAuthenticatedStaff(associations);
+    }
     @Bean StaffAssociationPort staffAssociationPort(JdbcClient jdbc) { return new JdbcStaffAssociationAdapter(jdbc); }
     @Bean StaffAssociations staffAssociations(StaffAssociationPort port, PlatformTransactionManager manager) {
         var transactions = new TransactionTemplate(manager);
