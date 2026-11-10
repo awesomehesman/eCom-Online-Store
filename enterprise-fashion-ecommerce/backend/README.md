@@ -131,3 +131,78 @@ The observed original failure was execution of the bind-mounted shell initialize
 Docker reported `/bin/sh: bad interpreter: Permission denied`. The exact host/mount
 policy causing that denial was not established. Plain `.sql` initialization avoids
 executing a mounted shell file; it is processed by the image's `psql` initdb path.
+
+## Development-only Staff OIDC provider evaluation
+
+`compose.staff-identity.local.yaml` runs Keycloak 26.8.2 with a separate PostgreSQL
+18 database for local Staff OIDC evaluation. It imports the reproducible
+`fashion-staff-local` realm and the confidential
+`fashion-staff-backend-local` client. The client permits authorization code flow,
+requires PKCE S256 and disables implicit, direct-grant, service-account, device and
+CIBA grants. It creates no users, Staff associations, application roles,
+permissions or automatic provisioning.
+
+This stack is not connected to the application. It does not activate Staff login,
+issue an application Session or authorize Product administration. `start-dev`,
+plain HTTP, a bootstrap administrator and a single database/container topology are
+development-only limitations. The imported realm does not establish the mandatory
+production assurance mapping, phishing-resistant MFA policy, recovery, audit,
+revocation, backup, availability, secret-management or operational controls from
+ADR-0023 and the Security Standards.
+
+From `backend/`, generate fresh local-only secrets in the current shell. Keep the
+same values while retaining the Compose volume; never commit or print them:
+
+```sh
+export KEYCLOAK_DB_PASSWORD="$(openssl rand -hex 32)"
+export KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME="local-keycloak-admin"
+export KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD="$(openssl rand -hex 32)"
+export STAFF_OIDC_CLIENT_SECRET="$(openssl rand -hex 32)"
+docker compose -f compose.staff-identity.local.yaml config --quiet
+docker compose -f compose.staff-identity.local.yaml up -d --wait
+```
+
+The service is loopback-only at `http://127.0.0.1:8180`. Verify its governed local
+realm metadata without exposing credentials:
+
+```sh
+curl --fail --silent --show-error --retry 30 --retry-delay 1 --retry-all-errors \
+  http://127.0.0.1:8180/realms/fashion-staff-local/.well-known/openid-configuration
+```
+
+The retry is intentional: container health can become positive briefly before the
+imported realm's HTTP endpoint accepts connections.
+
+The discovery document must report this exact issuer and corresponding endpoints:
+
+```text
+issuer:                 http://127.0.0.1:8180/realms/fashion-staff-local
+authorization_endpoint: http://127.0.0.1:8180/realms/fashion-staff-local/protocol/openid-connect/auth
+token_endpoint:         http://127.0.0.1:8180/realms/fashion-staff-local/protocol/openid-connect/token
+jwks_uri:               http://127.0.0.1:8180/realms/fashion-staff-local/protocol/openid-connect/certs
+```
+
+Use the local administration console only to inspect configuration. Do not create
+an association or treat a local account as application Staff authority. The realm
+import resolves the committed client-secret placeholder from the shell environment;
+the secret itself is not committed.
+
+Stop containers while retaining the local Identity-provider database:
+
+```sh
+docker compose -f compose.staff-identity.local.yaml stop
+```
+
+Restart with the same exported values using `up -d --wait`. Keycloak skips the
+startup import when the realm already exists, so the PostgreSQL volume remains the
+source of retained local state. To reset only this development stack when deletion
+is explicitly intended:
+
+```sh
+docker compose -f compose.staff-identity.local.yaml down --volumes
+```
+
+That command permanently removes this Compose project's local Keycloak database.
+Run it only from this repository with the exact Compose file after confirming the
+project name `fashion-staff-identity-local`. It does not remove the separate
+`fashion-local` application PostgreSQL volume.
