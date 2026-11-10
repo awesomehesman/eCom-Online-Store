@@ -1,9 +1,9 @@
 ---
 title: ARCHITECTURE
-version: 1.26.1
+version: 1.27.0
 status: Approved
 owner: Architecture
-last_updated: 2026-09-30
+last_updated: 2026-11-10
 applies_to:
   - Frontend
   - Backend
@@ -1178,6 +1178,21 @@ Administrative access requires stronger controls than ordinary storefront browsi
 - Mandatory privileged MFA under `SECURITY-STANDARDS.md`, with concrete provider, factor, protocol, and exact configuration remaining unresolved.
 - Environment and operational-access separation.
 
+Accepted ADR-0023 selects enterprise-managed OIDC as the upstream Staff Authentication
+mechanism. Identity owns backend verification of configured trusted evidence, stable
+Staff subject binding, controlled Staff Authentication evidence issuance, active Staff
+association resolution, and establishment of authoritative server-side Sessions under
+ADR-0019 and ADR-0020. Customer Authentication remains separate under ADR-0021; Customer
+credentials, labels or context MUST NOT establish Staff identity.
+
+ADR-0023 selects no Identity Provider, tenant, issuer, OIDC client configuration,
+authentication-assurance mapping, provider-specific revocation behavior, dependency,
+signing key, production deployment or operational activation. Those remain separate
+governance and readiness gates, and all applicable Security requirements remain binding.
+Staff Authentication grants no Staff assignment, Role, Permission or administrative
+action and does not enable Product administration or publication. Administrative
+Authorization remains default-deny until its independent gates are completed.
+
 ### 30.4 Authorization
 
 Authentication must establish the applicable Identity and Principal context. Authorization must be enforced at trusted backend boundaries at both coarse route/Use Case level and, where required, object level, using applicable Role, Permission, Claims, and Scope semantics.
@@ -1945,6 +1960,7 @@ Where a review results in a material Architecture Decision, an Architecture Deci
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.27.0 | 2026-11-10 | Approved | Synchronized Accepted ADR-0023 by selecting enterprise-managed OIDC as the upstream Staff Authentication mechanism; preserved Identity-owned verification, Staff-association resolution and ADR-0019/0020 server-side Sessions, Customer/Staff separation under ADR-0021, default-deny administrative Authorization, and separate provider, assurance-mapping, dependency, implementation, deployment and operational-activation gates. |
 | 1.26.1 | 2026-09-30 | Approved | Synchronized the narrow affected Architecture statement following acceptance of DEC-0008 by removing the stale assertion that Product Decision 5 remained unresolved while preserving unresolved Product Decision 28 and all existing Architecture authority; DEC-0008 remains the governing Product/Security decision. |
 | 1.26.0 | 2026-09-30 | Approved | Synchronized Accepted ADR-0022 by establishing the Identity-owned authoritative Identity-to-Customer association, Customer-owned Customer and Account truth, Customer-coordinated registration through bounded Contracts, separate owner-local transactions, fail-closed Customer-context resolution, reconciliation and stability boundaries, and cardinality neutrality while preserving Product Decisions 5 and 28 and all persistence, Contract, dependency, provider, infrastructure, and implementation non-decisions. |
 | 1.25.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Identity-owned local Customer Authentication authority for the initial implementation while preserving Customer and Account business authority, ADR-0019 and ADR-0020 Session boundaries, Product Decisions 5 and 23, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
