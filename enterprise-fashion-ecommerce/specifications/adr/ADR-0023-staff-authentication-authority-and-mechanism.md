@@ -3,12 +3,12 @@
 - **Identifier:** ADR-0023
 - **Title:** Staff Authentication Authority and Mechanism
 - **Type:** Architecture Decision
-- **Status:** Proposed
-- **Version:** 0.1.0
+- **Status:** Accepted
+- **Version:** 1.0.0
 - **Date:** 2026-11-10
 - **Last Updated:** 2026-11-10
 - **Owner:** Architecture
-- **Authoritative:** false
+- **Authoritative:** true
 - **Supersedes:** N/A
 - **Superseded By:** N/A
 
@@ -34,7 +34,7 @@ with separately governed OIDC integration without selecting a provider.
 [ADR-0020 — Identity Session Store Strategy](ADR-0020-identity-session-store-strategy.md)
 selects Spring Session JDBC and application PostgreSQL for that local authority.
 [ADR-0021 — Customer Authentication Authority Strategy](ADR-0021-customer-authentication-authority-strategy.md)
-selects local Customer Authentication authority only. This proposal preserves all
+selects local Customer Authentication authority only. This decision preserves all
 three Accepted decisions and does not extend Customer credential approval to Staff.
 
 ## Decision Drivers
@@ -47,18 +47,18 @@ three Accepted decisions and does not extend Customer credential approval to Sta
 - Keep Authentication separate from assignments and owning-Domain Authorization.
 - Preserve dependency admission and independently reviewable implementation gates.
 
-## Proposed Decision — Awaiting Accountable Acceptance
+## Decision
 
-**RECOMMENDED / NOT APPROVED:** use enterprise-managed OpenID Connect (OIDC) as the
+**ACCEPTED — 2026-11-10:** enterprise-managed OpenID Connect (OIDC) is the
 upstream Staff authentication mechanism. The external enterprise Identity Provider
-would authenticate the Staff identity; Identity would verify the resulting evidence,
-resolve the existing local Staff association and establish local Session context
+authenticates the Staff identity; Identity verifies the resulting evidence,
+resolves the existing local Staff association and establishes local Session context
 only after all applicable gates succeed. Identity retains local Principal,
 association, Session and security-evidence authority.
 
 No enterprise Identity Provider, tenant, issuer or account is selected. No
-operational authority follows from this Proposed ADR. All mechanism-specific
-controls below are proposed requirements conditional on acceptance, unless
+operational authority follows from this Accepted ADR. All mechanism-specific
+controls below are binding requirements of the selected mechanism, unless
 explicitly identified as inherited requirements.
 
 ```text
@@ -80,10 +80,10 @@ Separate owning-Domain contextual Authorization
 These are distinct trust steps, not independently sufficient proofs. External
 Authentication does not provision Staff; verification does not create an association;
 association resolution does not issue a Session; a Session does not grant an
-administrative action. The diagram describes proposed future integration, not
+administrative action. The diagram describes the selected future integration, not
 capabilities activated by this document.
 
-## Proposed Authentication Flow
+## Selected Authentication Flow
 
 1. Identity initiates a backend authorization-code flow against an explicitly
    approved issuer/client configuration. Use PKCE with S256, unpredictable state
@@ -127,7 +127,7 @@ capabilities activated by this document.
    externally observable Contracts and activation remain separate gates.
 
 An Access Token is not a substitute for an ID token's Authentication purpose.
-This proposal does not introduce a browser bearer-token architecture, downstream
+This decision does not introduce a browser bearer-token architecture, downstream
 API access, Refresh Token reliance or a silent-renewal policy.
 
 ## Security Requirements and Outstanding Controls
@@ -136,9 +136,9 @@ OIDC support alone does not demonstrate compliance. Provider documentation,
 entitlements, configuration and executed integration evidence must substantiate
 material capabilities before reliance.
 
-| Concern | ESTABLISHED REQUIREMENT | PROPOSED CONTROL | PENDING ACCOUNTABLE DISPOSITION |
+| Concern | ESTABLISHED REQUIREMENT | ACCEPTED MECHANISM CONTROL | REMAINING PROVIDER / IMPLEMENTATION GATE |
 | --- | --- | --- | --- |
-| Trusted evidence and actor separation | BIDN-REQ-011–014 require trusted current evidence, safe validation and distinct actors; Authentication alone is not Authorization. | Backend OIDC verification and controlled Staff-only evidence issuance; no automatic association or Customer conversion. | Identity/Security confirm permitted issuer/client trust and subject mapping; Architecture confirms external authority boundary. |
+| Trusted evidence and actor separation | BIDN-REQ-011–014 require trusted current evidence, safe validation and distinct actors; Authentication alone is not Authorization. | Backend OIDC verification and controlled Staff-only evidence issuance; no automatic association or Customer conversion. | Provider selection and Identity/Security approval must confirm permitted issuer/client trust and subject mapping within the accepted Architecture boundary. |
 | MFA and assurance | Security Standards §§11–13 require privileged Staff MFA and applicable stronger controls; no new exemption is implied. | Enforce reviewed assurance/method evidence and use appropriate step-up where the provider can prove it. | Security defines applicable factors/assurance and action-specific requirements; Identity confirms verifiable provider evidence. No factor or assurance code is approved here. |
 | Freshness and reauthentication | Trusted evidence must be sufficiently fresh; privileged Sessions require risk-appropriate shorter limits and high-impact reauthentication. | Validate trustworthy authentication-time evidence and explicit freshness requirements; never infer freshness from token receipt or issuance alone. | Security/Identity settle lifetimes, tolerances, reauthentication semantics and treatment of absent/unsupported evidence. No numerical default is selected. |
 | Replay and correlation | BIDN-REQ-013 and 022 require replay/concurrency safety and latest accepted Identity truth. | PKCE, state/nonce correlation and single-use backend callback processing, bound to initiating context. | Identity/Security confirm transaction lifetime, supersession and uncertain-outcome behavior; review the implementation mechanism separately. |
@@ -152,12 +152,13 @@ material capabilities before reliance.
 Inherited sources are [Identity Backend](../backend/identity/identity-backend.md)
 BIDN-REQ-011–014 and 020–026 and [Security Standards](../../.ai/core/SECURITY-STANDARDS.md)
 §§11–13 and 27. Their mandatory controls remain effective independently of this
-ADR's status. Proposed controls do not settle the pending applications listed above.
+ADR's status. Accepted mechanism controls do not settle the later provider-specific
+and implementation choices listed above.
 
 ## Provider Selection — Separate Gate
 
 **No enterprise Identity Provider is selected.** Enterprise-managed describes the
-proposed operating/trust model, not an existing enterprise directory or provider
+accepted operating/trust model, not an existing enterprise directory or provider
 subscription. Provider acceptance must establish:
 
 - Enterprise tenant/directory ownership, permitted issuers and configured clients.
@@ -183,7 +184,7 @@ application credentials. ADR-0020's Spring Session JDBC/PostgreSQL authority rem
 unchanged; provider logout cannot replace local authoritative revocation.
 
 ADR-0021 continues to govern Customer Authentication only. Staff credentials,
-issuer trust, evidence and context must remain separate; this proposal does not
+issuer trust, evidence and context must remain separate; this decision does not
 change Customer behavior or reuse Customer password facts as Staff proof.
 
 Existing association persistence and the dormant resolver are reused without a
@@ -213,41 +214,41 @@ trust signing keys and artifact-release signing keys are separate trust decision
 
 ## Alternatives Considered
 
-| Alternative | Benefits | Costs and boundary | Proposed treatment |
+| Alternative | Benefits | Costs and boundary | Decision treatment |
 | --- | --- | --- | --- |
-| Enterprise-managed OIDC | Uses a governed enterprise Authentication capability while preserving Identity verification and local Sessions; can support centralized MFA and account lifecycle. | Adds provider/tenant selection, issuer trust, assurance mapping, outage and revocation coordination; support and entitlement must be proven. | Recommended subject to accountable mechanism acceptance and all remaining gates. |
-| Identity-owned local Staff credentials | Keeps primary verification locally controlled and avoids an external Authentication dependency. | Requires separately approved Staff credentials, MFA, recovery, provisioning, lifecycle and operational security; Customer implementation is not Staff authority. | Do not select initially under this proposal; reconsider if enterprise capability evidence is inadequate. |
+| Enterprise-managed OIDC | Uses a governed enterprise Authentication capability while preserving Identity verification and local Sessions; can support centralized MFA and account lifecycle. | Adds provider/tenant selection, issuer trust, assurance mapping, outage and revocation coordination; support and entitlement must be proven. | Selected as the Staff authentication mechanism, subject to all remaining gates. |
+| Identity-owned local Staff credentials | Keeps primary verification locally controlled and avoids an external Authentication dependency. | Requires separately approved Staff credentials, MFA, recovery, provisioning, lifecycle and operational security; Customer implementation is not Staff authority. | Not selected initially; reconsider only through later Architecture governance if enterprise capability evidence is inadequate. |
 | Reuse Customer Authentication | Existing Customer verification infrastructure may appear convenient. | Cannot establish distinct Staff identity/authority merely by reusing credentials or labels; would require explicit different governance and isolation evidence. | Not an eligible shortcut under the preserved separation boundary. |
-| Continue default-deny without Staff login | Preserves current security posture without new provider or operational trust. | Provides no operational Staff Authentication progress. | Required current behavior until acceptance, implementation and activation gates close. |
+| Continue default-deny without Staff login | Preserves current security posture without new provider or operational trust. | Provides no operational Staff Authentication progress. | Required current behavior until implementation and activation gates close. |
 
-These are proposals and trade-offs, not recorded owner votes or provider findings.
+These alternatives and trade-offs do not constitute provider findings.
 
 ## Consequences, Migration and Reversibility
 
-Mechanism acceptance would permit a concrete verifier design subject to provider,
-dependency and implementation readiness. It would not establish a working login,
+Mechanism acceptance permits a concrete verifier design subject to provider,
+dependency and implementation readiness. It does not establish a working login,
 trusted issuer, administrative matrix or publication capability. External outages
 and withdrawal coordination become explicit security/operational dependencies.
 
-This draft migrates no credentials, associations, Sessions or data. A later provider
+This decision migrates no credentials, associations, Sessions or data. A later provider
 change must preserve stable local references, avoid email-based relinking, and
 review association migration, evidence invalidation, affected Session revocation
 and recovery. Automatic subject replacement or reactivation is not authorized.
 No new migration, infrastructure, retention period or rollout procedure is selected.
 
-## Required Accountable-Owner Dispositions
+## Accountable-Owner Dispositions
 
 | Capacity | Required determination | Current disposition |
 | --- | --- | --- |
-| Architecture | External Staff Authentication authority/mechanism boundary and compatibility with ADR-0019/0020/0021. | PENDING — no approval recorded. |
-| Identity | Verification, stable Staff subject binding, controlled evidence issuance, Session lifecycle, recovery and revocation responsibilities. | PENDING — no approval recorded. |
-| Security | Issuer trust, assurance/MFA, freshness/replay, withdrawal/revocation, failure and audit requirements. | PENDING — no approval recorded. |
-| Administration | Provisioning and association lifecycle coordination, separated from operational assignments and permissions. | PENDING — no approval recorded. |
+| Architecture | External Staff Authentication authority/mechanism boundary and compatibility with ADR-0019/0020/0021. | ACCEPTED — project owner acting in the accountable Architecture capacity, 2026-11-10. Enterprise-managed OIDC is selected; provider and implementation gates remain separate. |
+| Identity | Verification, stable Staff subject binding, controlled evidence issuance, Session lifecycle, recovery and revocation responsibilities. | ACCEPTED — project owner acting in the accountable Identity capacity, 2026-11-10. Identity retains the local responsibilities defined by this decision. |
+| Security | Issuer trust, assurance/MFA, freshness/replay, withdrawal/revocation, failure and audit requirements. | ACCEPTED — project owner acting in the accountable Security capacity, 2026-11-10. All stated Security controls remain binding; provider-specific evidence and mappings remain gated. |
+| Administration | Provisioning and association lifecycle coordination, separated from operational assignments and permissions. | ACCEPTED — project owner acting in the accountable Administration capacity, 2026-11-10. Authentication grants no assignment, Permission or administrative authority. |
 
-Confirmations must be attributable to the accountable capacity with date, scope and
-conditions. Founder responsibility, a previous PoC, passing tests or an unselected
-approval field cannot substitute for these dispositions. Existing Product business
-approvals are preserved and do not establish Staff Security approval.
+The project owner explicitly supplied these dispositions while acting across the
+four stated accountable capacities. No personal name, signature, independent reviewer
+or third-party approval is asserted. Existing Product business approvals remain
+separate and do not expand the scope of this Staff Authentication decision.
 
 ## Acceptance Conditions and Separate Readiness Gates
 
@@ -260,14 +261,14 @@ approvals are preserved and do not establish Staff Security approval.
 | Implementation readiness | Review Contracts, correlation, verifier/issuer design, association/current-access boundaries, audit, recovery and local Session integration with explicit authorization for the bounded implementation. | No implied deployment or operational activation. |
 | Operational activation | Execute security/integration verification, including negative, replay, concurrency, assurance, disablement, provider/local revocation, outage and recovery cases; complete approved configuration, audit and operational readiness review. | No administrative assignments, Product authorization or publication authority. |
 
-Mechanism acceptance may retain genuine later gates, but cannot describe unresolved
+Mechanism acceptance retains genuine later gates, but does not describe unresolved
 issuer/assurance/withdrawal choices as already approved. Those choices block the
 implementation or operational reliance that depends on them. No acceptance or
-readiness criterion above is recorded as completed by creating this draft.
+readiness criterion other than ADR mechanism acceptance is recorded as completed.
 
-## Proposed Implementation Sequence
+## Implementation Sequence
 
-1. Obtain ADR mechanism acceptance and required synchronization.
+1. ADR mechanism acceptance and required canonical synchronization were completed on 2026-11-10.
 2. Select the actual provider and confirm mandatory capabilities/entitlements.
 3. Complete dependency admission where required, preserving strict verification.
 4. Implement a trusted OIDC verifier and controlled Staff evidence issuer.
@@ -276,11 +277,11 @@ readiness criterion above is recorded as completed by creating this draft.
 7. Implement administrative Authorization only after its independent assignment and owning-Domain gates.
 8. Enable Product administration only after its own Contracts, authorization, audit and publication/readiness gates; Staff Authentication success alone grants nothing.
 
-The sequence orders work; it authorizes none of these implementations in this task.
+The sequence orders future work; acceptance authorizes none of these implementations.
 
 ## Explicit Exclusions
 
-This Proposed ADR does not activate Staff login; select a provider, tenant or issuer;
+This Accepted ADR does not activate Staff login; select a provider, tenant or issuer;
 grant Roles, Permissions or assignments; enable Product administration/publication;
 introduce automatic Staff provisioning; reuse Customer credentials as Staff proof;
 modify the Staff association model; expose a callback/controller; issue Sessions;
@@ -301,4 +302,5 @@ verification; authorize deployment; or close DEC-0012 or Product publication dec
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.0 | 2026-11-10 | Accepted | Project owner accepted enterprise-managed OIDC as the Staff authentication mechanism while acting across accountable Architecture, Identity, Security and Administration capacities; preserved all provider, assurance-mapping, dependency, implementation, deployment and operational-activation gates and default-deny administrative boundaries. |
 | 0.1.0 | 2026-11-10 | Proposed | Proposed enterprise-managed Staff OIDC with Identity-owned verification, existing Staff associations and authoritative server-side Sessions; preserved pending owner dispositions, separate provider/dependency/implementation/activation gates and default-deny administrative boundaries. |
