@@ -1,0 +1,41 @@
+# Development-only Staff OIDC provider evaluation. Not production configuration.
+name: fashion-staff-identity-local
+services:
+  keycloak-postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: keycloak_local
+      POSTGRES_USER: keycloak_local
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?Export KEYCLOAK_DB_PASSWORD}
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U keycloak_local -d keycloak_local"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.2
+    command: ["start-dev", "--import-realm"]
+    depends_on:
+      keycloak-postgres:
+        condition: service_healthy
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-postgres:5432/keycloak_local
+      KC_DB_USERNAME: keycloak_local
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?Export KEYCLOAK_DB_PASSWORD}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME:?Export KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD:?Export KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD}
+      KC_HOSTNAME: http://127.0.0.1:8180
+      STAFF_OIDC_CLIENT_SECRET: ${STAFF_OIDC_CLIENT_SECRET:?Export STAFF_OIDC_CLIENT_SECRET}
+    ports:
+      - "127.0.0.1:8180:8080"
+    volumes:
+      - ./local/keycloak/fashion-staff-local-realm.json:/opt/keycloak/data/import/fashion-staff-local-realm.json:ro
+
+volumes:
+  keycloak-postgres-data:

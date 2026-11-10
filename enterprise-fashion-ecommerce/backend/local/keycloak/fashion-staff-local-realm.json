@@ -1,0 +1,47 @@
+{
+  "realm": "fashion-staff-local",
+  "enabled": true,
+  "displayName": "Fashion Staff Local Development",
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": false,
+  "resetPasswordAllowed": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": false,
+  "duplicateEmailsAllowed": false,
+  "bruteForceProtected": true,
+  "clients": [
+    {
+      "clientId": "fashion-staff-backend-local",
+      "name": "Fashion Staff Backend Local Development",
+      "description": "Development-only confidential client; it grants no Staff association, authority or application permission.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${STAFF_OIDC_CLIENT_SECRET}",
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "frontchannelLogout": false,
+      "fullScopeAllowed": false,
+      "redirectUris": [
+        "http://127.0.0.1:8080/login/oauth2/code/staff-keycloak"
+      ],
+      "webOrigins": [],
+      "defaultClientScopes": [
+        "profile"
+      ],
+      "optionalClientScopes": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "post.logout.redirect.uris": "http://127.0.0.1:8080/"
+      }
+    }
+  ]
+}
