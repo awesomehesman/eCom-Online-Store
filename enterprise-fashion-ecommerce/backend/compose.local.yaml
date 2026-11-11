@@ -19,15 +19,22 @@ services:
       timeout: 5s
       retries: 30
   clamav:
-    # Official supported ClamAV LTS release. Tag is exact; registry digest remains to be independently verified.
-    image: clamav/clamav:1.4.6
+    # Official ClamAV LTS image verified for the development runtime on 2026-11-11.
+    image: clamav/clamav:1.4.6@sha256:cbc30de94b6e9b33ac14136ff45306cee02a1f9ae522394a3cc5b9215d1affe9
+    platform: linux/amd64
     ports:
       - "127.0.0.1:3310:3310"
     volumes:
       - clamav-definitions:/var/lib/clamav
       - ./local/clamav/clamd.conf:/etc/clamav/clamd.conf:ro
-    # Inherit the official image's clamd PING/PONG health check rather than
-    # assuming an additional shell utility is present in the image.
+    # The verified image supplies nc. Use IPv4 explicitly because its inherited
+    # localhost probe does not reach clamd when this configuration binds IPv4.
+    healthcheck:
+      test: ["CMD-SHELL", "test \"$$(echo PING | nc 127.0.0.1 3310)\" = PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 360s
 volumes:
   postgres-data:
   clamav-definitions:
