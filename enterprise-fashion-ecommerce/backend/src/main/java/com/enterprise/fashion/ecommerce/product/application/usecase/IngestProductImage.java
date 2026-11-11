@@ -1,23 +1,16 @@
 package com.enterprise.fashion.ecommerce.product.application.usecase;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HexFormat;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.MemoryCacheImageInputStream;
-
 import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset;
+import com.enterprise.fashion.ecommerce.product.application.media.ProductImageTechnicalInspector;
 import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset.Format;
 import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset.Status;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageQuarantinePort;
@@ -53,7 +46,17 @@ public final class IngestProductImage {
         Objects.requireNonNull(productId, "productId");
         requireOwnTransaction();
         byte[] bytes = copyAndCheckSize(suppliedBytes);
-        InspectedImage image = inspect(bytes);
+        ProductImageTechnicalInspector.Inspection image;
+        try {
+            image = ProductImageTechnicalInspector.inspect(bytes, new ProductImageTechnicalInspector.Limits(
+                    limits.maximumBytes(), limits.maximumWidth(), limits.maximumHeight(), limits.maximumPixels()));
+        } catch (ProductImageTechnicalInspector.Failure failure) {
+            throw new Failure(switch (failure.reason()) {
+                case MALFORMED_CONTENT -> Reason.MALFORMED_CONTENT;
+                case UNSUPPORTED_FORMAT -> Reason.UNSUPPORTED_FORMAT;
+                case RESOURCE_LIMIT_EXCEEDED -> Reason.IMAGE_RESOURCE_LIMIT_EXCEEDED;
+            });
+        }
         UUID assetId = Objects.requireNonNull(identifiers.get(), "Generated asset identity");
         var asset = new QuarantinedProductImageAsset(assetId, productId, digest(bytes), image.format(),
                 bytes.length, image.width(), image.height(), Status.QUARANTINED, Instant.now(clock));
@@ -76,82 +79,6 @@ public final class IngestProductImage {
         return suppliedBytes.clone();
     }
 
-    private InspectedImage inspect(byte[] bytes) {
-        Format expected = signature(bytes);
-        try (var input = new MemoryCacheImageInputStream(new ByteArrayInputStream(bytes))) {
-            Iterator<ImageReader> candidates = ImageIO.getImageReaders(input);
-            ImageReader reader = null;
-            while (candidates.hasNext()) {
-                ImageReader candidate = candidates.next();
-                if (matches(expected, candidate.getFormatName())) {
-                    reader = candidate;
-                    break;
-                }
-                candidate.dispose();
-            }
-            if (reader == null) {
-                throw new Failure(Reason.MALFORMED_CONTENT);
-            }
-            try {
-                reader.setInput(input, false, true);
-                int width = reader.getWidth(0);
-                int height = reader.getHeight(0);
-                long pixels = Math.multiplyExact((long) width, (long) height);
-                if (width < 1 || height < 1 || width > limits.maximumWidth()
-                        || height > limits.maximumHeight() || pixels > limits.maximumPixels()) {
-                    throw new Failure(Reason.IMAGE_RESOURCE_LIMIT_EXCEEDED);
-                }
-                BufferedImage decoded = reader.read(0);
-                if (decoded == null || decoded.getWidth() != width || decoded.getHeight() != height
-                        || reader.getNumImages(true) != 1) {
-                    throw new Failure(Reason.MALFORMED_CONTENT);
-                }
-                decoded.flush();
-                return new InspectedImage(expected, width, height);
-            } finally {
-                reader.dispose();
-            }
-        } catch (Failure known) {
-            throw known;
-        } catch (IOException | RuntimeException invalid) {
-            throw new Failure(Reason.MALFORMED_CONTENT);
-        }
-    }
-
-    private static Format signature(byte[] bytes) {
-        byte[] png = {(byte) 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
-        if (startsWith(bytes, png)) {
-            return Format.PNG;
-        }
-        if (bytes.length >= 3 && bytes[0] == (byte) 0xff && bytes[1] == (byte) 0xd8
-                && bytes[2] == (byte) 0xff) {
-            return Format.JPEG;
-        }
-        if (startsWith(bytes, "GIF87a".getBytes(java.nio.charset.StandardCharsets.US_ASCII))
-                || startsWith(bytes, "GIF89a".getBytes(java.nio.charset.StandardCharsets.US_ASCII))
-                || (bytes.length >= 12 && startsWith(bytes, "RIFF".getBytes(java.nio.charset.StandardCharsets.US_ASCII))
-                && bytes[8] == 'W' && bytes[9] == 'E' && bytes[10] == 'B' && bytes[11] == 'P')) {
-            throw new Failure(Reason.UNSUPPORTED_FORMAT);
-        }
-        throw new Failure(Reason.MALFORMED_CONTENT);
-    }
-
-    private static boolean startsWith(byte[] bytes, byte[] prefix) {
-        if (bytes.length < prefix.length) {
-            return false;
-        }
-        for (int index = 0; index < prefix.length; index++) {
-            if (bytes[index] != prefix[index]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean matches(Format expected, String readerFormat) {
-        return expected == Format.PNG ? "png".equalsIgnoreCase(readerFormat)
-                : "jpeg".equalsIgnoreCase(readerFormat) || "jpg".equalsIgnoreCase(readerFormat);
-    }
 
     private static String digest(byte[] bytes) {
         try {
@@ -166,8 +93,6 @@ public final class IngestProductImage {
             throw new IllegalStateException("Product image ingestion must own its transaction");
         }
     }
-
-    private record InspectedImage(Format format, int width, int height) { }
 
     /** Implementation-local resource ceilings, not a Product or Architecture policy decision. */
     public record Limits(int maximumBytes, int maximumWidth, int maximumHeight, long maximumPixels) {
