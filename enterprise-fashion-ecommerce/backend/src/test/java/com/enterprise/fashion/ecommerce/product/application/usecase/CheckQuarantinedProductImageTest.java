@@ -12,9 +12,14 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductImageTechnicalInspector.Limits;
+import com.enterprise.fashion.ecommerce.product.application.media.ProductImageMalwareObservation;
+import com.enterprise.fashion.ecommerce.product.application.media.ProductImageMalwareScanResult;
 import com.enterprise.fashion.ecommerce.product.application.media.ProductMediaSecurityCheckResult;
 import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageSecurityCheckPort;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageMalwareObservationPort;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageMalwareScanner;
+import com.enterprise.fashion.ecommerce.product.adapter.out.media.UnavailableProductImageMalwareScanner;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageSecurityCheckPort.RetrievedAsset;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
 import org.junit.jupiter.api.Test;
@@ -37,6 +42,8 @@ class CheckQuarantinedProductImageTest {
     private static final UUID CHECK = UUID.fromString("f005361e-b0d5-4772-a118-e1f703755c94");
     private static final Instant NOW = Instant.parse("2026-11-11T14:00:00Z");
     private final ProductImageSecurityCheckPort storage = mock(ProductImageSecurityCheckPort.class);
+    private final ProductImageMalwareObservationPort observations = mock(ProductImageMalwareObservationPort.class);
+    private final ProductImageMalwareScanner scanner = new UnavailableProductImageMalwareScanner();
 
     @Test
     void validPngAndJpegProduceAccurateNonAuthoritativeResultsWithoutMalwareClaim() throws Exception {
@@ -86,6 +93,60 @@ class CheckQuarantinedProductImageTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    void scannerRunsOutsideTransactionsAndPersistenceRevalidatesExactAsset() throws Exception {
+        byte[] bytes = image("png", 1, 1);
+        when(storage.retrieve(ASSET, PRODUCT)).thenReturn(retrieved(bytes, "png"));
+        var outsideTransaction = new java.util.concurrent.atomic.AtomicBoolean();
+        ProductImageMalwareScanner verifyingScanner = new ProductImageMalwareScanner() {
+            @Override public Descriptor descriptor() { return scanner.descriptor(); }
+            @Override public com.enterprise.fashion.ecommerce.product.application.media.ProductImageMalwareScanResult scan(byte[] content) {
+                outsideTransaction.set(!org.springframework.transaction.support.TransactionSynchronizationManager
+                        .isActualTransactionActive());
+                return scanner.scan(content);
+            }
+        };
+        var useCase = new CheckQuarantinedProductImage(storage, observations, verifyingScanner,
+                trackedTransaction(), trackedTransaction(), Limits.conservativeDefaults(),
+                Clock.fixed(NOW, ZoneOffset.UTC), () -> CHECK);
+
+        useCase.check(PRODUCT, ASSET);
+
+        assertThat(outsideTransaction).isTrue();
+        verify(storage, org.mockito.Mockito.times(2)).retrieve(ASSET, PRODUCT);
+        verify(observations).append(any());
+    }
+
+    @Test
+    void unexpectedScannerRuntimeFailureBecomesImmutableIndeterminateObservation() throws Exception {
+        byte[] bytes = image("png", 1, 1);
+        when(storage.retrieve(ASSET, PRODUCT)).thenReturn(retrieved(bytes, "png"));
+        ProductImageMalwareScanner failingScanner = new ProductImageMalwareScanner() {
+            @Override public Descriptor descriptor() {
+                return new Descriptor("configured-scanner", "configured-check", "7.3");
+            }
+            @Override public ProductImageMalwareScanResult scan(byte[] content) {
+                throw new IllegalStateException("unexpected scanner failure");
+            }
+        };
+        var useCase = new CheckQuarantinedProductImage(storage, observations, failingScanner,
+                immediate(), immediate(), Limits.conservativeDefaults(),
+                Clock.fixed(NOW, ZoneOffset.UTC), () -> CHECK);
+
+        useCase.check(PRODUCT, ASSET);
+
+        var observation = org.mockito.ArgumentCaptor.forClass(ProductImageMalwareObservation.class);
+        verify(observations).append(observation.capture());
+        assertThat(observation.getValue().scanResult().outcome())
+                .isEqualTo(ProductImageMalwareScanResult.Outcome.INDETERMINATE);
+        assertThat(observation.getValue().scanResult().failureCategory())
+                .isEqualTo(ProductImageMalwareScanResult.FailureCategory.SCANNER_ERROR);
+        assertThat(observation.getValue().scanResult().scannerIdentity()).isEqualTo("configured-scanner");
+        assertThat(observation.getValue().scanResult().checkDefinition()).isEqualTo("configured-check");
+        assertThat(observation.getValue().scanResult().implementationVersion()).isEqualTo("7.3");
+        assertThat(observation.getValue().authoritativeAcceptanceEligible()).isFalse();
+    }
+
     private void assertRejected(byte[] bytes, ProductMediaSecurityCheckResult.FailureReason reason, Limits limits) {
         when(storage.retrieve(ASSET, PRODUCT)).thenReturn(retrieved(bytes, "png"));
         var result = checker(limits).check(PRODUCT, ASSET);
@@ -96,7 +157,7 @@ class CheckQuarantinedProductImageTest {
     }
 
     private CheckQuarantinedProductImage checker(Limits limits) {
-        return new CheckQuarantinedProductImage(storage, immediate(), limits,
+        return new CheckQuarantinedProductImage(storage, observations, scanner, immediate(), immediate(), limits,
                 Clock.fixed(NOW, ZoneOffset.UTC), () -> CHECK);
     }
     private static RetrievedAsset retrieved(byte[] bytes, String format) {
@@ -119,5 +180,22 @@ class CheckQuarantinedProductImageTest {
         when(operations.execute(any())).thenAnswer(invocation -> ((TransactionCallback<Object>) invocation.getArgument(0))
                 .doInTransaction(mock(TransactionStatus.class)));
         return operations;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static TransactionOperations trackedTransaction() {
+        TransactionOperations transactions = mock(TransactionOperations.class);
+        when(transactions.execute(any())).thenAnswer(invocation -> {
+            org.springframework.transaction.support.TransactionSynchronizationManager
+                    .setActualTransactionActive(true);
+            try {
+                return ((TransactionCallback<Object>) invocation.getArgument(0))
+                        .doInTransaction(mock(TransactionStatus.class));
+            } finally {
+                org.springframework.transaction.support.TransactionSynchronizationManager
+                        .setActualTransactionActive(false);
+            }
+        });
+        return transactions;
     }
 }
