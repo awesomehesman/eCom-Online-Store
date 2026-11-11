@@ -4,9 +4,9 @@
 - **Title:** Administrative Role and Permission Matrix
 - **Type:** Product Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
+- **Version:** 0.4.0
 - **Date:** 2026-10-13
-- **Last Updated:** 2026-11-09
+- **Last Updated:** 2026-11-11
 - **Owner:** Product
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -231,9 +231,97 @@ an item-specific business choice is identified explicitly.
 | Consequence if unresolved | No operational mutation may rely on an assumed audit guarantee or blind retry/recovery policy. |
 | Implementation dependency | Separately reviewed protected audit and mutation-outcome/reconciliation boundaries; no audit store, outbox, transport, retry or reconciliation implementation selected. |
 
+## Founder-Operated MVP Bounded Disposition — Prepared 2026-11-11
+
+**PROPOSED DISPOSITION — NOT APPROVED. PENDING ACCOUNTABLE PROJECT-OWNER
+CONFIRMATION.** This package narrows A–H to the minimum Product publication policy
+needed for the founder-operated MVP. It does not select Role or Permission identifiers,
+create an assignment, approve a Staff authentication assurance mapping, close DEC-0042
+S1, authorize implementation or approve the broader Administration matrix.
+
+### MVP Product Actions and Scope
+
+The following five actions require distinct Product-owned contextual decisions. They
+are action descriptions for accountable review, not executable Permission names. One
+action's eligibility or assignment grants no other action.
+
+| MVP action | Proposed founder eligibility and required Product context |
+| --- | --- |
+| Draft create/edit | The founder may be eligible to create a Product in Draft and edit only an exact Draft Product under its current revision and invariants. Draft eligibility grants no acceptance, publication or withdrawal authority. |
+| Content acceptance | The founder may be eligible to accept the exact Product content/configuration revision only after the applicable P1 criteria are established. Acceptance becomes stale after a covered change, invalidation or withdrawal. |
+| Media acceptance | The founder may be eligible to accept the exact Product, asset and Product/Variant association revisions only after current rights, security, quality, accuracy and accessibility evidence is established. Assignment evidence cannot designate the DEC-0042 S1 checking authority. |
+| Publication | The founder may be eligible to publish the exact Draft Product and revision only when every current acceptance, risk, assurance, authorization, concurrency and audit prerequisite succeeds at final mutation reliance. Publication is treated as high-impact and requires fresh privileged assurance. |
+| Withdrawal | The founder may be eligible to withdraw the exact Published Product under its current revision. Withdrawal is separately authorized, does not follow from publication eligibility and must not depend on continuing publication completeness. |
+
+For every action, positive eligibility requires all of the following: an active trusted
+Staff association; a current Identity-owned assignment covering the action and exact
+Product scope; Product-owned contextual Authorization for the current action, Resource,
+revision and state; and trustworthy evidence of the applicable Authentication and
+Session assurance. Founder status, a publisher designation, a Session, an assignment,
+a Role label, a Claim, a caller boolean or prior success is insufficient by itself.
+
+### MVP Risk and Approval Boundary
+
+For accountable consideration, permit the same founder to perform content or media
+acceptance and publication only for an **ordinary-risk Product** after every mandatory
+control succeeds. Ordinary risk excludes disputed or uncertain media rights, unresolved
+security findings, sensitive or restricted content, invalidated acceptance evidence,
+exceptional publication handling and any other Product whose applicable risk cannot be
+authoritatively classified as ordinary. Missing mandatory evidence never becomes an
+ordinary-risk classification.
+
+Higher-risk and unclassified Products require revision-bound independent approval from
+an eligible, separately authorized approver. When no eligible independent approver or
+required approval evidence exists, the affected acceptance or publication remains
+blocked. No founder override, universal same-actor permission or universal two-person
+workflow is proposed. Withdrawal remains independently authorized and is not blocked
+merely because content, media or publication completeness has subsequently failed;
+applicable current Staff, assurance, Authorization, concurrency and audit controls still
+apply.
+
+### MVP Current Authority, Evidence and Audit Boundary
+
+Identity-owned assignment revocation invalidates future authorization reliance. Product
+must revalidate the active Staff association, current assignment and assurance, exact
+Product revision/state, accepted risk/approval evidence and contextual Authorization at
+the final mutation boundary. Known revocation, changed state or revision, or missing,
+stale, conflicting, invalidated, unsupported or unavailable required evidence denies the
+action. Historical success and cached evidence cannot restore authority.
+
+Publication requires attributable protected audit evidence for the actor, trusted time,
+Product, action, relevant revisions, authorization/assurance context and truthful outcome.
+Publication must not begin when required audit integrity cannot be assured. An uncertain
+mutation outcome remains uncertain and requires governed investigation and reconciliation
+before retry or success can be asserted. No audit store, transaction strategy, retry or
+reconciliation mechanism is selected by this policy proposal.
+
+### Required Accountable Project-Owner Dispositions
+
+The project owner must explicitly accept, amend or reject this bounded package while
+acting in each applicable accountable capacity; a merged proposal or implementation
+does not supply the disposition.
+
+| Accountable capacity | Exact confirmation still required |
+| --- | --- |
+| Product | Confirm the five-action founder eligibility, exact Product/revision/state scopes, ordinary-risk business applicability and separate withdrawal authority. |
+| Security | Confirm the ordinary-risk exclusions, same-actor allowance, independent-approval boundary, high-impact publication classification, fresh privileged-assurance requirement, fail-closed evidence treatment and protected-audit boundary. |
+| Identity | Confirm the trusted Staff-association, current assignment, assurance-evidence and effective-revocation responsibilities, without treating Authentication as Product Authorization. |
+| Administration | Confirm the bounded founder-operated workflow, independent-approver coordination for higher-risk/unclassified Products and the absence of an operational override when no eligible approver exists. |
+
+### Remaining Operational Gates
+
+Even after accountable policy acceptance, operational use remains gated on accepted
+DEC-0042 S1 media-security dispositions; a reviewed checking producer and evidence
+boundary; operational Staff Authentication under ADR-0023; trusted Staff association,
+assignment, assurance and revocation evidence; Product-owned enforcement; protected
+audit and uncertain-outcome handling; applicable Contract/canonical synchronization;
+implementation verification; and explicit operational activation. Product administration
+and customer visibility remain default-deny until those gates are completed.
+
 ### Package Acceptance Boundary
 
-A–H all remain **PENDING ACCOUNTABLE APPROVAL**. They do not resolve DEC-0042 S1
+A–H and the founder-operated MVP package all remain **PENDING ACCOUNTABLE APPROVAL**.
+They do not resolve DEC-0042 S1
 media-security producer, provenance, check coverage/version compatibility or
 invalidation authority. Founder rights responsibility does not establish those
 Security authorities. DEC-0042 P1/P2/P4 and the recorded operating model retain
@@ -319,6 +407,7 @@ This Proposed decision does not select a final Role/Permission matrix or policy 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-11-11 | Proposed | Prepared a bounded founder-operated MVP disposition for five contextual Product actions, ordinary-risk same-actor acceptance/publication, independent approval for higher-risk or unclassified Products, fresh privileged publication assurance, separate withdrawal, current authority/revision revalidation, fail-closed evidence and protected audit; identified exact project-owner confirmations and preserved all operational gates, Proposed status and non-authoritative scope. |
 | 0.3.0 | 2026-11-09 | Proposed | Prepared the eight-item Product-specific accountable disposition package separating established requirements, confirmed business direction, proposed dispositions and pending owner confirmations; preserved unresolved questions, existing approval provenance, unselected matrix and all implementation restrictions. |
 | 0.2.0 | 2026-11-06 | Proposed | Added a bounded Product authorization proposal and outstanding accountable questions for five acceptance/publication actions; preserved unselected matrix alternatives, existing Product approvals, Proposed status and all implementation restrictions. |
 | 0.1.0 | 2026-10-13 | Proposed | Framed the open Product decision on administrative Roles and Permissions, candidate policy models, required evidence, authority boundaries, and review questions without selecting a matrix or authorizing implementation. |
