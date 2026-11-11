@@ -4,9 +4,9 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.4.0
+- **Version:** 0.5.0
 - **Date:** 2026-10-30
-- **Last Updated:** 2026-11-09
+- **Last Updated:** 2026-11-11
 - **Owner:** Product
 - **Required Accountable Security Review:** Security
 - **Authoritative:** false
@@ -241,7 +241,8 @@ choice. No operational reliance follows until those choices are expressly resolv
 
 ### C. P3/S2 Options and Bounded DEC-0012 Dependency
 
-[DEC-0012 v0.3.0 Proposed](DEC-0012-administrative-role-permission-matrix.md), Product-Specific
+[DEC-0012 v0.4.0 Proposed](DEC-0012-administrative-role-permission-matrix.md), including its
+founder-operated MVP bounded disposition and Product-Specific
 Accountable Disposition Package A–H, supplies the five-action review scope and
 eight pending Product-specific confirmations. It remains non-authoritative, with
 no overall matrix option selected and all eight confirmations pending accountable
@@ -381,7 +382,7 @@ Neither those approvals nor the recommendations below establish Security approva
 
 ### P3/S2 Dependency and Package Limitations
 
-[DEC-0012 v0.3.0 Proposed](DEC-0012-administrative-role-permission-matrix.md)
+[DEC-0012 v0.4.0 Proposed](DEC-0012-administrative-role-permission-matrix.md)
 remains **non-authoritative**. Its eight Product-specific confirmations A–H all
 remain **PENDING ACCOUNTABLE APPROVAL**: eligible assignments, risk-based same-actor
 restrictions, privileged-action classification, action-specific MFA/reauthentication,
@@ -397,6 +398,150 @@ publication authority is recorded. Accountable disposition, applicable canonical
 and Contract synchronization, implementation authorization and executed verification
 remain separate gates. Operational publication remains **NO-GO**; default-deny
 administration and fail-closed visibility are preserved.
+
+## Founder-Operated MVP Acceptance Package — Prepared 2026-11-11
+
+**PROPOSED DISPOSITION — NOT APPROVED. PENDING ACCOUNTABLE PROJECT-OWNER
+CONFIRMATION.** This package prepares the minimum Product acceptance, publication
+and visibility policy for the founder-operated MVP and aligns with the bounded
+[DEC-0012 v0.4.0 Proposed](DEC-0012-administrative-role-permission-matrix.md)
+disposition. It preserves P1, P2 and P4 as already approved Product business policy
+within their recorded scope; it does not convert them into Security approval, close
+S1/P3/S2, authorize implementation or establish positive customer visibility.
+
+### MVP Content Acceptance
+
+Content acceptance applies to one exact Product representation revision. Positive
+acceptance requires the current P1 content checklist: complete nonblank and accurate
+Product name/description, supportable and accessible customer-facing content, valid
+Product and Variant configuration, applicable accepted Attribute standard and
+Product-scoped Variant uniqueness. Acceptance must be attributable, versioned and
+bound to the accepted Product revision.
+
+A covered content, configuration, applicability, Variant or supporting-fact change,
+explicit revocation, supersession or other applicable invalidation prevents further
+reliance on that acceptance. A historical acceptance, structurally valid Product or
+caller-supplied completeness assertion cannot establish current content acceptance.
+
+### MVP Media Acceptance and Controlled Ingestion
+
+Initial publication requires at least one currently accepted Product-level image.
+Every accepted media association requires current attributable usage-rights evidence,
+correct same-Product Product/Variant association, meaningful alternative text, trusted
+media-security checking evidence and exact immutable asset and association revision
+binding. Variant-level images may supplement but cannot replace the required accepted
+Product-level image. Upload success, processing success, an HTTPS reference or public
+availability does not establish acceptance.
+
+For accountable consideration, use one controlled ingestion boundary for initial MVP
+media:
+
+1. Hold candidate media in private quarantine before acceptance or public eligibility.
+2. Establish an immutable asset identity and revision for the exact checked content.
+3. Require Security-approved malware and image-safety checking appropriate to the
+   accepted media scope; judgment-dependent rights, accuracy, quality and accessibility
+   acceptance remains distinct from automated technical checking.
+4. Retain trustworthy producer identity, checking authority, check-definition/version,
+   result, provenance, trusted time and exact subject/revision binding.
+5. Permit reliance only while the producer, check definition/version, evidence origin,
+   result, rights and association remain currently supported and valid.
+6. Apply authoritative rights or Security withdrawal, changed asset/association meaning,
+   adverse findings, compromised provenance, superseded checks and explicit revocation
+   to every affected association. Loss of the last required accepted Product-level image
+   immediately withholds positive visibility without silently changing lifecycle.
+
+This proposal selects no quarantine storage, asset-identity mechanism, scanner, checking
+producer, check definition/version, evidence Contract or transport. S1-01–S1-06 remain
+pending until Security and affected Product ownership explicitly approve actual sources,
+coverage, provenance, compatibility, invalidation and withdrawal behavior and executed
+evidence demonstrates the selected capability.
+
+### MVP Risk-Based Publication Authorization
+
+Subject to explicit accountable approval of DEC-0012 v0.4.0, the same founder may be
+eligible to perform content or media acceptance and publication only for an
+**ordinary-risk Product** after every mandatory acceptance, Security, assurance,
+Authorization, concurrency and audit control succeeds. Ordinary risk excludes disputed
+or uncertain media rights, unresolved Security findings, sensitive or restricted
+content, invalidated acceptance evidence, exceptional publication handling and any
+Product whose applicable risk cannot be authoritatively classified as ordinary.
+
+Higher-risk and unclassified Products require revision-bound independent approval from
+an eligible, separately authorized approver. Without an eligible approver and current
+approval evidence, acceptance/publication remains blocked. Missing mandatory evidence
+never becomes ordinary risk. No founder override, blanket same-actor permission or
+universal two-person workflow is established by this proposal.
+
+### MVP Publication and Withdrawal Lifecycle
+
+The bounded MVP uses only the existing canonical transitions `DRAFT → PUBLISHED` and
+`PUBLISHED → DRAFT`; it introduces no submitted, approved or other lifecycle state.
+Existing P4 archival policy remains preserved but outside this bounded initial
+publication slice.
+
+Publication requires, at final mutation reliance:
+
+- the exact current Draft Product and expected representation revision;
+- current P1 content and P2 media acceptance for that revision, including the required
+  Product-level image and no applicable invalidation or withdrawal;
+- current active Staff association, Identity-owned assignment, Product contextual
+  Authorization and fresh privileged assurance under the accepted DEC-0012 policy;
+- satisfied ordinary-risk same-actor or higher-risk independent-approval evidence;
+- expected-revision concurrency protection; and
+- an attributable protected audit record committed atomically with the lifecycle
+  mutation.
+
+Withdrawal is a separately authorized `PUBLISHED → DRAFT` action under the current
+Product revision, Staff/assignment/assurance evidence, contextual Authorization,
+concurrency protection and protected atomic audit. It must not depend on continuing
+content/media publication completeness and is not granted by publication eligibility.
+
+Missing, stale, conflicting, unsupported, invalidated or unavailable required evidence,
+changed Product state/revision, failed final Authorization or an unavailable mandatory
+audit guarantee denies mutation. No partial lifecycle/audit success is permitted. An
+uncertain commit outcome remains uncertain and must be investigated and reconciled
+before retry or success is asserted; failure cannot become a blind replay or fabricated
+success.
+
+### MVP Customer Visibility
+
+A Product may be positively eligible for catalogue representation only when its current
+lifecycle is Published, its exact current representation revision retains valid accepted
+P1 content and P2 media evidence, the required Product-level image remains accepted,
+and no applicable acceptance, rights, Security, asset, association or publication
+invalidation/withdrawal applies. Published lifecycle alone is never sufficient.
+
+Visibility evaluation must fail closed when current evidence, invalidation state,
+withdrawal coordination or authoritative Product observation is missing, stale,
+conflicting, unsupported, unavailable or uncertain. A prior response, cache, projection,
+historical acceptance or internal candidate page cannot supply continuing eligibility.
+This package defines no positive catalogue response implementation and does not change
+the existing customer Contract, pagination, concealment, error or `no-store` behavior.
+
+### Required Accountable Project-Owner Dispositions
+
+The project owner must explicitly accept, amend or reject this package while acting in
+each applicable accountable capacity. This Proposed revision, its merge or later code
+does not supply those dispositions.
+
+| Accountable capacity | Exact confirmation still required |
+| --- | --- |
+| Product | Confirm the exact-revision P1/P2 acceptance, minimum Product-level image, canonical lifecycle transitions, withdrawal independence and current visibility prerequisites. |
+| Security | Confirm the controlled-ingestion direction, actual checking authority/coverage/provenance/version/invalidation treatment, ordinary-risk same-actor allowance, higher-risk independent approval, privileged assurance and protected-audit/fail-closed boundaries. |
+| Identity | Confirm the trusted Staff, assignment, assurance, freshness and revocation evidence required by the aligned DEC-0012 policy without treating Authentication as publication authority. |
+| Administration | Confirm the founder-operated workflow, independent-approval coordination and absence of an override when required approval/evidence is unavailable. |
+
+### Remaining Operational Gates
+
+DEC-0012 v0.4.0 and this DEC-0042 revision remain Proposed and non-authoritative.
+Operational publication remains gated on accountable acceptance and canonical/Contract
+synchronization; actual S1 checking producer and evidence approval; controlled media
+ingestion implementation; operational Staff Authentication, association, assignments,
+assurance and revocation; Product-owned acceptance/authorization enforcement; atomic
+lifecycle, audit and uncertain-outcome handling; positive visibility implementation;
+executed verification; and explicit operational activation. Default-deny Product
+administration and fail-closed customer visibility remain mandatory until every
+applicable gate is complete.
 
 ## Implementation Boundary and Acceptance Prerequisites
 
@@ -471,6 +616,7 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-11-11 | Proposed | Prepared a founder-operated MVP acceptance package aligned with DEC-0012 v0.4.0: exact-revision P1/P2 acceptance, proposed controlled media ingestion and trusted checking evidence, ordinary-risk same-actor publication, independent approval for higher-risk/unclassified Products, canonical publish/withdraw transitions, atomic audit/concurrency safeguards and fail-closed current visibility; preserved pending accountable dispositions, S1/operational gates, Proposed status and non-authoritative scope. |
 | 0.4.0 | 2026-11-09 | Proposed | Prepared S1-01–S1-06 accountable disposition package and synchronized the P3/S2 dependency with DEC-0012 v0.3.0 Proposed; preserved Product approvals/provenance, pending Security and authorization confirmations, non-authoritative lifecycle and all implementation/publication restrictions. |
 | 0.3.0 | 2026-11-06 | Proposed | Recorded explicit Product-owner initial operating model 1A/2B/3C/4A and additional publishing, risk-candidate, rights-evidence and withdrawal business policy; preserved P1/P2/P4, pending S1/P3 controls, Proposed/non-authoritative lifecycle and operational publication NO-GO. |
 | 0.2.0 | 2026-11-06 | Proposed | Prepared consolidated S1 and P3/S2 options and recommended directions linked to DEC-0012 v0.2.0; preserved Product P1/P2/P4 approvals, pending accountable choices, Proposed/non-authoritative lifecycle and all implementation restrictions. |
