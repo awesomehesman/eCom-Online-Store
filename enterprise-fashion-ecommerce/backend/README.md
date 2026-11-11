@@ -209,21 +209,22 @@ project name `fashion-staff-identity-local`. It does not remove the separate
 
 ## Local Product image malware scanning
 
-The `compose.local.yaml` development environment includes the official ClamAV
-`clamd` 1.4.6 image. It persists signature definitions and exposes port 3310 on
-`127.0.0.1` only. The local Spring profile streams the original private
-quarantine bytes with `INSTREAM`; it never supplies filesystem paths or public
-URLs. The application upload limit remains 8 MiB. The development `clamd`
-configuration sets `StreamMaxLength` to 9 MiB so protocol framing and the exact
-8 MiB application maximum remain below the scanner's stream ceiling; it does
-not increase the Product upload limit.
+The `compose.local.yaml` development environment uses the official ClamAV
+`clamd` 1.4.6 image for `linux/amd64`, pinned to the runtime-verified digest
+`sha256:cbc30de94b6e9b33ac14136ff45306cee02a1f9ae522394a3cc5b9215d1affe9`.
+Apple Silicon development therefore uses Docker's amd64 emulation rather than
+an unverified substitute image. The service persists signature definitions and
+exposes port 3310 on `127.0.0.1` only. The local Spring profile streams the
+original private quarantine bytes with `INSTREAM`; it never supplies filesystem
+paths or public URLs. The application upload limit remains 8 MiB. The
+development `clamd` configuration sets `StreamMaxLength` to 9 MiB so protocol
+framing and the exact 8 MiB application maximum remain below the scanner's
+stream ceiling; it does not increase the Product upload limit.
 
-Compose inherits the health check declared by the official ClamAV image, which
-performs the image-owned clamd PING/PONG probe. It deliberately does not define
-a separate `nc`-based command or assume that extra shell utilities are present.
-The exact `clamav/clamav:1.4.6` image and its effective runtime configuration
-must still be verified in each development environment after the image can be
-retrieved.
+The verified image provides `nc`. Compose overrides the image's incompatible
+`localhost` health probe and requires an exact `PONG` from
+`127.0.0.1:3310`. A missing daemon, connection failure or any other response
+therefore fails the container health check.
 
 Start or stop the local dependencies with the existing Compose workflow:
 
@@ -237,7 +238,13 @@ The first ClamAV startup can take several minutes while signature databases are
 downloaded and loaded. Before each `INSTREAM` request, the application queries
 `VERSION`. The recorded engine and signature-database metadata describes the
 scanner state observed by that preceding query; it is not atomically bound to
-the subsequent scan. The application treats an unconfigured, unhealthy,
-timed-out, malformed or unavailable scanner as `INDETERMINATE`. A `CLEAN`
-result is a technical observation only, not authoritative Security acceptance.
-Product publication and customer visibility remain blocked.
+the subsequent scan. Operational verification on 2026-11-11 confirmed real
+ClamAV `CLEAN` results for PNG and JPEG streams, EICAR detection as infected,
+and signature-database persistence across scanner restarts. The integration
+records the observed signature version, but minimum signature freshness policy
+and enforcement remain future work.
+
+The application treats an unconfigured, unhealthy, timed-out, malformed or
+unavailable scanner as `INDETERMINATE`. A `CLEAN` result is a technical
+observation only, not authoritative Security acceptance. Product publication
+and positive customer catalogue visibility remain blocked.
