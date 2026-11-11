@@ -7,15 +7,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductMediaSecurityCheckResult;
+import com.enterprise.fashion.ecommerce.product.application.media.ProductImageMalwareObservation;
 import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageSecurityCheckPort;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageMalwareObservationPort;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Repository
-public class JdbcProductImageSecurityCheckAdapter implements ProductImageSecurityCheckPort {
+public class JdbcProductImageSecurityCheckAdapter implements ProductImageSecurityCheckPort, ProductImageMalwareObservationPort {
     private final JdbcClient jdbc;
     public JdbcProductImageSecurityCheckAdapter(JdbcClient jdbc) { this.jdbc = Objects.requireNonNull(jdbc); }
 
@@ -60,6 +62,31 @@ public class JdbcProductImageSecurityCheckAdapter implements ProductImageSecurit
                 .param("failure", result.failureReason() == null ? null : result.failureReason().name())
                 .param("malware", result.malwareScan().name()).param("eligible", result.authoritativeAcceptanceEligible()).update();
         if (inserted != 1) throw new IllegalStateException("Technical media-security result was not persisted");
+    }
+
+    @Override
+    public void append(ProductImageMalwareObservation observation) {
+        requireTransaction();
+        var scan = observation.scanResult();
+        int inserted = jdbc.sql("""
+                INSERT INTO product.product_image_malware_observation
+                    (observation_id, asset_id, product_id, original_sha256, scanner_identity,
+                     check_definition, implementation_version, engine_version,
+                     signature_database_version, signature_database_timestamp, executed_at,
+                     outcome, detection_signature, failure_category, authoritative_acceptance_eligible)
+                VALUES (:id, :asset, :product, :digest, :scanner, :definition, :version, :engine,
+                        :databaseVersion, :databaseTime, :executedAt, :outcome, :signature, :failure, false)
+                """).param("id", observation.observationId()).param("asset", observation.assetId())
+                .param("product", observation.productId().value()).param("digest", observation.originalSha256())
+                .param("scanner", scan.scannerIdentity()).param("definition", scan.checkDefinition())
+                .param("version", scan.implementationVersion()).param("engine", scan.engineVersion())
+                .param("databaseVersion", scan.signatureDatabaseVersion())
+                .param("databaseTime", scan.signatureDatabaseTimestamp() == null ? null
+                        : java.sql.Timestamp.from(scan.signatureDatabaseTimestamp()))
+                .param("executedAt", java.sql.Timestamp.from(observation.executedAt()))
+                .param("outcome", scan.outcome().name()).param("signature", scan.detectionSignature())
+                .param("failure", scan.failureCategory() == null ? null : scan.failureCategory().name()).update();
+        if (inserted != 1) throw new IllegalStateException("Malware observation was not persisted");
     }
 
     private void requireTransaction() {

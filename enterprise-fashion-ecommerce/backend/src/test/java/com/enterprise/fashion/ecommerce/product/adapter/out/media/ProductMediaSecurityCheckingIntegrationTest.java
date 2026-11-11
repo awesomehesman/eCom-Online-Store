@@ -53,9 +53,18 @@ class ProductMediaSecurityCheckingIntegrationTest {
         assertThat(row.get("outcome")).isEqualTo("TECHNICAL_CHECKS_PASSED");
         assertThat(row.get("malware_scan_status")).isEqualTo("NOT_PERFORMED");
         assertThat(row.get("authoritative_acceptance_eligible")).isEqualTo(false);
+        var malware = jdbc.queryForMap("""
+                SELECT outcome, failure_category, authoritative_acceptance_eligible
+                FROM product.product_image_malware_observation WHERE asset_id = ?
+                """, asset.assetId());
+        assertThat(malware.get("outcome")).isEqualTo("INDETERMINATE");
+        assertThat(malware.get("failure_category")).isEqualTo("NOT_CONFIGURED");
+        assertThat(malware.get("authoritative_acceptance_eligible")).isEqualTo(false);
         assertThat(jdbc.queryForObject("SELECT count(*) FROM product.evidence_event", Integer.class)).isZero();
         assertThat(readiness.assess(product).outcome()).isEqualTo(ProductPublicationReadiness.Outcome.EVIDENCE_UNAVAILABLE);
         assertThatThrownBy(() -> jdbc.update("DELETE FROM product.product_image_security_check WHERE check_id = ?", result.checkId()))
+                .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
+        assertThatThrownBy(() -> jdbc.update("DELETE FROM product.product_image_malware_observation WHERE asset_id = ?", asset.assetId()))
                 .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
     }
 

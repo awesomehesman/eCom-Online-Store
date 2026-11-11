@@ -7,7 +7,7 @@ publication or operational commerce authority. No Product data is seeded.
 
 Java 21, the committed Gradle 8.14.5 wrapper, Docker Engine/Desktop with Compose v2,
 network access to the approved dependency repositories and PostgreSQL image, and
-free localhost ports 5432, 8080 and 4200. Frontend prerequisites are documented in
+free localhost ports 3310, 5432, 8080 and 4200. Frontend prerequisites are documented in
 `../frontend/README.md`. Use the existing npm lockfile/dependencies.
 
 From this `backend/` directory, generate development-only secrets in one terminal:
@@ -36,7 +36,7 @@ created by the migration owner. It does not create Domain tables or insert data.
 The bootstrap owner is local-only; it is not a production credential design.
 
 The explicit `local` profile binds HTTP to 127.0.0.1:8080. Flyway uses the separate
-migration account and applies existing classpath migrations V1–V8 at startup;
+migration account and applies existing classpath migrations V1–V12 at startup;
 normal runtime connections lack schema-creation privileges and access to the
 `public` schema containing Flyway history. Domain schemas remain accessible via
 the migration owner's default grants. Flyway clean is
@@ -206,3 +206,38 @@ That command permanently removes this Compose project's local Keycloak database.
 Run it only from this repository with the exact Compose file after confirming the
 project name `fashion-staff-identity-local`. It does not remove the separate
 `fashion-local` application PostgreSQL volume.
+
+## Local Product image malware scanning
+
+The `compose.local.yaml` development environment includes the official ClamAV
+`clamd` 1.4.6 image. It persists signature definitions and exposes port 3310 on
+`127.0.0.1` only. The local Spring profile streams the original private
+quarantine bytes with `INSTREAM`; it never supplies filesystem paths or public
+URLs. The application upload limit remains 8 MiB. The development `clamd`
+configuration sets `StreamMaxLength` to 9 MiB so protocol framing and the exact
+8 MiB application maximum remain below the scanner's stream ceiling; it does
+not increase the Product upload limit.
+
+Compose inherits the health check declared by the official ClamAV image, which
+performs the image-owned clamd PING/PONG probe. It deliberately does not define
+a separate `nc`-based command or assume that extra shell utilities are present.
+The exact `clamav/clamav:1.4.6` image and its effective runtime configuration
+must still be verified in each development environment after the image can be
+retrieved.
+
+Start or stop the local dependencies with the existing Compose workflow:
+
+```bash
+docker compose -f compose.local.yaml up -d
+docker compose -f compose.local.yaml ps
+docker compose -f compose.local.yaml down
+```
+
+The first ClamAV startup can take several minutes while signature databases are
+downloaded and loaded. Before each `INSTREAM` request, the application queries
+`VERSION`. The recorded engine and signature-database metadata describes the
+scanner state observed by that preceding query; it is not atomically bound to
+the subsequent scan. The application treats an unconfigured, unhealthy,
+timed-out, malformed or unavailable scanner as `INDETERMINATE`. A `CLEAN`
+result is a technical observation only, not authoritative Security acceptance.
+Product publication and customer visibility remain blocked.

@@ -18,5 +18,16 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
+  clamav:
+    # Official supported ClamAV LTS release. Tag is exact; registry digest remains to be independently verified.
+    image: clamav/clamav:1.4.6
+    ports:
+      - "127.0.0.1:3310:3310"
+    volumes:
+      - clamav-definitions:/var/lib/clamav
+      - ./local/clamav/clamd.conf:/etc/clamav/clamd.conf:ro
+    # Inherit the official image's clamd PING/PONG health check rather than
+    # assuming an additional shell utility is present in the image.
 volumes:
   postgres-data:
+  clamav-definitions:
