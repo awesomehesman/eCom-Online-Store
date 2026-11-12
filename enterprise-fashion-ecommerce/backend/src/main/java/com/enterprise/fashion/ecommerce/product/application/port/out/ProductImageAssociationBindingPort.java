@@ -12,7 +12,7 @@ import com.enterprise.fashion.ecommerce.product.domain.model.ProductRevision;
 public interface ProductImageAssociationBindingPort {
     Optional<QuarantinedProductImageAsset> quarantinedAsset(UUID assetId);
 
-    void append(ProductImageAssociationBinding binding);
+    ProductImageAssociationBinding append(ProductImageAssociationBinding binding);
 
     Optional<ProductImageAssociationBinding> exact(ProductId productId, ProductRevision productRevision,
             String mediaAssociationId, UUID assetId);

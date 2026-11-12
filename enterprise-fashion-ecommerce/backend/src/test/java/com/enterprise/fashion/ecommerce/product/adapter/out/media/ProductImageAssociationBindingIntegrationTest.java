@@ -2,12 +2,17 @@ package com.enterprise.fashion.ecommerce.product.adapter.out.media;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductImageAssociationBindingPort;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.application.usecase.AssessProductPublicationReadiness;
 import com.enterprise.fashion.ecommerce.product.application.usecase.BindProductImageAssociation;
 import com.enterprise.fashion.ecommerce.product.application.usecase.IngestProductImage;
@@ -28,6 +33,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -48,6 +56,9 @@ class ProductImageAssociationBindingIntegrationTest {
     @Autowired UpdateDraftProduct updates;
     @Autowired BindProductImageAssociation bindings;
     @Autowired AssessProductPublicationReadiness readiness;
+    @Autowired ProductPersistencePort productStore;
+    @Autowired ProductImageAssociationBindingPort bindingStore;
+    @Autowired PlatformTransactionManager transactionManager;
     @Autowired JdbcTemplate jdbc;
 
     @Test
@@ -73,6 +84,20 @@ class ProductImageAssociationBindingIntegrationTest {
         assertThat(jdbc.queryForObject("SELECT count(*) FROM product.evidence_event", Integer.class)).isZero();
         assertThat(readiness.assess(fixture.product()).outcome())
                 .isEqualTo(ProductPublicationReadiness.Outcome.EVIDENCE_UNAVAILABLE);
+    }
+
+    @Test
+    void returnedBindingUsesCanonicalPostgresqlTimestampPrecision() throws Exception {
+        Fixture fixture = fixture();
+        Instant subMicrosecond = Instant.parse("2026-11-12T20:30:31.123456789Z");
+        var preciseBindings = new BindProductImageAssociation(productStore, bindingStore,
+                transaction(true), transaction(false), Clock.fixed(subMicrosecond, ZoneOffset.UTC), UUID::randomUUID);
+
+        var binding = preciseBindings.bind(command(fixture));
+
+        assertThat(binding.boundAt()).isNotEqualTo(subMicrosecond);
+        assertThat(binding.boundAt().getNano() % 1_000).isZero();
+        assertThat(preciseBindings.current(query(fixture))).contains(binding);
     }
 
     @Test
@@ -186,6 +211,14 @@ class ProductImageAssociationBindingIntegrationTest {
         return jdbc.queryForObject("""
                 SELECT count(*) FROM product.product_image_association_binding WHERE product_id = ?
                 """, Integer.class, productId.value());
+    }
+
+    private TransactionTemplate transaction(boolean readOnly) {
+        var transaction = new TransactionTemplate(transactionManager);
+        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        transaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        transaction.setReadOnly(readOnly);
+        return transaction;
     }
 
     private static byte[] image() throws Exception {

@@ -180,11 +180,12 @@ class BindProductImageAssociationTest {
         @Override public Optional<QuarantinedProductImageAsset> quarantinedAsset(UUID assetId) {
             return asset != null && asset.assetId().equals(assetId) ? Optional.of(asset) : Optional.empty();
         }
-        @Override public void append(ProductImageAssociationBinding binding) {
+        @Override public ProductImageAssociationBinding append(ProductImageAssociationBinding binding) {
             if (appendFailure != null) {
                 throw appendFailure;
             }
             history.add(binding);
+            return binding;
         }
         @Override public Optional<ProductImageAssociationBinding> exact(ProductId productId,
                 ProductRevision revision, String mediaId, UUID assetId) {

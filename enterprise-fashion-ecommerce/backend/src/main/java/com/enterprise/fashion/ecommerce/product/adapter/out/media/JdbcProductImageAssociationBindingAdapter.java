@@ -43,10 +43,10 @@ public class JdbcProductImageAssociationBindingAdapter implements ProductImageAs
     }
 
     @Override
-    public void append(ProductImageAssociationBinding binding) {
+    public ProductImageAssociationBinding append(ProductImageAssociationBinding binding) {
         requireTransaction();
         Objects.requireNonNull(binding, "binding");
-        int inserted = jdbc.sql("""
+        return jdbc.sql("""
                 INSERT INTO product.product_image_association_binding
                     (binding_id, product_id, product_revision, media_association_id,
                      association_revision, asset_id, asset_revision, original_sha256,
@@ -54,6 +54,9 @@ public class JdbcProductImageAssociationBindingAdapter implements ProductImageAs
                 VALUES (:bindingId, :productId, :productRevision, :mediaAssociationId,
                         :associationRevision, :assetId, :assetRevision, :originalSha256,
                         :variantId, :boundAt, false)
+                RETURNING binding_id, product_id, product_revision, media_association_id,
+                          association_revision, asset_id, asset_revision, original_sha256,
+                          variant_id, bound_at, authoritative_acceptance_eligible
                 """)
                 .param("bindingId", binding.bindingId())
                 .param("productId", binding.productId().value())
@@ -65,10 +68,8 @@ public class JdbcProductImageAssociationBindingAdapter implements ProductImageAs
                 .param("originalSha256", binding.originalSha256())
                 .param("variantId", binding.variantId() == null ? null : binding.variantId().value())
                 .param("boundAt", java.sql.Timestamp.from(binding.boundAt()))
-                .update();
-        if (inserted != 1) {
-            throw new IllegalStateException("Product image association binding was not persisted");
-        }
+                .query((rs, ignored) -> binding(rs))
+                .single();
     }
 
     @Override
@@ -80,7 +81,8 @@ public class JdbcProductImageAssociationBindingAdapter implements ProductImageAs
         Objects.requireNonNull(mediaAssociationId, "mediaAssociationId");
         Objects.requireNonNull(assetId, "assetId");
         return jdbc.sql("""
-                SELECT binding_id, association_revision, asset_revision, original_sha256,
+                SELECT binding_id, product_id, product_revision, media_association_id,
+                       association_revision, asset_id, asset_revision, original_sha256,
                        variant_id, bound_at, authoritative_acceptance_eligible
                   FROM product.product_image_association_binding
                  WHERE product_id = :productId
@@ -92,15 +94,20 @@ public class JdbcProductImageAssociationBindingAdapter implements ProductImageAs
                 .param("productRevision", productRevision.value())
                 .param("mediaAssociationId", mediaAssociationId)
                 .param("assetId", assetId)
-                .query((rs, ignored) -> new ProductImageAssociationBinding(
-                        rs.getObject("binding_id", UUID.class), productId, productRevision,
-                        mediaAssociationId, new ProductRevision(rs.getString("association_revision")),
-                        assetId, rs.getString("asset_revision"), rs.getString("original_sha256"),
-                        rs.getString("variant_id") == null ? null
-                                : new ProductVariantId(rs.getString("variant_id")),
-                        rs.getTimestamp("bound_at").toInstant(),
-                        rs.getBoolean("authoritative_acceptance_eligible")))
+                .query((rs, ignored) -> binding(rs))
                 .optional();
+    }
+
+    private static ProductImageAssociationBinding binding(java.sql.ResultSet rs) throws java.sql.SQLException {
+        return new ProductImageAssociationBinding(
+                rs.getObject("binding_id", UUID.class), new ProductId(rs.getString("product_id")),
+                new ProductRevision(rs.getString("product_revision")), rs.getString("media_association_id"),
+                new ProductRevision(rs.getString("association_revision")),
+                rs.getObject("asset_id", UUID.class), rs.getString("asset_revision"),
+                rs.getString("original_sha256"), rs.getString("variant_id") == null ? null
+                        : new ProductVariantId(rs.getString("variant_id")),
+                rs.getTimestamp("bound_at").toInstant(),
+                rs.getBoolean("authoritative_acceptance_eligible"));
     }
 
     private static void requireTransaction() {

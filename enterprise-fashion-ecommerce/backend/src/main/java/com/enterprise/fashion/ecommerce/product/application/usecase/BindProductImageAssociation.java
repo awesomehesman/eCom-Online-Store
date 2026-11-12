@@ -104,8 +104,7 @@ public final class BindProductImageAssociation {
                 command.productRevision(), command.mediaAssociationId(), command.associationRevision(),
                 command.assetId(), command.assetRevision(), command.originalSha256(), command.variantId(),
                 Instant.now(clock), false);
-        bindings.append(binding);
-        return binding;
+        return Objects.requireNonNull(bindings.append(binding), "persisted binding");
     }
 
     private static Optional<ProductMedia> media(Product product, String mediaAssociationId) {
