@@ -4,9 +4,9 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.5.0
+- **Version:** 0.6.0
 - **Date:** 2026-10-30
-- **Last Updated:** 2026-11-11
+- **Last Updated:** 2026-11-12
 - **Owner:** Product
 - **Required Accountable Security Review:** Security
 - **Authoritative:** false
@@ -292,7 +292,7 @@ No existing PUBLISHED row, retained claim, Customer authentication mechanism or
 synthetic fixture becomes a publication producer. Positive visibility, source-code
 changes, migrations, endpoints, deployment and operational rollout remain unauthorized.
 
-## S1 Accountable Disposition Package — Prepared 2026-11-09
+## S1 Accountable Disposition Package — Prepared 2026-11-09; Updated 2026-11-12
 
 **PROPOSED DISPOSITION — NOT APPROVED.** S1-01–S1-06 are local review labels for
 the six S1 questions above, not accepted check definitions, evidence sources or
@@ -308,17 +308,24 @@ Security Standards §§10–13 and 27, REQ-PRD-014–020, BPRD-REQ-019–023 and
 operating model and P1/P2/P4, with their existing provenance and limitations.
 Neither those approvals nor the recommendations below establish Security approval.
 
+**EXISTING IMPLEMENTATION EVIDENCE** describes observed technical behavior only.
+It is neither an approved Security policy nor authoritative media acceptance.
+**PROPOSED POLICY CANDIDATE** is a conservative recommendation for accountable
+review. No candidate is effective unless the accountable owner explicitly accepts
+it and the remaining implementation and operational gates are completed.
+
 ### S1-01 — Media-Security Checking Authority
 
 | Review element | Disposition preparation |
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Public media requires applicable security acceptance; upload, processing success, URL availability and Product acceptance alone cannot establish trusted checking authority. Product retains publication authority. |
 | CONFIRMED BUSINESS DIRECTION | P2 requires accepted media, including at least one accepted Product-level image initially. The founder/Product owner confirms usage rights, not media-security authority. |
-| PROPOSED DISPOSITION | Require Security-designated checking producers using appropriate technical checks and attributable human judgment where required. Human judgment cannot substitute for mandatory technical coverage; automation cannot establish rights or accuracy. No actual producer, scanner, service or provider is designated here. |
+| EXISTING IMPLEMENTATION EVIDENCE | Product has an internal checking composition that retrieves exact private-quarantine bytes, revalidates Product ownership and SHA-256, performs actual PNG/JPEG content decoding and bounded resource inspection, and invokes ClamAV `INSTREAM`. It records `CLEAN`, `INFECTED` or `INDETERMINATE` malware observations separately from technical inspection. Both observation models and their database constraints prohibit authoritative-acceptance eligibility. No operational acceptance actor or trusted invocation boundary is established. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Designate the Product-owned controlled checking composition, not ClamAV by itself, as the initial eligible technical producer. Mandatory automated coverage comprises original-byte integrity, permitted-format/content inspection, decoding/resource limits and a determinate clean malware scan using sufficiently fresh signatures. Rights, accuracy, quality, meaningful alternative-text judgment and correct Product/Variant association remain distinct acceptance responsibilities. Unsupported mandatory coverage denies acceptance. |
 | Accountable owners | Security: permitted checking authority and coverage; Product: acceptance and publication boundary, with affected rights-evidence ownership. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify the actual permitted producer(s), authority scope, required technical/judgment coverage and evidence that the producer can perform it. Explicitly identify unsupported coverage and the resulting denial. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject the Product-owned composition as an eligible technical producer; confirm whether the implemented technical inspection plus ClamAV coverage is sufficient for the initial media scope; identify any additional mandatory image-safety checks; and define the trusted operational state, invocation boundary, unsupported coverage and resulting denial. Product must confirm the boundary between technical results and its acceptance decision. |
 | Consequence if unresolved | No producer or founder assertion may be presumed authoritative; required media-security acceptance and positive publication remain blocked. |
-| Implementation dependency | Separately reviewed producer integration and applicable evidence Contract after authority/coverage confirmation; no pipeline or deployment selected. |
+| Implementation dependency | The candidate pipeline exists, but authoritative acceptance orchestration, invocation authorization, operational monitoring, approved composition and executed operational evidence remain absent. A raw ClamAV result must never be promoted directly. |
 
 ### S1-02 — Evidence Provenance and Authenticity
 
@@ -326,11 +333,12 @@ Neither those approvals nor the recommendations below establish Security approva
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Missing, uncertain, contradictory or untrusted evidence cannot support acceptance or visibility. Caller claims, copied findings and database storage alone establish no authority. |
 | CONFIRMED BUSINESS DIRECTION | P1/P2 require attributable, revision-bound acceptance; the founder's rights confirmation must be attributable and withdrawable. This does not approve a security evidence source. |
-| PROPOSED DISPOSITION | Require trustworthy origin, checking authority, result and supporting-evidence provenance, with authenticity and current applicability established before reliance. Rights confirmation and security-check evidence remain distinct. |
+| EXISTING IMPLEMENTATION EVIDENCE | Append-only technical and malware observations record Product identity, immutable quarantine asset identity, original SHA-256, execution time, result and implementation/scanner attribution. Database foreign keys preserve Product/asset/digest binding, immutable-history triggers reject ordinary update/delete, and constraints require `authoritative_acceptance_eligible = false`. These controls do not authenticate an acceptance actor and do not prevent privileged database administration from fabricating or altering trust material. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | For the initial single-service MVP, rely only on observations produced inside the Product trust boundary by the approved checker, persisted through the Product-owned adapter and retrieved through Product-owned Ports under reviewed database access controls. Caller DTOs, headers, copied results, arbitrary database rows and retained unconfirmed evidence history remain untrusted. Require attributable invocation, protected storage access, safe correlation and a reviewed trusted-time basis. A separate evidence signature is not required while producer and consumer remain within one approved trust boundary; crossing that boundary requires a new authenticity disposition. |
 | Accountable owners | Security: accepted provenance and authenticity boundary; Product: accepted evidence association and reliance; Identity where producer identity evidence is needed. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify accepted evidence sources and the trust basis for authenticating their origin, authority, result and current applicability, including missing/conflicting/unavailable evidence treatment. No evidence source or signature scheme is approved by this package. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject the proposed in-process/database trust boundary; confirm required database access separation, trusted-time, actor attribution, correlation and audit guarantees; and decide when signed or otherwise cryptographically authenticated evidence becomes mandatory. Identity must confirm any Staff/producer identity evidence used. Missing, conflicting or unavailable provenance remains non-accepting. |
 | Consequence if unresolved | An asserted result cannot become trusted media acceptance; no positive reliance is permitted. |
-| Implementation dependency | Reviewed evidence producer/consumer boundary, source validation and safe failure handling; no issuer, schema, credential or cryptographic mechanism selected. |
+| Implementation dependency | No authoritative acceptance record/store, authenticated acceptance actor, approved producer identity, protected operational audit or positive publication-evidence adapter exists. Database immutability alone is insufficient provenance. |
 
 ### S1-03 — Subject and Revision Binding
 
@@ -338,11 +346,12 @@ Neither those approvals nor the recommendations below establish Security approva
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Product/Variant association and immutable subject identity must be preserved; unrelated or stale checks cannot establish current acceptance. |
 | CONFIRMED BUSINESS DIRECTION | P2 already requires exact asset and association revisions and same-Product Variant membership. P1/P4 restrict acceptance reuse to unchanged subjects with still-valid criteria and no invalidation. |
-| PROPOSED DISPOSITION | Bind checking evidence to the exact Product, immutable asset, association and relevant representation revisions, including Variant membership where applicable. Changed asset content or association meaning requires new evaluation; mutable URLs and labels alone are insufficient. |
+| EXISTING IMPLEMENTATION EVIDENCE | Quarantine and malware observations bind a generated asset UUID, owning Product identity and SHA-256 of original bytes. The publication-evidence contract can represent Product revision, media-association identity, asset identity/revision, association revision and optional Variant identity. No authoritative mapping currently joins the quarantine asset UUID/SHA-256 to the current Product Media association, its opaque asset revision, Product representation revision and optional Variant membership. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Bind authoritative security acceptance simultaneously to the Product identity, exact Product representation revision, quarantine asset UUID, original SHA-256, Product Media association identity, asset revision, association revision and optional Variant identity. The Variant must belong to the same Product. Asset-byte/digest change, Product or association revision change, Variant reassociation or changed association meaning requires new evaluation. URL, filename, MIME claim, label and storage location are never subject identity. |
 | Accountable owners | Product: subject identity, membership, revision and reuse semantics; Security: adequacy of checking-subject binding. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm which relevant subject/revision changes invalidate security reliance, how the producer identifies the checked subject and which evidence demonstrates an exact match at final reliance. Preserve P2's already approved binding obligation. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Product must confirm the canonical mapping among quarantine asset UUID/SHA-256, Product Media asset revision and association revision, including Variant membership. Security must confirm the complete binding is sufficient and identify every change that invalidates security reliance at final publication and visibility evaluation. |
 | Consequence if unresolved | No mutable-reference or previous-revision evidence may be substituted for current acceptance. |
-| Implementation dependency | Reviewed immutable revision references and subject matching at producer/consumer boundaries; no hash, storage identifier or persistence schema selected. |
+| Implementation dependency | Implement the explicit Product-owned association binding and exact-match evaluation before positive acceptance. Existing publication-evidence shapes may be reused, but shape validation does not establish trust. |
 
 ### S1-04 — Check-Definition/Version Compatibility
 
@@ -350,11 +359,12 @@ Neither those approvals nor the recommendations below establish Security approva
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Stale, unsupported or uncertain evidence cannot grant visibility; current evidence must satisfy applicable requirements. |
 | CONFIRMED BUSINESS DIRECTION | P4 allows reuse only while applicable criteria remain valid and no relevant invalidation exists. No Product disposition selects check definitions, versions or compatibility rules. |
-| PROPOSED DISPOSITION | Permit reliance only on explicitly supported check definitions/versions. Reject unknown, retired or uncertain compatibility and require re-evaluation unless compatibility has been expressly approved. |
+| EXISTING IMPLEMENTATION EVIDENCE | Technical inspection reports `product-image-technical-validation` implementation `1.0.0`. ClamAV reports scanner identity `clamav-clamd`, check definition `clamav-instream-malware-scan` and implementation `1.1.0`, with observed engine, signature database version and signature timestamp where available. `CLEAN` becomes `INDETERMINATE` when version data is unavailable or the signature timestamp is missing, malformed, more than the configured future skew ahead, or older than the configured maximum. Spring defaults are 48 hours maximum signature age and five minutes future clock skew. `VERSION` is observed before, but is not atomically bound to, `INSTREAM`; signature-update monitoring and alerting are not implemented. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Initially support only the explicitly reviewed technical-check definition/version and ClamAV integration version executed by the approved producer. Reject unknown, retired or uncertain definitions, implementations and engine compatibility. Adopt 48 hours maximum signature age and five minutes future clock skew as conservative initial policy candidates, conditional on reliable signature updating, UTC clock synchronization, health monitoring, pre-threshold alerting and an incident/recheck procedure. A material checker defect, unsupported engine family, compromised producer or retired definition requires re-evaluation. |
 | Accountable owners | Security: check coverage, supported versions, compatibility and retirement authority; Product: acceptance-reuse and visibility consequences. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify the initial accepted check definitions and versions, required coverage, who may approve compatibility/retirement and how changes affect existing acceptance. No accepted definition, version or compatibility mapping is invented here. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject the named definitions/implementation versions, ClamAV engine/container compatibility policy, 48-hour age, five-minute skew, non-atomic `VERSION`/`INSTREAM` limitation, monitoring obligations, retirement/recheck authority and scanner-CVE or definition-rollback response. Product must confirm how incompatibility affects existing acceptance and visibility. |
 | Consequence if unresolved | Neither a version label nor an old success result establishes acceptable current security coverage. |
-| Implementation dependency | Reviewed version/coverage evidence and governed compatibility evaluation before reuse; no registry, update transport or scanner selected. |
+| Implementation dependency | Implement an approved source/definition/version policy and operational monitoring only after disposition. **Scan-time freshness is distinct from accepted-evidence reuse lifetime:** the former qualifies scanner state at execution; the latter governs how long an acceptance may be relied on and may require rechecking sooner, later only with explicit compatibility approval, or immediately after an invalidating event. No reuse lifetime is approved here. |
 
 ### S1-05 — Evidence Invalidation and Withdrawal
 
@@ -362,11 +372,12 @@ Neither those approvals nor the recommendations below establish Security approva
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Missing, failed, stale, conflicting, withdrawn or invalidated evidence cannot support positive visibility. Historical evidence must not silently restore withdrawn authority. |
 | CONFIRMED BUSINESS DIRECTION | P1/P2 invalidate affected acceptance after relevant changes or withdrawal; P4 requires valid criteria and no invalidation for reuse and forbids silent lifecycle changes. |
-| PROPOSED DISPOSITION | Govern explicit invalidation sources and affected-subject propagation for revocation, changed asset/association, superseded checks, adverse findings or compromised provenance. Preserve history and withhold reliance when validity is uncertain. |
+| EXISTING IMPLEMENTATION EVIDENCE | Publication-evidence contracts distinguish current, invalidated and revoked evidence and explicit invalidation/withdrawal. The readiness evaluator rejects invalidated, withdrawn, unsupported, conflicting or unavailable evidence. Production composition remains fail-closed through an unavailable evidence adapter and reject-all source/version policy. No authoritative invalidation producer, propagation mechanism or current-evidence store exists. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Invalidate every affected security acceptance on asset/digest mismatch, Product or association revision change, Variant reassociation, an `INFECTED` or `INDETERMINATE` recheck, stale or unsupported definitions, producer compromise, material checker defect, authoritative adverse finding, explicit Security revocation or conflicting evidence. Preserve history, prohibit automatic reactivation and require new approved checking before restored reliance. Unavailable invalidation state fails closed. |
 | Accountable owners | Security: authoritative security findings, revocation and invalidation scope; Product: affected acceptance, associations, history and current visibility. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Identify actual authoritative invalidation sources, exact triggers, affected-subject scope, propagation/freshness guarantees and outage or conflicting-notification treatment. Distinguish security evidence withdrawal from an operational Product withdrawal action. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject the proposed triggers; designate authoritative adverse-finding/revocation sources; and confirm affected scope, propagation/freshness bound, conflict/outage treatment, proactive recheck obligations and restored-reliance criteria. Product must confirm affected acceptance and visibility consequences. |
 | Consequence if unresolved | Continued validity cannot be assumed after relevant uncertainty or withdrawal; positive reliance remains unavailable. |
-| Implementation dependency | Reviewed invalidation observation and final-reliance coordination; no event, polling, TTL, locking or reconciliation mechanism selected. |
+| Implementation dependency | Append-only authoritative acceptance/invalidation persistence, current-evidence projection, delivery/recheck coordination and reconciliation remain missing. No event, polling, TTL, locking or transport is selected. |
 
 ### S1-06 — Rights/Security Withdrawal Coordination
 
@@ -374,11 +385,12 @@ Neither those approvals nor the recommendations below establish Security approva
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Media must retain current rights/security eligibility; incomplete or uncertain evidence cannot be represented as accepted public content. Product owns visibility and lifecycle. |
 | CONFIRMED BUSINESS DIRECTION | The founder/Product owner initially confirms attributable, revision-bound, withdrawable usage rights. P2 immediately prevents positive visibility when the last required accepted Product-level image is lost. P4 separates evidence invalidation from explicit lifecycle transitions and preserves history. |
-| PROPOSED DISPOSITION | Apply authoritative rights/security withdrawal to every affected association and withhold Product visibility whenever required completeness fails. Do not continue unsupported reliance, silently change lifecycle or revive a withdrawn publication grant. |
+| EXISTING IMPLEMENTATION EVIDENCE | Rights acceptance and security acceptance are separate typed inputs to publication readiness, and readiness requires both for each exact media subject. No authoritative rights-evidence producer/store, cross-evidence withdrawal coordinator, operational Staff acceptance flow or protected audit implementation exists. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Maintain independent current rights and security acceptances. Withdrawal or invalidation of either applies to every affected association and immediately withholds visibility when required completeness fails. Revalidate both at final publication and visibility reliance. Evidence withdrawal does not silently mutate Product lifecycle; `PUBLISHED` to `DRAFT` remains a separately authorized Product action. In-flight publication fails when current rights/security evidence cannot be confirmed. Cached success, delayed review and founder responsibility cannot substitute for current evidence. |
 | Accountable owners | Product: rights confirmation, affected associations, completeness and visibility; Security: security withdrawal and final-reliance safeguards; Administration/Identity for separately governed operational action/access dependencies. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Confirm rights/security withdrawal sources and scope, coordination at final publication/read reliance, treatment of in-flight work and uncertainty, and the boundary between immediate visibility withholding and an authorized Product withdrawal action. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Product must confirm authoritative rights sources, affected-association scope and immediate visibility consequences. Security must confirm security-withdrawal sources, final-reliance and in-flight behavior, uncertainty treatment and recovery. Identity/Administration must confirm the actor/access dependencies for any operational acceptance or lifecycle mutation. |
 | Consequence if unresolved | No delayed review, cached success or founder responsibility may substitute for current required rights/security evidence; publication remains blocked. |
-| Implementation dependency | Reviewed current evidence coordination and withdrawal/recovery boundaries, plus P3/S2 authorization for any operational mutation; no concurrency, audit, retry or transport mechanism selected. |
+| Implementation dependency | Separate authoritative rights/security records, one fail-closed current-evidence projection, withdrawal coordination, protected audit and recovery remain missing. P3/S2 authorization is additionally required for any operational acceptance or lifecycle mutation. |
 
 ### P3/S2 Dependency and Package Limitations
 
@@ -391,9 +403,10 @@ revalidation, and protected audit/uncertain outcomes. P3/S2 remains unresolved a
 cannot be closed by this S1 package, founder designation or authenticated Sessions.
 Conversely, assignment eligibility cannot designate an S1 checking authority.
 
-No actual checking producer, accepted check definition/version, evidence source,
-Staff Role/Permission or operational assignment is selected. All S1-01–S1-06 and
-P3/S2 confirmations remain pending; no Security approval, overall acceptance or
+An implemented technical checking composition exists, but no checking producer,
+check definition/version, freshness/reuse policy or evidence source is approved for
+authoritative acceptance. No Staff Role/Permission or operational assignment is selected.
+All S1-01–S1-06 and P3/S2 confirmations remain pending; no Security approval, overall acceptance or
 publication authority is recorded. Accountable disposition, applicable canonical
 and Contract synchronization, implementation authorization and executed verification
 remain separate gates. Operational publication remains **NO-GO**; default-deny
@@ -450,11 +463,13 @@ media:
    to every affected association. Loss of the last required accepted Product-level image
    immediately withholds positive visibility without silently changing lifecycle.
 
-This proposal selects no quarantine storage, asset-identity mechanism, scanner, checking
-producer, check definition/version, evidence Contract or transport. S1-01–S1-06 remain
-pending until Security and affected Product ownership explicitly approve actual sources,
-coverage, provenance, compatibility, invalidation and withdrawal behavior and executed
-evidence demonstrates the selected capability.
+The repository now contains private quarantine, immutable asset identity, technical
+inspection and ClamAV integration, but this proposal does not approve those mechanisms
+as an authoritative checking producer, accepted check definition/version, evidence
+Contract or transport. S1-01–S1-06 remain pending until Security and affected Product
+ownership explicitly approve actual sources, coverage, provenance, compatibility,
+invalidation and withdrawal behavior and executed evidence demonstrates the selected
+capability.
 
 ### MVP Risk-Based Publication Authorization
 
@@ -616,6 +631,7 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.6.0 | 2026-11-12 | Proposed | Incorporated technically grounded S1-01–S1-06 proposed dispositions using the implemented private-quarantine, technical-inspection, ClamAV, signature-freshness, immutable-observation and fail-closed readiness evidence; proposed the Product-owned checking composition, provenance boundary, exact subject/revision binding, explicit definition/version treatment, 48-hour signature-age and five-minute future-skew candidates, invalidation triggers and independent rights/security coordination for accountable review; preserved every S1 status as pending, distinguished scan-time freshness from acceptance-reuse lifetime, and retained DEC-0012, authorization, audit, publication and visibility gates. |
 | 0.5.0 | 2026-11-11 | Proposed | Prepared a founder-operated MVP acceptance package aligned with DEC-0012 v0.4.0: exact-revision P1/P2 acceptance, proposed controlled media ingestion and trusted checking evidence, ordinary-risk same-actor publication, independent approval for higher-risk/unclassified Products, canonical publish/withdraw transitions, atomic audit/concurrency safeguards and fail-closed current visibility; preserved pending accountable dispositions, S1/operational gates, Proposed status and non-authoritative scope. |
 | 0.4.0 | 2026-11-09 | Proposed | Prepared S1-01–S1-06 accountable disposition package and synchronized the P3/S2 dependency with DEC-0012 v0.3.0 Proposed; preserved Product approvals/provenance, pending Security and authorization confirmations, non-authoritative lifecycle and all implementation/publication restrictions. |
 | 0.3.0 | 2026-11-06 | Proposed | Recorded explicit Product-owner initial operating model 1A/2B/3C/4A and additional publishing, risk-candidate, rights-evidence and withdrawal business policy; preserved P1/P2/P4, pending S1/P3 controls, Proposed/non-authoritative lifecycle and operational publication NO-GO. |
