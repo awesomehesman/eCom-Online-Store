@@ -51,12 +51,13 @@ public record ProductMediaSecurityEvidenceCorrelation(Subject subject, Outcome o
         MISSING,
         CONFLICTING,
         STALE_OR_INVALIDATED,
+        WITHDRAWN,
         INFECTED,
         INDETERMINATE,
         UNAVAILABLE
     }
 
-    public enum TechnicalStatus { MATCHING, MISSING, CONFLICTING, UNUSABLE, UNAVAILABLE }
+    public enum TechnicalStatus { MATCHING, MISSING, CONFLICTING, UNUSABLE, UNAVAILABLE, WITHDRAWN }
 
     public enum MalwareStatus {
         CLEAN,
@@ -65,6 +66,7 @@ public record ProductMediaSecurityEvidenceCorrelation(Subject subject, Outcome o
         MISSING,
         CONFLICTING,
         STALE_OR_UNUSABLE,
-        UNAVAILABLE
+        UNAVAILABLE,
+        WITHDRAWN
     }
 }
