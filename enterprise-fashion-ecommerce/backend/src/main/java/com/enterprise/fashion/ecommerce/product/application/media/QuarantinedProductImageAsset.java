@@ -26,6 +26,13 @@ public record QuarantinedProductImageAsset(UUID assetId, ProductId productId, St
 
     /** Content-derived immutable revision reference suitable for a later governed association. */
     public String assetRevision() {
+        return revisionOf(sha256);
+    }
+
+    public static String revisionOf(String sha256) {
+        if (sha256 == null || !sha256.matches("[0-9a-f]{64}")) {
+            throw new IllegalArgumentException("Invalid quarantined Product image digest");
+        }
         return "sha256_" + sha256;
     }
 
