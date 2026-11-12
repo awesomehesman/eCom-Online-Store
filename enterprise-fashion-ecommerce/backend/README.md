@@ -241,8 +241,14 @@ scanner state observed by that preceding query; it is not atomically bound to
 the subsequent scan. Operational verification on 2026-11-11 confirmed real
 ClamAV `CLEAN` results for PNG and JPEG streams, EICAR detection as infected,
 and signature-database persistence across scanner restarts. The integration
-records the observed signature version, but minimum signature freshness policy
-and enforcement remain future work.
+requires the observed signature timestamp to be no older than 48 hours and no
+more than five minutes ahead of the application clock. These conservative
+defaults are configurable with `product.media.clamav.maximum-signature-age` and
+`product.media.clamav.signature-clock-skew-tolerance`. Missing, malformed,
+stale or unreasonably future timestamps make an otherwise clean scan
+`INDETERMINATE`; a positive malware detection is never suppressed. This
+scan-time check does not replace signature-update monitoring or operational
+alerting.
 
 The application treats an unconfigured, unhealthy, timed-out, malformed or
 unavailable scanner as `INDETERMINATE`. A `CLEAN` result is a technical

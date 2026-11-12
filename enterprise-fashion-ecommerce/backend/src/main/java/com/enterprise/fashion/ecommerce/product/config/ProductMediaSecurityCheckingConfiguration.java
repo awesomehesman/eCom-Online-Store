@@ -1,6 +1,7 @@
 package com.enterprise.fashion.ecommerce.product.config;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductImageTechnicalInspector;
@@ -36,10 +37,13 @@ public class ProductMediaSecurityCheckingConfiguration {
             @Value("${product.media.clamav.connect-timeout-millis:1000}") int connectTimeout,
             @Value("${product.media.clamav.read-timeout-millis:5000}") int readTimeout,
             @Value("${product.media.clamav.maximum-stream-bytes:8388608}") int maximumStreamBytes,
-            @Value("${product.media.clamav.maximum-response-bytes:4096}") int maximumResponseBytes) {
+            @Value("${product.media.clamav.maximum-response-bytes:4096}") int maximumResponseBytes,
+            @Value("${product.media.clamav.maximum-signature-age:PT48H}") Duration maximumSignatureAge,
+            @Value("${product.media.clamav.signature-clock-skew-tolerance:PT5M}") Duration clockSkewTolerance) {
         if (host == null || host.isBlank()) return new UnavailableProductImageMalwareScanner();
         return new ClamAvProductImageMalwareScanner(new ClamAvProductImageMalwareScanner.Configuration(
-                host, port, connectTimeout, readTimeout, maximumStreamBytes, maximumResponseBytes));
+                host, port, connectTimeout, readTimeout, maximumStreamBytes, maximumResponseBytes,
+                maximumSignatureAge, clockSkewTolerance, Clock.systemUTC()));
     }
 
     private static TransactionTemplate transaction(PlatformTransactionManager manager, boolean readOnly) {

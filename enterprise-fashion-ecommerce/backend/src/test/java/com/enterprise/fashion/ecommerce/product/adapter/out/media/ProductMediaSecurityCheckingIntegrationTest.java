@@ -93,6 +93,38 @@ class ProductMediaSecurityCheckingIntegrationTest {
         assertThat(org.springframework.web.bind.annotation.RestController.class.isAssignableFrom(JdbcProductImageSecurityCheckAdapter.class)).isFalse();
     }
 
+    @Test
+    void persistenceAcceptsFreshnessFailuresAndDetectionButRejectsUnprovenClean() throws Exception {
+        Product product = product(); products.create(product);
+        var asset = ingestion.ingest(product.id(), image("png"));
+        String insert = """
+                INSERT INTO product.product_image_malware_observation
+                    (observation_id, asset_id, product_id, original_sha256, scanner_identity,
+                     check_definition, implementation_version, engine_version,
+                     signature_database_version, signature_database_timestamp, executed_at,
+                     outcome, detection_signature, failure_category, authoritative_acceptance_eligible)
+                VALUES (?, ?, ?, ?, 'clamav-clamd', 'clamav-instream-malware-scan', '1.1.0',
+                        ?, ?, ?, now(), ?, ?, ?, false)
+                """;
+
+        UUID stale = UUID.randomUUID();
+        jdbc.update(insert, stale, asset.assetId(), product.id().value(), asset.sha256(),
+                "ClamAV 1.4.6", "28180", java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(172801)),
+                "INDETERMINATE", null, "STALE_SIGNATURE_DATABASE");
+        assertThat(jdbc.queryForObject("SELECT failure_category FROM product.product_image_malware_observation WHERE observation_id = ?",
+                String.class, stale)).isEqualTo("STALE_SIGNATURE_DATABASE");
+
+        UUID infected = UUID.randomUUID();
+        jdbc.update(insert, infected, asset.assetId(), product.id().value(), asset.sha256(),
+                null, null, null, "INFECTED", "Eicar-Test-Signature", null);
+        assertThat(jdbc.queryForObject("SELECT outcome FROM product.product_image_malware_observation WHERE observation_id = ?",
+                String.class, infected)).isEqualTo("INFECTED");
+
+        assertThatThrownBy(() -> jdbc.update(insert, UUID.randomUUID(), asset.assetId(), product.id().value(), asset.sha256(),
+                "ClamAV 1.4.6", "28180", null, "CLEAN", null, null))
+                .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
+    }
+
     private void insert(UUID asset, ProductId owner, String digest, byte[] bytes, String format) {
         jdbc.update("""
                 INSERT INTO product.product_image_quarantine
