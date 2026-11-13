@@ -329,8 +329,18 @@ class ModuleArchitectureTest {
         noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.config..")
                 .should().callConstructor(
                         ROOT_PACKAGE + ".identity.application.staff.VerifyStaffOidcAuthentication",
+                        ROOT_PACKAGE + ".identity.application.staff.StaffOidcAuthorizationTransactions",
                         ROOT_PACKAGE + ".identity.application.port.out.StaffOidcAuthenticationVerifier")
-                .as("only Identity configuration composes the dormant verification boundary")
+                .as("only Identity configuration may compose the dormant verification boundary")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackages(
+                        ROOT_PACKAGE + ".identity.application.staff..",
+                        ROOT_PACKAGE + ".identity.application.port.out..",
+                        ROOT_PACKAGE + ".identity.adapter.out.staff..",
+                        ROOT_PACKAGE + ".identity.config..")
+                .should().dependOnClassesThat().haveFullyQualifiedName(
+                        ROOT_PACKAGE + ".identity.application.port.out.StaffOidcAuthenticationVerifier")
+                .as("other production boundaries cannot bypass V16-owned Staff OIDC orchestration")
                 .check(PRODUCTION_CLASSES);
     }
 
