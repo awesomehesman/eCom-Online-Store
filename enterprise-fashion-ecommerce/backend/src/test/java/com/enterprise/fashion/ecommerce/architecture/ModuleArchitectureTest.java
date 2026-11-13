@@ -342,6 +342,11 @@ class ModuleArchitectureTest {
                         ROOT_PACKAGE + ".identity.application.port.out.StaffOidcAuthenticationVerifier")
                 .as("other production boundaries cannot bypass V16-owned Staff OIDC orchestration")
                 .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.adapter.out.staff..")
+                .should().dependOnClassesThat().haveSimpleNameStartingWith("StaffOidcIdToken")
+                .orShould().dependOnClassesThat().haveSimpleName("StaffOidcTokenTrust")
+                .as("dormant token validation types remain confined to the Identity Staff adapter")
+                .check(PRODUCTION_CLASSES);
     }
 
     @Test
