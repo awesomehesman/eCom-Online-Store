@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -42,6 +43,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 @Tag("integration")
 @SpringBootTest
@@ -164,8 +166,17 @@ class ProductImageAssociationBindingIntegrationTest {
         assertThatThrownBy(() -> jdbc.update("""
                 DELETE FROM product.product_image_association_binding WHERE binding_id = ?
                 """, original.bindingId())).isInstanceOf(DataIntegrityViolationException.class);
-        assertThatThrownBy(() -> jdbc.execute("TRUNCATE product.product_image_association_binding"))
-                .isInstanceOf(DataIntegrityViolationException.class);
+        // Truncate fails either due to immutability trigger (23514) or FK constraint (0A000)
+        Throwable truncateFailure = catchThrowable(() ->
+                jdbc.execute("TRUNCATE product.product_image_association_binding"));
+        assertThat(truncateFailure)
+                .isInstanceOfAny(DataIntegrityViolationException.class, UncategorizedSQLException.class)
+                .satisfies(ex -> {
+                    String sqlState = extractSqlState(ex);
+                    assertThat(sqlState)
+                            .as("TRUNCATE must fail due to immutability trigger (23514) or FK restriction (0A000)")
+                            .isIn("23514", "0A000");
+                });
 
         Product current = products.load(fixture.product().id()).orElseThrow();
         assertThat(current.revision()).isEqualTo(updated.revision());
@@ -228,4 +239,15 @@ class ProductImageAssociationBindingIntegrationTest {
     }
 
     private record Fixture(Product product, String mediaId, UUID assetId, String sha256, String assetRevision) { }
+
+    private static String extractSqlState(Throwable ex) {
+        Throwable cause = ex;
+        while (cause != null) {
+            if (cause instanceof java.sql.SQLException sqlEx && sqlEx.getSQLState() != null) {
+                return sqlEx.getSQLState();
+            }
+            cause = cause.getCause();
+        }
+        return null;
+    }
 }

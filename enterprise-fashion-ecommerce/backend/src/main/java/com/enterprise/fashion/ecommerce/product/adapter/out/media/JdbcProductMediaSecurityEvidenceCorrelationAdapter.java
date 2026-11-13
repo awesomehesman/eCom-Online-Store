@@ -2,9 +2,11 @@ package com.enterprise.fashion.ecommerce.product.adapter.out.media;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductImageAssociationBinding;
@@ -86,6 +88,54 @@ public class JdbcProductMediaSecurityEvidenceCorrelationAdapter
                 """).param("asset", subject.assetId()).param("product", subject.productId().value())
                 .param("digest", subject.originalSha256())
                 .query((rs, ignored) -> malware(rs)).list();
+    }
+
+    @Override
+    public boolean isBindingWithdrawn(UUID bindingId) {
+        requireReadTransaction();
+        return jdbc.sql("""
+                SELECT 1 FROM product.product_image_evidence_withdrawal
+                 WHERE binding_id = :bindingId
+                """).param("bindingId", bindingId)
+                .query((rs, ignored) -> true).optional().orElse(false);
+    }
+
+    @Override
+    public Set<UUID> withdrawnTechnicalCheckIds(Subject subject) {
+        requireReadTransaction();
+        return new HashSet<>(jdbc.sql("""
+                SELECT w.technical_check_id
+                  FROM product.product_image_evidence_withdrawal w
+                  JOIN product.product_image_security_check c
+                    ON c.check_id = w.technical_check_id
+                 WHERE c.asset_id = :asset
+                   AND c.product_id = :product
+                   AND c.original_sha256 = :digest
+                   AND w.technical_check_id IS NOT NULL
+                """).param("asset", subject.assetId())
+                .param("product", subject.productId().value())
+                .param("digest", subject.originalSha256())
+                .query((rs, ignored) -> rs.getObject("technical_check_id", UUID.class))
+                .list());
+    }
+
+    @Override
+    public Set<UUID> withdrawnMalwareObservationIds(Subject subject) {
+        requireReadTransaction();
+        return new HashSet<>(jdbc.sql("""
+                SELECT w.malware_observation_id
+                  FROM product.product_image_evidence_withdrawal w
+                  JOIN product.product_image_malware_observation o
+                    ON o.observation_id = w.malware_observation_id
+                 WHERE o.asset_id = :asset
+                   AND o.product_id = :product
+                   AND o.original_sha256 = :digest
+                   AND w.malware_observation_id IS NOT NULL
+                """).param("asset", subject.assetId())
+                .param("product", subject.productId().value())
+                .param("digest", subject.originalSha256())
+                .query((rs, ignored) -> rs.getObject("malware_observation_id", UUID.class))
+                .list());
     }
 
     private static ProductImageAssociationBinding binding(ResultSet rs) throws SQLException {

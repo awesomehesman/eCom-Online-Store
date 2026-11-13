@@ -2,6 +2,7 @@ package com.enterprise.fashion.ecommerce.product.application.usecase;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductImageAssociationBinding;
@@ -75,15 +76,24 @@ public final class CorrelateProductMediaSecurityEvidence {
                     MalwareStatus.CONFLICTING, List.of(), List.of());
         }
 
+        // Check for binding withdrawal — but continue to load observations to preserve INFECTED precedence
+        boolean bindingWithdrawn = evidence.isBindingWithdrawn(binding.bindingId());
+
+        // Always load observations to check for INFECTED and preserve historical evidence
         List<ProductMediaSecurityCheckResult> technical = List.copyOf(evidence.technicalObservations(subject));
         List<ProductImageMalwareObservation> malware = List.copyOf(evidence.malwareObservations(subject));
+
+        // Get withdrawn observation IDs
+        Set<UUID> withdrawnTechnical = evidence.withdrawnTechnicalCheckIds(subject);
+        Set<UUID> withdrawnMalware = evidence.withdrawnMalwareObservationIds(subject);
+
         TechnicalStatus technicalStatus = technical.stream().allMatch(item -> observationMatches(subject,
                 item.assetId(), item.productId(), item.originalSha256()))
-                ? technicalStatus(technical) : TechnicalStatus.CONFLICTING;
+                ? technicalStatus(technical, withdrawnTechnical, bindingWithdrawn) : TechnicalStatus.CONFLICTING;
         MalwareStatus malwareStatus = malware.stream().allMatch(item -> observationMatches(subject,
                 item.assetId(), item.productId(), item.originalSha256()))
-                ? malwareStatus(malware) : MalwareStatus.CONFLICTING;
-        Outcome outcome = outcome(technicalStatus, malwareStatus);
+                ? malwareStatus(malware, withdrawnMalware, bindingWithdrawn) : MalwareStatus.CONFLICTING;
+        Outcome outcome = outcome(technicalStatus, malwareStatus, bindingWithdrawn);
         return result(subject, outcome, technicalStatus, malwareStatus, technical, malware);
     }
 
@@ -105,25 +115,40 @@ public final class CorrelateProductMediaSecurityEvidence {
                 && subject.originalSha256().equals(originalSha256);
     }
 
-    private static TechnicalStatus technicalStatus(List<ProductMediaSecurityCheckResult> observations) {
+    private static TechnicalStatus technicalStatus(List<ProductMediaSecurityCheckResult> observations,
+            Set<UUID> withdrawnIds, boolean bindingWithdrawn) {
         if (observations.isEmpty()) return TechnicalStatus.MISSING;
+
         boolean allPassed = observations.stream().allMatch(item ->
                 item.outcome() == ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED);
         boolean anyRejected = observations.stream().anyMatch(item ->
                 item.outcome() == ProductMediaSecurityCheckResult.Outcome.REJECTED);
         boolean anyPassed = observations.stream().anyMatch(item ->
                 item.outcome() == ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED);
+
+        // CONFLICTING takes precedence over WITHDRAWN
         if (anyPassed && anyRejected) return TechnicalStatus.CONFLICTING;
+
+        // Check for any withdrawn observations or binding withdrawal
+        boolean anyWithdrawn = bindingWithdrawn || observations.stream()
+                .anyMatch(item -> withdrawnIds.contains(item.checkId()));
+        if (anyWithdrawn) return TechnicalStatus.WITHDRAWN;
+
         if (allPassed) return TechnicalStatus.MATCHING;
         // Mixed or unknown observations: conservative unusable classification
         return TechnicalStatus.UNUSABLE;
     }
 
-    private static MalwareStatus malwareStatus(List<ProductImageMalwareObservation> observations) {
+    private static MalwareStatus malwareStatus(List<ProductImageMalwareObservation> observations,
+            Set<UUID> withdrawnIds, boolean bindingWithdrawn) {
         if (observations.isEmpty()) return MalwareStatus.MISSING;
+
+        // INFECTED always takes precedence — even over withdrawal
         boolean infected = observations.stream().anyMatch(item ->
                 item.scanResult().outcome() == com.enterprise.fashion.ecommerce.product.application.media
                         .ProductImageMalwareScanResult.Outcome.INFECTED);
+        if (infected) return MalwareStatus.INFECTED;
+
         boolean anyClean = observations.stream().anyMatch(item ->
                 item.scanResult().outcome() == com.enterprise.fashion.ecommerce.product.application.media
                         .ProductImageMalwareScanResult.Outcome.CLEAN);
@@ -133,10 +158,15 @@ public final class CorrelateProductMediaSecurityEvidence {
         boolean anyIndeterminate = observations.stream().anyMatch(item ->
                 item.scanResult().outcome() == com.enterprise.fashion.ecommerce.product.application.media
                         .ProductImageMalwareScanResult.Outcome.INDETERMINATE);
-        // Infected always takes precedence
-        if (infected) return MalwareStatus.INFECTED;
-        // Clean mixed with any other outcome is conflicting
+
+        // CONFLICTING takes precedence over WITHDRAWN
         if (anyClean && anyIndeterminate) return MalwareStatus.CONFLICTING;
+
+        // Check for any withdrawn observations or binding withdrawal (only if not INFECTED or CONFLICTING)
+        boolean anyWithdrawn = bindingWithdrawn || observations.stream()
+                .anyMatch(item -> withdrawnIds.contains(item.observationId()));
+        if (anyWithdrawn) return MalwareStatus.WITHDRAWN;
+
         // Stale signature metadata makes even clean results unreliable
         boolean anyStale = observations.stream().map(item -> item.scanResult().failureCategory())
                 .anyMatch(CorrelateProductMediaSecurityEvidence::freshnessFailure);
@@ -155,10 +185,17 @@ public final class CorrelateProductMediaSecurityEvidence {
                 || failure == FailureCategory.VERSION_UNAVAILABLE;
     }
 
-    private static Outcome outcome(TechnicalStatus technical, MalwareStatus malware) {
+    private static Outcome outcome(TechnicalStatus technical, MalwareStatus malware,
+            boolean bindingWithdrawn) {
+        // INFECTED ALWAYS wins — even over withdrawal and conflicting
         if (malware == MalwareStatus.INFECTED) return Outcome.INFECTED;
+        // CONFLICTING takes precedence over WITHDRAWN
         if (technical == TechnicalStatus.CONFLICTING || malware == MalwareStatus.CONFLICTING) {
             return Outcome.CONFLICTING;
+        }
+        // WITHDRAWN when evidence is withdrawn and no higher-priority adverse classification
+        if (bindingWithdrawn || technical == TechnicalStatus.WITHDRAWN || malware == MalwareStatus.WITHDRAWN) {
+            return Outcome.WITHDRAWN;
         }
         if (technical == TechnicalStatus.MISSING || malware == MalwareStatus.MISSING) return Outcome.MISSING;
         if (technical != TechnicalStatus.MATCHING || malware != MalwareStatus.CLEAN) return Outcome.INDETERMINATE;

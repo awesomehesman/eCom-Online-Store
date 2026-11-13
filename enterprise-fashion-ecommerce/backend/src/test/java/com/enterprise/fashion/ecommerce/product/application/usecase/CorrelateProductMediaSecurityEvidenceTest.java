@@ -2,8 +2,10 @@ package com.enterprise.fashion.ecommerce.product.application.usecase;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.enterprise.fashion.ecommerce.product.application.media.ProductImageAssociationBinding;
@@ -330,6 +332,409 @@ class CorrelateProductMediaSecurityEvidenceTest {
         assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.UNAVAILABLE);
     }
 
+    // === Withdrawal-aware correlation tests ===
+
+    @Test
+    void withdrawnBindingReturnsWithdrawnOutcome() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+        assertThat(result.authoritativeAcceptanceEligible()).isFalse();
+    }
+
+    @Test
+    void withdrawnPassedTechnicalObservationReturnsWithdrawnStatus() {
+        var passed = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        evidence.technical.add(passed);
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.withdrawnTechnicalIds.add(passed.checkId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.technicalObservations()).hasSize(1);
+    }
+
+    @Test
+    void withdrawnCleanMalwareObservationReturnsWithdrawnStatus() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        var clean = malware(ProductImageMalwareScanResult.Outcome.CLEAN, null);
+        evidence.malware.add(clean);
+        evidence.withdrawnMalwareIds.add(clean.observationId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+        assertThat(result.malwareObservations()).hasSize(1);
+    }
+
+    @Test
+    void withdrawnRejectedTechnicalObservationReturnsWithdrawnStatus() {
+        var rejected = technical(ProductMediaSecurityCheckResult.Outcome.REJECTED,
+                ProductMediaSecurityCheckResult.FailureReason.MALFORMED_CONTENT);
+        evidence.technical.add(rejected);
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.withdrawnTechnicalIds.add(rejected.checkId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+    }
+
+    @Test
+    void withdrawnIndeterminateMalwareObservationReturnsWithdrawnStatus() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        var indeterminate = malware(ProductImageMalwareScanResult.Outcome.INDETERMINATE,
+                ProductImageMalwareScanResult.FailureCategory.CONNECTION_FAILURE);
+        evidence.malware.add(indeterminate);
+        evidence.withdrawnMalwareIds.add(indeterminate.observationId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+    }
+
+    @Test
+    void withdrawnInfectedMalwareObservationStillReturnsInfected() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        var infected = malware(ProductImageMalwareScanResult.Outcome.INFECTED, null);
+        evidence.malware.add(infected);
+        evidence.withdrawnMalwareIds.add(infected.observationId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.INFECTED);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.INFECTED);
+    }
+
+    @Test
+    void infectedTakesPrecedenceOverWithdrawnCleanInSameHistory() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        var clean = malware(ProductImageMalwareScanResult.Outcome.CLEAN, null);
+        var infected = malware(ProductImageMalwareScanResult.Outcome.INFECTED, null);
+        evidence.malware.add(clean);
+        evidence.malware.add(infected);
+        evidence.withdrawnMalwareIds.add(clean.observationId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.INFECTED);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.INFECTED);
+    }
+
+    @Test
+    void nonWithdrawnEvidenceStillReturnsMatchingNonAuthoritative() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.MATCHING_NON_AUTHORITATIVE);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.MATCHING);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.CLEAN);
+        assertThat(result.authoritativeAcceptanceEligible()).isFalse();
+    }
+
+    @Test
+    void withdrawnAndMissingAreDistinguishable() {
+        // Missing case
+        evidence.binding = null;
+        assertThat(useCase.correlate(subject()).outcome()).isEqualTo(Outcome.MISSING);
+
+        // Withdrawn case
+        evidence.binding = binding();
+        evidence.bindingWithdrawn = true;
+        assertThat(useCase.correlate(subject()).outcome()).isEqualTo(Outcome.WITHDRAWN);
+    }
+
+    @Test
+    void partialWithdrawalOfTechnicalHistoryReturnsWithdrawn() {
+        var passed1 = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        var passed2 = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        evidence.technical.add(passed1);
+        evidence.technical.add(passed2);
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.withdrawnTechnicalIds.add(passed1.checkId()); // Only withdraw one
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.technicalObservations()).hasSize(2); // Both still visible
+    }
+
+    @Test
+    void staleProductIdentityStillTakesPrecedenceOverWithdrawal() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        ProductRevision stale = new ProductRevision("v1_" + "b".repeat(64));
+        var result = useCase.correlate(subject(stale, "hero", ASSET_REVISION, null));
+
+        assertThat(result.outcome()).isEqualTo(Outcome.STALE_OR_INVALIDATED);
+    }
+
+    @Test
+    void unavailableWithdrawalHistoryReturnsUnavailable() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.withdrawalFailure = new DataAccessResourceFailureException("withdrawal lookup failed");
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.UNAVAILABLE);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.UNAVAILABLE);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.UNAVAILABLE);
+    }
+
+    @Test
+    void withdrawnEvidenceRemainsVisibleInObservationHistory() {
+        var passed = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        evidence.technical.add(passed);
+        var clean = malware(ProductImageMalwareScanResult.Outcome.CLEAN, null);
+        evidence.malware.add(clean);
+        evidence.withdrawnTechnicalIds.add(passed.checkId());
+        evidence.withdrawnMalwareIds.add(clean.observationId());
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalObservations()).hasSize(1);
+        assertThat(result.malwareObservations()).hasSize(1);
+    }
+
+    @Test
+    void publicationRemainsDefaultDenyWithWithdrawnEvidence() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.authoritativeAcceptanceEligible()).isFalse();
+    }
+
+    // === V15 regression tests: precedence and withdrawal validation ===
+
+    /**
+     * V15-01 regression: Withdrawn binding with INFECTED malware must return INFECTED.
+     * INFECTED always takes precedence over WITHDRAWN to prevent malware propagation.
+     */
+    @Test
+    void withdrawnBindingWithInfectedMalwareReturnsInfected() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.INFECTED, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.INFECTED);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.INFECTED);
+        // Technical still shows WITHDRAWN since binding is withdrawn
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+    }
+
+    /**
+     * V15-01 regression: Withdrawn binding with CLEAN malware returns WITHDRAWN (not UNAVAILABLE).
+     * Observations must be loaded before checking withdrawal status.
+     */
+    @Test
+    void withdrawnBindingWithCleanMalwareReturnsWithdrawn() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+        // Observations must still be loaded and returned
+        assertThat(result.technicalObservations()).hasSize(1);
+        assertThat(result.malwareObservations()).hasSize(1);
+    }
+
+    /**
+     * V15-01 regression: Withdrawn binding with missing malware history returns WITHDRAWN
+     * because binding withdrawal takes precedence over missing observations when binding is withdrawn.
+     */
+    @Test
+    void withdrawnBindingWithMissingMalwareHistoryReturnsWithdrawn() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        // No malware observations added
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        // WITHDRAWN (binding) takes precedence over MISSING (malware)
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.MISSING);
+    }
+
+    /**
+     * V15-01 regression: Withdrawn binding still exposes historical observations.
+     * Withdrawal must not prevent loading observations for audit trail.
+     */
+    @Test
+    void withdrawnBindingRetainsHistoricalObservationsForAudit() {
+        var tech1 = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        var tech2 = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        var mal1 = malware(ProductImageMalwareScanResult.Outcome.CLEAN, null);
+        var mal2 = malware(ProductImageMalwareScanResult.Outcome.CLEAN, null);
+        evidence.technical.add(tech1);
+        evidence.technical.add(tech2);
+        evidence.malware.add(mal1);
+        evidence.malware.add(mal2);
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalObservations()).hasSize(2);
+        assertThat(result.malwareObservations()).hasSize(2);
+    }
+
+    /**
+     * V15-02 regression: CONFLICTING technical status takes precedence over WITHDRAWN.
+     * Contradictory evidence is more severe than withdrawn evidence.
+     */
+    @Test
+    void conflictingTechnicalTakesPrecedenceOverWithdrawn() {
+        // Contradictory technical evidence
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.REJECTED,
+                ProductMediaSecurityCheckResult.FailureReason.MALFORMED_CONTENT));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.CONFLICTING);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.CONFLICTING);
+        // Malware is WITHDRAWN since binding is withdrawn and no conflicting malware
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+    }
+
+    /**
+     * V15-02 regression: CONFLICTING malware status takes precedence over WITHDRAWN.
+     * Contradictory evidence is more severe than withdrawn evidence.
+     */
+    @Test
+    void conflictingMalwareTakesPrecedenceOverWithdrawn() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        // Contradictory malware evidence
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.INDETERMINATE,
+                ProductImageMalwareScanResult.FailureCategory.TIMEOUT));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.CONFLICTING);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.CONFLICTING);
+        // Technical is WITHDRAWN since binding is withdrawn
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+    }
+
+    /**
+     * V15-02 regression: Both CONFLICTING takes precedence over both WITHDRAWN.
+     * Overall outcome must be CONFLICTING when both have contradictions.
+     */
+    @Test
+    void bothConflictingTakesPrecedenceOverBothWithdrawn() {
+        // Contradictory technical
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.REJECTED,
+                ProductMediaSecurityCheckResult.FailureReason.RESOURCE_LIMIT_EXCEEDED));
+        // Contradictory malware
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.INDETERMINATE,
+                ProductImageMalwareScanResult.FailureCategory.CONNECTION_FAILURE));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.CONFLICTING);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.CONFLICTING);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.CONFLICTING);
+    }
+
+    /**
+     * V15-02 regression: Withdrawn individual observations with contradictions.
+     * CONFLICTING precedence applies even when specific observations are withdrawn.
+     */
+    @Test
+    void conflictingWithWithdrawnObservationsTakesPrecedenceOverWithdrawn() {
+        var passed = technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null);
+        var rejected = technical(ProductMediaSecurityCheckResult.Outcome.REJECTED,
+                ProductMediaSecurityCheckResult.FailureReason.MALFORMED_CONTENT);
+        evidence.technical.add(passed);
+        evidence.technical.add(rejected);
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        // Withdraw the passed observation — but we still have contradicting history
+        evidence.withdrawnTechnicalIds.add(passed.checkId());
+
+        var result = useCase.correlate(subject());
+
+        // CONFLICTING detected because passed+rejected contradiction exists
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.CONFLICTING);
+        assertThat(result.outcome()).isEqualTo(Outcome.CONFLICTING);
+    }
+
+    /**
+     * V15-02 regression: INFECTED takes precedence over CONFLICTING which takes precedence over WITHDRAWN.
+     * Full precedence chain: INFECTED > CONFLICTING > WITHDRAWN > MISSING > MATCHING
+     */
+    @Test
+    void infectedTakesPrecedenceOverConflictingOverWithdrawn() {
+        // Contradictory technical
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.REJECTED,
+                ProductMediaSecurityCheckResult.FailureReason.UNSUPPORTED_FORMAT));
+        // INFECTED malware
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.INFECTED, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        // INFECTED wins over everything
+        assertThat(result.outcome()).isEqualTo(Outcome.INFECTED);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.INFECTED);
+        // Technical still shows CONFLICTING
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.CONFLICTING);
+    }
+
+    /**
+     * V15-01/02 combined: CLEAN withdrawal without conflicts returns WITHDRAWN correctly.
+     * Ensures normal withdrawal case still works after precedence fixes.
+     */
+    @Test
+    void cleanWithdrawalWithoutConflictsReturnsWithdrawn() {
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.technical.add(technical(ProductMediaSecurityCheckResult.Outcome.TECHNICAL_CHECKS_PASSED, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.malware.add(malware(ProductImageMalwareScanResult.Outcome.CLEAN, null));
+        evidence.bindingWithdrawn = true;
+
+        var result = useCase.correlate(subject());
+
+        assertThat(result.outcome()).isEqualTo(Outcome.WITHDRAWN);
+        assertThat(result.technicalStatus()).isEqualTo(TechnicalStatus.WITHDRAWN);
+        assertThat(result.malwareStatus()).isEqualTo(MalwareStatus.WITHDRAWN);
+    }
+
     private Subject subject() {
         return subject(product.revision(), "hero", ASSET_REVISION, null);
     }
@@ -404,6 +809,10 @@ class CorrelateProductMediaSecurityEvidenceTest {
         private final List<ProductMediaSecurityCheckResult> technical = new ArrayList<>();
         private final List<ProductImageMalwareObservation> malware = new ArrayList<>();
         private RuntimeException failure;
+        private boolean bindingWithdrawn = false;
+        private final Set<UUID> withdrawnTechnicalIds = new HashSet<>();
+        private final Set<UUID> withdrawnMalwareIds = new HashSet<>();
+        private RuntimeException withdrawalFailure;
         private FakeEvidence(ProductImageAssociationBinding binding) { this.binding = binding; }
         @Override public Optional<ProductImageAssociationBinding> exactBinding(Subject subject) {
             if (failure != null) throw failure;
@@ -416,6 +825,18 @@ class CorrelateProductMediaSecurityEvidenceTest {
         @Override public List<ProductImageMalwareObservation> malwareObservations(Subject subject) {
             if (failure != null) throw failure;
             return List.copyOf(malware);
+        }
+        @Override public boolean isBindingWithdrawn(UUID bindingId) {
+            if (withdrawalFailure != null) throw withdrawalFailure;
+            return bindingWithdrawn;
+        }
+        @Override public Set<UUID> withdrawnTechnicalCheckIds(Subject subject) {
+            if (withdrawalFailure != null) throw withdrawalFailure;
+            return Set.copyOf(withdrawnTechnicalIds);
+        }
+        @Override public Set<UUID> withdrawnMalwareObservationIds(Subject subject) {
+            if (withdrawalFailure != null) throw withdrawalFailure;
+            return Set.copyOf(withdrawnMalwareIds);
         }
     }
 }
