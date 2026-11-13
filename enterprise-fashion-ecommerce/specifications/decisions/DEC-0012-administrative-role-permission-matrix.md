@@ -4,9 +4,9 @@
 - **Title:** Administrative Role and Permission Matrix
 - **Type:** Product Decision
 - **Status:** Proposed
-- **Version:** 0.4.0
+- **Version:** 0.5.0
 - **Date:** 2026-10-13
-- **Last Updated:** 2026-11-11
+- **Last Updated:** 2026-11-13
 - **Owner:** Product
 - **Authoritative:** false
 - **Supersedes:** N/A
@@ -231,6 +231,107 @@ an item-specific business choice is identified explicitly.
 | Consequence if unresolved | No operational mutation may rely on an assumed audit guarantee or blind retry/recovery policy. |
 | Implementation dependency | Separately reviewed protected audit and mutation-outcome/reconciliation boundaries; no audit store, outbox, transport, retry or reconciliation implementation selected. |
 
+## Product Media-Security Evidence Withdrawal Classification — Prepared 2026-11-13
+
+**PROPOSED DISPOSITION — NOT APPROVED. PENDING ACCOUNTABLE APPROVAL.** This
+package applies A–H to operational issuance of the exact-target evidence withdrawal
+prepared in [DEC-0042 v0.8.0 S1-05](DEC-0042-product-publication-acceptance-and-visibility.md).
+It is a distinct candidate Product action for governance review, not a Role or Permission
+identifier, assignment, operational command, writer or endpoint. It does not approve an
+issuer, Security classification, implementation, media-security acceptance, Product
+publication or positive visibility. V15 remains append-only, non-authoritative
+infrastructure and supplies no operational authority.
+
+1. **Action identity and proposed classification.** Define the governed action as issuing
+   an irreversible withdrawal of reliance on one exact Product media-security evidence
+   target. It is not Product lifecycle withdrawal, media acceptance, incident resolution
+   or deletion. Conservatively classify it as **security-sensitive and high-impact** because
+   it changes security-control reliance and may suppress customer visibility. Security owns
+   final classification; Product owns the affected Product subject and consequence. Until
+   accepted, no lower-risk treatment or operational eligibility may be inferred.
+2. **Eligible issuer categories.** Candidate human issuers are currently assigned,
+   appropriately assured Security Staff acting through a Product-owned Use Case. Candidate
+   workload issuers are Security-approved Service Principals or checking producers limited
+   to an approved, machine-verifiable adverse condition. Identity must establish trusted
+   identity, assignment, assurance, purpose and effective revocation for either category.
+   Administration may coordinate an approved workflow but cannot grant Security eligibility,
+   create Product authority or override denial. No category, founder, Role label, Permission
+   string or workload is approved here.
+3. **Product scope and exact-target authority.** Authorization must combine an approved
+   action assignment with Product-owned contextual authorization for exactly one existing
+   technical-check observation, malware observation or media-association binding and its
+   established Product, revision, association, asset UUID, digest, asset revision and optional
+   Variant context. Identifier possession is not authority. One target grants no asset-wide,
+   Product-wide, Variant-wide or association-wide permission; broader incidents require
+   separately authorized, enumerated exact targets. Product validates subject ownership and
+   current applicability at the mutation boundary.
+4. **Authentication assurance and reauthentication.** Human issuance requires operational
+   Staff Authentication under Accepted ADR-0023, an authoritative server-side Staff Session,
+   Identity-verifiable privileged assurance and action-specific fresh reauthentication under
+   a Security-approved mapping. Generic MFA, token receipt, Customer Authentication or
+   founder status is insufficient. Security must approve factor/method requirements,
+   freshness and step-up behavior; Identity must confirm trustworthy evidence. Workload
+   issuance requires separately governed machine identity, credential, replay, freshness,
+   environment and revocation controls rather than a Staff-assurance bypass.
+5. **Separation of duties and independent approval.** Propose independent approval for a
+   discretionary human withdrawal and for any broad incident enumeration unless Security
+   approves a narrower pre-authorized, machine-verifiable adverse-finding class with equivalent
+   preventive controls and independent review. The issuer must not approve its own discretionary
+   request where separation applies. Missing approver or independence evidence blocks the action.
+   This is neither a universal two-person rule nor approval of automated issuance; Security and
+   Product must decide exact action/risk combinations and acceptable independence.
+6. **Emergency and adverse-finding handling.** No founder, support, incident or urgency
+   exemption is assumed. A rapid containment path may exist only if Security predefines its
+   trigger, eligible issuer, exact scope, assurance, audit, expiry and mandatory independent
+   review/reconciliation. An `INFECTED` result remains visible as the highest adverse technical
+   classification, and `CONFLICTING` remains distinguishable; withdrawal must not conceal either.
+   Until a rapid path is approved and implemented, emergency or adverse-finding uncertainty
+   fails closed rather than enabling an ad hoc writer or approval bypass.
+7. **Assignment, delegation and revocation.** Identity owns attributable assignment and
+   delegation evidence, exact scope, lifecycle, effective revocation and reconciliation;
+   Security owns who may receive or delegate issuer eligibility; Product owns contextual
+   target authorization. An issuer cannot delegate beyond expressly delegable authority.
+   Assignment withdrawal must prevent new issuance and cannot be reversed by stale Session,
+   cached authorization, retained labels or prior success. Administration coordinates only
+   under approved policy and cannot maintain a competing assignment source.
+8. **Final authorization revalidation and concurrency.** Immediately before persistence,
+   revalidate trusted actor/workload identity, current assignment, assurance, any independent
+   approval, exact target existence and Product context, existing withdrawal/current evidence,
+   and applicable revision/state. Duplicate, concurrent, stale or reordered attempts must not
+   create contradictory success or restore reliance. Missing, conflicting, unavailable or
+   uncertain authority/currentness denies issuance. Residual races, transaction boundaries,
+   idempotency and reconciliation require reviewed implementation; this proposal selects no
+   lock, TTL, retry or coordination mechanism.
+9. **Protected operational audit and uncertain outcomes.** Before execution can begin, the
+   system must be able to retain an access-controlled, tamper-resistant Audit Record containing
+   trusted time, correlation, Principal or Service Principal, source context, action, exact
+   target and Product context, authorization/approval evidence, safe reason/evidence reference,
+   result and uncertainty. The actor being audited must not control the audit trail. V15 history
+   is supporting domain evidence, not the complete operational Audit Record. Audit unavailability
+   denies initiation; uncertain commit or propagation remains uncertain and must be investigated
+   and reconciled before retry or success is asserted.
+10. **DEC-0042 and Staff-authentication dependencies.** DEC-0042 S1-05 must receive accountable
+    Security, Product, Identity and Administration dispositions for sources, issuers, reasons,
+    target scope, propagation, restoration and audit. Human issuance additionally requires
+    ADR-0023 provider, verifier, Session, assurance, revocation and operational-activation gates.
+    A workload issuer requires equivalent approved Identity and Security controls. Authoritative
+    media acceptance/current-evidence projection, visibility propagation and protected audit
+    remain separate implementation gates. Authentication or withdrawal eligibility grants no
+    media acceptance, Product publication, lifecycle transition or administrative authority.
+
+### Required Accountable Confirmations for Evidence Withdrawal
+
+| Accountable capacity | Exact confirmation still required |
+| --- | --- |
+| Security | Accept, amend or reject the high-impact classification; eligible human/workload issuer classes; assurance and reauthentication; independent approval; rapid containment; delegation; adverse-result precedence; and audit/failure requirements. |
+| Product | Confirm the distinct action identity, exact target and Product/revision/association scope, affected acceptance and visibility consequences, mutation-boundary checks and prohibition on inferred broad propagation. |
+| Identity | Confirm trusted human/workload identity, Staff Session where applicable, assignment/delegation provenance, assurance evidence, effective revocation and stale-context prevention. |
+| Administration | Confirm coordination and review responsibilities without acquiring issuer eligibility, Product contextual authority or override capability. |
+
+No accountable confirmation is recorded by this revision. Operational issuance remains
+**NO-GO** until these dispositions and the referenced implementation/activation gates are
+completed and verified.
+
 ## Founder-Operated MVP Bounded Disposition — Prepared 2026-11-11
 
 **PROPOSED DISPOSITION — NOT APPROVED. PENDING ACCOUNTABLE PROJECT-OWNER
@@ -407,6 +508,7 @@ This Proposed decision does not select a final Role/Permission matrix or policy 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-11-13 | Proposed | Prepared a bounded Product media-security evidence-withdrawal classification: proposed the action as distinct, security-sensitive and high-impact; defined candidate human/workload issuers, exact-target Product scope, privileged assurance, conditional independent approval, emergency/adverse handling, Identity-owned assignment and revocation, final revalidation, protected audit and DEC-0042/ADR-0023 dependencies; preserved pending accountable confirmations, V15 non-authority, operational issuance NO-GO and all publication/visibility restrictions. |
 | 0.4.0 | 2026-11-11 | Proposed | Prepared a bounded founder-operated MVP disposition for five contextual Product actions, ordinary-risk same-actor acceptance/publication, independent approval for higher-risk or unclassified Products, fresh privileged publication assurance, separate withdrawal, current authority/revision revalidation, fail-closed evidence and protected audit; identified exact project-owner confirmations and preserved all operational gates, Proposed status and non-authoritative scope. |
 | 0.3.0 | 2026-11-09 | Proposed | Prepared the eight-item Product-specific accountable disposition package separating established requirements, confirmed business direction, proposed dispositions and pending owner confirmations; preserved unresolved questions, existing approval provenance, unselected matrix and all implementation restrictions. |
 | 0.2.0 | 2026-11-06 | Proposed | Added a bounded Product authorization proposal and outstanding accountable questions for five acceptance/publication actions; preserved unselected matrix alternatives, existing Product approvals, Proposed status and all implementation restrictions. |
