@@ -4,9 +4,9 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.6.0
+- **Version:** 0.7.0
 - **Date:** 2026-10-30
-- **Last Updated:** 2026-11-12
+- **Last Updated:** 2026-11-13
 - **Owner:** Product
 - **Required Accountable Security Review:** Security
 - **Authoritative:** false
@@ -372,12 +372,88 @@ it and the remaining implementation and operational gates are completed.
 | --- | --- |
 | ESTABLISHED REQUIREMENT | Missing, failed, stale, conflicting, withdrawn or invalidated evidence cannot support positive visibility. Historical evidence must not silently restore withdrawn authority. |
 | CONFIRMED BUSINESS DIRECTION | P1/P2 invalidate affected acceptance after relevant changes or withdrawal; P4 requires valid criteria and no invalidation for reuse and forbids silent lifecycle changes. |
-| EXISTING IMPLEMENTATION EVIDENCE | Publication-evidence contracts distinguish current, invalidated and revoked evidence and explicit invalidation/withdrawal. The readiness evaluator rejects invalidated, withdrawn, unsupported, conflicting or unavailable evidence. Production composition remains fail-closed through an unavailable evidence adapter and reject-all source/version policy. No authoritative invalidation producer, propagation mechanism or current-evidence store exists. |
-| PROPOSED POLICY CANDIDATE — NOT APPROVED | Invalidate every affected security acceptance on asset/digest mismatch, Product or association revision change, Variant reassociation, an `INFECTED` or `INDETERMINATE` recheck, stale or unsupported definitions, producer compromise, material checker defect, authoritative adverse finding, explicit Security revocation or conflicting evidence. Preserve history, prohibit automatic reactivation and require new approved checking before restored reliance. Unavailable invalidation state fails closed. |
-| Accountable owners | Security: authoritative security findings, revocation and invalidation scope; Product: affected acceptance, associations, history and current visibility. |
-| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject the proposed triggers; designate authoritative adverse-finding/revocation sources; and confirm affected scope, propagation/freshness bound, conflict/outage treatment, proactive recheck obligations and restored-reliance criteria. Product must confirm affected acceptance and visibility consequences. |
+| EXISTING IMPLEMENTATION EVIDENCE | Publication-evidence contracts distinguish current, invalidated and revoked evidence and explicit invalidation/withdrawal. The readiness evaluator rejects invalidated, withdrawn, unsupported, conflicting or unavailable evidence. V15 adds append-only, exactly-one-target withdrawal rows for a technical check, malware observation or media-association binding; foreign keys, partial uniqueness and update/delete/truncate protection preserve target-specific history, and every row is constrained to `authoritative_acceptance_eligible = false`. Read-only repeatable-read correlation reports withdrawal while preserving `INFECTED` and `CONFLICTING` precedence. Production publication evidence remains fail-closed through an unavailable adapter and reject-all source/version policy. V15 supplies no operational writer, issuer authorization, actor attribution, protected Audit Record, authoritative invalidation producer or positive current-evidence projection. |
+| PROPOSED POLICY CANDIDATE — NOT APPROVED | Adopt the bounded disposition below: permit reliance withdrawal only from a Security-approved source, through an explicitly eligible issuer acting within exact Product-owned subject scope; record an append-only target-specific effect; fail closed for conflict, unavailability or uncertain propagation; prohibit automatic restoration; and require new approved checking and acceptance before later reliance. Technical withdrawal history remains distinct from authoritative media-security acceptance and Product publication authority. |
+| Accountable owners | Security: source classification, eligible issuer policy, security reason classification, revocation/invalidation scope and required assurance; Product: canonical subject, affected acceptance, association, completeness and visibility consequences; Identity: trusted actor, assignment, assurance and revocation evidence; Administration: governed coordination only, without independent Product or Security authority. |
+| PENDING ACCOUNTABLE APPROVAL — exact confirmation | Security must accept, amend or reject every element of the bounded disposition below, including source and issuer classifications, reasons, target scope, concurrent behavior, propagation bound, restoration/recheck, audit and failure treatment. Product must confirm canonical targets and visibility consequences. Identity must confirm actor/assignment/assurance evidence, and Administration must confirm its coordination boundary. No approval is recorded here. |
 | Consequence if unresolved | Continued validity cannot be assumed after relevant uncertainty or withdrawal; positive reliance remains unavailable. |
-| Implementation dependency | Append-only authoritative acceptance/invalidation persistence, current-evidence projection, delivery/recheck coordination and reconciliation remain missing. No event, polling, TTL, locking or transport is selected. |
+| Implementation dependency | V15 and correlation provide non-authoritative storage and observation only. An authorized issuance Use Case, trusted current actor/access evidence, final-reliance revalidation, authoritative acceptance/invalidation projection, protected audit, propagation, delivery/recheck coordination and reconciliation remain missing. No endpoint, event, polling, TTL, locking or transport is selected. |
+
+#### Proposed Bounded S1-05 Security Disposition — Not Approved
+
+The following package is prepared for accountable review. It does not designate an
+operational issuer, accept V15 rows as authoritative evidence, activate a writer or
+authorize publication.
+
+1. **Authoritative withdrawal source classifications.** Candidate source classes are:
+   an attributable Security finding; an authoritative adverse recheck from an approved
+   checking producer; confirmed producer compromise; Security-approved check-definition
+   retirement; and explicit Security revocation. A rights revocation remains an independent
+   Product/rights authority input coordinated under S1-06 and cannot be relabelled as a
+   Security finding. V15 source values are implementation vocabulary only; their presence
+   does not prove that an authoritative source produced the effect.
+2. **Eligible issuer categories and ownership.** Candidate issuers are a currently assigned,
+   appropriately assured Security actor acting through a Product-owned Use Case, or a
+   Security-approved workload whose identity, assignment, scope and revocation are trusted
+   by Identity. Product validates and applies the exact Product subject and visibility
+   consequence. Administration may coordinate an approved workflow but cannot issue a
+   Security withdrawal, grant Product authority or override denial. No human, workload,
+   founder status, Role label, Permission string or issuer category is approved by this
+   proposal.
+3. **Exact target-specific scope.** One withdrawal effect targets exactly one existing
+   technical-check observation, malware observation or media-association binding by its
+   immutable identifier and established Product/asset/digest/association/revision context.
+   Withdrawing one target does not infer withdrawal of every observation for the asset,
+   Product, Variant or association. A broader incident requires separately authorized,
+   enumerated exact-target effects under confirmed affected-subject scope; unsupported
+   asset-wide propagation is prohibited.
+4. **Reason classifications.** The proposed bounded reasons are Security finding, adverse
+   recheck, producer compromise, definition retirement and explicit Security revocation;
+   coordinated rights revocation remains separately authoritative under S1-06. Each effect
+   requires a safe, nonblank reason category and a protected reference to supporting
+   evidence where required. A free-text assertion or V15 enum alone establishes no authority.
+5. **Current evidence and concurrency.** Current withdrawal state, exact subject binding,
+   actor authority and applicable Product revision/state must be revalidated at final
+   mutation reliance. A confirmed withdrawal prevents later positive reliance on its target.
+   An in-flight acceptance, publication or visibility evaluation that cannot establish a
+   consistent current result must fail closed. This proposal selects no cross-system atomicity,
+   lock, TTL or race-resolution mechanism; residual-race and uncertain-commit treatment
+   remain subject to DEC-0012 G/H approval and implementation review.
+6. **Conflict and unavailable evidence.** `INFECTED` remains the highest adverse technical
+   classification and must not be hidden by withdrawal. `CONFLICTING` remains distinguishable
+   and takes precedence over a merely withdrawn classification. Missing, unavailable,
+   mismatched, stale, indeterminate or uncertain withdrawal/currentness evidence cannot
+   yield acceptance, restoration or visibility. No cached success or absence of a withdrawal
+   row proves current eligibility.
+7. **Propagation and visibility.** A confirmed authoritative withdrawal must make the exact
+   affected acceptance ineligible for subsequent reliance and reach the Product-owned
+   current-evidence/visibility decision within a Security-approved bound. Product withholds
+   positive visibility when current mandatory media completeness is no longer established.
+   Evidence withdrawal does not silently mutate Product lifecycle; explicit unpublication
+   remains a separately authorized Product action. Until authoritative propagation is
+   implemented and verified, publication and positive visibility remain blocked.
+8. **Restoration and recheck.** Withdrawal history is irreversible and cannot be deleted,
+   overwritten, toggled or automatically reactivated. Restored reliance requires new
+   applicable evidence from an approved checking producer, exact current subject binding,
+   satisfaction of the then-current definition/version/freshness policy, a new attributable
+   acceptance decision and no applicable current withdrawal or conflict. A new clean result
+   does not erase an `INFECTED` observation or automatically resolve its incident.
+9. **Protected audit and attribution.** Operational issuance requires trusted actor or
+   Service Principal identity, current assignment and assurance, trusted time, correlation,
+   source classification, exact target, safe reason/evidence reference, authorization context,
+   result and uncertainty to be retained in an access-controlled, tamper-resistant Audit
+   Record protected from the actor being audited. V15 append-only history is supporting
+   domain evidence, not the complete Audit Record. Issuance must not begin when required
+   audit integrity cannot be assured; uncertain persistence or propagation must be reconciled
+   before retry or success is asserted.
+10. **DEC-0012 and Staff-authentication dependencies.** Human issuance remains blocked until
+    DEC-0012 approves the applicable Product-scoped assignment, privileged-action
+    classification, assurance/reauthentication, any independent approval, effective
+    assignment revocation, final revalidation and protected-audit/uncertain-outcome rules.
+    Operational Staff Authentication must satisfy Accepted ADR-0023's separate provider,
+    verification, Session, revocation and activation gates. Authentication alone never
+    authorizes withdrawal. A workload issuer requires equivalent Identity, assignment,
+    least-privilege, revocation and audit governance rather than a Staff-authentication bypass.
 
 ### S1-06 — Rights/Security Withdrawal Coordination
 
@@ -631,6 +707,7 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.7.0 | 2026-11-13 | Proposed | Prepared a bounded S1-05 Security-owner disposition for accountable review: classified candidate withdrawal sources and issuers, constrained withdrawal to exact immutable targets, proposed reason, concurrency, conflict, propagation, restoration/recheck and protected-audit behavior, incorporated V15 and withdrawal-aware correlation as non-authoritative implementation evidence, preserved `INFECTED`/`CONFLICTING` precedence and prohibited inferred asset-wide propagation; retained all Security, Product, Identity, Administration, DEC-0012, Staff-authentication, publication and operational-activation approvals as pending. |
 | 0.6.0 | 2026-11-12 | Proposed | Incorporated technically grounded S1-01–S1-06 proposed dispositions using the implemented private-quarantine, technical-inspection, ClamAV, signature-freshness, immutable-observation and fail-closed readiness evidence; proposed the Product-owned checking composition, provenance boundary, exact subject/revision binding, explicit definition/version treatment, 48-hour signature-age and five-minute future-skew candidates, invalidation triggers and independent rights/security coordination for accountable review; preserved every S1 status as pending, distinguished scan-time freshness from acceptance-reuse lifetime, and retained DEC-0012, authorization, audit, publication and visibility gates. |
 | 0.5.0 | 2026-11-11 | Proposed | Prepared a founder-operated MVP acceptance package aligned with DEC-0012 v0.4.0: exact-revision P1/P2 acceptance, proposed controlled media ingestion and trusted checking evidence, ordinary-risk same-actor publication, independent approval for higher-risk/unclassified Products, canonical publish/withdraw transitions, atomic audit/concurrency safeguards and fail-closed current visibility; preserved pending accountable dispositions, S1/operational gates, Proposed status and non-authoritative scope. |
 | 0.4.0 | 2026-11-09 | Proposed | Prepared S1-01–S1-06 accountable disposition package and synchronized the P3/S2 dependency with DEC-0012 v0.3.0 Proposed; preserved Product approvals/provenance, pending Security and authorization confirmations, non-authoritative lifecycle and all implementation/publication restrictions. |
