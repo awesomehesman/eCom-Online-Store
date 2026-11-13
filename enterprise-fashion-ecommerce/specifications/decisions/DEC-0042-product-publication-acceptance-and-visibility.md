@@ -4,7 +4,7 @@
 - **Title:** Product Publication Acceptance and Visibility
 - **Type:** Product Decision / Security Decision
 - **Status:** Proposed
-- **Version:** 0.8.0
+- **Version:** 0.9.0
 - **Date:** 2026-10-30
 - **Last Updated:** 2026-11-13
 - **Owner:** Product
@@ -455,6 +455,35 @@ authorize publication.
     authorizes withdrawal. A workload issuer requires equivalent Identity, assignment,
     least-privilege, revocation and audit governance rather than a Staff-authentication bypass.
 
+#### S1-05 Security-Control Review Recommendation — All Eight Accept; No Amendments
+
+**RECOMMENDATION EVIDENCE ONLY — NOT ACCOUNTABLE APPROVAL.** The explicit instruction
+authorizing this revision records a review recommendation to accept all eight controls below
+without amendment. No accountable Security-owner identity, independent Security reviewer,
+signature, approval reference or approval evidence was supplied. The record date is the
+documentation date, not an approval date. The eight review controls aggregate the existing
+ten-point S1-05 proposal for disposition; they do not replace, remove, narrow or approve any
+of its requirements.
+
+| Review control | Existing proposal coverage | Review recommendation |
+| --- | --- | --- |
+| Action classification | DEC-0012 v0.5.0 proposes operational evidence withdrawal as a distinct security-sensitive, high-impact Product action and preserves Security classification authority. | **ACCEPT — recommendation only.** |
+| Authoritative withdrawal sources | S1-05 points 1 and 4 distinguish candidate Security sources and reasons from V15 implementation vocabulary and preserve independent rights authority under S1-06. | **ACCEPT — recommendation only.** |
+| Eligible issuers | S1-05 points 2 and 10 separate candidate assured Security Staff and governed workloads, with Identity-owned trust and no founder, label or Administration-derived authority. | **ACCEPT — recommendation only.** |
+| Authentication and assurance | S1-05 points 2, 9 and 10 plus DEC-0012 v0.5.0 require trusted human/workload identity, current assignment, applicable assurance, Staff-authentication gates and no Authentication-to-Authorization inference. | **ACCEPT — recommendation only.** |
+| Independent approval | DEC-0012 v0.5.0 proposes conditional independent approval, separation for discretionary human action and broad incident enumeration, and no urgent or founder bypass. | **ACCEPT — recommendation only.** |
+| Withdrawal scope | S1-05 points 3–6 require exact immutable targets, enumerated broader effects, final current-evidence checks and fail-closed conflict/unavailability handling while preserving `INFECTED` and `CONFLICTING`. | **ACCEPT — recommendation only.** |
+| Propagation and restoration | S1-05 points 7–8 require bounded Product-owned visibility consequences, no silent lifecycle mutation, immutable withdrawal history, new approved checking/acceptance and no automatic restoration. | **ACCEPT — recommendation only.** |
+| Protected audit and failure handling | S1-05 points 5, 6, 9 and 10 require attributable protected Audit Records, audit-unavailable denial, explicit uncertainty and reconciliation, with V15 retained only as supporting non-authoritative history. | **ACCEPT — recommendation only.** |
+
+**All eight controls are recommended for acceptance. No amendments are recommended.**
+Accountable Security-owner approval remains pending, and this review record does not
+establish independent Security approval or close S1-05. Dependent Product, Identity and
+Administration confirmations remain pending. Operational withdrawal issuance remains
+**NO-GO**. Product publication and positive visibility remain default-deny. No issuer,
+assignment, writer, endpoint, authoritative media-security acceptance or implementation
+eligibility is established by this recommendation.
+
 ### S1-06 — Rights/Security Withdrawal Coordination
 
 | Review element | Disposition preparation |
@@ -707,6 +736,7 @@ the stated policy/remaining-gate distinction is claimed.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.9.0 | 2026-11-13 | Proposed | Recorded recommendation evidence to accept all eight review controls for S1-05 without amendment—action classification, withdrawal sources, issuers, assurance, independent approval, exact scope, propagation/restoration and protected audit/failure handling—while preserving the distinct ten-point proposal, pending accountable Security/Product/Identity/Administration approvals, operational issuance NO-GO, V15 non-authority and publication/visibility default denial. |
 | 0.8.0 | 2026-11-13 | Proposed | Synchronized S1-03 implementation evidence with the existing V14 immutable Product image association binding and exact-match, non-authoritative correlation: recorded Product/revision, media-association/revision, asset UUID/digest/revision and optional Variant binding plus database/application validation; removed the obsolete claim that the technical mapping is missing; preserved pending Product/Security confirmation, approved invalidation/reliance policy, authoritative acceptance, audit, publication and visibility gates. |
 | 0.7.0 | 2026-11-13 | Proposed | Prepared a bounded S1-05 Security-owner disposition for accountable review: classified candidate withdrawal sources and issuers, constrained withdrawal to exact immutable targets, proposed reason, concurrency, conflict, propagation, restoration/recheck and protected-audit behavior, incorporated V15 and withdrawal-aware correlation as non-authoritative implementation evidence, preserved `INFECTED`/`CONFLICTING` precedence and prohibited inferred asset-wide propagation; retained all Security, Product, Identity, Administration, DEC-0012, Staff-authentication, publication and operational-activation approvals as pending. |
 | 0.6.0 | 2026-11-12 | Proposed | Incorporated technically grounded S1-01–S1-06 proposed dispositions using the implemented private-quarantine, technical-inspection, ClamAV, signature-freshness, immutable-observation and fail-closed readiness evidence; proposed the Product-owned checking composition, provenance boundary, exact subject/revision binding, explicit definition/version treatment, 48-hour signature-age and five-minute future-skew candidates, invalidation triggers and independent rights/security coordination for accountable review; preserved every S1 status as pending, distinguished scan-time freshness from acceptance-reuse lifetime, and retained DEC-0012, authorization, audit, publication and visibility gates. |
