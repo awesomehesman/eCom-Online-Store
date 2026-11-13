@@ -13,6 +13,7 @@ import com.enterprise.fashion.ecommerce.identity.adapter.out.staff.JdbcStaffOidc
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -30,6 +31,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.*;
 
 @Tag("integration")
 @SpringBootTest(properties = "product.catalogue.cursor-secret=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
@@ -82,6 +85,37 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isSameAs(authentication);
         assertThat(sessionAttributes(sessionId)).isZero();
         SecurityContextHolder.clearContext();
+    }
+
+    @Test
+    void verificationReceivesOnlyThePostgresqlConsumedTransactionAndReplayNeverReentersVerifier() {
+        String sessionId = session();
+        var transactions = service(NOW);
+        var started = transactions.begin(sessionId).transaction();
+        var verifier = mock(com.enterprise.fashion.ecommerce.identity.application.port.out
+                .StaffOidcAuthenticationVerifier.class);
+        var callback = StaffOidcAuthorizationCallback.authorizationCode("opaque-authorization-code");
+        when(verifier.verify(any(), same(callback))).thenReturn(new StaffOidcAuthenticationVerification(
+                StaffOidcAuthenticationVerification.Outcome.INVALID_TOKEN));
+        var verification = new VerifyStaffOidcAuthentication(transactions, verifier);
+
+        assertThat(verification.verify(started.state(), sessionId, callback).outcome())
+                .isEqualTo(StaffOidcAuthenticationVerification.Outcome.INVALID_TOKEN);
+        var consumed = ArgumentCaptor.forClass(StaffOidcAuthorizationTransaction.class);
+        verify(verifier).verify(consumed.capture(), same(callback));
+        assertThat(consumed.getValue().transactionId()).isEqualTo(started.transactionId());
+        assertThat(consumed.getValue().nonce()).isEqualTo(started.nonce());
+        assertThat(consumed.getValue().pkceVerifier()).isEqualTo(started.pkceVerifier());
+        assertThat(consumed.getValue().pkceChallenge()).isEqualTo(started.pkceChallenge());
+        assertThat(consumed.getValue().registrationId()).isEqualTo(REGISTRATION);
+        assertThat(consumed.getValue().initiatingSessionId()).isEqualTo(sessionId);
+        assertThat(consumed.getValue().createdAt()).isEqualTo(started.createdAt());
+        assertThat(consumed.getValue().expiresAt()).isEqualTo(started.expiresAt());
+        assertThat(consumed.getValue().status()).isEqualTo(StaffOidcAuthorizationTransaction.Status.CONSUMED);
+
+        assertThat(verification.verify(started.state(), sessionId, callback).outcome())
+                .isEqualTo(StaffOidcAuthenticationVerification.Outcome.TRANSACTION_REPLAYED);
+        verifyNoMoreInteractions(verifier);
     }
 
     @Test

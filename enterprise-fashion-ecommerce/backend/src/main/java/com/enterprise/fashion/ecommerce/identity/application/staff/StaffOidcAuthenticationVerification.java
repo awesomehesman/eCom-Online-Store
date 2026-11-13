@@ -7,6 +7,12 @@ public record StaffOidcAuthenticationVerification(Outcome outcome) {
     public enum Outcome {
         REJECTED_CALLBACK,
         INVALID_TRANSACTION,
+        TRANSACTION_REJECTED,
+        TRANSACTION_REPLAYED,
+        TRANSACTION_EXPIRED,
+        TRANSACTION_SUPERSEDED,
+        TRANSACTION_CORRUPT,
+        TRANSACTION_UNAVAILABLE,
         EXCHANGE_REJECTED,
         INVALID_TOKEN,
         ISSUER_MISMATCH,
