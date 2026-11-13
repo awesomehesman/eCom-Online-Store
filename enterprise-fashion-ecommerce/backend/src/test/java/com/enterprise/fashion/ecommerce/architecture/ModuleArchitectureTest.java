@@ -311,6 +311,30 @@ class ModuleArchitectureTest {
     }
 
     @Test
+    void dormantStaffOidcVerificationHasNoWebOrSecurityActivationPath() {
+        noClasses().that().resideInAnyPackage(
+                        ROOT_PACKAGE + ".identity.application.staff..",
+                        ROOT_PACKAGE + ".identity.application.port.out..",
+                        ROOT_PACKAGE + ".identity.adapter.out.staff..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        "org.springframework.web..", "org.springframework.security.oauth2..",
+                        "org.springframework.security.web..", "org.springframework.session..")
+                .as("dormant Staff OIDC verification cannot activate HTTP, OAuth2 or Sessions")
+                .check(PRODUCTION_CLASSES);
+        noClasses().should().callConstructor(
+                        ROOT_PACKAGE + ".identity.application.staff.VerifiedStaffAuthentication",
+                        ROOT_PACKAGE + ".identity.domain.model.StaffIdentityReference")
+                .as("provider-neutral verification cannot issue verified Staff evidence")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.config..")
+                .should().callConstructor(
+                        ROOT_PACKAGE + ".identity.application.staff.VerifyStaffOidcAuthentication",
+                        ROOT_PACKAGE + ".identity.application.port.out.StaffOidcAuthenticationVerifier")
+                .as("only Identity configuration composes the dormant verification boundary")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void productEvidenceStorageCannotBecomeAnApplicationAcceptanceWriter() {
         noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
                 .should().dependOnClassesThat().resideInAPackage(ROOT_PACKAGE + ".product.adapter.out.evidence..")
