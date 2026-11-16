@@ -347,13 +347,19 @@ class ModuleArchitectureTest {
                 .orShould().dependOnClassesThat().haveSimpleName("StaffOidcTokenTrust")
                 .orShould().dependOnClassesThat().haveSimpleNameStartingWith("StaffOidcTokenResponse")
                 .orShould().dependOnClassesThat().haveSimpleName("StaffOidcProviderRegistration")
+                .orShould().dependOnClassesThat().haveSimpleName("StaffOidcProviderRegistrationResolver")
                 .as("dormant token validation types remain confined to the Identity Staff adapter")
                 .check(PRODUCTION_CLASSES);
-        noClasses().that().haveSimpleName("StaffOidcProviderRegistration")
+        noClasses().that().haveSimpleNameStartingWith("StaffOidcProviderRegistration")
                 .should().dependOnClassesThat().resideInAnyPackage(
                         "java.net.http..", "org.springframework.web..", "org.springframework.security..",
-                        "org.springframework.session..")
+                        "org.springframework.session..", "org.springframework.core.env..",
+                        "org.springframework.boot.context.properties..")
                 .as("dormant provider registration cannot perform HTTP or activate security and Sessions")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().haveSimpleName("StaffOidcProviderRegistrationResolver")
+                .should().dependOnClassesThat().haveSimpleName("VerifiedStaffAuthentication")
+                .as("registration resolution cannot issue positive Staff authentication evidence")
                 .check(PRODUCTION_CLASSES);
     }
 
