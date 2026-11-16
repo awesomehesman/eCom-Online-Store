@@ -345,6 +345,7 @@ class ModuleArchitectureTest {
         noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.adapter.out.staff..")
                 .should().dependOnClassesThat().haveSimpleNameStartingWith("StaffOidcIdToken")
                 .orShould().dependOnClassesThat().haveSimpleName("StaffOidcTokenTrust")
+                .orShould().dependOnClassesThat().haveSimpleNameStartingWith("StaffOidcTokenResponse")
                 .as("dormant token validation types remain confined to the Identity Staff adapter")
                 .check(PRODUCTION_CLASSES);
     }
