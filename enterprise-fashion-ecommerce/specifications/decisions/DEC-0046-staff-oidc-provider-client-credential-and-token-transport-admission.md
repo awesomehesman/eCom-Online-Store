@@ -4,7 +4,7 @@
 - **Title:** Staff OIDC Provider, Client, Credential and Token-Transport Admission
 - **Type:** Identity Decision / Security Decision / Operational Decision
 - **Status:** Proposed
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Date:** 2026-11-16
 - **Last Updated:** 2026-11-16
 - **Owner:** Identity
@@ -306,6 +306,63 @@ implementation, project-owner direction, pull-request review or merge.
 Independent Engineering and Security dispositions are both mandatory. One owner,
 founder or project-level instruction must not be represented as the other's review.
 
+### 11.1 Provider-Neutral Review-Readiness Evidence
+
+The following records are review recommendations only. They prepare bounded questions
+for accountable owners and are not formally adopted dispositions, provider admission,
+implementation authorization or operational approval. The formal disposition table
+above remains controlling and all five dispositions remain `PENDING`.
+
+#### Identity Review Recommendation
+
+| Field | Recorded recommendation evidence |
+| --- | --- |
+| Recommendation | **CONFIRM** |
+| Scope | Provider-neutral Identity controls |
+| Date | 2026-11-16 |
+| Reviewer | Initial Identity Owner — formal adoption required |
+
+The recommendation covers:
+
+- Identity-owned provider integration and Authentication outcomes;
+- exact immutable registration ID/revision binding with no latest-revision fallback;
+- no request-controlled provider trust selection;
+- direct V16 atomic-consumption provenance;
+- separation of exchange, parsing and cryptographic validation;
+- separate active-only Staff-association resolution and Session establishment;
+- fail-closed handling of mandatory evidence;
+- governed provider replacement through an admitted revision;
+- separate implementation-readiness and operational-activation gates; and
+- the boundary that Authentication does not confer Authorization.
+
+The overall Identity disposition remains **PENDING**. This recommendation does not
+nominate a provider-registration revision or confirm provider-specific facts.
+
+#### Architecture Review Recommendation
+
+| Field | Recorded recommendation evidence |
+| --- | --- |
+| Recommendation | **ACCEPT** |
+| Scope | Provider-neutral Architecture compatibility only |
+| Date | 2026-11-16 |
+| Reviewer | Initial Architecture Owner — formal adoption required |
+
+The recommendation covers:
+
+- compatibility with ADR-0023;
+- immutable registration-revision binding;
+- direct V16 transaction-consumption provenance;
+- provider Adapter isolation;
+- separation of exchange, parsing, validation, association, Session and Authorization trust boundaries;
+- safe external-effect boundaries;
+- distinct failure and uncertainty outcomes;
+- preservation of the existing server-side Session Architecture;
+- governed provider replacement; and
+- no implementation or operational-activation authorization.
+
+The formal Architecture disposition remains **PENDING**. This recommendation does not
+approve provider-specific topology, credentials, transport or operational configuration.
+
 ## 12. Separate Implementation-Readiness and Activation Gates
 
 | Gate | Minimum evidence required | Current disposition |
@@ -460,4 +517,5 @@ Current operational disposition:
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.0 | 2026-11-16 | Proposed | Recorded provider-neutral Identity and Architecture review recommendations; formal adoption and provider admission remain pending. |
 | 0.1.0 | 2026-11-16 | Proposed | Created the bounded Staff OIDC provider, client, credential and token-transport admission proposal; preserved pending owner dispositions, separate implementation/activation gates and default-deny Staff Authentication. |
