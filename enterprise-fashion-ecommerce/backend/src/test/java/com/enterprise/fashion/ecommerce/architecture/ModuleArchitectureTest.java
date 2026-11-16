@@ -379,6 +379,26 @@ class ModuleArchitectureTest {
                 .should().dependOnClassesThat().haveSimpleName("StaffOidcRegistrationTokenVerifier")
                 .as("dormant registration-token binding remains confined to the Identity Staff adapter")
                 .check(PRODUCTION_CLASSES);
+        noClasses().that().haveSimpleName("StaffOidcAuthorizationCodeExchangePreparer")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        "java.net.http..", "org.springframework.web..", "org.springframework.security..",
+                        "org.springframework.session..", "org.springframework.core.env..",
+                        "org.springframework.boot.context.properties..",
+                        ROOT_PACKAGE + ".identity.application.credential..",
+                        ROOT_PACKAGE + ".identity.adapter.out.credential..")
+                .as("dormant exchange preparation cannot perform HTTP, activate security, or load credentials")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().haveSimpleName("StaffOidcAuthorizationCodeExchangePreparer")
+                .should().dependOnClassesThat().haveFullyQualifiedName(
+                        ROOT_PACKAGE + ".identity.application.staff.VerifiedStaffAuthentication")
+                .orShould().dependOnClassesThat().haveFullyQualifiedName(
+                        ROOT_PACKAGE + ".identity.application.port.out.StaffOidcAuthenticationVerifier")
+                .as("exchange preparation cannot issue Staff evidence or become an operational verifier")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".identity.adapter.out.staff..")
+                .should().dependOnClassesThat().haveSimpleName("StaffOidcAuthorizationCodeExchangePreparer")
+                .as("dormant exchange preparation remains confined to the Identity Staff adapter")
+                .check(PRODUCTION_CLASSES);
     }
 
     @Test
