@@ -1,6 +1,7 @@
 package com.enterprise.fashion.ecommerce.identity.application.staff;
 
 import java.security.SecureRandom;
+import java.sql.DriverManager;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -31,6 +32,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.*;
 
@@ -42,6 +44,7 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
     private static final Duration LIFETIME = Duration.ofMinutes(5);
     private static final Duration TOLERANCE = Duration.ofSeconds(10);
     private static final String REGISTRATION = "synthetic-approved-registration";
+    private static final long REGISTRATION_REVISION = 7;
 
     @Container @ServiceConnection
     static final PostgreSQLContainer<?> POSTGRESQL = new PostgreSQLContainer<>("postgres:18");
@@ -55,7 +58,7 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
     void migrationStoresOnlyStateDigestAndExactSessionBoundConsumptionIsSingleUse() {
         flyway.validate();
         assertThat(flyway.info().applied()).anySatisfy(migration ->
-                assertThat(migration.getVersion().getVersion()).isEqualTo("16"));
+                assertThat(migration.getVersion().getVersion()).isEqualTo("17"));
         String sessionId = session();
         String otherSessionId = session();
         var service = service(NOW);
@@ -71,6 +74,11 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
                 WHERE transaction_id = :id
                 """).param("id", transaction.transactionId()).query(String.class).single())
                 .doesNotContain(transaction.state());
+        assertThat(jdbc.sql("""
+                SELECT registration_revision FROM identity.staff_oidc_authorization_transaction
+                WHERE transaction_id = :id
+                """).param("id", transaction.transactionId()).query(Long.class).single())
+                .isEqualTo(REGISTRATION_REVISION);
         assertThat(service.consume(transaction.state(), otherSessionId).outcome())
                 .isEqualTo(StaffOidcAuthorizationTransactions.ConsumeOutcome.REJECTED);
         assertThat(service.consume("A".repeat(43), sessionId).outcome())
@@ -85,6 +93,93 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isSameAs(authentication);
         assertThat(sessionAttributes(sessionId)).isZero();
         SecurityContextHolder.clearContext();
+    }
+
+    @Test
+    void wrongRevisionFailsClosedWithoutMakingTheExactRevisionReusableByTheWrongService() {
+        String sessionId = session();
+        var started = service(NOW).begin(sessionId).transaction();
+
+        assertThat(service(NOW, REGISTRATION_REVISION + 1).consume(started.state(), sessionId).outcome())
+                .isEqualTo(StaffOidcAuthorizationTransactions.ConsumeOutcome.REJECTED);
+        assertThat(service(NOW).consume(started.state(), sessionId).outcome())
+                .isEqualTo(StaffOidcAuthorizationTransactions.ConsumeOutcome.CONSUMED);
+    }
+
+    @Test
+    void databasePreventsRegistrationRevisionMutation() {
+        String sessionId = session();
+        var started = service(NOW).begin(sessionId).transaction();
+
+        assertThatThrownBy(() -> jdbc.sql("""
+                UPDATE identity.staff_oidc_authorization_transaction
+                SET registration_revision = :revision WHERE transaction_id = :id
+                """).param("revision", REGISTRATION_REVISION + 1)
+                .param("id", started.transactionId()).update())
+                .isInstanceOf(org.springframework.dao.DataAccessException.class);
+        assertThat(jdbc.sql("""
+                SELECT registration_revision FROM identity.staff_oidc_authorization_transaction
+                WHERE transaction_id = :id
+                """).param("id", started.transactionId()).query(Long.class).single())
+                .isEqualTo(REGISTRATION_REVISION);
+    }
+
+    @Test
+    void v17InvalidatesLegacyRowsInsteadOfFabricatingARevision() throws Exception {
+        try (var legacyPostgres = new PostgreSQLContainer<>("postgres:18")) {
+            legacyPostgres.start();
+            var legacyFlyway = Flyway.configure().dataSource(legacyPostgres.getJdbcUrl(),
+                    legacyPostgres.getUsername(), legacyPostgres.getPassword()).target("16").load();
+            legacyFlyway.migrate();
+            String verifier = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~";
+            try (var connection = DriverManager.getConnection(legacyPostgres.getJdbcUrl(),
+                    legacyPostgres.getUsername(), legacyPostgres.getPassword());
+                    var statement = connection.createStatement()) {
+                statement.executeUpdate("""
+                        INSERT INTO identity.spring_session
+                            (primary_id, session_id, creation_time, last_access_time,
+                             max_inactive_interval, expiry_time, principal_name)
+                        VALUES ('00000000-0000-0000-0000-000000000091',
+                                '00000000-0000-0000-0000-000000000091', 0, 0, 1800, 9999999999999, NULL)
+                        """);
+                try (var insert = connection.prepareStatement("""
+                        INSERT INTO identity.staff_oidc_authorization_transaction
+                            (transaction_id, state_sha256, nonce, pkce_verifier, pkce_challenge,
+                             session_id, registration_id, created_at, expires_at, status)
+                        VALUES ('00000000-0000-0000-0000-000000000092', decode(repeat('01', 32), 'hex'),
+                                ?, ?, ?, '00000000-0000-0000-0000-000000000091',
+                                'legacy-registration', '2026-11-16T10:00:00Z',
+                                '2026-11-16T10:05:00Z', 'ACTIVE')
+                        """)) {
+                    insert.setString(1, "A".repeat(43));
+                    insert.setString(2, verifier);
+                    insert.setString(3, StaffOidcAuthorizationTransactions.deriveS256(verifier));
+                    assertThat(insert.executeUpdate()).isOne();
+                }
+            }
+
+            Flyway.configure().dataSource(legacyPostgres.getJdbcUrl(), legacyPostgres.getUsername(),
+                    legacyPostgres.getPassword()).load().migrate();
+            try (var connection = DriverManager.getConnection(legacyPostgres.getJdbcUrl(),
+                    legacyPostgres.getUsername(), legacyPostgres.getPassword());
+                    var statement = connection.createStatement()) {
+                try (var rows = statement.executeQuery(
+                        "SELECT count(*) FROM identity.staff_oidc_authorization_transaction")) {
+                    assertThat(rows.next()).isTrue();
+                    assertThat(rows.getInt(1)).isZero();
+                }
+                try (var column = statement.executeQuery("""
+                        SELECT is_nullable, column_default FROM information_schema.columns
+                        WHERE table_schema = 'identity'
+                          AND table_name = 'staff_oidc_authorization_transaction'
+                          AND column_name = 'registration_revision'
+                        """)) {
+                    assertThat(column.next()).isTrue();
+                    assertThat(column.getString("is_nullable")).isEqualTo("NO");
+                    assertThat(column.getString("column_default")).isNull();
+                }
+            }
+        }
     }
 
     @Test
@@ -108,6 +203,7 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
         assertThat(consumed.getValue().pkceVerifier()).isEqualTo(started.pkceVerifier());
         assertThat(consumed.getValue().pkceChallenge()).isEqualTo(started.pkceChallenge());
         assertThat(consumed.getValue().registrationId()).isEqualTo(REGISTRATION);
+        assertThat(consumed.getValue().registrationRevision()).isEqualTo(REGISTRATION_REVISION);
         assertThat(consumed.getValue().initiatingSessionId()).isEqualTo(sessionId);
         assertThat(consumed.getValue().createdAt()).isEqualTo(started.createdAt());
         assertThat(consumed.getValue().expiresAt()).isEqualTo(started.expiresAt());
@@ -272,10 +368,14 @@ class StaffOidcAuthorizationTransactionsIntegrationTest {
     }
 
     private StaffOidcAuthorizationTransactions service(Instant instant) {
+        return service(instant, REGISTRATION_REVISION);
+    }
+
+    private StaffOidcAuthorizationTransactions service(Instant instant, long registrationRevision) {
         return new StaffOidcAuthorizationTransactions(
                 new JdbcStaffOidcAuthorizationTransactionAdapter(jdbc), transaction(),
                 new SecureRandom(), Clock.fixed(instant, ZoneOffset.UTC),
-                LIFETIME, TOLERANCE, REGISTRATION);
+                LIFETIME, TOLERANCE, REGISTRATION, registrationRevision);
     }
 
     private TransactionTemplate transaction() {

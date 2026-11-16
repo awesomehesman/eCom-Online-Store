@@ -192,6 +192,6 @@ class VerifyStaffOidcAuthenticationTest {
         return new StaffOidcAuthorizationTransaction(UUID.fromString("c8cfd836-3857-4aae-94f6-c53ca274fd62"),
                 STATE, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", verifier,
                 StaffOidcAuthorizationTransactions.deriveS256(verifier), SESSION, "staff-provider",
-                created, created.plusSeconds(300), status);
+                7, created, created.plusSeconds(300), status);
     }
 }

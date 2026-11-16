@@ -22,13 +22,14 @@ public final class StaffOidcAuthorizationTransaction {
     private final String pkceChallenge;
     private final String initiatingSessionId;
     private final String registrationId;
+    private final long registrationRevision;
     private final Instant createdAt;
     private final Instant expiresAt;
     private final Status status;
 
     public StaffOidcAuthorizationTransaction(UUID transactionId, String state, String nonce,
             String pkceVerifier, String pkceChallenge, String initiatingSessionId,
-            String registrationId, Instant createdAt, Instant expiresAt, Status status) {
+            String registrationId, long registrationRevision, Instant createdAt, Instant expiresAt, Status status) {
         this.transactionId = Objects.requireNonNull(transactionId, "Transaction identity is required");
         this.state = secret(state, BASE64_URL, "state");
         this.nonce = secret(nonce, BASE64_URL, "nonce");
@@ -36,6 +37,10 @@ public final class StaffOidcAuthorizationTransaction {
         this.pkceChallenge = secret(pkceChallenge, BASE64_URL, "PKCE challenge");
         this.initiatingSessionId = bounded(initiatingSessionId, 100, "initiating Session");
         this.registrationId = bounded(registrationId, 128, "registration");
+        if (registrationRevision <= 0) {
+            throw new IllegalArgumentException("Registration revision must be positive");
+        }
+        this.registrationRevision = registrationRevision;
         this.createdAt = Objects.requireNonNull(createdAt, "Creation time is required");
         this.expiresAt = Objects.requireNonNull(expiresAt, "Expiration time is required");
         this.status = Objects.requireNonNull(status, "Lifecycle state is required");
@@ -54,13 +59,15 @@ public final class StaffOidcAuthorizationTransaction {
     public String pkceChallenge() { return pkceChallenge; }
     public String initiatingSessionId() { return initiatingSessionId; }
     public String registrationId() { return registrationId; }
+    public long registrationRevision() { return registrationRevision; }
     public Instant createdAt() { return createdAt; }
     public Instant expiresAt() { return expiresAt; }
     public Status status() { return status; }
 
     public StaffOidcAuthorizationTransaction withStatus(Status replacement) {
         return new StaffOidcAuthorizationTransaction(transactionId, state, nonce, pkceVerifier,
-                pkceChallenge, initiatingSessionId, registrationId, createdAt, expiresAt, replacement);
+                pkceChallenge, initiatingSessionId, registrationId, registrationRevision,
+                createdAt, expiresAt, replacement);
     }
 
     @Override

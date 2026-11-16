@@ -20,7 +20,8 @@ public interface StaffOidcAuthorizationTransactionPort {
     BeginOutcome supersedeAndStore(StaffOidcAuthorizationTransaction transaction);
 
     Consumption consume(String returnedState, String initiatingSessionId,
-            String registrationId, Instant observedAt, Duration clockTolerance);
+            String registrationId, long registrationRevision,
+            Instant observedAt, Duration clockTolerance);
 
     final class StoreUnavailableException extends RuntimeException {
         public StoreUnavailableException(String message, Throwable cause) { super(message, cause); }

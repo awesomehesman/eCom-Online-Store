@@ -51,10 +51,12 @@ public final class StaffOidcAuthorizationTransactions {
     private final Duration lifetime;
     private final Duration clockTolerance;
     private final String registrationId;
+    private final long registrationRevision;
 
     public StaffOidcAuthorizationTransactions(StaffOidcAuthorizationTransactionPort store,
             TransactionOperations transactions, SecureRandom random, Clock clock,
-            Duration lifetime, Duration clockTolerance, String registrationId) {
+            Duration lifetime, Duration clockTolerance, String registrationId,
+            long registrationRevision) {
         this.store = Objects.requireNonNull(store);
         this.transactions = Objects.requireNonNull(transactions);
         this.random = Objects.requireNonNull(random);
@@ -62,6 +64,10 @@ public final class StaffOidcAuthorizationTransactions {
         this.lifetime = positive(lifetime, "Transaction lifetime");
         this.clockTolerance = nonNegative(clockTolerance, "Clock tolerance");
         this.registrationId = bounded(registrationId, 128, "Registration identity");
+        if (registrationRevision <= 0) {
+            throw new IllegalArgumentException("Registration revision must be positive");
+        }
+        this.registrationRevision = registrationRevision;
     }
 
     public Beginning begin(String initiatingSessionId) {
@@ -74,7 +80,8 @@ public final class StaffOidcAuthorizationTransactions {
         String verifier = randomValue();
         var candidate = new StaffOidcAuthorizationTransaction(randomUuid(), state, nonce,
                 verifier, deriveS256(verifier), initiatingSessionId, registrationId,
-                createdAt, createdAt.plus(lifetime), StaffOidcAuthorizationTransaction.Status.ACTIVE);
+                registrationRevision, createdAt, createdAt.plus(lifetime),
+                StaffOidcAuthorizationTransaction.Status.ACTIVE);
         try {
             var stored = transactions.execute(status -> store.supersedeAndStore(candidate));
             if (stored == StaffOidcAuthorizationTransactionPort.BeginOutcome.STORED) {
@@ -92,7 +99,8 @@ public final class StaffOidcAuthorizationTransactions {
         }
         try {
             Consumption consumption = transactions.execute(status -> store.consume(returnedState,
-                    initiatingSessionId, registrationId, clock.instant(), clockTolerance));
+                    initiatingSessionId, registrationId, registrationRevision,
+                    clock.instant(), clockTolerance));
             if (consumption == null) {
                 return new Result(ConsumeOutcome.UNAVAILABLE, null);
             }

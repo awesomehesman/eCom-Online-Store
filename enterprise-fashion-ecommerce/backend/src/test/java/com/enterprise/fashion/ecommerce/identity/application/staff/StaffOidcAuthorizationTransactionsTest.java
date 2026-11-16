@@ -24,6 +24,7 @@ class StaffOidcAuthorizationTransactionsTest {
     private static final Instant NOW = Instant.parse("2026-11-13T10:15:30Z");
     private static final String SESSION = "00000000-0000-0000-0000-000000000001";
     private static final String REGISTRATION = "approved-registration-reference";
+    private static final long REGISTRATION_REVISION = 7;
     private static final TransactionOperations TRANSACTIONS = new TransactionOperations() {
         @Override public <T> T execute(TransactionCallback<T> callback) {
             return callback.doInTransaction(null);
@@ -51,6 +52,7 @@ class StaffOidcAuthorizationTransactionsTest {
                         .digest(transaction.pkceVerifier().getBytes(StandardCharsets.US_ASCII)));
         assertThat(transaction.pkceChallenge()).isEqualTo(expected).doesNotContain("=");
         assertThat(transaction.registrationId()).isEqualTo(REGISTRATION);
+        assertThat(transaction.registrationRevision()).isEqualTo(REGISTRATION_REVISION);
         assertThat(transaction.initiatingSessionId()).isEqualTo(SESSION);
         assertThat(transaction.createdAt()).isEqualTo(NOW);
         assertThat(transaction.expiresAt()).isEqualTo(NOW.plusSeconds(300));
@@ -87,7 +89,7 @@ class StaffOidcAuthorizationTransactionsTest {
                 throw new StoreUnavailableException("synthetic unavailable", null);
             }
             @Override public Consumption consume(String state, String sessionId, String registrationId,
-                    Instant observedAt, Duration tolerance) {
+                    long registrationRevision, Instant observedAt, Duration tolerance) {
                 throw new StoreUnavailableException("synthetic unavailable", null);
             }
         };
@@ -109,7 +111,7 @@ class StaffOidcAuthorizationTransactionsTest {
         };
         var service = new StaffOidcAuthorizationTransactions(new InMemoryStore(), failingTransactions,
                 new SecureRandom(), Clock.fixed(NOW, ZoneOffset.UTC), Duration.ofMinutes(5),
-                Duration.ofSeconds(10), REGISTRATION);
+                Duration.ofSeconds(10), REGISTRATION, REGISTRATION_REVISION);
 
         assertThat(service.begin(SESSION).outcome())
                 .isEqualTo(StaffOidcAuthorizationTransactions.BeginOutcome.UNAVAILABLE);
@@ -128,6 +130,7 @@ class StaffOidcAuthorizationTransactionsTest {
         var result = service.consume(beginning.transaction().state(), SESSION);
 
         assertThat(result.outcome()).isEqualTo(StaffOidcAuthorizationTransactions.ConsumeOutcome.CONSUMED);
+        assertThat(result.transaction().registrationRevision()).isEqualTo(REGISTRATION_REVISION);
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isSameAs(authentication);
         assertThat(VerifiedStaffAuthentication.class.getConstructors()).isEmpty();
         assertThat(result.transaction().toString()).doesNotContain("authenticated", "authority", "role");
@@ -140,6 +143,10 @@ class StaffOidcAuthorizationTransactionsTest {
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> service(store, Duration.ofMinutes(5), Duration.ofSeconds(-1)))
                 .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new StaffOidcAuthorizationTransactions(store, TRANSACTIONS,
+                new SecureRandom(), Clock.fixed(NOW, ZoneOffset.UTC), Duration.ofMinutes(5),
+                Duration.ofSeconds(10), REGISTRATION, 0))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     private static StaffOidcAuthorizationTransactions service(StaffOidcAuthorizationTransactionPort store) {
@@ -149,7 +156,8 @@ class StaffOidcAuthorizationTransactionsTest {
     private static StaffOidcAuthorizationTransactions service(StaffOidcAuthorizationTransactionPort store,
             Duration lifetime, Duration tolerance) {
         return new StaffOidcAuthorizationTransactions(store, TRANSACTIONS, new SecureRandom(),
-                Clock.fixed(NOW, ZoneOffset.UTC), lifetime, tolerance, REGISTRATION);
+                Clock.fixed(NOW, ZoneOffset.UTC), lifetime, tolerance,
+                REGISTRATION, REGISTRATION_REVISION);
     }
 
     private static class InMemoryStore implements StaffOidcAuthorizationTransactionPort {
@@ -163,11 +171,12 @@ class StaffOidcAuthorizationTransactionsTest {
         }
 
         @Override public Consumption consume(String state, String sessionId, String registrationId,
-                Instant observedAt, Duration tolerance) {
+                long registrationRevision, Instant observedAt, Duration tolerance) {
             calls++;
             if (current == null || !current.state().equals(state)
                     || !current.initiatingSessionId().equals(sessionId)
-                    || !current.registrationId().equals(registrationId)) {
+                    || !current.registrationId().equals(registrationId)
+                    || current.registrationRevision() != registrationRevision) {
                 return new Consumption(ConsumeOutcome.REJECTED, null);
             }
             return new Consumption(ConsumeOutcome.CONSUMED,

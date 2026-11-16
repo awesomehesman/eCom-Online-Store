@@ -50,10 +50,12 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
             jdbc.sql("""
                     INSERT INTO identity.staff_oidc_authorization_transaction
                         (transaction_id, state_sha256, nonce, pkce_verifier, pkce_challenge,
-                         session_id, registration_id, created_at, expires_at, status)
+                         session_id, registration_id, registration_revision,
+                         created_at, expires_at, status)
                     VALUES
                         (:transactionId, :stateSha256, :nonce, :pkceVerifier, :pkceChallenge,
-                         :sessionId, :registrationId, :createdAt, :expiresAt, 'ACTIVE')
+                         :sessionId, :registrationId, :registrationRevision,
+                         :createdAt, :expiresAt, 'ACTIVE')
                     """).param("transactionId", transaction.transactionId())
                     .param("stateSha256", digest(transaction.state()))
                     .param("nonce", transaction.nonce())
@@ -61,6 +63,7 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
                     .param("pkceChallenge", transaction.pkceChallenge())
                     .param("sessionId", transaction.initiatingSessionId())
                     .param("registrationId", transaction.registrationId())
+                    .param("registrationRevision", transaction.registrationRevision())
                     .param("createdAt", Timestamp.from(transaction.createdAt()))
                     .param("expiresAt", Timestamp.from(transaction.expiresAt())).update();
             return BeginOutcome.STORED;
@@ -71,11 +74,14 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
 
     @Override
     public Consumption consume(String state, String sessionId, String registrationId,
-            Instant now, Duration clockTolerance) {
+            long registrationRevision, Instant now, Duration clockTolerance) {
         requireTransaction();
         Objects.requireNonNull(state);
         Objects.requireNonNull(sessionId);
         Objects.requireNonNull(registrationId);
+        if (registrationRevision <= 0) {
+            return rejected(ConsumeOutcome.REJECTED);
+        }
         Objects.requireNonNull(now);
         Objects.requireNonNull(clockTolerance);
         try {
@@ -88,7 +94,7 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
             }
             Optional<Row> found = jdbc.sql("""
                     SELECT transaction_id, nonce, pkce_verifier, pkce_challenge, session_id,
-                           registration_id, created_at, expires_at, status
+                           registration_id, registration_revision, created_at, expires_at, status
                     FROM identity.staff_oidc_authorization_transaction
                     WHERE state_sha256 = :stateSha256
                     FOR UPDATE
@@ -99,6 +105,7 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
                             result.getString("pkce_challenge"),
                             result.getString("session_id").trim(),
                             result.getString("registration_id"),
+                            result.getLong("registration_revision"),
                             result.getTimestamp("created_at").toInstant(),
                             result.getTimestamp("expires_at").toInstant(),
                             result.getString("status"))).optional();
@@ -106,7 +113,8 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
                 return rejected(ConsumeOutcome.REJECTED);
             }
             Row row = found.get();
-            if (!row.sessionId().equals(sessionId) || !row.registrationId().equals(registrationId)) {
+            if (!row.sessionId().equals(sessionId) || !row.registrationId().equals(registrationId)
+                    || row.registrationRevision() != registrationRevision) {
                 return rejected(ConsumeOutcome.REJECTED);
             }
             if (row.status().equals("CONSUMED")) {
@@ -178,11 +186,13 @@ public final class JdbcStaffOidcAuthorizationTransactionAdapter
     }
 
     private record Row(UUID transactionId, String nonce, String pkceVerifier, String pkceChallenge,
-            String sessionId, String registrationId, Instant createdAt, Instant expiresAt, String status) {
+            String sessionId, String registrationId, long registrationRevision,
+            Instant createdAt, Instant expiresAt, String status) {
         StaffOidcAuthorizationTransaction transaction(String state,
                 StaffOidcAuthorizationTransaction.Status lifecycle) {
             return new StaffOidcAuthorizationTransaction(transactionId, state, nonce, pkceVerifier,
-                    pkceChallenge, sessionId, registrationId, createdAt, expiresAt, lifecycle);
+                    pkceChallenge, sessionId, registrationId, registrationRevision,
+                    createdAt, expiresAt, lifecycle);
         }
     }
 }
