@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
+import com.enterprise.fashion.ecommerce.product.domain.model.ProductLifecycle;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductRevision;
 
 /**
@@ -46,4 +47,13 @@ public interface ProductPersistencePort {
      * Protected non-visible rows must not influence public page positions or scan budgets.
      */
     List<ProductId> findCatalogueCandidateIdsAfter(ProductId afterExclusive, int limit);
+
+    /**
+     * Atomically transitions lifecycle when expected state matches.
+     * Returns false if Product does not exist, lifecycle does not match expected,
+     * or concurrent modification occurred. Requires a writable transaction.
+     * This operation does not change representation revision — lifecycle is independent.
+     * No publication, visibility or authorization evidence is established.
+     */
+    boolean updateLifecycle(ProductId id, ProductLifecycle expected, ProductLifecycle target);
 }

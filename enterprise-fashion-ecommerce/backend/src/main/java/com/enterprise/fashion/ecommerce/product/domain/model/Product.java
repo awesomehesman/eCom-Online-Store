@@ -138,6 +138,21 @@ public final class Product {
     /** This foundation grants no customer visibility or structural sellability. */
     public boolean isCustomerVisible() { return lifecycle().grantsCustomerVisibility(); }
 
+    /**
+     * Returns a new Product aggregate with PUBLISHED lifecycle.
+     * This is an immutable domain operation; it does not persist, authorize or verify readiness.
+     * The caller must ensure publication readiness evidence has been evaluated and confirmed
+     * BEFORE invoking this transition. Revision is unchanged: lifecycle is not representation.
+     * @throws IllegalStateException if the current lifecycle does not permit publication.
+     */
+    public Product publish() {
+        if (!lifecycle.canPublish()) {
+            throw new IllegalStateException("Product cannot be published from " + lifecycle);
+        }
+        return new Product(id, family, standard, sizeApplicable, colourApplicable,
+                ProductLifecycle.PUBLISHED, variants, content, media);
+    }
+
     @Override
     public boolean equals(Object other) {
         return this == other || other instanceof Product product && id.equals(product.id);
