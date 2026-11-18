@@ -240,4 +240,83 @@ class ProductTest {
         // Version mismatch cannot be constructed: M1.1A rejects unsupported versions at its boundary.
         assertThatIllegalArgumentException().isThrownBy(() -> new ProductAttributeStandard("2.0.0"));
     }
+
+    @Test
+    void publishReturnsNewAggregateWithPublishedLifecycle() {
+        Product draft = product().withVariant(variant("v1", "M", "BLACK"));
+        Product published = draft.publish();
+        assertThat(published.lifecycle()).isEqualTo(ProductLifecycle.PUBLISHED);
+        assertThat(draft.lifecycle()).isEqualTo(ProductLifecycle.DRAFT);
+    }
+
+    @Test
+    void publishPreservesOriginalAggregateImmutability() {
+        Product draft = product().withVariant(variant("v1", "M", "BLACK"));
+        ProductLifecycle beforeLifecycle = draft.lifecycle();
+        Product published = draft.publish();
+        assertThat(draft.lifecycle()).isEqualTo(beforeLifecycle);
+        assertThat(draft).isNotSameAs(published);
+        assertThat(draft.variants()).hasSize(1);
+    }
+
+    @Test
+    void publishPreservesIdentityFamilyStandardAndMembership() {
+        ProductVariant v = variant("v1", "M", "BLACK");
+        Product draft = product().withVariant(v);
+        Product published = draft.publish();
+        assertThat(published.id()).isEqualTo(draft.id());
+        assertThat(published.family()).isEqualTo(draft.family());
+        assertThat(published.standard()).isEqualTo(draft.standard());
+        assertThat(published.sizeApplicable()).isEqualTo(draft.sizeApplicable());
+        assertThat(published.colourApplicable()).isEqualTo(draft.colourApplicable());
+        assertThat(published.variants()).containsExactly(v);
+        assertThat(published).isEqualTo(draft); // Identity-based equality
+    }
+
+    @Test
+    void publishPreservesContentAndMedia() {
+        ProductVariant v = variant("v1", "M", "BLACK");
+        ProductContent content = new ProductContent("Test Product", "A test description");
+        ProductMedia media = new ProductMedia("media-1", ID, null, "asset-v1", "https://example.test/image", "Front view");
+        Product draft = product().withVariant(v).withRepresentation(content, List.of(media));
+        Product published = draft.publish();
+        assertThat(published.content()).isEqualTo(content);
+        assertThat(published.media()).containsExactly(media);
+    }
+
+    @Test
+    void publishDoesNotChangeRevision() {
+        ProductVariant v = variant("v1", "M", "BLACK");
+        ProductContent content = new ProductContent("Test Product", "A test description");
+        Product draft = product().withVariant(v).withRepresentation(content, List.of());
+        Product published = draft.publish();
+        // Revision tracks representation, not lifecycle — lifecycle change should not alter revision
+        assertThat(published.revision()).isEqualTo(draft.revision());
+    }
+
+    @Test
+    void publishFromPublishedThrows() {
+        Product published = reconstruct(ProductLifecycle.PUBLISHED, List.of(variant("v1", "M", "BLACK")));
+        assertThatThrownBy(published::publish)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("cannot be published from PUBLISHED");
+    }
+
+    @Test
+    void publishFromArchivedThrows() {
+        Product archived = reconstruct(ProductLifecycle.ARCHIVED, List.of(variant("v1", "M", "BLACK")));
+        assertThatThrownBy(archived::publish)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("cannot be published from ARCHIVED");
+    }
+
+    @Test
+    void publishedProductStillNotCustomerVisible() {
+        Product draft = product().withVariant(variant("v1", "M", "BLACK"));
+        Product published = draft.publish();
+        assertThat(published.isCustomerVisible()).isFalse();
+        // Also verify reconstructed PUBLISHED state
+        Product reconstructed = reconstruct(ProductLifecycle.PUBLISHED, List.of(variant("v1", "M", "BLACK")));
+        assertThat(reconstructed.isCustomerVisible()).isFalse();
+    }
 }

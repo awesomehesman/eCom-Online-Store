@@ -17,6 +17,7 @@ import com.enterprise.fashion.ecommerce.product.domain.model.ProductAttributeSta
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductContent;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductFamily;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
+import com.enterprise.fashion.ecommerce.product.domain.model.ProductLifecycle;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductMedia;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductRevision;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductVariantId;
@@ -170,6 +171,7 @@ class BindProductImageAssociationTest {
         @Override public List<Product> loadAll(List<ProductId> ids) { throw new UnsupportedOperationException(); }
         @Override public List<ProductId> findProductIdsAfter(ProductId after, int limit) { throw new UnsupportedOperationException(); }
         @Override public List<ProductId> findCatalogueCandidateIdsAfter(ProductId after, int limit) { throw new UnsupportedOperationException(); }
+        @Override public boolean updateLifecycle(ProductId id, ProductLifecycle expected, ProductLifecycle target) { throw new UnsupportedOperationException(); }
     }
 
     private static final class FakeBindings implements ProductImageAssociationBindingPort {

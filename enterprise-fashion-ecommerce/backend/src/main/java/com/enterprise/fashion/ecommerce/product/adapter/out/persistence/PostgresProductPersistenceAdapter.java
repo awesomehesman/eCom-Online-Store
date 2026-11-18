@@ -292,4 +292,21 @@ public class PostgresProductPersistenceAdapter implements ProductPersistencePort
         }
         return value;
     }
+
+    @Override
+    public boolean updateLifecycle(ProductId id, ProductLifecycle expected, ProductLifecycle target) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(expected);
+        Objects.requireNonNull(target);
+        requireTransaction(false);
+        int updated = jdbc.sql("""
+                UPDATE product.product SET lifecycle = :target
+                WHERE product_id = :id AND lifecycle = :expected
+                """)
+                .param("target", target.name())
+                .param("id", id.value())
+                .param("expected", expected.name())
+                .update();
+        return updated == 1;
+    }
 }
