@@ -1,7 +1,6 @@
 package com.enterprise.fashion.ecommerce.product.adapter.in.web;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -67,10 +66,11 @@ public final class ProductCatalogueController {
         }
         try {
             return switch (queries.list(size, cursor)) {
-                case CONFIRMED_EMPTY -> ResponseEntity.ok().headers(headers(correlation))
-                        .contentType(MediaType.APPLICATION_JSON).body(new EmptyPage(List.of(), size, null));
-                case AUTHORITY_UNAVAILABLE -> problem(503, correlation);
-                case ERROR -> problem(500, correlation);
+                case ProductCatalogueQueryService.Page page -> ResponseEntity.ok().headers(headers(correlation))
+                        .contentType(MediaType.APPLICATION_JSON).body(new ProductPage(page.items(), page.pageSize(),
+                                page.nextCursor() == null ? null : cursors.encode(page.nextCursor())));
+                case ProductCatalogueQueryService.AuthorityUnavailable ignored -> problem(503, correlation);
+                case ProductCatalogueQueryService.QueryError ignored -> problem(500, correlation);
             };
         } catch (RuntimeException unexpected) {
             return problem(500, correlation);
@@ -93,9 +93,12 @@ public final class ProductCatalogueController {
         }
         try {
             return switch (queries.detail(id)) {
-                case NOT_FOUND, NOT_VISIBLE -> problem(404, correlation);
-                case EVIDENCE_UNCONFIRMED, AUTHORITY_UNAVAILABLE -> problem(503, correlation);
-                case ERROR -> problem(500, correlation);
+                case ProductCatalogueQueryService.Found found -> ResponseEntity.ok().headers(headers(correlation))
+                        .contentType(MediaType.APPLICATION_JSON).body(found.product());
+                case ProductCatalogueQueryService.NotFound ignored -> problem(404, correlation);
+                case ProductCatalogueQueryService.NotVisible ignored -> problem(404, correlation);
+                case ProductCatalogueQueryService.DetailAuthorityUnavailable ignored -> problem(503, correlation);
+                case ProductCatalogueQueryService.DetailError ignored -> problem(500, correlation);
             };
         } catch (RuntimeException unexpected) {
             return problem(500, correlation);
@@ -127,8 +130,8 @@ public final class ProductCatalogueController {
                 .contentType(MediaType.APPLICATION_PROBLEM_JSON).body(new Problem("about:blank", title, status, correlation));
     }
 
-    // Only the currently reachable successful representation is implemented. A Product DTO
-    // requires a real positive visibility producer; serializing domain objects is never fallback.
-    private record EmptyPage(List<Object> items, int pageSize, String nextCursor) { }
+    private record ProductPage(
+            java.util.List<com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueRepresentation> items,
+            int pageSize, String nextCursor) { }
     private record Problem(String type, String title, int status, String correlationId) { }
 }

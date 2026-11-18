@@ -8,8 +8,9 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
+import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueCandidatePage;
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductIdPage;
+import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductAttributeStandard;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductContent;
@@ -86,7 +87,7 @@ class ProductCatalogueHttpIntegrationTest {
                 })).get(10, TimeUnit.SECONDS);
             }
             return candidates;
-        }).when(products).pageCatalogueCandidateIds(eq(20), isNull());
+        }).when(products).pageCatalogueCandidates(eq(20), isNull());
         problem(http.perform(get("/api/v1/products")).andReturn(), 503);
         assertThat(jdbc.queryForObject("SELECT lifecycle FROM product.product WHERE product_id = 'B'", String.class))
                 .isEqualTo("PUBLISHED");
@@ -100,7 +101,7 @@ class ProductCatalogueHttpIntegrationTest {
         fixture("C", "PUBLISHED");
         String token = cursors.encode(new ProductIdPage.Cursor(new ProductId("A"), 1));
         problem(http.perform(get("/api/v1/products").param("limit", "1").param("cursor", token)).andReturn(), 503);
-        verify(products).pageCatalogueCandidateIds(1, new ProductIdPage.Cursor(new ProductId("A"), 1));
+        verify(products).pageCatalogueCandidates(1, new ProductIdPage.Cursor(new ProductId("A"), 1));
         problem(http.perform(get("/api/v1/products").param("cursor", token)).andReturn(), 400);
         problem(http.perform(get("/api/v1/products").param("limit", "2").param("cursor", token)).andReturn(), 400);
         problem(http.perform(get("/api/v1/products").param("cursor", token, token)).andReturn(), 400);
@@ -181,7 +182,7 @@ class ProductCatalogueHttpIntegrationTest {
         assertThat(result.getResponse().getHeader("X-Correlation-ID")).isEqualTo("safe-correlation-1");
         assertThat(result.getResponse().getHeader("Set-Cookie")).isNull();
         assertThat(result.getRequest().getSession(false)).isNull();
-        verify(products).pageCatalogueCandidateIds(20, null);
+        verify(products).pageCatalogueCandidates(20, null);
     }
 
     @Test
@@ -263,7 +264,7 @@ class ProductCatalogueHttpIntegrationTest {
         doThrow(new DataAccessResourceFailureException("PRIVATE connection diagnostic")).when(products).load(id);
         problem(http.perform(get("/api/v1/products/unavailable")).andReturn(), 503);
         doThrow(new DataAccessResourceFailureException("PRIVATE page diagnostic"))
-                .when(products).pageCatalogueCandidateIds(eq(20), isNull());
+                .when(products).pageCatalogueCandidates(eq(20), isNull());
         problem(http.perform(get("/api/v1/products")).andReturn(), 503);
     }
 
@@ -321,6 +322,21 @@ class ProductCatalogueHttpIntegrationTest {
         assertThat(second.ids()).containsExactly(new ProductId("a"));
         assertThat(second.nextCursor()).isNull();
         problem(http.perform(get("/api/v1/products").param("limit", "1")).andReturn(), 503);
+    }
+
+    @Test
+    void candidatePageLoadsTheExactPersistedRepresentationInOneSnapshot() {
+        Product persisted = fixture("exact-revision", "PUBLISHED");
+
+        ProductCatalogueCandidatePage page = products.pageCatalogueCandidates(20, null);
+
+        assertThat(page.products()).singleElement().satisfies(candidate -> {
+            assertThat(candidate.id()).isEqualTo(persisted.id());
+            assertThat(candidate.revision()).isEqualTo(persisted.revision());
+            assertThat(candidate.content()).isEqualTo(persisted.content());
+            assertThat(candidate.lifecycle()).isEqualTo(com.enterprise.fashion.ecommerce.product.domain.model.ProductLifecycle.PUBLISHED);
+        });
+        assertThat(page.nextCursor()).isNull();
     }
 
     @Test

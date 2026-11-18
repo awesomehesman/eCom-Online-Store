@@ -103,7 +103,7 @@ class AssessProductVisibilityReadinessTest {
     @Test
     void rejectsMissingDependenciesAndIdentifier() {
         assertThatNullPointerException().isThrownBy(() -> new AssessProductVisibilityReadiness(null));
-        assertThatNullPointerException().isThrownBy(() -> evaluator.assess(null));
+        assertThatNullPointerException().isThrownBy(() -> evaluator.assess((ProductId) null));
         verifyNoMoreInteractions(persistence);
     }
 }

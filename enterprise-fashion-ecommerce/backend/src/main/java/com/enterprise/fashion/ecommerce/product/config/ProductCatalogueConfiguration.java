@@ -1,6 +1,7 @@
 package com.enterprise.fashion.ecommerce.product.config;
 
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueQueryService;
+import com.enterprise.fashion.ecommerce.product.application.catalogue.ProjectProductCatalogueRepresentation;
 import com.enterprise.fashion.ecommerce.product.adapter.in.web.ProductCatalogueSessionIsolationFilter;
 import com.enterprise.fashion.ecommerce.product.adapter.in.web.ProductCatalogueCursorCodec;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +31,8 @@ public class ProductCatalogueConfiguration {
 
     @Bean
     ProductCatalogueQueryService productCatalogueQueryService(ProductPersistenceService products) {
-        return new ProductCatalogueQueryService(products, new AssessProductVisibilityReadiness(products));
+        return new ProductCatalogueQueryService(products, new AssessProductVisibilityReadiness(products),
+                new ProjectProductCatalogueRepresentation());
     }
 
     @Bean
