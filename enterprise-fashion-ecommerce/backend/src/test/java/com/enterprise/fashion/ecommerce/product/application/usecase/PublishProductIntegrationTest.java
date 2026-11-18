@@ -207,7 +207,7 @@ class PublishProductIntegrationTest {
 
         // Verify catalogue query service still blocks
         var catalogueResult = catalogueQuery.list(20);
-        assertThat(catalogueResult).isNotEqualTo(ProductCatalogueQueryService.ListingOutcome.CONFIRMED_EMPTY);
+        assertThat(catalogueResult).isInstanceOf(ProductCatalogueQueryService.AuthorityUnavailable.class);
     }
 
     // === Concurrency ===

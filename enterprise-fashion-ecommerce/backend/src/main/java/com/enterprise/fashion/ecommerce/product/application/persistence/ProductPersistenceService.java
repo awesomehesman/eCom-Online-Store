@@ -1,12 +1,14 @@
 package com.enterprise.fashion.ecommerce.product.application.persistence;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.application.administration.ProductAdministrationPage;
 import com.enterprise.fashion.ecommerce.product.application.administration.ProductAdministrationView;
+import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueCandidatePage;
 import com.enterprise.fashion.ecommerce.product.application.catalogue.ProductIdPage;
+import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPersistencePort;
 import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
 import org.springframework.transaction.support.TransactionOperations;
@@ -74,6 +76,27 @@ public final class ProductPersistenceService {
     /** Ordered candidates only; negative lifecycle exclusion grants no publication or visibility. */
     public ProductIdPage pageCatalogueCandidateIds(Integer requestedSize, ProductIdPage.Cursor cursor) {
         return pageProductIds(requestedSize, cursor, true);
+    }
+
+    /** Loads candidate identities and exact aggregates in one repeatable-read snapshot. */
+    public ProductCatalogueCandidatePage pageCatalogueCandidates(int size, ProductIdPage.Cursor cursor) {
+        ProductIdPage.validateSize(size);
+        if (cursor != null && cursor.pageSize() != size) {
+            throw new IllegalArgumentException("Product continuation page size mismatch");
+        }
+        requireOwnBoundary();
+        return Objects.requireNonNull(reads.execute(status -> {
+            ProductId after = cursor == null ? null : cursor.afterExclusive();
+            var ids = Objects.requireNonNull(persistence.findCatalogueCandidateIdsAfter(after, size + 1));
+            boolean more = ids.size() > size;
+            var selected = List.copyOf(ids.subList(0, Math.min(size, ids.size())));
+            var candidates = persistence.loadAll(selected);
+            if (!candidates.stream().map(Product::id).toList().equals(selected)) {
+                throw new IllegalStateException("Incomplete Product catalogue candidate observation");
+            }
+            return new ProductCatalogueCandidatePage(candidates, size,
+                    more ? new ProductIdPage.Cursor(selected.getLast(), size) : null);
+        }), "Product persistence returned no catalogue candidate page");
     }
 
     private ProductIdPage pageProductIds(Integer requestedSize, ProductIdPage.Cursor cursor, boolean catalogueCandidates) {

@@ -6,6 +6,7 @@ package com.enterprise.fashion.ecommerce.product.application.visibility;
  * No Product content, identifier or underlying failure detail is carried by these outcomes.
  */
 public enum ProductVisibilityReadiness {
+    VISIBLE,
     NOT_FOUND,
     NOT_VISIBLE,
     EVIDENCE_UNCONFIRMED,

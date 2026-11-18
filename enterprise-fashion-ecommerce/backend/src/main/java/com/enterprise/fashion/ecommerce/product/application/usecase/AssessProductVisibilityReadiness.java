@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.application.visibility.ProductVisibilityReadiness;
 import com.enterprise.fashion.ecommerce.product.domain.model.ProductId;
+import com.enterprise.fashion.ecommerce.product.domain.model.Product;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.dao.TransientDataAccessResourceException;
@@ -30,10 +31,7 @@ public final class AssessProductVisibilityReadiness {
             if (product.isEmpty()) {
                 return ProductVisibilityReadiness.NOT_FOUND;
             }
-            return switch (product.get().lifecycle()) {
-                case DRAFT, ARCHIVED -> ProductVisibilityReadiness.NOT_VISIBLE;
-                case PUBLISHED -> ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED;
-            };
+            return assess(product.get());
         } catch (DataAccessResourceFailureException | TransientDataAccessResourceException
                 | QueryTimeoutException | CannotCreateTransactionException unavailable) {
             // Explicit resource/timeout failures only; absence is never inferred from failure.
@@ -43,5 +41,15 @@ public final class AssessProductVisibilityReadiness {
             // Never return or log raw exception details or protected Product information.
             return ProductVisibilityReadiness.ERROR;
         }
+    }
+
+    /** Evaluates an exact loaded representation without another persistence observation. */
+    public ProductVisibilityReadiness assess(Product product) {
+        Objects.requireNonNull(product);
+        return switch (product.lifecycle()) {
+            case DRAFT, ARCHIVED -> ProductVisibilityReadiness.NOT_VISIBLE;
+            // Published lifecycle alone is never positive visibility evidence.
+            case PUBLISHED -> ProductVisibilityReadiness.EVIDENCE_UNCONFIRMED;
+        };
     }
 }
