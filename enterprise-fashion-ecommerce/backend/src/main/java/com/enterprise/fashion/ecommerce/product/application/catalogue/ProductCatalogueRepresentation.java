@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Framework-neutral public Product wire values from the initial catalogue Contract.
  * Construction carries no publication, eligibility or authorization evidence.
@@ -42,5 +44,6 @@ public record ProductCatalogueRepresentation(
     public record Colour(String code, String label) { }
 
     /** A null variantId is the Contract's Product-level media association. */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public record Media(String mediaId, String url, String alternativeText, String variantId) { }
 }
