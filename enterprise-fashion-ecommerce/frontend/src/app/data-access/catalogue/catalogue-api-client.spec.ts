@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { CatalogueApiClient } from './catalogue-observation';
+import { CatalogueApiClient } from './catalogue-api-client';
 
 describe('Catalogue API client', () => {
   const page = { items: [], pageSize: 20, nextCursor: null };
@@ -48,8 +48,40 @@ describe('Catalogue API client', () => {
   it('maps 503 to unavailable without treating it as empty', () => {
     let result: unknown;
     client.loadPage().subscribe(value => result = value);
-    flush({ type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'test' }, 503);
+    flush({ type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'test' }, 503, {
+      'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+    });
     expect(result).toEqual({ kind: 'unavailable' });
+  });
+
+  it('rejects malformed 503 responses instead of claiming evidence unavailability', () => {
+    for (const body of [null, {}, { type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'wrong' }]) {
+      let result: unknown;
+      client.loadPage().subscribe(value => result = value);
+      flush(body, 503, {
+        'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+      });
+      expect(result).toEqual({ kind: 'error', failure: 'invalid-response' });
+    }
+  });
+
+  it('requires the exact no-store response directive', () => {
+    for (const cacheControl of ['no-cache, no-store', 'no-store, private', 'max-age=0']) {
+      let result: unknown;
+      client.loadPage().subscribe(value => result = value);
+      flush(page, 200, {
+        'Content-Type': 'application/json', 'Cache-Control': cacheControl, 'X-Correlation-ID': 'test',
+      });
+      expect(result).toEqual({ kind: 'error', failure: 'invalid-response' });
+    }
+  });
+
+  it('cancels the underlying HTTP request when its subscriber leaves', () => {
+    const subscription = client.loadPage().subscribe();
+    const request = http.expectOne('/api/v1/products?limit=20');
+    expect(request.cancelled).toBeFalse();
+    subscription.unsubscribe();
+    expect(request.cancelled).toBeTrue();
   });
 
   for (const status of [400, 404, 500]) {

@@ -3,32 +3,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { StorefrontPageStateComponent } from './storefront-page-state';
-import { CatalogueApiClient, CatalogueObservation } from './catalogue-observation';
-import { ProductSummaryListComponent } from './product-summary-list';
-import type { ValidatedCataloguePage } from './catalogue-page';
+import { CatalogueApiClient, CatalogueObservation } from '../../../../../data-access/catalogue/catalogue-api-client';
+import type { ValidatedCataloguePage } from '../../../../../data-access/catalogue/catalogue-contract';
+import { ProductSummaryListComponent } from '../../components/product-summary-list/product-summary-list.component';
+import { StorefrontPageStateComponent } from '../../../../shell/storefront-page-state.component';
 
 @Component({
-  selector: 'app-storefront-entry',
+  selector: 'app-catalogue-page',
   standalone: true,
   imports: [StorefrontPageStateComponent, ProductSummaryListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <app-storefront-page-state state="catalogue" />
-    <section aria-labelledby="catalogue-heading">
-      <h2 #catalogueHeading id="catalogue-heading" tabindex="-1">Catalogue</h2>
-      <p role="status" aria-atomic="true">{{ announce() ? message() : '' }}</p>
-      @if (page(); as currentPage) {
-        <app-product-summary-list [page]="currentPage" />
-      }
-      <button type="button" (click)="recheck()">Check catalogue again</button>
-      @if (page()?.nextCursor) {
-        <button type="button" (click)="nextPage()" [disabled]="state() === 'loading'">Show next products</button>
-      }
-    </section>
-  `,
+  templateUrl: './catalogue-page.component.html',
+  styleUrl: './catalogue-page.component.scss',
 })
-export class StorefrontEntry {
+export class CataloguePageComponent {
   @ViewChild('catalogueHeading') private heading?: ElementRef<HTMLElement>;
   protected readonly state = signal<'loading' | 'empty' | 'ready' | 'unavailable' | 'error'>('loading');
   protected readonly page = signal<ValidatedCataloguePage | null>(null);

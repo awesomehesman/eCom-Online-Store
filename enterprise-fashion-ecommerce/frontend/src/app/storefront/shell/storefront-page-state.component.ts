@@ -26,11 +26,8 @@ const messages = {
   selector: 'app-storefront-page-state',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h1>{{ messages[state()].heading }}</h1>
-    <p>{{ messages[state()].description }}</p>
-    <ng-content />
-  `,
+  templateUrl: './storefront-page-state.component.html',
+  styleUrl: './storefront-page-state.component.scss',
 })
 export class StorefrontPageStateComponent {
   readonly state = input.required<StorefrontPageState>();

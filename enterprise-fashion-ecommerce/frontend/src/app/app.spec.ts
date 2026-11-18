@@ -2,13 +2,13 @@ import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { StorefrontEntry } from './storefront/storefront-entry';
+import { CataloguePageComponent } from './storefront/features/catalogue/pages/catalogue-page/catalogue-page.component';
 import { Title } from '@angular/platform-browser';
 import { App } from './app';
 import { routes } from './app.routes';
 import { Subject, from } from 'rxjs';
-import { CatalogueApiClient, CatalogueObservation } from './storefront/catalogue-observation';
-import { validateCataloguePage } from './storefront/catalogue-page';
+import { CatalogueApiClient, CatalogueObservation } from './data-access/catalogue/catalogue-api-client';
+import { validateCataloguePage } from './data-access/catalogue/catalogue-contract';
 
 describe('Storefront foundation', () => {
   let catalogue: jasmine.SpyObj<CatalogueApiClient>;
@@ -102,7 +102,7 @@ describe('Storefront foundation', () => {
     const fixture = await open();
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be confirmed');
     catalogue.loadPage.and.returnValue(respond({ kind: 'error', failure: 'network' }));
-    (fixture.debugElement.query(By.directive(StorefrontEntry)).componentInstance as StorefrontEntry).recheck();
+    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).recheck();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be loaded');
@@ -128,7 +128,7 @@ describe('Storefront foundation', () => {
     catalogue.loadPage.and.returnValue(obsolete);
     const fixture = await open();
     catalogue.loadPage.and.returnValue(respond(empty()));
-    (fixture.debugElement.query(By.directive(StorefrontEntry)).componentInstance as StorefrontEntry).recheck();
+    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).recheck();
     expect(obsolete.observed).toBeFalse();
     await new Promise(resolve => setTimeout(resolve, 0));
     await fixture.whenStable();
@@ -292,7 +292,7 @@ describe('Storefront foundation', () => {
       { path: 'slow', loadComponent: async () => {
         started();
         await pending;
-        return (await import('./storefront/storefront-entry')).StorefrontEntry;
+        return (await import('./storefront/features/catalogue/pages/catalogue-page/catalogue-page.component')).CataloguePageComponent;
       } },
       ...routes,
     ]);
@@ -371,7 +371,7 @@ describe('Storefront foundation', () => {
       { path: 'obsolete', loadComponent: async () => {
         started();
         await pending;
-        return (await import('./storefront/storefront-entry')).StorefrontEntry;
+        return (await import('./storefront/features/catalogue/pages/catalogue-page/catalogue-page.component')).CataloguePageComponent;
       } },
       ...routes,
     ]);

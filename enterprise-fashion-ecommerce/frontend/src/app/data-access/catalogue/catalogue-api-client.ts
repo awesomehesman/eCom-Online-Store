@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 
-import { ValidatedCataloguePage, validateCataloguePage } from './catalogue-page';
+import { ValidatedCataloguePage, validateCataloguePage } from './catalogue-contract';
 
 export type CatalogueFailure = 'network' | 'server' | 'invalid-response';
 export type CatalogueObservation =
@@ -14,8 +14,22 @@ const correlation = /^[A-Za-z0-9._-]{1,128}$/;
 
 function validHeaders(headers: HttpHeaders): boolean {
   return headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() === 'application/json'
-    && headers.get('Cache-Control')?.split(',').some(value => value.trim().toLowerCase() === 'no-store') === true
+    && headers.get('Cache-Control')?.trim().toLowerCase() === 'no-store'
     && correlation.test(headers.get('X-Correlation-ID') ?? '');
+}
+
+function unavailableProblem(failure: HttpErrorResponse): boolean {
+  const body = failure.error as unknown;
+  const headerCorrelation = failure.headers.get('X-Correlation-ID');
+  return failure.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() === 'application/problem+json'
+    && failure.headers.get('Cache-Control')?.trim().toLowerCase() === 'no-store'
+    && correlation.test(headerCorrelation ?? '')
+    && body !== null && typeof body === 'object' && !Array.isArray(body)
+    && Reflect.ownKeys(body).length === 4
+    && (body as Record<string, unknown>)['type'] === 'about:blank'
+    && (body as Record<string, unknown>)['title'] === 'Service Unavailable'
+    && (body as Record<string, unknown>)['status'] === 503
+    && (body as Record<string, unknown>)['correlationId'] === headerCorrelation;
 }
 
 /** Anonymous, read-only client. A valid response remains presentation data, never visibility authority. */
@@ -42,7 +56,9 @@ export class CatalogueApiClient {
       }),
       catchError((failure: unknown): Observable<CatalogueObservation> => {
         if (failure instanceof HttpErrorResponse) {
-          if (failure.status === 503) return of({ kind: 'unavailable' });
+          if (failure.status === 503) return of(unavailableProblem(failure)
+            ? { kind: 'unavailable' }
+            : { kind: 'error', failure: 'invalid-response' });
           if (failure.status === 0) return of({ kind: 'error', failure: 'network' });
           if (failure.status === 200) return of({ kind: 'error', failure: 'invalid-response' });
         }

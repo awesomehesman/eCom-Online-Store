@@ -1,4 +1,4 @@
-import type { ProductSummary, ProductSummaryMedia } from './product-summary';
+import type { ProductSummary, ProductSummaryMedia } from '../../storefront/features/catalogue/models/product-summary';
 
 const validated = Symbol('validated catalogue page');
 type RecordValue = Record<string, unknown>;

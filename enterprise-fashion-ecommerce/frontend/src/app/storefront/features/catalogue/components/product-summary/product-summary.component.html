@@ -1,0 +1,10 @@
+<article>
+  <h3>{{ product().name }}</h3>
+  <p>{{ product().description }}</p>
+  @if (product().family; as family) {
+    <p>Product family: {{ family }}</p>
+  }
+  @for (media of images(); track media.mediaId + ':' + media.url) {
+    <app-product-summary-image [media]="media" />
+  }
+</article>

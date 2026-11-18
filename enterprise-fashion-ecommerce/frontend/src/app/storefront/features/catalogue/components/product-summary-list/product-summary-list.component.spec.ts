@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { Router, provideRouter } from '@angular/router';
-import { App } from '../app';
-import { routes } from '../app.routes';
+import { App } from '../../../../../app';
+import { routes } from '../../../../../app.routes';
 import { TestBed } from '@angular/core/testing';
-import { validateCataloguePage, ValidatedCataloguePage } from './catalogue-page';
-import { ProductSummaryListComponent } from './product-summary-list';
-import { CatalogueApiClient, CatalogueObservation } from './catalogue-observation';
+import { validateCataloguePage, ValidatedCataloguePage } from '../../../../../data-access/catalogue/catalogue-contract';
+import { CatalogueApiClient, CatalogueObservation } from '../../../../../data-access/catalogue/catalogue-api-client';
+import { ProductSummaryListComponent } from './product-summary-list.component';
 import { from } from 'rxjs';
 
 function fixturePage(media = false, nextCursor: string | null = null): ValidatedCataloguePage {

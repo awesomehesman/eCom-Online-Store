@@ -5,26 +5,16 @@ import {
   NavigationStart, Router, RouterOutlet, TitleStrategy,
 } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { StorefrontShell } from './storefront/storefront-shell';
-import { StorefrontPageStateComponent } from './storefront/storefront-page-state';
+import { StorefrontShell } from './storefront/shell/storefront-shell.component';
+import { StorefrontPageStateComponent } from './storefront/shell/storefront-page-state.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, StorefrontShell, StorefrontPageStateComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <app-storefront-shell>
-      <p role="status" aria-atomic="true">{{ navigation() === 'loading' ? 'Opening page…' : '' }}</p>
-      <p role="alert" aria-atomic="true">{{ navigation() === 'failed' ? 'The requested page could not open.' : '' }}</p>
-      @if (pageFailed()) {
-        <app-storefront-page-state state="navigation-failed" />
-      }
-      <div [hidden]="pageFailed()">
-        <router-outlet />
-      </div>
-    </app-storefront-shell>
-  `,
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly navigation = signal<'ready' | 'loading' | 'failed'>('ready');

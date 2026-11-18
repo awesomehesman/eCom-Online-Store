@@ -1,0 +1,12 @@
+<app-storefront-page-state state="catalogue" />
+<section aria-labelledby="catalogue-heading">
+  <h2 #catalogueHeading id="catalogue-heading" tabindex="-1">Catalogue</h2>
+  <p role="status" aria-atomic="true">{{ announce() ? message() : '' }}</p>
+  @if (page(); as currentPage) {
+    <app-product-summary-list [page]="currentPage" />
+  }
+  <button type="button" (click)="recheck()">Check catalogue again</button>
+  @if (page()?.nextCursor) {
+    <button type="button" (click)="nextPage()" [disabled]="state() === 'loading'">Show next products</button>
+  }
+</section>
