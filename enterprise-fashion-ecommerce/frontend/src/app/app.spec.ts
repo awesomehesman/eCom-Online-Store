@@ -102,7 +102,7 @@ describe('Storefront foundation', () => {
     const fixture = await open();
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be confirmed');
     catalogue.loadPage.and.returnValue(respond({ kind: 'error', failure: 'network' }));
-    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).recheck();
+    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).store.recheck();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be loaded');
@@ -128,7 +128,7 @@ describe('Storefront foundation', () => {
     catalogue.loadPage.and.returnValue(obsolete);
     const fixture = await open();
     catalogue.loadPage.and.returnValue(respond(empty()));
-    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).recheck();
+    (fixture.debugElement.query(By.directive(CataloguePageComponent)).componentInstance as CataloguePageComponent).store.recheck();
     expect(obsolete.observed).toBeFalse();
     await new Promise(resolve => setTimeout(resolve, 0));
     await fixture.whenStable();
