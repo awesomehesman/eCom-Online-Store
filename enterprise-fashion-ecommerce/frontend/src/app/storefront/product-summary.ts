@@ -61,7 +61,7 @@ function safeMedia(media: ProductSummaryMedia, product: ProductSummary): boolean
     img { display: block; position: absolute; width: 100%; height: 100%; object-fit: contain; }
   `,
 })
-class ProductSummaryImage {
+export class ProductSummaryImage {
   readonly media = input.required<ProductSummaryMedia>();
   protected readonly state = signal<'loading' | 'loaded' | 'failed'>('loading');
 }
@@ -78,7 +78,7 @@ class ProductSummaryImage {
       @if (product().family; as family) {
         <p>Product family: {{ family }}</p>
       }
-      @for (media of images(); track media) {
+      @for (media of images(); track media.mediaId + ':' + media.url) {
         <app-product-summary-image [media]="media" />
       }
     </article>

@@ -5,6 +5,8 @@ import { routes } from '../app.routes';
 import { TestBed } from '@angular/core/testing';
 import { validateCataloguePage, ValidatedCataloguePage } from './catalogue-page';
 import { ProductSummaryListComponent } from './product-summary-list';
+import { CatalogueApiClient, CatalogueObservation } from './catalogue-observation';
+import { from } from 'rxjs';
 
 function fixturePage(media = false, nextCursor: string | null = null): ValidatedCataloguePage {
   return validateCataloguePage({ pageSize: 20, nextCursor, items: ['a', 'b'].map(id => ({
@@ -26,7 +28,11 @@ class Harness {
 describe('Isolated validated Product collection', () => {
   let blobs: string[];
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [Harness, App], providers: [provideRouter(routes)] });
+    const page = fixturePage();
+    TestBed.configureTestingModule({ imports: [Harness, App], providers: [provideRouter(routes), {
+      provide: CatalogueApiClient,
+      useValue: { loadPage: () => from(Promise.resolve({ kind: 'page', page } as CatalogueObservation)) },
+    }] });
     blobs = [];
   });
   afterEach(() => blobs.forEach(url => URL.revokeObjectURL(url)));
@@ -34,18 +40,14 @@ describe('Isolated validated Product collection', () => {
     const fixture = TestBed.createComponent(Harness);
     fixture.componentInstance.page.set(page); fixture.detectChanges(); return fixture;
   }
-  it('keeps valid positive wire responses unsupported in the production entry', async () => {
+  it('renders a valid positive wire response in the production entry', async () => {
     const page = fixturePage();
-    spyOn(window, 'fetch').and.callFake(async () => new Response(JSON.stringify(page), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'synthetic-test' },
-    }));
     const fixture = TestBed.createComponent(App); fixture.detectChanges();
     await TestBed.inject(Router).navigateByUrl('/');
-    await new Promise(resolve => setTimeout(resolve, 0));
     await fixture.whenStable(); fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Product browsing is not supported here yet.');
-    expect(fixture.nativeElement.textContent).not.toContain(page.items[0].name);
-    expect(fixture.nativeElement.querySelector('app-product-summary-list,app-product-summary,img')).toBeNull();
+    expect(fixture.nativeElement.textContent).toContain(page.items[0].name);
+    expect(fixture.nativeElement.querySelectorAll('app-product-summary-list app-product-summary').length).toBe(2);
+    expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('2 products available');
   });
   it('renders an ordered semantic collection beneath the caller catalogue heading', () => {
     const root: HTMLElement = render().nativeElement;

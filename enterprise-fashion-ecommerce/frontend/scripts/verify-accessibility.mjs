@@ -322,17 +322,19 @@ try {
   assert.equal(await evaluate(`document.body.textContent.includes('browser-fixture')`), false);
   assert.equal(await evaluate(`document.activeElement === document.querySelector('section button')`), true);
   assert.equal(await evaluate(`getComputedStyle(document.activeElement).outlineStyle !== 'none'`), true);
-  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product evidence, never rendered',
+  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product presentation fixture',
     family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
     variants: [{ variantId: 'fixture-variant', attributes: {} }],
     media: [{ mediaId: 'fixture-media', url: 'https://example.invalid/fixture.jpg', alternativeText: 'Synthetic accessory illustration' }] }], pageSize: 20, nextCursor: null } };
   await key('Enter', 'Enter', 13);
-  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('not supported')`);
-  assert.equal(await evaluate(`['fixture-product', 'Synthetic accessory', 'fixture-variant', 'fixture-media'].some(value => document.body.textContent.includes(value))`), false);
-  assert.equal(await evaluate(`document.querySelectorAll('section img, section article').length`), 0);
+  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('1 products available')`);
+  assert.equal(await evaluate(`document.querySelector('section article h3').textContent`), 'Synthetic accessory');
+  assert.equal(await evaluate(`document.querySelector('section article p').textContent`), 'Synthetic Product presentation fixture');
+  assert.equal(await evaluate(`document.querySelectorAll('section article').length`), 1);
+  assert.equal(await evaluate(`document.body.textContent.includes('fixture-product')`), false);
   assert.equal(await evaluate(`document.body.textContent.includes('No products are currently available')`), false);
   await checkSemantics();
-  console.log('PASS: synthetic catalogue loading, empty, unavailable, unsupported, keyboard recheck and focus preservation');
+  console.log('PASS: synthetic catalogue loading, empty, unavailable, Product rendering, keyboard recheck and focus preservation');
   }
   {
     catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };

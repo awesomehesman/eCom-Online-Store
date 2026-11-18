@@ -1,68 +1,99 @@
-import { observeCatalogue } from './catalogue-observation';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
-describe('Anonymous catalogue observation', () => {
-  let request: jasmine.Spy;
+import { CatalogueApiClient } from './catalogue-observation';
+
+describe('Catalogue API client', () => {
   const page = { items: [], pageSize: 20, nextCursor: null };
-  const response = (body: unknown = page) => new Response(JSON.stringify(body), {
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
-  });
-  const product = { productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product evidence, never rendered',
-    family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
-    variants: [{ variantId: 'fixture-variant', attributes: {} }],
-    media: [{ mediaId: 'fixture-media', url: 'https://example.invalid/fixture.jpg', alternativeText: 'Synthetic accessory illustration' }] };
-  const observe = () => observeCatalogue(new AbortController().signal);
-  beforeEach(() => { request = spyOn(window, 'fetch'); });
+  let client: CatalogueApiClient;
+  let http: HttpTestingController;
 
-  it('accepts only a confirmed empty page and omits credentials and caching', async () => {
-    request.and.resolveTo(response());
-    expect(await observe()).toBe('empty');
-    const [url, options] = request.calls.mostRecent().args;
-    expect(url).toBe('/api/v1/products');
-    expect(options).toEqual(jasmine.objectContaining({ method: 'GET', credentials: 'omit', cache: 'no-store', redirect: 'error' }));
-    expect(options.signal).toBeInstanceOf(AbortSignal);
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    client = TestBed.inject(CatalogueApiClient);
+    http = TestBed.inject(HttpTestingController);
+  });
+  afterEach(() => http.verify());
+
+  function flush(body: unknown, status = 200, headers: Record<string, string> = {
+    'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+  }): void {
+    http.expectOne(request => request.url === '/api/v1/products' && request.params.get('limit') === '20')
+      .flush(body as never, { status, statusText: status === 200 ? 'OK' : 'Failure', headers });
+  }
+
+  it('requests and accepts a strictly validated empty page', () => {
+    let result: unknown;
+    client.loadPage().subscribe(value => result = value);
+    const request = http.expectOne('/api/v1/products?limit=20');
+    expect(request.request.method).toBe('GET');
+    expect(request.request.withCredentials).toBeFalse();
+    expect(request.request.headers.get('Accept')).toBe('application/json');
+    request.flush(page, { headers: {
+      'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+    } });
+    expect(result).toEqual(jasmine.objectContaining({ kind: 'page' }));
   });
 
-  for (const status of [204, 400, 500, 503]) {
-    it(`withholds empty success for HTTP ${status}`, async () => {
-      request.and.resolveTo(new Response(null, { status }));
-      expect(await observe()).toBe('unavailable');
+  it('binds continuation requests to the original page size', () => {
+    client.loadPage(20, 'Opaque_next').subscribe();
+    const request = http.expectOne('/api/v1/products?limit=20&cursor=Opaque_next');
+    expect(request.request.method).toBe('GET');
+    request.flush(page, { headers: {
+      'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+    } });
+  });
+
+  it('maps 503 to unavailable without treating it as empty', () => {
+    let result: unknown;
+    client.loadPage().subscribe(value => result = value);
+    flush({ type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'test' }, 503);
+    expect(result).toEqual({ kind: 'unavailable' });
+  });
+
+  for (const status of [400, 404, 500]) {
+    it(`maps HTTP ${status} to an error`, () => {
+      let result: unknown;
+      client.loadPage().subscribe(value => result = value);
+      flush(null, status);
+      expect(result).toEqual({ kind: 'error', failure: 'server' });
     });
   }
-  it('maps the documented Problem Details 503 to unavailable', async () => {
-    request.and.resolveTo(new Response(JSON.stringify({
-      type: 'about:blank', title: 'Service Unavailable', status: 503, correlationId: 'test',
-    }), { status: 503, headers: {
-      'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
-    } }));
-    expect(await observe()).toBe('unavailable');
+
+  it('distinguishes network failure', () => {
+    let result: unknown;
+    client.loadPage().subscribe(value => result = value);
+    http.expectOne('/api/v1/products?limit=20').error(new ProgressEvent('network'));
+    expect(result).toEqual({ kind: 'error', failure: 'network' });
   });
-  it('handles network failure and abort without success', async () => {
-    request.and.rejectWith(new TypeError('private transport detail'));
-    expect(await observe()).toBe('unavailable');
-    request.and.rejectWith(new DOMException('Aborted', 'AbortError'));
-    expect(await observe()).toBe('unavailable');
+
+  it('rejects malformed and unsupported response bodies', () => {
+    let malformed: unknown;
+    client.loadPage().subscribe(value => malformed = value);
+    flush('not-json');
+    expect(malformed).toEqual({ kind: 'error', failure: 'invalid-response' });
+
+    let unsupported: unknown;
+    client.loadPage().subscribe(value => unsupported = value);
+    flush({ ...page, extra: true });
+    expect(unsupported).toEqual({ kind: 'error', failure: 'invalid-response' });
   });
-  it('rejects invalid JSON', async () => {
-    const broken = new Response('{"items": [', {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
-    });
-    request.and.resolveTo(broken);
-    expect(await observe()).toBe('unavailable');
+
+  it('requires contract response headers and the requested page size', () => {
+    let missingHeaders: unknown;
+    client.loadPage().subscribe(value => missingHeaders = value);
+    flush(page, 200, {});
+    expect(missingHeaders).toEqual({ kind: 'error', failure: 'invalid-response' });
+
+    let wrongSize: unknown;
+    client.loadPage().subscribe(value => wrongSize = value);
+    flush({ ...page, pageSize: 10 });
+    expect(wrongSize).toEqual({ kind: 'error', failure: 'invalid-response' });
   });
-  for (const body of [null, [], {}, { ...page, pageSize: 0 }, { ...page, pageSize: 21 },
-    { ...page, pageSize: '20' }, { ...page, nextCursor: 'next' }, { ...page, extra: true },
-    { ...page, items: null }, { ...page, nextCursor: '' }]) {
-    it(`rejects malformed or inconsistent pagination ${JSON.stringify(body)}`, async () => {
-      request.and.resolveTo(response(body));
-      expect(await observe()).toBe('unavailable');
-    });
-  }
-  it('withholds all non-empty content instead of claiming empty or rendering items', async () => {
-    request.and.resolveTo(response({ ...page, items: [product] }));
-    expect(await observe()).toBe('unsupported');
-  });
-  it('requires contract response headers', async () => {
-    request.and.resolveTo(new Response(JSON.stringify(page)));
-    expect(await observe()).toBe('unavailable');
+
+  it('rejects invalid local pagination without making a request', async () => {
+    expect(await client.loadPage(0).toPromise()).toEqual({ kind: 'error', failure: 'invalid-response' });
+    expect(await client.loadPage(20, 'bad cursor').toPromise()).toEqual({ kind: 'error', failure: 'invalid-response' });
   });
 });

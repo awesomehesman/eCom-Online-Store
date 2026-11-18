@@ -6,20 +6,29 @@ import { StorefrontEntry } from './storefront/storefront-entry';
 import { Title } from '@angular/platform-browser';
 import { App } from './app';
 import { routes } from './app.routes';
+import { Subject, from } from 'rxjs';
+import { CatalogueApiClient, CatalogueObservation } from './storefront/catalogue-observation';
+import { validateCataloguePage } from './storefront/catalogue-page';
 
 describe('Storefront foundation', () => {
+  let catalogue: jasmine.SpyObj<CatalogueApiClient>;
+
   beforeEach(() => {
-    spyOn(window, 'fetch').and.resolveTo(new Response('', { status: 503 }));
-    TestBed.configureTestingModule({ imports: [App], providers: [provideRouter(routes)] });
+    catalogue = jasmine.createSpyObj<CatalogueApiClient>('CatalogueApiClient', ['loadPage']);
+    catalogue.loadPage.and.callFake(() => from(Promise.resolve({ kind: 'unavailable' } as CatalogueObservation)));
+    TestBed.configureTestingModule({ imports: [App], providers: [provideRouter(routes),
+      { provide: CatalogueApiClient, useValue: catalogue }] });
   });
 
-  function emptyResponse(): Response {
-    const response = new Response(null, {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test' },
-    });
-    spyOn(response, 'json').and.resolveTo({ items: [], pageSize: 20, nextCursor: null });
-    return response;
-  }
+  const empty = (): CatalogueObservation => ({ kind: 'page',
+    page: validateCataloguePage({ items: [], pageSize: 20, nextCursor: null })! });
+  const productPage = (id: string, nextCursor: string | null): CatalogueObservation => ({ kind: 'page',
+    page: validateCataloguePage({ pageSize: 20, nextCursor, items: [{
+      productId: id, name: `Product ${id}`, description: 'A validated catalogue Product.',
+      family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
+      variants: [], media: [],
+    }] })! });
+  const respond = (observation: CatalogueObservation) => from(Promise.resolve(observation));
 
   async function open(url = '/') {
     const fixture = TestBed.createComponent(App);
@@ -32,7 +41,7 @@ describe('Storefront foundation', () => {
 
 
   it('announces a confirmed empty observation and rechecks without moving focus', async () => {
-    (window.fetch as jasmine.Spy).and.callFake(async () => emptyResponse());
+    catalogue.loadPage.and.callFake(() => respond(empty()));
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
     await new Promise(resolve => setTimeout(resolve, 0));
@@ -50,19 +59,64 @@ describe('Storefront foundation', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(document.activeElement).toBe(button);
-    expect(window.fetch).toHaveBeenCalledTimes(2);
+    expect(catalogue.loadPage).toHaveBeenCalledTimes(2);
     expect(root.querySelectorAll('h1').length).toBe(1);
   });
 
-  it('aborts entry requests on departure and disregards late results', async () => {
-    let finish!: (response: Response) => void;
-    (window.fetch as jasmine.Spy).and.returnValue(new Promise<Response>(resolve => { finish = resolve; }));
+  it('renders validated Product summaries and preserves cursor-bound next-page requests', async () => {
+    catalogue.loadPage.and.returnValues(respond(productPage('product-a', 'Opaque_next')), respond(productPage('product-b', null)));
     const fixture = await open();
-    const options = (window.fetch as jasmine.Spy).calls.mostRecent().args[1] as RequestInit;
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('article h3')?.textContent).toContain('Product product-a');
+    expect(root.querySelector('section [role=status]')?.textContent).toContain('1 products available');
+    const next = Array.from(root.querySelectorAll<HTMLButtonElement>('button'))
+      .find(button => button.textContent?.includes('Show next products'))!;
+    next.focus();
+    next.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+    expect(catalogue.loadPage.calls.allArgs()).toEqual([[20, null], [20, 'Opaque_next']]);
+    expect(root.querySelector('article h3')?.textContent).toContain('Product product-b');
+    expect(document.activeElement).toBe(root.querySelector('#catalogue-heading'));
+  });
+
+  it('fails closed when a continued page regresses across its exclusive Product boundary', async () => {
+    catalogue.loadPage.and.returnValues(respond(productPage('product-b', 'Opaque_next')), respond(productPage('product-a', null)));
+    const fixture = await open();
+    const root: HTMLElement = fixture.nativeElement;
+    const next = Array.from(root.querySelectorAll<HTMLButtonElement>('button'))
+      .find(button => button.textContent?.includes('Show next products'))!;
+    next.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+    expect(root.querySelector('article')).toBeNull();
+    expect(root.querySelector('section [role=status]')?.textContent).toContain('could not be loaded');
+    expect(document.activeElement).toBe(root.querySelector('#catalogue-heading'));
+  });
+
+  it('distinguishes unavailable authority from transport or invalid-response errors', async () => {
+    catalogue.loadPage.and.returnValue(respond({ kind: 'unavailable' }));
+    const fixture = await open();
+    expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be confirmed');
+    catalogue.loadPage.and.returnValue(respond({ kind: 'error', failure: 'network' }));
+    (fixture.debugElement.query(By.directive(StorefrontEntry)).componentInstance as StorefrontEntry).recheck();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('could not be loaded');
+    expect(fixture.nativeElement.querySelector('article')).toBeNull();
+  });
+
+  it('aborts entry requests on departure and disregards late results', async () => {
+    const pending = new Subject<CatalogueObservation>();
+    catalogue.loadPage.and.returnValue(pending);
+    const fixture = await open();
     await TestBed.inject(Router).navigateByUrl('/missing');
     await fixture.whenStable();
-    expect(options.signal?.aborted).toBeTrue();
-    finish(new Response('', { status: 503 }));
+    expect(pending.observed).toBeFalse();
+    pending.next({ kind: 'unavailable' });
     await fixture.whenStable();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('h1').textContent).toBe('Page not available');
@@ -70,23 +124,22 @@ describe('Storefront foundation', () => {
   });
 
   it('preserves the newer recheck when an aborted request completes late', async () => {
-    let obsolete!: (response: Response) => void;
-    (window.fetch as jasmine.Spy).and.returnValue(new Promise<Response>(resolve => { obsolete = resolve; }));
+    const obsolete = new Subject<CatalogueObservation>();
+    catalogue.loadPage.and.returnValue(obsolete);
     const fixture = await open();
-    const previous = (window.fetch as jasmine.Spy).calls.mostRecent().args[1] as RequestInit;
-    (window.fetch as jasmine.Spy).and.resolveTo(emptyResponse());
+    catalogue.loadPage.and.returnValue(respond(empty()));
     (fixture.debugElement.query(By.directive(StorefrontEntry)).componentInstance as StorefrontEntry).recheck();
-    expect(previous.signal?.aborted).toBeTrue();
+    expect(obsolete.observed).toBeFalse();
     await new Promise(resolve => setTimeout(resolve, 0));
     await fixture.whenStable();
-    obsolete(new Response('', { status: 503 }));
+    obsolete.next({ kind: 'unavailable' });
     await fixture.whenStable();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('section [role=status]').textContent).toContain('No products are currently available');
   });
 
   it('keeps catalogue announcements exclusive during overlapping cancelled navigation', async () => {
-    (window.fetch as jasmine.Spy).and.resolveTo(emptyResponse());
+    catalogue.loadPage.and.returnValue(respond(empty()));
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
     const router = TestBed.inject(Router);
@@ -125,7 +178,7 @@ describe('Storefront foundation', () => {
       expect(activeAnnouncements().length).toBe(1);
       expect(root.querySelector('section [role=status]')?.textContent).toContain('No products are currently available');
       expect(document.activeElement).toBe(focused);
-      expect(window.fetch).toHaveBeenCalledTimes(1);
+      expect(catalogue.loadPage).toHaveBeenCalledTimes(1);
     } finally {
       subscription.unsubscribe();
     }
@@ -209,7 +262,7 @@ describe('Storefront foundation', () => {
     const fixture = await open();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('main')?.textContent?.trim()).toContain(
-      'Welcome to the storefrontProduct browsing and purchasing are not available here yet.',
+      'Welcome to the storefrontBrowse the catalogue. Purchasing is not available here yet.',
     );
     expect(root.querySelector('form, img, input, [itemscope]')).toBeNull();
     expect(root.textContent).not.toMatch(/R\s*\d|ZAR|in stock|sale|discount|signed in|cart \(0\)/i);

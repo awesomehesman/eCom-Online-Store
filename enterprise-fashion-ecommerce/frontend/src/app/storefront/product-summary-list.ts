@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { ValidatedCataloguePage } from './catalogue-page';
 import { ProductSummaryComponent } from './product-summary';
 
-/** Isolated presentation beneath a caller-owned catalogue h2. Not imported by production routes. */
+/** Contract-validated presentation beneath a caller-owned catalogue h2. */
 @Component({
   selector: 'app-product-summary-list',
   standalone: true,
