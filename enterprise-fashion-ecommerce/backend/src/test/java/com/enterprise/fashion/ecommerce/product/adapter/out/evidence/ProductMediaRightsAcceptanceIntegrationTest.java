@@ -1,12 +1,24 @@
 package com.enterprise.fashion.ecommerce.product.adapter.out.evidence;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
+import javax.sql.DataSource;
 
 import com.enterprise.fashion.ecommerce.product.application.evidence.ProductEvidenceEvent;
 import com.enterprise.fashion.ecommerce.product.application.evidence.ProductEvidenceObservation;
 import com.enterprise.fashion.ecommerce.product.application.evidence.ProductEvidenceService;
 import com.enterprise.fashion.ecommerce.product.application.evidence.ProductPublicationEvidence.Snapshot;
+import com.enterprise.fashion.ecommerce.product.application.media.QuarantinedProductImageAsset;
 import com.enterprise.fashion.ecommerce.product.application.persistence.ProductPersistenceService;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductMediaRightsAcceptanceRecordingPort;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductMediaRightsAcceptanceRecordingPort.Decision;
@@ -15,6 +27,8 @@ import com.enterprise.fashion.ecommerce.product.application.port.out.ProductMedi
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductMediaRightsAcceptanceRecordingPort.RecordingOutcome;
 import com.enterprise.fashion.ecommerce.product.application.port.out.ProductPublicationEvidencePort;
 import com.enterprise.fashion.ecommerce.product.application.usecase.AssessProductPublicationReadiness;
+import com.enterprise.fashion.ecommerce.product.application.usecase.BindProductImageAssociation;
+import com.enterprise.fashion.ecommerce.product.application.usecase.IngestProductImage;
 import com.enterprise.fashion.ecommerce.product.application.usecase.PublishProduct;
 import com.enterprise.fashion.ecommerce.product.application.usecase.RecordProductMediaRightsAcceptance;
 import com.enterprise.fashion.ecommerce.product.application.visibility.ProductPublicationReadiness;
@@ -35,6 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -68,6 +83,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @Testcontainers
 class ProductMediaRightsAcceptanceIntegrationTest {
+    private static final byte[] IMAGE_BYTES = imageBytes();
+    private static final String IMAGE_SHA256 = HexFormat.of().formatHex(digest(IMAGE_BYTES));
+    private static final String IMAGE_REVISION = "sha256_" + IMAGE_SHA256;
     @Container
     @ServiceConnection
     static final PostgreSQLContainer<?> POSTGRESQL = new PostgreSQLContainer<>("postgres:18");
@@ -80,6 +98,9 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     @Autowired private ProductPublicationEvidencePort publicationEvidencePort;
     @Autowired private PlatformTransactionManager manager;
     @Autowired private JdbcTemplate jdbc;
+    @Autowired private IngestProductImage ingestion;
+    @Autowired private BindProductImageAssociation binding;
+    @Autowired private DataSource dataSource;
 
     @Autowired(required = false) private PublishProduct publishProduct;
 
@@ -97,7 +118,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 "media-" + UUID.randomUUID().toString().substring(0, 8),
                 product.id(),
                 null, // Product-level, no variant
-                "asset-rev-" + UUID.randomUUID().toString().substring(0, 8),
+                IMAGE_REVISION,
                 "https://cdn.example.com/images/product-image.jpg",
                 "Product main image"
         );
@@ -139,7 +160,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 "media-prod-" + UUID.randomUUID().toString().substring(0, 8),
                 product.id(),
                 null,
-                "asset-rev-prod-" + UUID.randomUUID().toString().substring(0, 8),
+                IMAGE_REVISION,
                 "https://cdn.example.com/images/product-main.jpg",
                 "Product main image"
         );
@@ -149,7 +170,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 "media-var-" + UUID.randomUUID().toString().substring(0, 8),
                 product.id(),
                 variantId,
-                "asset-rev-var-" + UUID.randomUUID().toString().substring(0, 8),
+                IMAGE_REVISION,
                 "https://cdn.example.com/images/variant-image.jpg",
                 "Variant specific image"
         );
@@ -171,10 +192,38 @@ class ProductMediaRightsAcceptanceIntegrationTest {
         return tx;
     }
 
+    private QuarantinedProductImageAsset bind(Product product, ProductMedia media) {
+        QuarantinedProductImageAsset asset = ingestion.ingest(product.id(), IMAGE_BYTES);
+        binding.bind(new BindProductImageAssociation.Command(product.id(), product.revision(), media.id(),
+                product.revision(), asset.assetId(), asset.assetRevision(), asset.sha256(), media.variantId()));
+        return asset;
+    }
+
+    private static byte[] imageBytes() {
+        try {
+            var output = new ByteArrayOutputStream();
+            if (!ImageIO.write(new BufferedImage(2, 2, BufferedImage.TYPE_INT_ARGB), "png", output)) {
+                throw new IllegalStateException("PNG test writer unavailable");
+            }
+            return output.toByteArray();
+        } catch (java.io.IOException failure) {
+            throw new IllegalStateException("Unable to create PNG fixture", failure);
+        }
+    }
+
+    private static byte[] digest(byte[] value) {
+        try {
+            return MessageDigest.getInstance("SHA-256").digest(value);
+        } catch (java.security.NoSuchAlgorithmException impossible) {
+            throw new IllegalStateException(impossible);
+        }
+    }
+
     @Test
     void recordsAcceptedMediaRightsObservationWithExactSubjectBinding() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID evidenceId = UUID.randomUUID();
 
         var command = new RecordProductMediaRightsAcceptance.Command(
@@ -182,7 +231,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid-" + media.id(),
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null, // Product-level media
@@ -213,10 +262,14 @@ class ProductMediaRightsAcceptanceIntegrationTest {
         assertThat(event.revision()).isEqualTo(product.revision());
         assertThat(event.purpose()).isEqualTo(ProductEvidenceEvent.Purpose.MEDIA);
         assertThat(event.type()).isEqualTo(ProductEvidenceEvent.Type.RECORD);
-        assertThat(event.sourceReference()).contains("rights-review/storefront-usage/1.0");
-        assertThat(event.sourceReference()).contains("decision:ACCEPTED");
-        assertThat(event.sourceReference()).contains("media:" + media.id());
-        assertThat(event.sourceReference()).contains("assetRev:" + media.assetRevision());
+        var persisted = JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(event.sourceReference());
+        assertThat(persisted.sourceReference()).isEqualTo("rights-review/storefront-usage/1.0");
+        assertThat(persisted.decision()).isEqualTo(Decision.ACCEPTED);
+        assertThat(persisted.mediaAssociationId()).isEqualTo(media.id());
+        assertThat(persisted.assetId()).isEqualTo(asset.assetId().toString());
+        assertThat(persisted.assetRevision()).isEqualTo(media.assetRevision());
+        assertThat(persisted.associationRevision()).isEqualTo(product.revision().value());
+        assertThat(persisted.variantId()).isNull();
         assertThat(event.sourceActorClaim()).isEqualTo("source-asserted-actor");
         assertThat(event.supportingReferences()).containsExactly("license-doc-1", "usage-agreement-2");
         assertThat(event.recordedBy()).isEqualTo("PRODUCT_DATABASE");
@@ -229,6 +282,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 .filter(m -> m.variantId() != null)
                 .findFirst()
                 .orElseThrow();
+        QuarantinedProductImageAsset asset = bind(product, variantMedia);
         UUID evidenceId = UUID.randomUUID();
 
         var command = new RecordProductMediaRightsAcceptance.Command(
@@ -236,7 +290,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 variantMedia.id(),
-                "asset-uuid-variant",
+                asset.assetId().toString(),
                 variantMedia.assetRevision(),
                 product.revision(),
                 variantMedia.variantId(),
@@ -253,14 +307,16 @@ class ProductMediaRightsAcceptanceIntegrationTest {
 
         var observation = evidenceService.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA);
         assertThat(observation.history()).hasSize(1);
-        assertThat(observation.history().getFirst().sourceReference())
-                .contains("variant:" + variantMedia.variantId().value());
+        assertThat(JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(
+                observation.history().getFirst().sourceReference()).variantId())
+                .isEqualTo(variantMedia.variantId().value());
     }
 
     @Test
     void recordsRejectedMediaRightsObservation() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID evidenceId = UUID.randomUUID();
 
         var command = new RecordProductMediaRightsAcceptance.Command(
@@ -268,7 +324,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -285,7 +341,8 @@ class ProductMediaRightsAcceptanceIntegrationTest {
 
         var observation = evidenceService.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA);
         assertThat(observation.history()).hasSize(1);
-        assertThat(observation.history().getFirst().sourceReference()).contains("decision:REJECTED");
+        assertThat(JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(
+                observation.history().getFirst().sourceReference()).decision()).isEqualTo(Decision.REJECTED);
     }
 
     @Test
@@ -298,7 +355,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 nonexistentId,
                 revision,
                 "media-123",
-                "asset-uuid",
+                UUID.randomUUID().toString(),
                 "asset-rev",
                 revision,
                 null,
@@ -327,7 +384,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 staleRevision,
                 media.id(),
-                "asset-uuid",
+                UUID.randomUUID().toString(),
                 media.assetRevision(),
                 staleRevision,
                 null,
@@ -357,7 +414,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 unknownMediaId,
-                "asset-uuid",
+                UUID.randomUUID().toString(),
                 "asset-rev",
                 product.revision(),
                 null,
@@ -380,13 +437,14 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void rejectsRecordingWithAssetRevisionMismatch() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         var command = new RecordProductMediaRightsAcceptance.Command(
                 UUID.randomUUID(),
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 "wrong-asset-revision",
                 product.revision(),
                 null,
@@ -410,6 +468,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void rejectsRecordingWithAssociationRevisionMismatch() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         ProductRevision wrongAssociationRevision = new ProductRevision("v1_" + "b".repeat(64));
 
         var command = new RecordProductMediaRightsAcceptance.Command(
@@ -417,7 +476,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 wrongAssociationRevision, // Association revision doesn't match current
                 null,
@@ -439,6 +498,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void rejectsRecordingWithVariantMismatchWhenMediaHasNoVariant() {
         Product product = createProductWithMedia();
         ProductMedia productLevelMedia = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, productLevelMedia);
         assertThat(productLevelMedia.variantId()).isNull();
 
         var command = new RecordProductMediaRightsAcceptance.Command(
@@ -446,7 +506,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 productLevelMedia.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 productLevelMedia.assetRevision(),
                 product.revision(),
                 new ProductVariantId("unexpected-variant"), // Variant specified for Product-level media
@@ -471,13 +531,14 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 .filter(m -> m.variantId() != null)
                 .findFirst()
                 .orElseThrow();
+        QuarantinedProductImageAsset asset = bind(product, variantMedia);
 
         var command = new RecordProductMediaRightsAcceptance.Command(
                 UUID.randomUUID(),
                 product.id(),
                 product.revision(),
                 variantMedia.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 variantMedia.assetRevision(),
                 product.revision(),
                 null, // Missing variant for Variant-level media
@@ -502,13 +563,14 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 .filter(m -> m.variantId() != null)
                 .findFirst()
                 .orElseThrow();
+        QuarantinedProductImageAsset asset = bind(product, variantMedia);
 
         var command = new RecordProductMediaRightsAcceptance.Command(
                 UUID.randomUUID(),
                 product.id(),
                 product.revision(),
                 variantMedia.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 variantMedia.assetRevision(),
                 product.revision(),
                 new ProductVariantId("wrong-variant-id"), // Wrong variant ID
@@ -530,6 +592,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void rejectsDuplicateEvidenceId() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID evidenceId = UUID.randomUUID();
 
         // First recording succeeds
@@ -538,7 +601,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -557,7 +620,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -575,6 +638,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void multipleObservationsForSameMediaCreateConflictingState() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         // Record first observation
         var firstResult = useCase.record(new RecordProductMediaRightsAcceptance.Command(
@@ -582,7 +646,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid-1",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -600,7 +664,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid-2",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -622,6 +686,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void recordedObservationIsNotAuthoritativeAcceptance() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         // Record media rights acceptance observation
         var result = useCase.record(new RecordProductMediaRightsAcceptance.Command(
@@ -629,7 +694,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -656,6 +721,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void publicationRemainsDeniedWithRecordedMediaRightsObservation() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         // Record media rights acceptance observation
         useCase.record(new RecordProductMediaRightsAcceptance.Command(
@@ -663,7 +729,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -693,6 +759,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void evidenceHistoryIsImmutable() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID evidenceId = UUID.randomUUID();
 
         useCase.record(new RecordProductMediaRightsAcceptance.Command(
@@ -700,7 +767,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -732,13 +799,14 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void actorClaimIsSourceAssertionNotAuthenticatedIdentity() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         useCase.record(new RecordProductMediaRightsAcceptance.Command(
                 UUID.randomUUID(),
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -763,6 +831,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void directPortRecordingRequiresWritableTransaction() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         var observation = new MediaRightsAcceptanceObservation(
                 UUID.randomUUID(),
@@ -770,7 +839,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.revision(),
                 new MediaSubjectBinding(
                         media.id(),
-                        "asset-uuid",
+                        asset.assetId().toString(),
                         media.assetRevision(),
                         product.revision(),
                         null
@@ -820,6 +889,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void withdrawalBehaviorPreservesHistoryWhenSupported() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID originalEvidenceId = UUID.randomUUID();
 
         // Record initial observation
@@ -828,7 +898,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -871,6 +941,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void mediaAndContentEvidenceRemainSeparate() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
 
         // Record media rights observation
         useCase.record(new RecordProductMediaRightsAcceptance.Command(
@@ -878,7 +949,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -931,6 +1002,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
     void supersessionBehaviorPreservesHistoryWhenSupported() {
         Product product = createProductWithMedia();
         ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
         UUID originalEvidenceId = UUID.randomUUID();
         UUID replacementEvidenceId = UUID.randomUUID();
 
@@ -940,7 +1012,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid-original",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -957,7 +1029,7 @@ class ProductMediaRightsAcceptanceIntegrationTest {
                 product.id(),
                 product.revision(),
                 media.id(),
-                "asset-uuid-replacement",
+                asset.assetId().toString(),
                 media.assetRevision(),
                 product.revision(),
                 null,
@@ -990,5 +1062,141 @@ class ProductMediaRightsAcceptanceIntegrationTest {
         var observation = evidenceService.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA);
         assertThat(observation.history()).hasSize(3);
         assertThat(observation.history()).anyMatch(e -> e.type() == ProductEvidenceEvent.Type.SUPERSEDE);
+    }
+
+    @Test
+    void rejectsFabricatedAndUnknownAssetIdentitiesWithoutV14Binding() {
+        Product product = createProductWithMedia();
+        ProductMedia media = product.media().getFirst();
+
+        var fabricated = command(UUID.randomUUID(), product, media, UUID.randomUUID(), Decision.ACCEPTED,
+                "fabricated");
+        var unknown = command(UUID.randomUUID(), product, media, UUID.randomUUID(), Decision.ACCEPTED,
+                "unknown");
+
+        assertThat(useCase.record(fabricated))
+                .isInstanceOfSatisfying(RecordProductMediaRightsAcceptance.MediaSubjectMismatch.class,
+                        outcome -> assertThat(outcome.mismatchReason()).contains("V14"));
+        assertThat(useCase.record(unknown))
+                .isInstanceOfSatisfying(RecordProductMediaRightsAcceptance.MediaSubjectMismatch.class,
+                        outcome -> assertThat(outcome.mismatchReason()).contains("V14"));
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM product.evidence_event WHERE product_id = ?",
+                Integer.class, product.id().value())).isZero();
+    }
+
+    @Test
+    void rejectsCrossProductAssetEvenWhenRepresentationFieldsOtherwiseMatch() {
+        Product owner = createProductWithMedia();
+        Product other = createProductWithMedia();
+        ProductMedia ownerMedia = owner.media().getFirst();
+        ProductMedia otherMedia = other.media().getFirst();
+        QuarantinedProductImageAsset ownerAsset = bind(owner, ownerMedia);
+
+        var result = useCase.record(command(UUID.randomUUID(), other, otherMedia,
+                ownerAsset.assetId(), Decision.ACCEPTED, "cross-product"));
+
+        assertThat(result).isInstanceOf(RecordProductMediaRightsAcceptance.MediaSubjectMismatch.class);
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM product.evidence_event WHERE product_id = ?",
+                Integer.class, other.id().value())).isZero();
+    }
+
+    @Test
+    void conflictingReuseOfEvidenceIdentityCannotReplaceOriginalSubject() {
+        Product product = createProductWithMedia();
+        ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
+        UUID evidenceId = UUID.randomUUID();
+
+        assertThat(useCase.record(command(evidenceId, product, media, asset.assetId(),
+                Decision.ACCEPTED, "original/source|with:delimiters")))
+                .isInstanceOf(RecordProductMediaRightsAcceptance.Recorded.class);
+        assertThat(useCase.record(command(evidenceId, product, media, asset.assetId(),
+                Decision.REJECTED, "conflicting")))
+                .isInstanceOf(RecordProductMediaRightsAcceptance.DuplicateEvidence.class);
+
+        var event = evidenceService.observe(product.id(), ProductEvidenceEvent.Purpose.MEDIA).history().getFirst();
+        var persisted = JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(event.sourceReference());
+        assertThat(persisted.decision()).isEqualTo(Decision.ACCEPTED);
+        assertThat(persisted.sourceReference()).isEqualTo("original/source|with:delimiters");
+    }
+
+    @Test
+    void canonicalSubjectEncodingRoundTripsAndMalformedFormsFailClosed() {
+        Product product = createProductWithMedia();
+        ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
+        var observation = new MediaRightsAcceptanceObservation(UUID.randomUUID(), product.id(), product.revision(),
+                new MediaSubjectBinding(media.id(), asset.assetId().toString(), asset.assetRevision(),
+                        product.revision(), null), Decision.ACCEPTED, "source/|:= unicode-é", "actor",
+                new String[0], "codec-roundtrip");
+
+        String encoded = JdbcProductMediaRightsAcceptanceAdapter.encodeSourceReference(observation);
+        var decoded = JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(encoded);
+
+        assertThat(decoded.encode()).isEqualTo(encoded);
+        assertThat(decoded.sourceReference()).isEqualTo(observation.sourceReference());
+        assertThat(decoded.mediaAssociationId()).isEqualTo(media.id());
+        assertThat(decoded.assetId()).isEqualTo(asset.assetId().toString());
+        assertThat(decoded.assetRevision()).isEqualTo(asset.assetRevision());
+        assertThat(decoded.associationRevision()).isEqualTo(product.revision().value());
+        assertThat(decoded.variantId()).isNull();
+        assertThatThrownBy(() -> JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(
+                encoded.replace("|variant=null", ""))).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(
+                encoded + "|extra=value")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> JdbcProductMediaRightsAcceptanceAdapter.decodeSourceReference(
+                encoded.replace("source=", "source=%%%"))).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void concurrentRepresentationReplacementCannotCommitAStaleObservation() throws Exception {
+        Product product = createProductWithMedia();
+        ProductMedia media = product.media().getFirst();
+        QuarantinedProductImageAsset asset = bind(product, media);
+        UUID evidenceId = UUID.randomUUID();
+        Product replacement = product.withRepresentation(
+                new ProductContent("Replacement", "Concurrent replacement content"), product.media());
+
+        try (var connection = dataSource.getConnection();
+                var update = connection.prepareStatement("""
+                        UPDATE product.product
+                           SET content_name = ?, content_description = ?, representation_revision = ?
+                         WHERE product_id = ? AND representation_revision = ?
+                        """)) {
+            connection.setAutoCommit(false);
+            update.setString(1, replacement.content().name());
+            update.setString(2, replacement.content().description());
+            update.setString(3, replacement.revision().value());
+            update.setString(4, product.id().value());
+            update.setString(5, product.revision().value());
+            assertThat(update.executeUpdate()).isOne();
+
+            try (var executor = Executors.newSingleThreadExecutor()) {
+                var started = new CountDownLatch(1);
+                var recording = executor.submit(() -> {
+                    started.countDown();
+                    return useCase.record(command(evidenceId, product, media,
+                            asset.assetId(), Decision.ACCEPTED, "concurrent"));
+                });
+                assertThat(started.await(5, TimeUnit.SECONDS)).isTrue();
+                Thread.sleep(200);
+                assertThat(recording.isDone()).isFalse();
+                connection.commit();
+                assertThatThrownBy(() -> recording.get(10, TimeUnit.SECONDS))
+                        .isInstanceOfSatisfying(ExecutionException.class,
+                                failure -> assertThat(failure.getCause())
+                                        .isInstanceOf(PessimisticLockingFailureException.class));
+            }
+        }
+
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM product.evidence_event WHERE event_id = ?",
+                Integer.class, evidenceId)).isZero();
+    }
+
+    private static RecordProductMediaRightsAcceptance.Command command(UUID evidenceId, Product product,
+            ProductMedia media, UUID assetId, Decision decision, String source) {
+        return new RecordProductMediaRightsAcceptance.Command(evidenceId, product.id(), product.revision(),
+                media.id(), assetId.toString(), media.assetRevision(), product.revision(), media.variantId(),
+                decision, source, "source-asserted-actor", new String[0], "correlation-" + evidenceId);
     }
 }
