@@ -1,9 +1,9 @@
 ---
 title: ANGULAR
-version: 1.0.0
-status: Approved
+version: 1.1.0
+status: Draft
 owner: Engineering
-last_updated: 2026-08-17
+last_updated: 2026-11-19
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -54,7 +54,8 @@ The customer and administration frontend remains separately deployable from the 
 | Established | WCAG 2.2 AA | Approved accessibility target. |
 | Established | Playwright | Approved end-to-end testing direction; exact configuration remains implementation-owned. |
 | Established | Storybook | Approved Design System documentation direction; detailed adoption belongs to its companion standard. |
-| Unselected | NgRx and NgRx SignalStore | No repository-wide state library is selected. |
+| Unselected | NgRx Store, Redux, and NgRx Effects | Traditional NgRx patterns are not permitted. |
+| Established | NgRx Signal Store (`@ngrx/signals`) | Selected for feature-owned application state. |
 | Unselected | Angular Material, Tailwind, and Bootstrap | No UI or styling library is selected. |
 | Unresolved Architecture Decision | SSR, prerendering, or other frontend rendering strategy | Requires Architecture governance before becoming binding. |
 | Unselected | PWA and service worker | No offline or installable-application baseline is selected. |
@@ -170,11 +171,26 @@ Frontend state, cached API data, search results, projections, browser storage, q
 
 Server-derived state MUST expose freshness, loading, failure, and reconciliation behavior appropriate to the Use Case.
 
-## 23. State-Management Library Status
+## 23. Feature State with NgRx Signal Store
 
-No repository-wide NgRx, NgRx SignalStore, Redux, Akita, Elf, or other state-management library is selected. Features MUST use the established Angular primitives and explicit simple stores where sufficient.
+NgRx Signal Store (`@ngrx/signals`) is the selected mechanism for feature-owned application state. Features requiring explicit state ownership, loading lifecycle, pagination, request cancellation, or cross-component coordination SHOULD use Signal Store.
 
-Introducing a cross-cutting state library requires evidence, dependency review, migration impact, and applicable Decision or Architecture governance. A feature MUST NOT independently establish a repository-wide state pattern.
+Signal Store composition MUST use the approved APIs:
+
+- `signalStore()` for store definition.
+- `withState()` for initial state shape.
+- `withComputed()` for derived signals.
+- `withMethods()` for state operations.
+- `withHooks()` where explicit lifecycle behavior such as initialization or cleanup requires it.
+- `patchState()` for immutable state transitions.
+
+Feature stores SHOULD be scoped to their owning feature and provided at the feature or route level unless a genuinely shared application lifecycle requires broader scope. Trivial UI state that does not require explicit ownership, persistence across navigation, or coordination between components SHOULD remain in component-local Signals rather than a Signal Store.
+
+Signal Store state is frontend application state. It MUST NOT independently establish Product visibility, pricing authority, inventory availability, payment success, order confirmation, or other backend-owned business decisions. Feature stores MUST consume authoritative backend state through the data-access layer and MUST NOT duplicate or compete with server-side Domain authority.
+
+Traditional NgRx Store, Redux patterns, reducers, actions, selectors, and NgRx Effects are not permitted. Akita, Elf, and other competing state-management libraries are not selected.
+
+RxJS remains permitted for HTTP transport, cancellation, concurrency, and genuinely asynchronous streams. RxJS `Subject` variants MUST NOT become application-state stores. Observable-to-Signal and Signal-to-Observable conversion MUST occur at clear ownership boundaries using supported Angular interoperability mechanisms.
 
 ## 24. Typed Reactive Forms
 
@@ -479,7 +495,6 @@ Companion standards govern only within their assigned scopes when their own meta
 
 The following remain deliberately unresolved or unselected:
 
-- Repository-wide state-management library, including NgRx and NgRx SignalStore.
 - UI/component and styling libraries.
 - Detailed Storybook implementation and configuration.
 - SSR, prerendering, SSG, and rendering strategy.
@@ -515,6 +530,7 @@ Deferral is not permission for independent feature-level selection.
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-19 | Draft | Proposed NgRx Signal Store (`@ngrx/signals`) as the mechanism for feature-owned application state; updated Section 23 with composition APIs, scope guidance, and authority boundaries; clarified the proposed prohibition of traditional NgRx Store, Redux, and NgRx Effects; removed state-management library from deferred decisions in this proposed revision. |
 | 1.0.0 | 2026-08-17 | Approved | Promoted the Angular implementation standard after final governance, Angular 20, Standalone Components, Signals, RxJS, Typed Reactive Forms, state, API integration, Authentication, Authorization, Payment, Inventory, accessibility, security, testing, observability, performance, terminology, and documentation-quality validation. |
 | 0.1.0 | 2026-08-17 | Draft | Established the initial Angular implementation standard covering Angular 20, Standalone Components, Signals, RxJS, Typed Reactive Forms, frontend state, API integration, security, Payment, Inventory, accessibility boundaries, testing, observability, performance, governance, and implementation quality. |
 
@@ -528,15 +544,16 @@ Implementation guidance MUST remain compatible with Angular 20 and avoid legacy-
 
 Before approval, material revision, or implementation reliance, validation MUST confirm that:
 
-1. metadata accurately states version 1.0.0 Approved with `authoritative: false`;
+1. metadata accurately states version 1.1.0 Draft with `authoritative: false` until required Architecture governance and approval are complete;
 2. Angular 20, strict TypeScript, Standalone Components, Signals, RxJS, Typed Reactive Forms, Router, OpenAPI 3.1, RFC 9457, WCAG 2.2 AA, Playwright, and Storybook match Approved Architecture;
-3. no state, UI, Identity, analytics, hosting, unit-test, rendering, or other unselected technology is silently established;
-4. frontend state remains non-authoritative and server-side Authentication, Authorization, Payment, Inventory, Price, Discount, and Order rules remain intact;
-5. security, accessibility, API, eventing, Azure, Design System, and Product boundaries remain consistent with governing sources;
-6. no unsupported framework API, Product behavior, numerical target, Decision type, or formal Exception type is invented;
-7. headings are sequential and unique, sections are non-empty, Markdown tables are valid, and Related Documents exist without self-reference;
-8. no unfinished-work marker, actual ellipsis, or fabricated path is present;
-9. implementation and test evidence is practical and Risk-based; and
-10. only `.ai/frontend/ANGULAR.md` changes for a scoped update.
+3. the proposed NgRx Signal Store selection for feature-owned state has explicit composition APIs, scope guidance, and backend-authority boundaries and is not treated as established before approval;
+4. the proposed prohibition of traditional NgRx Store, Redux, and NgRx Effects remains subject to the same required approval;
+5. frontend state remains non-authoritative and server-side Authentication, Authorization, Payment, Inventory, Price, Discount, and Order rules remain intact;
+6. security, accessibility, API, eventing, Azure, Design System, and Product boundaries remain consistent with governing sources;
+7. no unsupported framework API, Product behavior, numerical target, Decision type, or formal Exception type is invented;
+8. headings are sequential and unique, sections are non-empty, Markdown tables are valid, and Related Documents exist without self-reference;
+9. no unfinished-work marker, actual ellipsis, or fabricated path is present;
+10. implementation and test evidence is practical and Risk-based; and
+11. only `.ai/frontend/ANGULAR.md` changes for a scoped update.
 
-This Approved document is a subordinate implementation standard within its scope. Approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
+This Draft revision is a proposed subordinate implementation standard within its scope. The historical v1.0.0 Approved baseline remains preserved in Revision History; v1.1.0 MUST NOT be relied upon as an Approved selection until required Architecture governance and approval are complete. Any later approval does not make `authoritative: false` true or permit this document to override `.ai/core/`.
