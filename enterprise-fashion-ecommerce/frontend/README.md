@@ -36,8 +36,11 @@ content. The sole navigation destination is the established storefront entry, wi
 `aria-current="page"` only when that entry is active. The root route lazily loads a truthful storefront introduction. Unsupported
 addresses receive a distinct page with a return link. Route titles and main-region
 focus communicate navigation context. There are no fabricated catalogue, Price,
-Stock, Category, promotional, customer or CMS representations. No backend requests
-or browser storage are used.
+Stock, Category, promotional, customer or CMS representations. The Catalogue page
+uses the anonymous backend Catalogue API through its data-access client, validates
+the response Contract before presentation and renders only backend-eligible Product
+summaries. No browser storage is used, and frontend state does not create Product
+visibility, publication or purchasing authority.
 
 Neutral CSS values serve local usability only; they establish no canonical brand,
 design tokens, UI library or Product policy. Client rendering is a constraint of
@@ -45,7 +48,7 @@ this increment, not a repository rendering Architecture decision. SSR,
 prerendering, service workers, hosting, analytics, authentication, authorization,
 mutations and operational commerce are outside scope.
 
-## Testing and dependency boundaries
+## Testing, state and dependency boundaries
 
 Karma/Jasmine with headless Chrome is the implementation-local runner choice for
 FE-M1, not a repository-wide standard. Angular 20's established Karma builder is
@@ -56,10 +59,11 @@ landmarks, focus and absence of unsupported commerce content. They do not certif
 WCAG conformance; keyboard, screen-reader, reflow and zoom review remain necessary
 before customer release.
 
-Dependencies are limited to Angular runtime/Router, RxJS, tslib, Zone.js and
-Angular build/compiler/testing tooling. Exact direct versions and integrity hashes
-are recorded in `package.json` and `package-lock.json`. No third-party UI or state
-library is installed. Review dependency advisories with:
+Runtime dependencies are Angular runtime/Router, RxJS, tslib, Zone.js and
+`@ngrx/signals` `20.1.0`; Angular build/compiler/testing tooling remains
+development-only. Exact direct versions are recorded in `package.json`, and the
+resolved graph and artifact integrity are retained in `package-lock.json`. No
+third-party UI library is installed. Review dependency advisories with:
 
 ```sh
 npm audit --registry=https://registry.npmjs.org/
@@ -72,11 +76,42 @@ not applied. These are an unresolved tooling dependency issue, not a production
 bundle dependency. The production-only audit reports zero vulnerabilities. Do not
 use `npm audit fix --force` to bypass the Angular 20 baseline. No runtime secret or environment configuration is required.
 
+### Current Catalogue state ownership
+
+The implemented Catalogue feature uses Angular Signals for component-local reactive
+presentation state and NgRx Signal Store for feature-owned loading, validated page,
+pagination and request-lifecycle state. Computed signals derive presentation values;
+store methods own feature transitions. RxJS remains the asynchronous HTTP and
+cancellation mechanism behind the store. Store destruction cancels active work and
+invalidates outstanding request generations so obsolete responses cannot update the
+feature.
+
+`CatalogueApiClient` remains the data-access and response-validation boundary. The
+backend remains authoritative for Product publication, eligibility and other business
+rules; successful transport, validation, storage in the Signal Store or rendering in
+the browser establishes none of those decisions.
+
+This is implemented technical behavior, not approval of a repository-wide state
+architecture. [ADR-0024](../specifications/adr/ADR-0024-frontend-feature-state-management-strategy.md)
+v0.1.0 remains Proposed, and [ANGULAR.md](../.ai/frontend/ANGULAR.md) v1.1.0
+remains Draft. Dependency admission and attributable Architecture, Engineering and
+Security dispositions remain pending. The
+[frontend CI baseline](../../.github/workflows/frontend-angular-baseline.yml)
+reproduces the lockfile and runs typechecks, unit tests, the production build,
+bounded accessibility verification and dependency advisory checks; passing CI is
+technical evidence and does not supply those approvals or establish production
+readiness.
+
 Governing references: `../.ai/core/ARCHITECTURE.md`,
 `../.ai/core/DESIGN-SYSTEM.md`, `../.ai/frontend/ANGULAR.md`,
 `../.ai/frontend/ACCESSIBILITY.md`,
 `../specifications/frontend/shared/frontend-baseline.md` and
 `../specifications/frontend/storefront/storefront-shell-content.md`.
+
+The dated milestone records below preserve evidence for their implementation
+snapshots. Statements about then-absent dependencies, requests, integration or
+reachability are historical and do not override the current inventory and boundaries
+above.
 
 ## FE-M2 bounded accessibility verification — 2026-11-06
 
