@@ -53,10 +53,6 @@ describe('CatalogueStore', () => {
     store = TestBed.inject(CatalogueStore);
   });
 
-  afterEach(() => {
-    store.cleanup();
-  });
-
   describe('initial state', () => {
     it('starts in idle state with no page', () => {
       expect(store.loadState()).toBe('idle');
@@ -272,15 +268,40 @@ describe('CatalogueStore', () => {
       expect(paginationSubject.observed).toBeTrue();
     });
 
-    it('cleanup() cancels active request', () => {
+    it('automatically cancels and invalidates an active request when destroyed', () => {
       const subject = new Subject<CatalogueObservation>();
       client.loadPage.and.returnValue(subject);
 
       store.recheck();
       expect(subject.observed).toBeTrue();
+      const generationBeforeDestroy = store.generation();
 
-      store.cleanup();
+      TestBed.resetTestingModule();
+
       expect(subject.observed).toBeFalse();
+      expect(store.generation()).toBe(generationBeforeDestroy + 1);
+    });
+
+    it('rejects stale outcomes and state operations after destruction', () => {
+      const subject = new Subject<CatalogueObservation>();
+      client.loadPage.and.returnValue(subject);
+
+      store.recheck();
+      const generationBeforeDestroy = store.generation();
+      TestBed.resetTestingModule();
+      const generationAfterDestroy = store.generation();
+
+      subject.next(pageObservation('stale-product', null));
+      store.recheck();
+      store.loadNextPage();
+      store.clearFocusAfterLoad();
+
+      expect(generationAfterDestroy).toBe(generationBeforeDestroy + 1);
+      expect(store.generation()).toBe(generationAfterDestroy);
+      expect(store.loadState()).toBe('loading');
+      expect(store.page()).toBeNull();
+      expect(store.focusAfterLoad()).toBeFalse();
+      expect(client.loadPage).toHaveBeenCalledTimes(1);
     });
   });
 

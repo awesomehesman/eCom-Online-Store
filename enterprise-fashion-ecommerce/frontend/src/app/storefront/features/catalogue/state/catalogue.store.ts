@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { Subscription } from 'rxjs';
 
 import { CatalogueApiClient, CatalogueObservation } from '../../../../data-access/catalogue/catalogue-api-client';
@@ -69,6 +69,7 @@ export const CatalogueStore = signalStore(
 
   withMethods((store, catalogueApi = inject(CatalogueApiClient)) => {
     let activeSubscription: Subscription | null = null;
+    let destroyed = false;
 
     function cancelActiveRequest(): void {
       if (activeSubscription) {
@@ -83,7 +84,7 @@ export const CatalogueStore = signalStore(
       afterExclusive: string | null
     ): void {
       // Ignore stale responses from superseded requests
-      if (requestGeneration !== store.generation()) {
+      if (destroyed || requestGeneration !== store.generation()) {
         return;
       }
 
@@ -120,6 +121,10 @@ export const CatalogueStore = signalStore(
        * Cancels any active request and resets pagination state.
        */
       recheck(): void {
+        if (destroyed) {
+          return;
+        }
+
         cancelActiveRequest();
 
         const nextGeneration = store.generation() + 1;
@@ -141,6 +146,10 @@ export const CatalogueStore = signalStore(
        * Only proceeds if there's a current page with a next cursor.
        */
       loadNextPage(): void {
+        if (destroyed) {
+          return;
+        }
+
         const currentPage = store.page();
         const cursor = currentPage?.nextCursor;
         const lastProductId = currentPage?.items.at(-1)?.productId;
@@ -169,6 +178,10 @@ export const CatalogueStore = signalStore(
        * Mark that focus has been handled after a load.
        */
       clearFocusAfterLoad(): void {
+        if (destroyed) {
+          return;
+        }
+
         patchState(store, { focusAfterLoad: false });
       },
 
@@ -177,8 +190,20 @@ export const CatalogueStore = signalStore(
        * Call this when the store is being destroyed.
        */
       cleanup(): void {
+        if (destroyed) {
+          return;
+        }
+
+        destroyed = true;
         cancelActiveRequest();
+        patchState(store, { generation: store.generation() + 1 });
       },
     };
+  }),
+
+  withHooks({
+    onDestroy(store): void {
+      store.cleanup();
+    },
   }),
 );

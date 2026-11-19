@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewChild, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 
@@ -30,11 +30,6 @@ export class CataloguePageComponent {
       if (event instanceof NavigationEnd || event instanceof NavigationCancel) {
         this.announce.set(true);
       }
-    });
-
-    // Clean up store subscriptions on destroy
-    inject(DestroyRef).onDestroy(() => {
-      this.store.cleanup();
     });
 
     // Handle focus after load
