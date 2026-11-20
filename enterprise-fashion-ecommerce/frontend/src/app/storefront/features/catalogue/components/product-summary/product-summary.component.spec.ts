@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductSummary, ProductSummaryComponent, ProductSummaryMedia } from './product-summary';
+import { ProductSummary, ProductSummaryComponent, ProductSummaryMedia } from './product-summary.component';
 
 // Full synthetic wire representation. No fixture is exported to production code.
 const product = {

@@ -1,0 +1,88 @@
+name: Frontend Angular baseline
+
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - "enterprise-fashion-ecommerce/frontend/**"
+      - ".github/workflows/frontend-angular-baseline.yml"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: enterprise-fashion-ecommerce/frontend
+
+jobs:
+  validate:
+    name: Validate Angular baseline
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js 20.19.4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20.19.4"
+          cache: npm
+          cache-dependency-path: enterprise-fashion-ecommerce/frontend/package-lock.json
+
+      - name: Verify Node.js and npm
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v20.19.4"
+          npm --version
+
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+
+      - name: Review production dependency advisories
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Report full dependency graph advisories
+        id: full-audit
+        continue-on-error: true
+        run: npm audit --audit-level=moderate
+
+      - name: Record informational full-graph advisory result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.full-audit.outcome }}" = "failure" ]; then
+            echo "::warning::The full dependency audit returned a nonzero result. Review its output for reported advisories or audit-service failure; this informational report does not override the production dependency gate."
+          elif [ "${{ steps.full-audit.outcome }}" != "success" ]; then
+            echo "::warning::The full dependency advisory report did not complete successfully. Review the preceding step."
+          fi
+
+      - name: Type-check application sources
+        run: npm run typecheck
+
+      - name: Type-check specification sources
+        run: ./node_modules/.bin/tsc -p tsconfig.spec.json --noEmit
+
+      - name: Verify Chrome availability
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x /usr/bin/google-chrome
+          /usr/bin/google-chrome --version
+
+      - name: Run frontend unit tests
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm test
+
+      - name: Build production application
+        run: npm run build
+
+      - name: Run bounded Chrome accessibility verification
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/verify-accessibility.mjs

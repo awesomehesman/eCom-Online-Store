@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.111
+version: 1.0.114
 status: Approved
 owner: Architecture
-last_updated: 2026-11-10
+last_updated: 2026-11-20
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -540,6 +540,7 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | ADR-0021 | Customer Authentication Authority Strategy | Architecture Decision | Accepted | Architecture | 2026-09-29 | — | [ADR-0021-customer-authentication-authority-strategy.md](../../specifications/adr/ADR-0021-customer-authentication-authority-strategy.md) |
 | ADR-0022 | Initial Identity–Customer/Account Association Strategy | Architecture Decision | Accepted | Architecture | 2026-09-30 | — | [ADR-0022-identity-customer-account-association-strategy.md](../../specifications/adr/ADR-0022-identity-customer-account-association-strategy.md) |
 | ADR-0023 | Staff Authentication Authority and Mechanism | Architecture Decision | Accepted | Architecture | 2026-11-10 | — | [ADR-0023-staff-authentication-authority-and-mechanism.md](../../specifications/adr/ADR-0023-staff-authentication-authority-and-mechanism.md) |
+| ADR-0024 | Frontend Feature-State Management Strategy | Architecture Decision | Proposed | Architecture | 2026-11-19 | — | [ADR-0024-frontend-feature-state-management-strategy.md](../../specifications/adr/ADR-0024-frontend-feature-state-management-strategy.md) |
 | DEC-0001 | Backend Build Tool and Dependency Management Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0001-backend-build-tool-dependency-management.md](../../specifications/decisions/DEC-0001-backend-build-tool-dependency-management.md) |
 | DEC-0002 | PostgreSQL Release Baseline | Engineering Practice Decision / Technology Adoption Decision | Accepted | Engineering | 2026-09-25 | — | [DEC-0002-postgresql-release-baseline.md](../../specifications/decisions/DEC-0002-postgresql-release-baseline.md) |
 | DEC-0003 | Initial Local Customer Credential Mechanism | Security Decision | Accepted | Identity | 2026-09-29 | — | [DEC-0003-initial-local-customer-credential-mechanism.md](../../specifications/decisions/DEC-0003-initial-local-customer-credential-mechanism.md) |
@@ -585,8 +586,29 @@ The ID column uses the applicable `ADR-XXXX` or `DEC-XXXX` identifier defined in
 | DEC-0043 | Initial V1 Base-Price Assignment Policy | Product Decision | Accepted | Product | 2026-11-03 | N/A | [DEC-0043-initial-v1-base-price-assignment-policy.md](../../specifications/decisions/DEC-0043-initial-v1-base-price-assignment-policy.md) |
 | DEC-0044 | Variant Base-Price Operational Authorization | Product Decision / Security Decision | Proposed | Product | 2026-11-04 | N/A | [DEC-0044-variant-base-price-operational-authorization.md](../../specifications/decisions/DEC-0044-variant-base-price-operational-authorization.md) |
 | DEC-0045 | Initial Stock Representation and Initialization Policy | Inventory Business / Technical Decision | Accepted | Inventory | 2026-11-04 | N/A | [DEC-0045-initial-stock-representation-initialization-policy.md](../../specifications/decisions/DEC-0045-initial-stock-representation-initialization-policy.md) |
+| DEC-0046 | Staff OIDC Provider, Client, Credential and Token-Transport Admission | Identity Decision / Security Decision / Operational Decision | Proposed | Identity | 2026-11-16 | N/A | [DEC-0046-staff-oidc-provider-client-credential-and-token-transport-admission.md](../../specifications/decisions/DEC-0046-staff-oidc-provider-client-credential-and-token-transport-admission.md) |
+| DEC-0047 | Repository Outbound Licensing and Distribution Model | Engineering Practice Decision / Operational Decision | Proposed | Repository Owner — identity and licensing authority pending verification | 2026-11-20 | N/A | [DEC-0047-repository-outbound-licensing-and-distribution-model.md](../../specifications/decisions/DEC-0047-repository-outbound-licensing-and-distribution-model.md) |
 
 The index contains only verified decision records that exist at their linked repository paths.
+
+DEC-0047 v0.1.0 remains Proposed and non-authoritative. Its privately maintained,
+proprietary-source, commercially operated, single-merchant hosted-platform direction
+is a **RECOMMENDED CANDIDATE — NOT APPROVED**. Repository outbound licensing and the
+distribution model remain **UNRESOLVED**; actual rights-holder and licensing authority
+remain unverified; and Repository Owner / verified rights-holder, Product/business,
+qualified Legal/licensing, Architecture, Engineering, Security and Platform/DevOps
+dispositions remain **PENDING**. Indexing selects no outbound license, grants no
+distribution right or Legal approval, changes no `LICENSE`, admits no dependency,
+accepts no ADR, promotes no frontend standard, closes no vulnerability finding and
+authorizes no implementation, deployment or production release.
+
+DEC-0046 v0.2.0 remains Proposed and non-authoritative. Its provider-neutral Identity
+and Architecture review recommendations are not formal adoption, and all five formal
+owner dispositions remain pending. Provider, tenant, client, issuer, credentials,
+token endpoint, assurance, transport, audit, implementation and activation decisions
+remain pending. Indexing authorizes no provider selection, credential activation,
+network token exchange, positive Staff evidence, Staff Session, Permission or Staff
+Authentication activation.
 
 DEC-0045 v1.0.0 is Accepted and authoritative within its bounded initial Stock
 representation and initialization policy scope, following explicit overall acceptance
@@ -808,6 +830,9 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.114 | 2026-11-20 | Approved | Indexed DEC-0046 v0.2.0, Staff OIDC Provider, Client, Credential and Token-Transport Admission, as Proposed and non-authoritative; preserved provider-neutral review recommendations as non-adopted evidence, all formal owner dispositions and provider-specific decisions as pending, and separate implementation, authentication-activation and authorization gates. |
+| 1.0.113 | 2026-11-20 | Approved | Indexed DEC-0047 v0.1.0, Repository Outbound Licensing and Distribution Model, as Proposed and non-authoritative; preserved its recommended candidate as not approved, outbound licensing and distribution as unresolved, rights-holder authority as unverified, all accountable dispositions as pending, and separate Legal, dependency, Architecture, vulnerability, implementation and production-release gates. |
+| 1.0.112 | 2026-11-19 | Approved | Indexed ADR-0024 v0.1.0, Frontend Feature-State Management Strategy, as Proposed and non-authoritative without accepting the decision, admitting dependencies, changing the Approved Architecture baseline, promoting frontend guidance, or claiming implementation merge readiness. |
 | 1.0.111 | 2026-11-10 | Approved | Synchronized Accepted ADR-0023, selecting enterprise-managed OIDC as the Staff authentication mechanism with Identity-owned verification, Staff association resolution and authoritative server-side Sessions; recorded project-owner dispositions across Architecture, Identity, Security and Administration while preserving separate provider, assurance-mapping, dependency, implementation, deployment and operational-activation gates and default-deny administrative Authorization. |
 | 1.0.110 | 2026-11-06 | Approved | Synchronized DEC-0045 v1.0.0 Accepted following project-owner overall acceptance on 2026-11-06; recorded all seven completed accountable dispositions while preserving binding conditions, unresolved dependencies and separate implementation/operational authorization gates. |
 | 1.0.109 | 2026-11-06 | Approved | Synchronized DEC-0045 v0.13.0 completed accountable Security, Identity and Administration ACCEPT WITH CONDITIONS dispositions; preserved all prior approvals and binding conditions, pending overall acceptance and implementation/operational restrictions. |
