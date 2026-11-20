@@ -140,7 +140,7 @@ rights evidence unavailable to this Draft.
 ## 6. Frontend Notice Design
 
 The Angular production builder generated
-`frontend/dist/storefront/browser/3rdpartylicenses.txt` in the observed build. The
+`frontend/dist/storefront/3rdpartylicenses.txt` in the observed build. The
 file contained eight package sections, while the locked production npm graph contained
 nine package entries. `@angular/compiler` was absent from the generated notice. The
 NgRx section preserved nested `rxjs-etc` attribution.
