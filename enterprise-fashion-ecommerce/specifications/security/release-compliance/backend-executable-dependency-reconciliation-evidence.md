@@ -235,20 +235,35 @@ locked graph. This difference is not classified here as compliant or noncomplian
 | Property | Verified observation |
 | --- | --- |
 | Filename | `spring-boot-jarmode-tools-3.5.16.jar` |
-| SHA-256 | `d05beb46a7eac0f1a06733c75828b190a1cb250076ce03be2213aca4a5c0f03f` |
+| Observed version | `3.5.16` |
+| Packaged SHA-256 | `d05beb46a7eac0f1a06733c75828b190a1cb250076ce03be2213aca4a5c0f03f` |
 | Application runtime lockfile | Not present |
-| Existing dependency verification metadata | Not present |
-| Packaging observation | Added during Spring Boot executable packaging |
+| Source coordinate | `org.springframework.boot:spring-boot-loader-tools:3.5.16` |
+| Source artifact SHA-256 | `8096fc208bea29f8986c3411b65b36edd264292a8b0b3982157b945d79e9113a` |
+| Nested source resource | `META-INF/jarmode/spring-boot-jarmode-tools.jar` |
+| Direct standalone verification-metadata entry | Not present |
+| Source-container verification coverage | Exact Loader Tools JAR checksum is present in repository Gradle verification metadata |
+| Nested-to-packaged comparison | **BYTE-IDENTICAL** in the observed build |
+| Packaging observation | `bootJar` includes the nested JAR by default through `BootJar.includeTools` |
 
-This record does not infer artifact provenance, publisher trust, dependency admission,
-license compatibility or notice sufficiency. Before complete executable third-party
-coverage can be asserted, review must establish:
+Spring Boot Loader Tools contains the nested JAR and supplies it during executable
+packaging; it is not independently resolved through the application's runtime
+dependency graph. The nested component is cryptographically bound to the verified
+outer Loader Tools artifact, and the nested resource exactly matched the packaged
+JAR. Independent publisher-signature authentication was not performed, and this
+evidence does not grant separate dependency admission or publisher trust.
 
-- exact source and publisher provenance;
-- integrity-verification coverage;
-- exact licensing evidence;
-- notice and attribution treatment; and
-- inclusion in the release dependency inventory and evidence manifest.
+The nested and packaged JAR contains `META-INF/LICENSE.txt` with the Apache License
+2.0 text and `META-INF/NOTICE.txt` with Spring Boot 3.5.16 attribution and
+Copyright © 2012–2026 VMware, Inc. The source Loader Tools POM also declares Apache
+License 2.0. These observations establish available technical licensing evidence;
+they do not determine compatibility or notice-delivery sufficiency.
+
+A future executable-specific inventory must include this build-added JAR even though
+it is absent from the application runtime lockfile. The reconciliation remains 73
+resolved runtime coordinates, comprising 71 locked JARs and two BOM-only coordinates;
+61 packaged hash-matched runtime JARs, ten omitted starter JARs and one build-added
+JAR produce the 62 packaged JARs observed in the executable.
 
 ## 11. Packaged Resources
 
@@ -271,6 +286,8 @@ README is intended release content.
   dependency cache.
 - Dependency artifacts used for hash matching were existing mutable local cache
   evidence, not independently retained release evidence.
+- Independent publisher-signature authentication was not performed for the Loader
+  Tools source container or nested jarmode component.
 - No independent builder or provenance attestation exists for the application
   artifact.
 - No governed release artifact was retained.
@@ -297,7 +314,7 @@ No DEC-0047 gate becomes **MET** because this technical evidence exists.
 | --- | --- | --- |
 | BER-01 | Is `backend.jar` the intended executable release-unit boundary, or will a later image or other wrapper become the governed release unit? | Engineering / Architecture / Platform/DevOps |
 | BER-02 | Is omission of the ten locked Spring Boot starter artifacts an accepted and reproducibly verified packaging behavior? | Engineering |
-| BER-03 | How must `spring-boot-jarmode-tools` be locked, verified, licensed, noticed and represented in release inventory? | Engineering / Security / Platform/DevOps / Legal |
+| BER-03 | Is the verified Loader Tools container-to-nested-component integrity boundary sufficient, and how must the build-added JAR be noticed and represented in release inventory and SBOM evidence? | Engineering / Security / Platform/DevOps / Legal |
 | BER-04 | Must `application-local.properties` be excluded from production packaging, and what test will prevent unintended inclusion? | Engineering / Security |
 | BER-05 | Is the migration README intended production artifact content? | Engineering |
 | BER-06 | Is same-machine byte reproducibility sufficient, or is independent-builder and cross-platform evidence required? | Engineering / Security / Platform/DevOps |
@@ -309,16 +326,15 @@ All answers and dispositions remain **PENDING**.
 ## 15. Remaining Evidence and Next Milestone
 
 Remaining evidence includes independent-builder reproducibility if required,
-artifact retention, build-added dependency provenance, complete executable licensing
-and notice evidence, backend SBOM feasibility, release-manifest generation and every
-accountable disposition.
+artifact retention, independent publisher-signature authentication, complete
+executable notice evidence, backend SBOM feasibility, release-manifest generation and
+every accountable disposition.
 
-The smallest next milestone is a bounded investigation of
-`spring-boot-jarmode-tools-3.5.16.jar` provenance, integrity and licensing. It should
-identify the exact artifact source, independently verifiable digest or signature
-coverage, publisher and release provenance, distributed license/notice material and
-the mechanism by which Spring Boot packaging supplied the JAR. It must not admit the
-dependency, select a tool or authorize release.
+The smallest next milestone is a bounded executable notice and SBOM coverage design
+that includes the build-added JAR alongside the locked application graph, preserves
+its source-container and packaged digests, and identifies the applicable embedded
+license and notice evidence. It must not admit a dependency, determine Legal
+compatibility, select a tool or authorize release.
 
 ## 16. References
 
