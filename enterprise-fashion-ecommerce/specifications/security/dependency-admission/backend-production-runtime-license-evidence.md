@@ -365,7 +365,7 @@ Qualified Legal/licensing review must provide attributable answers for at least:
 5. How should Spring Framework's shared subcomponent text be retained without
    overstating actual component use?
 6. Which PostgreSQL and OnGres BSD notices must be delivered?
-7. Is the exact Bouncy Castle Licence text compatible with the selected, but currently
+7. Is the exact Bouncy Castle Licence text compatible with the eventual, currently
    unresolved, outbound terms and distribution model?
 8. Which Apache 2.0 `NOTICE` and `DEPENDENCIES` resources must be reproduced, and in
    what form?
