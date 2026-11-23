@@ -9,8 +9,10 @@ import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.zip.CRC32;
@@ -41,6 +43,7 @@ import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutableArchi
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExecutableArchiveInventoryTest {
@@ -118,6 +121,42 @@ class ExecutableArchiveInventoryTest {
                 .doesNotContain(temporaryDirectory.toAbsolutePath().toString());
         assertThatThrownBy(() -> first.entries().clear()).isInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> first.manifestAttributes().clear()).isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    void verifiesConfiguredRealExecutableArchiveRepeatably() throws Exception {
+        assumeTrue("true".equals(System.getProperty("bei01.realArchive.enabled")),
+                "real executable archive verification is opt-in");
+
+        Path archive = Path.of(requiredProperty("bei01.realArchive.path"));
+        String expectedSha256 = requiredProperty("bei01.realArchive.expectedSha256");
+        var limits = new ExecutableArchiveInventory.Limits(
+                requiredPositiveLong("bei01.realArchive.maxArchiveBytes"),
+                requiredPositiveInt("bei01.realArchive.maxEntries"),
+                requiredPositiveLong("bei01.realArchive.maxEntryBytes"),
+                requiredPositiveLong("bei01.realArchive.maxTotalBytes"),
+                requiredPositiveInt("bei01.realArchive.maxPathBytes"),
+                requiredPositiveLong("bei01.realArchive.maxManifestBytes"));
+        int expectedLibraries = requiredPositiveInt("bei01.realArchive.expectedLibraries");
+        int expectedEntries = requiredPositiveInt("bei01.realArchive.expectedEntries");
+
+        var first = ExecutableArchiveInventory.inspect(archive, Optional.of(expectedSha256), limits);
+        var second = ExecutableArchiveInventory.inspect(archive, Optional.of(expectedSha256), limits);
+        byte[] firstCanonical = first.canonicalOutput();
+        byte[] secondCanonical = second.canonicalOutput();
+        String firstCanonicalSha256 = sha256(firstCanonical);
+        String secondCanonicalSha256 = sha256(secondCanonical);
+        long packagedLibraries = categoryCount(first, PACKAGED_LIBRARY);
+
+        assertThat(first.archiveSha256()).isEqualTo(expectedSha256);
+        assertThat(first.archiveFileName()).isEqualTo(archive.getFileName().toString());
+        assertThat(first.entryCount()).isEqualTo(expectedEntries);
+        assertThat(packagedLibraries).isEqualTo(expectedLibraries);
+        assertThat(first).isEqualTo(second);
+        assertThat(firstCanonical).containsExactly(secondCanonical);
+        assertThat(firstCanonicalSha256).isEqualTo(secondCanonicalSha256);
+
+        printRealArchiveSummary(first, firstCanonicalSha256, packagedLibraries);
     }
 
     @Test
@@ -527,6 +566,81 @@ class ExecutableArchiveInventoryTest {
 
     private static String sha256(byte[] value) throws Exception {
         return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(value));
+    }
+
+    private static String requiredProperty(String name) {
+        String value = System.getProperty(name);
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("required system property is missing or blank: " + name);
+        }
+        return value;
+    }
+
+    private static long requiredPositiveLong(String name) {
+        String value = requiredProperty(name);
+        try {
+            long parsed = Long.parseLong(value);
+            if (parsed <= 0L) {
+                throw new IllegalArgumentException("system property must be positive: " + name);
+            }
+            return parsed;
+        } catch (NumberFormatException invalid) {
+            throw new IllegalArgumentException("system property must be a base-10 integer: " + name, invalid);
+        }
+    }
+
+    private static int requiredPositiveInt(String name) {
+        long parsed = requiredPositiveLong(name);
+        if (parsed > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("system property exceeds the integer range: " + name);
+        }
+        return (int) parsed;
+    }
+
+    private static long categoryCount(ExecutableArchiveInventory.Inventory inventory,
+            ExecutableArchiveInventory.Category category) {
+        return inventory.entries().stream().filter(entry -> entry.category() == category).count();
+    }
+
+    private static void printRealArchiveSummary(ExecutableArchiveInventory.Inventory inventory,
+            String canonicalSha256, long packagedLibraries) {
+        var categoryCounts = new EnumMap<ExecutableArchiveInventory.Category, Long>(
+                ExecutableArchiveInventory.Category.class);
+        for (var category : ExecutableArchiveInventory.Category.values()) {
+            categoryCounts.put(category, categoryCount(inventory, category));
+        }
+        Map<String, String> boundedManifest = inventory.manifestAttributes().entrySet().stream()
+                .collect(java.util.stream.Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> bounded(entry.getValue()),
+                        (left, right) -> left,
+                        java.util.LinkedHashMap::new));
+
+        System.out.printf("BEI-01 real archive summary:%n"
+                        + "  schemaVersion=%s%n"
+                        + "  archive=%s bytes=%d sha256=%s entries=%d%n"
+                        + "  categoryCounts=%s%n"
+                        + "  packagedLibraries=%d%n"
+                        + "  flywayMigrations=%d%n"
+                        + "  migrationDocumentation=%d%n"
+                        + "  springBootLoader=%d%n"
+                        + "  manifestAttributes=%s%n"
+                        + "  classpathIndexPresent=%s layersIndexPresent=%s%n"
+                        + "  canonicalOutputSha256=%s%n"
+                        + "  repeatability=PASS%n",
+                inventory.schemaVersion(), inventory.archiveFileName(), inventory.archiveByteSize(),
+                inventory.archiveSha256(), inventory.entryCount(), categoryCounts, packagedLibraries,
+                categoryCounts.get(FLYWAY_MIGRATION), categoryCounts.get(MIGRATION_DOCUMENTATION),
+                categoryCounts.get(SPRING_BOOT_LOADER), boundedManifest,
+                categoryCounts.get(CLASSPATH_INDEX) > 0L, categoryCounts.get(LAYERS_INDEX) > 0L,
+                canonicalSha256);
+    }
+
+    private static String bounded(String value) {
+        int maximumCharacters = 256;
+        return value.length() <= maximumCharacters
+                ? value
+                : value.substring(0, maximumCharacters) + "...";
     }
 
     private static ExecutableArchiveInventory.Limits limits(long archive, int entries,
