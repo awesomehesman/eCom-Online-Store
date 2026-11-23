@@ -3,12 +3,15 @@ package com.enterprise.fashion.ecommerce.releasecompliance;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
@@ -51,9 +54,15 @@ final class ExecutableArchiveInventory {
     }
 
     static Inventory inspect(Path archive, Optional<String> expectedSha256, Limits limits) {
+        return inspect(archive, expectedSha256, limits, ignored -> { });
+    }
+
+    static Inventory inspect(Path archive, Optional<String> expectedSha256, Limits limits,
+            SourceSnapshotObserver observer) {
         Objects.requireNonNull(archive, "archive");
         Objects.requireNonNull(expectedSha256, "expectedSha256");
         Objects.requireNonNull(limits, "limits");
+        Objects.requireNonNull(observer, "observer");
         expectedSha256.ifPresent(ExecutableArchiveInventory::requireCanonicalSha256);
 
         if (!Files.exists(archive, LinkOption.NOFOLLOW_LINKS)) {
@@ -63,20 +72,25 @@ final class ExecutableArchiveInventory {
             throw failure(FailureCategory.UnsupportedStructure, "archive is not a regular file");
         }
 
-        long archiveSize;
-        try {
-            archiveSize = Files.size(archive);
-        } catch (IOException unreadable) {
-            throw failure(FailureCategory.InvalidArchive, "archive size is unavailable");
-        }
-        if (archiveSize > limits.maximumArchiveBytes()) {
-            throw failure(FailureCategory.LimitExceeded, "archive byte limit exceeded");
+        String fileName = archive.getFileName() == null ? "" : archive.getFileName().toString();
+        if (fileName.isEmpty()) {
+            throw failure(FailureCategory.AmbiguousPath, "archive filename is unavailable");
         }
 
-        String archiveSha256 = digest(archive);
-        if (expectedSha256.isPresent() && !archiveSha256.equals(expectedSha256.orElseThrow())) {
-            throw failure(FailureCategory.DigestMismatch, "archive SHA-256 does not match");
+        Snapshot snapshot = createSnapshot(archive, limits, observer);
+        try {
+            String archiveSha256 = digest(snapshot.path());
+            if (expectedSha256.isPresent() && !archiveSha256.equals(expectedSha256.orElseThrow())) {
+                throw failure(FailureCategory.DigestMismatch, "archive SHA-256 does not match");
+            }
+            return inspectSnapshot(snapshot.path(), fileName, snapshot.size(), archiveSha256, limits);
+        } finally {
+            deleteSnapshot(snapshot.path());
         }
+    }
+
+    private static Inventory inspectSnapshot(Path snapshot, String fileName, long archiveSize,
+            String archiveSha256, Limits limits) {
 
         var entries = new ArrayList<Entry>();
         var exactPaths = new HashSet<String>();
@@ -85,7 +99,16 @@ final class ExecutableArchiveInventory {
         byte[][] rawManifest = new byte[1][];
         long[] totalUncompressed = {0L};
 
-        try (var zip = new ZipFile(archive.toFile(), StandardCharsets.UTF_8)) {
+        try {
+            if (hasConfirmedUnsupportedCompression(snapshot)) {
+                throw failure(FailureCategory.UnsupportedStructure,
+                        "archive uses an unsupported compression method");
+            }
+        } catch (IOException malformed) {
+            throw failure(FailureCategory.InvalidArchive, "archive central directory cannot be read safely");
+        }
+
+        try (var zip = new ZipFile(snapshot.toFile(), StandardCharsets.UTF_8)) {
             Enumeration<? extends ZipEntry> enumeration = zip.entries();
             while (enumeration.hasMoreElements()) {
                 ZipEntry zipEntry = enumeration.nextElement();
@@ -126,11 +149,6 @@ final class ExecutableArchiveInventory {
         } catch (Failure known) {
             throw known;
         } catch (ZipException malformed) {
-            if (malformed.getMessage() != null
-                    && malformed.getMessage().toLowerCase(Locale.ROOT).contains("compression method")) {
-                throw failure(FailureCategory.UnsupportedStructure,
-                        "archive uses an unsupported compression method");
-            }
             throw failure(FailureCategory.InvalidArchive, "archive is not a valid ZIP file");
         } catch (IOException unreadable) {
             throw failure(FailureCategory.InvalidArchive, "archive content cannot be read safely");
@@ -145,12 +163,126 @@ final class ExecutableArchiveInventory {
         entries.sort(Comparator.comparing(Entry::path, UTF8_ORDER));
         validateSpringBootStructure(entries, manifestAttributes);
 
-        String fileName = archive.getFileName() == null ? "" : archive.getFileName().toString();
-        if (fileName.isEmpty()) {
-            throw failure(FailureCategory.AmbiguousPath, "archive filename is unavailable");
-        }
         return new Inventory(SCHEMA_VERSION, fileName, archiveSize, archiveSha256,
                 entries.size(), manifestAttributes, entries);
+    }
+
+    private static boolean hasConfirmedUnsupportedCompression(Path snapshot) throws IOException {
+        try (var archive = new RandomAccessFile(snapshot.toFile(), "r")) {
+            long length = archive.length();
+            long searchStart = Math.max(0L, length - 65_557L);
+            long endOfCentralDirectory = -1L;
+            for (long offset = length - 22L; offset >= searchStart; offset--) {
+                archive.seek(offset);
+                if (readUnsignedIntLittleEndian(archive) == 0x06054b50L) {
+                    endOfCentralDirectory = offset;
+                    break;
+                }
+            }
+            if (endOfCentralDirectory < 0L) {
+                return false;
+            }
+            archive.seek(endOfCentralDirectory + 10L);
+            int entryCount = readUnsignedShortLittleEndian(archive);
+            long centralDirectorySize = readUnsignedIntLittleEndian(archive);
+            long centralDirectoryOffset = readUnsignedIntLittleEndian(archive);
+            if (entryCount == 0xffff || centralDirectorySize == 0xffffffffL
+                    || centralDirectoryOffset == 0xffffffffL
+                    || centralDirectoryOffset + centralDirectorySize > endOfCentralDirectory) {
+                return false;
+            }
+            long entryOffset = centralDirectoryOffset;
+            for (int index = 0; index < entryCount; index++) {
+                if (entryOffset + 46L > endOfCentralDirectory) {
+                    return false;
+                }
+                archive.seek(entryOffset);
+                if (readUnsignedIntLittleEndian(archive) != 0x02014b50L) {
+                    return false;
+                }
+                archive.seek(entryOffset + 10L);
+                int method = readUnsignedShortLittleEndian(archive);
+                if (method != ZipEntry.STORED && method != ZipEntry.DEFLATED) {
+                    return true;
+                }
+                archive.seek(entryOffset + 28L);
+                int nameLength = readUnsignedShortLittleEndian(archive);
+                int extraLength = readUnsignedShortLittleEndian(archive);
+                int commentLength = readUnsignedShortLittleEndian(archive);
+                entryOffset += 46L + nameLength + extraLength + commentLength;
+            }
+            return false;
+        }
+    }
+
+    private static int readUnsignedShortLittleEndian(RandomAccessFile input) throws IOException {
+        return input.readUnsignedByte() | input.readUnsignedByte() << 8;
+    }
+
+    private static long readUnsignedIntLittleEndian(RandomAccessFile input) throws IOException {
+        return Integer.toUnsignedLong(readUnsignedShortLittleEndian(input)
+                | readUnsignedShortLittleEndian(input) << 16);
+    }
+
+    private static Snapshot createSnapshot(Path archive, Limits limits, SourceSnapshotObserver observer) {
+        Path snapshot = null;
+        try {
+            BasicFileAttributes before = Files.readAttributes(
+                    archive, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+            if (!before.isRegularFile() || before.isSymbolicLink()) {
+                throw failure(FailureCategory.UnsupportedStructure, "archive is not a regular file");
+            }
+            snapshot = Files.createTempFile("bei01-executable-inventory-", ".jar");
+            long copied = 0L;
+            long openedSize;
+            long finalChannelSize;
+            try (var source = Files.newByteChannel(archive, Set.of(StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS));
+                    var output = Files.newOutputStream(snapshot, StandardOpenOption.TRUNCATE_EXISTING)) {
+                openedSize = source.size();
+                observer.afterSourceOpened(archive);
+                byte[] buffer = new byte[BUFFER_SIZE];
+                var input = java.nio.channels.Channels.newInputStream(source);
+                int count;
+                while ((count = input.read(buffer)) != -1) {
+                    copied = addBounded(copied, count, limits.maximumArchiveBytes(),
+                            "archive byte limit exceeded");
+                    output.write(buffer, 0, count);
+                }
+                finalChannelSize = source.size();
+            }
+            BasicFileAttributes after = Files.readAttributes(
+                    archive, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+            if (!sameSource(before, after) || openedSize != finalChannelSize || copied != openedSize) {
+                throw failure(FailureCategory.InvalidArchive, "archive changed while the snapshot was created");
+            }
+            return new Snapshot(snapshot, copied);
+        } catch (Failure known) {
+            if (snapshot != null) {
+                deleteSnapshot(snapshot);
+            }
+            throw known;
+        } catch (IOException unreadable) {
+            if (snapshot != null) {
+                deleteSnapshot(snapshot);
+            }
+            throw failure(FailureCategory.InvalidArchive, "archive snapshot cannot be created safely");
+        }
+    }
+
+    private static boolean sameSource(BasicFileAttributes before, BasicFileAttributes after) {
+        return after.isRegularFile()
+                && !after.isSymbolicLink()
+                && Objects.equals(before.fileKey(), after.fileKey())
+                && before.size() == after.size()
+                && before.lastModifiedTime().equals(after.lastModifiedTime());
+    }
+
+    private static void deleteSnapshot(Path snapshot) {
+        try {
+            Files.deleteIfExists(snapshot);
+        } catch (IOException deletionFailure) {
+            throw failure(FailureCategory.InvalidArchive, "private archive snapshot could not be deleted");
+        }
     }
 
     private static String validatePath(String path, Limits limits, Set<String> exactPaths,
@@ -191,7 +323,22 @@ final class ExecutableArchiveInventory {
         if (previousKind != null && previousKind != kind) {
             throw failure(FailureCategory.AmbiguousPath, "file and directory entry identities collide");
         }
+        rejectHierarchicalCollision(withoutDirectoryMarker, kind, identities);
         return path;
+    }
+
+    private static void rejectHierarchicalCollision(String identity, Kind kind, Map<String, Kind> identities) {
+        for (int separator = identity.indexOf('/'); separator >= 0; separator = identity.indexOf('/', separator + 1)) {
+            if (identities.get(identity.substring(0, separator)) == Kind.FILE) {
+                throw failure(FailureCategory.AmbiguousPath, "a file entry is used as a directory");
+            }
+        }
+        if (kind == Kind.FILE) {
+            String descendantPrefix = identity + "/";
+            if (identities.keySet().stream().anyMatch(candidate -> candidate.startsWith(descendantPrefix))) {
+                throw failure(FailureCategory.AmbiguousPath, "a file entry has existing descendants");
+            }
+        }
     }
 
     private static boolean isDriveAbsolute(String path) {
@@ -535,6 +682,14 @@ final class ExecutableArchiveInventory {
         FailureCategory category() {
             return category;
         }
+    }
+
+    @FunctionalInterface
+    interface SourceSnapshotObserver {
+        void afterSourceOpened(Path source) throws IOException;
+    }
+
+    private record Snapshot(Path path, long size) {
     }
 
     private record ReadResult(long size, long crc32, String sha256, byte[] retainedBytes) {

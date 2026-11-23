@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -154,6 +155,26 @@ class ExecutableArchiveInventoryTest {
     }
 
     @Test
+    void rejectsSymbolicLinkInputs() throws Exception {
+        Path target = writeArchive("link-target.jar", completeEntries(true), false);
+        Path link = temporaryDirectory.resolve("linked.jar");
+        Files.createSymbolicLink(link, target.getFileName());
+
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(link, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void rejectsSourceReplacementDetectedDuringSnapshotCreation() throws Exception {
+        Path source = writeArchive("replace-source.jar", completeEntries(true), false);
+        Path replacement = writeArchive("replacement.jar", withExtra(file("replacement.txt", "replacement")), false);
+
+        assertFailure(InvalidArchive, () -> ExecutableArchiveInventory.inspect(
+                source, Optional.empty(), LIMITS,
+                ignored -> Files.move(replacement, source, StandardCopyOption.REPLACE_EXISTING)));
+    }
+
+    @Test
     void rejectsInvalidAndTruncatedZipFiles() throws Exception {
         Path invalid = temporaryDirectory.resolve("invalid.jar");
         Files.writeString(invalid, "not a ZIP", StandardCharsets.UTF_8);
@@ -200,6 +221,24 @@ class ExecutableArchiveInventoryTest {
     }
 
     @Test
+    void rejectsFileAncestorAndDescendantCollisionsInEitherOrder() throws Exception {
+        Path ancestorFirst = writeArchive("ancestor-first.jar", withExtras(
+                file("ambiguous", "file"), file("ambiguous/child", "child")), false);
+        assertFailure(AmbiguousPath,
+                () -> ExecutableArchiveInventory.inspect(ancestorFirst, Optional.empty(), LIMITS));
+
+        Path descendantFirst = writeArchive("descendant-first.jar", withExtras(
+                file("ambiguous/child", "child"), file("ambiguous", "file")), false);
+        assertFailure(AmbiguousPath,
+                () -> ExecutableArchiveInventory.inspect(descendantFirst, Optional.empty(), LIMITS));
+
+        Path directoryDescendant = writeArchive("directory-descendant.jar", withExtras(
+                file("ambiguous", "file"), directory("ambiguous/child/")), false);
+        assertFailure(AmbiguousPath,
+                () -> ExecutableArchiveInventory.inspect(directoryDescendant, Optional.empty(), LIMITS));
+    }
+
+    @Test
     void rejectsDigestMismatchAndNonCanonicalExpectedDigest() throws Exception {
         Path archive = writeArchive("digest.jar", completeEntries(true), false);
         assertFailure(DigestMismatch, () -> ExecutableArchiveInventory.inspect(
@@ -239,6 +278,36 @@ class ExecutableArchiveInventoryTest {
         Path missingLoader = writeArchive("missing-loader.jar", withoutLoader, false);
         assertFailure(UnsupportedStructure,
                 () -> ExecutableArchiveInventory.inspect(missingLoader, Optional.empty(), LIMITS));
+
+        var withoutApplication = completeEntries(true);
+        withoutApplication.removeIf(entry -> !entry.directory() && entry.path().startsWith("BOOT-INF/classes/"));
+        Path missingApplication = writeArchive("missing-application.jar", withoutApplication, false);
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(missingApplication, Optional.empty(), LIMITS));
+
+        var withoutLibrary = completeEntries(true);
+        withoutLibrary.removeIf(entry -> entry.path().startsWith("BOOT-INF/lib/"));
+        Path missingLibrary = writeArchive("missing-library.jar", withoutLibrary, false);
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(missingLibrary, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void rejectsIncorrectRequiredManifestValuesAndBlankStartClass() throws Exception {
+        byte[] wrongMainClass = replaceManifestValue(
+                "Main-Class: org.springframework.boot.loader.launch.JarLauncher",
+                "Main-Class: com.example.NotTheBootLoader");
+        Path wrongMainClassArchive = writeArchive(
+                "wrong-main-class.jar", entriesWithCompleteStructure(wrongMainClass), false);
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(wrongMainClassArchive, Optional.empty(), LIMITS));
+
+        byte[] blankStartClass = replaceManifestValue(
+                "Start-Class: com.example.Application", "Start-Class: ");
+        Path blankStartClassArchive = writeArchive(
+                "blank-start-class.jar", entriesWithCompleteStructure(blankStartClass), false);
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(blankStartClassArchive, Optional.empty(), LIMITS));
     }
 
     @Test
@@ -265,6 +334,16 @@ class ExecutableArchiveInventoryTest {
                 limits(10_000_000, 100, 1_000_000, 5_000_000, 10, 65_536)));
         assertFailure(LimitExceeded, () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(),
                 limits(10_000_000, 100, 1_000_000, 5_000_000, 512, EXECUTABLE_MANIFEST.length - 1)));
+    }
+
+    @Test
+    void enforcesStreamingEntryLimitWhenDeclaredSizeIsTooSmall() throws Exception {
+        String content = "x".repeat(2_000);
+        Path archive = writeArchive("dishonest-size.jar", withExtra(file("large-content.bin", content)), false);
+        patchUncompressedSize(archive, "large-content.bin", 1);
+
+        assertFailure(LimitExceeded, () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(),
+                limits(10_000_000, 100, 1_000, 5_000_000, 512, 1_000)));
     }
 
     @Test
@@ -316,6 +395,15 @@ class ExecutableArchiveInventoryTest {
         return entries;
     }
 
+    private List<EntryFixture> entriesWithCompleteStructure(byte[] manifest) {
+        var entries = entriesWithManifest(manifest, true);
+        entries.add(directory("BOOT-INF/classes/"));
+        entries.add(file("BOOT-INF/classes/com/example/Application.class", "application"));
+        entries.add(file("BOOT-INF/lib/dependency.jar", "synthetic-jar"));
+        entries.add(file("org/springframework/boot/loader/launch/JarLauncher.class", "loader"));
+        return entries;
+    }
+
     private List<EntryFixture> withExtra(EntryFixture extra) {
         return withExtras(extra);
     }
@@ -360,6 +448,12 @@ class ExecutableArchiveInventoryTest {
     private static byte[] manifestWith(String extraLine) {
         String manifest = new String(EXECUTABLE_MANIFEST, StandardCharsets.UTF_8);
         return manifest.replace("\r\n\r\n", "\r\n" + extraLine + "\r\n")
+                .getBytes(StandardCharsets.UTF_8);
+    }
+
+    private static byte[] replaceManifestValue(String existing, String replacement) {
+        return new String(EXECUTABLE_MANIFEST, StandardCharsets.UTF_8)
+                .replace(existing, replacement)
                 .getBytes(StandardCharsets.UTF_8);
     }
 
@@ -426,6 +520,39 @@ class ExecutableArchiveInventoryTest {
         Files.write(archive, bytes);
     }
 
+    private static void patchUncompressedSize(Path archive, String entryName, int size) throws IOException {
+        byte[] bytes = Files.readAllBytes(archive);
+        byte[] name = bytes(entryName);
+        int patched = 0;
+        for (int offset = 0; offset <= bytes.length - 30; offset++) {
+            if (matches(bytes, offset, 0x50, 0x4b, 0x03, 0x04)) {
+                int nameLength = unsignedShort(bytes, offset + 26);
+                if (nameLength == name.length && matches(bytes, offset + 30, name)) {
+                    writeLittleEndianInt(bytes, offset + 22, size);
+                    patched++;
+                }
+            } else if (matches(bytes, offset, 0x50, 0x4b, 0x01, 0x02)) {
+                int nameLength = unsignedShort(bytes, offset + 28);
+                if (nameLength == name.length && matches(bytes, offset + 46, name)) {
+                    writeLittleEndianInt(bytes, offset + 24, size);
+                    patched++;
+                }
+            }
+        }
+        assertThat(patched).isEqualTo(2);
+        Files.write(archive, bytes);
+    }
+
+    private static int unsignedShort(byte[] bytes, int offset) {
+        return Byte.toUnsignedInt(bytes[offset]) | Byte.toUnsignedInt(bytes[offset + 1]) << 8;
+    }
+
+    private static void writeLittleEndianInt(byte[] bytes, int offset, int value) {
+        for (int index = 0; index < Integer.BYTES; index++) {
+            bytes[offset + index] = (byte) (value >>> (index * 8));
+        }
+    }
+
     private static boolean matches(byte[] bytes, int offset, int... expected) {
         for (int index = 0; index < expected.length; index++) {
             if (Byte.toUnsignedInt(bytes[offset + index]) != expected[index]) {
@@ -433,6 +560,11 @@ class ExecutableArchiveInventoryTest {
             }
         }
         return true;
+    }
+
+    private static boolean matches(byte[] bytes, int offset, byte[] expected) {
+        return offset >= 0 && offset + expected.length <= bytes.length
+                && Arrays.equals(bytes, offset, offset + expected.length, expected, 0, expected.length);
     }
 
     private record EntryFixture(String path, byte[] content, boolean directory) {
