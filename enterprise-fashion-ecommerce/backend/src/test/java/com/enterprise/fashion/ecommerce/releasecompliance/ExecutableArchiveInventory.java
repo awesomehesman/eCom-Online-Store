@@ -170,49 +170,83 @@ final class ExecutableArchiveInventory {
     private static boolean hasConfirmedUnsupportedCompression(Path snapshot) throws IOException {
         try (var archive = new RandomAccessFile(snapshot.toFile(), "r")) {
             long length = archive.length();
+            if (length < 22L) {
+                throw failure(FailureCategory.InvalidArchive, "archive has no complete end-of-central-directory record");
+            }
             long searchStart = Math.max(0L, length - 65_557L);
-            long endOfCentralDirectory = -1L;
             for (long offset = length - 22L; offset >= searchStart; offset--) {
                 archive.seek(offset);
                 if (readUnsignedIntLittleEndian(archive) == 0x06054b50L) {
-                    endOfCentralDirectory = offset;
-                    break;
+                    EocdCandidate candidate = inspectEocdCandidate(archive, offset, length);
+                    if (candidate == EocdCandidate.SUPPORTED) {
+                        return false;
+                    }
+                    if (candidate == EocdCandidate.UNSUPPORTED_COMPRESSION) {
+                        return true;
+                    }
                 }
             }
-            if (endOfCentralDirectory < 0L) {
-                return false;
-            }
-            archive.seek(endOfCentralDirectory + 10L);
-            int entryCount = readUnsignedShortLittleEndian(archive);
-            long centralDirectorySize = readUnsignedIntLittleEndian(archive);
-            long centralDirectoryOffset = readUnsignedIntLittleEndian(archive);
-            if (entryCount == 0xffff || centralDirectorySize == 0xffffffffL
-                    || centralDirectoryOffset == 0xffffffffL
-                    || centralDirectoryOffset + centralDirectorySize > endOfCentralDirectory) {
-                return false;
-            }
-            long entryOffset = centralDirectoryOffset;
-            for (int index = 0; index < entryCount; index++) {
-                if (entryOffset + 46L > endOfCentralDirectory) {
-                    return false;
-                }
-                archive.seek(entryOffset);
-                if (readUnsignedIntLittleEndian(archive) != 0x02014b50L) {
-                    return false;
-                }
-                archive.seek(entryOffset + 10L);
-                int method = readUnsignedShortLittleEndian(archive);
-                if (method != ZipEntry.STORED && method != ZipEntry.DEFLATED) {
-                    return true;
-                }
-                archive.seek(entryOffset + 28L);
-                int nameLength = readUnsignedShortLittleEndian(archive);
-                int extraLength = readUnsignedShortLittleEndian(archive);
-                int commentLength = readUnsignedShortLittleEndian(archive);
-                entryOffset += 46L + nameLength + extraLength + commentLength;
-            }
-            return false;
+            throw failure(FailureCategory.InvalidArchive,
+                    "archive has no valid bounded end-of-central-directory record");
         }
+    }
+
+    private static EocdCandidate inspectEocdCandidate(RandomAccessFile archive, long candidateOffset,
+            long archiveLength) throws IOException {
+        archive.seek(candidateOffset + 4L);
+        int diskNumber = readUnsignedShortLittleEndian(archive);
+        int centralDirectoryDisk = readUnsignedShortLittleEndian(archive);
+        int entriesOnDisk = readUnsignedShortLittleEndian(archive);
+        int totalEntries = readUnsignedShortLittleEndian(archive);
+        long centralDirectorySize = readUnsignedIntLittleEndian(archive);
+        long centralDirectoryOffset = readUnsignedIntLittleEndian(archive);
+        int commentLength = readUnsignedShortLittleEndian(archive);
+        if (candidateOffset + 22L + commentLength != archiveLength) {
+            return EocdCandidate.NOT_A_CANDIDATE;
+        }
+        if (diskNumber != 0 || centralDirectoryDisk != 0 || entriesOnDisk != totalEntries) {
+            return EocdCandidate.INVALID;
+        }
+        if (totalEntries == 0xffff || centralDirectorySize == 0xffffffffL
+                || centralDirectoryOffset == 0xffffffffL) {
+            return EocdCandidate.INVALID;
+        }
+        if (centralDirectoryOffset > candidateOffset
+                || centralDirectorySize != candidateOffset - centralDirectoryOffset) {
+            return EocdCandidate.INVALID;
+        }
+
+        boolean unsupportedCompression = false;
+        long entryOffset = centralDirectoryOffset;
+        for (int index = 0; index < totalEntries; index++) {
+            if (entryOffset > candidateOffset - 46L) {
+                return EocdCandidate.INVALID;
+            }
+            archive.seek(entryOffset);
+            if (readUnsignedIntLittleEndian(archive) != 0x02014b50L) {
+                return EocdCandidate.INVALID;
+            }
+            archive.seek(entryOffset + 10L);
+            int method = readUnsignedShortLittleEndian(archive);
+            if (method != ZipEntry.STORED && method != ZipEntry.DEFLATED) {
+                unsupportedCompression = true;
+            }
+            archive.seek(entryOffset + 28L);
+            int nameLength = readUnsignedShortLittleEndian(archive);
+            int extraLength = readUnsignedShortLittleEndian(archive);
+            int entryCommentLength = readUnsignedShortLittleEndian(archive);
+            long nextOffset = entryOffset + 46L + nameLength + extraLength + entryCommentLength;
+            if (nextOffset > candidateOffset) {
+                return EocdCandidate.INVALID;
+            }
+            entryOffset = nextOffset;
+        }
+        if (entryOffset != candidateOffset) {
+            return EocdCandidate.INVALID;
+        }
+        return unsupportedCompression
+                ? EocdCandidate.UNSUPPORTED_COMPRESSION
+                : EocdCandidate.SUPPORTED;
     }
 
     private static int readUnsignedShortLittleEndian(RandomAccessFile input) throws IOException {
@@ -252,6 +286,9 @@ final class ExecutableArchiveInventory {
             }
             BasicFileAttributes after = Files.readAttributes(
                     archive, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+            // Digest and ZIP inventory share this completed snapshot. Metadata comparisons detect
+            // observable source replacement or mutation, but cannot prove atomic capture against
+            // arbitrary concurrent in-place writes or authenticate the source file's provenance.
             if (!sameSource(before, after) || openedSize != finalChannelSize || copied != openedSize) {
                 throw failure(FailureCategory.InvalidArchive, "archive changed while the snapshot was created");
             }
@@ -687,6 +724,13 @@ final class ExecutableArchiveInventory {
     @FunctionalInterface
     interface SourceSnapshotObserver {
         void afterSourceOpened(Path source) throws IOException;
+    }
+
+    private enum EocdCandidate {
+        NOT_A_CANDIDATE,
+        INVALID,
+        SUPPORTED,
+        UNSUPPORTED_COMPRESSION
     }
 
     private record Snapshot(Path path, long size) {

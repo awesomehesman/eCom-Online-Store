@@ -236,6 +236,11 @@ class ExecutableArchiveInventoryTest {
                 file("ambiguous", "file"), directory("ambiguous/child/")), false);
         assertFailure(AmbiguousPath,
                 () -> ExecutableArchiveInventory.inspect(directoryDescendant, Optional.empty(), LIMITS));
+
+        Path directoryDescendantFirst = writeArchive("directory-descendant-first.jar", withExtras(
+                directory("ambiguous/child/"), file("ambiguous", "file")), false);
+        assertFailure(AmbiguousPath,
+                () -> ExecutableArchiveInventory.inspect(directoryDescendantFirst, Optional.empty(), LIMITS));
     }
 
     @Test
@@ -316,6 +321,53 @@ class ExecutableArchiveInventoryTest {
         patchCompressionMethods(archive, 99);
 
         assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void ignoresEocdSignaturesEmbeddedInValidZipComments() throws Exception {
+        Path archive = writeArchive(
+                "comment-signature.jar", completeEntries(true), false, deceptiveEocdComment());
+
+        var inventory = ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS);
+
+        assertThat(inventory.archiveFileName()).isEqualTo("comment-signature.jar");
+    }
+
+    @Test
+    void findsUnsupportedCompressionBeforeAnEocdSignatureInTheZipComment() throws Exception {
+        Path archive = writeArchive(
+                "comment-compression.jar", completeEntries(true), false, deceptiveEocdComment());
+        patchCompressionMethods(archive, 99);
+
+        assertFailure(UnsupportedStructure,
+                () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void rejectsMalformedEocdCommentLength() throws Exception {
+        Path archive = writeArchive("comment-length.jar", completeEntries(true), false, "comment");
+        patchEocdUnsignedShort(archive, 20, 1);
+
+        assertFailure(InvalidArchive,
+                () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void rejectsMultiDiskEocdMetadata() throws Exception {
+        Path archive = writeArchive("multi-disk.jar", completeEntries(true), false);
+        patchEocdUnsignedShort(archive, 4, 1);
+
+        assertFailure(InvalidArchive,
+                () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS));
+    }
+
+    @Test
+    void rejectsCentralDirectoryExtentMismatch() throws Exception {
+        Path archive = writeArchive("directory-extent.jar", completeEntries(true), false);
+        patchEocdUnsignedInt(archive, 12, eocdUnsignedInt(archive, 12) + 1L);
+
+        assertFailure(InvalidArchive,
                 () -> ExecutableArchiveInventory.inspect(archive, Optional.empty(), LIMITS));
     }
 
@@ -415,8 +467,16 @@ class ExecutableArchiveInventoryTest {
     }
 
     private Path writeArchive(String fileName, List<EntryFixture> entries, boolean stored) throws IOException {
+        return writeArchive(fileName, entries, stored, null);
+    }
+
+    private Path writeArchive(String fileName, List<EntryFixture> entries, boolean stored, String comment)
+            throws IOException {
         Path archive = temporaryDirectory.resolve(fileName);
         try (var output = new ZipOutputStream(Files.newOutputStream(archive))) {
+            if (comment != null) {
+                output.setComment(comment);
+            }
             for (EntryFixture fixture : entries) {
                 var entry = new ZipEntry(fixture.path());
                 if (stored) {
@@ -435,6 +495,10 @@ class ExecutableArchiveInventoryTest {
             }
         }
         return archive;
+    }
+
+    private static String deceptiveEocdComment() {
+        return "comment-prefix-PK\u0005\u0006" + "\u0000".repeat(20);
     }
 
     private static EntryFixture file(String path, String content) {
@@ -541,6 +605,41 @@ class ExecutableArchiveInventoryTest {
         }
         assertThat(patched).isEqualTo(2);
         Files.write(archive, bytes);
+    }
+
+    private static void patchEocdUnsignedShort(Path archive, int relativeOffset, int value) throws IOException {
+        byte[] bytes = Files.readAllBytes(archive);
+        int eocd = eocdOffset(bytes);
+        bytes[eocd + relativeOffset] = (byte) value;
+        bytes[eocd + relativeOffset + 1] = (byte) (value >>> 8);
+        Files.write(archive, bytes);
+    }
+
+    private static void patchEocdUnsignedInt(Path archive, int relativeOffset, long value) throws IOException {
+        byte[] bytes = Files.readAllBytes(archive);
+        writeLittleEndianInt(bytes, eocdOffset(bytes) + relativeOffset, (int) value);
+        Files.write(archive, bytes);
+    }
+
+    private static long eocdUnsignedInt(Path archive, int relativeOffset) throws IOException {
+        byte[] bytes = Files.readAllBytes(archive);
+        int offset = eocdOffset(bytes) + relativeOffset;
+        return Integer.toUnsignedLong(Byte.toUnsignedInt(bytes[offset])
+                | Byte.toUnsignedInt(bytes[offset + 1]) << 8
+                | Byte.toUnsignedInt(bytes[offset + 2]) << 16
+                | Byte.toUnsignedInt(bytes[offset + 3]) << 24);
+    }
+
+    private static int eocdOffset(byte[] bytes) {
+        for (int offset = bytes.length - 22; offset >= Math.max(0, bytes.length - 65_557); offset--) {
+            if (matches(bytes, offset, 0x50, 0x4b, 0x05, 0x06)) {
+                int commentLength = unsignedShort(bytes, offset + 20);
+                if (offset + 22 + commentLength == bytes.length) {
+                    return offset;
+                }
+            }
+        }
+        throw new AssertionError("synthetic ZIP has no valid EOCD");
     }
 
     private static int unsignedShort(byte[] bytes, int offset) {
