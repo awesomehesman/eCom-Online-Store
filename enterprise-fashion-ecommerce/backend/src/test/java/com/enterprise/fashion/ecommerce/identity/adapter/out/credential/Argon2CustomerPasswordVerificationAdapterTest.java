@@ -36,6 +36,18 @@ class Argon2CustomerPasswordVerificationAdapterTest {
     }
 
     @Test
+    void verifiesFixedBouncyCastle186Verifier() {
+        // Generated with the checksum-verified Bouncy Castle 1.86 JAR and the controlled test input and salt.
+        String verifier = "$argon2id$v=19$m=65536,t=3,p=4$"
+                + "MDEyMzQ1Njc4OUFCQ0RFRg$oox6cY3L3+p5vlh1F5TkbFCoY4KK9Q63dSkIjl1/jSc";
+
+        assertThat(adapter.verify(CONTROLLED_PASSWORD, verifier))
+                .isEqualTo(CredentialVerificationOutcome.MATCH);
+        assertThat(adapter.verify("incorrect login input", verifier))
+                .isEqualTo(CredentialVerificationOutcome.NO_MATCH);
+    }
+
+    @Test
     void rejectsMalformedAndUnsupportedRepresentations() {
         assertRejected("not-a-phc-representation");
         assertRejected(GOVERNED_VERIFIER.replace("$argon2id$", "$argon2i$"));
