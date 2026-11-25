@@ -1,0 +1,10 @@
+<app-storefront-shell>
+  <p role="status" aria-atomic="true">{{ navigation() === 'loading' ? 'Opening page…' : '' }}</p>
+  <p role="alert" aria-atomic="true">{{ navigation() === 'failed' ? 'The requested page could not open.' : '' }}</p>
+  @if (pageFailed()) {
+    <app-storefront-page-state state="navigation-failed" />
+  }
+  <div [hidden]="pageFailed()">
+    <router-outlet />
+  </div>
+</app-storefront-shell>

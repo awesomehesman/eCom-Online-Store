@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 // Presentation-only states that the current storefront can actually establish.
-export type StorefrontPageState = 'commerce-unavailable' | 'invalid-destination' | 'navigation-failed';
+export type StorefrontPageState = 'catalogue' | 'commerce-unavailable' | 'invalid-destination' | 'navigation-failed';
 
 const messages = {
+  catalogue: {
+    heading: 'Welcome to the storefront',
+    description: 'Browse the catalogue. Purchasing is not available here yet.',
+  },
   'commerce-unavailable': {
     heading: 'Welcome to the storefront',
     description: 'Product browsing and purchasing are not available here yet.',
@@ -22,11 +26,8 @@ const messages = {
   selector: 'app-storefront-page-state',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h1>{{ messages[state()].heading }}</h1>
-    <p>{{ messages[state()].description }}</p>
-    <ng-content />
-  `,
+  templateUrl: './storefront-page-state.component.html',
+  styleUrl: './storefront-page-state.component.scss',
 })
 export class StorefrontPageStateComponent {
   readonly state = input.required<StorefrontPageState>();
