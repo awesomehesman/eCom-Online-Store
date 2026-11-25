@@ -1,0 +1,4 @@
+<button type="button" [attr.aria-disabled]="busy() ? 'true' : null" (click)="signOut()">
+  Sign out
+</button>
+<p class="sign-out-status" role="status">{{ status() }}</p>
