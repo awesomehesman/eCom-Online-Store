@@ -1,0 +1,33 @@
+<a routerLink="/">Back to Catalogue</a>
+<h1 #heading tabindex="-1">{{ product()?.name ?? 'Product details' }}</h1>
+<p role="status" aria-atomic="true">
+  @switch (state().kind) {
+    @case ('loading') { Loading Product details… }
+    @case ('not-found') { Product not found. }
+    @case ('unavailable') { Product details are temporarily unavailable. }
+    @case ('error') { Product details could not be loaded. }
+    @case ('product') { Product details loaded. }
+  }
+</p>
+@if (state().kind === 'unavailable' || state().kind === 'error') {
+  <button type="button" (click)="retry()">Retry</button>
+}
+@if (product(); as item) {
+  <p>{{ item.description }}</p>
+  <p>Product family: {{ item.family }}</p>
+  @if (item.variants.length) {
+    <label for="product-variant">Variant</label>
+    <select id="product-variant" #variant (change)="select(variant.value)">
+      <option value="">Choose a variant</option>
+      @for (option of item.variants; track option.variantId) {
+        <option [value]="option.variantId">{{ option.attributes.size?.label }}
+          {{ option.attributes.colour?.label }}{{ item.variantDefiningAttributes.length ? '' : 'Product variant' }}</option>
+      }
+    </select>
+  }
+  <div class="media">
+    @for (image of media(); track image.mediaId) {
+      <app-product-summary-image [media]="image" />
+    }
+  </div>
+}

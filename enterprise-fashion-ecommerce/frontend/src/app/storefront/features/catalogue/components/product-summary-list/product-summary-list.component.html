@@ -1,0 +1,11 @@
+<ul aria-label="Products">
+  @for (product of page().items; track product.productId) {
+    <li>
+      <app-product-summary [product]="product" />
+      <a [routerLink]="['/products', product.productId]">View {{ product.name }} details</a>
+    </li>
+  }
+</ul>
+@if (page().nextCursor !== null) {
+  <p>This page does not include all catalogue results.</p>
+}

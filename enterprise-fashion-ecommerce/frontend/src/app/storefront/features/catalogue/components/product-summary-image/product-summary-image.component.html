@@ -1,0 +1,10 @@
+<figure>
+  @if (state() !== 'failed') {
+    <img [src]="media().url" [alt]="media().alternativeText"
+      referrerpolicy="no-referrer" decoding="async"
+      [style.visibility]="state() === 'loaded' ? 'visible' : 'hidden'"
+      (load)="state.set('loaded')" (error)="state.set('failed')" />
+  } @else {
+    <figcaption>Product image unavailable.</figcaption>
+  }
+</figure>

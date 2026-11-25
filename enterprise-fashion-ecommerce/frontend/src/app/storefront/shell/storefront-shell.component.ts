@@ -8,18 +8,8 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <a class="skip-link" [href]="skipDestination()">Skip to main content</a>
-    <header>
-      <nav aria-label="Storefront">
-        <a routerLink="/" routerLinkActive="current-location"
-           [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Storefront</a>
-      </nav>
-    </header>
-    <main #mainContent id="main-content" tabindex="-1">
-      <ng-content />
-    </main>
-  `,
+  templateUrl: './storefront-shell.component.html',
+  styleUrl: './storefront-shell.component.scss',
 })
 export class StorefrontShell {
   protected readonly skipDestination: Signal<string>;

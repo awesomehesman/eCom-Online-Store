@@ -1,4 +1,4 @@
-import type { ProductSummary, ProductSummaryMedia } from './product-summary';
+import type { ProductSummary, ProductSummaryMedia } from '../../storefront/features/catalogue/models/product-summary';
 
 const validated = Symbol('validated catalogue page');
 type RecordValue = Record<string, unknown>;
@@ -89,6 +89,10 @@ function freeze<T>(value: T): T {
     Object.freeze(value);
   }
   return value;
+}
+
+export function validateCatalogueProduct(input: unknown): CatalogueProduct | null {
+  return product(input) ? freeze(structuredClone(input)) as CatalogueProduct : null;
 }
 
 /** Pure JSON-value boundary. No HTTP, eligibility inference, cursor decoding or partial salvage. */
