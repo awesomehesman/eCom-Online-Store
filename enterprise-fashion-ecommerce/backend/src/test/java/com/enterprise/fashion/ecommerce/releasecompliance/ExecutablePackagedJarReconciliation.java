@@ -38,6 +38,7 @@ import org.xml.sax.SAXException;
 
 /** Test-scoped deterministic reconciliation of BEI-01 libraries with explicit dependency evidence. */
 final class ExecutablePackagedJarReconciliation {
+    private static final String VERIFICATION_NAMESPACE = "https://schema.gradle.org/dependency-verification";
 
     static final String SCHEMA_VERSION = "bei02-packaged-jar-reconciliation-v1";
     private static final String RUNTIME_CONFIGURATION = "productionRuntimeClasspath";
@@ -81,7 +82,6 @@ final class ExecutablePackagedJarReconciliation {
                     "resolved graph coordinates do not equal locked runtime coordinates");
         }
         validatePolicy(policy, graph);
-        validateResolvedChecksums(graph, verification);
 
         List<ExecutableArchiveInventory.Entry> packaged = inventory.entries().stream()
                 .filter(entry -> entry.category() == ExecutableArchiveInventory.Category.PACKAGED_LIBRARY)
@@ -98,12 +98,9 @@ final class ExecutablePackagedJarReconciliation {
                 throw failure(FailureCategory.DuplicatePackagedComponent,
                         "a packaged path occurs more than once");
             }
-            List<ResolvedComponent> candidates = policy.expectedPackagedCoordinates().stream()
-                    .map(graph::get)
-                    .filter(Objects::nonNull)
+            List<ResolvedComponent> candidates = graph.values().stream()
+                    .filter(component -> component.kind() == ComponentKind.JAR)
                     .filter(component -> entry.sha256().equals(component.artifactSha256()))
-                    .filter(component -> verification.containsChecksum(
-                            component.coordinate(), component.artifactName(), component.artifactSha256()))
                     .toList();
             if (candidates.size() > 1) {
                 throw failure(FailureCategory.AmbiguousComponentMatch,
@@ -111,6 +108,11 @@ final class ExecutablePackagedJarReconciliation {
             }
             if (candidates.size() == 1) {
                 ResolvedComponent component = candidates.getFirst();
+                if (!policy.expectedPackagedCoordinates().contains(component.coordinate())
+                        || policy.buildAddedRulesByPath().containsKey(entry.path())) {
+                    throw failure(FailureCategory.InconsistentClassification,
+                            "physical runtime artifact conflicts with its classification policy");
+                }
                 if (!entry.path().equals("BOOT-INF/lib/" + component.artifactName())) {
                     throw failure(FailureCategory.DigestMismatch,
                             "packaged filename is inconsistent with the digest-identified artifact");
@@ -155,7 +157,7 @@ final class ExecutablePackagedJarReconciliation {
                     Classification.DEPENDENCY_MANAGEMENT_METADATA));
         }
         if (usedBuildRules.size() != policy.buildAddedRules().size()) {
-            throw failure(FailureCategory.UnknownBuildAddedComponent,
+            throw failure(FailureCategory.MissingExpectedBuildAddedComponent,
                     "an expected build-added component is absent");
         }
 
@@ -163,6 +165,7 @@ final class ExecutablePackagedJarReconciliation {
         buildAddedResults.sort(Comparator.comparing(BuildAddedResult::packagedPath, UTF8_ORDER));
         EnumMap<Classification, Integer> counts = classificationCounts(componentResults, buildAddedResults);
         validateCompleteness(policy.cardinalities(), graph.size(), packaged.size(), counts);
+        validateResolvedChecksums(graph, verification, counts, buildAddedResults);
 
         String inventorySha256 = sha256(inventory.canonicalOutput());
         String graphSha256 = resolvedGraph.sha256();
@@ -175,18 +178,25 @@ final class ExecutablePackagedJarReconciliation {
     }
 
     private static void validateResolvedChecksums(Map<Coordinate, ResolvedComponent> graph,
-            VerificationEvidence verification) {
+            VerificationEvidence verification, Map<Classification, Integer> counts,
+            List<BuildAddedResult> buildAddedResults) {
+        var missing = new ArrayList<String>();
         for (ResolvedComponent component : graph.values()) {
             if (component.kind() == ComponentKind.JAR
                     && !verification.containsChecksum(component.coordinate(), component.artifactName(),
                             component.artifactSha256())) {
                 if (!verification.hasArtifact(component.coordinate(), component.artifactName())) {
-                    throw failure(FailureCategory.MissingChecksumEvidence,
-                            "resolved artifact has no matching verification-metadata artifact");
+                    missing.add(component.coordinate().value() + "/" + component.artifactName());
+                    continue;
                 }
                 throw failure(FailureCategory.DigestMismatch,
                         "resolved artifact digest is not admitted by verification metadata");
             }
+        }
+        if (!missing.isEmpty()) {
+            throw failure(FailureCategory.MissingChecksumEvidence,
+                    "verified physical classifications " + counts + "; build-added provenance "
+                            + buildAddedResults + "; missing exact SHA-256 for " + String.join(", ", missing));
         }
     }
 
@@ -219,12 +229,151 @@ final class ExecutablePackagedJarReconciliation {
     }
 
     private static byte[] readUniqueNestedResource(byte[] sourceBytes, String expectedPath, Limits limits) {
+        validateSourceZipLayout(sourceBytes, limits);
+        // Both ZIP views use the same completed byte snapshot as the outer digest.
+        java.nio.file.Path snapshot = null;
+        try {
+            snapshot = java.nio.file.Files.createTempFile("bei02-source-", ".zip");
+            java.nio.file.Files.write(snapshot, sourceBytes);
+            try (var directory = new java.util.zip.ZipFile(snapshot.toFile(), StandardCharsets.UTF_8)) {
+                if (directory.size() > limits.maximumSourceEntries()) {
+                    throw failure(FailureCategory.LimitExceeded, "source-container entry limit exceeded");
+                }
+                return readLocalEntries(sourceBytes, expectedPath, limits, directory.entries());
+            }
+        } catch (IOException | IllegalArgumentException invalid) {
+            throw failure(FailureCategory.InvalidBuildAddedOrigin, "invalid source-container directory");
+        } finally {
+            if (snapshot != null) {
+                try {
+                    java.nio.file.Files.delete(snapshot);
+                } catch (IOException failed) {
+                    throw failure(FailureCategory.InvalidBuildAddedOrigin, "source snapshot cleanup failed");
+                }
+            }
+        }
+    }
+
+    private static void validateSourceZipLayout(byte[] bytes, Limits limits) {
+        var zip = ByteBuffer.wrap(bytes).order(java.nio.ByteOrder.LITTLE_ENDIAN);
+        int end = bytes.length - 22;
+        int first = Math.max(0, end - 65_535);
+        int valid = 0;
+        for (int offset = end; offset >= first; offset--) {
+            if (zip.getInt(offset) != 0x06054b50 || offset + 22L + u16(zip, offset + 20) != bytes.length) {
+                continue;
+            }
+            if (validDirectory(zip, offset, limits)) {
+                valid++;
+            }
+        }
+        if (valid != 1) {
+            throw failure(FailureCategory.InvalidBuildAddedOrigin, "invalid or ambiguous source ZIP layout");
+        }
+    }
+
+    private static boolean validDirectory(ByteBuffer zip, int end, Limits limits) {
+        int entries = u16(zip, end + 10);
+        int directory = zip.getInt(end + 16);
+        int extent = zip.getInt(end + 12);
+        if (u16(zip, end + 4) != 0 || u16(zip, end + 6) != 0 || u16(zip, end + 8) != entries
+                || entries == 0 || entries == 65_535 || directory < 0 || extent < 0
+                || directory + (long) extent != end) {
+            return false;
+        }
+        if (entries > limits.maximumSourceEntries()) {
+            throw failure(FailureCategory.LimitExceeded, "source-container entry limit exceeded");
+        }
+        int central = directory;
+        long nextLocal = 0;
+        for (int count = 0; count < entries; count++) {
+            if (central > end - 46 || zip.getInt(central) != 0x02014b50 || u16(zip, central + 34) != 0) {
+                return false;
+            }
+            int name = u16(zip, central + 28);
+            int extra = u16(zip, central + 30);
+            int comment = u16(zip, central + 32);
+            long nextCentral = central + 46L + name + extra + comment;
+            int local = zip.getInt(central + 42);
+            int compressed = zip.getInt(central + 20);
+            int expanded = zip.getInt(central + 24);
+            int flags = u16(zip, central + 8);
+            int method = u16(zip, central + 10);
+            if (nextCentral > end || local < 0 || local != nextLocal || local > directory - 30
+                    || compressed < 0 || expanded < 0 || (flags & ~0x080e) != 0
+                    || (method != ZipEntry.STORED && method != ZipEntry.DEFLATED)
+                    || zip.getInt(local) != 0x04034b50 || u16(zip, local + 6) != flags
+                    || u16(zip, local + 8) != method || u16(zip, local + 26) != name) {
+                return false;
+            }
+            long data = local + 30L + name + u16(zip, local + 28);
+            nextLocal = data + compressed;
+            if (nextLocal > directory || !supportedExtra(zip, central + 46 + name, extra)
+                    || !supportedExtra(zip, local + 30 + name, u16(zip, local + 28))) {
+                return false;
+            }
+            for (int index = 0; index < name; index++) {
+                if (zip.get(local + 30 + index) != zip.get(central + 46 + index)) {
+                    return false;
+                }
+            }
+            int crc = zip.getInt(central + 16);
+            if ((flags & 8) != 0) {
+                int descriptor = (int) nextLocal;
+                if (descriptor <= directory - 16 && zip.getInt(descriptor) == 0x08074b50) {
+                    descriptor += 4;
+                }
+                if (descriptor > directory - 12 || zip.getInt(descriptor) != crc
+                        || zip.getInt(descriptor + 4) != compressed || zip.getInt(descriptor + 8) != expanded) {
+                    return false;
+                }
+                nextLocal = descriptor + 12L;
+            } else if (zip.getInt(local + 14) != crc || zip.getInt(local + 18) != compressed
+                    || zip.getInt(local + 22) != expanded) {
+                return false;
+            }
+            central = (int) nextCentral;
+        }
+        return central == end && nextLocal == directory;
+    }
+
+    private static int u16(ByteBuffer input, int offset) {
+        return Short.toUnsignedInt(input.getShort(offset));
+    }
+
+    private static boolean supportedExtra(ByteBuffer zip, int start, int length) {
+        int end = start + length;
+        for (int at = start; at < end;) {
+            if (end - at < 4 || u16(zip, at) == 1) {
+                return false;
+            }
+            at += 4 + u16(zip, at + 2);
+            if (at > end) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static byte[] readLocalEntries(byte[] sourceBytes, String expectedPath, Limits limits,
+            java.util.Enumeration<? extends ZipEntry> directory) {
         byte[] found = null;
         int entries = 0;
         long total = 0L;
+        var names = new HashSet<String>();
         try (var input = new ZipInputStream(new ByteArrayInputStream(sourceBytes), StandardCharsets.UTF_8)) {
             ZipEntry entry;
             while ((entry = input.getNextEntry()) != null) {
+                if (!names.add(entry.getName())) {
+                    throw failure(FailureCategory.InvalidBuildAddedOrigin, "duplicate source ZIP entry");
+                }
+                if (!directory.hasMoreElements()) {
+                    throw failure(FailureCategory.InvalidBuildAddedOrigin, "local ZIP entry lacks a directory record");
+                }
+                ZipEntry central = directory.nextElement();
+                if (!entry.getName().equals(central.getName()) || entry.getMethod() != central.getMethod()) {
+                    throw failure(FailureCategory.InvalidBuildAddedOrigin, "inconsistent ZIP entry identity");
+                }
                 if (++entries > limits.maximumSourceEntries()) {
                     throw failure(FailureCategory.LimitExceeded, "source-container entry limit exceeded");
                 }
@@ -252,6 +401,13 @@ final class ExecutablePackagedJarReconciliation {
                     found = retained.toByteArray();
                 }
                 input.closeEntry();
+                if (entryBytes != central.getSize() || entry.getCrc() != central.getCrc()
+                        || entry.getCompressedSize() != central.getCompressedSize()) {
+                    throw failure(FailureCategory.InvalidBuildAddedOrigin, "inconsistent ZIP entry metadata");
+                }
+            }
+            if (directory.hasMoreElements()) {
+                throw failure(FailureCategory.InvalidBuildAddedOrigin, "directory record lacks a local ZIP entry");
             }
         } catch (Failure known) {
             throw known;
@@ -295,6 +451,10 @@ final class ExecutablePackagedJarReconciliation {
             if (!relevant) {
                 continue;
             }
+            if (java.util.Arrays.stream(configurations.split(",", -1))
+                    .anyMatch(token -> token.isBlank() || !token.equals(token.strip()))) {
+                throw failure(FailureCategory.MalformedLockfile, "invalid runtime configuration list");
+            }
             Coordinate coordinate = Coordinate.parse(trimmed.substring(0, equals),
                     FailureCategory.MalformedLockfile);
             if (!coordinates.add(coordinate)) {
@@ -315,7 +475,7 @@ final class ExecutablePackagedJarReconciliation {
         return Collections.unmodifiableSet(coordinates);
     }
 
-    private static VerificationEvidence parseVerificationMetadata(byte[] bytes, Limits limits) {
+    static VerificationEvidence parseVerificationMetadata(byte[] bytes, Limits limits) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
@@ -333,17 +493,28 @@ final class ExecutablePackagedJarReconciliation {
             });
             var document = builder.parse(new InputSource(new ByteArrayInputStream(bytes)));
             Element root = document.getDocumentElement();
-            if (root == null || !"verification-metadata".equals(root.getLocalName())) {
+            if (root == null || !"verification-metadata".equals(root.getLocalName())
+                    || !VERIFICATION_NAMESPACE.equals(root.getNamespaceURI())) {
                 throw failure(FailureCategory.MalformedVerificationMetadata,
                         "unsupported verification metadata root");
             }
             var evidence = new LinkedHashMap<Coordinate, Map<String, Set<String>>>();
-            var nodes = document.getElementsByTagNameNS("*", "component");
-            if (nodes.getLength() > limits.maximumMetadataComponents()) {
+            requireChildren(root, Set.of("configuration", "components"));
+            var containers = childElements(root, "components");
+            if (containers.size() != 1) {
+                throw failure(FailureCategory.MalformedVerificationMetadata, "expected one components element");
+            }
+            var misplaced = document.getElementsByTagNameNS("*", "component");
+            var nodes = childElements(containers.getFirst(), "component");
+            requireChildren(containers.getFirst(), Set.of("component"));
+            if (misplaced.getLength() != nodes.size()) {
+                throw failure(FailureCategory.MalformedVerificationMetadata, "misplaced component evidence");
+            }
+            if (nodes.size() > limits.maximumMetadataComponents()) {
                 throw failure(FailureCategory.LimitExceeded, "verification component limit exceeded");
             }
-            for (int index = 0; index < nodes.getLength(); index++) {
-                Element component = (Element) nodes.item(index);
+            for (Element component : nodes) {
+                requireChildren(component, Set.of("artifact"));
                 Coordinate coordinate = new Coordinate(requiredAttribute(component, "group"),
                         requiredAttribute(component, "name"), requiredAttribute(component, "version"));
                 if (evidence.containsKey(coordinate)) {
@@ -352,14 +523,29 @@ final class ExecutablePackagedJarReconciliation {
                 }
                 var artifacts = new LinkedHashMap<String, Set<String>>();
                 for (Element artifact : childElements(component, "artifact")) {
+                    requireChildren(artifact, Set.of("sha256", "pgp", "ignored-keys"));
                     String name = requiredAttribute(artifact, "name");
+                    if (!validArchivePath(name) || name.contains("/")) {
+                        throw failure(FailureCategory.MalformedVerificationMetadata, "invalid verification artifact name");
+                    }
                     var checksums = new LinkedHashSet<String>();
                     for (Element checksum : childElements(artifact, "sha256")) {
+                        requireChildren(checksum, Set.of("also-trust"));
                         String value = requiredAttribute(checksum, "value");
                         requireSha256(value, FailureCategory.MalformedVerificationMetadata);
                         checksums.add(value);
+                        for (Element alternative : childElements(checksum, "also-trust")) {
+                            requireChildren(alternative, Set.of());
+                            String alternateDigest = requiredAttribute(alternative, "value");
+                            requireSha256(alternateDigest, FailureCategory.MalformedVerificationMetadata);
+                            checksums.add(alternateDigest);
+                        }
                     }
-                    if (checksums.isEmpty()) {
+                    for (Element pgp : childElements(artifact, "pgp")) {
+                        requireChildren(pgp, Set.of());
+                        requiredAttribute(pgp, "value");
+                    }
+                    if (checksums.isEmpty() && childElements(artifact, "pgp").isEmpty()) {
                         throw failure(FailureCategory.MalformedVerificationMetadata,
                                 "verification artifact has no SHA-256 evidence");
                     }
@@ -384,10 +570,24 @@ final class ExecutablePackagedJarReconciliation {
         var children = parent.getChildNodes();
         for (int index = 0; index < children.getLength(); index++) {
             if (children.item(index) instanceof Element child && localName.equals(child.getLocalName())) {
+                if (!VERIFICATION_NAMESPACE.equals(child.getNamespaceURI())) {
+                    throw failure(FailureCategory.MalformedVerificationMetadata, "unexpected evidence namespace");
+                }
                 result.add(child);
             }
         }
         return result;
+    }
+
+    private static void requireChildren(Element parent, Set<String> allowed) {
+        var nodes = parent.getChildNodes();
+        for (int index = 0; index < nodes.getLength(); index++) {
+            if (nodes.item(index) instanceof Element child
+                    && (!VERIFICATION_NAMESPACE.equals(child.getNamespaceURI())
+                        || !allowed.contains(child.getLocalName()))) {
+                throw failure(FailureCategory.MalformedVerificationMetadata, "unsupported evidence element");
+            }
+        }
     }
 
     private static String requiredAttribute(Element element, String name) {
@@ -455,7 +655,7 @@ final class ExecutablePackagedJarReconciliation {
         int omitted = counts.get(Classification.RESOLVED_NOT_PACKAGED);
         int platforms = counts.get(Classification.DEPENDENCY_MANAGEMENT_METADATA);
         int added = counts.get(Classification.BUILD_ADDED);
-        if (resolved != packaged + omitted + platforms || physical != packaged + added) {
+        if (resolved != (long) packaged + omitted + platforms || physical != (long) packaged + added) {
             throw failure(FailureCategory.IncompleteReconciliation,
                     "classification arithmetic is incomplete");
         }
@@ -497,6 +697,21 @@ final class ExecutablePackagedJarReconciliation {
             throw failure(FailureCategory.MissingInput, name + " is required");
         }
         return value;
+    }
+
+    private static boolean validArchivePath(String value) {
+        return value != null && !value.isBlank() && value.indexOf('\\') < 0
+                && value.indexOf(':') < 0 && value.chars().noneMatch(Character::isISOControl)
+                && java.util.Arrays.stream(value.split("/", -1))
+                        .noneMatch(part -> part.isBlank() || part.equals(".") || part.equals(".."));
+    }
+
+    private static <T extends java.util.Collection<?>> T requireMembers(T values, String name) {
+        requireInput(values, name);
+        if (values.stream().anyMatch(Objects::isNull)) {
+            throw failure(FailureCategory.MissingInput, name + " contains a missing member");
+        }
+        return values;
     }
 
     private static Failure failure(FailureCategory category, String message) {
@@ -546,7 +761,7 @@ final class ExecutablePackagedJarReconciliation {
             requireInput(coordinate, "coordinate");
             requireInput(kind, "kind");
             if (kind == ComponentKind.JAR) {
-                if (artifactName == null || artifactName.isBlank()) {
+                if (!validArchivePath(artifactName) || artifactName.contains("/") || !artifactName.endsWith(".jar")) {
                     throw failure(FailureCategory.InconsistentClassification, "JAR artifact name is required");
                 }
                 requireSha256(artifactSha256, FailureCategory.InconsistentClassification);
@@ -560,7 +775,7 @@ final class ExecutablePackagedJarReconciliation {
     record ResolvedGraph(String schemaVersion, List<ResolvedComponent> components) {
         ResolvedGraph {
             requireInput(schemaVersion, "resolvedGraph.schemaVersion");
-            components = List.copyOf(requireInput(components, "resolvedGraph.components"));
+            components = List.copyOf(requireMembers(components, "resolvedGraph.components"));
             var seen = new HashSet<Coordinate>();
             for (ResolvedComponent component : components) {
                 if (!seen.add(component.coordinate())) {
@@ -593,12 +808,13 @@ final class ExecutablePackagedJarReconciliation {
             String sourceArtifactName, String sourceArtifactSha256,
             String nestedResourcePath, String nestedResourceSha256) {
         BuildAddedRule {
-            if (packagedPath == null || !packagedPath.startsWith("BOOT-INF/lib/") || packagedPath.endsWith("/")) {
+            if (!validArchivePath(packagedPath) || !packagedPath.startsWith("BOOT-INF/lib/")
+                    || !packagedPath.endsWith(".jar")) {
                 throw failure(FailureCategory.InconsistentClassification, "build-added packaged path is invalid");
             }
             requireInput(sourceCoordinate, "buildAdded.sourceCoordinate");
-            if (sourceArtifactName == null || sourceArtifactName.isBlank()
-                    || nestedResourcePath == null || nestedResourcePath.isBlank()) {
+            if (!validArchivePath(sourceArtifactName) || sourceArtifactName.contains("/")
+                    || !sourceArtifactName.endsWith(".jar") || !validArchivePath(nestedResourcePath)) {
                 throw failure(FailureCategory.InconsistentClassification,
                         "build-added artifact and nested-resource identities are required");
             }
@@ -613,8 +829,8 @@ final class ExecutablePackagedJarReconciliation {
         Cardinalities {
             if (resolvedCoordinates < 0 || packagedLocked < 0 || resolvedNotPackaged < 0
                     || platformMetadata < 0 || buildAdded < 0 || physicalPackagedLibraries < 0
-                    || resolvedCoordinates != packagedLocked + resolvedNotPackaged + platformMetadata
-                    || physicalPackagedLibraries != packagedLocked + buildAdded) {
+                    || resolvedCoordinates != (long) packagedLocked + resolvedNotPackaged + platformMetadata
+                    || physicalPackagedLibraries != (long) packagedLocked + buildAdded) {
                 throw failure(FailureCategory.InconsistentClassification,
                         "expected cardinalities are internally inconsistent");
             }
@@ -626,13 +842,13 @@ final class ExecutablePackagedJarReconciliation {
             List<BuildAddedRule> buildAddedRules, Cardinalities cardinalities) {
         ClassificationPolicy {
             requireInput(schemaVersion, "policy.schemaVersion");
-            expectedPackagedCoordinates = Set.copyOf(requireInput(expectedPackagedCoordinates,
+            expectedPackagedCoordinates = Set.copyOf(requireMembers(expectedPackagedCoordinates,
                     "policy.expectedPackagedCoordinates"));
-            permittedOmittedCoordinates = Set.copyOf(requireInput(permittedOmittedCoordinates,
+            permittedOmittedCoordinates = Set.copyOf(requireMembers(permittedOmittedCoordinates,
                     "policy.permittedOmittedCoordinates"));
-            permittedPlatformCoordinates = Set.copyOf(requireInput(permittedPlatformCoordinates,
+            permittedPlatformCoordinates = Set.copyOf(requireMembers(permittedPlatformCoordinates,
                     "policy.permittedPlatformCoordinates"));
-            buildAddedRules = List.copyOf(requireInput(buildAddedRules, "policy.buildAddedRules"));
+            buildAddedRules = List.copyOf(requireMembers(buildAddedRules, "policy.buildAddedRules"));
             requireInput(cardinalities, "policy.cardinalities");
             var paths = new HashSet<String>();
             for (BuildAddedRule rule : buildAddedRules) {
@@ -821,15 +1037,15 @@ final class ExecutablePackagedJarReconciliation {
         }
     }
 
-    private record VerificationEvidence(Map<Coordinate, Map<String, Set<String>>> values) {
-        private VerificationEvidence {
+    record VerificationEvidence(Map<Coordinate, Map<String, Set<String>>> values) {
+        VerificationEvidence {
             var immutable = new LinkedHashMap<Coordinate, Map<String, Set<String>>>();
             values.forEach((coordinate, artifacts) -> immutable.put(coordinate, Map.copyOf(artifacts)));
             values = Map.copyOf(immutable);
         }
 
         boolean hasArtifact(Coordinate coordinate, String artifact) {
-            return values.getOrDefault(coordinate, Map.of()).containsKey(artifact);
+            return !values.getOrDefault(coordinate, Map.of()).getOrDefault(artifact, Set.of()).isEmpty();
         }
 
         boolean containsChecksum(Coordinate coordinate, String artifact, String checksum) {
@@ -850,6 +1066,7 @@ final class ExecutablePackagedJarReconciliation {
         UnmatchedPackagedComponent,
         MissingExpectedPackagedComponent,
         UnknownBuildAddedComponent,
+        MissingExpectedBuildAddedComponent,
         InvalidBuildAddedOrigin,
         InconsistentClassification,
         IncompleteReconciliation,

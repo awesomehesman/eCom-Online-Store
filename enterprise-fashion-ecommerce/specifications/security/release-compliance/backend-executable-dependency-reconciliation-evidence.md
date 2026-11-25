@@ -282,6 +282,30 @@ README is intended release content.
 
 ## 12. Evidence Limitations
 
+A local Java 21 run of `./gradlew --offline --no-daemon --dependency-verification=strict inspectBei02GradleEvidence`
+resolved 73 external production runtime components and selected 71 JARs. The selected filenames
+and locally computed digests matched 36 exact SHA-256 entries in committed verification metadata.
+The other 35 selected JARs lacked an exact SHA-256 entry. Strict Gradle resolution succeeded.
+BEI-02's independent checksum requirement remains open for those artifacts. The verification task
+reports coordinate, variant category, selected filename and computed digest for review, then invokes
+the reconciler with the selected application graph and the Loader Tools artifact from the Gradle
+plugin classpath. It verifies 61 locked packaged JARs, ten omissions, two platforms, and one
+build-added JAR before the exact-checksum gate. The Loader Tools outer SHA-256 matched committed
+metadata and the nested jarmode SHA-256 matched the BEI-01 packaged entry. The run failed closed
+with `MissingChecksumEvidence` for all 35 affected JARs. It emitted no successful BEI-02 report.
+The observed executable and BEI-01 digests were
+`a2425d1497f3bae338971ab809e2de38b33f1ec865bd28c2ef13d75d987e5653` and
+`07124e4844e9ec1579e164fe170ee4d3dd7aec6ec283cb48cde4f9ee2a8d9b4e`, respectively.
+Independent checksum admission and accountable review remain pending.
+
+Two invocations reported identical artifact identities, classifications and missing-checksum
+diagnostics. Final strict offline `clean check` recorded 885 unit and architecture tests
+(one expected BEI-01 opt-in skip) and 347 integration tests, with zero failures or errors.
+The BEI-02 suite passed all 16 tests. The BEI-01 suite passed 26 tests and recorded its
+usual opt-in skip. Regression coverage includes the committed verification metadata,
+misplaced XML evidence, malformed source ZIP boundaries and build-added overlap with
+omitted runtime bytes.
+
 - Reproducibility was established only on the same machine with the same local
   dependency cache.
 - Dependency artifacts used for hash matching were existing mutable local cache

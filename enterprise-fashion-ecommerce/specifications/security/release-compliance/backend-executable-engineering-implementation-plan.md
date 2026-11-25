@@ -160,6 +160,15 @@ from `backend/gradle.lockfile` and `backend/gradle/verification-metadata.xml`;
 
 **Dependencies:** BEI-01 canonical inventory and the committed locked graph.
 
+**Local verification:** From `backend` using Java 21, explicitly invoke
+`./gradlew --offline --no-daemon --dependency-verification=strict inspectBei02GradleEvidence`.
+The task uses the selected Gradle runtime variants and artifacts, checks the executable
+through BEI-01, and verifies the Loader Tools provenance chain. The current baseline
+reaches the exact-checksum gate with the expected physical classifications and returns
+`MissingChecksumEvidence` for 35 selected runtime JARs. See the reconciliation evidence
+record for the observed counts and evidence boundary. Engineering and Security
+dispositions remain pending.
+
 **Proposed implementation approach:** Resolve the governed production runtime graph
 without rewriting locks; distinguish JAR components and BOM metadata; hash packaged
 JAR bytes; match by verified identity and digest rather than filename; classify

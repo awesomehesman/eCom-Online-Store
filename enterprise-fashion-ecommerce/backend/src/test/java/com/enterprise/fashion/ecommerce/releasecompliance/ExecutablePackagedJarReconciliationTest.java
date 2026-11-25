@@ -38,7 +38,7 @@ import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePacka
 import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePackagedJarReconciliation.FailureCategory.MissingChecksumEvidence;
 import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePackagedJarReconciliation.FailureCategory.MissingExpectedPackagedComponent;
 import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePackagedJarReconciliation.FailureCategory.UnmatchedPackagedComponent;
-import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePackagedJarReconciliation.FailureCategory.UnknownBuildAddedComponent;
+import static com.enterprise.fashion.ecommerce.releasecompliance.ExecutablePackagedJarReconciliation.FailureCategory.MissingExpectedBuildAddedComponent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -156,6 +156,19 @@ class ExecutablePackagedJarReconciliationTest {
     }
 
     @Test
+    void rejectsOmittedRuntimeBytesEvenWithMatchingBuildAddedProvenance() throws Exception {
+        Evidence evidence = baseline();
+        byte[] source = sourceArchive(NESTED_PATH, OMITTED_BYTES, null);
+        var rule = buildRule(source, OMITTED_BYTES);
+        var changed = evidence.withSourceBytes(source)
+                .withMetadata(metadata(evidence.graph().components(), source, null))
+                .withPolicy(policy(Set.of(PACKAGED_COORD), Set.of(OMITTED), Set.of(PLATFORM_COORD),
+                        List.of(rule), evidence.policy().cardinalities()))
+                .withInventory(inventory(Map.of(PACKAGED_PATH, PACKAGED_BYTES, JARMODE_PATH, OMITTED_BYTES)));
+        assertFailure(InconsistentClassification, () -> reconcile(changed));
+    }
+
+    @Test
     void verifiesBuildAddedSourceContainerNestedResourceAndRuntimeSeparation() throws Exception {
         Evidence evidence = baseline();
         var added = reconcile(evidence).buildAddedResults().getFirst();
@@ -196,7 +209,13 @@ class ExecutablePackagedJarReconciliationTest {
                 .withPolicy(policy(Set.of(PACKAGED_COORD), Set.of(OMITTED), Set.of(PLATFORM_COORD),
                         List.of(invalidRule), evidence.policy().cardinalities()))
                 .withMetadata(metadata(evidence.graph().components(), invalid, null))));
-        assertFailure(UnknownBuildAddedComponent, () -> reconcile(evidence.withInventory(
+        byte[] source = evidence.sourceBytes();
+        byte[] missingEocd = Arrays.copyOf(source, source.length - 22);
+        assertFailure(InvalidBuildAddedOrigin, () -> reconcile(evidence.withSourceBytes(missingEocd)
+                .withPolicy(policy(Set.of(PACKAGED_COORD), Set.of(OMITTED), Set.of(PLATFORM_COORD),
+                        List.of(buildRule(missingEocd, JARMODE_BYTES)), evidence.policy().cardinalities()))
+                .withMetadata(metadata(evidence.graph().components(), missingEocd, null))));
+        assertFailure(MissingExpectedBuildAddedComponent, () -> reconcile(evidence.withInventory(
                 inventory(Map.of(PACKAGED_PATH, PACKAGED_BYTES)))));
     }
 
@@ -220,6 +239,8 @@ class ExecutablePackagedJarReconciliationTest {
         Evidence evidence = baseline();
         assertFailure(MalformedLockfile, () -> reconcile(evidence.withLockfile(
                 "test:alpha:1 productionRuntimeClasspath\n")));
+        assertFailure(MalformedLockfile, () -> reconcile(evidence.withLockfile(
+                evidence.lockfile().replace("productionRuntimeClasspath", "productionRuntimeClasspath,"))));
         assertFailure(DuplicateCoordinate, () -> reconcile(evidence.withLockfile(
                 evidence.lockfile() + "test:alpha:1=productionRuntimeClasspath\n")));
         assertFailure(DuplicateCoordinate, () -> reconcile(evidence.withLockfile(
@@ -243,6 +264,80 @@ class ExecutablePackagedJarReconciliationTest {
         assertFailure(MalformedVerificationMetadata, () -> reconcile(evidence.withMetadata(external)));
         String badSha = evidence.metadata().replace(sha256(PACKAGED_BYTES), "not-a-sha");
         assertFailure(MalformedVerificationMetadata, () -> reconcile(evidence.withMetadata(badSha)));
+    }
+
+    @Test
+    void validatesCommittedMetadataAndRejectsMisplacedEvidence() throws Exception {
+        var actual = ExecutablePackagedJarReconciliation.parseVerificationMetadata(
+                Files.readAllBytes(Path.of("gradle/verification-metadata.xml")),
+                new ExecutablePackagedJarReconciliation.Limits(100_000, 100, 500_000, 500,
+                        1_000_000, 100, 100_000, 500_000));
+        assertThat(actual.hasArtifact(LOADER, "spring-boot-loader-tools-3.5.16.jar")).isTrue();
+        assertThat(actual.hasArtifact(coordinate("com.querydsl:querydsl-bom:5.1.0"),
+                "querydsl-bom-5.1.0.pom")).isFalse();
+        Evidence evidence = baseline();
+        String xml = evidence.metadata();
+        for (String malformed : List.of(
+                xml.replace("https://schema.gradle.org/dependency-verification", "urn:foreign"),
+                xml.replace("<component ", "<component xmlns=\"urn:foreign\" "),
+                xml.replace("<components>", "<components/><configuration>").replace("</components>", "</configuration>"),
+                xml.replace("<sha256 ", "<sha256 xmlns=\"urn:foreign\" "),
+                xml.replace("<sha256 ", "<wrapper><sha256 ").replace("/></artifact>", "/></wrapper></artifact>"))) {
+            assertFailure(MalformedVerificationMetadata, () -> reconcile(evidence.withMetadata(malformed)));
+        }
+        String signatureOnly = xml.replace("<sha256 value=\"" + sha256(PACKAGED_BYTES) + "\"/>",
+                "<pgp value=\"57312C37B064EE0FDAB0130490D5CE79E1DE6A2C\"/>");
+        assertFailure(MissingChecksumEvidence, () -> reconcile(evidence.withMetadata(signatureOnly)));
+    }
+
+    @Test
+    void rejectsInvalidCallerEvidenceIdentities() {
+        for (String name : List.of("/tmp/a.jar", "../a.jar", "nested/a.jar", "not-a-jar")) {
+            assertFailure(InconsistentClassification, () -> jar("test:test:1", name, PACKAGED_BYTES));
+        }
+        for (String path : List.of("/resource.jar", "resources/../resource.jar", "resources//resource.jar")) {
+            assertFailure(InconsistentClassification, () -> new ExecutablePackagedJarReconciliation.BuildAddedRule(
+                    JARMODE_PATH, LOADER, "loader.jar", sha256(JARMODE_BYTES), path, sha256(JARMODE_BYTES)));
+        }
+        var missing = ExecutablePackagedJarReconciliation.FailureCategory.MissingInput;
+        assertFailure(missing, () -> new ExecutablePackagedJarReconciliation.ResolvedGraph(
+                "test", java.util.Collections.singletonList(null)));
+        var counts = new ExecutablePackagedJarReconciliation.Cardinalities(0, 0, 0, 0, 0, 0);
+        assertFailure(missing, () -> policy(java.util.Collections.singleton(null), Set.of(), Set.of(), List.of(), counts));
+        assertFailure(missing, () -> policy(Set.of(), Set.of(), Set.of(), java.util.Collections.singletonList(null), counts));
+    }
+
+    @Test
+    void rejectsCorruptedSourceDirectoryFieldsAfterSourceChecksumMatches() throws Exception {
+        Evidence evidence = baseline();
+        byte[] source = evidence.sourceBytes();
+        int end = source.length - 22;
+        int central = indexOf(source, new byte[]{0x50, 0x4b, 0x01, 0x02});
+        int descriptor = indexOf(source, new byte[]{0x50, 0x4b, 0x07, 0x08});
+        var malformed = new ArrayList<byte[]>();
+        for (int offset : List.of(end + 4, end + 8, end + 12, end + 16, end + 20,
+                central + 10, central + 16, central + 20, central + 42, descriptor + 4)) {
+            byte[] broken = source.clone();
+            broken[offset] ^= 1;
+            malformed.add(broken);
+        }
+        malformed.add(Arrays.copyOf(source, source.length + 1));
+        byte[] zip64 = source.clone();
+        Arrays.fill(zip64, end + 8, end + 12, (byte) 0xff);
+        malformed.add(zip64);
+        for (byte[] broken : malformed) {
+            assertFailure(InvalidBuildAddedOrigin, () -> reconcile(evidence.withSourceBytes(broken)
+                    .withPolicy(policy(Set.of(PACKAGED_COORD), Set.of(OMITTED), Set.of(PLATFORM_COORD),
+                            List.of(buildRule(broken, JARMODE_BYTES)), evidence.policy().cardinalities()))
+                    .withMetadata(metadata(evidence.graph().components(), broken, null))));
+        }
+        byte[] commented = Arrays.copyOf(source, source.length + 3);
+        commented[end + 20] = 3;
+        assertThat(reconcile(evidence.withSourceBytes(commented)
+                .withPolicy(policy(Set.of(PACKAGED_COORD), Set.of(OMITTED), Set.of(PLATFORM_COORD),
+                        List.of(buildRule(commented, JARMODE_BYTES)), evidence.policy().cardinalities()))
+                .withMetadata(metadata(evidence.graph().components(), commented, null)))
+                .buildAddedResults()).hasSize(1);
     }
 
     @Test
