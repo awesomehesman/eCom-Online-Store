@@ -16,6 +16,42 @@ describe('Catalogue API client', () => {
   });
   afterEach(() => http.verify());
 
+  it('loads only the requested product and preserves product and variant media associations', () => {
+    const media = { mediaId: 'front', url: 'https://example.invalid/front', alternativeText: 'Front' };
+    const product = {
+      productId: 'shirt', name: 'Shirt', description: 'Description', family: 'Apparel',
+      attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
+      variants: [{ variantId: 'variant', attributes: {} }],
+      media: [media, { ...media, mediaId: 'back', variantId: 'variant' }],
+    };
+    for (const [body, kind] of [[product, 'product'], [{ ...product, productId: 'other' }, 'error'],
+      [{ ...product, media: [{ ...media, variantId: null }] }, 'error']] as const) {
+      let found: unknown;
+      client.loadProduct('shirt').subscribe(value => found = value);
+      http.expectOne('/api/v1/products/shirt').flush(body, { headers: {
+        'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+      } });
+      expect(found).toEqual(jasmine.objectContaining({ kind }));
+    }
+  });
+
+  it('distinguishes detail problem responses and transport failures', () => {
+    for (const [status, title, kind] of [[404, 'Not Found', 'not-found'],
+      [503, 'Service Unavailable', 'unavailable'], [503, 'Wrong title', 'error']] as const) {
+      let found: unknown;
+      client.loadProduct('shirt').subscribe(value => found = value);
+      http.expectOne('/api/v1/products/shirt').flush({ type: 'about:blank', title, status, correlationId: 'test' },
+        { status, statusText: title, headers: {
+          'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
+        } });
+      expect(found).toEqual(jasmine.objectContaining({ kind }));
+    }
+    let found: unknown;
+    client.loadProduct('shirt').subscribe(value => found = value);
+    http.expectOne('/api/v1/products/shirt').error(new ProgressEvent('error'));
+    expect(found).toEqual({ kind: 'error', failure: 'network' });
+  });
+
   function flush(body: unknown, status = 200, headers: Record<string, string> = {
     'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Correlation-ID': 'test',
   }): void {

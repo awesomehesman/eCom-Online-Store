@@ -67,7 +67,8 @@ public final class ProductCatalogueController {
         try {
             return switch (queries.list(size, cursor)) {
                 case ProductCatalogueQueryService.Page page -> ResponseEntity.ok().headers(headers(correlation))
-                        .contentType(MediaType.APPLICATION_JSON).body(new ProductPage(page.items(), page.pageSize(),
+                        .contentType(MediaType.APPLICATION_JSON).body(new ProductPage(
+                                page.items().stream().map(ProductResponse::from).toList(), page.pageSize(),
                                 page.nextCursor() == null ? null : cursors.encode(page.nextCursor())));
                 case ProductCatalogueQueryService.AuthorityUnavailable ignored -> problem(503, correlation);
                 case ProductCatalogueQueryService.QueryError ignored -> problem(500, correlation);
@@ -94,7 +95,7 @@ public final class ProductCatalogueController {
         try {
             return switch (queries.detail(id)) {
                 case ProductCatalogueQueryService.Found found -> ResponseEntity.ok().headers(headers(correlation))
-                        .contentType(MediaType.APPLICATION_JSON).body(found.product());
+                        .contentType(MediaType.APPLICATION_JSON).body(ProductResponse.from(found.product()));
                 case ProductCatalogueQueryService.NotFound ignored -> problem(404, correlation);
                 case ProductCatalogueQueryService.NotVisible ignored -> problem(404, correlation);
                 case ProductCatalogueQueryService.DetailAuthorityUnavailable ignored -> problem(503, correlation);
@@ -131,7 +132,22 @@ public final class ProductCatalogueController {
     }
 
     private record ProductPage(
-            java.util.List<com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueRepresentation> items,
+            java.util.List<ProductResponse> items,
             int pageSize, String nextCursor) { }
+    private record ProductResponse(String productId, String name, String description, String family,
+            String attributeStandardVersion, java.util.List<String> variantDefiningAttributes,
+            java.util.List<com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueRepresentation.Variant> variants,
+            java.util.List<MediaResponse> media) {
+        static ProductResponse from(
+                com.enterprise.fashion.ecommerce.product.application.catalogue.ProductCatalogueRepresentation product) {
+            return new ProductResponse(product.productId(), product.name(), product.description(), product.family(),
+                    product.attributeStandardVersion(), product.variantDefiningAttributes(), product.variants(),
+                    product.media().stream().map(item -> new MediaResponse(item.mediaId(), item.url(),
+                            item.alternativeText(), item.variantId())).toList());
+        }
+    }
+    private record MediaResponse(String mediaId, String url, String alternativeText,
+            @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            String variantId) { }
     private record Problem(String type, String title, int status, String correlationId) { }
 }

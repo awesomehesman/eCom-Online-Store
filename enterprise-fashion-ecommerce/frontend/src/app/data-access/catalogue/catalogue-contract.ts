@@ -91,6 +91,10 @@ function freeze<T>(value: T): T {
   return value;
 }
 
+export function validateCatalogueProduct(input: unknown): CatalogueProduct | null {
+  return product(input) ? freeze(structuredClone(input)) as CatalogueProduct : null;
+}
+
 /** Pure JSON-value boundary. No HTTP, eligibility inference, cursor decoding or partial salvage. */
 export function validateCataloguePage(input: unknown): ValidatedCataloguePage | null {
   if (!shape(input, ['items', 'pageSize', 'nextCursor']) || !Number.isInteger(input['pageSize'])

@@ -23,6 +23,12 @@ const server = createServer(async (req, res) => {
       res.end(JSON.stringify(fixture.body));
       return;
     }
+    if (pathname === '/api/v1/products/fixture-product') {
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store',
+        'X-Correlation-ID': 'browser-fixture' });
+      res.end(JSON.stringify(catalogueFixture.body.items[0]));
+      return;
+    }
     const path = resolve(root, '.' + pathname);
     if (!path.startsWith(root + '/') && path !== root) { res.writeHead(403).end(); return; }
     // Local SPA fallback only; this does not select a hosting configuration.
@@ -335,6 +341,18 @@ try {
   assert.equal(await evaluate(`document.body.textContent.includes('No products are currently available')`), false);
   await checkSemantics();
   console.log('PASS: synthetic catalogue loading, empty, unavailable, Product rendering, keyboard recheck and focus preservation');
+  await evaluate(`document.querySelector('a[href="/products/fixture-product"]').focus()`);
+  await key('Enter', 'Enter', 13);
+  await waitFor(`location.pathname === '/products/fixture-product'
+    && document.querySelector('main h1')?.textContent === 'Synthetic accessory'`);
+  assert.equal(await evaluate(`document.activeElement === document.querySelector('main')`), true);
+  assert.equal(await evaluate(`[...document.querySelectorAll('main [role=status]')]
+    .some(status => status.textContent.trim() === 'Product details loaded.')`), true);
+  assert.equal(await evaluate(`document.querySelector('label[for="product-variant"]').textContent`), 'Variant');
+  await evaluate(`[...document.querySelectorAll('main a')].find(link => link.textContent === 'Back to Catalogue').focus()`);
+  await key('Enter', 'Enter', 13);
+  await waitFor(`location.pathname === '/' && document.querySelector('section article h3')?.textContent === 'Synthetic accessory'`);
+  console.log('PASS: synthetic Product detail keyboard navigation, route focus, variant label and return');
   }
   {
     catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };

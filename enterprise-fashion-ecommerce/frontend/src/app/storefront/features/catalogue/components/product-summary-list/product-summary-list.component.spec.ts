@@ -56,7 +56,9 @@ describe('Isolated validated Product collection', () => {
     expect(Array.from(root.querySelectorAll('h2,h3'), node => node.tagName)).toEqual(['H2', 'H3', 'H3']);
     expect(Array.from(root.querySelectorAll('h3'), node => node.textContent)).toEqual(fixturePage().items.map(item => item.name));
     expect(root.querySelector('em')).toBeNull();
-    expect(root.querySelector('a,button,input,[tabindex],[role=status],[role=alert],[aria-live]')).toBeNull();
+    expect(Array.from(root.querySelectorAll('a'), link => link.getAttribute('href')))
+      .toEqual(['/products/product-a', '/products/product-b']);
+    expect(root.querySelector('button,input,[tabindex],[role=status],[role=alert],[aria-live]')).toBeNull();
     expect(root.textContent).not.toMatch(/price|stock|cart|purchase/i);
   });
   it('keeps Product DOM identity stable across validated content replacement', () => {
@@ -68,7 +70,9 @@ describe('Isolated validated Product collection', () => {
     const root: HTMLElement = render(fixturePage(false, 'opaque-next')).nativeElement;
     expect(root.textContent).toContain('This page does not include all catalogue results.');
     expect(root.textContent).not.toContain('opaque-next');
-    expect(root.querySelector('button,a')).toBeNull();
+    expect(root.querySelector('button')).toBeNull();
+    expect(Array.from(root.querySelectorAll('a'), link => link.getAttribute('href')))
+      .toEqual(['/products/product-a', '/products/product-b']);
   });
   it('does not fabricate empty or successful commerce messaging for an empty page', () => {
     const root: HTMLElement = render(validateCataloguePage({ items: [], pageSize: 20, nextCursor: null })!).nativeElement;

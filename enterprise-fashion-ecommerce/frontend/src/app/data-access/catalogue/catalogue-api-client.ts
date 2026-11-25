@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 
-import { ValidatedCataloguePage, validateCataloguePage } from './catalogue-contract';
+import { CatalogueProduct, ValidatedCataloguePage, validateCataloguePage, validateCatalogueProduct } from './catalogue-contract';
 
 export type CatalogueFailure = 'network' | 'server' | 'invalid-response';
 export type CatalogueObservation =
@@ -11,6 +11,10 @@ export type CatalogueObservation =
   | { readonly kind: 'error'; readonly failure: CatalogueFailure };
 
 const correlation = /^[A-Za-z0-9._-]{1,128}$/;
+export type ProductObservation =
+  | { readonly kind: 'product'; readonly product: CatalogueProduct }
+  | { readonly kind: 'not-found' | 'unavailable' }
+  | { readonly kind: 'error'; readonly failure: CatalogueFailure };
 
 function validHeaders(headers: HttpHeaders): boolean {
   return headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() === 'application/json'
@@ -18,7 +22,7 @@ function validHeaders(headers: HttpHeaders): boolean {
     && correlation.test(headers.get('X-Correlation-ID') ?? '');
 }
 
-function unavailableProblem(failure: HttpErrorResponse): boolean {
+function validProblem(failure: HttpErrorResponse, status: number, title: string): boolean {
   const body = failure.error as unknown;
   const headerCorrelation = failure.headers.get('X-Correlation-ID');
   return failure.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() === 'application/problem+json'
@@ -27,8 +31,8 @@ function unavailableProblem(failure: HttpErrorResponse): boolean {
     && body !== null && typeof body === 'object' && !Array.isArray(body)
     && Reflect.ownKeys(body).length === 4
     && (body as Record<string, unknown>)['type'] === 'about:blank'
-    && (body as Record<string, unknown>)['title'] === 'Service Unavailable'
-    && (body as Record<string, unknown>)['status'] === 503
+    && (body as Record<string, unknown>)['title'] === title
+    && (body as Record<string, unknown>)['status'] === status
     && (body as Record<string, unknown>)['correlationId'] === headerCorrelation;
 }
 
@@ -36,6 +40,35 @@ function unavailableProblem(failure: HttpErrorResponse): boolean {
 @Injectable({ providedIn: 'root' })
 export class CatalogueApiClient {
   private readonly http = inject(HttpClient);
+
+  loadProduct(productId: string): Observable<ProductObservation> {
+    if (!/^[A-Za-z0-9_-]{1,128}$/.test(productId) || /\s/.test(productId)) {
+      return of({ kind: 'error', failure: 'invalid-response' });
+    }
+    return this.http.get<unknown>(`/api/v1/products/${productId}`, {
+      observe: 'response', headers: { Accept: 'application/json', 'Cache-Control': 'no-store' },
+    }).pipe(
+      map((response): ProductObservation => {
+        const product = response.status === 200 && validHeaders(response.headers)
+          ? validateCatalogueProduct(response.body) : null;
+        return product?.productId === productId
+          ? { kind: 'product', product } : { kind: 'error', failure: 'invalid-response' };
+      }),
+      catchError((failure: unknown): Observable<ProductObservation> => {
+        if (failure instanceof HttpErrorResponse) {
+          if (failure.status === 404 || failure.status === 503) {
+            const absent = failure.status === 404;
+            return of(validProblem(failure, failure.status, absent ? 'Not Found' : 'Service Unavailable')
+              ? { kind: absent ? 'not-found' : 'unavailable' }
+              : { kind: 'error', failure: 'invalid-response' });
+          }
+          if (failure.status === 0) return of({ kind: 'error', failure: 'network' });
+          if (failure.status === 200) return of({ kind: 'error', failure: 'invalid-response' });
+        }
+        return of({ kind: 'error', failure: 'server' });
+      }),
+    );
+  }
 
   loadPage(pageSize = 20, cursor: string | null = null): Observable<CatalogueObservation> {
     if (!Number.isInteger(pageSize) || pageSize < 1 || pageSize > 100
@@ -49,14 +82,14 @@ export class CatalogueApiClient {
       headers: { Accept: 'application/json', 'Cache-Control': 'no-store' },
     }).pipe(
       map((response: HttpResponse<unknown>): CatalogueObservation => {
-        const page = validHeaders(response.headers) ? validateCataloguePage(response.body) : null;
+        const page = response.status === 200 && validHeaders(response.headers) ? validateCataloguePage(response.body) : null;
         return page !== null && page.pageSize === pageSize
           ? { kind: 'page', page }
           : { kind: 'error', failure: 'invalid-response' };
       }),
       catchError((failure: unknown): Observable<CatalogueObservation> => {
         if (failure instanceof HttpErrorResponse) {
-          if (failure.status === 503) return of(unavailableProblem(failure)
+          if (failure.status === 503) return of(validProblem(failure, 503, 'Service Unavailable')
             ? { kind: 'unavailable' }
             : { kind: 'error', failure: 'invalid-response' });
           if (failure.status === 0) return of({ kind: 'error', failure: 'network' });

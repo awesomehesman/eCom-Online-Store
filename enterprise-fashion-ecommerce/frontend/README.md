@@ -659,3 +659,29 @@ application typecheck/build verify the unchanged live application. Production
 JavaScript inspection found neither the new collection selector/validator marker
 nor the synthetic Product name. These checks establish no live positive backend
 integration or complete WCAG conformance.
+
+## Product detail through the Catalogue API
+
+Catalogue entries link to `/products/:productId`. The detail page makes an
+anonymous GET to `/api/v1/products/{productId}` and requires the returned public
+ID to match the requested ID. It validates the same Product shape used for
+listings. The backend omits `variantId` on Product-level media and emits the
+associated ID on Variant media. The frontend shows Product-level media and
+adds the selected Variant's associated media when a Variant is selected.
+
+The detail page announces loading and results, distinguishes confirmed absence
+from unavailable Product authority, and offers retry after a recoverable
+failure. The Catalogue contract excludes price and stock. Production positive
+visibility depends on authoritative Product publication evidence. Positive
+serialization and storefront presentation are exercised with synthetic
+fixtures. The PostgreSQL-backed backend suite exercises anonymous empty,
+concealed, and unavailable responses with the existing publication controls.
+
+Verification for this increment passed Angular typechecking, all 213 Chrome
+unit/component tests, the production build, and 17 accessibility browser
+groups. The detail browser scenario uses a synthetic API fixture and covers
+keyboard navigation, route focus, the Variant label, and returning to Catalogue.
+Strict offline backend validation passed 889 unit and architecture tests and
+347 integration tests, with one existing opt-in test skipped. The HTTP suite
+included 35 PostgreSQL-backed Catalogue cases, and a separate synthetic
+controller test checked media serialization on both endpoints.

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import type { ValidatedCataloguePage } from '../../../../../data-access/catalogue/catalogue-contract';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
@@ -6,7 +7,7 @@ import { ProductSummaryComponent } from '../product-summary/product-summary.comp
 @Component({
   selector: 'app-product-summary-list',
   standalone: true,
-  imports: [ProductSummaryComponent],
+  imports: [ProductSummaryComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './product-summary-list.component.html',
   styleUrl: './product-summary-list.component.scss',
