@@ -1,0 +1,10 @@
+<a class="skip-link" [href]="skipDestination()">Skip to main content</a>
+<header>
+  <nav aria-label="Storefront">
+    <a routerLink="/" routerLinkActive="current-location"
+       [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Storefront</a>
+  </nav>
+</header>
+<main #mainContent id="main-content" tabindex="-1">
+  <ng-content />
+</main>

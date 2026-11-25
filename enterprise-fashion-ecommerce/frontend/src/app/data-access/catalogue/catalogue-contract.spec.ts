@@ -1,4 +1,4 @@
-import { validateCataloguePage } from './catalogue-page';
+import { validateCataloguePage } from './catalogue-contract';
 
 function fixture() {
   return { items: [{ productId: 'product-a', name: 'Synthetic shirt', description: 'Synthetic description', family: 'Apparel',

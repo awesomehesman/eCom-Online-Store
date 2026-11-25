@@ -23,6 +23,12 @@ const server = createServer(async (req, res) => {
       res.end(JSON.stringify(fixture.body));
       return;
     }
+    if (pathname === '/api/v1/products/fixture-product') {
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store',
+        'X-Correlation-ID': 'browser-fixture' });
+      res.end(JSON.stringify(catalogueFixture.body.items[0]));
+      return;
+    }
     const path = resolve(root, '.' + pathname);
     if (!path.startsWith(root + '/') && path !== root) { res.writeHead(403).end(); return; }
     // Local SPA fallback only; this does not select a hosting configuration.
@@ -322,17 +328,31 @@ try {
   assert.equal(await evaluate(`document.body.textContent.includes('browser-fixture')`), false);
   assert.equal(await evaluate(`document.activeElement === document.querySelector('section button')`), true);
   assert.equal(await evaluate(`getComputedStyle(document.activeElement).outlineStyle !== 'none'`), true);
-  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product evidence, never rendered',
+  catalogueFixture = { status: 200, body: { items: [{ productId: 'fixture-product', name: 'Synthetic accessory', description: 'Synthetic Product presentation fixture',
     family: 'Accessories', attributeStandardVersion: '1.0.0', variantDefiningAttributes: [],
     variants: [{ variantId: 'fixture-variant', attributes: {} }],
     media: [{ mediaId: 'fixture-media', url: 'https://example.invalid/fixture.jpg', alternativeText: 'Synthetic accessory illustration' }] }], pageSize: 20, nextCursor: null } };
   await key('Enter', 'Enter', 13);
-  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('not supported')`);
-  assert.equal(await evaluate(`['fixture-product', 'Synthetic accessory', 'fixture-variant', 'fixture-media'].some(value => document.body.textContent.includes(value))`), false);
-  assert.equal(await evaluate(`document.querySelectorAll('section img, section article').length`), 0);
+  await waitFor(`document.querySelector('section [role=status]')?.textContent.includes('1 products available')`);
+  assert.equal(await evaluate(`document.querySelector('section article h3').textContent`), 'Synthetic accessory');
+  assert.equal(await evaluate(`document.querySelector('section article p').textContent`), 'Synthetic Product presentation fixture');
+  assert.equal(await evaluate(`document.querySelectorAll('section article').length`), 1);
+  assert.equal(await evaluate(`document.body.textContent.includes('fixture-product')`), false);
   assert.equal(await evaluate(`document.body.textContent.includes('No products are currently available')`), false);
   await checkSemantics();
-  console.log('PASS: synthetic catalogue loading, empty, unavailable, unsupported, keyboard recheck and focus preservation');
+  console.log('PASS: synthetic catalogue loading, empty, unavailable, Product rendering, keyboard recheck and focus preservation');
+  await evaluate(`document.querySelector('a[href="/products/fixture-product"]').focus()`);
+  await key('Enter', 'Enter', 13);
+  await waitFor(`location.pathname === '/products/fixture-product'
+    && document.querySelector('main h1')?.textContent === 'Synthetic accessory'`);
+  assert.equal(await evaluate(`document.activeElement === document.querySelector('main')`), true);
+  assert.equal(await evaluate(`[...document.querySelectorAll('main [role=status]')]
+    .some(status => status.textContent.trim() === 'Product details loaded.')`), true);
+  assert.equal(await evaluate(`document.querySelector('label[for="product-variant"]').textContent`), 'Variant');
+  await evaluate(`[...document.querySelectorAll('main a')].find(link => link.textContent === 'Back to Catalogue').focus()`);
+  await key('Enter', 'Enter', 13);
+  await waitFor(`location.pathname === '/' && document.querySelector('section article h3')?.textContent === 'Synthetic accessory'`);
+  console.log('PASS: synthetic Product detail keyboard navigation, route focus, variant label and return');
   }
   {
     catalogueFixture = { status: 200, body: { items: [], pageSize: 20, nextCursor: null } };

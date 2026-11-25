@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.media {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+}

@@ -624,3 +624,40 @@ application typecheck/build verify the unchanged live application. Production
 JavaScript inspection found neither the new collection selector/validator marker
 nor the synthetic Product name. These checks establish no live positive backend
 integration or complete WCAG conformance.
+
+## Catalogue and Product detail integration
+
+This entry records the current implementation. Earlier entries describe
+historical checkpoints.
+
+The storefront requests anonymous Catalogue pages from `GET /api/v1/products`
+with bounded cursor continuation. Each entry links to `/products/:productId`.
+The detail page requests `GET /api/v1/products/{productId}` and validates the
+returned Product identity. Product-level media omits `variantId`. Variant media
+retains its associated ID and appears alongside Product-level media when its
+Variant is selected.
+
+The Catalogue page provides its own Angular service. A private writable signal
+holds its state and computed signals expose the view state. RxJS subscriptions
+own request cancellation. Request generations suppress superseded responses,
+and Angular `DestroyRef` disposes of active work when the page goes away. The
+existing dependency manifest and lockfile provide all required packages.
+
+The storefront distinguishes empty Catalogue results, concealed or missing
+details, unavailable authority, and loading failures. The API client remains
+the contract validation boundary. The backend retains publication authority
+and the contract supplies no commercial price or stock.
+
+The PostgreSQL-backed backend HTTP tests verify empty, concealed, and
+unavailable responses. A synthetic controller regression verifies list and
+detail media serialization. Chrome uses synthetic API fixtures for positive
+presentation, keyboard navigation, focus, and returning to the Catalogue.
+
+On the unchanged `develop` lockfile, application and specification typechecks,
+all 213 Chrome unit/component tests, the production build, and 17 Chrome
+accessibility groups passed. A live browser-to-backend run and positive
+production publication remain unverified.
+
+Java 21 strict offline `clean check` passed 843 unit and architecture cases
+and 347 integration cases, including 35 Catalogue HTTP cases. There were no
+test failures, errors, or skips.
