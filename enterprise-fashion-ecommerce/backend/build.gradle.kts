@@ -144,3 +144,16 @@ tasks.register<JavaExec>("inspectBei02GradleEvidence") {
         setArgs(evidence)
     }
 }
+
+tasks.register<JavaExec>("inspectExecutableResources") {
+    group = "verification"
+    val executable = tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar")
+    dependsOn(executable, tasks.named("testClasses"))
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass.set("com.enterprise.fashion.ecommerce.releasecompliance.ExecutableReleaseEvidence")
+    javaLauncher.set(javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) })
+    doFirst {
+        check(gradle.startParameter.isOffline && gradle.startParameter.dependencyVerificationMode.name == "STRICT")
+        setArgs(listOf(executable.get().archiveFile.get().asFile.absolutePath))
+    }
+}

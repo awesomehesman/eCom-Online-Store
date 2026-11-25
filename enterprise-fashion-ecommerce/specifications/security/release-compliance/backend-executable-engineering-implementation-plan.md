@@ -607,6 +607,58 @@ implementation alone.
 | Retention or promotion mechanism absent | Platform/DevOps decision remains pending. |
 | Rights-holder or outbound terms inferred | Rights-holder authority remains not verified and outbound license unresolved. |
 
+### 23.1 Local verification and remaining dependencies
+
+From `backend` with Java 21, run
+`./gradlew --offline --no-daemon --dependency-verification=strict inspectExecutableResources`.
+The observed executable had 500 expected non-library entries, 90 observed entries,
+and one configuration disposition item, `BOOT-INF/classes/application-local.properties`.
+All expected resource identities were present. The task returned an incomplete
+resource verdict. Its output identifies archive paths and digests without printing
+configuration values.
+
+A same-workspace `bootJar --rerun-tasks` rebuild under strict offline verification
+matched the initial executable byte-for-byte with `cmp`. Both had SHA-256
+`a2425d1497f3bae338971ab809e2de38b33f1ec865bd28c2ef13d75d987e5653`.
+Independent clean-runner execution remains outstanding.
+
+Final strict offline `clean check` passed with 889 unit and architecture cases,
+including one expected BEI-01 opt-in skip, and 347 integration cases. The focused
+release-evidence run also passed all four new tests and the BEI-01 and BEI-02
+regressions. The resource check and local byte comparison provide technical
+observations. Actual manifest execution, notice-input collection and independent
+runner verification remain incomplete.
+
+The test-scoped tooling provides a digest-bound logical manifest with explicit
+missing reconciliation state, a complete-manifest comparison, and a preliminary
+technical notice-input validator. The notice validator checks physical path and
+digest coverage from supplied observations. Actual notice evidence collection and
+the artifact-specific SBOM generator are outside this local verification result.
+
+The SBOM design uses the executable digest as its subject and retains the
+reconciliation report digest as its source. Each physical component is keyed by
+its exact packaged path and digest. Locked JARs carry their resolved coordinates,
+omitted JARs and platforms are non-contained entries, and the build-added entry
+carries its Loader Tools source coordinate, source digest, and nested path and
+digest. Application classes and resources use archive-entry identities.
+Validation must reject duplicate identities, missing source relationships,
+physical paths on non-contained entries, and differences from the complete
+BEI-01 physical inventory. A missing successful real reconciliation leaves
+completeness unavailable. Format selection and operational generation require
+the admissions stated in §14.
+
+| Dependency | Responsible role | Required resolution and verification | Blocks |
+| --- | --- | --- | --- |
+| 35 exact runtime SHA-256 entries and real BEI-02 success | Engineering / Security | Admit independent evidence for the exact selected artifacts and rerun strict reconciliation to obtain the artifact-bound report. | Complete actual manifest, reconciliation-based notice/SBOM evidence, release acceptance. |
+| Packaged local configuration | Engineering / Security | Decide production packaging treatment and demonstrate the resulting artifact and local-profile behavior. | Resource-policy clearance and release acceptance. |
+| Independent clean runners | Engineering / Security / Platform/DevOps | Approve the runner and evidence boundary, build twice on independently provisioned Java 21 runners, and compare bytes, inventories, and reconciliations. | Independent reproducibility evidence and release acceptance. |
+| Notice inputs and delivered content | Engineering / Legal / Platform/DevOps | Trace all packaged components and nested attributions to evidence and obtain an accountable determination of required content and delivery. | Complete notice evidence and release acceptance. |
+| SBOM format, tooling and retention | Engineering / Security / Platform/DevOps | Admit the format and tool, reconcile physical components and non-contained relationships, and verify digest-bound retained output. | Operational SBOM evidence and release acceptance. |
+| Rights-holder, distribution and accountable dispositions | Repository rights holder / Qualified Legal / accountable owners | Establish authority, approve the distribution model, and record dispositions through DEC-0047. | Release acceptance. |
+
+These items concern executable release evidence. Existing Product, Identity and
+other module-specific implementation and activation gates apply independently.
+
 ## 24. References
 
 - [Backend Executable Engineering Disposition Request](backend-executable-engineering-disposition.md)
