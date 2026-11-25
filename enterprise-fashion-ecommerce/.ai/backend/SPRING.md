@@ -1,9 +1,9 @@
 ---
 title: SPRING
-version: 1.5.0
+version: 1.6.0
 status: Approved
 owner: Engineering
-last_updated: 2026-09-29
+last_updated: 2026-11-25
 authoritative: false
 review_cycle: Quarterly
 ---
@@ -40,7 +40,7 @@ This standard MAY refine Spring-specific implementation detail but MUST NOT sile
 
 ## 4. Exact Spring Boot Release
 
-`ARCHITECTURE.md` establishes Spring Boot 3.x with Java 21 LTS. Accepted DEC-0001 selects Spring Boot 3.5.16 as the exact Spring Boot 3.x release and Gradle 8.14.5 as the backend build-tool release. Spring Boot 4.x is not authorized by that decision.
+`ARCHITECTURE.md` establishes Spring Boot 3.x with Java 21 LTS. Accepted DEC-0001 selects Spring Boot 3.5.16 as the exact Spring Boot 3.x release and governs the exact Gradle build-tool release. Spring Boot 4.x is not authorized by that decision.
 
 Java 21 remains the required runtime and toolchain baseline inherited from Architecture and `JAVA.md`. The separate executable implementation baseline MUST enforce these exact versions and complete compatibility testing, dependency and security review, and applicable Pipeline gates before Spring Boot backend implementation begins.
 
@@ -48,7 +48,7 @@ No contributor may infer or introduce a different Spring Boot or Gradle release 
 
 ## 5. Dependency Management
 
-Once the executable implementation baseline is established, builds MUST use the committed Gradle Wrapper pinned to Gradle 8.14.5. Spring dependency alignment MUST be centralized through the Spring Boot Gradle plugin and Gradle-native consumption of the `spring-boot-dependencies` BOM/platform so Spring framework modules remain mutually compatible. Spring Framework versions MUST NOT be pinned independently unless an approved compatibility need is documented and verified.
+Once the executable implementation baseline is established, builds MUST use the committed Gradle Wrapper pinned to the effective DEC-0001 Gradle release. Spring dependency alignment MUST be centralized through the Spring Boot Gradle plugin and Gradle-native consumption of the `spring-boot-dependencies` BOM/platform so Spring framework modules remain mutually compatible. Spring Framework versions MUST NOT be pinned independently unless an approved compatibility need is documented and verified.
 
 Dependency versions MUST be fixed or governed through approved platform/BOM constraints. Dynamic versions and changing modules are prohibited unless separately governed. Applicable resolvable dependency configurations MUST use Gradle-native dependency locking. Dependency verification using reviewed checksums or signatures where applicable, Gradle Wrapper distribution/JAR integrity controls, and explicit reproducibility controls for applicable archives and build outputs are required.
 
@@ -526,6 +526,7 @@ The lifecycle and authority of the following companion files MUST be determined 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.6.0 | 2026-11-25 | Approved | Recorded the DEC-0001 Gradle 8.14.7 security amendment, effective after successful validation and authorized integration into develop. |
 | 1.5.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0021 by establishing Spring boundaries for Identity-owned local Customer Authentication authority while preserving Customer and Account authority, ADR-0019 and ADR-0020 Session boundaries, downstream credential and implementation neutrality, future external-provider governance, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.4.0 | 2026-09-29 | Approved | Synchronized Accepted ADR-0020 by establishing Spring Session JDBC with PostgreSQL as the approved Identity Session infrastructure while preserving ADR-0019 security semantics, inward-layer independence, Flyway authority, ADR-0018 persistence boundaries, and separate DEC-0001 dependency admission without claiming implementation. |
 | 1.3.0 | 2026-09-28 | Approved | Synchronized Accepted ADR-0019 by establishing Spring implementation boundaries for the Identity-owned authoritative server-side Session and protected browser-cookie credential-custody architecture while preserving contextual Authorization, mandatory privileged MFA, unresolved storage, provider, and concrete configuration choices, and separate DEC-0001 dependency admission without claiming implementation. |

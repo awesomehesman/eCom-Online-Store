@@ -131,7 +131,7 @@ Flyway remains the mandatory and sole governed mechanism for schema and governed
 
 ## Dependency and Build Boundary
 
-This decision inherits Java 21, Spring Boot 3.5.16, Gradle 8.14.5, the Spring Boot dependency-management baseline, fixed versions, dependency locking, dependency verification, reproducibility, and applicable Pipeline controls from Accepted DEC-0001.
+This decision inherits Java 21, Spring Boot 3.5.16, the effective Gradle release, the Spring Boot dependency-management baseline, fixed versions, dependency locking, dependency verification, reproducibility, and applicable Pipeline controls from Accepted DEC-0001.
 
 ADR-0018 does not select exact new dependency coordinates or versions. After acceptance, actual dependency admission must occur through a separate implementation change under DEC-0001. That change must use the governed Spring Boot dependency-management baseline where applicable, update lock and verification evidence, pass compatibility and security review, and introduce no competing persistence framework.
 
