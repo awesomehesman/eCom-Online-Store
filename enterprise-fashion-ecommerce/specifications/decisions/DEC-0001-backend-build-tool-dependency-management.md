@@ -42,8 +42,8 @@ This evidence establishes compatibility and available controls; it does not clai
 The repository-wide backend baseline MUST use:
 
 - Gradle as the build tool;
-- Gradle 8.14.5 as the exact build-tool release;
-- a committed Gradle Wrapper pinned to Gradle 8.14.5, including distribution integrity/checksum validation;
+- the exact Gradle release specified by the effective version baseline below;
+- a committed Gradle Wrapper pinned to that release, including distribution integrity/checksum validation;
 - the Java 21 toolchain;
 - Spring Boot 3.5.16 as the exact Spring Boot release, remaining within the governed Spring Boot 3.x generation;
 - the Spring Boot Gradle plugin and Gradle-native consumption of the `spring-boot-dependencies` BOM/platform for centralized Spring dependency alignment;
@@ -55,6 +55,17 @@ The repository-wide backend baseline MUST use:
 - the existing Security and CI standards for SCA, SBOM, and provenance requirements.
 
 No unrelated dependency or library is selected by this Accepted decision. Acceptance authorizes creation of the executable build baseline in a separate governed change, but Spring Boot backend implementation MUST NOT begin until that baseline and its required validation evidence are complete.
+
+## Gradle Version Baseline and Security Amendment
+
+Gradle 8.14.5 remains the effective baseline until the 8.14.7 amendment passes validation and is integrated into `develop` with authorization. At that point, Gradle 8.14.7 becomes the exact build-tool and committed Wrapper release.
+
+The project disposition supplied on 2026-11-25 records Engineering CONFIRM, Security CONFIRM WITH CONDITIONS, and Architecture CONFIRM for this version-only amendment. Effectiveness requires Java 21 compatibility, strict dependency verification, unchanged dependency locks, successful final CI, and authorized integration. The 2026-09-25 acceptance evidence is retained below. Java 21, Spring Boot 3.5.16, dependency alignment, repository restrictions, locking, verification, and Wrapper integrity requirements continue to apply. Production release authorization is outside this disposition.
+
+The [Gradle 8.14.7 release notes](https://docs.gradle.org/8.14.7/release-notes.html) document fixes for generated version-catalog accessors and daemon registry trust, plus the security fixes from 8.14.6. The [publisher checksum reference](https://gradle.org/release-checksums/#8.14.7) gives the following SHA-256 values for the candidate.
+
+- Binary distribution ZIP: `903bfc4bc7622323124054c10f509246212a1902948bdaf26c379cca8735e856`
+- Wrapper JAR: `ad16bca46cb71bb5887c546860d93992aeee35c1fdaf4a242b0a612375d937e0`
 
 ## Alternatives Considered
 
@@ -141,9 +152,9 @@ No individual reviewer identity, ticket, signature, or external approval artifac
 
 ## Acceptance Synchronization and Implementation Sequencing
 
-This acceptance change synchronizes DEC-0001, the `DECISIONS.md` index and history, `.ai/backend/SPRING.md`, and `.ai/backend/JAVA.md`. It establishes the governed decision but does not create or claim completion of executable build artifacts.
+The original 2026-09-25 acceptance synchronized DEC-0001, the `DECISIONS.md` index and history, `.ai/backend/SPRING.md`, and `.ai/backend/JAVA.md`. It established the governed decision independently of executable build artifact completion.
 
-A separate implementation-baseline change MUST establish and validate, as applicable:
+The original decision required a separate implementation-baseline change to establish and validate, as applicable:
 
 - repository Gradle build configuration;
 - the committed Gradle Wrapper pinned to Gradle 8.14.5 and its distribution/JAR integrity controls;

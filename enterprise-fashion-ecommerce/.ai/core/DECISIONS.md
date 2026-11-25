@@ -1,9 +1,9 @@
 ---
 title: DECISIONS
-version: 1.0.111
+version: 1.0.112
 status: Approved
 owner: Architecture
-last_updated: 2026-11-10
+last_updated: 2026-11-25
 authoritative: true
 review_cycle: Quarterly
 ---
@@ -808,6 +808,7 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.112 | 2026-11-25 | Approved | Recorded the DEC-0001 Gradle 8.14.7 security amendment, effective after successful validation and authorized integration into develop. |
 | 1.0.111 | 2026-11-10 | Approved | Synchronized Accepted ADR-0023, selecting enterprise-managed OIDC as the Staff authentication mechanism with Identity-owned verification, Staff association resolution and authoritative server-side Sessions; recorded project-owner dispositions across Architecture, Identity, Security and Administration while preserving separate provider, assurance-mapping, dependency, implementation, deployment and operational-activation gates and default-deny administrative Authorization. |
 | 1.0.110 | 2026-11-06 | Approved | Synchronized DEC-0045 v1.0.0 Accepted following project-owner overall acceptance on 2026-11-06; recorded all seven completed accountable dispositions while preserving binding conditions, unresolved dependencies and separate implementation/operational authorization gates. |
 | 1.0.109 | 2026-11-06 | Approved | Synchronized DEC-0045 v0.13.0 completed accountable Security, Identity and Administration ACCEPT WITH CONDITIONS dispositions; preserved all prior approvals and binding conditions, pending overall acceptance and implementation/operational restrictions. |

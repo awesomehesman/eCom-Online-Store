@@ -135,7 +135,7 @@ Subsequent implementation requires DEC-0001-governed admission and review of:
 - the appropriate Spring Session JDBC dependency; and
 - any additional direct or transitive dependency not already admitted by the executable backend baseline.
 
-Dependency admission must preserve Java 21, Spring Boot 3.5.16, Gradle 8.14.5, Spring Boot dependency alignment, dependency locking, strict dependency verification, reproducible builds, compatibility review, and applicable security evidence. This ADR pins no dependency version.
+Dependency admission must preserve Java 21, Spring Boot 3.5.16, the effective DEC-0001 Gradle release, Spring Boot dependency alignment, dependency locking, strict dependency verification, reproducible builds, compatibility review, and applicable security evidence. This ADR pins no dependency version.
 
 After acceptance and dependency admission, separately reviewed implementation may establish:
 

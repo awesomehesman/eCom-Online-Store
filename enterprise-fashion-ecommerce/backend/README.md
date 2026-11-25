@@ -5,7 +5,7 @@ publication or operational commerce authority. No Product data is seeded.
 
 ## Prerequisites
 
-Java 21, the committed Gradle 8.14.5 wrapper, Docker Engine/Desktop with Compose v2,
+Java 21, the committed Gradle Wrapper, Docker Engine/Desktop with Compose v2,
 network access to the approved dependency repositories and PostgreSQL image, and
 free localhost ports 3310, 5432, 8080 and 4200. Frontend prerequisites are documented in
 `../frontend/README.md`. Use the existing npm lockfile/dependencies.

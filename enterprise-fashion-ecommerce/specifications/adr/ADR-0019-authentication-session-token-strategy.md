@@ -246,7 +246,7 @@ This ADR does not select sticky Sessions, PostgreSQL Session storage, Redis, Spr
 
 ## Dependency and Implementation Boundary
 
-Accepted DEC-0001 continues to govern Java 21, Spring Boot 3.5.16, Gradle 8.14.5, dependency alignment, locking, verification, reproducibility, and implementation admission.
+Accepted DEC-0001 continues to govern Java 21, Spring Boot 3.5.16, the exact Gradle release, dependency alignment, locking, verification, reproducibility, and implementation admission.
 
 This decision does not claim that the repository currently contains or implements:
 
