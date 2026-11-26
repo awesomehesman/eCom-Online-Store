@@ -4,7 +4,7 @@
 - **Title:** Initial Customer Email Verification Mechanism
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.5.0
+- **Version:** 0.6.0
 - **Date:** 2026-10-09
 - **Owner:** Identity
 - **Authoritative:** false
@@ -17,7 +17,7 @@ Accepted DEC-0008 requires accepted verification of the current authoritative Cu
 
 The merged Identity-owned current-login-email binding source stores exact subject/email facts, supports attributable supersession and coherent observation, and distinguishes current, superseded, conflict and uncertainty. It is dormant: no production issuer or lawful population path exists. A published or observed binding, persisted email row, submitted address, delivery result or fixture is not proof of email control or accepted verification evidence.
 
-DEC-0009 remains 0.8.0 Proposed and non-authoritative; its exhausted evaluations have not selected a strict IDNA2008 strategy, so canonical submitted-email lookup remains blocked. DEC-0010 remains 0.3.0 Proposed and non-authoritative; its exhausted evaluation has not selected a blocklist strategy, so complete prospective-password acceptance and credential establishment for completed Registration remain blocked. Neither blocker is resolved by this proposal. Authentication, Principal and Session issuance remain separate downstream outcomes under ADR-0019, ADR-0022 and the approved Contracts.
+DEC-0009 remains 0.8.0 Proposed and non-authoritative; its exhausted evaluations have not selected a strict IDNA2008 strategy, so canonical submitted-email lookup remains blocked. DEC-0010 remains 0.4.0 Proposed and non-authoritative; its exhausted evaluation has not selected a blocklist strategy, so complete prospective-password acceptance and credential establishment for completed Registration remain blocked. Neither blocker is resolved by this proposal. Authentication, Principal and Session issuance remain separate downstream outcomes under ADR-0019, ADR-0022 and the approved Contracts.
 
 ## Decision Question
 
@@ -181,6 +181,16 @@ Authorization permits **one execution only**. Starting and completing that execu
 
 DEC-0011 remains Proposed after this synchronization unless a later controlled decision explicitly changes its status. Outcome A does not Accept it. A later review must decide whether evidence supports a concrete mechanism and testable security envelope, with applicable Security and Architecture authority; any material Architecture choice needs a separate ADR, any new artifact separate DEC-0001 admission, and any provider/integration or external Contract its own applicable governance. The accepted DEC-0008 policy and Approved IEVE semantics remain unchanged. DEC-0009 and DEC-0010 remain Proposed/deferred with exhausted prior authorizations; the completed evaluation reopened neither.
 
+## PRODUCT-02B entered-code candidate and selection gate proposal
+
+The requester’s bounded authorization in their stated founder capacity and the synthetic results are in the [qualification evidence](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md). Both candidates demonstrated bounded in-memory behavior. A later recorded scratch PostgreSQL run tested the same isolated consume-and-record transaction shape for both candidates. Neither established full implementation readiness. The historical 0.2.0 and 0.4.0 authorizations remain exhausted.
+
+Prefer an eight-digit uniformly generated decimal code for review. Preserve leading zeros and paste. Propose a 20-minute lifetime, five incorrect attempts per rolling hour across replacements, three sends per rolling hour including initial issuance and at least 60 seconds between sends. Resend supersedes the prior proof without resetting budgets. Bind proof to protected continuation, exact intent, subject, provisional reservation revision, prospective email fact and challenge generation. Protect the verifier with a keyed construction and separately governed key custody and rotation. Never persist the code in ordinary application data or include it in URLs or diagnostics. Require destination, source, intent and service-wide abuse controls. Consume and record durable evidence in one owner-local transaction with current ownership and reservation checks.
+
+Pending accountable gate amendment: Identity, Security and applicable Architecture should explicitly separate selection criteria from implementation and activation criteria. The prior synthetic comparison called for all mandatory criteria before recommendation. It cannot be represented as passed. Selection would require a reviewed threat and failure envelope, credible keyboard, paste, screen-reader and cross-device-mail interaction evidence, and evidence on guessing, scanner behavior and URL leakage that distinguishes code from link. The proposed disposition is to select entered codes only after that evidence and attributable review. Without adoption of this revised gate, keep the existing comparison conditions.
+
+Implementation acceptance would still require PostgreSQL durable acceptance and transactional concurrency, uncertain-commit recovery, distributed throttling and lockout protection, key custody and rotation, real browser and assistive-technology tests, currentness, resend and expiry races, and audit/telemetry redaction. Actual provider behavior, delivery uncertainty, operational controls, environment configuration and provider admission are activation prerequisites. The isolated transaction evidence does not prove the production implementation. Do not activate endpoints or introduce Customer Authentication, Sessions or protected access through this proposal.
+
 ## Threat and Failure Evidence Required Before Acceptance
 
 A future threat model and deterministic scenarios must cover proof guessing and brute force; proof theft, tampering and logging disclosure; cross-Identity and cross-email substitution; stale proof after binding supersession; duplicate delivery and presentation; concurrent presentation and reissue; old proof after reissue; provider delay, retry and failure; persistence failure, partial write and stale read; conflicting evidence; enumeration and abuse flooding; and clock/expiry boundaries if validity depends on time. It must distinguish actual tested behavior, design assertions, assumptions and unresolved risk. This record claims that none of these controls has been implemented by DEC-0011.
@@ -207,7 +217,7 @@ This Proposed boundary makes the missing Security choice and required evidence d
 
 ## Explicit Non-Decisions
 
-DEC-0011 0.5.0 selects no code versus link versus other proof; numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and authorizes no further evaluation, prototype or production implementation. The 0.2.0 and 0.4.0 evaluation authorizations remain separately consumed/exhausted.
+DEC-0011 v0.6.0 records a proposed preference without selecting a code, link or other proof, or establishing numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and grants no further evaluation, prototype or production implementation authority. The 0.2.0 and 0.4.0 evaluation authorizations remain separately consumed/exhausted.
 
 ## References
 
@@ -230,6 +240,7 @@ DEC-0011 0.5.0 selects no code versus link versus other proof; numeric or alphan
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.6.0 | 2026-11-26 | Proposed | Recorded bounded comparison evidence and authorization provenance and proposed entered-code and selection-gate dispositions. |
 | 0.5.0 | 2026-10-10 | Proposed | Synchronized the completed single-use 0.4.0 comparative evaluation and its durable C — NO REPOSITORY-SPECIFIC DISCRIMINATOR DEMONSTRATED; recorded the 0.4.0 authorization CONSUMED / EXHAUSTED while preserving the separately exhausted 0.2.0 Outcome A and the consistent read-only selection review; kept both candidates and any hybrid unselected and DEC-0011 Proposed/deferred, without renewed evaluation, acceptance, implementation or Product/Architecture/Security/Contract authority. |
 | 0.4.0 | 2026-10-10 | Proposed | After the completed 0.2.0 evaluation's Outcome A and 0.3.0 synchronization, recorded the read-only selection review's C — NO DEFENSIBLE MECHANISM SELECTION FROM CURRENT EVIDENCE; authorized exactly one new finite, single-use, static comparative evaluation of code and link/token under common repository semantics, explicit A/B/C/D exits and stop/exhaustion rules; selected no mechanism, production envelope, provider, dependency, Architecture or Contract, did not Accept DEC-0011 and authorized no prototype or implementation, while preserving DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |
 | 0.3.0 | 2026-10-10 | Proposed | Synchronized the completed single-use 0.2.0 documentation/static-evidence evaluation and its durable Outcome A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW; recorded the authorization CONSUMED / EXHAUSTED, with no new evaluation authority, mechanism or security-envelope selection, acceptance, provider/dependency/Architecture/Contract approval or implementation authority; preserved DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |
