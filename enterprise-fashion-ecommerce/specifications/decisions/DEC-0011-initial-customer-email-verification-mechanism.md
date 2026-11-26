@@ -4,7 +4,7 @@
 - **Title:** Initial Customer Email Verification Mechanism
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.6.0
+- **Version:** 0.7.0
 - **Date:** 2026-10-09
 - **Owner:** Identity
 - **Authoritative:** false
@@ -17,7 +17,7 @@ Accepted DEC-0008 requires accepted verification of the current authoritative Cu
 
 The merged Identity-owned current-login-email binding source stores exact subject/email facts, supports attributable supersession and coherent observation, and distinguishes current, superseded, conflict and uncertainty. It is dormant: no production issuer or lawful population path exists. A published or observed binding, persisted email row, submitted address, delivery result or fixture is not proof of email control or accepted verification evidence.
 
-DEC-0009 remains 0.8.0 Proposed and non-authoritative; its exhausted evaluations have not selected a strict IDNA2008 strategy, so canonical submitted-email lookup remains blocked. DEC-0010 remains 0.4.0 Proposed and non-authoritative; its exhausted evaluation has not selected a blocklist strategy, so complete prospective-password acceptance and credential establishment for completed Registration remain blocked. Neither blocker is resolved by this proposal. Authentication, Principal and Session issuance remain separate downstream outcomes under ADR-0019, ADR-0022 and the approved Contracts.
+DEC-0009 remains 0.8.0 Proposed and non-authoritative; its exhausted evaluations have not selected a strict IDNA2008 strategy, so canonical submitted-email lookup remains blocked. DEC-0010 remains 0.5.0 Proposed and non-authoritative; its exhausted evaluation has not selected a blocklist strategy, so complete prospective-password acceptance and credential establishment for completed Registration remain blocked. Neither blocker is resolved by this proposal. Authentication, Principal and Session issuance remain separate downstream outcomes under ADR-0019, ADR-0022 and the approved Contracts.
 
 ## Decision Question
 
@@ -187,9 +187,11 @@ The requester’s bounded authorization in their stated founder capacity and the
 
 Prefer an eight-digit uniformly generated decimal code for review. Preserve leading zeros and paste. Propose a 20-minute lifetime, five incorrect attempts per rolling hour across replacements, three sends per rolling hour including initial issuance and at least 60 seconds between sends. Resend supersedes the prior proof without resetting budgets. Bind proof to protected continuation, exact intent, subject, provisional reservation revision, prospective email fact and challenge generation. Protect the verifier with a keyed construction and separately governed key custody and rotation. Never persist the code in ordinary application data or include it in URLs or diagnostics. Require destination, source, intent and service-wide abuse controls. Consume and record durable evidence in one owner-local transaction with current ownership and reservation checks.
 
-Pending accountable gate amendment: Identity, Security and applicable Architecture should explicitly separate selection criteria from implementation and activation criteria. The prior synthetic comparison called for all mandatory criteria before recommendation. It cannot be represented as passed. Selection would require a reviewed threat and failure envelope, credible keyboard, paste, screen-reader and cross-device-mail interaction evidence, and evidence on guessing, scanner behavior and URL leakage that distinguishes code from link. The proposed disposition is to select entered codes only after that evidence and attributable review. Without adoption of this revised gate, keep the existing comparison conditions.
+The later [Chrome qualification](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md) exercised basic accessible interaction with fake delivery. The requester’s one-browser-run authorization is consumed. Entered codes remain preferred for review.
 
-Implementation acceptance would still require PostgreSQL durable acceptance and transactional concurrency, uncertain-commit recovery, distributed throttling and lockout protection, key custody and rotation, real browser and assistive-technology tests, currentness, resend and expiry races, and audit/telemetry redaction. Actual provider behavior, delivery uncertainty, operational controls, environment configuration and provider admission are activation prerequisites. The isolated transaction evidence does not prove the production implementation. Do not activate endpoints or introduce Customer Authentication, Sessions or protected access through this proposal.
+**Requested selection-gate amendment:** Identity and Security, with applicable Architecture and Customer review and an attributable accessibility assessment, CONFIRM / AMEND / REJECT the following gate split. Before selection, require credible basic accessible interaction, reviewed guessing and lockout controls, exact proof binding, mechanism-specific secret exposure review, and no Authentication authority. Reviewers must explicitly decide whether the fixture evidence suffices for basic accessibility. Keep the prior selection conditions until this amendment is adopted. Only after that adoption and confirmation of the selection criteria may Identity record a selection with applicable concurrence.
+
+**Mandatory implementation acceptance:** Actual screen-reader interaction, OS clipboard behavior, cross-device interaction, integrated PostgreSQL durable acceptance and concurrency, uncertain-commit recovery, distributed abuse enforcement, key custody and rotation, browser and telemetry redaction, and expiry and resend races. The scratch tests do not satisfy these gates. **Activation:** Provider behavior and failure evidence, deployed telemetry and operational recovery, provider admission, environment configuration and HTTPS remain required. Keep public endpoints, Authentication, Sessions and protected Account access closed.
 
 ## Threat and Failure Evidence Required Before Acceptance
 
@@ -217,7 +219,7 @@ This Proposed boundary makes the missing Security choice and required evidence d
 
 ## Explicit Non-Decisions
 
-DEC-0011 v0.6.0 records a proposed preference without selecting a code, link or other proof, or establishing numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and grants no further evaluation, prototype or production implementation authority. The 0.2.0 and 0.4.0 evaluation authorizations remain separately consumed/exhausted.
+DEC-0011 v0.7.0 records a proposed preference without selecting a code, link or other proof, or establishing numeric or alphanumeric format; length, entropy, cryptographic construction, hashing or storage representation; validity duration; attempt, resend or rate values; provider, vendor, SDK, dependency or delivery technology; schema, table, column, index, cache, queue or event infrastructure; endpoint, DTO, status or public/internal Contract change; recovery, password reset, email-change or MFA behavior; Authentication, Principal, Session or association implementation. It admits no dependency or provider, changes no Product or Architecture baseline, resolves neither DEC-0009 nor DEC-0010, and grants no further evaluation, prototype or production implementation authority. The 0.2.0 and 0.4.0 evaluation authorizations remain separately consumed/exhausted.
 
 ## References
 
@@ -240,6 +242,7 @@ DEC-0011 v0.6.0 records a proposed preference without selecting a code, link or 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.7.0 | 2026-11-27 | Proposed | Recorded the browser qualification and pending accountable selection-gate amendment. |
 | 0.6.0 | 2026-11-26 | Proposed | Recorded bounded comparison evidence and authorization provenance and proposed entered-code and selection-gate dispositions. |
 | 0.5.0 | 2026-10-10 | Proposed | Synchronized the completed single-use 0.4.0 comparative evaluation and its durable C — NO REPOSITORY-SPECIFIC DISCRIMINATOR DEMONSTRATED; recorded the 0.4.0 authorization CONSUMED / EXHAUSTED while preserving the separately exhausted 0.2.0 Outcome A and the consistent read-only selection review; kept both candidates and any hybrid unselected and DEC-0011 Proposed/deferred, without renewed evaluation, acceptance, implementation or Product/Architecture/Security/Contract authority. |
 | 0.4.0 | 2026-10-10 | Proposed | After the completed 0.2.0 evaluation's Outcome A and 0.3.0 synchronization, recorded the read-only selection review's C — NO DEFENSIBLE MECHANISM SELECTION FROM CURRENT EVIDENCE; authorized exactly one new finite, single-use, static comparative evaluation of code and link/token under common repository semantics, explicit A/B/C/D exits and stop/exhaustion rules; selected no mechanism, production envelope, provider, dependency, Architecture or Contract, did not Accept DEC-0011 and authorized no prototype or implementation, while preserving DEC-0008/IEVE and unresolved DEC-0009/DEC-0010. |

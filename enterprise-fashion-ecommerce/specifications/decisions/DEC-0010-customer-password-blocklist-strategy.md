@@ -4,7 +4,7 @@
 - **Title:** Customer Password Blocklist Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.4.0
+- **Version:** 0.5.0
 - **Date:** 2026-10-07
 - **Owner:** Identity
 - **Authoritative:** false
@@ -193,7 +193,7 @@ The requester’s explicit bounded authorization in their stated founder capacit
 | BL-03 — Closed-boundary Java screening | Pending explicit Identity and Security implementation disposition with Engineering review. Permit generated fixtures, exact full-value NFC UTF-8 matching, stale and corrupt snapshot denial, and bounded memory and lookup tests only. Do not connect to production credential issuance or admit any dataset. |
 | BL-04 — Operational dataset qualification | Pending separate acquisition and admission authority following BL-02. Verify source coverage, manifests, integrity, rights and representative Java resource and recovery evidence before operational reliance. |
 
-BL-03 may precede BL-04 only after the proposed bounded implementation disposition is adopted. DEC-0010 currently provides no authority for that Java implementation. DEC-0007 complete-password screening and failure-closed behavior and DEC-0006 Argon2id remain binding.
+BL-03 may precede BL-04 only after the proposed bounded implementation disposition is adopted. **Requested adoption:** Identity and Security, with Engineering review, CONFIRM / AMEND / REJECT one closed Java screening component and Identity credential-establishment test composition using generated fixtures only. Require manifest completeness, verified immutable snapshots, checksum and freshness validation before publishing, atomic replacement, concurrent readers pinned to one snapshot, and failure-closed denial before credential acceptance for missing, incomplete, corrupt or stale input. Preserve complete NFC UTF-8 membership and the existing Argon2id verifier. Measure cold and warm lookup on documented JVM, hardware, index and workload conditions. Use the proposed 256 MiB heap, p95/p99 targets of 10/30 ms and 16 concurrent lookups as evaluation targets. Keep the producer unreachable from production. BL-02 rights and coverage and BL-04 operational data qualification are separate. DEC-0010 currently provides no authority for that Java implementation. DEC-0007 complete-password screening and failure-closed behavior and DEC-0006 Argon2id remain binding.
 
 The [HIBP terms](https://haveibeenpwned.com/TermsOfUse) exempt Pwned Passwords from attribution, while general terms restrict certain uses, transfers and redistribution. Review exact first-party offline acquisition and transformation rights before authorizing any corpus collection. The [tagged Openwall file](https://github.com/openwall/john/blob/1.9.0-Jumbo-1/run/password.lst) records a public-domain assumption and an old coverage baseline. Verify file-specific rights, modern coverage and deployment scope. The storefront supplement requires Security-owned approved names, domains, version and retention, without Customer data. For all three inputs, keep artifacts out of Git and the application bundle. Public availability and software licensing supply no dataset admission.
 
@@ -254,6 +254,7 @@ Future selection readiness requires attributable evidence against every applicab
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.5.0 | 2026-11-27 | Proposed | Specified the pending generated-fixture Java implementation disposition. |
 | 0.4.0 | 2026-11-26 | Proposed | Recorded bounded synthetic findings and authorization provenance and proposed staged source, Java implementation and operational admission gates. |
 | 0.3.0 | 2026-10-07 | Proposed | Synchronized the completed single 0.2.0 evaluation and durable Outcome C — STOPPED / INCONCLUSIVE; recorded CONSUMED / EXHAUSTED authorization and deferral pending materially new evidence without technical-infeasibility claims, selection, acceptance, renewed evaluation authority or implementation permission; preserved separate governance gates. |
 | 0.2.0 | 2026-10-07 | Proposed | Authorized exactly one bounded, single-use documentation/static evidence evaluation with finite investigation limits, A/B/C terminal outcomes, stop conditions and one future evidence artifact; preserved separate gates without executing evaluation, selecting a strategy, accepting the decision or authorizing implementation. |
