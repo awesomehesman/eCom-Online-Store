@@ -4,7 +4,7 @@
 - **Title:** Customer Password Blocklist Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.5.0
+- **Version:** 0.6.0
 - **Date:** 2026-10-07
 - **Owner:** Identity
 - **Authoritative:** false
@@ -190,10 +190,10 @@ The requester’s explicit bounded authorization in their stated founder capacit
 | --- | --- |
 | BL-01 — Generated fixture feasibility | Completed within the observed Python scratch scope. Membership, malformed input and snapshot behavior are evidenced. Java and production-scale performance remain unverified. |
 | BL-02 — Source rights and coverage eligibility | Pending attributable Security, Data/Privacy, Platform and applicable qualified licensing review of source provenance, internal acquisition, transformation, private storage, deployment to operating environments and redistribution. |
-| BL-03 — Closed-boundary Java screening | Pending explicit Identity and Security implementation disposition with Engineering review. Permit generated fixtures, exact full-value NFC UTF-8 matching, stale and corrupt snapshot denial, and bounded memory and lookup tests only. Do not connect to production credential issuance or admit any dataset. |
+| BL-03 — Closed-boundary Java screening | Bounded implementation confirmed under DISP-03 in the applicable internal Identity, Security, Architecture and Engineering capacities. Effective after governance integration. Permit generated fixtures, exact full-value NFC UTF-8 matching, stale and corrupt snapshot denial, and bounded memory and lookup tests only. Do not connect to production credential issuance or admit any dataset. |
 | BL-04 — Operational dataset qualification | Pending separate acquisition and admission authority following BL-02. Verify source coverage, manifests, integrity, rights and representative Java resource and recovery evidence before operational reliance. |
 
-BL-03 may precede BL-04 only after the proposed bounded implementation disposition is adopted. **Requested adoption:** Identity and Security, with Engineering review, CONFIRM / AMEND / REJECT one closed Java screening component and Identity credential-establishment test composition using generated fixtures only. Require manifest completeness, verified immutable snapshots, checksum and freshness validation before publishing, atomic replacement, concurrent readers pinned to one snapshot, and failure-closed denial before credential acceptance for missing, incomplete, corrupt or stale input. Preserve complete NFC UTF-8 membership and the existing Argon2id verifier. Measure cold and warm lookup on documented JVM, hardware, index and workload conditions. Use the proposed 256 MiB heap, p95/p99 targets of 10/30 ms and 16 concurrent lookups as evaluation targets. Keep the producer unreachable from production. BL-02 rights and coverage and BL-04 operational data qualification are separate. DEC-0010 currently provides no authority for that Java implementation. DEC-0007 complete-password screening and failure-closed behavior and DEC-0006 Argon2id remain binding.
+BL-03 may precede BL-04 after integration of the [2026-11-27 accountable DISP-03 disposition](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md#accountable-response-recorded-2026-11-27). Its scope is one closed Java screening component and Identity credential-establishment test composition using generated fixtures only. Require manifest completeness, verified immutable snapshots, checksum and freshness validation before publishing, atomic replacement, concurrent readers pinned to one snapshot, and failure-closed denial before credential acceptance for missing, incomplete, corrupt or stale input. Preserve complete NFC UTF-8 membership and the existing Argon2id verifier. Measure cold and warm lookup on documented JVM, hardware, index and workload conditions. Use the proposed 256 MiB heap, p95/p99 targets of 10/30 ms and 16 concurrent lookups as evaluation targets. Keep the producer unreachable from production. BL-02 rights and coverage and BL-04 operational data qualification are separate. DEC-0007 complete-password screening and failure-closed behavior and DEC-0006 Argon2id remain binding.
 
 The [HIBP terms](https://haveibeenpwned.com/TermsOfUse) exempt Pwned Passwords from attribution, while general terms restrict certain uses, transfers and redistribution. Review exact first-party offline acquisition and transformation rights before authorizing any corpus collection. The [tagged Openwall file](https://github.com/openwall/john/blob/1.9.0-Jumbo-1/run/password.lst) records a public-domain assumption and an old coverage baseline. Verify file-specific rights, modern coverage and deployment scope. The storefront supplement requires Security-owned approved names, domains, version and retention, without Customer data. For all three inputs, keep artifacts out of Git and the application bundle. Public availability and software licensing supply no dataset admission.
 
@@ -221,7 +221,7 @@ No technology commitment is made now. Future exit costs may include data replace
 
 The following remain unresolved: exact blocklist source, provider, dataset, dataset release/version, library/SDK, API, local versus remote mechanism, refresh/update cadence, cache strategy, TTL, retry counts, timeouts, SLOs, storage format, database schema, network topology, dependency selection/admission, provider credentials, deployment mechanism, observability product and exact user-facing copy beyond existing governed semantics.
 
-No Product policy, public or internal Contract shape, Architecture change, persistence model, code, evaluation result or implementation authorization is established. DEC-0009 remains untouched and deferred; this proposal supplies no login-email canonicalization fallback.
+The BL-03 authorization is limited to the controlled scope above. Product policy, Contract shapes, Architecture and production persistence remain governed separately. DEC-0009 remains untouched and deferred; this proposal supplies no login-email canonicalization fallback.
 
 ## Proposal and Future Selection Readiness
 
@@ -254,6 +254,7 @@ Future selection readiness requires attributable evidence against every applicab
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.6.0 | 2026-11-27 | Proposed | Recorded the accountable DISP-03 confirmation for closed Java screening with generated fixtures, effective after integration. Operational selection and dataset admission remain pending. |
 | 0.5.0 | 2026-11-27 | Proposed | Specified the pending generated-fixture Java implementation disposition. |
 | 0.4.0 | 2026-11-26 | Proposed | Recorded bounded synthetic findings and authorization provenance and proposed staged source, Java implementation and operational admission gates. |
 | 0.3.0 | 2026-10-07 | Proposed | Synchronized the completed single 0.2.0 evaluation and durable Outcome C — STOPPED / INCONCLUSIVE; recorded CONSUMED / EXHAUSTED authorization and deferral pending materially new evidence without technical-infeasibility claims, selection, acceptance, renewed evaluation authority or implementation permission; preserved separate governance gates. |
