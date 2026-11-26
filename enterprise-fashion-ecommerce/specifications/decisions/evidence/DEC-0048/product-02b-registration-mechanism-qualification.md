@@ -47,7 +47,7 @@ Identity checks retained ownership first. A provisional reservation binds canoni
 
 Within one Identity transaction, recheck retained ownership, reservation revision, intent, continuation, subject, exact email fact, proof generation and applicable first credential binding. Consume proof, promote that exact owned fact and record durable verification against it. Never activate any credential from a different intent. Resolve an uncertain commit by observing the Identity outcome before retry. Customer separately accepts its own Customer and Account outcomes and completes only from independent current owner evidence.
 
-Update registration Markdown sections 5–8, 13–21 and 25–27 and the paired OpenAPI in a later authorized change. Replace full-request fingerprint wording with a pre-acceptance/first-durable-binding rule. Specify continuation issuance and cookie custody, same-origin and CSRF behavior, authorized conflict disclosure, concealed pending, recovery and expiry. The minimum verification pair defines proof submission, controlled resend/recovery, safe outcomes, no-store and correlation. It confers no Authentication, Session or Account access. Customer, Identity, Security, Architecture, Product and applicable Data/Privacy dispositions remain PENDING.
+Update registration Markdown sections 5–8, 13–21 and 25–27 and the paired OpenAPI in a later authorized change. Replace full-request fingerprint wording with a pre-acceptance/first-durable-binding rule. Specify continuation issuance and cookie custody, same-origin and CSRF behavior, authorized conflict disclosure, concealed pending, recovery and expiry. The minimum verification pair defines proof submission, controlled resend/recovery, safe outcomes, no-store and correlation. It confers no Authentication, Session or Account access. At qualification close, Customer, Identity, Security, Architecture, Product and applicable Data/Privacy dispositions were pending. See the subsequent accountable response below.
 
 ## PRODUCT-02B.2 corrective and browser qualification closure
 
@@ -79,7 +79,7 @@ Original cell 2150, chunk 1eb6fc, failed JavaScript parsing before Chrome starte
 
 ## Coordinated adoption request — DISP-01 through DISP-12
 
-Record **CONFIRM / AMEND / REJECT**, accountable capacity, attributable reviewer, date and evidence for each applicable item. All are PENDING. DECISIONS.md sections 16–19 require approval matching the affected authority and durable evidence. The records name role owners. No current individual assignment or delegation to the founder was established in the inspected registration records. The repository owner/sole maintainer is recorded as acting in Identity/Engineering and Security capacities for the existing logout contract only. That precedent does not confer registration approval. Founder direction suffices for the bounded work already authorized. For adoption, a founder response suffices only in a separately established and explicitly recorded accountable capacity, with all other applicable concurrence. Independent PR review remains subject to AGENTS.md. SECURITY-STANDARDS.md requires independent review of cryptographic protocols and library implementations. There is no blanket external reviewer requirement for every disposition.
+The request below identifies the affected capacities and governing sources. The subsequent accountable response is recorded after the table. Approval must match the affected authority under [DECISIONS.md §§16–19](../../../../.ai/core/DECISIONS.md#16-decision-ownership).
 
 | ID | Accountable capacity and source | Requested disposition | Gate |
 | --- | --- | --- | --- |
@@ -95,6 +95,27 @@ Record **CONFIRM / AMEND / REJECT**, accountable capacity, attributable reviewer
 | DISP-10 | Product with Customer and Security, registration contract and DEC-0008 | Confirm concealed incomplete outcomes and the retry and mailbox-holder recovery experience. | Controlled contract semantics |
 | DISP-11 | Applicable Data/Privacy with Identity and Customer, registration contract audit and owner-local retention | Decide abandonment retention, proposed seven-day verifier destruction, authorized holds, and protected audit and repair retention. | Controlled abandonment policy. Retention operations require readiness evidence. |
 | DISP-12 | Identity, Customer, Security and applicable operational owners, DEC-0048 transition conditions and DEC-0011 activation gate | Confirm retained-identifier cutover and collision evidence, provider admission and real delivery/recovery, deployment and public activation separately. | Operational activation |
+
+### Accountable response recorded 2026-11-27
+
+The attributable source is the project founder’s instruction beginning “As project founder and the appointed internal accountable owner, I confirm the consolidated DISP-01 through DISP-12 dispositions”. The founder acted in the applicable internal capacities recorded in [DECISIONS.md §16.1](../../../../.ai/core/DECISIONS.md#161-recorded-founder-led-internal-appointment), as mapped above. This is one individual's internal disposition. Mandatory independent concurrence, specialist review and operational gates remain separate.
+
+| ID | Received disposition | Effect and remaining conditions |
+| --- | --- | --- |
+| DISP-01 | CONFIRM | Internal confirmation of the qualified canonicalization profile, subject to applicable concurrence and lawful synchronization. DEC-0005 remains effective pending synchronized acceptance and transition. |
+| DISP-02 | CONDITIONAL | ICU4J 79.1 admission remains pending exact dependency admission, including artifact and signer trust, licensing and notices, compatibility, locking and verification. |
+| DISP-03 | CONFIRM | Adopt DEC-0010 BL-03 only for generated-fixture Java screening and isolated credential-denial tests. Implementation may begin after this governance change is integrated. |
+| DISP-04 | DEFER | Operational password corpus acquisition, qualification and admission remain gated. |
+| DISP-05 | CONFIRM | Internal confirmation of the proposed selection-gate amendment. Existing selection authority remains in force pending amendment adoption and applicable accessibility review. Entered-code selection remains conditional on the mandatory selection criteria. |
+| DISP-06 | PARTIAL CONFIRM | Preserve proof binding, secret custody and fail-closed behavior as design requirements. Independent cryptographic review and unresolved guessing, lockout, recovery-budget and distributed abuse controls remain prerequisites. |
+| DISP-07 | CONFIRM | Adopt the Customer-owned producer direction internally. After integration, controlled owner-local Customer and Account relationship persistence and synthetic tests may proceed under DISP-09. Live continuation, producer invocation and completion coordination remain gated. |
+| DISP-08 | CONFIRM | Confirm Identity producer boundaries subject to the outstanding mechanism and security prerequisites. Identity producer implementation remains gated. |
+| DISP-09 | CONFIRM | Adopt owner-local transactions, bounded owner contracts and authoritative reconciliation as constraints. Preserve authoritative owner observations and prohibit cross-owner storage access. Cross-owner coordination requires effective producer contracts. |
+| DISP-10 | CONFIRM | Confirm proposed customer-visible registration, retry and recovery semantics. Keep the existing contract and full-request fingerprint until synchronized replacement is effective. |
+| DISP-11 | PARTIAL CONFIRM | Confirm immediate ineligibility of abandoned credentials as a required invariant. Retention, holds and permanent destruction remain subject to Data/Privacy review and effective owner-local policy. |
+| DISP-12 | DEFER | Retained-identifier cutover, operational provider and delivery, and public activation remain gated. |
+
+The two bounded implementation slices are BL-03 and isolated Customer/Account persistence under DISP-07 and DISP-09. Both depend on integration of the governing changes. The registration Markdown and OpenAPI, producer contract designs and effective canonicalization rules remain unchanged while their prerequisites are open. Public registration, Authentication, Session issuance and production release remain outside this disposition.
 
 ### Producer parameters and contract synchronization
 

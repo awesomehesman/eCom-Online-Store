@@ -1,6 +1,6 @@
 ---
 title: DECISIONS
-version: 1.0.114
+version: 1.0.116
 status: Approved
 owner: Architecture
 last_updated: 2026-11-27
@@ -254,6 +254,14 @@ Every material decision MUST have one accountable owner. The owner MUST:
 - coordinate correction when implementation or documentation drifts.
 
 Ownership MAY transfer through an explicit update that preserves history and accountability.
+
+### 16.1 Recorded founder-led internal appointment
+
+**Appointment recorded and effective 2026-11-27.** The appointing authority and appointee are the same individual, identified in the project conversation as the project founder and requester. The attributable source is the founder’s express self-appointment beginning “As project founder, I confirm the proposed founder-led accountable ownership model for the Enterprise Fashion eCommerce project.” This entry identifies the individual by that attributable statement. It establishes no separately verified legal name or specialist credential.
+
+The appointment covers the project’s applicable internal Product, Architecture, Engineering, Security, Platform, Data/Privacy and owning-domain capacities, including Customer and Identity where applicable. Exercise of a capacity remains subject to the authority and competence required by its governing records. A specific decision requires its own attributable disposition in each applicable capacity. Holding several capacities does not supply independent concurrence.
+
+Mandatory independent review, separation of duties, qualified specialist or legal review, licensing and privacy obligations, dependency and dataset admission, operational activation and release gates remain binding. Technical evidence from ChatGPT or Codex supplies no independent human concurrence. Record future delegation or replacement explicitly through the applicable governance process, including scope, effective date and prior appointment history.
 
 ## 17. Approval
 
@@ -625,7 +633,7 @@ The historical DEC-0010 0.3.0 disposition recorded a Proposed, Identity-owned Se
 
 The historical DEC-0011 0.5.0 disposition recorded a Proposed/deferred, Identity-owned Security Decision with `Authoritative: false`. Its single 0.2.0 bounded documentation/static-evidence evaluation reached **A — EVIDENCE SUFFICIENT FOR LATER SELECTION REVIEW**, recorded in the [durable evidence](../../specifications/decisions/evidence/DEC-0011/bounded-verification-mechanism-evaluation.md); that authorization remains **CONSUMED / EXHAUSTED**. The later read-only selection review reached **C — NO DEFENSIBLE MECHANISM SELECTION FROM CURRENT EVIDENCE** because no repository-specific discriminator distinguished the plausible code and link/token categories. The single 0.4.0 comparative evaluation then completed with **C — NO REPOSITORY-SPECIFIC DISCRIMINATOR DEMONSTRATED**, recorded in the [durable comparative evidence](../../specifications/decisions/evidence/DEC-0011/bounded-comparative-mechanism-evaluation.md); its authorization is separately **CONSUMED / EXHAUSTED**. The earlier Outcome A remains valid as a reviewability finding and is consistent with both later Outcome C conclusions. Candidate A, Candidate B and any hybrid remain unselected because current canonical authority provides no defensible repository-specific discriminator. No further evaluation, mechanism selection, production security envelope, provider, dependency, Architecture choice, Contract, DEC acceptance, prototype or implementation authority is created. Future selection requires fresh attributable governance basis and required Security and applicable Architecture review; applicable ADR, DEC-0001, provider/integration and Contract gates remain separate. DEC-0008 and Approved IEVE remain in force; the current-email source still lacks a production population issuer and is not verification evidence. DEC-0009 and DEC-0010 remain unresolved/deferred with exhausted prior authorizations; Registration and Login implementation eligibility is not established.
 
-DEC-0048 v0.2.0, DEC-0010 v0.5.0 and DEC-0011 v0.7.0 remain Proposed and non-authoritative. The [PRODUCT-02B evidence](../../specifications/decisions/evidence/DEC-0048/product-02b-registration-mechanism-qualification.md) records the consumed founder-authorized corrective and browser runs, their limits and the pending coordinated adoption request. No specialist concurrence, mechanism acceptance, dependency or dataset admission, producer authority or activation is established. DEC-0005 remains effective and DEC-0009 remains Proposed.
+DEC-0048 v0.2.0, DEC-0010 v0.6.0 and DEC-0011 v0.7.0 remain Proposed and non-authoritative. The [PRODUCT-02B evidence](../../specifications/decisions/evidence/DEC-0048/product-02b-registration-mechanism-qualification.md) records the consumed founder-authorized corrective and browser runs, their limits and the subsequent accountable DISP-01 through DISP-12 response. The bounded DEC-0010 BL-03 authorization and owner-local Customer/Account persistence under DISP-07 and DISP-09 are eligible after integration. Specialist concurrence, mechanism acceptance, dependency and dataset admission, cross-owner producer contract changes and public activation remain gated. DEC-0005 remains effective and DEC-0009 remains Proposed.
 
 DEC-0012 0.1.0 remains a Proposed, Product-owned decision on the unresolved administrative role and permission matrix, with no policy option or matrix selected. Mandatory RBAC and contextual Authorization remain in force; Identity and owning-Domain authority remain unchanged. Product, Administration, Identity, Security, and affected Domain review is required before acceptance. This indexing grants no role assignment, implementation, endpoint, schema, provider, or backend-roadmap extension authority. `PRODUCT.md` §24 item 23 remains open until an Accepted decision is synchronized into canonical Product guidance.
 
@@ -811,6 +819,8 @@ The exception MUST be explicit, time-bound, auditable, and reviewed before expir
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.0.116 | 2026-11-27 | Approved | Indexed the accountable registration dispositions and scoped controlled implementation eligibility after integration, with remaining mechanism, contract and operational gates preserved. |
+| 1.0.115 | 2026-11-27 | Approved | Recorded the founder-led internal accountable appointment and its limits under existing decision authority and review rules. |
 | 1.0.114 | 2026-11-27 | Approved | Synchronized Proposed registration mechanism qualification closure and pending accountable adoption dispositions. |
 | 1.0.113 | 2026-11-26 | Approved | Indexed Proposed DEC-0048 and synchronized Proposed DEC-0010 and DEC-0011 qualification evidence and pending dispositions. |
 | 1.0.112 | 2026-11-25 | Approved | Recorded the DEC-0001 Gradle 8.14.7 security amendment, effective after successful validation and authorized integration into develop. |
