@@ -4,7 +4,7 @@
 - **Title:** Customer Password Blocklist Strategy
 - **Type:** Security Decision
 - **Status:** Proposed
-- **Version:** 0.3.0
+- **Version:** 0.4.0
 - **Date:** 2026-10-07
 - **Owner:** Identity
 - **Authoritative:** false
@@ -29,7 +29,7 @@ What Identity-owned blocklist strategy and governed operating conditions will re
 
 ## Decision — Proposed Governance and Evidence Boundary
 
-This proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. Version 0.2.0 authorized exactly one bounded documentation/static evidence evaluation. That evaluation is complete and its authorization is exhausted. Version 0.3.0 synchronizes the recorded outcome only and grants no renewed evaluation authority. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
+This proposal defines the decision problem, evidence requirements, authority boundaries, and later review gates. Version 0.2.0 authorized exactly one bounded documentation/static evidence evaluation. That evaluation is complete and its authorization is exhausted. Version 0.3.0 synchronized the historical outcome. Version 0.4.0 records the later bounded evidence and staged proposal without granting renewed evaluation authority. **No blocklist strategy, source, provider, dataset, service, library, dependency, or implementation mechanism is selected.** The record is Proposed and non-authoritative; accepted upstream requirements remain authoritative independently of this proposal.
 
 A future selection must be supported by attributable evidence against the requirements below and undergo the applicable decision lifecycle and approvals. A list of candidate classes, a successful experiment, or acceptance of an evaluation scope is not strategy selection, dependency admission, provider approval, Architecture approval, or implementation authorization.
 
@@ -96,7 +96,7 @@ Acceptance of DEC-0010 must not automatically approve a provider, external servi
 
 Architecture must assess any proposed change to trust boundaries, runtime/deployment topology or process boundaries. A material Architecture change requires a separate Accepted ADR and canonical Architecture synchronization before reliance on that change. No ADR is created or accepted here, and no current Architecture boundary is changed.
 
-## Completed Evaluation and Current Disposition — 0.3.0
+## Completed Evaluation and Historical Disposition — 0.3.0
 
 The 0.2.0 bounded documentation/static evaluation was executed exactly once. Its [durable evidence artifact](evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md), at `specifications/decisions/evidence/DEC-0010/bounded-password-blocklist-strategy-evaluation.md`, is merged in canonical baseline `770442323ec8fe3e1da680efd59326f771086d6f` and records two investigated arrangements:
 
@@ -182,6 +182,23 @@ Identity owns both decision and evaluation. Security and Architecture review are
 
 Approval evidence must durably represent the applicable authorities under DECISIONS.md. This proposal asserts no completed approval, reviewer identity, meeting, candidate validation or implementation evidence.
 
+## PRODUCT-02B staged qualification proposal
+
+The requester’s explicit bounded authorization in their stated founder capacity and generated-fixture observations are recorded in the [qualification evidence](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md). The historical 0.2.0 evaluation remains exhausted. Synthetic evidence establishes no source rights, mechanism selection or executable implementation authority.
+
+| Stage | Proposed gate |
+| --- | --- |
+| BL-01 — Generated fixture feasibility | Completed within the observed Python scratch scope. Membership, malformed input and snapshot behavior are evidenced. Java and production-scale performance remain unverified. |
+| BL-02 — Source rights and coverage eligibility | Pending attributable Security, Data/Privacy, Platform and applicable qualified licensing review of source provenance, internal acquisition, transformation, private storage, deployment to operating environments and redistribution. |
+| BL-03 — Closed-boundary Java screening | Pending explicit Identity and Security implementation disposition with Engineering review. Permit generated fixtures, exact full-value NFC UTF-8 matching, stale and corrupt snapshot denial, and bounded memory and lookup tests only. Do not connect to production credential issuance or admit any dataset. |
+| BL-04 — Operational dataset qualification | Pending separate acquisition and admission authority following BL-02. Verify source coverage, manifests, integrity, rights and representative Java resource and recovery evidence before operational reliance. |
+
+BL-03 may precede BL-04 only after the proposed bounded implementation disposition is adopted. DEC-0010 currently provides no authority for that Java implementation. DEC-0007 complete-password screening and failure-closed behavior and DEC-0006 Argon2id remain binding.
+
+The [HIBP terms](https://haveibeenpwned.com/TermsOfUse) exempt Pwned Passwords from attribution, while general terms restrict certain uses, transfers and redistribution. Review exact first-party offline acquisition and transformation rights before authorizing any corpus collection. The [tagged Openwall file](https://github.com/openwall/john/blob/1.9.0-Jumbo-1/run/password.lst) records a public-domain assumption and an old coverage baseline. Verify file-specific rights, modern coverage and deployment scope. The storefront supplement requires Security-owned approved names, domains, version and retention, without Customer data. For all three inputs, keep artifacts out of Git and the application bundle. Public availability and software licensing supply no dataset admission.
+
+Authorize real acquisition only in a separate disposition naming exact sources, versions or acquisition ranges/window, tool identity, recorded source terms and use limits, intended environments, storage custodian, integrity and completeness requirements, freshness, and disposal or recovery rules. Opaque source hashes cannot establish full NFC-equivalent coverage. Reject missing, partial, corrupt, stale or uncertain snapshots. Review weekly refresh, 14-day cutoff and one previous approved recovery snapshot. The proposed 256 MiB heap and p95/p99 targets of 10/30 ms at 16 concurrent lookups require representative JVM evidence.
+
 ## Consequences
 
 ### Benefits and Costs
@@ -237,6 +254,7 @@ Future selection readiness requires attributable evidence against every applicab
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.4.0 | 2026-11-26 | Proposed | Recorded bounded synthetic findings and authorization provenance and proposed staged source, Java implementation and operational admission gates. |
 | 0.3.0 | 2026-10-07 | Proposed | Synchronized the completed single 0.2.0 evaluation and durable Outcome C — STOPPED / INCONCLUSIVE; recorded CONSUMED / EXHAUSTED authorization and deferral pending materially new evidence without technical-infeasibility claims, selection, acceptance, renewed evaluation authority or implementation permission; preserved separate governance gates. |
 | 0.2.0 | 2026-10-07 | Proposed | Authorized exactly one bounded, single-use documentation/static evidence evaluation with finite investigation limits, A/B/C terminal outcomes, stop conditions and one future evidence artifact; preserved separate gates without executing evaluation, selecting a strategy, accepting the decision or authorizing implementation. |
 | 0.1.0 | 2026-10-07 | Proposed | Established the Customer password blocklist decision question, future evidence requirements and authority boundaries after PR #128; selected no strategy, authorized no evaluation or implementation, preserved accepted policy and separate dependency/Architecture gates, and left DEC-0009 deferred. |
