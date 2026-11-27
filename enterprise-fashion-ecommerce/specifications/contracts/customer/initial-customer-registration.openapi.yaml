@@ -14,6 +14,9 @@ info:
     completion, uncertainty, reconciliation, security, and non-decision
     semantics. Product Decision 28 and unrelated post-deletion login-email reuse
     policy remain unresolved and are not changed by this Contract.
+    The isolated durable-intent boundary in the companion workflow Contract
+    has no HTTP binding and leaves this operation's idempotency and
+    compatibility fingerprint requirements in force.
 servers:
   - url: https://{host}
     description: HTTPS API host for the applicable environment

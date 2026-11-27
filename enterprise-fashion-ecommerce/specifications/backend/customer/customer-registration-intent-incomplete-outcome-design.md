@@ -1,9 +1,9 @@
 ---
 title: Customer Registration Intent and Incomplete Outcome Design
-version: 1.0.0
+version: 1.1.0
 status: Approved
 owner: Customer
-last_updated: 2026-10-12
+last_updated: 2026-11-27
 authoritative: false
 ---
 
@@ -13,7 +13,7 @@ authoritative: false
 
 This Approved internal Specification conditionally specializes Customer-side assessment of a governed initial Customer registration intent, independently accepted owner outcomes, incomplete Registration and reconciliation. Scope code **CRIO** identifies its requirements. It is subordinate to the Approved [Initial Customer Registration Contract](../../contracts/customer/initial-customer-registration-contract.md), which governs the registration workflow; its paired [OpenAPI](../../contracts/customer/initial-customer-registration.openapi.yaml) governs executable HTTP wire behavior.
 
-Customer Application owns registration coordination and Customer owns authoritative Customer and Account business truth, including the Customer-to-Account relationship. Identity retains login-identifier, credential, current-email verification, Authentication, Principal, Session and security-side Identity-to-Customer association authority. This design neither accepts an owner outcome nor establishes a production registration-intent issuer, completed Registration or implementation eligibility.
+Customer Application owns registration coordination and Customer owns authoritative Customer and Account business truth, including the Customer-to-Account relationship. Identity retains login-identifier, credential, current-email verification, Authentication, Principal, Session and security-side Identity-to-Customer association authority. This design neither accepts an owner outcome nor establishes a production registration-intent issuer or completed Registration. Section 9 records the separate, isolated implementation authority.
 
 ## 2. Scope and exclusions
 
@@ -156,11 +156,18 @@ A later implementation review MUST demonstrate lawful intent and owner-outcome s
 
 ## 9. Explicit non-authorizations
 
-This Approved Specification authorizes no new registration workflow, trigger or intent issuer; no completed Registration, Authentication, Principal, Session or protected Customer/Account access; no Identity association, login-email or email-verification acceptance; no password-policy completion or canonicalization strategy. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, executable Contract or OpenAPI change, endpoint, DTO, event, response status, schema, table, migration, repository, transaction, queue, lock, retry algorithm, provider, dependency or deployment. It does not admit implementation eligibility or reopen DEC-0009, DEC-0010 or DEC-0011 evaluations. Accepted/Approved owner and Contract authority remains unchanged.
+This Approved Specification authorizes no new registration workflow, trigger or intent issuer; no completed Registration, Authentication, Principal, Session or protected Customer/Account access; no Identity association, login-email or email-verification acceptance; no password-policy completion or canonicalization strategy. It selects no global cardinality, association-changing operation, Customer/Account lifecycle policy, executable Contract or OpenAPI change, endpoint, DTO, event, response status, schema, table, migration, repository, transaction, queue, lock, retry algorithm, provider, dependency or deployment. Apart from the isolated boundary below, it does not admit implementation eligibility or reopen DEC-0009, DEC-0010 or DEC-0011 evaluations. Accepted/Approved owner and Contract authority remains unchanged.
+
+### Controlled intent-only producer
+
+The [M3B-05 adoption](../../decisions/evidence/DEC-0048/product-02b-registration-mechanism-qualification.md#accountable-response-to-m3b-01-through-m3b-08) and registration Contract §6 authorize a closed Customer-owned intent producer after governance integration. Use an opaque protected scope from an isolated test collaborator and a separate operation-scoped key. Keep the seven-day binding deadline fixed across replay. Customer owns the write, commit and observation. Use the same scoped binding to reconcile an uncertain commit before creating further effects.
+
+PostgreSQL validation must cover stable exact replay, concurrent convergence, cross-scope denial, expiry, rollback, and the distinction between committed presence, reliable absence and unavailable observation. Synthetic references and records carry no Customer or Identity acceptance, continuation, Authentication or Account access authority. Keep this composition unreachable from HTTP and live registration workflows.
 
 ## 10. Revision history
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 1.1.0 | 2026-11-27 | Approved | Recorded the M3B-05 isolated intent producer and PostgreSQL validation scope, effective after integration. |
 | 1.0.0 | 2026-10-12 | Approved | Approved the bounded Customer-owned registration-intent and incomplete-outcome design following zero-finding approval-readiness revalidation; preserved distinct terminal and incomplete classifications, independently confirmed owner acceptance, unresolved production prerequisites and separate implementation authority. |
 | 0.1.0 | 2026-10-12 | Draft | Defined bounded, conditional Customer-side recognition of governed registration intent and independent owner outcomes, incomplete assessment and safe reconciliation under the Approved Contract; preserved unresolved Identity producers, strategy gates and separate implementation authority. |

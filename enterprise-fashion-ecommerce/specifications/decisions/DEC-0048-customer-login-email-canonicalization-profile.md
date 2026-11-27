@@ -4,7 +4,7 @@
 - **Title:** Customer Login Email Canonicalization Profile
 - **Type:** Product Decision / Security Decision / Data Decision
 - **Status:** Proposed
-- **Version:** 0.2.0
+- **Version:** 0.2.1
 - **Date:** 2026-11-26
 - **Owner:** Identity
 - **Authoritative:** false
@@ -29,7 +29,7 @@ Recommend the tested whole-domain profile for adoption. Use the public ICU4J 79.
 
 Preserve one retained authoritative owner per canonical key. Obtain an authoritative inventory including inactive and retained ownership before cutover, then classify invalid records and collisions without writes. Resolve conflicts with accountable disposition and no automatic merge, reassignment or release. Neither synthetic database emptiness nor a profile-version column establishes ownership compatibility.
 
-Identity, Product, Security, Architecture, Customer and applicable Data/Privacy dispositions remain PENDING. Controlled synthetic implementation requires effective profile adoption, exact dependency admission for the implementation scope, and explicit implementation authorization. Operational lookup or writes under the replacement profile require the retained-owner cutover review. Engineering qualification and DEC-0001 exact dependency admission remain separate. Require artifact provenance, license and notice review, including the distributed artifact, before admission. If accepted, synchronize the canonical index, Product policy, registration and login contract pairs, and affected Identity source/design requirements. Preserve DEC-0005 acceptance history and DEC-0009 Proposed status and prior evidence until their lifecycle dispositions are separately recorded.
+The [DISP-01 accountable response](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md#accountable-response-recorded-2026-11-27) confirms the qualified profile internally, subject to applicable concurrence and lawful synchronization. Effective adoption and supersession remain pending. Represent Identity, Product, Security, Architecture, Customer and applicable Data/Privacy authority in the synchronized adoption record. Controlled synthetic implementation requires effective profile adoption, exact dependency admission for the implementation scope, and explicit implementation authorization. Operational lookup or writes under the replacement profile require the retained-owner cutover review. Engineering qualification and DEC-0001 exact dependency admission remain separate. Require artifact provenance, license and notice review, including the distributed artifact, before admission. If accepted, synchronize the canonical index, Product policy, registration and login contract pairs, and affected Identity source/design requirements. See the [remaining decisions](evidence/DEC-0048/product-02b-registration-mechanism-qualification.md#remaining-decisions-for-controlled-registration) for the proposed separation between synthetic implementation and retained-owner cutover. Preserve DEC-0005 acceptance history and DEC-0009 Proposed status and prior evidence until their lifecycle dispositions are separately recorded.
 
 ## References
 
@@ -42,5 +42,6 @@ Identity, Product, Security, Architecture, Customer and applicable Data/Privacy 
 
 | Version | Date | Status | Summary |
 | --- | --- | --- | --- |
+| 0.2.1 | 2026-11-27 | Proposed | Reconciled the internal DISP-01 confirmation with the outstanding concurrence, adoption and transition gates. |
 | 0.2.0 | 2026-11-27 | Proposed | Recorded scoped corrective PASS and proposed adoption conditions. |
 | 0.1.0 | 2026-11-26 | Proposed | Recorded a candidate profile, bounded qualification evidence and a pending corrective authorization. |

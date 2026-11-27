@@ -58,6 +58,12 @@ An intent MUST have a stable, owner-recognizable identity sufficient to make dup
 
 Repeated, concurrent, or resumed processing MUST preserve the same governed intent and confirmed owner-local outcomes when they refer to the same attempt. An intent MUST NOT be used to merge, transfer, reassign, replace, or arbitrarily select ownership.
 
+### Isolated durable Customer intent
+
+After integration of the [M3B-05 adoption](../../decisions/evidence/DEC-0048/product-02b-registration-mechanism-qualification.md#accountable-response-to-m3b-01-through-m3b-08), Customer may implement and validate durable intent in a closed composition. Only a test collaborator may supply an opaque protected-scope reference in this composition. Bind the operation-scoped idempotency key to that scope and operation, with a seven-day binding window. Exact replay reuses the stable intent within the window. A key alone, a missing scope or a mismatched scope supplies no authority to observe or resume protected state.
+
+Use an owner-local transaction and reliable observation of committed intent. Treat failed or uncertain observation as incomplete. Persist only the intent, scoped binding and minimal non-secret provenance needed for replay and reconciliation. This scope excludes public issuance, live continuation, password or credential processing, other owner effects and registration completion. The paired HTTP contract retains its existing wire behavior, including the compatibility fingerprint for the public workflow.
+
 ## 7. Registration Input Semantics at the Workflow Level
 
 The workflow requires only categories of input justified by governed registration semantics:
