@@ -44,6 +44,18 @@ class ModuleArchitectureTest {
             .importPackages(ROOT_PACKAGE);
 
     @Test
+    void controlledRegistrationFoundationsRemainUnwiredAndOwnerLocal() {
+        noClasses().that().resideOutsideOfPackage(ROOT_PACKAGE + ".customer..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        ROOT_PACKAGE + ".customer.application.port.out..",
+                        ROOT_PACKAGE + ".customer.adapter.out.persistence..")
+                .check(PRODUCTION_CLASSES);
+        noClasses().that().haveNameNotMatching(".*\\.ClosedPasswordScreening(\\$.*)?")
+                .should().dependOnClassesThat().haveNameMatching(".*\\.ClosedPasswordScreening(\\$.*)?")
+                .check(PRODUCTION_CLASSES);
+    }
+
+    @Test
     void pricingConsumesOnlyTheExportedProductEvidenceContract() {
         noClasses().that().resideInAPackage(ROOT_PACKAGE + ".pricing..")
                 .should().dependOnClassesThat().resideInAnyPackage(
