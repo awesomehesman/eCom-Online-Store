@@ -36,7 +36,7 @@ created by the migration owner. It does not create Domain tables or insert data.
 The bootstrap owner is local-only; it is not a production credential design.
 
 The explicit `local` profile binds HTTP to 127.0.0.1:8080. Flyway uses the separate
-migration account and applies existing classpath migrations V1–V12 at startup;
+migration account and applies the versioned classpath migrations at startup;
 normal runtime connections lack schema-creation privileges and access to the
 `public` schema containing Flyway history. Domain schemas remain accessible via
 the migration owner's default grants. Flyway clean is
@@ -254,3 +254,55 @@ The application treats an unconfigured, unhealthy, timed-out, malformed or
 unavailable scanner as `INDETERMINATE`. A `CLEAN` result is a technical
 observation only, not authoritative Security acceptance. Product publication
 and positive customer catalogue visibility remain blocked.
+
+
+## Controlled registration foundations
+
+`JdbcCustomerAccountRelationshipAdapter` stores exact Customer–Account UUID
+pairs in `customer.account_relationship` (V18). The composite key makes an
+exact replay idempotent and leaves global cardinality unresolved. The write
+receipt describes the SQL statement. An observation within an enclosing
+transaction can also see uncommitted state. Independent durability requires a
+successful commit and separate observation. Unavailable storage is distinct
+from absence, and the transaction owner must roll back on an unavailable
+outcome. The adapter has no registration or HTTP wiring.
+
+ArchUnit checks Java dependencies on the Customer persistence port and
+adapter and prohibits production callers of the screening component.
+Production source review found the Customer JDBC adapter is the sole
+application component that accesses the relationship table. These checks
+provide source-level ownership evidence. They do not enforce database grants.
+
+`ClosedPasswordScreening` implements DEC-0010 BL-03 for generated fixtures.
+A manifest supplies the format, version, entry count, payload SHA-256 and
+validity window. Each payload entry is a big-endian 32-bit length followed by
+complete NFC UTF-8. A fully validated immutable snapshot is published
+atomically. The eligibility window includes its start and excludes its end.
+A missing clock reading, missing snapshot or ineligible window denies the
+isolated credential gate. Observed expiration retires that version even if
+the clock moves backwards. A valid newer version can be published. A miss
+supplies screening evidence only. Operational corpus admission,
+credential issuance, registration coordination and public activation remain
+gated.
+
+Run the focused checks from this directory with Java 21 and disposable
+PostgreSQL available through Docker:
+
+```sh
+./gradlew --offline --no-daemon --dependency-verification=strict \
+  test --tests '*CustomerAccountRelationshipTest' --tests '*ClosedPasswordScreeningTest' \
+  --tests '*ModuleArchitectureTest' \
+  integrationTest --tests '*CustomerAccountRelationshipIntegrationTest'
+java -Xmx256m -cp build/classes/java/main:build/classes/java/test \
+  com.enterprise.fashion.ecommerce.identity.application.credential.ClosedPasswordScreeningBenchmark
+```
+
+One local run on macOS 26.5.2 arm64 with Eclipse Temurin 21.0.6+7 used 100,000
+generated entries (3,000,000 payload bytes), 16 workers and 160,000 lookups per
+batch (50% hits). Snapshot validation and loading took 79.625 ms. The first
+lookup batch measured p50/p95/p99 of 0.002500/0.003917/0.004917 ms. After an
+additional 160,000 warm-up lookups, those percentiles were
+0.000708/0.001667/0.002042 ms. Peak process RSS was 120,946,688 bytes.
+Timing covers prepared-value lookup only.
+These are local synthetic measurements. They do not establish startup,
+refresh or operational corpus performance.
